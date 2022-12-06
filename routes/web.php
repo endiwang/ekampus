@@ -43,9 +43,12 @@ Route::get('/test_con', [TestController::class, 'testConnection'])->name('test_c
 //Migrate Data
 Route::prefix('migrate')->group(function () {
     Route::get('/student_as_user', [MigrateMainController::class,'sis_tblpelajar_to_user_table']);
+    Route::get('/staff_as_user', [MigrateMainController::class,'sis_tblstaff_to_user_table']);
     Route::get('/ref_kursus_to_kursus_table', [MigrateMainController::class,'ref_kursus_to_kursus_table']);
     Route::get('/ref_syukbah_to_syukbah_table', [MigrateMainController::class,'ref_syukbah_to_syukbah_table']);
     Route::get('/ref_kelas_to_kelas_table', [MigrateMainController::class,'ref_kelas_to_kelas_table']);
+    Route::get('/sis_tblpelajar_to_pelajar_table', [MigrateMainController::class,'sis_tblpelajar_to_pelajar_table']);
+    Route::get('/sis_tblstaff_to_staff_table', [MigrateMainController::class,'sis_tblstaff_to_staff_table']);
 });
 
 Route::get('/duplicate_data', [MigrateMainController::class,'find_duplicate']);
