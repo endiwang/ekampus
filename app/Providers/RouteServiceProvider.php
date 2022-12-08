@@ -52,6 +52,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/pengurusan/akademik.php'));
 
             Route::middleware('web')
+                ->prefix('pengurusan/kakitangan')
+                ->as('pengurusan.kakitangan.')
+                ->group(base_path('routes/pengurusan/kakitangan.php'));
+
+            Route::middleware('web')
                 ->prefix('pelajar')
                 ->as('pelajar.')
                 ->group(base_path('routes/pelajar/main.php'));

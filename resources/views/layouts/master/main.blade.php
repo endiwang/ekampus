@@ -62,6 +62,10 @@
 
                         @if(Request::routeIs('pengurusan.akademik.*'))
                             @include('layouts.master.sidebar.akademik')
+                        @elseif(Request::routeIs('pengurusan.kakitangan.*'))
+                            @include('layouts.master.sidebar.kakitangan')
+                        @elseif(Request::routeIs('pengurusan.kbg.*'))
+                            @include('layouts.master.sidebar.kbg')
                         @else
                             @include('layouts.master.sidebar.utama')
                         @endif
