@@ -6,11 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Staff extends Model
+class Warganegara extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = 'staff';
-    protected $guarded = ['id'];
+    protected $table = 'warganegara';
+    protected $fillable = ['id','nama','kod','status','is_deleted','deleted_by'];
 }
-
-

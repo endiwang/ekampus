@@ -27,6 +27,7 @@ return new class extends Migration
             $table->integer('pusat_pengajian_id')->nullable()->default(1);
             $table->string('nama')->nullable();
             $table->string('email')->nullable();
+            $table->string('no_ic')->nullable();
             $table->text('alamat')->nullable();
             $table->string('poskod')->nullable();
             $table->string('bandar')->nullable();

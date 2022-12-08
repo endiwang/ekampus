@@ -13,4 +13,23 @@ class Pelajar extends Model
     protected $table = 'pelajar';
     protected $guarded = ['id'];
 
+    public function sesi()
+    {
+        return $this->belongsTo(Sesi::class,'sesi_id','id');
+    }
+
+    public function pusat_pengajian()
+    {
+        return $this->belongsTo(PusatPengajian::class,'pusat_pengajian_id','id');
+    }
+
+    public function kursus()
+    {
+        return $this->belongsTo(Kursus::class,'kursus_id','id');
+    }
+
+
+
 }
+
+

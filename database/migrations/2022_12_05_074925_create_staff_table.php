@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('staff_id')->default(0)->comment('id dari db lama');
-            $table->string('name')->nullable();
+            $table->string('nama')->nullable();
             $table->integer('pusat_pengajian_id')->nullable()->default(1);
             $table->char('jawatan')->nullable()->default('P');
             $table->string('gred')->nullable();

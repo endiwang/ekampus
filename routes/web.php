@@ -49,6 +49,12 @@ Route::prefix('migrate')->group(function () {
     Route::get('/ref_kelas_to_kelas_table', [MigrateMainController::class,'ref_kelas_to_kelas_table']);
     Route::get('/sis_tblpelajar_to_pelajar_table', [MigrateMainController::class,'sis_tblpelajar_to_pelajar_table']);
     Route::get('/sis_tblstaff_to_staff_table', [MigrateMainController::class,'sis_tblstaff_to_staff_table']);
+    Route::get('/ref_sesi_to_sesi_table', [MigrateMainController::class,'ref_sesi_to_sesi_table']);
+    Route::get('/ref_semester_to_semester_table', [MigrateMainController::class,'ref_semester_to_semester_table']);
+    Route::get('/ref_subjek_to_subjek_table', [MigrateMainController::class,'ref_subjek_to_subjek_table']);
+    Route::get('/ref_pusat_pengajian_to_pusat_pengajian_table', [MigrateMainController::class,'ref_pusat_pengajian_to_pusat_pengajian_table']);
+    Route::get('/ref_jabatan_to_jabatan_table', [MigrateMainController::class,'ref_jabatan_to_jabatan_table']);
+    Route::get('/ref_warganegara_to_warganegara_table', [MigrateMainController::class,'ref_warganegara_to_warganegara_table']);
 });
 
 Route::get('/duplicate_data', [MigrateMainController::class,'find_duplicate']);

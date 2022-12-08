@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Sesi extends Model
+{
+    use HasFactory;
+
+    use HasFactory, SoftDeletes;
+    protected $table = 'sesi';
+    protected $fillable = ['id','nama','kursus_id','status','tarikh_akhir_exam','tarikh_transkrip','is_deleted','deleted_by'];
+
+    public function pelajar()
+    {
+        return $this->hasMany(Pelajar::class)->where('is_deleted',0)->where('is_berhenti',0)->where('is_register',1);
+    }
+}

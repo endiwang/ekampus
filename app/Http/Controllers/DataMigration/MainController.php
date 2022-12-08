@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\DataMigration;
 
 use App\Http\Controllers\Controller;
+use App\Models\Jabatan;
 use Illuminate\Http\Request;
 
 //New DB
@@ -10,16 +11,26 @@ use App\Models\User;
 use App\Models\Kursus;
 use App\Models\Syukbah;
 use App\Models\Kelas;
-
+use App\Models\OldDatabase\ref_jabatan;
 //Old DB
 use App\Models\OldDatabase\sis_tblpelajar;
 use App\Models\OldDatabase\ref_kursus;
 use App\Models\OldDatabase\ref_syukbah;
 use App\Models\OldDatabase\ref_kelas;
+use App\Models\OldDatabase\ref_pusat_pengajian;
+use App\Models\OldDatabase\ref_semester;
+use App\Models\OldDatabase\ref_sesi;
+use App\Models\OldDatabase\ref_subjek;
+use App\Models\OldDatabase\ref_warganegara;
 use App\Models\OldDatabase\sis_tblstaff;
 use App\Models\Pelajar;
+use App\Models\PusatPengajian;
+use App\Models\Semester;
+use App\Models\Sesi;
 use Carbon\Carbon;
 use App\Models\Staff;
+use App\Models\Subjek;
+use App\Models\Warganegara;
 
 class MainController extends Controller
 {
@@ -74,7 +85,8 @@ class MainController extends Controller
         {
             User::create([
                 'username' => $datum->p_nokp,
-                'password' => $password_hash
+                'password' => $password_hash,
+                'is_student' => 1,
             ]);
         }
         dd('done');
@@ -196,12 +208,13 @@ class MainController extends Controller
                 'kursus_id' => $datum->kursus_id,
                 'syukbah_id' => $datum->syukbah_id,
                 'kelas_id' => $datum->kelas_id,
-                'no_metrik' => $datum->no_metrik,
+                'no_matrik' => $datum->no_matrik,
                 'sesi_id' => $datum->sesi_id,
                 'semester' => $datum->semester,
                 'pusat_pengajian_id' => $datum->pusat_id,
                 'nama' => $datum->p_nama,
                 'email' => $datum->p_email,
+                'no_ic' => $datum->p_nokp,
                 'alamat' => $datum->p_alamat1,
                 'poskod' => $datum->p_poskod,
                 'bandar' => $datum->p_bandar,
@@ -214,9 +227,9 @@ class MainController extends Controller
                 'umur_ketika_mendaftar' => $datum->p_umur,
                 'keturunan_id' => $datum->p_keturunan_id,
                 'negeri_kelahiran_id' => $datum->p_nkelahiran,
-                'nama_sekolah' => $datum->pk_nama_sekolah,
-                'tahun_peperiksaan' => $datum->pk_periksa,
-                'jumlah_matapelajaran' => $datum->pk_matapelajaran,
+                // 'nama_sekolah' => $datum->pk_nama_sekolah,
+                // 'tahun_peperiksaan' => $datum->pk_periksa,
+                // 'jumlah_matapelajaran' => $datum->pk_matapelajaran,
                 // 'gred_percubaan_spm_bm' => $datum->ppc_bm,
                 // 'gred_percubaan_spm_ba' => $datum->ppc_ba,
                 // 'gred_percubaan_spm_bi' => $datum->ppc_bi,
@@ -227,30 +240,30 @@ class MainController extends Controller
                 'gred_sebenar_psi' => $datum->pk_bpsi,
                 'gred_sebenar_art' => $datum->pk_art,
                 'gred_sebenar_ark' => $datum->pk_ark,
-                'gred_sebenar_fizik' => $datum->pk_fizik,
-                'gred_sebenar_kimia' => $datum->pk_kimia,
-                'gred_sebenar_biologi' => $datum->pk_biologi,
-                'gred_sebenar_math' => $datum->pk_math,
-                'gred_sebenar_math_tambahan' => $datum->pk_math_tambahan,
-                'gred_sebenar_akaun' => $datum->pk_akaun,
+                // 'gred_sebenar_fizik' => $datum->pk_fizik,
+                // 'gred_sebenar_kimia' => $datum->pk_kimia,
+                // 'gred_sebenar_biologi' => $datum->pk_biologi,
+                // 'gred_sebenar_math' => $datum->pk_math,
+                // 'gred_sebenar_math_tambahan' => $datum->pk_math_tambahan,
+                // 'gred_sebenar_akaun' => $datum->pk_akaun,
                 'sijil_setaraf' => $datum->pk_setaraf,
                 'tahun_sijil_setaraf' => $datum->pk_sthn,
                 'nama_sijil_setaraf' => $datum->pk_snama,
                 'tahun_stpm' => $datum->pk_stpm_thn,
                 'tahun_stam' => $datum->pk_sagama_thn,
-                'nama_tilawah' => $datum->pa_tilawah,
-                'cita_cita' => $datum->pa_citacita,
-                'sebab_memohon' => $datum->pa_sebab,
-                'kursus_dihadiri' => $datum->pa_kursus,
-                'kokurikulum_sekolah' => $datum->pa_koku,
+                // 'nama_tilawah' => $datum->pa_tilawah,
+                // 'cita_cita' => $datum->pa_citacita,
+                // 'sebab_memohon' => $datum->pa_sebab,
+                // 'kursus_dihadiri' => $datum->pa_kursus,
+                // 'kokurikulum_sekolah' => $datum->pa_koku,
                 'status' => $datum->pa_status,
-                'img_pelajar' => $datum->img_pelajar,
+                // 'img_pelajar' => $datum->img_pelajar,
                 'is_deleted' => $datum->is_deleted,
                 'deleted_by' => $datum->deleted_by,
                 'p_gred' => $datum->p_gred,
-                'p_gred_lain' => $datum->p_gred_lain,
-                'p_gred_bm' => $datum->p_gred_bm,
-                'p_gred_ba' => $datum->p_gred_ba,
+                // 'p_gred_lain' => $datum->p_gred_lain,
+                // 'p_gred_bm' => $datum->p_gred_bm,
+                // 'p_gred_ba' => $datum->p_gred_ba,
                 'is_register' => $datum->is_register,
                 'gred_akhir' => $datum->gred_akhir,
                 'mata_akhir' => $datum->mata_akhir,
@@ -307,12 +320,14 @@ class MainController extends Controller
                     'username' => $username,
                     'password' => $password_hash,
                     'is_staff' => 1,
+                    'is_student' => 0,
                 ]);
             }else{
                 // dump('Not Null');
                 ++$not_null_var;
                 $user->is_staff = 1;
                 $user->is_alumni = 1;
+                $user->is_student = 0;
                 $user->save();
             }
         }
@@ -343,11 +358,11 @@ class MainController extends Controller
             }else{
                 $user = User::where('username', $datum->fld_kp)->first();
             }
-            
+
             Staff::create([
                 'user_id' => $user->id,
                 'staff_id'  => $datum->staff_id,
-                'name' => $datum->fld_staff,
+                'nama' => $datum->fld_staff,
                 'pusat_pengajian_id' => $datum->fldpusat,
                 'jawatan' => $datum->fld_jawatan,
                 'gred' => $datum->gred,
@@ -373,40 +388,123 @@ class MainController extends Controller
 
     }
 
-    public function find_duplicate()
+    public function ref_sesi_to_sesi_table()
     {
-        $student_masih_belajar = sis_tblpelajar::where('is_deleted',0)->where('is_berhenti',0)->where('is_alumni',0)->get();
+        $sesi = ref_sesi::all();
 
-        $result = [];
-        $num = 0;
-        foreach($student_masih_belajar as $datum)
+        foreach($sesi as $datum)
         {
-            $temp = sis_tblpelajar::where('p_nokp', $datum->p_nokp)->get()->count();
-
-            if($temp > 1)
-            {
-                $result[$datum->p_nokp] = [
-                    'nokp' => $datum->p_nokp,
-                    'dup_no' => $temp
-                ];
-            }
-
-
-
-            // User::create([
-            //     'username' => $datum->p_nokp,
-            //     'password' => 123
-            // ]);
-
+            Sesi::create([
+                'id' => $datum->sesi_id,
+                'nama' => $datum->sesi,
+                'kursus_id' => $datum->kursus_id,
+                'status' => $datum->sesi_status,
+                'tarikh_akhir_exam' => $datum->tkh_akhir_exam,
+                'tarikh_transkrip' => $datum->tkh_transkrip,
+            ]);
         }
-
-        dump($result);
-
-        dump($num);
-
-        dump($student_masih_belajar->count());
 
         dd('done');
     }
+
+    public function ref_subjek_to_subjek_table()
+    {
+        $subjek = ref_subjek::all();
+
+        foreach($subjek as $datum)
+        {
+            Subjek::create([
+                'id' => $datum->sid,
+                'nama' => $datum->subjek,
+                'kursus_id' => $datum->kursus_id,
+                'status' => $datum->sstatus,
+                'kod_subjek' => $datum->kod_subjek,
+                'maklumat_tambahan' => $datum->makl_tambahan,
+                'kredit' => $datum->kredit,
+                'jumlah_markah' => $datum->jum_markah,
+                'is_alquran' => $datum->is_al,
+                'type' => $datum->type,
+                'is_deleted' => $datum->is_deleted,
+                'deleted_at' => $datum->deleted_at,
+                'deleted_by' => $datum->deleted_by,
+                'sort' => $datum->sort,
+                'is_calc' => $datum->is_calc,
+                'nama_arab' => $datum->subjek_arab,
+                'is_print' => $datum->is_print,
+                'is_deleted' => $datum->is_deleted,
+                'deleted_by' => $datum->deleted_by,
+                'deleted_at' => $datum->deleted_at,
+            ]);
+        }
+
+        dd('done');
+    }
+
+    public function ref_semester_to_semester_table()
+    {
+        $semester = ref_semester::all();
+
+        foreach($semester as $datum)
+        {
+            Semester::create([
+                'id' => $datum->semester_id,
+                'nama' => $datum->semester,
+                'status' => $datum->s_status,
+            ]);
+        }
+
+        dd('done');
+    }
+    public function ref_pusat_pengajian_to_pusat_pengajian_table()
+    {
+        $pusat_pengajian = ref_pusat_pengajian::all();
+
+        foreach($pusat_pengajian as $datum)
+        {
+            PusatPengajian::create([
+                'id' => $datum->pusat_id,
+                'nama' => $datum->pusat_nama,
+                'status' => $datum->pusat_status,
+                'kod' => $datum->pusat_kod,
+                'no' => $datum->pusat_no,
+            ]);
+        }
+
+        dd('done');
+    }
+
+    public function ref_jabatan_to_jabatan_table()
+    {
+        $jabatan = ref_jabatan::all();
+
+        foreach($jabatan as $datum)
+        {
+            Jabatan::create([
+                'id' => $datum->jabatan_id,
+                'nama' => $datum->jabatan_nama,
+                'status' => $datum->jabatan_status,
+            ]);
+        }
+
+        dd('done');
+    }
+
+    public function ref_warganegara_to_warganegara_table()
+    {
+        $warganegara = ref_warganegara::all();
+
+        foreach($warganegara as $datum)
+        {
+            Warganegara::create([
+                'id' => $datum->w_id,
+                'nama' => $datum->w_nama,
+                'kod' => $datum->w_kod,
+                'status' => $datum->w_status,
+            ]);
+        }
+
+        dd('done');
+    }
+
 
 }

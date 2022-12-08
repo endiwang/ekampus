@@ -6,11 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Staff extends Model
+class Semester extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = 'staff';
-    protected $guarded = ['id'];
+    protected $table = 'semester';
+    protected $fillable = ['id','nama','status','deleted_by','is_deleted'];
 }
-
-
