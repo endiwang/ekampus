@@ -1,5 +1,9 @@
 {{-- <script>var hostUrl = "assets/";</script> --}}
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
 <script src="{{URL::asset('assets/plugins/global/plugins.bundle.js')}}"></script>
+
+
 {{-- <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> --}}
 
 <script src="{{URL::asset('assets/js/scripts.bundle.js')}}"></script>
@@ -24,5 +28,6 @@
 <script src="{{URL::asset('assets/js/custom/utilities/modals/create-app.js')}}"></script>
 <script src="{{URL::asset('assets/js/custom/utilities/modals/users-search.js')}}"></script>
 <script src="{{URL::asset('assets/js/jquery.hijri.date.js')}}"></script>
+
 @include('sweetalert::alert')
 

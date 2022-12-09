@@ -392,6 +392,7 @@ class MainController extends Controller
     {
         $sesi = ref_sesi::all();
 
+        $num = 0;
         foreach($sesi as $datum)
         {
             Sesi::create([
@@ -401,6 +402,7 @@ class MainController extends Controller
                 'status' => $datum->sesi_status,
                 'tarikh_akhir_exam' => $datum->tkh_akhir_exam,
                 'tarikh_transkrip' => $datum->tkh_transkrip,
+                'order' => ++$num,
             ]);
         }
 

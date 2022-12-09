@@ -66,6 +66,8 @@
                             @include('layouts.master.sidebar.kakitangan')
                         @elseif(Request::routeIs('pengurusan.kbg.*'))
                             @include('layouts.master.sidebar.kbg')
+                        @elseif(Request::routeIs('pengurusan.pentadbir_sistem.*'))
+                            @include('layouts.master.sidebar.pentadbir_sistem')
                         @else
                             @include('layouts.master.sidebar.utama')
                         @endif
@@ -83,6 +85,7 @@
 		@include('layouts.master.script')
         @yield('script')
         @stack('scripts')
+        
 
 	</body>
 </html>
