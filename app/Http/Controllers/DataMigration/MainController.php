@@ -23,6 +23,7 @@ use App\Models\OldDatabase\ref_sesi;
 use App\Models\OldDatabase\ref_subjek;
 use App\Models\OldDatabase\ref_warganegara;
 use App\Models\OldDatabase\sis_tblstaff;
+use App\Models\OldDatabase\tbl_masuk_permohonan;
 use App\Models\Pelajar;
 use App\Models\PusatPengajian;
 use App\Models\Semester;
@@ -30,6 +31,7 @@ use App\Models\Sesi;
 use Carbon\Carbon;
 use App\Models\Staff;
 use App\Models\Subjek;
+use App\Models\TetapanPermohonanPelajar;
 use App\Models\Warganegara;
 
 class MainController extends Controller
@@ -506,6 +508,39 @@ class MainController extends Controller
         }
 
         dd('done');
+    }
+
+    public function tbl_masuk_permohonan_to_tetapan_permohonan_pelajar()
+    {
+        $tbl_masuk_permohonan = tbl_masuk_permohonan::all();
+        foreach($tbl_masuk_permohonan as $datum)
+        {
+            TetapanPermohonanPelajar::create([
+                'id' => $datum->mohon_id,
+                'kursus_id' => $datum->program_id,
+                'sesi_id' => $datum->sesi_id,
+                'status_ujian' => $datum->mstatus,
+                'status' => $datum->mopen,
+                'mula_permohonan' => $datum->tkh_mula,
+                'tutup_permohonan' => $datum->tkh_tamat,
+                'tutup_pendaftaran' => $datum->tkh_tutup_daftar,
+                'mula_semakan_temuduga' => $datum->tkh_temuduga_m,
+                'tutup_semakan_temuduga' => $datum->tkh_temuduga_h,
+                'tajuk_semakan_temuduga' => $datum->td_tajuk,
+                'maklumat_semakan_temuduga' => $datum->td_maklumat,
+                'mula_semakan_tawaran' => $datum->tkh_tawaran_m,
+                'tutup_semakan_tawaran' => $datum->tkh_tawaran_h,
+                'tutup_rayuan' => $datum->tkh_rayuan,
+                'tajuk_semakan_rayuan' => $datum->rayuan_tajuk,
+                'mula_semakan_rayuan' => $datum->tkh_rayuan_m,
+                'tutup_semakan_rayuan'=> $datum->tkh_rayuan_h,
+                'tajuk_semakan_tawaran' => $datum->tw_tajuk,
+                'maklumat_semakan_tawaran' => $datum->tw_maklumat,
+            ]);
+        }
+
+        dd('done');
+
     }
 
 
