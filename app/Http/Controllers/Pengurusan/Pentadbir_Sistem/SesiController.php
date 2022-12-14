@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Models\Sesi;
 use Yajra\DataTables\Html\Builder;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class SesiController extends Controller
 {
@@ -32,19 +34,29 @@ class SesiController extends Controller
             ->addColumn('status_edit', function($data) {
                 switch ($data->status) {
                     case 0:
-                        return '<span class="badge badge-success">Aktif</span>';
+                        return '<span class="badge py-3 px-4 fs-7 badge-light-success">Aktif</span>';
                       break;
                     case 1:
-                        return '<span class="badge badge-danger">Tidak Aktif</span>';
+                        return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Aktif</span>';
                     default:
                       return '';
                   }
+            })
+            ->addColumn('action', function($data){
+                // $btn = '<a href="javascript:void(0)" class="edit btn btn-info btn-sm hover-elevate-up me-2">View</a>';
+                // $btn = $btn.'<a href="javascript:void(0)" class="edit btn btn-primary btn-sm hover-elevate-up me-2">Edit</a>';
+                // $btn = $btn.'<a href="javascript:void(0)" class="edit btn btn-danger btn-sm hover-elevate-up">Delete</a>';
+
+                $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm hover-elevate-up me-2">Edit</a>';
+                $btn = $btn.'<a href="javascript:void(0)" class="edit btn btn-danger btn-sm hover-elevate-up">Delete</a>';
+
+                 return $btn;
             })
             ->addIndexColumn()
             ->order(function ($data) {
                 $data->orderBy('order', 'desc');
             })
-            ->rawColumns(['kursus','status_edit'])
+            ->rawColumns(['kursus','status_edit','action'])
             ->toJson();
         }
 
@@ -54,14 +66,16 @@ class SesiController extends Controller
 
         $dataTable = $builder
         ->parameters([
-            'language' => '{ "lengthMenu": "Show _MENU_", }',
+            // 'language' => '{ "lengthMenu": "Show _MENU_", }',
             // 'dom' => $dom_setting,
         ])
         ->columns([
             [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
-            ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'orderable'=> false],
+            ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'orderable'=> false, 'class'=>'text-bold'],
             ['data' => 'kursus', 'name' => 'kursus', 'title' => 'Kursus', 'orderable'=> false],
             ['data' => 'status_edit', 'name' => 'status_edit', 'title' => 'Status', 'orderable'=> false],
+            ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+
         ])
         ->minifiedAjax();
 
@@ -76,7 +90,19 @@ class SesiController extends Controller
      */
     public function create()
     {
-        //
+        $sesi_year_from= [];
+        foreach(range( date('Y'), date('Y') + 6) as $year_form) {
+            $sesi_year_from[$year_form] = $year_form;
+        }
+
+        $sesi_year_to= [];
+        foreach(range( date('Y') + 1, date('Y') + 7) as $year_to) {
+            $sesi_year_to[$year_to] = $year_to;
+        }
+
+        $kursus = Kursus::where('is_deleted',0)->pluck('nama', 'id');
+
+        return view('pages.pengurusan.pentadbir_sistem.sesi.add_new', compact(['kursus','sesi_year_from','sesi_year_to']));
     }
 
     /**
@@ -87,7 +113,29 @@ class SesiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'tahun_bermula' => 'required',
+            'tahun_berakhir' => 'required',
+            'kursus' => 'required',
+        ],[
+            'tahun_bermula.required' => 'Sila pilih tahun bermula',
+            'tahun_berakhir.required' => 'Sila pilih tahun berakhir',
+            'kursus.required' => 'Sila pilih kursus',
+        ]);
+
+        $sesi = Sesi::latest('created_at', 'desc')->first();
+
+        $nama = 'SESI '. $request->tahun_bermula.'/'.$request->tahun_berakhir;
+        Sesi::create([
+            'nama' => $nama,
+            'kursus_id' => $request->kursus,
+            'status' => $request->status,
+            'order' => $sesi->order+1,
+        ]);
+
+        Alert::toast('Sesi Pengajian Berjaya Ditambah', 'success');
+
+        return redirect()->route('pengurusan.pentadbir_sistem.sesi.index');
     }
 
     /**
