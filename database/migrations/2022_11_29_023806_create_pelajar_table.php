@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('syukbah_id');
             $table->integer('kelas_id')->nullable();
             $table->string('no_matrik')->nullable();
-            $table->string('sesi_id')->wnullable();
+            $table->string('sesi_id')->nullable();
             $table->integer('semester')->nullable();
             $table->integer('pusat_pengajian_id')->nullable()->default(1);
             $table->string('nama')->nullable();
