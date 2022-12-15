@@ -22,11 +22,7 @@
                 </ul>
             </div>
             <div class="d-flex align-items-center gap-2 gap-lg-3">
-                <a href="{{ route('pengurusan.pentadbir_sistem.sesi.create') }}" class="btn btn-sm btn-primary fw-bold">
-                    <span class="svg-icon svg-icon-6 svg-icon-muted me-1">
-                        <i class="fa fa-plus-circle"></i>
-                    </span>Tambah Sesi
-                </a>
+                <a href="{{ route('pengurusan.pentadbir_sistem.permohonan_pelajar.create') }}" class="btn btn-sm btn-primary fw-bold"><i class="fa fa-plus-circle" style="vertical-align: initial"></i>Buka Permohonan Baru</a>
             </div>
         </div>
     </div>
@@ -44,9 +40,10 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="d-flex">
-                                            {{ Form::text('maklumat_carian','',['class' => 'form-control me-3']) }}
-                                            <button id="kt_share_earn_link_copy_button" class="btn btn-success fw-bold flex-shrink-0"
-                                            data-clipboard-target="#kt_share_earn_link_input">Cari</button>
+                                            {{ Form::text('maklumat_carian','',['class' => 'form-control me-3 form-control-sm']) }}
+
+                                            <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0"
+                                            data-clipboard-target="#kt_share_earn_link_input"><i class="fa fa-search" style="vertical-align: initial"></i>Cari</button>
                                         </div>
                                     </div>
                                 </div>
@@ -54,7 +51,7 @@
                                     <div class="col-md-9 offset-md-3">
                                         <div class="d-flex">
                                             <!--begin::Button-->
-                                            <button type="button" class="btn btn-light me-3" @click='viewMore'>Lebih Banyak Pilihan Tapisan</button>
+                                            <button type="button" class="btn btn-light me-3 btn-sm" @click='viewMore'>Lebih Banyak Pilihan Tapisan</button>
                                             <!--end::Button-->
                                         </div>
                                     </div>
@@ -64,7 +61,7 @@
                                         {{ Form::label('maklumat_carian', 'Maklumat Carian', ['class' => 'fs-6 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
-                                        {{ Form::text('maklumat_carian','',['class' => 'form-control']) }}
+                                        {{ Form::text('maklumat_carian','',['class' => 'form-control form-control-sm']) }}
                                     </div>
                                 </div>
                                 <div class="row fv-row mb-2" v-show="show_section_2">
@@ -73,7 +70,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::select('kursus', $kursus, null, ['placeholder' => 'Sila Pilih','class' =>'form-select ', 'data-control'=>'select2' ]) }}
+                                            {{ Form::select('kursus', $kursus, null, ['placeholder' => 'Sila Pilih','class' =>'form-select form-select-sm', 'data-control'=>'select2' ]) }}
                                         </div>
                                     </div>
                                 </div>
@@ -81,10 +78,10 @@
                                     <div class="col-md-9 offset-md-3">
                                         <div class="d-flex">
                                             <!--begin::Button-->
-                                            <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success me-3">
-                                                <span class="indicator-label">Cari</span>
+                                            <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success me-3 btn-sm">
+                                                <i class="fa fa-search" style="vertical-align: initial"></i>Cari
                                             </button>
-                                            <button type="button" @click='hideMore' class="btn btn-light">Kurangkan Pilihan Tapisan</button>
+                                            <button type="button" @click='hideMore' class="btn btn-light btn-sm">Kurangkan Pilihan Tapisan</button>
                                             <!--end::Button-->
                                             <!--begin::Button-->
                                             <!--end::Button-->

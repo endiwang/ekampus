@@ -36,4 +36,14 @@ class TetapanPermohonanPelajar extends Model
                             'deleted_by',
                             'deleted_at',
                         ];
+
+    public function kursus()
+    {
+        return $this->belongsTo(Kursus::class,'kursus_id','id');
+    }
+
+    public function sesi()
+    {
+        return $this->belongsTo(Sesi::class,'sesi_id','id');
+    }
 }
