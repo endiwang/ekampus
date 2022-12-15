@@ -21,7 +21,7 @@
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-muted">Buka Permohonan Baru</li>
+                    <li class="breadcrumb-item text-muted">Pinda Tetapan</li>
 
                 </ul>
             </div>
@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::select('kursus', $kursus, old('kursus'), ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('kursus') ? 'is-invalid':''), 'data-control'=>'select2' ]) }}
+                                            {{ Form::select('kursus', $kursus, $tetapan_permohonan->kursus_id, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('kursus') ? 'is-invalid':''), 'data-control'=>'select2','disabled' ]) }}
                                             @error('kursus') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -53,7 +53,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::select('sesi', $sesi, old('sesi'), ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('sesi') ? 'is-invalid':''),'id'=>'sesi' ]) }}
+                                            {{ Form::select('sesi', $sesi, $tetapan_permohonan->sesi_id, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('sesi') ? 'is-invalid':''), 'data-control'=>'select2' ]) }}
                                             @error('sesi') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -65,7 +65,7 @@
                                     <div class="col-md-9">
                                         <div class="w-100">
                                             <label class="form-check form-switch form-check-custom form-check-solid">
-                                                {{ Form::checkbox('status_ujian', '1', false, ['class' => 'form-check-input h-25px w-60px mt-1']); }}
+                                                {{ Form::checkbox('status_ujian', '1', ($tetapan_permohonan->status_ujian == 1 ? true:false), ['class' => 'form-check-input h-25px w-60px mt-1']); }}
                                                 <span class="form-check-label fs-7 fw-semibold mt-2">
                                                     Dibuka Untuk Ujian Dalaman
                                                 </span>
@@ -84,7 +84,7 @@
                                     <div class="col-md-9">
                                         <div class="w-100">
                                             <label class="form-check form-switch form-check-custom form-check-solid">
-                                                {{ Form::checkbox('status', '1', false, ['class' => 'form-check-input h-25px w-60px mt-1']); }}
+                                                {{ Form::checkbox('status', '1', ($tetapan_permohonan->status == 1 ? true:false), ['class' => 'form-check-input h-25px w-60px mt-1']); }}
                                                 <span class="form-check-label fs-7 fw-semibold mt-2">
                                                     Dibuka Untuk Permohonan
                                                 </span>
@@ -98,7 +98,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('mula_permohonan',old('mula_permohonan'),['class' => 'form-control form-control-sm '.($errors->has('mula_permohonan') ? 'is-invalid':''), 'id' =>'mula_permohonan','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            {{ Form::text('mula_permohonan',Carbon\Carbon::parse($tetapan_permohonan->mula_permohonan)->format('d/m/Y'),['class' => 'form-control form-control-sm '.($errors->has('mula_permohonan') ? 'is-invalid':''), 'id' =>'mula_permohonan','onkeydown' =>'return false','autocomplete' => 'off']) }}
                                             @error('mula_permohonan') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -109,7 +109,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('tutup_permohonan',old('tutup_permohonan'),['class' => 'form-control form-control-sm '.($errors->has('tutup_permohonan') ? 'is-invalid':''), 'id' =>'tutup_permohonan','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            {{ Form::text('tutup_permohonan',Carbon\Carbon::parse($tetapan_permohonan->tutup_permohonan)->format('d/m/Y'),['class' => 'form-control form-control-sm '.($errors->has('tutup_permohonan') ? 'is-invalid':''), 'id' =>'tutup_permohonan','onkeydown' =>'return false','autocomplete' => 'off']) }}
                                             @error('tutup_permohonan') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -124,7 +124,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('tutup_pendaftaran',old('tutup_pendaftaran'),['class' => 'form-control form-control-sm '.($errors->has('tutup_pendaftaran') ? 'is-invalid':''), 'id' =>'tutup_pendaftaran','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            {{ Form::text('tutup_pendaftaran',Carbon\Carbon::parse($tetapan_permohonan->tutup_pendaftaran)->format('d/m/Y'),['class' => 'form-control form-control-sm '.($errors->has('tutup_pendaftaran') ? 'is-invalid':''), 'id' =>'tutup_pendaftaran','onkeydown' =>'return false','autocomplete' => 'off']) }}
                                             @error('tutup_pendaftaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -135,7 +135,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="w-100">
-                                            {{ Form::text('mula_semakan_temuduga',old('mula_semakan_temuduga'),['class' => 'form-control form-control-sm '.($errors->has('mula_semakan_temuduga') ? 'is-invalid':''), 'id' =>'mula_semakan_temuduga','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            {{ Form::text('mula_semakan_temuduga',Carbon\Carbon::parse($tetapan_permohonan->mula_semakan_temuduga)->format('d/m/Y'),['class' => 'form-control form-control-sm '.($errors->has('mula_semakan_temuduga') ? 'is-invalid':''), 'id' =>'mula_semakan_temuduga','onkeydown' =>'return false','autocomplete' => 'off']) }}
                                             @error('mula_semakan_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -144,7 +144,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="w-100">
-                                            {{ Form::text('tutup_semakan_temuduga',old('tutup_semakan_temuduga'),['class' => 'form-control form-control-sm '.($errors->has('tutup_semakan_temuduga') ? 'is-invalid':''), 'id' =>'tutup_semakan_temuduga','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            {{ Form::text('tutup_semakan_temuduga',Carbon\Carbon::parse($tetapan_permohonan->tutup_semakan_temuduga)->format('d/m/Y'),['class' => 'form-control form-control-sm '.($errors->has('tutup_semakan_temuduga') ? 'is-invalid':''), 'id' =>'tutup_semakan_temuduga','onkeydown' =>'return false','autocomplete' => 'off']) }}
                                             @error('tutup_semakan_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -155,7 +155,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('tajuk_temuduga',old('tajuk_temuduga'),['class' => 'form-control form-control-sm '.($errors->has('tajuk_temuduga') ? 'is-invalid':''), 'id' =>'tajuk_temuduga','autocomplete' => 'off']) }}
+                                            {{ Form::text('tajuk_temuduga',$tetapan_permohonan->tajuk_semakan_temuduga,['class' => 'form-control form-control-sm '.($errors->has('tajuk_temuduga') ? 'is-invalid':''), 'id' =>'tajuk_temuduga','autocomplete' => 'off']) }}
                                             @error('tajuk_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -166,7 +166,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::textarea('maklumat_temuduga',old('maklumat_temuduga'),['class' => 'form-control form-control-sm '.($errors->has('maklumat_temuduga') ? 'is-invalid':''), 'id' =>'maklumat_temuduga', 'rows'=>'3']) }}
+                                            {{ Form::textarea('maklumat_temuduga',$tetapan_permohonan->maklumat_semakan_temuduga,['class' => 'form-control form-control-sm '.($errors->has('maklumat_temuduga') ? 'is-invalid':''), 'id' =>'maklumat_temuduga', 'rows'=>'3']) }}
                                             @error('maklumat_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -177,7 +177,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="w-100">
-                                            {{ Form::text('mula_semakan_tawaran',old('mula_semakan_tawaran'),['class' => 'form-control form-control-sm '.($errors->has('mula_semakan_tawaran') ? 'is-invalid':''), 'id' =>'mula_semakan_tawaran','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            {{ Form::text('mula_semakan_tawaran',Carbon\Carbon::parse($tetapan_permohonan->mula_semakan_tawaran)->format('d/m/Y'),['class' => 'form-control form-control-sm '.($errors->has('mula_semakan_tawaran') ? 'is-invalid':''), 'id' =>'mula_semakan_tawaran','onkeydown' =>'return false','autocomplete' => 'off']) }}
                                             @error('mula_semakan_tawaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -186,7 +186,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="w-100">
-                                            {{ Form::text('tutup_semakan_tawaran',old('tutup_semakan_tawaran'),['class' => 'form-control form-control-sm '.($errors->has('tutup_semakan_tawaran') ? 'is-invalid':''), 'id' =>'tutup_semakan_tawaran','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            {{ Form::text('tutup_semakan_tawaran',Carbon\Carbon::parse($tetapan_permohonan->tutup_semakan_tawaran)->format('d/m/Y'),['class' => 'form-control form-control-sm '.($errors->has('tutup_semakan_tawaran') ? 'is-invalid':''), 'id' =>'tutup_semakan_tawaran','onkeydown' =>'return false','autocomplete' => 'off']) }}
                                             @error('tutup_semakan_tawaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -197,7 +197,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('tutup_rayuan',old('tutup_rayuan'),['class' => 'form-control form-control-sm '.($errors->has('tutup_rayuan') ? 'is-invalid':''), 'id' =>'tutup_rayuan','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            {{ Form::text('tutup_rayuan',Carbon\Carbon::parse($tetapan_permohonan->tutup_rayuan)->format('d/m/Y'),['class' => 'form-control form-control-sm '.($errors->has('tutup_rayuan') ? 'is-invalid':''), 'id' =>'tutup_rayuan','onkeydown' =>'return false','autocomplete' => 'off']) }}
                                             @error('tutup_rayuan') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -208,7 +208,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('tajuk_rayuan',old('tajuk_rayuan'),['class' => 'form-control form-control-sm '.($errors->has('tajuk_rayuan') ? 'is-invalid':''), 'id' =>'tajuk_rayuan' ,'autocomplete' => 'off']) }}
+                                            {{ Form::text('tajuk_rayuan',$tetapan_permohonan->tajuk_semakan_rayuan,['class' => 'form-control form-control-sm '.($errors->has('tajuk_rayuan') ? 'is-invalid':''), 'id' =>'tajuk_rayuan' ,'autocomplete' => 'off']) }}
                                             @error('tajuk_rayuan') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -219,7 +219,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="w-100">
-                                            {{ Form::text('mula_semakan_rayuan',old('mula_semakan_rayuan'),['class' => 'form-control form-control-sm '.($errors->has('mula_semakan_rayuan') ? 'is-invalid':''), 'id' =>'mula_semakan_rayuan','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            {{ Form::text('mula_semakan_rayuan',Carbon\Carbon::parse($tetapan_permohonan->mula_semakan_rayuan)->format('d/m/Y'),['class' => 'form-control form-control-sm '.($errors->has('mula_semakan_rayuan') ? 'is-invalid':''), 'id' =>'mula_semakan_rayuan','onkeydown' =>'return false','autocomplete' => 'off']) }}
                                             @error('mula_semakan_rayuan') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -228,7 +228,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="w-100">
-                                            {{ Form::text('tutup_semakan_rayuan',old('tutup_semakan_rayuan'),['class' => 'form-control form-control-sm '.($errors->has('tutup_semakan_rayuan') ? 'is-invalid':''), 'id' =>'tutup_semakan_rayuan','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            {{ Form::text('tutup_semakan_rayuan',Carbon\Carbon::parse($tetapan_permohonan->tutup_semakan_rayuan)->format('d/m/Y'),['class' => 'form-control form-control-sm '.($errors->has('tutup_semakan_rayuan') ? 'is-invalid':''), 'id' =>'tutup_semakan_rayuan','onkeydown' =>'return false','autocomplete' => 'off']) }}
                                             @error('tutup_semakan_rayuan') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -239,7 +239,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('tajuk_semakan_tawaran',old('tajuk_semakan_tawaran'),['class' => 'form-control form-control-sm '.($errors->has('tajuk_semakan_tawaran') ? 'is-invalid':''), 'id' =>'tajuk_semakan_tawaran','autocomplete' => 'off']) }}
+                                            {{ Form::text('tajuk_semakan_tawaran',$tetapan_permohonan->tajuk_semakan_tawaran,['class' => 'form-control form-control-sm '.($errors->has('tajuk_semakan_tawaran') ? 'is-invalid':''), 'id' =>'tajuk_semakan_tawaran','autocomplete' => 'off']) }}
                                             @error('tajuk_semakan_tawaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -250,7 +250,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::textarea('maklumat_semakan_tawaran',old('maklumat_semakan_tawaran'),['class' => 'form-control form-control-sm '.($errors->has('maklumat_semakan_tawaran') ? 'is-invalid':''), 'id' =>'maklumat_semakan_tawaran', 'rows'=>'3']) }}
+                                            {{ Form::textarea('maklumat_semakan_tawaran',$tetapan_permohonan->maklumat_semakan_tawaran,['class' => 'form-control form-control-sm '.($errors->has('maklumat_semakan_tawaran') ? 'is-invalid':''), 'id' =>'maklumat_semakan_tawaran', 'rows'=>'3']) }}
                                             @error('maklumat_semakan_tawaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -279,53 +279,6 @@
 
 @push('scripts')
 <script>
-$(document).ready(function () {
-    if($("#kursus").val() != null || $("#kursus").val() != '')
-    {
-        $("#sesi").select2({
-            ajax: {
-                url: "{{route('pengurusan.pentadbir_sistem.permohonan_pelajar.fetchSesi')}}",
-                type: "POST",
-                data: {
-                            kursus_id: $("#kursus").val(),
-                            _token: '{{csrf_token()}}'
-                        },
-                dataType: 'json',
-                processResults: function (data) {
-                // Transforms the top-level key of the response object from 'items' to 'results'
-                return {
-                    results: data
-                };
-                }
-            }
-        })
-    }
-
-    $("#kursus").on('change', function(){
-        var kursus_id = this.value;
-
-        $("#sesi").val('');
-        $("#sesi").select2({
-            ajax: {
-                url: "{{route('pengurusan.pentadbir_sistem.permohonan_pelajar.fetchSesi')}}",
-                type: "POST",
-                data: {
-                            kursus_id: kursus_id,
-                            _token: '{{csrf_token()}}'
-                        },
-                dataType: 'json',
-                processResults: function (data) {
-                // Transforms the top-level key of the response object from 'items' to 'results'
-                return {
-                    results: data
-                };
-                }
-            }
-        })
-    })
-});
-
-
 $("#mula_permohonan").daterangepicker({
         autoApply : true,
         singleDatePicker: true,

@@ -10,5 +10,7 @@ use App\Http\Controllers\Pengurusan\Pentadbir_Sistem\PermohonanPelajarController
     Route::get('/permohonan_pelajar', [PermohonanPelajarController::class,'index'])->name('permohonan_pelajar.index');
     Route::get('/permohonan_pelajar/buka_baru', [PermohonanPelajarController::class,'create'])->name('permohonan_pelajar.create');
     Route::post('/permohonan_pelajar/store', [PermohonanPelajarController::class,'store'])->name('permohonan_pelajar.store');
+    Route::get('/permohonan_pelajar/pinda/{id}', [PermohonanPelajarController::class,'edit'])->name('permohonan_pelajar.edit');
+    Route::post('/permohonan_pelajar/fetchSesi', [PermohonanPelajarController::class,'fetchSesi'])->name('permohonan_pelajar.fetchSesi');
 
 

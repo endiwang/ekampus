@@ -61,7 +61,7 @@ class PermohonanPelajarController extends Controller
                 // $btn = $btn.'<a href="javascript:void(0)" class="edit btn btn-primary btn-sm hover-elevate-up me-2">Edit</a>';
                 // $btn = $btn.'<a href="javascript:void(0)" class="edit btn btn-danger btn-sm hover-elevate-up">Delete</a>';
                 $btn = '<a href="javascript:void(0)" class="edit btn btn-info btn-sm hover-elevate-up me-2 mb-1">Dokumen</a><br>';
-                $btn = $btn.'<a href="javascript:void(0)" class="edit btn btn-primary btn-sm hover-elevate-up me-2 mb-1">Pinda</a>';
+                $btn = $btn.'<a href="'.route('pengurusan.pentadbir_sistem.permohonan_pelajar.edit',$data->id).'" class="edit btn btn-primary btn-sm hover-elevate-up me-2 mb-1">Pinda</a>';
                 // $btn = $btn.'<a href="javascript:void(0)" class="edit btn btn-danger btn-sm hover-elevate-up">Hapus</a>';
 
                  return $btn;
@@ -182,12 +182,12 @@ class PermohonanPelajarController extends Controller
             'tutup_pendaftaran'         => Carbon::createFromFormat('d/m/Y',$request->tutup_pendaftaran)->format('Y-m-d'),
             'mula_semakan_temuduga'     => Carbon::createFromFormat('d/m/Y',$request->mula_semakan_temuduga)->format('Y-m-d'),
             'tutup_semakan_temuduga'    => Carbon::createFromFormat('d/m/Y',$request->tutup_semakan_temuduga)->format('Y-m-d'),
-            'tajuk_semakan_temuduga'    => $request->tajuk_semakan_temuduga,
-            'maklumat_semakan_temuduga' => $request->maklumat_semakan_temuduga,
+            'tajuk_semakan_temuduga'    => $request->tajuk_temuduga,
+            'maklumat_semakan_temuduga' => $request->maklumat_temuduga,
             'mula_semakan_tawaran'      => Carbon::createFromFormat('d/m/Y',$request->mula_semakan_tawaran)->format('Y-m-d'),
             'tutup_semakan_tawaran'     => Carbon::createFromFormat('d/m/Y',$request->tutup_semakan_tawaran)->format('Y-m-d'),
             'tutup_rayuan'              => Carbon::createFromFormat('d/m/Y',$request->tutup_rayuan)->format('Y-m-d'),
-            'tajuk_semakan_rayuan'      => $request->tajuk_semakan_rayuan,
+            'tajuk_semakan_rayuan'      => $request->tajuk_rayuan,
             'tutup_rayuan'              => Carbon::createFromFormat('d/m/Y',$request->tutup_rayuan)->format('Y-m-d'),
             'mula_semakan_rayuan'       => Carbon::createFromFormat('d/m/Y',$request->mula_semakan_rayuan)->format('Y-m-d'),
             'tajuk_semakan_tawaran'     => $request->tajuk_semakan_tawaran,
@@ -218,7 +218,10 @@ class PermohonanPelajarController extends Controller
      */
     public function edit($id)
     {
-        //
+        $kursus = Kursus::where('is_deleted',0)->pluck('nama', 'id');
+        $sesi = Sesi::where('is_deleted',0)->pluck('nama', 'id');
+        $tetapan_permohonan = TetapanPermohonanPelajar::find($id);
+        return view('pages.pengurusan.pentadbir_sistem.permohonan_pelajaran.edit', compact('kursus','sesi','tetapan_permohonan'));
     }
 
     /**
@@ -242,5 +245,11 @@ class PermohonanPelajarController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function fetchSesi(Request $request)
+    {
+        $sesi = Sesi::select('id', 'nama as text')->where('kursus_id',$request->kursus_id)->where('is_deleted',0)->get();
+        return $sesi;
     }
 }
