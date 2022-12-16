@@ -32,7 +32,8 @@
             <!--begin::Row-->
             <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <form class="form" action="{{ route('pengurusan.pentadbir_sistem.permohonan_pelajar.store')}}" method="post">
+                    <form class="form" action="" method="post">
+                        @method('PATCH')
                         @csrf
                         <div class="card">
                             <div class="card-body py-5">
@@ -42,7 +43,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::select('kursus', $kursus, $tetapan_permohonan->kursus_id, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('kursus') ? 'is-invalid':''), 'data-control'=>'select2','disabled' ]) }}
+                                            {{ Form::select('kursus', $kursus, $tetapan_permohonan->kursus_id, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('kursus') ? 'is-invalid':''), 'data-control'=>'select2', 'disabled' ]) }}
                                             @error('kursus') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -279,6 +280,51 @@
 
 @push('scripts')
 <script>
+$(document).ready(function () {
+    if($("#kursus").val() != null || $("#kursus").val() != '')
+    {
+        $("#sesi").select2({
+            ajax: {
+                url: "{{route('pengurusan.pentadbir_sistem.permohonan_pelajar.fetchSesi')}}",
+                type: "POST",
+                data: {
+                            kursus_id: $("#kursus").val(),
+                            _token: '{{csrf_token()}}'
+                        },
+                dataType: 'json',
+                processResults: function (data) {
+                // Transforms the top-level key of the response object from 'items' to 'results'
+                return {
+                    results: data
+                };
+                }
+            }
+        })
+    }
+
+    $("#kursus").on('change', function(){
+        var kursus_id = this.value;
+
+        $("#sesi").val('');
+        $("#sesi").select2({
+            ajax: {
+                url: "{{route('pengurusan.pentadbir_sistem.permohonan_pelajar.fetchSesi')}}",
+                type: "POST",
+                data: {
+                            kursus_id: kursus_id,
+                            _token: '{{csrf_token()}}'
+                        },
+                dataType: 'json',
+                processResults: function (data) {
+                // Transforms the top-level key of the response object from 'items' to 'results'
+                return {
+                    results: data
+                };
+                }
+            }
+        })
+    })
+});
 $("#mula_permohonan").daterangepicker({
         autoApply : true,
         singleDatePicker: true,

@@ -190,6 +190,7 @@ class PermohonanPelajarController extends Controller
             'tajuk_semakan_rayuan'      => $request->tajuk_rayuan,
             'tutup_rayuan'              => Carbon::createFromFormat('d/m/Y',$request->tutup_rayuan)->format('Y-m-d'),
             'mula_semakan_rayuan'       => Carbon::createFromFormat('d/m/Y',$request->mula_semakan_rayuan)->format('Y-m-d'),
+            'tutup_semakan_rayuan'      => Carbon::createFromFormat('d/m/Y',$request->tutup_semakan_rayuan)->format('Y-m-d'),
             'tajuk_semakan_tawaran'     => $request->tajuk_semakan_tawaran,
             'maklumat_semakan_tawaran'  => $request->maklumat_semakan_tawaran,
         ]);
@@ -233,7 +234,83 @@ class PermohonanPelajarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'sesi'                      => 'required',
+            'mula_permohonan'           => 'required',
+            'tutup_permohonan'          => 'required',
+            'tutup_pendaftaran'         => 'required',
+            'mula_semakan_temuduga'     => 'required',
+            'tutup_semakan_temuduga'    => 'required',
+            'tajuk_temuduga'            => 'required',
+            'maklumat_temuduga'         => 'required',
+            'mula_semakan_tawaran'      => 'required',
+            'tutup_semakan_tawaran'     => 'required',
+            'tutup_rayuan'              => 'required',
+            'tajuk_rayuan'              => 'required',
+            'mula_semakan_rayuan'       => 'required',
+            'tutup_semakan_rayuan'      => 'required',
+            'tajuk_semakan_tawaran'     => 'required',
+            'maklumat_semakan_tawaran'  => 'required',
+        ],[
+            'sesi.required'                         => 'Sila pilih sesi pengajian.',
+            'mula_permohonan.required'              => 'Sila pilih tarikh mula permohonan.',
+            'tutup_permohonan.required'             => 'Sila pilih tarikh tutup permohonan.',
+            'tutup_pendaftaran.required'            => 'Sila pilih tarikh tutup pendaftaran.',
+            'mula_semakan_temuduga.required'        => 'Sila pilih tarikh mula semakan temuduga.',
+            'tutup_semakan_temuduga.required'       => 'Sila pilih tarikh tutup semakan temuduga.',
+            'tajuk_temuduga.required'               => 'Sila isi tajuk semakan temuduga.',
+            'maklumat_temuduga.required'            => 'Sila isi maklumat semakan temuduga.',
+            'mula_semakan_tawaran.required'         => 'Sila pilih tarikh mula semakan tawaran.',
+            'tutup_semakan_tawaran.required'        => 'Sila pilih tarikh tutup semakan tawaran.',
+            'tutup_rayuan.required'                 => 'Sila pilih tarikh akhir rayuan.',
+            'tajuk_rayuan.required'                 => 'Sila isi tajuk semakan rayuan.',
+            'mula_semakan_rayuan.required'          => 'Sila pilih tarikh mula semakan rayuan.',
+            'tutup_semakan_rayuan.required'         => 'Sila pilih tarikh tutup semakan rayuan.',
+            'tajuk_semakan_tawaran.required'        => 'Sila isi tajuk semakan tawaran.',
+            'maklumat_semakan_tawaran.required'     => 'Sila isi maklumat semakan tawaran.',
+        ]);
+
+        $tetapan_permohonan = TetapanPermohonanPelajar::find($id);
+
+        if($request->has('status_ujian'))
+        {
+            $status_ujian = $request->status_ujian;
+        }else{
+            $status_ujian = 0;
+        }
+
+        if($request->has('status'))
+        {
+            $status = $request->status;
+        }else{
+            $status = 0;
+        }
+
+        $tetapan_permohonan->sesi_id                   = $request->sesi;
+        $tetapan_permohonan->status_ujian              = $status_ujian;
+        $tetapan_permohonan->status                    = $status;
+        $tetapan_permohonan->mula_permohonan           = Carbon::createFromFormat('d/m/Y',$request->mula_permohonan)->format('Y-m-d');
+        $tetapan_permohonan->tutup_permohonan          = Carbon::createFromFormat('d/m/Y',$request->tutup_permohonan)->format('Y-m-d');
+        $tetapan_permohonan->tutup_pendaftaran         = Carbon::createFromFormat('d/m/Y',$request->tutup_pendaftaran)->format('Y-m-d');
+        $tetapan_permohonan->mula_semakan_temuduga     = Carbon::createFromFormat('d/m/Y',$request->mula_semakan_temuduga)->format('Y-m-d');
+        $tetapan_permohonan->tutup_semakan_temuduga    = Carbon::createFromFormat('d/m/Y',$request->tutup_semakan_temuduga)->format('Y-m-d');
+        $tetapan_permohonan->tajuk_semakan_temuduga    = $request->tajuk_temuduga;
+        $tetapan_permohonan->maklumat_semakan_temuduga = $request->maklumat_temuduga;
+        $tetapan_permohonan->mula_semakan_tawaran      = Carbon::createFromFormat('d/m/Y',$request->mula_semakan_tawaran)->format('Y-m-d');
+        $tetapan_permohonan->tutup_semakan_tawaran     = Carbon::createFromFormat('d/m/Y',$request->tutup_semakan_tawaran)->format('Y-m-d');
+        $tetapan_permohonan->tutup_rayuan              = Carbon::createFromFormat('d/m/Y',$request->tutup_rayuan)->format('Y-m-d');
+        $tetapan_permohonan->tajuk_semakan_rayuan      = $request->tajuk_rayuan;
+        $tetapan_permohonan->tutup_rayuan              = Carbon::createFromFormat('d/m/Y',$request->tutup_rayuan)->format('Y-m-d');
+        $tetapan_permohonan->mula_semakan_rayuan       = Carbon::createFromFormat('d/m/Y',$request->mula_semakan_rayuan)->format('Y-m-d');
+        $tetapan_permohonan->tutup_semakan_rayuan      = Carbon::createFromFormat('d/m/Y',$request->tutup_semakan_rayuan)->format('Y-m-d');
+        $tetapan_permohonan->tajuk_semakan_tawaran     = $request->tajuk_semakan_tawaran;
+        $tetapan_permohonan->maklumat_semakan_tawaran  = $request->maklumat_semakan_tawaran;
+        $tetapan_permohonan->save();
+
+
+        Alert::toast('Tetapan Baru Berjaya Dikemas kini', 'success');
+
+        return redirect()->route('pengurusan.pentadbir_sistem.permohonan_pelajar.index');
     }
 
     /**
