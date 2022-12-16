@@ -47,8 +47,7 @@ class SesiController extends Controller
                 // $btn = $btn.'<a href="javascript:void(0)" class="edit btn btn-primary btn-sm hover-elevate-up me-2">Edit</a>';
                 // $btn = $btn.'<a href="javascript:void(0)" class="edit btn btn-danger btn-sm hover-elevate-up">Delete</a>';
 
-                $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm hover-elevate-up me-2">Edit</a>';
-                $btn = $btn.'<a href="javascript:void(0)" class="edit btn btn-danger btn-sm hover-elevate-up">Delete</a>';
+                $btn = '<a href="'.route('pengurusan.pentadbir_sistem.sesi.edit',$data->id).'" class="edit btn btn-primary btn-sm hover-elevate-up me-2 mb-1">Pinda</a>';
 
                  return $btn;
             })
@@ -114,23 +113,33 @@ class SesiController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'tahun_bermula' => 'required',
-            'tahun_berakhir' => 'required',
-            'kursus' => 'required',
+            'tahun_bermula'     => 'required',
+            'tahun_berakhir'    => 'required',
+            'kursus'            => 'required',
         ],[
-            'tahun_bermula.required' => 'Sila pilih tahun bermula',
-            'tahun_berakhir.required' => 'Sila pilih tahun berakhir',
-            'kursus.required' => 'Sila pilih kursus',
+            'tahun_bermula.required'    => 'Sila pilih tahun bermula',
+            'tahun_berakhir.required'   => 'Sila pilih tahun berakhir',
+            'kursus.required'           => 'Sila pilih kursus',
         ]);
 
-        $sesi = Sesi::latest('created_at', 'desc')->first();
+        if($request->has('status'))
+        {
+            $status = $request->status;
+        }else{
+            $status = 1;
+        }
+
+
+        $sesi = Sesi::latest('order', 'desc')->first();
 
         $nama = 'SESI '. $request->tahun_bermula.'/'.$request->tahun_berakhir;
         Sesi::create([
-            'nama' => $nama,
-            'kursus_id' => $request->kursus,
-            'status' => $request->status,
-            'order' => $sesi->order+1,
+            'nama'          => $nama,
+            'kursus_id'     => $request->kursus,
+            'tahun_bermula' => $request->tahun_bermula,
+            'tahun_berakhir'=> $request->tahun_berakhir,
+            'status'        => $status,
+            'order'         => $sesi->order+1,
         ]);
 
         Alert::toast('Sesi Pengajian Berjaya Ditambah', 'success');
@@ -157,7 +166,20 @@ class SesiController extends Controller
      */
     public function edit($id)
     {
-        //
+        $sesi_year_from= [];
+        foreach(range( 2009, date('Y') + 7) as $year_form) {
+            $sesi_year_from[$year_form] = $year_form;
+        }
+
+        $sesi_year_to= [];
+        foreach(range( 2009, date('Y') + 10) as $year_to) {
+            $sesi_year_to[$year_to] = $year_to;
+        }
+
+        $kursus = Kursus::where('is_deleted',0)->pluck('nama', 'id');
+
+        $sesi = Sesi::find($id);
+        return view('pages.pengurusan.pentadbir_sistem.sesi.edit', compact(['sesi','kursus','sesi_year_from','sesi_year_to']));
     }
 
     /**
@@ -169,7 +191,36 @@ class SesiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'tahun_bermula' => 'required',
+            'tahun_berakhir' => 'required',
+            'kursus' => 'required',
+        ],[
+            'tahun_bermula.required' => 'Sila pilih tahun bermula',
+            'tahun_berakhir.required' => 'Sila pilih tahun berakhir',
+            'kursus.required' => 'Sila pilih kursus',
+        ]);
+        $nama = 'SESI '. $request->tahun_bermula.'/'.$request->tahun_berakhir;
+
+        if($request->has('status'))
+        {
+            $status = $request->status;
+        }else{
+            $status = 1;
+        }
+
+        $sesi = Sesi::find($id);
+        $sesi->nama             = $nama;
+        $sesi->tahun_bermula    = $request->tahun_bermula;
+        $sesi->tahun_berakhir   = $request->tahun_berakhir;
+        $sesi->kursus_id        = $request->kursus;
+        $sesi->status           = $status;
+        $sesi->save();
+
+
+        Alert::toast('Sesi Pengajian Berjaya Dikemas Kini', 'success');
+
+        return redirect()->route('pengurusan.pentadbir_sistem.sesi.index');
     }
 
     /**

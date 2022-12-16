@@ -12,7 +12,7 @@ class Sesi extends Model
 
     use HasFactory, SoftDeletes;
     protected $table = 'sesi';
-    protected $fillable = ['id','nama','kursus_id','status','tarikh_akhir_exam','tarikh_transkrip','order','is_deleted','deleted_by'];
+    protected $fillable = ['id','nama','kursus_id','status','tarikh_akhir_exam','tarikh_transkrip','order','tahun_bermula','tahun_berakhir','is_deleted','deleted_by'];
 
     public function pelajar()
     {

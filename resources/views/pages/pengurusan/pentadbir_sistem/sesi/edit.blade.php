@@ -21,7 +21,7 @@
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-muted">Tambah Sesi</li>
+                    <li class="breadcrumb-item text-muted">Pinda Sesi</li>
 
                 </ul>
             </div>
@@ -34,10 +34,11 @@
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                     <div class="card" id="advanceSearch">
                         <div class="card-header">
-                            <h3 class="card-title">Tambah Sesi Pengajian</h3>
+                            <h3 class="card-title">Pinda Sesi Pengajian</h3>
                         </div>
                         <div class="card-body py-5">
-                            <form class="form" action="{{ route('pengurusan.pentadbir_sistem.sesi.store')}}" method="post">
+                            <form class="form" action="" method="post">
+                                @method('PATCH')
                                 @csrf
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
@@ -45,7 +46,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::select('tahun_bermula', $sesi_year_from, null, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('tahun_bermula') ? 'is-invalid':'') ]) }}
+                                            {{ Form::select('tahun_bermula', $sesi_year_from, $sesi->tahun_bermula, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('tahun_bermula') ? 'is-invalid':'') ]) }}
                                             @error('tahun_bermula') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -56,7 +57,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::select('tahun_berakhir', $sesi_year_to, null, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('tahun_berakhir') ? 'is-invalid':'') ]) }}
+                                            {{ Form::select('tahun_berakhir', $sesi_year_to, $sesi->tahun_berakhir, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('tahun_berakhir') ? 'is-invalid':'') ]) }}
                                             @error('tahun_berakhir') <div class="invalid-feedback">{{ $message }}</div> @enderror
 
                                         </div>
@@ -68,7 +69,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::select('kursus', $kursus, null, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('kursus') ? 'is-invalid':''), 'data-control'=>'select2' ]) }}
+                                            {{ Form::select('kursus', $kursus, $sesi->kursus_id, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('kursus') ? 'is-invalid':''), 'data-control'=>'select2' ]) }}
                                             @error('kursus') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -80,7 +81,7 @@
                                     <div class="col-md-9">
                                         <div class="w-100">
                                             <label class="form-check form-switch form-check-custom form-check-solid">
-                                                {{ Form::checkbox('status', '0', true, ['class' => 'form-check-input h-25px w-60px']); }}
+                                                {{ Form::checkbox('status', '0', ($sesi->status == 0 ? true:false), ['class' => 'form-check-input h-25px w-60px']); }}
                                                 <span class="form-check-label fs-7 fw-semibold mt-2">
                                                     Aktif
                                                 </span>

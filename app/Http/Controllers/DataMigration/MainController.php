@@ -397,15 +397,36 @@ class MainController extends Controller
         $num = 0;
         foreach($sesi as $datum)
         {
-            Sesi::create([
-                'id' => $datum->sesi_id,
-                'nama' => $datum->sesi,
-                'kursus_id' => $datum->kursus_id,
-                'status' => $datum->sesi_status,
-                'tarikh_akhir_exam' => $datum->tkh_akhir_exam,
-                'tarikh_transkrip' => $datum->tkh_transkrip,
-                'order' => ++$num,
-            ]);
+            $nama_sesi_1 = trim($datum->sesi,'Sesi ');
+            $nama_sesi_2 = trim($nama_sesi_1,'ESI ');
+            $nama_sesi_3 = trim($nama_sesi_2,'DQ-Uniten Sesi ');
+            $nama_sesi_4 = trim($nama_sesi_3,'MEI ');
+            if(str_contains($nama_sesi_4, '/'))
+            {
+                $tahun = explode('/',$nama_sesi_4);
+                Sesi::create([
+                    'id' => $datum->sesi_id,
+                    'nama' => $datum->sesi,
+                    'tahun_bermula' => $tahun[0],
+                    'tahun_berakhir' => $tahun[1],
+                    'kursus_id' => $datum->kursus_id,
+                    'status' => $datum->sesi_status,
+                    'tarikh_akhir_exam' => $datum->tkh_akhir_exam,
+                    'tarikh_transkrip' => $datum->tkh_transkrip,
+                    'order' => ++$num,
+                ]);
+            }
+            else{
+                Sesi::create([
+                    'id' => $datum->sesi_id,
+                    'nama' => $datum->sesi,
+                    'kursus_id' => $datum->kursus_id,
+                    'status' => $datum->sesi_status,
+                    'tarikh_akhir_exam' => $datum->tkh_akhir_exam,
+                    'tarikh_transkrip' => $datum->tkh_transkrip,
+                    'order' => ++$num,
+                ]);
+            }
         }
 
         dd('done');
