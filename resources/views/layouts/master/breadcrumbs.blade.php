@@ -48,5 +48,17 @@
             </ul>
             @endif
         </div>
+        
+        @if (isset($buttons) && is_array($buttons) && count($buttons))
+            <div class="d-flex align-items-center gap-2 gap-lg-3">
+                @foreach ($buttons as $button)
+                <a href="{{ $button['route'] }}" class="{{ $button['button_class'] }}">
+                    <span class="svg-icon svg-icon-6 svg-icon-muted me-1">
+                        <i class="{{ $button['icon_class'] }}"></i>
+                    </span>{{ $button['title'] }}
+                </a>
+                @endforeach
+            </div>
+        @endif
     </div>
 </div>
