@@ -74,7 +74,9 @@
 
 					</div>
                     <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+						
                         <div class="d-flex flex-column flex-column-fluid">
+							@include('layouts.master.breadcrumbs')
                             @yield('content')
                         </div>
                         @include('layouts.master.footer')
