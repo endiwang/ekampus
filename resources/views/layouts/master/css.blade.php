@@ -46,4 +46,12 @@
     .swal2-html-container {
     color: white !important;
     }
+
+    .swal-modal-delete-title {
+    color: black !important;
+	}
+
+    .swal-modal-delete-container {
+    color: gray !important;
+	}
 </style>

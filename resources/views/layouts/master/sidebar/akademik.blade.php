@@ -73,7 +73,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.kelas.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.kelas.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>

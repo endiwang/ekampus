@@ -48,6 +48,14 @@
             .swal2-html-container {
             color: white !important;
             }
+
+			.swal-modal-delete-title {
+    		color: black !important;
+			}
+
+			.swal-modal-delete-container {
+			color: gray !important;
+			}
         </style>
 	</head>
 	<body id="kt_body" data-bs-spy="scroll" data-bs-target="#kt_landing_menu" class="bg-white position-relative app-blank" style="background-color: #eaedf7 !important">

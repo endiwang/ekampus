@@ -13,5 +13,14 @@ class Kelas extends Model
     protected $table = 'kelas';
     protected $fillable = ['id','nama','kapasiti_pelajar','semasa_jantina','semasa_syukbah_id','semasa_semester_id','jadual_jantina','jadual_syukbah_id','jadual_semester_id','jumlah_pelajar','sesi','pusat_pengajian_id','is_deleted','deleted_by','deleted_at'];
 
+    public function currentSemester()
+    {
+        return $this->belongsTo('App\Models\Semester', 'semasa_semester_id', 'id');
+    }
+
+    public function currentSyukbah()
+    {
+        return $this->belongsTo('App\Models\Syukbah', 'semasa_syukbah_id', 'id');
+    }
 
 }
