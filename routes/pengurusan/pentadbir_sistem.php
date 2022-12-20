@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pengurusan\Pentadbir_Sistem\SesiController;
+use App\Http\Controllers\Pengurusan\Pentadbir_Sistem\KakitanganController;
 use App\Http\Controllers\Pengurusan\Pentadbir_Sistem\PermohonanPelajarController;
 
     Route::get('/sesi', [SesiController::class,'index'])->name('sesi.index');
@@ -15,5 +16,10 @@ use App\Http\Controllers\Pengurusan\Pentadbir_Sistem\PermohonanPelajarController
     Route::get('/permohonan_pelajar/pinda/{id}', [PermohonanPelajarController::class,'edit'])->name('permohonan_pelajar.edit');
     Route::patch('/permohonan_pelajar/pinda/{id}', [PermohonanPelajarController::class,'update'])->name('permohonan_pelajar.update');
     Route::post('/permohonan_pelajar/fetchSesi', [PermohonanPelajarController::class,'fetchSesi'])->name('permohonan_pelajar.fetchSesi');
+
+    Route::get('/kakitangan', [KakitanganController::class,'index'])->name('kakitangan.index');
+    Route::get('/kakitangan/{id}/profil', [KakitanganController::class,'show'])->name('kakitangan.show');
+    Route::get('/kakitangan/{id}/pinda', [KakitanganController::class,'edit'])->name('kakitangan.edit');
+
 
 

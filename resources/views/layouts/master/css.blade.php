@@ -9,6 +9,7 @@
 
 <link href="{{URL::asset('assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{URL::asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{URL::asset('assets/plugins/custom/jstree/jstree.bundle.css')}}" rel="stylesheet" type="text/css" />
 
 <style>
     .swal2-icon-success {

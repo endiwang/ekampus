@@ -67,6 +67,16 @@
                 </div>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.pentadbir_sistem.kakitangan.index') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbir_sistem.kakitangan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Kakitangan</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.pentadbir_sistem.permohonan_pelajar.index') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbir_sistem.permohonan_pelajar.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
