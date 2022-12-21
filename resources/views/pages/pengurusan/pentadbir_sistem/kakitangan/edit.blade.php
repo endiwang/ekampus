@@ -148,57 +148,26 @@
                             {{ Form::label('jawatan', 'Jawatan', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required pb-0']) }}
                             <!--end::Label-->
                             <!--begin::Col-->
-                            <div class="col-lg-8">
+                            {{-- <div class="col-lg-8">
                                 <label class="form-check form-check-custom form-check-inline">
                                     <input class="form-check-input" name="jawatan[]" type="checkbox" value="1" @if($staff->is_pensyarah == 'Y') checked @endif>
                                     <span class="fw-semibold ps-2 fs-7">Pensyarah</span>
                                 </label>
-                            </div>
+                            </div> --}}
                             <!--end::Col-->
                         </div>
-                        <div class="row mb-3">
-                            <!--begin::Col-->
-                            <div class="offset-lg-4 col-lg-8">
-                                <label class="form-check form-check-custom form-check-inline">
-                                    <input class="form-check-input" name="jawatan[]" type="checkbox" value="1" @if($staff->is_guru_tasmik == 'Y') checked @endif/>
-                                    <span class="fw-semibold ps-2 fs-7">Pensyarah Tasmik</span>
-                                </label>
+                        @foreach ($role_child_kakitangan as $role)
+                            <div class="row mb-3">
+                                <!--begin::Col-->
+                                <div class="offset-lg-4 col-lg-8">
+                                    <label class="form-check form-check-custom form-check-inline">
+                                        <input class="form-check-input" name="jawatan[]" type="checkbox" value="{{ $role->id }}" @if($user_staff->hasRole([$role->id])) checked @endif/>
+                                        <span class="fw-semibold ps-2 fs-7 text-capitalize">{{ $role->display_name }}</span>
+                                    </label>
+                                </div>
+                                <!--end::Col-->
                             </div>
-                            <!--end::Col-->
-                        </div>
-                        <div class="row mb-3">
-                            <!--begin::Col-->
-                            <div class="offset-lg-4 col-lg-8">
-                                <label class="form-check form-check-custom form-check-inline">
-                                    <input class="form-check-input" name="jawatan[]" type="checkbox" value="1" @if($staff->is_guru_tasmik_jemputan == 'Y') checked @endif/>
-                                    <span class="fw-semibold ps-2 fs-7">Pensyarah Tasmik Jemputan</span>
-                                </label>
-                            </div>
-                            <!--end::Col-->
-                        </div>
-
-                        <div class="row mb-3">
-                            <!--begin::Col-->
-                            <div class="offset-lg-4 col-lg-8">
-                                <label class="form-check form-check-custom form-check-inline">
-                                    <input class="form-check-input" name="jawatan[]" type="checkbox" value="1" @if($staff->is_warden == 'Y') checked @endif/>
-                                    <span class="fw-semibold ps-2 fs-7">Warden</span>
-                                </label>
-                            </div>
-                            <!--end::Col-->
-                        </div>
-
-                        <div class="row mb-1">
-                            <!--begin::Col-->
-                            <div class="offset-lg-4 col-lg-8">
-                                <label class="form-check form-check-custom form-check-inline">
-                                    <input class="form-check-input" name="jawatan[]" type="checkbox" value="1" @if($staff->is_tutor == 'Y') checked @endif/>
-                                    <span class="fw-semibold ps-2 fs-7">Tutor</span>
-                                </label>
-                            </div>
-                            <!--end::Col-->
-                        </div>
-                        <!--end::Input group-->
+                        @endforeach
                         <!--begin::Input group-->
                         <div class="row mb-0">
                             <!--begin::Label-->

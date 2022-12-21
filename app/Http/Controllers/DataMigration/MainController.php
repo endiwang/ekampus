@@ -361,34 +361,60 @@ class MainController extends Controller
                 $user = User::where('username', $datum->fld_kp)->first();
             }
 
-            Staff::create([
-                'user_id' => $user->id,
-                'staff_id'  => $datum->staff_id,
-                'nama' => $datum->fld_staff,
-                'pusat_pengajian_id' => $datum->fldpusat,
-                'jawatan' => $datum->fld_jawatan,
-                'gred' => $datum->gred,
-                'no_ic' => $datum->fld_kp,
-                'tarikh_lahir' => $tarikh_lahir,
-                'jantina' => $datum->fld_jantina,
-                'warganegara' => $datum->fld_warganegara,
-                'status' => $datum->fld_status,
-                'alamat' => $datum->fld_alamat,
-                'no_tel' => $datum->fld_tel,
-                'email' => $datum->fld_email,
-                'img_staff' => $datum->fld_image,
-                'is_pensyarah' => $datum->is_pensyarah,
-                'is_pensyarah_jemputan' => $datum->is_gg_pensyarah,
-                'is_guru_tasmik' => $datum->is_gtasmik,
-                'is_guru_tasmik_jemputan' => $datum->is_gg_tasmik,
-                'is_tutor' => $datum->is_tutor,
-                'is_hep' => $datum->is_hep,
-                'is_warden' => $datum->is_warden,
-                'jabatan_id' => $datum->jabatan_id,
-                'is_deleted' => $datum->is_deleted,
-                'deleted_by' => $datum->deleted_by,
-                'deleted_at' => $datum->deleted_dt,
-            ]);
+            $created_staff = Staff::create([
+                                'user_id' => $user->id,
+                                'staff_id'  => $datum->staff_id,
+                                'nama' => $datum->fld_staff,
+                                'pusat_pengajian_id' => $datum->fldpusat,
+                                'jawatan' => $datum->fld_jawatan,
+                                'gred' => $datum->gred,
+                                'no_ic' => $datum->fld_kp,
+                                'tarikh_lahir' => $tarikh_lahir,
+                                'jantina' => $datum->fld_jantina,
+                                'warganegara' => $datum->fld_warganegara,
+                                'status' => $datum->fld_status,
+                                'alamat' => $datum->fld_alamat,
+                                'no_tel' => $datum->fld_tel,
+                                'email' => $datum->fld_email,
+                                'img_staff' => $datum->fld_image,
+                                'is_pensyarah' => $datum->is_pensyarah,
+                                'is_pensyarah_jemputan' => $datum->is_gg_pensyarah,
+                                'is_guru_tasmik' => $datum->is_gtasmik,
+                                'is_guru_tasmik_jemputan' => $datum->is_gg_tasmik,
+                                'is_tutor' => $datum->is_tutor,
+                                'is_hep' => $datum->is_hep,
+                                'is_warden' => $datum->is_warden,
+                                'jabatan_id' => $datum->jabatan_id,
+                                'is_deleted' => $datum->is_deleted,
+                                'deleted_by' => $datum->deleted_by,
+                                'deleted_at' => $datum->deleted_dt,
+                            ]);
+
+            $user->assignRole('kakitangan');
+
+            if($datum->is_deleted == 0 and $datum->deleted_at == NULL)
+            {
+                if($created_staff->is_pensyarah == 'Y')
+                {
+                    $user->assignRole('pensyarah');
+                }
+                if($created_staff->is_guru_tasmik == 'Y')
+                {
+                    $user->assignRole('pensyarah_tasmik');
+                }
+                if($created_staff->is_guru_tasmik_jemputan == 'Y')
+                {
+                    $user->assignRole('pensyarah_tasmik_jemputan');
+                }
+                if($created_staff->is_warden == 'Y')
+                {
+                    $user->assignRole('warden');
+                }
+                if($created_staff->is_tutor == 'Y')
+                {
+                    $user->assignRole('tutor');
+                }
+            }
         }
 
         dd('done');
