@@ -25,7 +25,7 @@ class SubjekController extends Controller
             $title = "Subjek";
             $breadcrumbs = [
                 "Akademik" =>  false,
-                "Maklumat Subjek" =>  false,
+                "Maklumat Kursus Bagi Maklumat Subjek" =>  false,
             ];
 
             $buttons = [];
@@ -46,8 +46,11 @@ class SubjekController extends Controller
                 })
                 ->addColumn('bil_subjek', function($data)
                 {
+                    $total_subject = Subjek::where('kursus_id', $data->id)->count();
 
+                    return '<span class="dt-center">' .$total_subject .'</span>';
                 })
+                ->addIndexColumn()
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
@@ -110,29 +113,69 @@ class SubjekController extends Controller
             $title = "Subjek";
             $breadcrumbs = [
                 "Akademik" =>  false,
+                "Maklumat Kursus Bagi Maklumat Subjek" =>  route('pengurusan.akademik.subjek.index'),
                 "Maklumat Subjek" =>  false,
             ];
 
-            $buttons = [];
+            $buttons = [
+                [
+                    'title' => "Tambah Subjek", 
+                    'route' => route('pengurusan.akademik.subjek.create'), 
+                    'button_class' => "btn btn-sm btn-primary fw-bold",
+                    'icon_class' => "fa fa-plus-circle"
+                ],
+            ];
 
             if (request()->ajax()) {
                 $data = Subjek::where('kursus_id', $id);
                 return DataTables::of($data)
-                ->addColumn('bil_subjek', function($data) {
-                    return '0';
+                ->addColumn('is_alquran', function($data) {
+                    switch ($data->is_alquran) {
+                        case 1:
+                            return 'Quran [A >= 90]';
+                          break;
+                        case 2:
+                            return 'Quran [A >= 80]';
+                        default:
+                          return '-';
+                    }
+                })
+                ->addColumn('is_calc', function($data) {
+                    switch ($data->is_calc) {
+                        case 0:
+                            return 'Ya';
+                          break;
+                        case 1:
+                            return '-';
+                        default:
+                          return '-';
+                    }
+                })
+                ->addColumn('is_print', function($data) {
+                    switch ($data->is_calc) {
+                        case 0:
+                            return 'Ya';
+                          break;
+                        case 1:
+                            return '-';
+                        default:
+                          return '-';
+                    }
                 })
                 ->addColumn('action', function($data)
                 {
-                    return '<div class="btn-group btn-group-sm">
-                            <a href="'.route('pengurusan.akademik.subjek.show',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Lihat Subjek">
-                                <i class="fa fa-eye"></i>
+                    return '<a href="'.route('pengurusan.akademik.subjek.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                                <i class="fa fa-pencil-alt"></i>
                             </a>
-                        </div>';
+                            <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id .')" data-bs-toggle="tooltip" title="Hapus">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                            <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.subjek.destroy', $data->id).'" method="POST">
+                                <input type="hidden" name="_token" value="'.csrf_token().'">
+                                <input type="hidden" name="_method" value="DELETE">
+                            </form>';
                 })
-                ->addColumn('bil_subjek', function($data)
-                {
-
-                })
+                ->addIndexColumn()
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
@@ -146,12 +189,17 @@ class SubjekController extends Controller
                 ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Subjek', 'orderable'=> false, 'class'=>'text-bold'],
                 ['data' => 'kod_subjek', 'name' => 'kod_subjek', 'title' => 'Kod Subjek'],
                 ['data' => 'maklumat_tambahan', 'name' => 'maklumat_tambahan', 'title' => 'Maklumat'],
+                ['data' => 'kredit', 'name' => 'kredit', 'title' => 'Kredit'],
+                ['data' => 'is_alquran', 'name' => 'is_alquran', 'title' => 'Al-Quran'],
+                ['data' => 'is_calc', 'name' => 'is_calc', 'title' => 'Pengiraan'],
+                ['data' => 'is_print', 'name' => 'is_print', 'title' => 'Cetakan'],
+                ['data' => 'status', 'name' => 'status', 'title' => 'Status'],
                 ['data' => 'action', 'name' => 'action', 'title' => 'Tindakan', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
     
             ])
             ->minifiedAjax();
     
-            return view('pages.pengurusan.akademik.subjek.all_subjek', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
+            return view('pages.pengurusan.akademik.subjek.show', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
 
             
         }catch (Exception $e) {
@@ -170,7 +218,26 @@ class SubjekController extends Controller
      */
     public function edit($id)
     {
-        //
+        try {
+
+            $title = "Subjek";
+            $breadcrumbs = [
+                "Akademik" =>  false,
+                "Maklumat Kursus Bagi Maklumat Subjek" =>  route('pengurusan.akademik.subjek.index'),
+                "Maklumat Subjek" =>  false,
+            ];
+
+            $buttons = [];
+
+
+            return view('pages.pengurusan.akademik.subjek.show', compact('title', 'breadcrumbs', 'buttons'));
+
+        }catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
     }
 
     /**
