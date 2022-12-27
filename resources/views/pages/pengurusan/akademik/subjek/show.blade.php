@@ -87,6 +87,29 @@
 
 @push('scripts')
     <script>
+        function remove(id){
+            Swal.fire({
+                title: 'Are you sure you want to delete this data?',
+                text: 'This action cannot be undone.',
+                showCancelButton: true,
+                cancelButtonText: 'Cancel',
+                confirmButtonText: 'Delete',
+                reverseButtons: true,
+                customClass: {
+                    title: 'swal-modal-delete-title',
+                    htmlContainer: 'swal-modal-delete-container',
+                    cancelButton: 'btn btn-light btn-sm mr-1',
+                    confirmButton: 'btn btn-primary btn-sm ml-1'
+                },
+                buttonsStyling: false
+            })
+                .then((result) => {
+                    if(result.isConfirmed){
+                        document.getElementById(`delete-${id}`).submit();
+                    }
+                })
+        }
+        
         const { createApp } = Vue
 
         createApp({

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class Subjek extends Model
 {
+    
+    
     use HasFactory;
     use HasFactory, SoftDeletes;
     protected $table = 'subjek';

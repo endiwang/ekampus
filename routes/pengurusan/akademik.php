@@ -13,6 +13,8 @@ Route::post('kelas/edit', [KelasController::class, 'edit'])->name('pengurusan_ke
 Route::post('kelas/store', [KelasController::class, 'store'])->name('pengurusan_kelas.store');
 Route::resource('kelas', KelasController::class);
 
-
+Route::post('subjek/store', [SubjekController::class, 'store'])->name('pengurusan_subjek.store');
+Route::get('subjek/edit/{id}/{course_id}', [SubjekController::class, 'edit'])->name('pengurusan_subjek.edit');
+Route::get('subjek/create/{id}', [SubjekController::class, 'create'])->name('pengurusan_subjek.create');
 Route::resource('subjek', SubjekController::class);
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pengurusan\Akademik;
 
+use App\Constants\Generic;
 use App\Http\Controllers\Controller;
 use App\Models\Kursus;
 use App\Models\Subjek;
@@ -84,9 +85,52 @@ class SubjekController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        try {
+
+            $title = "Subjek";
+            $action = route('pengurusan.akademik.pengurusan_subjek.store');
+            $page_title = 'Tambah Maklumat Subjek';
+            $breadcrumbs = [
+                "Akademik" =>  false,
+                "Maklumat Kursus Bagi Maklumat Subjek" =>  route('pengurusan.akademik.subjek.index'),
+                "Maklumat Subjek" =>  route('pengurusan.akademik.subjek.show', $id),
+                "Tambah Maklumat Subjek" => false
+            ];
+
+            $buttons = [];
+
+            $course = Kursus::select('id','nama')->find($id);
+
+            $al_quran = [
+                Generic::TIDAK              => 'Tidak',
+                Generic::SYAFAWI_TAHRIRI_90 => 'Syafawi / Tahriri (A >= 90)',
+                Generic::SYAFAWI_TAHRIRI_80 => 'Syafawi / Tahriri (A >= 80)',
+            ];
+
+            $count_info = [
+                Generic::JAM_KREDIT_DIKIRA          => 'Jam Kredit Dikira Dalam Pengiraan Markah',
+                Generic::JAM_KREDIT_TIDAK_DIKIRA    => 'Tidak Termasuk Dalam Pengiraan'
+            ];
+
+            $print_info = [
+                Generic::DICETAK_DALAM_SLIP         => 'Dicetak Dalam Slip Keputusan',
+                Generic::TIDAK_DICETAK_DALAM_SLIP   => 'Tidak Dicetak'
+            ];
+
+            $model = new Subjek();
+
+
+            return view('pages.pengurusan.akademik.subjek.add_edit', compact('title', 'action', 'page_title', 'breadcrumbs', 'buttons', 
+                    'course', 'model', 'al_quran', 'count_info', 'print_info', 'id'));
+
+        }catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -97,7 +141,51 @@ class SubjekController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation = $request->validate([
+            'kod_subjek'        => 'required',
+            'nama_subjek'       => 'required',
+            'kredit'            => 'required',
+            'jumlah_markah'     => 'required',
+            'al_quran'          => 'required',
+            'count_info'        => 'required',
+            'print_info'        => 'required',
+            'status'            => 'required',
+        ],[
+            'kod_subjek.required'      => 'Sila masukkan maklumat kod subjek',
+            'nama_subjek.required'     => 'Sila masukkan maklumat nama subjek',
+            'kredit.required'          => 'Sila pilih jam kredit',
+            'jumlah_markah.required'   => 'Sila masukkan maklumat jumlah markah',
+            'al_quran.required'        => 'Sila pilih maklumat al quran',
+            'count_info.required'      => 'Sila pilih maklumat pengiraan',
+            'print_info.required'      => 'Sila pilih maklumat cetakan',
+        ]);
+
+        try {
+           
+            Subjek::create([
+                'nama'              => $request->nama_subjek,
+                'kursus_id'         => $request->kursus_id,
+                'kod_subjek'        => $request->kod_subjek,
+                'maklumat_tambahan' => $request->kenyataan,
+                'kredit'            => $request->kredit,
+                'jumlah_markah'     => $request->jumlah_markah,
+                'is_alquran'        => $request->al_quran,
+                'is_calc'           => $request->count_info,
+                'is_print'          => $request->print_info,
+                'status'            => $request->status,
+            ]);
+
+
+            Alert::toast('Maklumat subjek berjaya ditambah!', 'success');
+            return redirect()->route('pengurusan.akademik.subjek.show', $request->kursus_id);
+
+
+        }catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -119,10 +207,10 @@ class SubjekController extends Controller
 
             $buttons = [
                 [
-                    'title' => "Tambah Subjek", 
-                    'route' => route('pengurusan.akademik.subjek.create'), 
-                    'button_class' => "btn btn-sm btn-primary fw-bold",
-                    'icon_class' => "fa fa-plus-circle"
+                    'title'         => "Tambah Subjek", 
+                    'route'         => route('pengurusan.akademik.pengurusan_subjek.create', $id), 
+                    'button_class'  => "btn btn-sm btn-primary fw-bold",
+                    'icon_class'    => "fa fa-plus-circle"
                 ],
             ];
 
@@ -162,9 +250,20 @@ class SubjekController extends Controller
                           return '-';
                     }
                 })
+                ->addColumn('status', function($data) {
+                    switch ($data->status) {
+                        case 0:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-success">Aktif</span>';
+                          break;
+                        case 1:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Aktif</span>';
+                        default:
+                          return '';
+                    }
+                })
                 ->addColumn('action', function($data)
                 {
-                    return '<a href="'.route('pengurusan.akademik.subjek.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                    return '<a href="'.route('pengurusan.akademik.pengurusan_subjek.edit',[$data->id, $data->kursus_id]).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
                             <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id .')" data-bs-toggle="tooltip" title="Hapus">
@@ -179,7 +278,7 @@ class SubjekController extends Controller
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['nama','bil_subjek','action'])
+                ->rawColumns(['status','action'])
                 ->toJson();
             }
     
@@ -216,21 +315,45 @@ class SubjekController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, $course_id)
     {
         try {
 
             $title = "Subjek";
+            $action = route('pengurusan.akademik.subjek.update', $id);
+            $page_title = 'Selenggara Maklumat Subjek';
             $breadcrumbs = [
                 "Akademik" =>  false,
                 "Maklumat Kursus Bagi Maklumat Subjek" =>  route('pengurusan.akademik.subjek.index'),
-                "Maklumat Subjek" =>  false,
+                "Maklumat Subjek" =>  route('pengurusan.akademik.subjek.show', $id),
+                "Selenggara Maklumat Subjek" => false
             ];
 
             $buttons = [];
 
+            $course = Kursus::select('id', 'nama')->find($course_id);
 
-            return view('pages.pengurusan.akademik.subjek.show', compact('title', 'breadcrumbs', 'buttons'));
+            $al_quran = [
+                Generic::TIDAK              => 'Tidak',
+                Generic::SYAFAWI_TAHRIRI_90 => 'Syafawi / Tahriri (A >= 90)',
+                Generic::SYAFAWI_TAHRIRI_80 => 'Syafawi / Tahriri (A >= 80)',
+            ];
+
+            $count_info = [
+                Generic::JAM_KREDIT_DIKIRA          => 'Jam Kredit Dikira Dalam Pengiraan Markah',
+                Generic::JAM_KREDIT_TIDAK_DIKIRA    => 'Tidak Termasuk Dalam Pengiraan'
+            ];
+
+            $print_info = [
+                Generic::DICETAK_DALAM_SLIP         => 'Dicetak Dalam Slip Keputusan',
+                Generic::TIDAK_DICETAK_DALAM_SLIP   => 'Tidak Dicetak'
+            ];
+
+            $model = Subjek::find($id);
+
+
+            return view('pages.pengurusan.akademik.subjek.add_edit', compact('title', 'action', 'page_title', 'breadcrumbs', 'buttons', 
+                    'course', 'model', 'al_quran', 'count_info', 'print_info', 'id'));
 
         }catch (Exception $e) {
             report($e);
@@ -249,7 +372,50 @@ class SubjekController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validation = $request->validate([
+            'kod_subjek'        => 'required',
+            'nama_subjek'       => 'required',
+            'kredit'            => 'required',
+            'jumlah_markah'     => 'required',
+            'al_quran'          => 'required',
+            'count_info'        => 'required',
+            'print_info'        => 'required',
+            'status'            => 'required',
+        ],[
+            'kod_subjek.required'      => 'Sila masukkan maklumat kod subjek',
+            'nama_subjek.required'     => 'Sila masukkan maklumat nama subjek',
+            'kredit.required'          => 'Sila pilih jam kredit',
+            'jumlah_markah.required'   => 'Sila masukkan maklumat jumlah markah',
+            'al_quran.required'        => 'Sila pilih maklumat al quran',
+            'count_info.required'      => 'Sila pilih maklumat pengiraan',
+            'print_info.required'      => 'Sila pilih maklumat cetakan',
+        ]);
+
+        try {
+           
+            Subjek::where('id', $id)->update([
+                'nama'              => $request->nama_subjek,
+                'kursus_id'         => $request->kursus_id,
+                'kod_subjek'        => $request->kod_subjek,
+                'maklumat_tambahan' => $request->kenyataan,
+                'kredit'            => $request->kredit,
+                'jumlah_markah'     => $request->jumlah_markah,
+                'is_alquran'        => $request->al_quran,
+                'is_calc'           => $request->count_info,
+                'is_print'          => $request->print_info,
+                'status'            => $request->status,
+            ]);
+
+
+            Alert::toast('Maklumat subjek berjaya dipinda!', 'success');
+            return redirect()->route('pengurusan.akademik.pengurusan_subjek.edit', [$id, $request->kursus_id]);
+
+        }catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -260,6 +426,18 @@ class SubjekController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+
+            Subjek::find($id)->delete();
+
+            Alert::toast('Maklumat subjek berjaya dihapuskan!', 'success');
+            return redirect()->back();
+
+        }catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
     }
 }
