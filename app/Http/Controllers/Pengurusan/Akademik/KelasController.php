@@ -77,6 +77,9 @@ class KelasController extends Controller
                         return 'N/A';
                     }
                 })
+                ->addColumn('status_guru_tasmik', function($data) {
+                    return '-';
+                })
                 ->addColumn('status', function($data) {
                     switch ($data->status) {
                         case 0:
@@ -90,11 +93,14 @@ class KelasController extends Controller
                 })
                 ->addColumn('action', function($data){
                     return '<div class="btn-group btn-group-sm">
-                            <a href="'.route('pengurusan.akademik.kelas.edit',$data->id).'" class="edit btn btn-primary btn-sm hover-elevate-up mb-1">
-                                Pinda
+                            <a href="'.route('pengurusan.pentadbir_sistem.kakitangan.show',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Cetak Kehadiran">
+                                <i class="fa fa-print"></i>
                             </a>
-                            <a class="btn btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id .')">
-                                Hapus
+                            <a href="'.route('pengurusan.akademik.kelas.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                                <i class="fa fa-pencil-alt"></i>
+                            </a>
+                            <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id .')" data-bs-toggle="tooltip" title="Hapus">
+                                <i class="fa fa-trash"></i>
                             </a>
                             <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.kelas.destroy', $data->id).'" method="POST">
                                 <input type="hidden" name="_token" value="'.csrf_token().'">
@@ -118,7 +124,7 @@ class KelasController extends Controller
                 ['data' => 'sesi', 'name' => 'sesi', 'title' => 'Tahun', 'orderable'=> false],
                 ['data' => 'semasa_syukbah_id', 'name' => 'semasa_syukbah_id', 'title' => 'Syukbah', 'orderable'=> false],
                 ['data' => 'jumlah_pelajar', 'name' => 'jumlah_pelajar', 'title' => 'Bil Pelajar', 'orderable'=> false],
-                ['data' => 'sesi', 'name' => 'sesi', 'title' => 'Status Guru Tasmik', 'orderable'=> false],
+                ['data' => 'status_guru_tasmik', 'name' => 'status_guru_tasmik', 'title' => 'Status Guru Tasmik', 'orderable'=> false],
                 ['data' => 'kapasiti_pelajar', 'name' => 'kapasiti_pelajar', 'title' => 'Kuota Pelajar', 'orderable'=> false],
                 ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],

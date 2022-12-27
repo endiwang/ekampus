@@ -15,12 +15,17 @@ class Kelas extends Model
 
     public function currentSemester()
     {
-        return $this->belongsTo('App\Models\Semester', 'semasa_semester_id', 'id');
+        return $this->belongsTo(Semester::class, 'semasa_semester_id', 'id');
     }
 
     public function currentSyukbah()
     {
-        return $this->belongsTo('App\Models\Syukbah', 'semasa_syukbah_id', 'id');
+        return $this->belongsTo(Syukbah::class, 'semasa_syukbah_id', 'id');
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subjek::class, 'kursus_id', 'id');
     }
 
 }
