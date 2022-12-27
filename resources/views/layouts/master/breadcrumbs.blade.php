@@ -15,7 +15,7 @@
                                     <span class="bullet bg-gray-400 w-5px h-2px"></span>
                                 </li>
                                 <li class="breadcrumb-item text-capitalize text-muted">
-                                    <a href="{{ $itm }}">{{ $ky }}</a>
+                                    <a class="text-muted text-hover-primary" href="{{ $itm }}">{{ $ky }}</a>
                                 </li>
                             @else
                                 <li class="breadcrumb-item">
@@ -32,7 +32,7 @@
                                 <span class="bullet bg-gray-400 w-5px h-2px"></span>
                             </li>
                             <li class="breadcrumb-item text-capitalize text-muted">
-                                <a href="{{ $item }}">{{ $key }}</a>
+                                <a class="text-muted text-hover-primary" href="{{ $item }}">{{ $key }}</a>
                             </li>
                         @else
                             <li class="breadcrumb-item">
