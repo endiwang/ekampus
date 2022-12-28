@@ -74,17 +74,63 @@
                                     </div>
                                 </div>
                             </div>
-                            
                         </form>
                     </div>
                 </div>
             </div>
         </div>
         <!--end::Row-->
+
+        @if(!empty($model->id))
+        <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+            <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                <div class="card">
+                    <div class="card-header d-flex flex-row-reverse justify-content-between">
+                        <div>
+                            <button class="btn btn-icon btn-info btn-sm hover-elevate-up mt-5" title="Muat Turun Senarai Pelajar">
+                                <i class="fa fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body py-5">
+                        {{ $dataTable->table(['class'=>'table table-striped table-row-bordered gy-5 gs-7 border rounded']) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 @endsection
 
 @push('scripts')
+<script>
+    const { createApp } = Vue
+
+    createApp({
+    data() {
+        return {
+            show_section_1: true,
+            show_section_2: false,
+        }
+    },
+    methods: {
+            viewMore(){
+                this.show_section_1 = false;
+                this.show_section_2 = true;
+            },
+            hideMore(){
+                this.show_section_1 = true;
+                this.show_section_2 = false;
+            },
+        },
+    mounted() {
+
+        },
+    }).mount('#advanceSearch')
+</script>
+
+
+{!! $dataTable->scripts() !!}
 
 @endpush

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Kelas extends Model
 {
@@ -26,6 +27,18 @@ class Kelas extends Model
     public function subject()
     {
         return $this->belongsTo(Subjek::class, 'kursus_id', 'id');
+    }
+
+    public function students()
+    {
+        return $this->hasMany(Pelajar::class);
+    }
+
+    public function getCountPelajarAttribute()
+    {
+        $count = self::students()->count();
+
+        return $count;
     }
 
 }
