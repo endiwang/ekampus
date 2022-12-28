@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pengurusan\Akademik;
 
+use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
 use App\Models\Kelas;
 use App\Models\Pelajar;
@@ -158,7 +159,7 @@ class KelasController extends Controller
             $page_title = 'Tambah Kelas Baru';
             $breadcrumbs = [
                 "Akademik" =>  false,
-                "Pengurusan Kursus" =>  false,
+                "Pengurusan Kelas" =>  false,
                 "Tambah Kelas" =>  false,
             ];
 
@@ -249,7 +250,7 @@ class KelasController extends Controller
             $page_title = 'Pinda Kelas' . $model->name;
             $breadcrumbs = [
                 "Akademik" =>  false,
-                "Pengurusan Kursus" => route('pengurusan.akademik.kelas.index'),
+                "Pengurusan Kelas" => route('pengurusan.akademik.kelas.index'),
                 "Pinda Kelas" =>  false,
             ];
 
@@ -390,8 +391,52 @@ class KelasController extends Controller
         }
     }
 
-    public function exportStudentByClass()
+    public function exportStudentByClass(Request $request)
+    {
+        //try {
+            $class_detail = Kelas::select('nama')->find($request->class_id);
+            $title = 'Senarai Pelajar bagi ' . $class_detail->nama;
+
+            $type = $request->export_type;
+            switch($type)
+            {
+                case 'pdf' :
+
+                    $datas      = $this->exportDataProcess($request->class_id);
+                    $view_file  = 'pages.pengurusan.akademik.kelas.export_pdf';
+
+                    return Utils::pdfGenerate($title, $datas, $view_file);
+
+                break;
+
+                case 'excel' :
+
+                break;
+            }
+
+        // }catch (Exception $e) {
+        //     report($e);
+    
+        //     Alert::toast('Uh oh! Sesuatu yang tidak diingini berlaku', 'error');
+        //     return redirect()->back();
+        // }
+    }
+
+    private function exportDataProcess($class_id)
     {
         
+        $students = Pelajar::where('kelas_id', $class_id)->get();
+
+        $class = Kelas::find($class_id);
+
+        $datas = [
+            'class_name'    => $class->nama,
+            'max_student'   => $class->kapasiti_pelajar,
+            'status'        => $class->status == 0 ? 'Aktif' : 'Tidak Aktif',  
+            'students'      => $students
+        ];
+
+        return $datas;
+
     }
 }

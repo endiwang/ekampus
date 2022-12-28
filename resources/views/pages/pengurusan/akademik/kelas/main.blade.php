@@ -9,72 +9,19 @@
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                     <div class="card" id="advanceSearch">
                         <div class="card-body py-5">
-                            <form id="kt_ecommerce_settings_general_form" class="form" action="#">
-                                <div class="row fv-row mb-2" v-show="show_section_1">
-                                    <div class="col-md-3 text-md-end">
-                                        {{ Form::label('maklumat_carian', 'Maklumat Carian', ['class' => 'fs-6 fw-semibold form-label mt-2']) }}
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="d-flex">
-                                            {{ Form::text('maklumat_carian','',['class' => 'form-control me-3 form-control-sm']) }}
-
-                                            <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0"
-                                            data-clipboard-target="#kt_share_earn_link_input"><i class="fa fa-search" style="vertical-align: initial"></i>Cari</button>
-                                        </div>
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
+                                    {{ Form::label('maklumat_carian', 'Maklumat Carian', ['class' => 'fs-6 fw-semibold form-label mt-2']) }}
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="d-flex">
+                                        <input type="text" v-model="keyword.search" v-on:keyup.enter="search()" class="form-control me-3 form-control-sm">
+                                        <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0" @click="search()">
+                                            <i class="fa fa-search" style="vertical-align: initial"></i>Cari
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="row mb-2" v-show="show_section_1">
-                                    <div class="col-md-9 offset-md-3">
-                                        <div class="d-flex">
-                                            <!--begin::Button-->
-                                            <button type="button" class="btn btn-light me-3 btn-sm" @click='viewMore'>Lebih Banyak Pilihan Tapisan</button>
-                                            <!--end::Button-->
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row fv-row mb-2" v-show="show_section_2">
-                                    <div class="col-md-3 text-md-end">
-                                        {{ Form::label('maklumat_carian', 'Maklumat Carian', ['class' => 'fs-6 fw-semibold form-label mt-2']) }}
-                                    </div>
-                                    <div class="col-md-9">
-                                        {{ Form::text('maklumat_carian','',['class' => 'form-control form-control-sm']) }}
-                                    </div>
-                                </div>
-                                <div class="row fv-row mb-2" v-show="show_section_2">
-                                    <div class="col-md-3 text-md-end">
-                                        {{ Form::label('search_kelas', 'Kelas', ['class' => 'fs-6 fw-semibold form-label mt-2']) }}
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="w-100">
-                                            {{ Form::text('search_kelas','',['placeholder' => 'Cari Kelas','class' => 'form-control form-control-sm']) }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row fv-row mb-2" v-show="show_section_2">
-                                    <div class="col-md-3 text-md-end">
-                                        {{ Form::label('search_semester', 'Semester', ['class' => 'fs-6 fw-semibold form-label mt-2']) }}
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="w-100">
-                                            {{ Form::text('search_semester','',['placeholder' => 'Pilih Semester','class' => 'form-control form-control-sm']) }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row" v-show="show_section_2">
-                                    <div class="col-md-9 offset-md-3">
-                                        <div class="d-flex">
-                                            <!--begin::Button-->
-                                            <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success me-3 btn-sm">
-                                                <i class="fa fa-search" style="vertical-align: initial"></i>Cari
-                                            </button>
-                                            <button type="button" @click='hideMore' class="btn btn-light btn-sm">Kurangkan Pilihan Tapisan</button>
-                                            <!--end::Button-->
-                                            <!--begin::Button-->
-                                            <!--end::Button-->
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -125,8 +72,10 @@
         createApp({
         data() {
             return {
-                show_section_1: true,
-                show_section_2: false,
+                table: null,
+                keyword: {
+                    search:null,
+                }
             }
         },
         methods: {
@@ -137,6 +86,10 @@
                 hideMore(){
                     this.show_section_1 = true;
                     this.show_section_2 = false;
+                },
+                search() {
+                    console.log(this.search);
+                    this.search(this.keyword.search).draw();
                 },
             },
         mounted() {

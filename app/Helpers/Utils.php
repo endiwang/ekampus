@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Carbon\Carbon;
+use PDF;
 
 class Utils
 {
@@ -18,5 +19,12 @@ class Utils
         $date = Carbon::parse($date)->format('d/m/Y H:i:s A');
 
         return $date;
+    }
+
+    public static function pdfGenerate($title, $datas, $view_file)
+    {
+        $pdf = PDF::loadView($view_file, $datas)->setPaper('a4', 'potrait');
+
+        return $pdf->stream($title. '.pdf');
     }
 }

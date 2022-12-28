@@ -9,6 +9,7 @@ use App\Http\Controllers\Pengurusan\Akademik\SubjekController;
 Route::resource('/', MainAkademikController::class)->only(['index',]);
 Route::resource('kursus', KursusController::class);
 
+Route::post('kelas/export/by_class', [KelasController::class, 'exportStudentByClass'])->name('pengurusan_kelas.export_by_class');
 Route::post('kelas/edit', [KelasController::class, 'edit'])->name('pengurusan_kelas.store');
 Route::post('kelas/store', [KelasController::class, 'store'])->name('pengurusan_kelas.store');
 Route::resource('kelas', KelasController::class);
