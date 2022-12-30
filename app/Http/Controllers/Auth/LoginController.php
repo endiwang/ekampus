@@ -72,8 +72,7 @@ class LoginController extends Controller
 
     protected function authenticatedPemohon(Request $request, $user)
     {
-        dd(Auth::guard('pemohon')->user());
-        return redirect()->route('login');
+        return redirect()->route('pemohon.utama.index');
     }
 
 }

@@ -1,45 +1,138 @@
-@extends('layouts.auth.main')
+@extends('layouts.public.main_inner')
+
 @section('content')
-<div class="d-flex flex-column flex-root" id="kt_app_root">
-    <style>body { background-image: url('https://selangor.travel/wp-content/uploads/2020/11/Darul_Quran_Tourism_Selangor_Lakeview.jpg'); } [data-theme="dark"] body { background-image: url('https://selangor.travel/wp-content/uploads/2020/11/Darul_Quran_Tourism_Selangor_Lakeview.jpg'); }</style>
-    <div class="d-flex flex-column flex-column-fluid flex-lg-row">
-        <div class="d-flex flex-center w-lg-50 pt-15 pt-lg-0 px-10">
-            <div class="d-flex flex-center flex-lg-start flex-column">
-                <a href="../../demo1/dist/index.html" class="mb-7">
-                    <img alt="Logo" src="assets/media/logos/custom-3.svg" />
-                </a>
-                <h2 class="text-white fw-normal m-0">Branding tools designed for your business</h2>
-            </div>
+    <!--begin::How It Works Section-->
+    {{-- <div class="mb-n10 mb-lg-n20">
+        <!--begin::Container-->
+        <div class="container">
+
         </div>
-        <div class="d-flex flex-center w-lg-50 p-10">
-            <div class="card rounded-3 w-md-550px">
-                <div class="card-body p-10 p-lg-20">
-                    <form class="form w-100" id="kt_sign_in_for" method="POST" action="{{ route('login_pemohon') }}">
-                        @csrf
-                        <div class="text-center mb-11">
-                            <h1 class="text-dark fw-bolder mb-3">Log Masuk Pemohon</h1>
+        <!--end::Container-->
+    </div> --}}
+    <!--end::How It Works Section-->
+    <!--begin::How It Works Section-->
+    <div class="mb-10 mb-lg-10 z-index-2 mt-10">
+        <!--begin::Container-->
+        <div class="container">
+            <div class="text-center mb-17">
+                <!--begin::Title-->
+                <h3 class="fs-2hx text-dark mb-5" id="how-it-works" data-kt-scroll-offset="{default: 100, lg: 150}">Permohonan</h3>
+                <!--end::Title-->
+            </div>
+            <div class="row g-5 g-xl-8 justify-content-center">
+                <div class="col-xl-6">
+                    <div class="card card-flush shadow-sm">
+                        <div class="card-body p-10 p-lg-20">
+                            <!--begin::Form-->
+                            <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" method="POST" action="{{ route('login_pemohon') }}">
+                                @csrf
+                                <!--begin::Heading-->
+                                <div class="text-center mb-11">
+                                    <!--begin::Title-->
+                                    <h1 class="text-dark fw-bolder mb-3">Log Masuk Pemohon</h1>
+                                    <!--end::Title-->
+                                    <!--begin::Subtitle-->
+                                    <div class="text-gray-500 fw-semibold fs-6">Untuk permohonan, semakan dan rayuan</div>
+                                    <!--end::Subtitle=-->
+                                </div>
+                                <!--begin::Heading-->
+                                <!--begin::Input group=-->
+                                <div class="fv-row mb-3 fv-plugins-icon-container">
+                                    <!--begin::Email-->
+                                    <input type="text" placeholder="No. Kad Pengenalan" name="username" autocomplete="off" auto class="form-control bg-transparent form-control-sm">
+                                    <!--end::Email-->
+                                <div class="fv-plugins-message-container invalid-feedback"></div></div>
+                                <!--end::Input group=-->
+                                <div class="fv-row mb-8 fv-plugins-icon-container">
+                                    <!--begin::Password-->
+                                    <input type="password" placeholder="Katalaluan" name="password" autocomplete="off" class="form-control bg-transparent form-control-sm">
+                                    <!--end::Password-->
+                                <div class="fv-plugins-message-container invalid-feedback"></div></div>
+                                <!--end::Input group=-->
+                                <!--begin::Submit button-->
+                                <div class="d-grid mb-3">
+                                    <button type="submit" id="kt_sign_in_submit" class="btn btn-primary btn-sm">
+                                        <!--begin::Indicator label-->
+                                        <span class="indicator-label">Log Masuk</span>
+                                        <!--end::Indicator label-->
+                                        <!--begin::Indicator progress-->
+                                        <span class="indicator-progress">Please wait...
+                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                        <!--end::Indicator progress-->
+                                    </button>
+                                </div>
+                                <div class="d-grid mb-10">
+                                    <button type="button" id="kt_sign_in_submit" class="btn btn-success btn-sm">
+                                        <!--begin::Indicator label-->
+                                        <span class="indicator-label">Lupa Katalaluan?</span>
+                                        <!--end::Indicator label-->
+                                        <!--begin::Indicator progress-->
+                                        <span class="indicator-progress">Please wait...
+                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                        <!--end::Indicator progress-->
+                                    </button>
+                                </div>
+                                <!--end::Submit button-->
+                            </form>
+                            <!--end::Form-->
                         </div>
-                        <div class="fv-row mb-8">
-                            <input type="text" placeholder="Mykad/Pasport" name="username" autocomplete="off" class="form-control bg-transparent" />
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="card card-flush shadow-sm">
+                        <div class="card-body p-10 p-lg-20">
+                            <!--begin::Form-->
+                            <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate" id="kt_sign_in_form" data-kt-redirect-url="../../demo1/dist/index.html" action="#">
+                                <!--begin::Heading-->
+                                <div class="text-center mb-11">
+                                    <!--begin::Title-->
+                                    <h1 class="text-dark fw-bolder mb-3">Pendaftaran Akaun Pemohon</h1>
+                                    <!--end::Title-->
+                                    <!--begin::Subtitle-->
+                                    <div class="text-gray-500 fw-semibold fs-6">Untuk pemohon baru sahaja</div>
+                                    <!--end::Subtitle=-->
+                                </div>
+                                <!--begin::Heading-->
+                                <!--begin::Input group=-->
+                                <div class="fv-row mb-3 fv-plugins-icon-container">
+                                    <!--begin::Email-->
+                                    <input type="text" placeholder="No. Kad Pengenalan" name="no_ic" autocomplete="off" auto class="form-control bg-transparent form-control-sm">
+                                    <!--end::Email-->
+                                <div class="fv-plugins-message-container invalid-feedback"></div></div>
+                                <!--end::Input group=-->
+                                <div class="fv-row mb-8 fv-plugins-icon-container">
+                                    <!--begin::Password-->
+                                    <input type="email" placeholder="Emel yang sah" name="email" autocomplete="off" class="form-control bg-transparent form-control-sm">
+                                    <!--end::Password-->
+                                <div class="fv-plugins-message-container invalid-feedback"></div></div>
+                                <!--end::Input group=-->
+                                <!--begin::Submit button-->
+                                <div class="d-grid mb-3">
+                                    <button type="submit" id="kt_sign_in_submit" class="btn btn-primary btn-sm">
+                                        <!--begin::Indicator label-->
+                                        <span class="indicator-label">Daftar</span>
+                                        <!--end::Indicator label-->
+                                        <!--begin::Indicator progress-->
+                                        <span class="indicator-progress">Please wait...
+                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                        <!--end::Indicator progress-->
+                                    </button>
+                                </div>
+                                <div class="d-grid mb-10">
+                                    <div class="d-flex flex-column">
+                                        <li class="d-flex align-items-start py-2"><span class="bullet bg-danger mt-2"></span>&nbsp Sila semak emel anda untuk mengesahkan pendaftaran.</li>
+                                        <li class="d-flex align-items-start py-2"><span class="bullet bg-danger mt-2"></span>&nbsp Katalaluan akan dihantar melui emel selepas pengesahan<br>&nbsp pendaftaran dibuat.</li>
+                                    </div>
+                                </div>
+                                <!--end::Submit button-->
+                            </form>
+                            <!--end::Form-->
                         </div>
-                        <div class="fv-row mb-3">
-                            <input type="password" placeholder="Katalaluan" name="password" autocomplete="off" class="form-control bg-transparent" />
-                        </div>
-                        <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
-                            <div></div>
-                            <a href="../../demo1/dist/authentication/layouts/creative/reset-password.html" class="link-primary">Lupa Katalauan ?</a>
-                        </div>
-                        <div class="d-grid mb-10">
-                            <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
-                                <span class="indicator-label">Log Masuk</span>
-                                <span class="indicator-progress">Please wait...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                            </button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
+        <!--end::Container-->
     </div>
-</div>
+    <!--end::How It Works Section-->
 @endsection

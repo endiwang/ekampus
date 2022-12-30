@@ -18,6 +18,7 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/utama';
+    public const HOME_PEMOHON = '/pemohon/utama';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -55,6 +56,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('pengurusan/pentadbir_sistem')
                 ->as('pengurusan.pentadbir_sistem.')
                 ->group(base_path('routes/pengurusan/pentadbir_sistem.php'));
+
+            Route::middleware('web')
+                ->prefix('pemohon')
+                ->as('pemohon.')
+                ->group(base_path('routes/pemohon/main.php'));
 
             Route::middleware('web')
                 ->prefix('pengurusan/kakitangan')
