@@ -260,7 +260,7 @@ class KelasController extends Controller
             ];
 
             if (request()->ajax()) {
-                $data = Pelajar::where('kelas_id', $id);
+                $data = Pelajar::with('sesi', 'kursus')->where('kelas_id', $id);
                 return DataTables::of($data)
                 ->addColumn('nama', function($data) {
                     $student_name = $data->nama ?? '';
@@ -393,7 +393,7 @@ class KelasController extends Controller
 
     public function exportStudentByClass(Request $request)
     {
-        //try {
+        try {
             $class_detail = Kelas::select('nama')->find($request->class_id);
             $title = 'Senarai Pelajar bagi ' . $class_detail->nama;
 
@@ -404,8 +404,9 @@ class KelasController extends Controller
 
                     $datas      = $this->exportDataProcess($request->class_id);
                     $view_file  = 'pages.pengurusan.akademik.kelas.export_pdf';
+                    $orientation = 'landscape';
 
-                    return Utils::pdfGenerate($title, $datas, $view_file);
+                    return Utils::pdfGenerate($title, $datas, $view_file, $orientation);
 
                 break;
 
@@ -414,18 +415,18 @@ class KelasController extends Controller
                 break;
             }
 
-        // }catch (Exception $e) {
-        //     report($e);
+        }catch (Exception $e) {
+            report($e);
     
-        //     Alert::toast('Uh oh! Sesuatu yang tidak diingini berlaku', 'error');
-        //     return redirect()->back();
-        // }
+            Alert::toast('Uh oh! Sesuatu yang tidak diingini berlaku', 'error');
+            return redirect()->back();
+        }
     }
 
     private function exportDataProcess($class_id)
     {
         
-        $students = Pelajar::where('kelas_id', $class_id)->get();
+        $students = Pelajar::with('sesi', 'kursus')->where('kelas_id', $class_id)->get();
 
         $class = Kelas::find($class_id);
 

@@ -106,7 +106,7 @@
                         <h3 class="modal-title">Muat Turun Senarai Pelajar</h3>
                         <button type="button" class="close btn btn-sm btn-default" data-bs-dismiss="modal">&times;</button>
                     </div>
-                    <form class="form-horizontal" action="{{ route('pengurusan.akademik.pengurusan_kelas.export_by_class') }}" method="POST" enctype="multipart/form-data">
+                    <form class="form-horizontal" action="{{ route('pengurusan.akademik.pengurusan_kelas.export_by_class') }}" method="POST" enctype="multipart/form-data" formtarget="_blank" target="_blank">
                         @csrf
                             <div class="modal-body">
                                 <div class="row fv-row mb-2" >
@@ -118,7 +118,7 @@
                                             {{ Form::select('export_type', 
                                             [
                                                 'pdf' => 'PDF',
-                                                'excel' => 'Excel'
+                                                //'excel' => 'Excel'
                                             ], 
                                             null, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm ', 'data-control'=>'select2' ]) }}
                                         </div>
