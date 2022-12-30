@@ -3,6 +3,8 @@
 namespace App\Helpers;
 
 use Carbon\Carbon;
+use PDF;
+use Illuminate\Support\Facades\App;
 
 class Utils
 {
@@ -18,5 +20,13 @@ class Utils
         $date = Carbon::parse($date)->format('d/m/Y H:i:s A');
 
         return $date;
+    }
+
+    public static function pdfGenerate($title, $datas, $view_file, $paper_orientation)
+    {
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView($view_file, compact('datas'))->setPaper('a4', $paper_orientation);
+    
+        return $pdf->stream($title. '.pdf', array('Attachment'=>0));
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Pengurusan\Akademik;
 
+use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
 use App\Models\Kelas;
+use App\Models\Pelajar;
 use Exception;
 use Illuminate\Http\Request;
 use PhpParser\Builder\Class_;
@@ -77,6 +79,9 @@ class KelasController extends Controller
                         return 'N/A';
                     }
                 })
+                ->addColumn('jumlah_pelajar', function($data) {
+                    return $data->count_pelajar ?? 0;
+                })
                 ->addColumn('status_guru_tasmik', function($data) {
                     return '-';
                 })
@@ -92,8 +97,7 @@ class KelasController extends Controller
                     }
                 })
                 ->addColumn('action', function($data){
-                    return '<div class="btn-group btn-group-sm">
-                            <a href="'.route('pengurusan.pentadbir_sistem.kakitangan.show',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Cetak Kehadiran">
+                    return '<a href="'.route('pengurusan.pentadbir_sistem.kakitangan.show',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Cetak Kehadiran">
                                 <i class="fa fa-print"></i>
                             </a>
                             <a href="'.route('pengurusan.akademik.kelas.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
@@ -105,14 +109,13 @@ class KelasController extends Controller
                             <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.kelas.destroy', $data->id).'" method="POST">
                                 <input type="hidden" name="_token" value="'.csrf_token().'">
                                 <input type="hidden" name="_method" value="DELETE">
-                            </form>
-                        </div>';
+                            </form>';
                 })
                 ->addIndexColumn()
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['kursus','status','action'])
+                ->rawColumns(['kursus','status', 'action'])
                 ->toJson();
             }
     
@@ -147,7 +150,7 @@ class KelasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Builder $builder)
     {
         try {
 
@@ -156,7 +159,7 @@ class KelasController extends Controller
             $page_title = 'Tambah Kelas Baru';
             $breadcrumbs = [
                 "Akademik" =>  false,
-                "Pengurusan Kursus" =>  false,
+                "Pengurusan Kelas" =>  false,
                 "Tambah Kelas" =>  false,
             ];
 
@@ -167,7 +170,9 @@ class KelasController extends Controller
                 'BT' => 'Kelas Banat (Perempuan)'
             ];
 
-            return view('pages.pengurusan.akademik.kelas.add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'genders'));
+            $dataTable = $builder->columns([]);
+
+            return view('pages.pengurusan.akademik.kelas.add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'genders', 'dataTable'));
 
         }catch (Exception $e) {
             report($e);
@@ -234,7 +239,7 @@ class KelasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Builder $builder)
     {
         try {
 
@@ -245,7 +250,7 @@ class KelasController extends Controller
             $page_title = 'Pinda Kelas' . $model->name;
             $breadcrumbs = [
                 "Akademik" =>  false,
-                "Pengurusan Kursus" =>  false,
+                "Pengurusan Kelas" => route('pengurusan.akademik.kelas.index'),
                 "Pinda Kelas" =>  false,
             ];
 
@@ -254,7 +259,56 @@ class KelasController extends Controller
                 'BT' => 'Kelas Banat (Perempuan)'
             ];
 
-            return view('pages.pengurusan.akademik.kelas.add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'genders'));
+            if (request()->ajax()) {
+                $data = Pelajar::with('sesi', 'kursus')->where('kelas_id', $id);
+                return DataTables::of($data)
+                ->addColumn('nama', function($data) {
+                    $student_name = $data->nama ?? '';
+                    $tasmik = $data->nama ?? '';
+
+                    return '<p>' . $student_name . ' <br/> <span style="font-style:italic">GT : ' . $tasmik . '</span></p>';
+                })
+                ->addColumn('kursus_id', function($data) {
+                    if(!empty($data->kursus_id))
+                    {
+                        return $data->kursus->nama ?? 'N/A';
+                    }
+                    else {
+                        return 'N/A';
+                    }
+                })
+                ->addColumn('sesi_id', function($data) {
+                    if(!empty($data->sesi_id))
+                    {
+                        return $data->sesi->nama ?? 'N/A';
+                    }
+                    else {
+                        return 'N/A';
+                    }
+                })
+                ->addColumn('semester', function($data) {
+                    return '<p class="text-center">' . $data->semester . '</p>';
+                })
+                ->addIndexColumn()
+                ->order(function ($data) {
+                    $data->orderBy('id', 'desc');
+                })
+                ->rawColumns(['nama', 'semester'])
+                ->toJson();
+            }
+    
+            $dataTable = $builder
+            ->columns([
+                [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
+                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Pelajar / Guru Tasmik', 'orderable'=> false, 'class'=>'text-bold'],
+                ['data' => 'no_ic', 'name' => 'no_ic', 'title' => 'No Kad Pengenalan', 'orderable'=> false],
+                ['data' => 'kursus_id', 'name' => 'kursus_id', 'title' => 'Program Pengajian [Syukbah]', 'orderable'=> false],
+                ['data' => 'sesi_id', 'name' => 'semasa_syukbah_id', 'title' => 'Sesi Pengajian', 'orderable'=> false],
+                ['data' => 'semester', 'name' => 'semester', 'title' => 'Semester', 'orderable'=> false],
+            ])
+            ->minifiedAjax();
+
+            return view('pages.pengurusan.akademik.kelas.add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'genders', 'dataTable'));
 
         }catch (Exception $e) {
             report($e);
@@ -315,10 +369,19 @@ class KelasController extends Controller
     {
         try {
 
-            Kelas::find($id)->delete();
+            $kelas = Kelas::find($id);
 
-            Alert::toast('Maklumat kelas berjaya dihapus!', 'success');
-            return redirect()->route('pengurusan.akademik.kelas.index');
+            if($kelas->count_pelajar == 0)
+            {
+                $kelas = $kelas->delete();
+
+                Alert::toast('Maklumat kelas berjaya dihapus!', 'success');
+                return redirect()->back();
+            }
+            else {
+                Alert::toast('Pelajar wujud di dalam kelas! Kelas tidak boleh dihapuskan!', 'error');
+                return redirect()->back();
+            }
 
         }catch (Exception $e) {
             report($e);
@@ -326,5 +389,55 @@ class KelasController extends Controller
             Alert::toast('Uh oh! Sesuatu yang tidak diingini berlaku', 'error');
             return redirect()->back();
         }
+    }
+
+    public function exportStudentByClass(Request $request)
+    {
+        try {
+            $class_detail = Kelas::select('nama')->find($request->class_id);
+            $title = 'Senarai Pelajar bagi ' . $class_detail->nama;
+
+            $type = $request->export_type;
+            switch($type)
+            {
+                case 'pdf' :
+
+                    $datas      = $this->exportDataProcess($request->class_id);
+                    $view_file  = 'pages.pengurusan.akademik.kelas.export_pdf';
+                    $orientation = 'landscape';
+
+                    return Utils::pdfGenerate($title, $datas, $view_file, $orientation);
+
+                break;
+
+                case 'excel' :
+
+                break;
+            }
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Sesuatu yang tidak diingini berlaku', 'error');
+            return redirect()->back();
+        }
+    }
+
+    private function exportDataProcess($class_id)
+    {
+        
+        $students = Pelajar::with('sesi', 'kursus')->where('kelas_id', $class_id)->get();
+
+        $class = Kelas::find($class_id);
+
+        $datas = [
+            'class_name'    => $class->nama,
+            'max_student'   => $class->kapasiti_pelajar,
+            'status'        => $class->status == 0 ? 'Aktif' : 'Tidak Aktif',  
+            'students'      => $students
+        ];
+
+        return $datas;
+
     }
 }
