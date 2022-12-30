@@ -14,6 +14,8 @@ use Yajra\DataTables\Html\Builder;
 
 class SubjekController extends Controller
 {
+    protected $baseView = 'pages.pengurusan.akademik.subjek.';
+
     /**
      * Display a listing of the resource.
      *
@@ -69,7 +71,7 @@ class SubjekController extends Controller
             ])
             ->minifiedAjax();
     
-            return view('pages.pengurusan.akademik.subjek.main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
+            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
 
         }catch (Exception $e) {
             report($e);
@@ -122,7 +124,7 @@ class SubjekController extends Controller
             $model = new Subjek();
 
 
-            return view('pages.pengurusan.akademik.subjek.add_edit', compact('title', 'action', 'page_title', 'breadcrumbs', 'buttons', 
+            return view($this->baseView.'add_edit', compact('title', 'action', 'page_title', 'breadcrumbs', 'buttons', 
                     'course', 'model', 'al_quran', 'count_info', 'print_info', 'id'));
 
         }catch (Exception $e) {
@@ -298,7 +300,7 @@ class SubjekController extends Controller
             ])
             ->minifiedAjax();
     
-            return view('pages.pengurusan.akademik.subjek.show', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
+            return view($this->baseView.'show', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
 
             
         }catch (Exception $e) {
@@ -352,7 +354,7 @@ class SubjekController extends Controller
             $model = Subjek::find($id);
 
 
-            return view('pages.pengurusan.akademik.subjek.add_edit', compact('title', 'action', 'page_title', 'breadcrumbs', 'buttons', 
+            return view($this->baseView.'add_edit', compact('title', 'action', 'page_title', 'breadcrumbs', 'buttons', 
                     'course', 'model', 'al_quran', 'count_info', 'print_info', 'id'));
 
         }catch (Exception $e) {

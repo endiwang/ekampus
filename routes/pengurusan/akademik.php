@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Pengurusan\Akademik\GuruTasmikController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pengurusan\Akademik\KelasController;
 use App\Http\Controllers\Pengurusan\Akademik\KursusController;
@@ -18,4 +19,7 @@ Route::post('subjek/store', [SubjekController::class, 'store'])->name('pengurusa
 Route::get('subjek/edit/{id}/{course_id}', [SubjekController::class, 'edit'])->name('pengurusan_subjek.edit');
 Route::get('subjek/create/{id}', [SubjekController::class, 'create'])->name('pengurusan_subjek.create');
 Route::resource('subjek', SubjekController::class);
+
+
+Route::resource('guru_tasmik', GuruTasmikController::class);
 
