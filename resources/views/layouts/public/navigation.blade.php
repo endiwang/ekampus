@@ -24,7 +24,7 @@
                 <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-400px" data-kt-menu="true">
                     <!--begin::Menu item-->
                     <div class="menu-item px-3">
-                        <a href="{{ route('public.permohonan.index') }}" class="menu-link px-3">
+                        <a href="{{ route('login_pemohon') }}" class="menu-link px-3">
                             Permohonan Baru
                         </a>
                     </div>
