@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Jabatan;
 use App\Models\PusatPengajian;
 use App\Models\Staff;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
@@ -66,9 +68,7 @@ class GuruTasmikController extends Controller
                     }
                 })
                 ->addColumn('action', function($data){
-                    return '<a href="'.route('pengurusan.akademik.guru_tasmik.show',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Cetak Kehadiran">
-                                <i class="fa fa-print"></i>
-                            </a>
+                    return '
                             <a href="'.route('pengurusan.akademik.guru_tasmik.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
@@ -160,7 +160,91 @@ class GuruTasmikController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $validation = $request->validate([
+            'no_ic'             => 'required|unique:staff,no_ic',
+            'nama'              => 'required',
+            'alamat'            => 'required',
+            'no_tel'            => 'required',
+            'jantina'           => 'required',
+            'email'             => 'required|unique:staff,email',
+            'pusat_pengajian'   => 'required',
+            'jabatan'           => 'required',
+            'nama_jawatan'      => 'required',
+            'gred'              => 'required',
+            'jawatan'           => 'required',
+        ],[
+            'no_ic.required'            => 'Sila masukkan maklumat no. kad pengenalan',
+            'nama.required'             => 'Sila masukkan maklumat nama',
+            'alamat.required'           => 'Sila masukkan maklumat alamat',
+            'no_tel.required'           => 'Sila masukkan maklumat no telefon',
+            'jantina.required'          => 'Sila pilih jantina',
+            'email.required'            => 'Sila masukkan maklumat emel',
+            'pusat_pengajian.required'  => 'Sila pilih pusat pengajian',
+            'jabatan.required'          => 'Sila pilih jabatan',
+            'nama_jawatan.required'     => 'Sila masukkan maklumat nama jawatan',
+            'gred.required'             => 'Sila pilih gred',
+            'jawatan.required'          => 'Sila pilih jawatan',
+        ]);
+
+        try {
+
+            $pensyarah = 'N';
+            $pensyarah_jemputan = 'N';
+            $guru_tasmik = 'N';
+            $guru_tasmik_jemputan = 'N';
+
+            foreach($request->jawatan as $jwtn)
+            {
+                if($jwtn == 14)
+                {
+                    $pensyarah = 'Y';
+                }
+                if($jwtn == 15)
+                {
+                    $pensyarah_jemputan = 'Y';
+                }
+                if($jwtn == 16)
+                {
+                    $guru_tasmik = 'Y';
+                }
+                if($jwtn == 17)
+                {
+                    $guru_tasmik_jemputan = 'Y';
+                }
+            }
+
+            $user = User::create([
+                'username'      => $request->no_ic,
+                'password'      => Hash::make($request->no_ic),
+            ]);
+
+            Staff::create([
+                'user_id'                   => $user->id,
+                'nama'                      => $request->nama,
+                'no_ic'                     => $request->no_ic,
+                'alamat'                    => $request->alamat,
+                'no_tel'                    => $request->no_tel,
+                'jantina'                   => $request->jantina,
+                'email'                     => $request->email,
+                'pusat_pengajian_id'        => $request->pusat_pengajian,
+                'jabatan_id'                => $request->jabatan,
+                'jawatan'                   => $request->nama_jawatan,
+                'is_pensyarah'              => $pensyarah,
+                'is_pensyarah_jemputan'     => $pensyarah_jemputan,
+                'is_guru_tasmik'            => $guru_tasmik,
+                'is_guru_tasmik_jemputan'   => $guru_tasmik_jemputan,
+            ]);
+
+            Alert::toast('Maklumat guru tasmik berjaya ditambah!', 'success');
+            return redirect()->route('pengurusan.akademik.guru_tasmik.index');
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
     }
 
     /**
