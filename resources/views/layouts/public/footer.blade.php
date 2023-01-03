@@ -75,34 +75,34 @@
                             <!--end::Subtitle-->
                             <!--begin::Link-->
                             <a href="https://www.facebook.com/keenthemes" class="mb-6">
-                                <img src="assets/media/svg/brand-logos/facebook-4.svg" class="h-20px me-2"
+                                <img src="{{URL::asset('assets/media/svg/brand-logos/facebook-4.svg')}}" class="h-20px me-2"
                                     alt="" />
                                 <span class="text-white opacity-50 text-hover-primary fs-5 mb-6">Facebook</span>
                             </a>
                             <!--end::Link-->
                             <!--begin::Link-->
                             <a href="https://github.com/KeenthemesHub" class="mb-6">
-                                <img src="assets/media/svg/brand-logos/github.svg" class="h-20px me-2" alt="" />
+                                <img src="{{URL::asset('assets/media/svg/brand-logos/github.svg')}}" class="h-20px me-2" alt="" />
                                 <span class="text-white opacity-50 text-hover-primary fs-5 mb-6">Github</span>
                             </a>
                             <!--end::Link-->
                             <!--begin::Link-->
                             <a href="https://twitter.com/keenthemes" class="mb-6">
-                                <img src="assets/media/svg/brand-logos/twitter.svg" class="h-20px me-2"
+                                <img src="{{URL::asset('assets/media/svg/brand-logos/twitter.svg')}}" class="h-20px me-2"
                                     alt="" />
                                 <span class="text-white opacity-50 text-hover-primary fs-5 mb-6">Twitter</span>
                             </a>
                             <!--end::Link-->
                             <!--begin::Link-->
                             <a href="https://dribbble.com/keenthemes" class="mb-6">
-                                <img src="assets/media/svg/brand-logos/dribbble-icon-1.svg" class="h-20px me-2"
+                                <img src="{{URL::asset('assets/media/svg/brand-logos/dribbble-icon-1.svg')}}" class="h-20px me-2"
                                     alt="" />
                                 <span class="text-white opacity-50 text-hover-primary fs-5 mb-6">Dribbble</span>
                             </a>
                             <!--end::Link-->
                             <!--begin::Link-->
                             <a href="https://www.instagram.com/keenthemes" class="mb-6">
-                                <img src="assets/media/svg/brand-logos/instagram-2-1.svg" class="h-20px me-2"
+                                <img src="{{URL::asset('assets/media/svg/brand-logos/instagram-2-1.svg')}}" class="h-20px me-2"
                                     alt="" />
                                 <span class="text-white opacity-50 text-hover-primary fs-5 mb-6">Instagram</span>
                             </a>
@@ -128,7 +128,7 @@
                 <div class="d-flex align-items-center order-2 order-md-1">
                     <!--begin::Logo-->
                     <a href="../../demo1/dist/landing.html">
-                        <img alt="Logo" src="assets/media/logos/landing.svg" class="h-15px h-md-20px" />
+                        <img alt="Logo" src="{{URL::asset('assets/media/logos/landing.svg')}}" class="h-15px h-md-20px" />
                     </a>
                     <!--end::Logo image-->
                     <!--begin::Logo image-->

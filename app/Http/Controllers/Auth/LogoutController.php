@@ -17,4 +17,13 @@ class LogoutController extends Controller
 
         return redirect('login');
     }
+
+    public function logoutPemohon()
+    {
+        Session::flush();
+
+        Auth::guard('pemohon')->logout();
+
+        return redirect('/');
+    }
 }
