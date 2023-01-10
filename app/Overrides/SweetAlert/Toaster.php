@@ -45,7 +45,7 @@ class Toaster
         $this->config = [
             'title' => '',
             'text' => '',
-            'iconColor' => 'white',
+            // 'iconColor' => 'white',
             'timer' => config('sweetalert.timer'),
             'width' => config('sweetalert.width'),
             'heightAuto' => config('sweetalert.height_auto'),

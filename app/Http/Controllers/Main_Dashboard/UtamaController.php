@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Main_Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use RealRashid\SweetAlert\Facades\Alert;
 class UtamaController extends Controller
 {
     /**

@@ -5,7 +5,7 @@
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <!--begin::Row-->
                 <div class="row g-5 g-xl-10">
-                    <div class="col-xl-7">
+                    <div class="col-xl-12">
                         <!--begin::Table widget 14-->
                         <div class="card">
                             <!--begin::Header-->
@@ -96,7 +96,7 @@
                         </div>
                         <!--end::Table widget 14-->
                     </div>
-                    <div class="col-xl-5">
+                    {{-- <div class="col-xl-5">
                         <!--begin::Timeline-->
                         <div class="card">
                             <!--begin::Card head-->
@@ -204,7 +204,7 @@
                             <!--end::Card body-->
                         </div>
                         <!--end::Timeline-->
-                    </div>
+                    </div> --}}
                 </div>
                 <!--end::Row-->
             </div>

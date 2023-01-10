@@ -29,12 +29,15 @@ Route::group(['middleware' => ['auth']], function() {
 
 
 Route::get('/logout_pemohon', [LogoutController::class, 'logoutPemohon'])->name('logout_pemohon');
+Route::post('/register_pemohon', [RegisterController::class, 'registerPemohon'])->name('register_pemohon');
+Route::get('/verify_email_pemohon/{token}', [RegisterController::class, 'verifyEmailPemohon'])->name('verify_email_pemohon');
 
 
 
 
 
 Route::get('/testform', [TestController::class, 'testform'])->name('testForm');
+Route::get('/testpemohon', [TestController::class, 'testpemohon'])->name('testpemohon');
 Route::get('/testformwizard', [TestController::class, 'testformwizard'])->name('testformwizard');
 Route::get('/testtable', [TestController::class, 'table'])->name('teble');
 Route::get('/data', [TestController::class, 'getBasicData'])->name('tebledata');

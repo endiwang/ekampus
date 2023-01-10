@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\LoginPemohonRequest;
 use Illuminate\Support\Facades\Auth;
-
+use RealRashid\SweetAlert\Facades\Alert;
 class LoginController extends Controller
 {
 
@@ -63,6 +63,13 @@ class LoginController extends Controller
         endif;
 
         $user = Auth::guard('pemohon')->getProvider()->retrieveByCredentials($credentials);
+        // dd($user);
+        if($user->email_verified_at == null)
+        {
+            Auth::guard('pemohon')->logout();
+            Alert::error('Emel Belum Disahkan','Sila sahkan email untuk log masuk dan memohon');
+            return redirect()->route('login_pemohon');
+        }
 
         Auth::guard('pemohon')->login($user);
 

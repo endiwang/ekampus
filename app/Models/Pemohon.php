@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class Pemohon extends Authenticatable
+class Pemohon extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory;
 
@@ -15,6 +16,7 @@ class Pemohon extends Authenticatable
 
     protected $fillable = [
         'username',
+        'email',
         'password',
     ];
 
@@ -22,4 +24,8 @@ class Pemohon extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function verifyEmailPemohon(){
+        return $this->hasOne('App\Models\VerifyEmailPemohon');
+    }
 }

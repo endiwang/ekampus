@@ -82,7 +82,8 @@
                     <div class="card card-flush shadow-sm">
                         <div class="card-body p-10 p-lg-20">
                             <!--begin::Form-->
-                            <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate" id="kt_sign_in_form" data-kt-redirect-url="../../demo1/dist/index.html" action="#">
+                            <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" id="kt_sign_in_form" action="{{ route('register_pemohon') }}" method="POST" >
+                                @csrf
                                 <!--begin::Heading-->
                                 <div class="text-center mb-11">
                                     <!--begin::Title-->
@@ -94,17 +95,19 @@
                                 </div>
                                 <!--begin::Heading-->
                                 <!--begin::Input group=-->
+
                                 <div class="fv-row mb-3 fv-plugins-icon-container">
                                     <!--begin::Email-->
-                                    <input type="text" placeholder="No. Kad Pengenalan" name="no_ic" autocomplete="off" auto class="form-control bg-transparent form-control-sm">
+                                    <input type="text" placeholder="No. Kad Pengenalan" name="no_ic" value="{{ old('no_ic') }}" autocomplete="off" auto class="form-control bg-transparent form-control-sm {{ $errors->has('no_ic') ? 'is-invalid':''}}">
                                     <!--end::Email-->
-                                <div class="fv-plugins-message-container invalid-feedback"></div></div>
+                                <div class="fv-plugins-message-container invalid-feedback">@error('no_ic') {{ $message }}@enderror</div></div>
+
                                 <!--end::Input group=-->
                                 <div class="fv-row mb-8 fv-plugins-icon-container">
                                     <!--begin::Password-->
-                                    <input type="email" placeholder="Emel yang sah" name="email" autocomplete="off" class="form-control bg-transparent form-control-sm">
+                                    <input type="email" placeholder="Emel yang sah" name="email" value="{{ old('email') }}" autocomplete="off" class="form-control bg-transparent form-control-sm {{ $errors->has('email') ? 'is-invalid':''}}">
                                     <!--end::Password-->
-                                <div class="fv-plugins-message-container invalid-feedback"></div></div>
+                                <div class="fv-plugins-message-container invalid-feedback">@error('email') {{ $message }}@enderror</div></div>
                                 <!--end::Input group=-->
                                 <!--begin::Submit button-->
                                 <div class="d-grid mb-3">
