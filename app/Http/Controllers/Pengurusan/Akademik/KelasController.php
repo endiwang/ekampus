@@ -15,6 +15,8 @@ use Yajra\DataTables\Html\Builder;
 
 class KelasController extends Controller
 {
+    protected $baseView = 'pages.pengurusan.akademik.kelas.';
+
     /**
      * Display a listing of the resource.
      *
@@ -135,7 +137,7 @@ class KelasController extends Controller
             ])
             ->minifiedAjax();
     
-            return view('pages.pengurusan.akademik.kelas.main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
+            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
 
         }catch (Exception $e) {
             report($e);
@@ -172,7 +174,7 @@ class KelasController extends Controller
 
             $dataTable = $builder->columns([]);
 
-            return view('pages.pengurusan.akademik.kelas.add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'genders', 'dataTable'));
+            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'genders', 'dataTable'));
 
         }catch (Exception $e) {
             report($e);
@@ -308,7 +310,7 @@ class KelasController extends Controller
             ])
             ->minifiedAjax();
 
-            return view('pages.pengurusan.akademik.kelas.add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'genders', 'dataTable'));
+            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'genders', 'dataTable'));
 
         }catch (Exception $e) {
             report($e);
@@ -403,7 +405,7 @@ class KelasController extends Controller
                 case 'pdf' :
 
                     $datas      = $this->exportDataProcess($request->class_id);
-                    $view_file  = 'pages.pengurusan.akademik.kelas.export_pdf';
+                    $view_file  = $this->baseView.'export_pdf';
                     $orientation = 'landscape';
 
                     return Utils::pdfGenerate($title, $datas, $view_file, $orientation);

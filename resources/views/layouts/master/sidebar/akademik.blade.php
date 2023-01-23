@@ -81,6 +81,14 @@
                         </a>
                     </div>
                     <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.guru_tasmik.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.guru_tasmik.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Guru Tasmik</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('base2') ? 'active' : '' }}" href="{{ route('base2') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
@@ -96,6 +104,7 @@
                             <span class="menu-title">Subjek</span>
                         </a>
                     </div>
+                    
                 </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">

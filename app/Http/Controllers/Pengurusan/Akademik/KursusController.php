@@ -14,6 +14,8 @@ use Yajra\DataTables\Html\Builder;
 
 class KursusController extends Controller
 {
+    protected $baseView = 'pages.pengurusan.akademik.kursus.';
+
     /**
      * Display a listing of the resource.
      *
@@ -87,7 +89,7 @@ class KursusController extends Controller
     
             $courses = Kursus::where('is_deleted',0)->pluck('nama', 'id');
     
-            return view('pages.pengurusan.akademik.kursus.main', compact('title', 'breadcrumbs', 'buttons', 'dataTable', 'courses'));
+            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable', 'courses'));
 
         }catch (Exception $e) {
             report($e);
