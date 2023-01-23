@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pengurusan\Akademik\KelasController;
 use App\Http\Controllers\Pengurusan\Akademik\KursusController;
 use App\Http\Controllers\Pengurusan\Akademik\MainAkademikController;
+use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\SubjekController;
 
 Route::resource('/', MainAkademikController::class)->only(['index',]);
@@ -23,4 +24,4 @@ Route::resource('subjek', SubjekController::class);
 Route::get('guru_tasmik/update/{id}', [GuruTasmikController::class, 'edit'])->name('guru_tasmik.update');
 Route::resource('guru_tasmik', GuruTasmikController::class);
 
-
+Route::resource('peraturan_akademik', PeraturanAkademikController::class);
