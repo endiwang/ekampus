@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Main_Dashboard;
+namespace App\Http\Controllers\Pemohon;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use RealRashid\SweetAlert\Facades\Alert;
-class UtamaController extends Controller
+
+class PermohonanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class UtamaController extends Controller
      */
     public function index()
     {
-        return view('pages.main_dashboard.utama');
+        return view('pages.pemohon.permohonan.main');
     }
 
     /**

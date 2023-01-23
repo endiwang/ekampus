@@ -6,5 +6,5 @@ use App\Http\Controllers\Public\PermohonanController;
 
 
 Route::resource('/', FrontPageController::class)->only(['index',]);
-Route::resource('/permohonan', PermohonanController::class);
+// Route::resource('/permohonan', PermohonanController::class);
 

@@ -13,7 +13,7 @@
 		<meta property="og:site_name" content="Keenthemes | Metronic" />
         @include('layouts.public.css')
 	</head>
-	<body id="kt_body" data-bs-spy="scroll" data-bs-target="#kt_landing_menu" class="bg-white position-relative app-blank">
+	<body id="kt_body" data-bs-spy="scroll" data-bs-target="#kt_landing_menu" class="position-relative app-default">
 		<div class="d-flex flex-column flex-root" id="kt_app_root">
 			<!--begin::Header Section-->
 			<div class="mb-0" id="home">
@@ -41,14 +41,14 @@
 									<!--end::Mobile menu toggle-->
 									<!--begin::Logo image-->
 									<a href="../../demo1/dist/landing.html">
-										<img alt="Logo" src="assets/media/logos/landing.svg" class="logo-default h-25px h-lg-30px" />
-										<img alt="Logo" src="assets/media/logos/landing-dark.svg" class="logo-sticky h-20px h-lg-25px" />
+										<img alt="Logo" src="{{URL::asset('assets/media/logos/landing.svg')}}" class="logo-default h-25px h-lg-30px" />
+										<img alt="Logo" src="{{URL::asset('assets/media/logos/landing-dark.svg')}}" class="logo-sticky h-20px h-lg-25px" />
 									</a>
 									<!--end::Logo image-->
 								</div>
 								<!--end::Logo-->
 								<!--begin::Menu wrapper-->
-								@include('layouts.public.navigation')
+								@include('layouts.public.navigation_pemohon')
 								<!--end::Menu wrapper-->
 								<!--begin::Toolbar-->
                                 @if (Auth::check())
@@ -56,7 +56,7 @@
                                         <a href="{{ route('logout') }}" class="btn btn-success">Log Keluar</a>
                                     </div>
                                 @endif
-                                
+
                                 @if (Auth::guard('pemohon')->check())
                                     <div class="flex-equal text-end ms-1">
                                         <a href="{{ route('logout_pemohon') }}" class="btn btn-success">Log Keluar</a>
@@ -71,9 +71,9 @@
 					</div>
 					<!--end::Header-->
 					<!--begin::Landing hero-->
-					<div class="d-flex flex-column flex-center w-100">
-                        @include('layouts.public.slider')
-					</div>
+					{{-- <div class="d-flex flex-column flex-center w-100"> --}}
+                        {{-- @include('layouts.public.slider') --}}
+					{{-- </div> --}}
 					<!--end::Landing hero-->
 				</div>
 				<!--end::Wrapper-->
