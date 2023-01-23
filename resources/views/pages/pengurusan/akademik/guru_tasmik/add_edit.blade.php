@@ -173,21 +173,49 @@
                                 </div>
                             </div>
                             
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('jawatan', 'Jawatan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                            @if(!empty($model->id))
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('jawatan', 'Jawatan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <!--begin::Col-->
+                                    <div class="col-md-9">
+                                        <label class="form-check form-check-custom form-check-inline mb-2">
+                                            <input class="form-check-input" name="is_pensyarah" type="checkbox" value="Y" @if(!empty($is_pensyarah) && $is_pensyarah == 'Y') checked @endif/>
+                                            <span class="fw-semibold ps-2 fs-7 text-capitalize">Pensyarah</span>
+                                        </label>
+                                        <label class="form-check form-check-custom form-check-inline mb-2">
+                                            <input class="form-check-input" name="is_pensyarah_jemputan" type="checkbox" value="Y" @if(!empty($is_pensyarah_jemputan) && $is_pensyarah_jemputan == 'Y') checked @endif/>
+                                            <span class="fw-semibold ps-2 fs-7 text-capitalize">Pensyarah Jemputan</span>
+                                        </label>
+                                        <label class="form-check form-check-custom form-check-inline mb-2">
+                                            <input class="form-check-input" name="is_pensyarah_tasmik" type="checkbox" value="Y" @if(!empty($is_pensyarah_tasmik) && $is_pensyarah_tasmik == 'Y') checked @endif/>
+                                            <span class="fw-semibold ps-2 fs-7 text-capitalize">Pensyarah Tasmik</span>
+                                        </label>
+                                        <label class="form-check form-check-custom form-check-inline mb-2">
+                                            <input class="form-check-input" name="is_pensyarah_tasmik_jemputan" type="checkbox" value="Y" @if(!empty($is_pensyarah_tasmik_jemputan) && $is_pensyarah_tasmik_jemputan == 'Y') checked @endif/>
+                                            <span class="fw-semibold ps-2 fs-7 text-capitalize">Pensyarah Tasmik Jemputan</span>
+                                        </label>
+                                    </div>
+                                    <!--end::Col-->
                                 </div>
-                                <!--begin::Col-->
-                                <div class="col-md-9">
-                                    @foreach ($role_child_kakitangan as $role)
-                                    <label class="form-check form-check-custom form-check-inline mb-2">
-                                        <input class="form-check-input" name="jawatan[]" type="checkbox" value="{{ $role->id }}" @if(!empty($assignation)) checked @endif/>
-                                        <span class="fw-semibold ps-2 fs-7 text-capitalize">{{ $role->display_name }}</span>
-                                    </label>
-                                    @endforeach
+                            @else
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('jawatan', 'Jawatan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <!--begin::Col-->
+                                    <div class="col-md-9">
+                                        @foreach ($role_child_kakitangan as $role)
+                                        <label class="form-check form-check-custom form-check-inline mb-2">
+                                            <input class="form-check-input" name="jawatan[]" type="checkbox" value="{{ $role->id }}" @if(!empty($assignation)) checked @endif/>
+                                            <span class="fw-semibold ps-2 fs-7 text-capitalize">{{ $role->display_name }}</span>
+                                        </label>
+                                        @endforeach
+                                    </div>
+                                    <!--end::Col-->
                                 </div>
-                                <!--end::Col-->
-                            </div>
+                            @endif
                            
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">

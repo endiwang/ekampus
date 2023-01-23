@@ -20,6 +20,7 @@ Route::get('subjek/edit/{id}/{course_id}', [SubjekController::class, 'edit'])->n
 Route::get('subjek/create/{id}', [SubjekController::class, 'create'])->name('pengurusan_subjek.create');
 Route::resource('subjek', SubjekController::class);
 
-
+Route::get('guru_tasmik/update/{id}', [GuruTasmikController::class, 'edit'])->name('guru_tasmik.update');
 Route::resource('guru_tasmik', GuruTasmikController::class);
+
 

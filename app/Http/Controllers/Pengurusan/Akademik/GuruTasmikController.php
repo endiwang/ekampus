@@ -14,6 +14,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
+use Image, File;
 
 class GuruTasmikController extends Controller
 {
@@ -121,7 +122,7 @@ class GuruTasmikController extends Controller
     {
         try {
 
-            $title = 'Kelas';
+            $title = 'Guru Tasmik';
             $action = route('pengurusan.akademik.guru_tasmik.store');
             $page_title = 'Maklumat Kakitangan Guru Tasmik';
             $breadcrumbs = [
@@ -131,6 +132,8 @@ class GuruTasmikController extends Controller
             ];
 
             $model = new Staff();
+
+            $assignation = [];
 
             $genders = [
                 'L' => 'Lelaki',
@@ -142,7 +145,7 @@ class GuruTasmikController extends Controller
             $role_kakitangan = Role::where('name','kakitangan')->first();
             $role_child_kakitangan = Role::where('parent_category_id',$role_kakitangan->id)->whereNotIn('name', ['warden', 'tutor'])->get();
 
-            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'genders', 'centers', 'departments', 'role_child_kakitangan' ));
+            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'genders', 'centers', 'departments', 'role_child_kakitangan','assignation'));
 
         }catch (Exception $e) {
             report($e);
@@ -219,6 +222,13 @@ class GuruTasmikController extends Controller
                 'password'      => Hash::make($request->no_ic),
             ]);
 
+            //image
+
+            $image_name = uniqid() . '.' . $request->avatar->getClientOriginalExtension();
+            $image_path = 'uploads/' . $image_name;
+            Image::make($request->avatar)->resize(320, 240)->save(public_path($image_path));
+            $image = $image_path;
+
             Staff::create([
                 'user_id'                   => $user->id,
                 'nama'                      => $request->nama,
@@ -230,6 +240,7 @@ class GuruTasmikController extends Controller
                 'pusat_pengajian_id'        => $request->pusat_pengajian,
                 'jabatan_id'                => $request->jabatan,
                 'jawatan'                   => $request->nama_jawatan,
+                'img_staff'                 => $image,
                 'is_pensyarah'              => $pensyarah,
                 'is_pensyarah_jemputan'     => $pensyarah_jemputan,
                 'is_guru_tasmik'            => $guru_tasmik,
@@ -266,7 +277,46 @@ class GuruTasmikController extends Controller
      */
     public function edit($id)
     {
-        //
+
+        try {
+
+            $title = 'Guru Tasmik';
+            $action = route('pengurusan.akademik.guru_tasmik.update', $id);
+            $page_title = 'Maklumat Kakitangan Guru Tasmik';
+            $breadcrumbs = [
+                "Akademik" =>  false,
+                "Guru Tasmik" =>  false,
+                "Pinda Guru Tasmik" =>  false,
+            ];
+
+            $model = Staff::find($id);
+
+            $genders = [
+                'L' => 'Lelaki',
+                'P' => 'Perempuan'
+            ];
+
+            $centers = PusatPengajian::where('deleted_at', null)->pluck('nama', 'id');
+            $departments = Jabatan::where('deleted_at', null)->pluck('nama', 'id');
+            $role_kakitangan = Role::where('name','kakitangan')->first();
+            $role_child_kakitangan = Role::where('parent_category_id',$role_kakitangan->id)->whereNotIn('name', ['warden', 'tutor'])->get();
+
+            $is_pensyarah = $model->is_pensyarah;
+            $is_pensyarah_jemputan = $model->is_pensyarah_jemputan;
+            $is_pensyarah_tasmik = $model->is_pensyarah_tasmik;
+            $is_pensyarah_tasmik_jemputan = $model->is_pensyarah_tasmik_jemputan;
+
+            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  
+                                                    'action', 'genders', 'centers', 'departments', 'role_child_kakitangan',
+                                                    'is_pensyarah', 'is_pensyarah_jemputan', 'is_pensyarah_tasmik', 'is_pensyarah_tasmik_jemputan'  ));
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+    
     }
 
     /**
@@ -278,7 +328,47 @@ class GuruTasmikController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+
+            $staff = Staff::find($id);
+
+            $image = '';
+            if ($request->has('avatar')) {
+                unlink(public_path($staff->img_staff));
+                $image_name = uniqid() . '.' . $request->avatar->getClientOriginalExtension();
+                $image_path = 'uploads/' . $image_name;
+                Image::make($$request->avatar)->resize(320, 240)->save(public_path($image_path));
+                $image = $image_path;
+            } else {
+                $image = $staff->img_staff;
+            }
+
+            $staff = $staff->update([
+                'nama'                      => $request->nama,
+                'no_ic'                     => $request->no_ic,
+                'alamat'                    => $request->alamat,
+                'no_tel'                    => $request->no_tel,
+                'jantina'                   => $request->jantina,
+                'email'                     => $request->email,
+                'pusat_pengajian_id'        => $request->pusat_pengajian,
+                'jabatan_id'                => $request->jabatan,
+                'jawatan'                   => $request->nama_jawatan,
+                'img_staff'                 => $image,
+                'is_pensyarah'              => $request->is_pensyarah ?? 'N',
+                'is_pensyarah_jemputan'     => $request->is_pensyarah_jemputan ?? 'N',
+                'is_guru_tasmik'            => $request->is_guru_tasmik ?? 'N',
+                'is_guru_tasmik_jemputan'   => $request->is_guru_tasmik_jemputan ?? 'N',
+            ]);
+
+            Alert::toast('Maklumat guru tasmik berjaya dipinda!', 'success');
+            return redirect()->route('pengurusan.akademik.guru_tasmik.index');
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -289,6 +379,20 @@ class GuruTasmikController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+
+            $staff = Staff::find($id);
+
+            $staff = $staff->delete();
+
+            Alert::toast('Maklumat guru tasmik berjaya dihapus!', 'success');
+            return redirect()->back();
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
     }
 }
