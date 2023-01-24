@@ -24,4 +24,5 @@ Route::resource('subjek', SubjekController::class);
 Route::get('guru_tasmik/update/{id}', [GuruTasmikController::class, 'edit'])->name('guru_tasmik.update');
 Route::resource('guru_tasmik', GuruTasmikController::class);
 
+Route::get('/download/{id}', [PeraturanAkademikController::class, 'download'])->name('peraturan_akademik.download');
 Route::resource('peraturan_akademik', PeraturanAkademikController::class);

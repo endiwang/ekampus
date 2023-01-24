@@ -43,15 +43,7 @@ class PeraturanAkademikController extends Controller
                 $data = PeraturanAkademik::query();
                 return DataTables::of($data)
                 ->addColumn('document_name', function($data) {
-                    if(!empty($data->document_name))
-                    {
-                        $document = '<a href="' . !empty($data->uploaded_document)?asset($data->uploaded_document):'' .'"
-                                        target="_blank">{{ $data->document_name }}
-                                    </a>';
-                        
-                        return $document;
-
-                    }
+                    return '<a href="'. route('pengurusan.akademik.peraturan_akademik.download', $data->id) .'" target="_blank">'. $data->document_name.'</a>';
                 })
                 ->addColumn('status', function($data) {
                     switch ($data->status) {
@@ -154,9 +146,10 @@ class PeraturanAkademikController extends Controller
         try {
             
             $file_name = uniqid() . '.' . $request->file->getClientOriginalExtension();
-            $file_path = 'uploads/peraturan_akademik/' . $file_name;
-            Storage::putFile($file_path, $request->file('file'));
-            $file = $file_path;
+            $file_path = 'uploads/peraturan_akademik/';
+            $file = $request->file('file');
+            $file->move($file_path, $file_name);
+            $file = $file_path . '/' .$file_name;
 
             $original_filename = $request->file->getClientOriginalName();
 
@@ -235,17 +228,20 @@ class PeraturanAkademikController extends Controller
             $rule = PeraturanAkademik::find($id);
 
             $file = '';
+            $original_filename = '';
             if(!empty($request->file))
             {
                 unlink(storage_path($rule->uploaded_document));
                 $file_name = uniqid() . '.' . $request->file->getClientOriginalExtension();
-                $file_path = 'uploads/peraturan_akademik/' . $file_name;
-                Storage::putFile($file_path, $request->file('file'));
-                $file = $file_path;
+                $file_path = 'uploads/peraturan_akademik/';
+                $file = $request->file('file');
+                $file->move($file_path, $file_name);
+                $file = $file_path . '/' .$file_name;
     
                 $original_filename = $request->file->getClientOriginalName();
             }
             else {
+                $original_filename = $rule->document_name;
                 $file = $rule->uploaded_document;
             }
 
@@ -279,6 +275,8 @@ class PeraturanAkademikController extends Controller
         try {
 
             $rule = PeraturanAkademik::find($id);
+            $rule->is_deleted = 1;
+            $rule->deleted_by = auth()->user()->id;
             $rule = $rule->delete();
 
             Alert::toast('Maklumat peraturan akademik berjaya dihapus!', 'success');
@@ -290,5 +288,12 @@ class PeraturanAkademikController extends Controller
             Alert::toast('Uh oh! Something went Wrong', 'error');
             return redirect()->back();
         }
+    }
+
+    public function download($id)
+    {
+        $download = PeraturanAkademik::find($id);
+
+        return response()->file(public_path($download->uploaded_document));
     }
 }
