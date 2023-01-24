@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class KalendarAkademikController extends Controller
 {
+    protected $baseView = 'pages.pengurusan.akademik.kalendar_akademik.';
     /**
      * Display a listing of the resource.
      *

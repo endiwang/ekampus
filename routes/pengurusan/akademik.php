@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Pengurusan\Akademik\GuruTasmikController;
+use App\Http\Controllers\Pengurusan\Akademik\KalendarAkademikController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pengurusan\Akademik\KelasController;
 use App\Http\Controllers\Pengurusan\Akademik\KursusController;
@@ -26,3 +27,5 @@ Route::resource('guru_tasmik', GuruTasmikController::class);
 
 Route::get('/download/{id}', [PeraturanAkademikController::class, 'download'])->name('peraturan_akademik.download');
 Route::resource('peraturan_akademik', PeraturanAkademikController::class);
+
+Route::resource('kalendar_akademik', KalendarAkademikController::class);
