@@ -65,6 +65,14 @@
                         </a>
                     </div>
                     <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.peraturan_akademik.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.peraturan_akademik.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Peraturan Akademik</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.akademik.kursus.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.kursus.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
