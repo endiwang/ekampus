@@ -1,4 +1,4 @@
-<div class="card mb-5 mb-xl-10">
+<div class="card shadow-none" id="formPermohonanB">
     <div class="card-header border-0">
         <h3 class="card-title align-items-start flex-column">
             <span class="card-label fw-bold text-dark">B. PILIHAN PUSAT TEMUDUGA (CHOICE OF INTERVIEW CENTER)</span>
@@ -14,13 +14,13 @@
                         <div class="form-text mt-0">Select Center of Interview</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('keturunan', ['Z1' => 'Zon Utara', 'Z2' => 'Zon Selatan', 'Z3' =>'Zon Tengah'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg form-control-solid']) }}
+                        {{ Form::select('pusat_temuduga', ['Z1' => 'Zon Utara', 'Z2' => 'Zon Selatan', 'Z3' =>'Zon Tengah'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                     </div>
                 </div>
 
             </div>
             <div class="card-footer d-flex justify-content-end py-6 px-9">
-                <button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">Simpan</button>
+                {{-- <button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">Simpan</button> --}}
             </div>
         </form>
     </div>

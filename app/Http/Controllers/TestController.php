@@ -34,12 +34,16 @@ class TestController extends Controller
     public function testform()
     {
         // Alert::success('Success Title', 'Success Message');
-        Alert::toast('Toast Message', 'success');
+        // Alert::toast('Toast Message', 'success');
         // Alert::html('Html Title', 'Html Code', 'Type');
 
 
 
         return view('test.testform');
+    }
+    public function testpemohon()
+    {
+        return view('test.testpemohon');
     }
 
     public function testformwizard()
