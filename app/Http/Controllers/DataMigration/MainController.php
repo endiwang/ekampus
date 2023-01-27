@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Kursus;
 use App\Models\Syukbah;
 use App\Models\Kelas;
+use App\Models\Negeri;
 use App\Models\OldDatabase\ref_jabatan;
 //Old DB
 use App\Models\OldDatabase\sis_tblpelajar;
@@ -20,6 +21,7 @@ use App\Models\OldDatabase\ref_kelas;
 use App\Models\OldDatabase\ref_pusat_pengajian;
 use App\Models\OldDatabase\ref_semester;
 use App\Models\OldDatabase\ref_sesi;
+use App\Models\OldDatabase\ref_state;
 use App\Models\OldDatabase\ref_subjek;
 use App\Models\OldDatabase\ref_warganegara;
 use App\Models\OldDatabase\sis_tblstaff;
@@ -593,6 +595,19 @@ class MainController extends Controller
 
         dd('done');
 
+    }
+
+    public function refstate_to_negeri()
+    {
+        $negeri = ref_state::all()->take(16);
+        foreach($negeri as $datum)
+        {
+            Negeri::create([
+                'id' => $datum->fldstateID,
+                'nama' => $datum->fldstatedesc,
+            ]);
+        }
+        dd('done');
     }
 
 
