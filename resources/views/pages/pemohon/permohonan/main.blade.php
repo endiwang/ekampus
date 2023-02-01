@@ -126,16 +126,27 @@
                         <form class="form mx-auto" novalidate="novalidate" id="kt_stepper_example_basic_form">
                             <!--begin::Group-->
                             <div class="mb-5">
-                                <!--begin::Step 1-->
+                                <!--Bahagian A : Start-->
                                 <div class="flex-column current" data-kt-stepper-element="content">
                                     @include('pages.pemohon.permohonan.borang.a_maklumat_pemohon')
                                 </div>
-                                <!--begin::Step 1-->
-                                <!--begin::Step 1-->
+                                <!--Bahagian A : End-->
+                                <!--Bahagian B : Start-->
                                 <div class="flex-column" data-kt-stepper-element="content">
-                                    @include('pages.pemohon.permohonan.borang.b_maklumat_pemohon')
+                                    @include('pages.pemohon.permohonan.borang.b_tempat_temuduga')
                                 </div>
-                                <!--begin::Step 1-->
+                                <!--Bahagian B : End-->
+                                <!--Bahagian C : Start-->
+                                <div class="flex-column" data-kt-stepper-element="content">
+                                    @include('pages.pemohon.permohonan.borang.c_maklumat_ibu_bapa_penjaga')
+                                </div>
+                                <!--Bahagian C : End-->
+                                <!--Bahagian D : Start-->
+                                <div class="flex-column" data-kt-stepper-element="content">
+                                    @include('pages.pemohon.permohonan.borang.d_kelulusan_akademik')
+                                </div>
+                                <!--Bahagian D : End-->
+
 
                             </div>
                             <!--end::Group-->
@@ -185,23 +196,197 @@
 @endsection
 @section('script')
 <script>
-    // Stepper lement
-    var form = document.querySelector("#permohonan");
-    // Initialize Stepper
-    @include('pages.pemohon.permohonan.borang.form_validation');
 
-    console.log(step)
+    var bahagianC = '';
+    var bahagianD = '';
+    const form = document.querySelector("#permohonan");
+    const formBahagianA = document.querySelector("#formPermohonanA");
+    const formBahagianB = document.querySelector("#formPermohonanB");
+    const formBahagianC = document.querySelector("#formPermohonanE");
+    const formBahagianD = document.querySelector("#formPermohonanC");
+
+    const namaValidators = {
+                    validators: {
+                        notEmpty: {
+                            message: 'Sila masukkan nama',
+                        },
+                    },
+                };
+    const institusiValidators = {
+                    validators: {
+                        notEmpty: {
+                            message: 'Sila masukkan institusi',
+                        },
+                    },
+                };
+    const umurValidators = {
+                    validators: {
+                        notEmpty: {
+                            message: 'Sila masukkan umur',
+                        },
+                    },
+                };
+    const namaSijilSetarafValidators = {
+                    validators: {
+                        notEmpty: {
+                            message: 'Sila masukkan nama subjek',
+                        },
+                    },
+                };
+    const gredSijilSetarafValidators = {
+                    validators: {
+                        notEmpty: {
+                            message: 'Sila masukkan gred subjek',
+                        },
+                    },
+                };
+
+    const { createApp } = Vue
+
+    const formC = createApp(
+        {
+            data() {
+                return {
+                    sijil_lain: [
+                    ],
+                    stam: [
+                    ],
+                    showResultSPM : 0,
+                    showResultSetara : 0,
+                }
+            },
+            methods: {
+                addRowSijilLain(){
+                    this.sijil_lain.push(
+                        {
+                            nama_subject_sijil_tambahan: '',
+                            gred: ''
+                        });
+                },
+                removeRowSijilLain(index){
+                    this.sijil_lain.splice(index,1)
+                },
+                addRowSTAM(){
+                    this.stam.push(
+                        {
+                            nama_subject_stam: '',
+                            gred: ''
+                        });
+                },
+                removeRowSTAM(index){
+                    this.stam.splice(index,1)
+                },
+                jenisPeperiksaan(e){
+                    if(e.target.value == 'spm')
+                    {
+                        this.showResultSPM = 1;
+                        this.showResultSetara = 0;
+
+                    }else if(e.target.value == 'setara')
+                    {
+                        this.showResultSetara = 1;
+                        this.showResultSPM = 0;
+
+                    }else{
+                        this.showResultSetara = 0;
+                        this.showResultSPM = 0;
+                    }
+                }
+            }
+        }
+    ).mount('#formPermohonanC')
+
+    const formD = createApp(
+        {
+            data() {
+                return {
+                    pendidikan_menengah : [
+                    ],
+                    aktiviti_persatuan : [
+                    ]
+
+                }
+            },
+            methods: {
+                addRowPendidikanMenengah(){
+                    this.pendidikan_menengah.push(
+                        {
+                            nama_sekolah: '',
+                            tahun: '',
+                            keputusan_tetinggi: '',
+                        });
+                },
+                removeRowPendidikanMenengah(index){
+                    this.pendidikan_menengah.splice(index,1)
+                },
+                addRowAktivitiPersatuan(){
+                    this.aktiviti_persatuan.push(
+                        {
+                            tahun: '',
+                            persatuan: '',
+                            jawatan: '',
+                        });
+                },
+                removeRowAktivitiPersatuan(index){
+                    this.aktiviti_persatuan.splice(index,1)
+                }
+            }
+        }
+    ).mount('#formPermohonanD')
+
+    const formE= createApp(
+        {
+            data() {
+                return {
+                    showMaklumatBapa : 0,
+                    showMaklumatIbu : 0,
+                    showMaklumatPenjaga : 0,
+                    addedRowIndex : '',
+                }
+            },
+            methods: {
+                maklumatBapa(e)
+                {
+                    if(e.target.value == 'masih_hidup')
+                    {
+                        this.showMaklumatBapa = 1;
+                    }else{
+                        this.showMaklumatBapa = 0;
+                    }
+                },
+                maklumatIbu(e)
+                {
+                    if(e.target.value == 'masih_hidup')
+                    {
+                        this.showMaklumatIbu = 1;
+                    }else{
+                        this.showMaklumatIbu = 0;
+                    }
+                },
+                maklumatPenjaga(e)
+                {
+                    if(e.target.value == 'penjaga')
+                    {
+                        this.showMaklumatPenjaga = 1;
+                    }else{
+                        this.showMaklumatPenjaga = 0;
+                    }
+                },
+            },
+        }
+    ).mount('#formPermohonanE')
+
+
+    @include('pages.pemohon.permohonan.borang.form_validation');
 
     var stepper = new KTStepper(form);
 
     // Handle next step
     stepper.on("kt.stepper.next", function (stepper) {
-            console.log("stepper.next");
             var step_validation = step[stepper.getCurrentStepIndex() - 1];
             step_validation
                 ? step_validation.validate().then(function (t)
                     {
-                        console.log("validated!"),
                         "Valid" == t
                         ? (stepper.goNext(), KTUtil.scrollTop())
                         : Swal.fire({
@@ -237,6 +422,200 @@
     },function(start, end, label) {
         var datePicked = moment(start).format('DD/MM/YYYY');
         $("#tarikh_lahir").val(datePicked);
+    });
+
+    $("#status_bapa").change(function () {
+        if(this.value == 'masih_hidup')
+        {
+
+            bahagianC.enableValidator('ic_no_bapa', 'notEmpty');
+            bahagianC.enableValidator('alamat_bapa','notEmpty');
+            bahagianC.enableValidator('poskod_bapa','notEmpty');
+            bahagianC.enableValidator('no_telefon_bapa','notEmpty');
+            bahagianC.enableValidator('status_pekerjaan_bapa','notEmpty');
+            bahagianC.enableValidator('jenis_pekerjaan_bapa','notEmpty');
+            bahagianC.enableValidator('pendapatan_bapa','notEmpty');
+
+        }else{
+            bahagianC.disableValidator('ic_no_bapa', 'notEmpty');
+            bahagianC.disableValidator('alamat_bapa','notEmpty');
+            bahagianC.disableValidator('poskod_bapa','notEmpty');
+            bahagianC.disableValidator('no_telefon_bapa','notEmpty');
+            bahagianC.disableValidator('status_pekerjaan_bapa','notEmpty');
+            bahagianC.disableValidator('jenis_pekerjaan_bapa','notEmpty');
+            bahagianC.disableValidator('pendapatan_bapa','notEmpty');
+        }
+
+    });
+
+    $("#status_ibu").change(function () {
+        if(this.value == 'masih_hidup')
+        {
+            bahagianC.enableValidator('ic_no_ibu', 'notEmpty');
+            bahagianC.enableValidator('alamat_ibu','notEmpty');
+            bahagianC.enableValidator('poskod_ibu','notEmpty');
+            bahagianC.enableValidator('no_telefon_ibu','notEmpty');
+            bahagianC.enableValidator('status_pekerjaan_ibu','notEmpty');
+            bahagianC.enableValidator('jenis_pekerjaan_ibu','notEmpty');
+            bahagianC.enableValidator('pendapatan_ibu','notEmpty');
+
+        }else{
+            bahagianC.disableValidator('ic_no_ibu', 'notEmpty');
+            bahagianC.disableValidator('alamat_ibu','notEmpty');
+            bahagianC.disableValidator('poskod_ibu','notEmpty');
+            bahagianC.disableValidator('no_telefon_ibu','notEmpty');
+            bahagianC.disableValidator('status_pekerjaan_ibu','notEmpty');
+            bahagianC.disableValidator('jenis_pekerjaan_ibu','notEmpty');
+            bahagianC.disableValidator('pendapatan_ibu','notEmpty');
+        }
+    });
+
+    $("#pemohon_tinggal_bersama").change(function () {
+        if(this.value == 'penjaga')
+        {
+            bahagianC.enableValidator('nama_penjaga', 'notEmpty');
+            bahagianC.enableValidator('ic_no_penjaga', 'notEmpty');
+            bahagianC.enableValidator('alamat_penjaga','notEmpty');
+            bahagianC.enableValidator('poskod_penjaga','notEmpty');
+            bahagianC.enableValidator('no_telefon_penjaga','notEmpty');
+            bahagianC.enableValidator('status_pekerjaan_penjaga','notEmpty');
+            bahagianC.enableValidator('jenis_pekerjaan_penjaga','notEmpty');
+            bahagianC.enableValidator('pendapatan_penjaga','notEmpty');
+            bahagianC.enableValidator('pertalian_penjaga','notEmpty');
+
+        }else{
+            bahagianC.disableValidator('nama_penjaga', 'notEmpty');
+            bahagianC.disableValidator('ic_no_penjaga', 'notEmpty');
+            bahagianC.disableValidator('alamat_penjaga','notEmpty');
+            bahagianC.disableValidator('poskod_penjaga','notEmpty');
+            bahagianC.disableValidator('no_telefon_penjaga','notEmpty');
+            bahagianC.disableValidator('status_pekerjaan_penjaga','notEmpty');
+            bahagianC.disableValidator('jenis_pekerjaan_penjaga','notEmpty');
+            bahagianC.disableValidator('pendapatan_penjaga','notEmpty');
+            bahagianC.disableValidator('pertalian_penjaga','notEmpty');
+        }
+    });
+
+    $("#jenis_peperiksaan").change(function () {
+        if(this.value == 'spm')
+        {
+            @foreach ($subjek_spm as $subjek)
+                bahagianD.enableValidator('{!! $subjek->slug !!}', 'notEmpty');
+            @endforeach
+        }else{
+            @foreach ($subjek_spm as $subjek)
+                bahagianD.disableValidator('{!! $subjek->slug !!}', 'notEmpty');
+            @endforeach
+        }
+    });
+
+    const removeRow = function (rowIndex) {
+        const row = formBahagianC.querySelector('[data-row-index="' + rowIndex + '"]');
+        bahagianC.removeField('tanggungan[' + rowIndex + '].nama')
+                .removeField('tanggungan[' + rowIndex + '].institusi')
+                .removeField('tanggungan[' + rowIndex + '].umur');
+        row.parentNode.removeChild(row);
+    };
+
+
+    const template = document.getElementById('template');
+    let rowIndex = -1;
+    document.getElementById('addButton').addEventListener('click', function () {
+        rowIndex++;
+
+        const clone = template.cloneNode(true);
+        clone.removeAttribute('id');
+
+        clone.style.display = 'flex';
+
+        clone.setAttribute('data-row-index', rowIndex);
+
+        template.before(clone);
+
+        let nama_tanggungan = clone.querySelector('[data-name="tanggungan.nama"]');
+        let institusi_tanggungan = clone.querySelector('[data-name="tanggungan.institusi"]');
+        let umur_tanggungan = clone.querySelector('[data-name="tanggungan.umur"]');
+
+        nama_tanggungan.setAttribute('name', 'tanggungan[' + rowIndex + '].nama');
+        nama_tanggungan.value = '';
+
+        institusi_tanggungan.setAttribute('name', 'tanggungan[' + rowIndex + '].institusi');
+        institusi_tanggungan.value = '';
+
+        umur_tanggungan.setAttribute('name', 'tanggungan[' + rowIndex + '].umur');
+        umur_tanggungan.value = '';
+
+        let button_remove = clone.querySelector('.js-remove-button');
+        let button_remove_icon = clone.querySelector('.js-remove-button-icon');
+
+        button_remove.setAttribute('data-row-index', rowIndex);
+        button_remove_icon.setAttribute('data-row-index', rowIndex);
+
+        button_remove.addEventListener('click', function (e) {
+            const index = e.target.getAttribute('data-row-index');
+            removeRow(index);
+        });
+        button_remove_icon.addEventListener('click', function (e) {
+            const index = e.target.getAttribute('data-row-index');
+            removeRow(index);
+        });
+
+        bahagianC.addField('tanggungan[' + rowIndex + '].nama', namaValidators)
+                .addField('tanggungan[' + rowIndex + '].institusi', institusiValidators)
+                .addField('tanggungan[' + rowIndex + '].umur', umurValidators);
+    });
+
+
+    // Bahagian D Sijil Setaraf
+
+    const removeRowSijilSetaraf = function (rowIndexSijilSetaraf) {
+        const rowSijilSetaraf = formBahagianD.querySelector('[data-row-index-sijil-setaraf="' + rowIndexSijilSetaraf + '"]');
+        bahagianD.removeField('subjek[' + rowIndexSijilSetaraf + '].nama')
+                .removeField('subjek[' + rowIndexSijilSetaraf + '].gred')
+        rowSijilSetaraf.parentNode.removeChild(rowSijilSetaraf);
+    };
+
+
+    const template_bahagianD = document.getElementById('template-sijil-setaraf');
+    let rowIndexSijilSetaraf = 0;
+    document.getElementById('add-button-sijil-setaraf').addEventListener('click', function () {
+        rowIndexSijilSetaraf++;
+
+        const cloneSijilSetaraf = template_bahagianD.cloneNode(true);
+        cloneSijilSetaraf.removeAttribute('id');
+
+        cloneSijilSetaraf.style.display = 'flex';
+
+        cloneSijilSetaraf.setAttribute('data-row-index-sijil-setaraf', rowIndexSijilSetaraf);
+
+        template_bahagianD.before(cloneSijilSetaraf);
+
+        let nama_subjek = cloneSijilSetaraf.querySelector('[data-name="subjek.nama"]');
+        let gred_subjek = cloneSijilSetaraf.querySelector('[data-name="subjek.gred"]');
+
+        nama_subjek.setAttribute('name', 'subjek[' + rowIndexSijilSetaraf + '].nama');
+        nama_subjek.value = '';
+
+        gred_subjek.setAttribute('name', 'subjek[' + rowIndexSijilSetaraf + '].gred');
+        gred_subjek.value = '';
+
+        let button_remove_sijil_setaraf = cloneSijilSetaraf.querySelector('.js-remove-button-sijil-setaraf');
+        let button_remove_icon_sijil_setaraf = cloneSijilSetaraf.querySelector('.js-remove-button-sijil-setaraf-icon');
+
+        button_remove_sijil_setaraf.setAttribute('data-row-index-sijil-setaraf', rowIndexSijilSetaraf);
+        button_remove_icon_sijil_setaraf.setAttribute('data-row-index-sijil-setaraf', rowIndexSijilSetaraf);
+
+        button_remove_sijil_setaraf.addEventListener('click', function (e) {
+            const index = e.target.getAttribute('data-row-index-sijil-setaraf');
+            removeRowSijilSetaraf(index);
+        });
+        button_remove_icon_sijil_setaraf.addEventListener('click', function (e) {
+            const index = e.target.getAttribute('data-row-index-sijil-setaraf');
+            removeRowSijilSetaraf(index);
+        });
+
+        bahagianD.addField('subjek[' + rowIndexSijilSetaraf + '].nama', namaSijilSetarafValidators)
+                .addField('subjek[' + rowIndexSijilSetaraf + '].gred', gredSijilSetarafValidators)
     });
 
 </script>

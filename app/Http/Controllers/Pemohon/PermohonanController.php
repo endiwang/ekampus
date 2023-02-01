@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pemohon;
 
 use App\Http\Controllers\Controller;
+use App\Models\SubjekSPM;
 use Illuminate\Http\Request;
 
 class PermohonanController extends Controller
@@ -14,7 +15,8 @@ class PermohonanController extends Controller
      */
     public function index()
     {
-        return view('pages.pemohon.permohonan.main');
+        $subjek_spm = SubjekSPM::all();
+        return view('pages.pemohon.permohonan.main', compact('subjek_spm'));
     }
 
     /**
