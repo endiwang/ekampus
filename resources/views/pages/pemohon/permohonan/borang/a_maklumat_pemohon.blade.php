@@ -232,7 +232,7 @@
                         'darah tinggi' => 'Darah Tinggi',
                         'sakit mental' => 'Sakit Mental',
                         'anxiety disorder' => 'Anxiety Disorder'
-                        ], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                        ], null, ['class' =>'form-control form-control-lg ', 'data-control'=>'select2', 'multiple'=>'multiple', 'data-placeholder' => 'Sila Pilih']) }}
                 </div>
             </div>
             <div class="row mb-6">
@@ -241,7 +241,7 @@
                     <div class="form-text mt-0">Ward Admission Record</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::select('rekod_kemasukan_wad', ['N' => 'Tiada Rekod', 'MW' => 'Masuk Wad','pembedahan' => 'Pembedahan','RS' => 'Rawatan Psikiatri'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                    {{ Form::select('rekod_kemasukan_wad', ['N' => 'Tiada Rekod', 'MW' => 'Masuk Wad','pembedahan' => 'Pembedahan','RS' => 'Rawatan Psikiatri'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ','data-control'=>'select2','data-placeholder' => 'Sila Pilih', 'data-hide-search'=>'true']) }}
                 </div>
             </div>
 

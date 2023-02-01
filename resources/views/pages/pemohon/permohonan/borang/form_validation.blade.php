@@ -102,8 +102,9 @@ var step = [
                 trigger: new FormValidation.plugins.Trigger(),
                 bootstrap: new FormValidation.plugins.Bootstrap5({
                     rowSelector: '.fv-row',
-                    eleInvalidClass: 'is-invalid',
+                    eleInvalidClass: '',
                     eleValidClass: ''
+
                 })
             }
         }
@@ -125,7 +126,7 @@ var step = [
                 trigger: new FormValidation.plugins.Trigger(),
                 bootstrap: new FormValidation.plugins.Bootstrap5({
                     rowSelector: '.fv-row',
-                    eleInvalidClass: 'is-invalid',
+                    eleInvalidClass: '',
                     eleValidClass: ''
                 })
             }
@@ -361,7 +362,7 @@ var step = [
                 trigger: new FormValidation.plugins.Trigger(),
                 bootstrap: new FormValidation.plugins.Bootstrap5({
                     rowSelector: '.fv-row',
-                    eleInvalidClass: 'is-invalid',
+                    eleInvalidClass: '',
                     eleValidClass: ''
                 })
             }
@@ -415,7 +416,7 @@ var step = [
                     trigger: new FormValidation.plugins.Trigger(),
                     bootstrap: new FormValidation.plugins.Bootstrap5({
                         rowSelector: '.fv-row',
-                        eleInvalidClass: 'is-invalid',
+                        eleInvalidClass: '',
                         eleValidClass: ''
                     })
                 }
