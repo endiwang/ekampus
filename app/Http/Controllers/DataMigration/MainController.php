@@ -5,6 +5,8 @@ namespace App\Http\Controllers\DataMigration;
 use App\Http\Controllers\Controller;
 use App\Models\Jabatan;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use App\Jobs\MigratePermohonan;
 
 //New DB
 use App\Models\User;
@@ -12,7 +14,16 @@ use App\Models\Kursus;
 use App\Models\Syukbah;
 use App\Models\Kelas;
 use App\Models\Negeri;
-use App\Models\OldDatabase\ref_jabatan;
+use App\Models\Pelajar;
+use App\Models\Permohonan;
+use App\Models\PusatPengajian;
+use App\Models\Semester;
+use App\Models\Sesi;
+use App\Models\Staff;
+use App\Models\Subjek;
+use App\Models\TetapanPermohonanPelajar;
+use App\Models\Warganegara;
+
 //Old DB
 use App\Models\OldDatabase\sis_tblpelajar;
 use App\Models\OldDatabase\ref_kursus;
@@ -24,17 +35,11 @@ use App\Models\OldDatabase\ref_sesi;
 use App\Models\OldDatabase\ref_state;
 use App\Models\OldDatabase\ref_subjek;
 use App\Models\OldDatabase\ref_warganegara;
+use App\Models\OldDatabase\sis_tblpermohonan;
 use App\Models\OldDatabase\sis_tblstaff;
 use App\Models\OldDatabase\tbl_masuk_permohonan;
-use App\Models\Pelajar;
-use App\Models\PusatPengajian;
-use App\Models\Semester;
-use App\Models\Sesi;
-use Carbon\Carbon;
-use App\Models\Staff;
-use App\Models\Subjek;
-use App\Models\TetapanPermohonanPelajar;
-use App\Models\Warganegara;
+use App\Models\OldDatabase\ref_jabatan;
+
 
 class MainController extends Controller
 {
@@ -609,6 +614,22 @@ class MainController extends Controller
         }
         dd('done');
     }
+
+    public function sis_tblpermohonan_to_permohonan()
+    {
+        $total_data = sis_tblpermohonan::count();
+
+        for($i = 0; $i<= ($total_data); $i = $i+100)
+        {
+            dispatch(new MigratePermohonan());
+        }
+
+        dd('done');
+
+
+    }
+
+
 
 
 }
