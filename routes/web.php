@@ -69,6 +69,8 @@ Route::prefix('migrate')->group(function () {
     Route::get('/ref_jabatan_to_jabatan_table', [MigrateMainController::class,'ref_jabatan_to_jabatan_table']);
     Route::get('/ref_warganegara_to_warganegara_table', [MigrateMainController::class,'ref_warganegara_to_warganegara_table']);
     Route::get('/tbl_masuk_permohonan_to_tetapan_permohonan_pelajar', [MigrateMainController::class,'tbl_masuk_permohonan_to_tetapan_permohonan_pelajar']);
+    Route::get('/refstate_to_negeri', [MigrateMainController::class,'refstate_to_negeri']);
+    Route::get('/sis_tblpermohonan_to_permohonan', [MigrateMainController::class,'sis_tblpermohonan_to_permohonan']);
 });
 
 Route::get('/duplicate_data', [MigrateMainController::class,'find_duplicate']);

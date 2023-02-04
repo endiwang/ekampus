@@ -58,6 +58,7 @@ class LoginController extends Controller
 
         // dd($credentials);
         if(!Auth::guard('pemohon')->validate($credentials)):
+            Alert::error('Ralat','Sila pastikan no kad pengenalan dan katalauan anda betul');
             return redirect()->to('login_pemohon')
                 ->withErrors(trans('auth.failed'));
         endif;

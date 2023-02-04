@@ -11,7 +11,7 @@
 <link href="{{URL::asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{URL::asset('assets/plugins/custom/jstree/jstree.bundle.css')}}" rel="stylesheet" type="text/css" />
 
-<style>
+{{-- <style>
     .swal2-icon-success {
     background-color: #a5dc86 !important;
     }
@@ -55,4 +55,4 @@
     .swal-modal-delete-container {
     color: gray !important;
 	}
-</style>
+</style> --}}
