@@ -85,7 +85,7 @@ class KelasController extends Controller
                     return $data->count_pelajar ?? 0;
                 })
                 ->addColumn('status_guru_tasmik', function($data) {
-                    return '-';
+                    return 'Tiada';
                 })
                 ->addColumn('status', function($data) {
                     switch ($data->status) {

@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Pengurusan\Akademik\GuruTasmikController;
+use App\Http\Controllers\Pengurusan\Akademik\KalendarAkademikController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pengurusan\Akademik\KelasController;
 use App\Http\Controllers\Pengurusan\Akademik\KursusController;
 use App\Http\Controllers\Pengurusan\Akademik\MainAkademikController;
+use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\KelasPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\SubjekController;
 
@@ -26,3 +28,8 @@ Route::resource('guru_tasmik', GuruTasmikController::class);
 
 Route::get('/download/{id}', [PeraturanAkademikController::class, 'download'])->name('peraturan_akademik.download');
 Route::resource('peraturan_akademik', PeraturanAkademikController::class);
+
+Route::resource('kalendar_akademik', KalendarAkademikController::class);
+
+Route::post('pendaftaran/kelas_pelajar/update/{id}', [KelasPelajarController::class, 'updateClass'])->name('kelas_pelajar.update');
+Route::resource('pendaftaran/kelas_pelajar', KelasPelajarController::class);

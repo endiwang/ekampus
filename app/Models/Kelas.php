@@ -41,4 +41,9 @@ class Kelas extends Model
         return $count;
     }
 
+    public function getClassCapacityAttribute()
+    {
+        return $this->nama . ' [' . $this->kapasiti_pelajar . ']';
+    }
+
 }

@@ -28,6 +28,16 @@ class Pelajar extends Model
         return $this->belongsTo(Kursus::class,'kursus_id','id');
     }
 
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class,'kelas_id','id');
+    }
+
+    public function syukbah()
+    {
+        return $this->belongsTo(Syukbah::class,'syukbah_id','id');
+    }
+
 
 
 }
