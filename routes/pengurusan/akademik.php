@@ -31,4 +31,5 @@ Route::resource('peraturan_akademik', PeraturanAkademikController::class);
 
 Route::resource('kalendar_akademik', KalendarAkademikController::class);
 
+Route::post('pendaftaran/kelas_pelajar/update/{id}', [KelasPelajarController::class, 'updateClass'])->name('kelas_pelajar.update');
 Route::resource('pendaftaran/kelas_pelajar', KelasPelajarController::class);
