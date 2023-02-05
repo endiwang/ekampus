@@ -29,6 +29,11 @@ Route::resource('guru_tasmik', GuruTasmikController::class);
 Route::get('/download/{id}', [PeraturanAkademikController::class, 'download'])->name('peraturan_akademik.download');
 Route::resource('peraturan_akademik', PeraturanAkademikController::class);
 
+Route::delete('kalendar_akademik/aktiviti/delete/{id}', [KalendarAkademikController::class, 'deleteActivity'])->name('kalendar_akademik.delete_activity');
+Route::put('kalendar_akademik/aktiviti/update/{id}', [KalendarAkademikController::class, 'updateActivity'])->name('kalendar_akademik.update_activity');
+Route::get('kalendar_akademik/aktiviti/edit/{id}', [KalendarAkademikController::class, 'editActivity'])->name('kalendar_akademik.edit_activity');
+Route::post('kalendar_akademik/aktiviti/store/{id}', [KalendarAkademikController::class, 'storeActivity'])->name('kalendar_akademik.store_activity');
+Route::get('kalendar_akademik/aktiviti/create/{id}', [KalendarAkademikController::class, 'createActivity'])->name('kalendar_akademik.create_activity');
 Route::resource('kalendar_akademik', KalendarAkademikController::class);
 
 Route::post('pendaftaran/kelas_pelajar/update/{id}', [KelasPelajarController::class, 'updateClass'])->name('kelas_pelajar.update');
