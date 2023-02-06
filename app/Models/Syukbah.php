@@ -12,4 +12,5 @@ class Syukbah extends Model
 
     protected $table = 'syukbah';
     protected $fillable = ['id','nama','kuota_pelajar','jumlah_jam_kredit','kursus_id','status'];
+
 }
