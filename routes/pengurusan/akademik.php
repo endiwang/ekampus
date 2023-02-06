@@ -7,6 +7,7 @@ use App\Http\Controllers\Pengurusan\Akademik\KelasController;
 use App\Http\Controllers\Pengurusan\Akademik\KursusController;
 use App\Http\Controllers\Pengurusan\Akademik\MainAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\KelasPelajarController;
+use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\SyukbahController;
 use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\SubjekController;
 
@@ -38,3 +39,5 @@ Route::resource('kalendar_akademik', KalendarAkademikController::class);
 
 Route::post('pendaftaran/kelas_pelajar/update/{id}', [KelasPelajarController::class, 'updateClass'])->name('kelas_pelajar.update');
 Route::resource('pendaftaran/kelas_pelajar', KelasPelajarController::class);
+
+Route::resource('pendaftaran/syukbah_pelajar', SyukbahController::class);
