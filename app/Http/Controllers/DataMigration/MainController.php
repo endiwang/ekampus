@@ -39,7 +39,8 @@ use App\Models\OldDatabase\sis_tblpermohonan;
 use App\Models\OldDatabase\sis_tblstaff;
 use App\Models\OldDatabase\tbl_masuk_permohonan;
 use App\Models\OldDatabase\ref_jabatan;
-
+use App\Models\OldDatabase\sis_tblpelajar_syukbah;
+use App\Models\PermohonanPertukaranSyukbah;
 
 class MainController extends Controller
 {
@@ -622,6 +623,31 @@ class MainController extends Controller
         for($i = 0; $i<= ($total_data); $i = $i+100)
         {
             dispatch(new MigratePermohonan());
+        }
+
+        dd('done');
+
+
+    }
+
+    public function sis_tblpelajar_syukbah_to_permohonan_pertukaran_syukbah()
+    {
+        $tblpelajar_syukbahs = sis_tblpelajar_syukbah::all();
+
+        foreach($tblpelajar_syukbahs as $data)
+        {
+            $pelajar = Pelajar::select('id')->where('pelajar_id_old', $data->pelajar_id)->first();
+
+            PermohonanPertukaranSyukbah::create([
+                'pel_syuk_id_old'   => $data->pel_syuk_id,
+                'pelajar_id_old'    => $data->pelajar_id,
+                'pelajar_id'        => $pelajar->id,
+                'old_syukbah_id'    => $data->ref_sukbah_id,
+                'new_syukbah_id'    => $data->new_syukbah_id,
+                'semester_id'       => $data->semester_id,
+                'sebab_tukar'       => $data->sebab,
+                'status'            => $data->status,
+            ]);
         }
 
         dd('done');
