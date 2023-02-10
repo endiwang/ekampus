@@ -7,7 +7,9 @@ use App\Models\Jabatan;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Jobs\MigratePermohonan;
-
+use App\Jobs\MigratePermohonanKelulusanAkademik;
+use App\Jobs\MigratePermohonanPenjaga;
+use App\Jobs\MigratePermohonanTanggunganPenjaga;
 //New DB
 use App\Models\User;
 use App\Models\Kursus;
@@ -23,6 +25,7 @@ use App\Models\Staff;
 use App\Models\Subjek;
 use App\Models\TetapanPermohonanPelajar;
 use App\Models\Warganegara;
+use App\Models\PermohonanKelulusanAkademik;
 
 //Old DB
 use App\Models\OldDatabase\sis_tblpelajar;
@@ -39,7 +42,9 @@ use App\Models\OldDatabase\sis_tblpermohonan;
 use App\Models\OldDatabase\sis_tblstaff;
 use App\Models\OldDatabase\tbl_masuk_permohonan;
 use App\Models\OldDatabase\ref_jabatan;
-
+use App\Models\OldDatabase\sis_tblpermohonan_pelajaran;
+use App\Models\OldDatabase\sis_tblpermohonan_penjaga;
+use App\Models\OldDatabase\sis_tblpermohonan_tanggung;
 
 class MainController extends Controller
 {
@@ -625,7 +630,39 @@ class MainController extends Controller
         }
 
         dd('done');
+    }
 
+    public function sis_tblpermohonan_pelajaran_to_permohonan_kelulusan_akademik()
+    {
+        $data = sis_tblpermohonan_pelajaran::where('mohon_id','!=','undefined')->get();
+        foreach($data as $datum)
+        {
+            dispatch(new MigratePermohonanKelulusanAkademik($datum->mohon_id));
+        }
+
+        dd('done');
+
+    }
+
+    public function sis_tblpermohonan_penjaga_to_permohonan_penjaga()
+    {
+        $data = sis_tblpermohonan_penjaga::all();
+        foreach($data as $datum)
+        {
+            dispatch(new MigratePermohonanPenjaga($datum->mohon_id));
+        }
+        dd('done');
+    }
+
+    public function sis_tblpermohonan_tanggung_to_permohonan_tanggungan_penjaga()
+    {
+        $data = sis_tblpermohonan_tanggung::all();
+        // dd($data->count());
+        foreach($data as $datum)
+        {
+            dispatch(new MigratePermohonanTanggunganPenjaga($datum->mohon_tid));
+        }
+        dd('done');
 
     }
 
