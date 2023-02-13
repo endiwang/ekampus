@@ -25,10 +25,10 @@ class ProsesTemudugaController extends Controller
         try {
 
 
-            $title = "Senarai Permohonan";
+            $title = "Proses Temuduga";
             $breadcrumbs = [
                 "Kemasukan Biasiswa Graduasi" =>  false,
-                "Senarai Permohonan" =>  false,
+                "Proses Temuduga" =>  false,
             ];
 
             $buttons = [
