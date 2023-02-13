@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\Html\Builder;
 use Yajra\DataTables\DataTables;
 use App\Models\Permohonan;
+use App\Models\OldDatabase\sis_tblpermohonan;
+use App\Helpers\Utils;
+use App\Models\Negeri;
+use Exception;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 
 
@@ -21,6 +27,7 @@ class SenaraiPermohonanController extends Controller
     {
         try {
 
+
             $title = "Senarai Permohonan";
             $breadcrumbs = [
                 "Kemasukan Biasiswa Graduasi" =>  false,
@@ -29,7 +36,7 @@ class SenaraiPermohonanController extends Controller
 
             $buttons = [
                 [
-                    'title' => "Tambah Maklumat Guru Tasmik",
+                    'title' => "Tambah Permohonan",
                     'route' => route('pengurusan.akademik.guru_tasmik.create'),
                     'button_class' => "btn btn-sm btn-primary fw-bold",
                     'icon_class' => "fa fa-plus-circle"
@@ -37,47 +44,35 @@ class SenaraiPermohonanController extends Controller
             ];
 
             if (request()->ajax()) {
-                $data = Permohonan::all();
+                $data = Permohonan::where('is_submitted',1)->where('is_deleted',0)->where('is_selected',0)->where('is_tawaran',0)->where('is_interview',0)->get();
                 return DataTables::of($data)
                 ->addColumn('nama', function($data) {
                     return $data->nama ?? null;
                 })
-                ->addColumn('jabatan', function($data) {
-                    if(!empty($data->jabatan_id))
+                ->addColumn('kursus', function($data) {
+                    if(!empty($data->kursus_id))
                     {
-                        return $data->jabatan->nama ?? 'N/A';
+                        return $data->kursus->nama ?? 'N/A';
                     }
                     else {
                         return 'N/A';
                     }
                 })
-                ->addColumn('pusat_pengajian', function($data) {
-                    if(!empty($data->pusat_pengajian_id))
-                    {
-                        return $data->pusatPengajian->nama ?? 'N/A';
-                    }
-                    else {
-                        return 'N/A';
-                    }
+                ->addColumn('tarikh_permohonan', function($data){
+                    $tarikh_permohonan = Utils::formatDate($data->submitted_date);
+                    return $tarikh_permohonan;
                 })
                 ->addColumn('action', function($data){
                     return '
-                            <a href="'.route('pengurusan.akademik.guru_tasmik.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                            <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.update',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
-                            <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id .')" data-bs-toggle="tooltip" title="Hapus">
-                                <i class="fa fa-trash"></i>
-                            </a>
-                            <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.guru_tasmik.destroy', $data->id).'" method="POST">
-                                <input type="hidden" name="_token" value="'.csrf_token().'">
-                                <input type="hidden" name="_method" value="DELETE">
-                            </form>';
+                            <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.update',$data->id).'" class="edit btn btn-icon btn-success btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                                <i class="fa fa-check"></i>
+                            </a>';
                 })
                 ->addIndexColumn()
-                ->order(function ($data) {
-                    $data->orderBy('id', 'desc');
-                })
-                ->rawColumns(['kursus','status', 'action'])
+                ->rawColumns(['nama','kursus','status', 'action','tarikh_permohonan'])
                 ->toJson();
             }
 
@@ -86,9 +81,9 @@ class SenaraiPermohonanController extends Controller
                 [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
                 ['data' => 'nama',      'name' => 'nama',           'title' => 'Nama Pemohon', 'orderable'=> false, 'class'=>'text-bold'],
                 ['data' => 'no_ic',     'name' => 'no_ic',          'title' => 'No. Kad Pengenalan', 'orderable'=> false],
-                ['data' => 'gred',      'name' => 'kursus',         'title' => 'Jenis Permohonan', 'orderable'=> false],
-                ['data' => 'jabatan',   'name' => 'tarik_daftar',   'title' => 'Tarikh Daftar', 'orderable'=> false],
-                ['data' => 'action',    'name' => 'action',         'title' => 'Tindakan','orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+                ['data' => 'kursus',      'name' => 'kursus',         'title' => 'Jenis Permohonan', 'orderable'=> false],
+                ['data' => 'tarikh_permohonan',   'name' => 'tarik_permohonan',   'title' => 'Tarikh Permohonan', 'orderable'=> false],
+                ['data' => 'action',    'name' => 'action',         'title' => 'Tindakan','orderable' => false, 'searchable' => false, 'class'=>'min-w-100px'],
 
             ])
             ->minifiedAjax();
@@ -144,7 +139,26 @@ class SenaraiPermohonanController extends Controller
      */
     public function edit($id)
     {
-        //
+        try {
+
+            $negeri = Negeri::pluck('nama', 'id');
+
+            $title = "Maklumat Permohonan";
+            $breadcrumbs = [
+                "Kemasukan Biasiswa Graduasi" =>  false,
+                "Maklumat Permohonan" =>  false,
+            ];
+
+            $data = Permohonan::find($id);
+
+            return view('pages.pengurusan.kbg.senarai_permohonan.edit', compact('title', 'breadcrumbs','data','negeri'));
+
+        } catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
     }
 
     /**
