@@ -64,11 +64,8 @@ class SenaraiPermohonanController extends Controller
                 })
                 ->addColumn('action', function($data){
                     return '
-                            <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.update',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                            <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
-                            </a>
-                            <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.update',$data->id).'" class="edit btn btn-icon btn-success btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
-                                <i class="fa fa-check"></i>
                             </a>';
                 })
                 ->addIndexColumn()
@@ -128,7 +125,7 @@ class SenaraiPermohonanController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -159,6 +156,7 @@ class SenaraiPermohonanController extends Controller
             Alert::toast('Uh oh! Something went Wrong', 'error');
             return redirect()->back();
         }
+
     }
 
     /**
@@ -182,5 +180,27 @@ class SenaraiPermohonanController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function pilih(Request $request)
+    {
+        try {
+
+            $permohonan = Permohonan::find($request->id);
+
+            $permohonan->is_selected = 1;
+            $permohonan->save();
+
+
+            Alert::toast('Permohonan telah dipilih!', 'success');
+            return redirect()->route('pengurusan.kbg.pengurusan.senarai_permohonan.index');
+
+        }catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+
     }
 }

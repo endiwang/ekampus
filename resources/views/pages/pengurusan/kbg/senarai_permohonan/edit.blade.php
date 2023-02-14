@@ -12,6 +12,19 @@
                         <div class="card-body py-5">
                             @include('pages.pengurusan.kbg.senarai_permohonan.borang.a_maklumat_pemohon')
                             @include('pages.pengurusan.kbg.senarai_permohonan.borang.b_tempat_temuduga')
+                            <div class="d-flex justify-content-center">
+                                <!--begin::Button-->
+                                <a href="../../demo1/dist/apps/ecommerce/catalog/products.html" id="kt_ecommerce_add_product_cancel" class="btn btn-success me-5">Simpan</a>
+                                <a href="../../demo1/dist/apps/ecommerce/catalog/products.html" id="kt_ecommerce_add_product_cancel" class="btn btn-info me-5">Cetak Borang</a>
+                                <button onclick="pilih()" id="kt_ecommerce_add_product_cancel" class="btn btn-primary me-5">Proses Pemilihan</button>
+                                <form id="pilih" action="{{ route('pengurusan.kbg.pengurusan.senarai_permohonan.pilih') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $data->id }}">
+                                </form>
+                                <a href="../../demo1/dist/apps/ecommerce/catalog/products.html" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">Kembali</a>
+                                <!--end::Button-->
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -38,4 +51,29 @@
         $("#tarikh_lahir").val(datePicked);
     });
 </script>
+    <script>
+        function pilih(){
+            Swal.fire({
+                icon:'question',
+                title: 'Adakah anda pasti?',
+                showCancelButton: true,
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya, Pilih Calon Ini',
+                reverseButtons: true,
+                customClass: {
+                    title: 'swal-modal-delete-title',
+                    htmlContainer: 'swal-modal-delete-container',
+                    cancelButton: 'btn btn-light btn-sm mr-1',
+                    confirmButton: 'btn btn-primary btn-sm ml-1'
+                },
+                buttonsStyling: false
+            })
+                .then((result) => {
+                    if(result.isConfirmed){
+                        document.getElementById(`pilih`).submit();
+                    }
+                })
+        }
+    </script>
+
 @endpush
