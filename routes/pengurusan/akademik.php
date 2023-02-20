@@ -9,6 +9,7 @@ use App\Http\Controllers\Pengurusan\Akademik\MainAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\KelasPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\SyukbahController;
 use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
+use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PertukaranSyukbahController;
 use App\Http\Controllers\Pengurusan\Akademik\SubjekController;
 
 Route::resource('/', MainAkademikController::class)->only(['index',]);
@@ -41,3 +42,8 @@ Route::post('pendaftaran/kelas_pelajar/update/{id}', [KelasPelajarController::cl
 Route::resource('pendaftaran/kelas_pelajar', KelasPelajarController::class);
 
 Route::resource('pendaftaran/syukbah_pelajar', SyukbahController::class);
+
+Route::group(['prefix'=>'permohonan','as'=>'permohonan.'], function(){
+    Route::resource('pertukaran_syukbah', PertukaranSyukbahController::class);
+});
+
