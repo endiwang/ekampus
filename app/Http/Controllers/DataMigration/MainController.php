@@ -39,8 +39,10 @@ use App\Models\OldDatabase\sis_tblpermohonan;
 use App\Models\OldDatabase\sis_tblstaff;
 use App\Models\OldDatabase\tbl_masuk_permohonan;
 use App\Models\OldDatabase\ref_jabatan;
+use App\Models\OldDatabase\sis_semester_now;
 use App\Models\OldDatabase\sis_tblpelajar_syukbah;
 use App\Models\PermohonanPertukaranSyukbah;
+use App\Models\SemesterTerkini;
 
 class MainController extends Controller
 {
@@ -647,6 +649,49 @@ class MainController extends Controller
                 'semester_id'       => $data->semester_id,
                 'sebab_tukar'       => $data->sebab,
                 'status'            => $data->status,
+            ]);
+        }
+
+        dd('done');
+
+
+    }
+
+    public function sis_semester_now_to_semester_terkini()
+    {
+        $tblsemester_now = sis_semester_now::all();
+
+        foreach($tblsemester_now as $data)
+        {
+            SemesterTerkini::create([
+                'kursus_id'                     => $data->kursus_id,
+                'semester_no'                   => $data->semester_num,
+                'semester_name'                 => $data->semester,
+                'sesi_masuk'                    => $data->sesi_masuk,
+                'sesi_pengajian'                => $data->sesi_pengajian,
+                'sesi'                          => $data->sesi,
+                'status_semester'               => $data->s_status,
+                'status_keputusan'              => $data->s_keputusan,
+                'status_keputusan_2'            => $data->s_keputusan2,
+                'status_keputusan_3'            => $data->s_keputusan2,
+                'status_keputusan_4'            => $data->s_keputusan2,
+                'status_keputusan_5'            => $data->s_keputusan2,
+                'status_keputusan_6'            => $data->s_keputusan2,
+                'status_keputusan_7'            => $data->s_keputusan2,
+                'status_keputusan_8'            => $data->s_keputusan2,
+                'status_keputusan_ulangan'      => $data->s_keputusan_u,
+                'tarikh_mula_permohonan'        => $data->dt_mohon_mula ?? NULL,
+                'tarikh_akhir_permohonan'       => $data->dt_mohon_akhir ?? NULL,
+                'tarikh_daftar'                 => $data->dt_daftar ?? NULL,
+                'tarikh_mula_daftar_kurus'      => $data->dt_kursus_daftar ?? NULL,
+                'tarikh_akhir_daftar_kursus'    => $data->dt_kursus_daftara ?? NULL,
+                'tarikh_mula_kurus'             => $data->dt_kursus_gmula ?? NULL,
+                'tarikh_akhir_kursus'           => $data->dt_kursus_gakhir ?? NULL,
+                'tarikh_mula_kuliah'            => $data->dt_kuliah_mula ?? NULL,
+                'tarikh_akhir_kuliah'           => $data->dt_kuliah_akhir ?? NULL,
+                'tarikh_mula_peperiksaan'       => $data->dt_exam_mula ?? NULL,
+                'tarikh_akhir_peperiksaan'      => $data->dt_exam_akhir ?? NULL,
+                'tarikh_keputusan_peperiksaan'  => $data->dt_result ?? NULL,
             ]);
         }
 
