@@ -9,7 +9,9 @@ use Yajra\DataTables\DataTables;
 use App\Models\Permohonan;
 use App\Models\OldDatabase\sis_tblpermohonan;
 use App\Helpers\Utils;
+use App\Models\Keturunan;
 use App\Models\Negeri;
+use App\Models\SubjekSPM;
 use Exception;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -136,9 +138,14 @@ class SenaraiPermohonanController extends Controller
      */
     public function edit($id)
     {
+        // $data = Permohonan::find($id);
+        // dd($data->penjaga);
         try {
 
             $negeri = Negeri::pluck('nama', 'id');
+            $keturunan = Keturunan::where('status',0)->pluck('nama', 'id');
+            $subjek_spm = SubjekSPM::all();
+
 
             $title = "Maklumat Permohonan";
             $breadcrumbs = [
@@ -148,7 +155,7 @@ class SenaraiPermohonanController extends Controller
 
             $data = Permohonan::find($id);
 
-            return view('pages.pengurusan.kbg.senarai_permohonan.edit', compact('title', 'breadcrumbs','data','negeri'));
+            return view('pages.pengurusan.kbg.senarai_permohonan.edit', compact('title', 'breadcrumbs','data','negeri','keturunan','subjek_spm'));
 
         } catch (Exception $e) {
             report($e);

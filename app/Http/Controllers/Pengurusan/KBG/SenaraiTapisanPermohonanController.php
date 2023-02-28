@@ -60,13 +60,13 @@ class SenaraiTapisanPermohonanController extends Controller
                     $tarikh_permohonan = Utils::formatDate($data->submitted_date);
                     return $tarikh_permohonan;
                 })
-                ->addColumn('action', function($data){
-                    return '
-                            <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
-                                <i class="fa fa-pencil-alt"></i>
-                            </a>';
+                // ->addColumn('action', function($data){
+                //     return '
+                //             <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                //                 <i class="fa fa-pencil-alt"></i>
+                //             </a>';
 
-                })
+                // })
                 ->addIndexColumn()
                 ->rawColumns(['nama','kursus','status', 'action','tarikh_permohonan'])
                 ->toJson();
@@ -79,7 +79,7 @@ class SenaraiTapisanPermohonanController extends Controller
                 ['data' => 'no_ic',     'name' => 'no_ic',          'title' => 'No. Kad Pengenalan', 'orderable'=> false],
                 ['data' => 'kursus',      'name' => 'kursus',         'title' => 'Jenis Permohonan', 'orderable'=> false],
                 ['data' => 'tarikh_permohonan',   'name' => 'tarik_permohonan',   'title' => 'Tarikh Permohonan', 'orderable'=> false],
-                ['data' => 'action',    'name' => 'action',         'title' => 'Tindakan','orderable' => false, 'searchable' => false, 'class'=>'min-w-100px'],
+                // ['data' => 'action',    'name' => 'action',         'title' => 'Tindakan','orderable' => false, 'searchable' => false, 'class'=>'min-w-100px'],
 
             ])
             ->minifiedAjax();
