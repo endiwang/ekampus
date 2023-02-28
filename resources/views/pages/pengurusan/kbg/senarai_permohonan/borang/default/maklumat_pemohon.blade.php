@@ -172,7 +172,7 @@
                     <div class="form-text mt-0">Race</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::select('keturunan', ['M' => 'Melayu', 'C' => 'Cina', 'I' =>'India', 'OS' => 'Orang Asli', 'LL' => 'Lain-lain'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
+                    {{ Form::select('keturunan', $keturunan, $data->keturunan_id, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
                 </div>
             </div>
 
