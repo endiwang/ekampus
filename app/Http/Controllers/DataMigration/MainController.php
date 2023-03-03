@@ -729,7 +729,7 @@ class MainController extends Controller
                 $temp = Staff::where('staff_id', $datum->fld_ketua)->first();
                 if($temp != NULL)
                 {
-                    $fld_ketua = $temp->user_id;
+                    $fld_ketua = $temp->id;
 
                 }else{
                     $fld_ketua = NULL;
@@ -757,6 +757,7 @@ class MainController extends Controller
                 'no_rujukan' => $datum->temuduga_id,
                 'kursus_id' => $datum->kursus_id,
                 'pusat_pengajian_id' => $pusat_id,
+                'pusat_temuduga_id' => $pusat_id,
                 'tajuk_borang' => $datum->tajuk_borang,
                 'tarikh' => $tarikh,
                 'masa' => $datum->masa,
