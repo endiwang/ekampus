@@ -18,6 +18,6 @@ class Temuduga extends Model
 
     public function ketua()
     {
-        return $this->belongsTo(Staff::class,'id_ketua','user_id');
+        return $this->belongsTo(Staff::class,'id_ketua');
     }
 }
