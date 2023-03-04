@@ -74,6 +74,14 @@
                         </a>
                     </div>
                     <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.semester.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.semester.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Semester</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.akademik.kursus.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.kursus.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
