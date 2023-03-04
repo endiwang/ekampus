@@ -31,4 +31,8 @@ class sis_tblpermohonan extends Model
         return $this->hasMany('App\Models\OldDatabase\sis_tblpermohonan_kesihatan','fldmohon_id','mohon_id');
     }
 
+    public function tarikh(){
+        return $this->hasOne('App\Models\OldDatabase\sis_tblpermohonan_tarikh','mohon_id','mohon_id');
+    }
+
 }

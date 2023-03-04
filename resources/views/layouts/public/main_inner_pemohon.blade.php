@@ -41,7 +41,7 @@
 									<!--end::Mobile menu toggle-->
 									<!--begin::Logo image-->
 									<a href="../../demo1/dist/landing.html">
-										<img alt="Logo" src="{{URL::asset('assets/media/logos/landing.svg')}}" class="logo-default h-25px h-lg-30px" />
+										<img alt="Logo" src="{{URL::asset('assets/media/logos/logo-dq.png')}}" class="logo-default h-25px h-lg-30px" />
 										<img alt="Logo" src="{{URL::asset('assets/media/logos/landing-dark.svg')}}" class="logo-sticky h-20px h-lg-25px" />
 									</a>
 									<!--end::Logo image-->

@@ -7,12 +7,15 @@ use App\Models\Jabatan;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Jobs\MigratePermohonan;
-
+use App\Jobs\MigratePermohonanKelulusanAkademik;
+use App\Jobs\MigratePermohonanPenjaga;
+use App\Jobs\MigratePermohonanTanggunganPenjaga;
 //New DB
 use App\Models\User;
 use App\Models\Kursus;
 use App\Models\Syukbah;
 use App\Models\Kelas;
+use App\Models\Keturunan;
 use App\Models\Negeri;
 use App\Models\Pelajar;
 use App\Models\Permohonan;
@@ -23,6 +26,7 @@ use App\Models\Staff;
 use App\Models\Subjek;
 use App\Models\TetapanPermohonanPelajar;
 use App\Models\Warganegara;
+use App\Models\PermohonanKelulusanAkademik;
 
 //Old DB
 use App\Models\OldDatabase\sis_tblpelajar;
@@ -40,6 +44,12 @@ use App\Models\OldDatabase\sis_tblstaff;
 use App\Models\OldDatabase\tbl_masuk_permohonan;
 use App\Models\OldDatabase\ref_jabatan;
 use App\Models\OldDatabase\sis_semester_now;
+use App\Models\OldDatabase\ref_keturunan;
+use App\Models\OldDatabase\sis_tblpermohonan_pelajaran;
+use App\Models\OldDatabase\sis_tblpermohonan_penjaga;
+use App\Models\OldDatabase\sis_tblpermohonan_tanggung;
+use App\Models\OldDatabase\sis_tbltemuduga;
+use App\Models\Temuduga;
 use App\Models\OldDatabase\sis_tblpelajar_syukbah;
 use App\Models\PermohonanPertukaranSyukbah;
 use App\Models\SemesterTerkini;
@@ -628,10 +638,29 @@ class MainController extends Controller
         }
 
         dd('done');
+    }
 
+    public function sis_tblpermohonan_pelajaran_to_permohonan_kelulusan_akademik()
+    {
+        $data = sis_tblpermohonan_pelajaran::where('mohon_id','!=','undefined')->get();
+        foreach($data as $datum)
+        {
+            dispatch(new MigratePermohonanKelulusanAkademik($datum->mohon_id));
+        }
+
+        dd('done');
 
     }
 
+    public function sis_tblpermohonan_penjaga_to_permohonan_penjaga()
+    {
+        $data = sis_tblpermohonan_penjaga::all();
+        foreach($data as $datum)
+        {
+            dispatch(new MigratePermohonanPenjaga($datum->mohon_id));
+        }
+        dd('done');
+    }
     public function sis_tblpelajar_syukbah_to_permohonan_pertukaran_syukbah()
     {
         $tblpelajar_syukbahs = sis_tblpelajar_syukbah::all();
@@ -701,6 +730,112 @@ class MainController extends Controller
     }
 
 
+    public function sis_tblpermohonan_tanggung_to_permohonan_tanggungan_penjaga()
+    {
+        $data = sis_tblpermohonan_tanggung::all();
+        // dd($data->count());
+        foreach($data as $datum)
+        {
+            dispatch(new MigratePermohonanTanggunganPenjaga($datum->mohon_tid));
+        }
+        dd('done');
 
+    }
+
+    public function sis_tbltemuduga_to_temuduga()
+    {
+        $data = sis_tbltemuduga::all();
+
+        foreach($data as $datum)
+        {
+            if($datum->close_dt = '0000-00-00')
+            {
+                $close_dt = NULL;
+            }else{
+                $close_dt = Carbon::parse($datum->close_dt)->toDateString();
+            }
+
+            if($datum->tkh_cetakan	 = '0000-00-00')
+            {
+                $tkh_cetakan	 = NULL;
+            }else{
+                $tkh_cetakan	 = Carbon::parse($datum->tkh_cetakan)->toDateString();
+            }
+
+            if($datum->tarikh = '0000-00-00')
+            {
+                $tarikh = NULL;
+            }else{
+                $tarikh = Carbon::parse($datum->tarikh)->toDateString();
+            }
+
+            if($datum->fld_ketua != NULL)
+            {
+                $temp = Staff::where('staff_id', $datum->fld_ketua)->first();
+                if($temp != NULL)
+                {
+                    $fld_ketua = $temp->id;
+
+                }else{
+                    $fld_ketua = NULL;
+                }
+
+            }else{
+                $fld_ketua = $datum->fld_ketua;
+            }
+
+            if($datum->pusat_kod != NULL)
+            {
+                $temp = PusatPengajian::where('no', $datum->pusat_kod)->first();
+                if($temp != NULL)
+                {
+                    $pusat_id = $temp->id;
+
+                }else{
+                    $pusat_id = NULL;
+                }
+            }else{
+                $pusat_id = NULL;
+            }
+
+            Temuduga::create([
+                'no_rujukan' => $datum->temuduga_id,
+                'kursus_id' => $datum->kursus_id,
+                'pusat_pengajian_id' => $pusat_id,
+                'pusat_temuduga_id' => $pusat_id,
+                'tajuk_borang' => $datum->tajuk_borang,
+                'tarikh' => $tarikh,
+                'masa' => $datum->masa,
+                'hari' => $datum->hari,
+                'waktu' => $datum->waktu,
+                'nama_tempat' => $datum->nama_tempat,
+                'alamat_temuduga' => $datum->alamat_temuduga,
+                'tkh_cetakan' => $tkh_cetakan,
+                'id_ketua' => $fld_ketua,
+                'temuduga_type' => $datum->temuduga_type,
+                'is_close' => $datum->is_close,
+                'close_at' => $close_dt,
+                'is_sph' => $datum->is_sph,
+            ]);
+        }
+        dd('done');
+    }
+
+    public function ref_keturunan_to_keturunan()
+    {
+        $data = ref_keturunan::all();
+
+        foreach($data as $datum)
+        {
+            Keturunan::create([
+                'id'    => $datum->id,
+                'kod'   => $datum->k_kod,
+                'nama'  => $datum->k_nama,
+                'status'  => $datum->k_status
+            ]);
+        }
+
+        dd('done');
+    }
 
 }

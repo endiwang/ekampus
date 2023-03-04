@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('poskod_bapa')->nullable();
             $table->string('no_tel_bapa')->nullable();
             $table->integer('status_pekerjaan_bapa')->nullable();
+            $table->string('pekerjaan_bapa')->nullable();
             $table->integer('pendapatan_bapa')->nullable();
             $table->integer('status_ibu')->nullable();
             $table->string('nama_ibu')->nullable();
@@ -31,6 +32,7 @@ return new class extends Migration
             $table->string('poskod_ibu')->nullable();
             $table->string('no_tel_ibu')->nullable();
             $table->integer('status_pekerjaan_ibu')->nullable();
+            $table->string('pekerjaan_ibu')->nullable();
             $table->integer('pendapatan_ibu')->nullable();
             $table->integer('tingal_bersama')->nullable();
             $table->string('nama_penjaga')->nullable();
@@ -39,6 +41,7 @@ return new class extends Migration
             $table->string('poskod_penjaga')->nullable();
             $table->string('no_tel_penjaga')->nullable();
             $table->integer('status_pekerjaan_penjaga')->nullable();
+            $table->string('pekerjaan_penjaga')->nullable();
             $table->integer('pendapatan_penjaga')->nullable();
             $table->integer('pertalian_penjaga')->nullable();
             $table->timestamps();

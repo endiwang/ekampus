@@ -5,10 +5,10 @@
     <div class="d-flex flex-column flex-column-fluid flex-lg-row">
         <div class="d-flex flex-center w-lg-50 pt-15 pt-lg-0 px-10">
             <div class="d-flex flex-center flex-lg-start flex-column">
-                <a href="../../demo1/dist/index.html" class="mb-7">
+                {{-- <a href="../../demo1/dist/index.html" class="mb-7">
                     <img alt="Logo" src="assets/media/logos/custom-3.svg" />
-                </a>
-                <h2 class="text-white fw-normal m-0">Branding tools designed for your business</h2>
+                </a> --}}
+                <h2 class="text-white fw-normal m-0"></h2>
             </div>
         </div>
         <div class="d-flex flex-center w-lg-50 p-10">

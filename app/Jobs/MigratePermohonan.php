@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Models\OldDatabase\sis_tblpermohonan;
 use App\Models\Permohonan;
+use App\Models\Staff;
 
 class MigratePermohonan implements ShouldQueue
 {
@@ -32,7 +33,7 @@ class MigratePermohonan implements ShouldQueue
      */
     public function handle()
     {
-        $data = sis_tblpermohonan::take(100)->where('migrate_status', NULL)->get();
+        $data = sis_tblpermohonan::take(100)->where('migrate_status', NULL)->with('tarikh')->get();
 
         foreach($data as $datum)
         {
@@ -43,11 +44,35 @@ class MigratePermohonan implements ShouldQueue
                 $tarikh_lahir = $datum->m_tkh_lahir;
             }
 
+
             if($datum->m_warganegara = 'M')
             {
                 $warganegara = 1;
             }else{
                 $warganegara = $datum->m_warganegara;
+            }
+
+            if($datum->tarikh)
+            {
+                if(str_contains($datum->tarikh->select_by,'DQ'))
+                {
+                    $staff_selected = Staff::where('staff_id',$datum->tarikh->select_by)->first();
+                    $selected_by = $staff_selected->id;
+                }else{
+                    $selected_by = NULL;
+                }
+
+                if(str_contains($datum->tarikh->tawaran_by,'DQ'))
+                {
+                    $staff_tawaran = Staff::where('staff_id',$datum->tarikh->tawaran_by)->first();
+                    $tawaran_by = $staff_tawaran->id;
+                }else{
+                    $tawaran_by = NULL;
+                }
+
+            }else{
+                $selected_by = NULL;
+                $tawaran_by = NULL;
             }
 
             Permohonan::create([
@@ -70,6 +95,25 @@ class MigratePermohonan implements ShouldQueue
                 'warganegara' => $warganegara,
                 'temuduga' => $datum->m_temuduga,
                 'alamat_surat' => $datum->m_alamat1,
+                'perakuan' => $datum->m_chk_perakuan,
+
+                'is_submitted' => $datum->tarikh->is_submitted ?? 0,
+                'submitted_date' => $datum->tarikh->submit_dt ?? NULL,
+                'is_selected' => $datum->tarikh->is_selected ?? 0,
+                'selected_date' => $datum->tarikh ? ($datum->tarikh->select_dt == '0000-00-00 00:00:00' ? NULL : $datum->tarikh->select_dt) : NULL,
+                'selected_by' => $selected_by,
+                'is_interview' => $datum->tarikh->is_interview ?? 0,
+                'is_interview_surat' => $datum->tarikh->is_int_surat ?? 0,
+                'interview_date' => $datum->tarikh ? ($datum->tarikh->interview_dt == '0000-00-00' ? NULL : $datum->tarikh->interview_dt) : NULL,
+                'interview_by' => $datum->tarikh->interview_updby ?? NULL,
+                'is_tawaran' => $datum->tarikh->is_tawaran ?? 0,
+                'is_tawaran_surat' => $datum->tarikh->is_tawaran_surat ?? 0,
+                'tawaran_date' => $datum->tarikh ? ($datum->tarikh->tawaran_dt == '0000-00-00' ? NULL : $datum->tarikh->tawaran_dt) : NULL,
+                'tawaran_by' => $tawaran_by,
+                'is_terima' => $datum->tarikh->is_terima ?? 0,
+                'terima_date' => $datum->tarikh ? ($datum->tarikh->terima_tarikh == '0000-00-00 00:00:00' ? NULL : $datum->tarikh->terima_tarikh) : NULL,
+
+                'is_deleted' => $datum->is_deleted,
             ]);
 
             sis_tblpermohonan::where('mohon_id', $datum->mohon_id)
