@@ -8,6 +8,7 @@ use App\Http\Controllers\Pengurusan\Akademik\KursusController;
 use App\Http\Controllers\Pengurusan\Akademik\MainAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\KelasPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\SyukbahController;
+use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PertukaranSyukbahController;
 use App\Http\Controllers\Pengurusan\Akademik\SemesterController;
@@ -48,5 +49,9 @@ Route::resource('pendaftaran/syukbah_pelajar', SyukbahController::class);
 
 Route::group(['prefix'=>'permohonan','as'=>'permohonan.'], function(){
     Route::resource('pertukaran_syukbah', PertukaranSyukbahController::class);
+});
+
+Route::group(['prefix'=>'pensyarah','as'=>'pensyarah.'], function(){
+    Route::resource('senarai_pensyarah', SenaraiPensyarahController::class);
 });
 

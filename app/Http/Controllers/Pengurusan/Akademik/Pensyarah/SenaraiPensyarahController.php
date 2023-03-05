@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Pengurusan\Akademik;
+namespace App\Http\Controllers\Pengurusan\Akademik\Pensyarah;
 
 use App\Http\Controllers\Controller;
+use App\Models\Gred;
 use App\Models\Jabatan;
 use App\Models\PusatPengajian;
+use App\Models\SemesterTerkini;
 use App\Models\Staff;
 use App\Models\User;
 use Exception;
@@ -14,12 +16,10 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use Image, File;
 
-class GuruTasmikController extends Controller
+class SenaraiPensyarahController extends Controller
 {
-    protected $baseView = 'pages.pengurusan.akademik.guru_tasmik.';
-
+    protected $baseView = 'pages.pengurusan.akademik.pensyarah.senarai_pensyarah.';
     /**
      * Display a listing of the resource.
      *
@@ -29,23 +29,24 @@ class GuruTasmikController extends Controller
     {
         try {
 
-            $title = "Guru Tasmik";
+            $title = "Senarai Pensyarah";
             $breadcrumbs = [
                 "Akademik" =>  false,
-                "Guru Tasmik" =>  false,
+                "Pengurusan Pensyarah" =>  false,
+                "Senarai Pensyarah" =>  false,
             ];
 
             $buttons = [
                 [
-                    'title' => "Tambah Maklumat Guru Tasmik", 
-                    'route' => route('pengurusan.akademik.guru_tasmik.create'), 
+                    'title' => "Tambah Maklumat Pensyarah", 
+                    'route' => route('pengurusan.akademik.pensyarah.senarai_pensyarah.create'), 
                     'button_class' => "btn btn-sm btn-primary fw-bold",
                     'icon_class' => "fa fa-plus-circle"
                 ],
             ];
 
             if (request()->ajax()) {
-                $data = Staff::with('pusatPengajian', 'jabatan')->where('is_guru_tasmik', 'Y');
+                $data = Staff::with('pusatPengajian', 'jabatan')->where('is_pensyarah', 'Y');
                 return DataTables::of($data)
                 ->addColumn('nama', function($data) {
                     return $data->nama ?? null;
@@ -70,13 +71,13 @@ class GuruTasmikController extends Controller
                 })
                 ->addColumn('action', function($data){
                     return '
-                            <a href="'.route('pengurusan.akademik.guru_tasmik.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                            <a href="'.route('pengurusan.akademik.pensyarah.senarai_pensyarah.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
                             <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id .')" data-bs-toggle="tooltip" title="Hapus">
                                 <i class="fa fa-trash"></i>
                             </a>
-                            <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.guru_tasmik.destroy', $data->id).'" method="POST">
+                            <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.pensyarah.senarai_pensyarah.destroy', $data->id).'" method="POST">
                                 <input type="hidden" name="_token" value="'.csrf_token().'">
                                 <input type="hidden" name="_method" value="DELETE">
                             </form>';
@@ -92,11 +93,11 @@ class GuruTasmikController extends Controller
             $dataTable = $builder
             ->columns([
                 [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
-                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama (Bilangan Pelajar Tasmik)', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'no_ic', 'name' => 'semasa_semester_id', 'title' => 'No. Kad Pengenalan', 'orderable'=> false],
+                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Kakitangan', 'orderable'=> false, 'class'=>'text-bold'],
+                ['data' => 'no_ic', 'name' => 'no_ic', 'title' => 'MyKad', 'orderable'=> false],
                 ['data' => 'gred', 'name' => 'gred', 'title' => 'Gred', 'orderable'=> false],
                 ['data' => 'jabatan', 'name' => 'jabatan', 'title' => 'Jabatan', 'orderable'=> false],
-                ['data' => 'jawatan', 'name' => 'jumlah_pelajar', 'title' => 'Jawatan', 'orderable'=> false],
+                ['data' => 'jawatan', 'name' => 'jawatan', 'title' => 'Jawatan', 'orderable'=> false],
                 ['data' => 'pusat_pengajian', 'name' => 'pusat_pengajian', 'title' => 'Pusat Pengajian', 'orderable'=> false],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
     
@@ -122,13 +123,14 @@ class GuruTasmikController extends Controller
     {
         try {
 
-            $title = 'Guru Tasmik';
-            $action = route('pengurusan.akademik.guru_tasmik.store');
-            $page_title = 'Maklumat Kakitangan Guru Tasmik';
+            $title = 'Pensyarah';
+            $action = route('pengurusan.akademik.pensyarah.senarai_pensyarah.store');
+            $page_title = 'Maklumat Pensyarah';
             $breadcrumbs = [
                 "Akademik" =>  false,
-                "Guru Tasmik" =>  false,
-                "Tambah Guru Tasmik" =>  false,
+                "Pengurusan Pensyarah" =>  false,
+                "Senarai Pensyarah" =>  route('pengurusan.akademik.pensyarah.senarai_pensyarah.index'),
+                "Tambah Pensyarah" =>  false,
             ];
 
             $model = new Staff();
@@ -142,10 +144,11 @@ class GuruTasmikController extends Controller
 
             $centers = PusatPengajian::where('deleted_at', null)->pluck('nama', 'id');
             $departments = Jabatan::where('deleted_at', null)->pluck('nama', 'id');
+            $greds = Gred::pluck('gred', 'gred');
             $role_kakitangan = Role::where('name','kakitangan')->first();
-            $role_child_kakitangan = Role::where('parent_category_id',$role_kakitangan->id)->whereNotIn('name', ['warden', 'tutor'])->get();
+            $role_child_kakitangan = Role::where('parent_category_id',$role_kakitangan->id)->whereNotIn('name', ['pensyarah_tasmik_jemputan', 'pensyarah_jemputan'])->get();
 
-            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'genders', 'centers', 'departments', 'role_child_kakitangan','assignation'));
+            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'genders', 'centers', 'departments', 'role_child_kakitangan','assignation','greds'));
 
         }catch (Exception $e) {
             report($e);
@@ -163,7 +166,6 @@ class GuruTasmikController extends Controller
      */
     public function store(Request $request)
     {
-
         $validation = $request->validate([
             'no_ic'             => 'required|unique:staff,no_ic',
             'nama'              => 'required',
@@ -193,9 +195,10 @@ class GuruTasmikController extends Controller
         try {
 
             $pensyarah = 'N';
-            $pensyarah_jemputan = 'N';
+            $tutor = 'N';
             $guru_tasmik = 'N';
-            $guru_tasmik_jemputan = 'N';
+            $warden = 'N';
+            $hep = 'N';
 
             foreach($request->jawatan as $jwtn)
             {
@@ -203,31 +206,45 @@ class GuruTasmikController extends Controller
                 {
                     $pensyarah = 'Y';
                 }
-                if($jwtn == 15)
-                {
-                    $pensyarah_jemputan = 'Y';
-                }
                 if($jwtn == 16)
                 {
                     $guru_tasmik = 'Y';
                 }
-                if($jwtn == 17)
+                if($jwtn == 18)
                 {
-                    $guru_tasmik_jemputan = 'Y';
+                    $warden = 'Y';
+                }
+                if($jwtn == 19)
+                {
+                    $tutor = 'Y';
+                }
+                if($jwtn == 20)
+                {
+                    $hep = 'Y';
                 }
             }
-
+            
             $user = User::create([
                 'username'      => $request->no_ic,
                 'password'      => Hash::make($request->no_ic),
+                'is_staff'      => 1
             ]);
 
             //image
+            // $image = '';
+            // if(!empty($request->avatar)){
+            //     $file_name = $request->avatar;
+            //     $file_path = 'uploads/pensyarah/';
+            //     $file = $request->file('file');
+            //     $file->move($file_path, $file_name);
+            //     $file = $file_path . '/' .$file_name;
 
-            $image_name = uniqid() . '.' . $request->avatar->getClientOriginalExtension();
-            $image_path = 'uploads/' . $image_name;
-            Image::make($request->avatar)->resize(320, 240)->save(public_path($image_path));
-            $image = $image_path;
+            //     //$image_name = uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension();
+            //     // $image_path = 'uploads/' . $request->avatar;
+            //     // Image::make($request->file('avatar'))->resize(320, 240)->save(public_path($image_path));
+            //     // $image = $image_path;
+            // }
+           
 
             Staff::create([
                 'user_id'                   => $user->id,
@@ -240,15 +257,17 @@ class GuruTasmikController extends Controller
                 'pusat_pengajian_id'        => $request->pusat_pengajian,
                 'jabatan_id'                => $request->jabatan,
                 'jawatan'                   => $request->nama_jawatan,
-                'img_staff'                 => $image,
+                'gred'                      => $request->gred,
+                //'img_staff'                 => $image,
                 'is_pensyarah'              => $pensyarah,
-                'is_pensyarah_jemputan'     => $pensyarah_jemputan,
+                'is_tutor'                  => $tutor,
+                'is_hep'                    => $hep,
+                'is_warden'                 => $warden,
                 'is_guru_tasmik'            => $guru_tasmik,
-                'is_guru_tasmik_jemputan'   => $guru_tasmik_jemputan,
             ]);
 
-            Alert::toast('Maklumat guru tasmik berjaya ditambah!', 'success');
-            return redirect()->route('pengurusan.akademik.guru_tasmik.index');
+            Alert::toast('Maklumat pensyarah berjaya ditambah!', 'success');
+            return redirect()->route('pengurusan.akademik.pensyarah.senarai_pensyarah.index');
 
         }catch (Exception $e) {
             report($e);
@@ -277,16 +296,16 @@ class GuruTasmikController extends Controller
      */
     public function edit($id)
     {
-
         try {
 
-            $title = 'Guru Tasmik';
-            $action = route('pengurusan.akademik.guru_tasmik.update', $id);
-            $page_title = 'Maklumat Kakitangan Guru Tasmik';
+            $title = 'Pensyarah';
+            $action = route('pengurusan.akademik.pensyarah.senarai_pensyarah.update', $id);
+            $page_title = 'Maklumat Pensyarah';
             $breadcrumbs = [
                 "Akademik" =>  false,
-                "Guru Tasmik" =>  false,
-                "Pinda Guru Tasmik" =>  false,
+                "Pengurusan Pensyarah" =>  false,
+                "Senarai Pensyarah" =>  route('pengurusan.akademik.pensyarah.senarai_pensyarah.index'),
+                "Pinda Pensyarah" =>  false,
             ];
 
             $model = Staff::find($id);
@@ -298,17 +317,18 @@ class GuruTasmikController extends Controller
 
             $centers = PusatPengajian::where('deleted_at', null)->pluck('nama', 'id');
             $departments = Jabatan::where('deleted_at', null)->pluck('nama', 'id');
+            $greds = Gred::pluck('gred', 'gred');
             $role_kakitangan = Role::where('name','kakitangan')->first();
-            $role_child_kakitangan = Role::where('parent_category_id',$role_kakitangan->id)->whereNotIn('name', ['warden', 'tutor'])->get();
+            $role_child_kakitangan = Role::where('parent_category_id',$role_kakitangan->id)->whereNotIn('name', ['pensyarah_tasmik_jemputan', 'pensyarah_jemputan'])->get();
 
             $is_pensyarah = $model->is_pensyarah;
-            $is_pensyarah_jemputan = $model->is_pensyarah_jemputan;
+            $is_warden = $model->is_warden;
+            $is_tutor = $model->is_tutor;
             $is_pensyarah_tasmik = $model->is_pensyarah_tasmik;
-            $is_pensyarah_tasmik_jemputan = $model->is_pensyarah_tasmik_jemputan;
+            $is_hep = $model->is_hep;
 
-            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  
-                                                    'action', 'genders', 'centers', 'departments', 'role_child_kakitangan',
-                                                    'is_pensyarah', 'is_pensyarah_jemputan', 'is_pensyarah_tasmik', 'is_pensyarah_tasmik_jemputan'  ));
+            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 'genders', 'centers', 'departments', 'role_child_kakitangan', 'greds',
+                                                    'is_pensyarah', 'is_warden', 'is_pensyarah_tasmik', 'is_tutor', 'is_hep'));
 
         }catch (Exception $e) {
             report($e);
@@ -316,7 +336,6 @@ class GuruTasmikController extends Controller
             Alert::toast('Uh oh! Something went Wrong', 'error');
             return redirect()->back();
         }
-    
     }
 
     /**
@@ -355,12 +374,13 @@ class GuruTasmikController extends Controller
                 'jawatan'                   => $request->nama_jawatan,
                 'img_staff'                 => $image,
                 'is_pensyarah'              => $request->is_pensyarah ?? 'N',
-                'is_pensyarah_jemputan'     => $request->is_pensyarah_jemputan ?? 'N',
+                'is_tutor'                  => $request->is_tutor ?? 'N',
+                'is_hep'                    => $request->is_hep ?? 'N',
+                'is_warden'                 => $request->is_warden ?? 'N',
                 'is_guru_tasmik'            => $request->is_guru_tasmik ?? 'N',
-                'is_guru_tasmik_jemputan'   => $request->is_guru_tasmik_jemputan ?? 'N',
             ]);
 
-            Alert::toast('Maklumat guru tasmik berjaya dipinda!', 'success');
+            Alert::toast('Maklumat pensyarah berjaya dipinda!', 'success');
             return redirect()->route('pengurusan.akademik.guru_tasmik.index');
 
         }catch (Exception $e) {
@@ -385,7 +405,7 @@ class GuruTasmikController extends Controller
 
             $staff = $staff->delete();
 
-            Alert::toast('Maklumat guru tasmik berjaya dihapus!', 'success');
+            Alert::toast('Maklumat pensyarah berjaya dihapus!', 'success');
             return redirect()->back();
 
         }catch (Exception $e) {

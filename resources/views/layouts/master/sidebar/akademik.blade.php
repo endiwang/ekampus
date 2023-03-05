@@ -214,10 +214,18 @@
                             </svg>
                         </span>
                     </span>
-                    <span class="menu-title">Pensyarah</span>
+                    <span class="menu-title">Pengurusan Pensyarah</span>
                     <span class="menu-arrow"></span>
                 </span>
                 <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pensyarah.senarai_pensyarah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pensyarah.senarai_pensyarah.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Senarai Pensyarah</span>
+                        </a>
+                    </div>
                     <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.akademik.guru_tasmik.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.guru_tasmik.index') }}">
                             <span class="menu-bullet">

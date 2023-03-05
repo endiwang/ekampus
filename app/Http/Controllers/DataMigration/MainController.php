@@ -10,6 +10,7 @@ use App\Jobs\MigratePermohonan;
 use App\Jobs\MigratePermohonanKelulusanAkademik;
 use App\Jobs\MigratePermohonanPenjaga;
 use App\Jobs\MigratePermohonanTanggunganPenjaga;
+use App\Models\Gred;
 //New DB
 use App\Models\User;
 use App\Models\Kursus;
@@ -17,6 +18,7 @@ use App\Models\Syukbah;
 use App\Models\Kelas;
 use App\Models\Keturunan;
 use App\Models\Negeri;
+use App\Models\OldDatabase\ref_gred;
 use App\Models\Pelajar;
 use App\Models\Permohonan;
 use App\Models\PusatPengajian;
@@ -832,6 +834,22 @@ class MainController extends Controller
                 'kod'   => $datum->k_kod,
                 'nama'  => $datum->k_nama,
                 'status'  => $datum->k_status
+            ]);
+        }
+
+        dd('done');
+    }
+
+    public function ref_gred_to_gred()
+    {
+        $data = ref_gred::all();
+
+        foreach($data as $datum)
+        {
+            Gred::create([
+                'gred'          => $datum->gred,
+                'description'   => $datum->gred_desc,
+                'status'        => $datum->status ?? 0
             ]);
         }
 
