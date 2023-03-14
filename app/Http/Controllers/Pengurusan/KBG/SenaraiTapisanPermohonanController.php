@@ -10,6 +10,8 @@ use App\Models\Permohonan;
 use App\Models\OldDatabase\sis_tblpermohonan;
 use App\Helpers\Utils;
 use App\Models\Negeri;
+use App\Models\OldDatabase\sis_tblpermohonan_pelajaran;
+use App\Models\Temuduga;
 use Exception;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -22,6 +24,7 @@ class SenaraiTapisanPermohonanController extends Controller
      */
     public function index(Builder $builder)
     {
+
         try {
 
 
@@ -158,6 +161,6 @@ class SenaraiTapisanPermohonanController extends Controller
      */
     public function destroy($id)
     {
-        //
+
     }
 }

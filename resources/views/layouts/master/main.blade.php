@@ -12,6 +12,7 @@
 		<meta property="og:url" content="https://keenthemes.com/metronic" />
 		<meta property="og:site_name" content="Keenthemes | Metronic" />
         @include('layouts.master.css')
+        @yield('css')
 	</head>
 	<body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default">
 
@@ -74,7 +75,7 @@
 
 					</div>
                     <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
-						
+
                         <div class="d-flex flex-column flex-column-fluid">
 							@include('layouts.master.breadcrumbs')
                             @yield('content')
@@ -87,7 +88,7 @@
 		@include('layouts.master.script')
         @yield('script')
         @stack('scripts')
-        
+
 
 	</body>
 </html>
