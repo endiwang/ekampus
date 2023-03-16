@@ -694,6 +694,97 @@ class MainController extends Controller
 
         foreach($tblsemester_now as $data)
         {
+            if($data->dt_mohon_mula = '0000-00-00')
+            {
+                $dt_mohon_mula = NULL;
+            }else{
+                $dt_mohon_mula = Carbon::parse($data->dt_mohon_mula)->toDateString();
+            }
+
+            if($data->dt_mohon_akhir = '0000-00-00')
+            {
+                $dt_mohon_akhir = NULL;
+            }else{
+                $dt_mohon_akhir = Carbon::parse($data->dt_mohon_akhir)->toDateString();
+            }
+
+            if($data->dt_daftar = '0000-00-00')
+            {
+                $dt_daftar = NULL;
+            }else{
+                $dt_daftar = Carbon::parse($data->dt_daftar)->toDateString();
+            }
+
+            if($data->dt_kursus_daftar = '0000-00-00')
+            {
+                $dt_kursus_daftar = NULL;
+            }else{
+                $dt_kursus_daftar = Carbon::parse($data->dt_kursus_daftar)->toDateString();
+            }
+
+            if($data->dt_kursus_daftar = '0000-00-00')
+            {
+                $dt_kursus_daftar = NULL;
+            }else{
+                $dt_kursus_daftar = Carbon::parse($data->dt_kursus_daftar)->toDateString();
+            }
+
+            if($data->dt_kursus_daftara = '0000-00-00')
+            {
+                $dt_kursus_daftara = NULL;
+            }else{
+                $dt_kursus_daftara = Carbon::parse($data->dt_kursus_daftara)->toDateString();
+            }
+
+            if($data->dt_kursus_gmula = '0000-00-00')
+            {
+                $dt_kursus_gmula = NULL;
+            }else{
+                $dt_kursus_gmula = Carbon::parse($data->dt_kursus_gmula)->toDateString();
+            }
+
+            if($data->dt_kursus_gakhir = '0000-00-00')
+            {
+                $dt_kursus_gakhir = NULL;
+            }else{
+                $dt_kursus_gakhir = Carbon::parse($data->dt_kursus_gakhir)->toDateString();
+            }
+
+            if($data->dt_kuliah_mula = '0000-00-00')
+            {
+                $dt_kuliah_mula = NULL;
+            }else{
+                $dt_kuliah_mula = Carbon::parse($data->dt_kuliah_mula)->toDateString();
+            }
+
+            if($data->dt_kuliah_akhir = '0000-00-00')
+            {
+                $dt_kuliah_akhir = NULL;
+            }else{
+                $dt_kuliah_akhir = Carbon::parse($data->dt_kuliah_akhir)->toDateString();
+            }
+
+            if($data->dt_exam_mula = '0000-00-00')
+            {
+                $dt_exam_mula = NULL;
+            }else{
+                $dt_exam_mula = Carbon::parse($data->dt_exam_mula)->toDateString();
+            }
+
+            if($data->dt_exam_akhir = '0000-00-00')
+            {
+                $dt_exam_akhir = NULL;
+            }else{
+                $dt_exam_akhir = Carbon::parse($data->dt_exam_akhir)->toDateString();
+            }
+
+            if($data->dt_result = '0000-00-00')
+            {
+                $dt_result = NULL;
+            }else{
+                $dt_result = Carbon::parse($data->dt_result)->toDateString();
+            }
+
             SemesterTerkini::create([
                 'kursus_id'                     => $data->kursus_id,
                 'semester_no'                   => $data->semester_num,
@@ -711,18 +802,18 @@ class MainController extends Controller
                 'status_keputusan_7'            => $data->s_keputusan2,
                 'status_keputusan_8'            => $data->s_keputusan2,
                 'status_keputusan_ulangan'      => $data->s_keputusan_u,
-                'tarikh_mula_permohonan'        => $data->dt_mohon_mula ?? NULL,
-                'tarikh_akhir_permohonan'       => $data->dt_mohon_akhir ?? NULL,
-                'tarikh_daftar'                 => $data->dt_daftar ?? NULL,
-                'tarikh_mula_daftar_kurus'      => $data->dt_kursus_daftar ?? NULL,
-                'tarikh_akhir_daftar_kursus'    => $data->dt_kursus_daftara ?? NULL,
-                'tarikh_mula_kurus'             => $data->dt_kursus_gmula ?? NULL,
-                'tarikh_akhir_kursus'           => $data->dt_kursus_gakhir ?? NULL,
-                'tarikh_mula_kuliah'            => $data->dt_kuliah_mula ?? NULL,
-                'tarikh_akhir_kuliah'           => $data->dt_kuliah_akhir ?? NULL,
-                'tarikh_mula_peperiksaan'       => $data->dt_exam_mula ?? NULL,
-                'tarikh_akhir_peperiksaan'      => $data->dt_exam_akhir ?? NULL,
-                'tarikh_keputusan_peperiksaan'  => $data->dt_result ?? NULL,
+                'tarikh_mula_permohonan'        => $dt_mohon_mula ?? NULL,
+                'tarikh_akhir_permohonan'       => $dt_mohon_akhir ?? NULL,
+                'tarikh_daftar'                 => $dt_daftar ?? NULL,
+                'tarikh_mula_daftar_kurus'      => $dt_kursus_daftar ?? NULL,
+                'tarikh_akhir_daftar_kursus'    => $dt_kursus_daftara ?? NULL,
+                'tarikh_mula_kurus'             => $dt_kursus_gmula ?? NULL,
+                'tarikh_akhir_kursus'           => $dt_kursus_gakhir ?? NULL,
+                'tarikh_mula_kuliah'            => $dt_kuliah_mula ?? NULL,
+                'tarikh_akhir_kuliah'           => $dt_kuliah_akhir ?? NULL,
+                'tarikh_mula_peperiksaan'       => $dt_exam_mula ?? NULL,
+                'tarikh_akhir_peperiksaan'      => $dt_exam_akhir ?? NULL,
+                'tarikh_keputusan_peperiksaan'  => $dt_result ?? NULL,
             ]);
         }
 
