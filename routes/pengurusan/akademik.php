@@ -8,6 +8,7 @@ use App\Http\Controllers\Pengurusan\Akademik\KursusController;
 use App\Http\Controllers\Pengurusan\Akademik\MainAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\KelasPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\SyukbahController;
+use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PertukaranSyukbahController;
@@ -53,5 +54,7 @@ Route::group(['prefix'=>'permohonan','as'=>'permohonan.'], function(){
 
 Route::group(['prefix'=>'pensyarah','as'=>'pensyarah.'], function(){
     Route::resource('senarai_pensyarah', SenaraiPensyarahController::class);
+
+    Route::resource('rekod_kehadiran', RekodKehadiranController::class);
 });
 
