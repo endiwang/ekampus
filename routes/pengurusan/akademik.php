@@ -8,6 +8,7 @@ use App\Http\Controllers\Pengurusan\Akademik\KursusController;
 use App\Http\Controllers\Pengurusan\Akademik\MainAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\KelasPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\SyukbahController;
+use App\Http\Controllers\Pengurusan\Akademik\Laporan\LaporanMesyuaratController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
@@ -47,6 +48,13 @@ Route::post('pendaftaran/kelas_pelajar/update/{id}', [KelasPelajarController::cl
 Route::resource('pendaftaran/kelas_pelajar', KelasPelajarController::class);
 
 Route::resource('pendaftaran/syukbah_pelajar', SyukbahController::class);
+
+Route::group(['prefix'=>'laporan','as'=>'laporan.'], function(){
+    Route::post('laporan_mesyuarat/delete_file/{id}', [LaporanMesyuaratController::class, 'deleteFile'])->name('laporan_mesyuarat.delete_file');
+    Route::post('laporan_mesyuarat/update/{id}', [LaporanMesyuaratController::class, 'update'])->name('laporan_mesyuarat.update_laporan');
+    Route::post('laporan_mesyuarat/upload_file/{id}', [LaporanMesyuaratController::class, 'uploadFile'])->name('laporan_mesyuarat.upload_file');
+    Route::resource('laporan_mesyuarat', LaporanMesyuaratController::class);
+});
 
 Route::group(['prefix'=>'permohonan','as'=>'permohonan.'], function(){
     Route::resource('pertukaran_syukbah', PertukaranSyukbahController::class);
