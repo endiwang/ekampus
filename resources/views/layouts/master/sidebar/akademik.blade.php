@@ -303,6 +303,14 @@
                 </span>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.laporan.laporan_mesyuarat.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.laporan.laporan_mesyuarat.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Laporan Mesyuarat</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
