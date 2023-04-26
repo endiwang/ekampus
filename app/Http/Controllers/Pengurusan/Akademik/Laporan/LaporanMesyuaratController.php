@@ -158,19 +158,19 @@ class LaporanMesyuaratController extends Controller
             //save multiple files
             foreach($request->data as $value)
             {
-                $image_name = uniqid() . '.' . $value['file']->getClientOriginalExtension();
-                $image_extension = $value['file']->getClientOriginalExtension();
-                $image_path = 'uploads/laporan/mesyuarat/';
-                $full_image_path = $image_path . $image_name;
-                $file = $value['file'];
-                $file->move(public_path($full_image_path));
+                $file_name = uniqid() . '.' . $value['file']->getClientOriginalExtension();
+                $file_extension = $value['file']->getClientOriginalExtension();
+                $file_path = 'uploads/laporan/mesyuarat/';
+                $file = $request->file($value['file']);
+                $file->move($file_path, $file_name);
+                $file = $file_path . '/' .$file_name;
 
                 LaporanMesyuaratDetail::create([
                     'laporan_mesyuarat_id'  => $laporan->id,
                     'file_name'             => $value['file_name'],
                     'description'           => $value['description'],
-                    'file_extension'        => $image_extension,
-                    'file_path'             => $full_image_path,
+                    'file_extension'        => $file_extension,
+                    'file_path'             => $file,
                     'uploaded_by'           => auth()->user()->id
                 ]);
             }
@@ -226,7 +226,7 @@ class LaporanMesyuaratController extends Controller
             ];
 
             if (request()->ajax()) {
-                $data = LaporanMesyuaratDetail::where('laporan_mesyuarat_id', $id);
+                $data = LaporanMesyuaratDetail::with('staff')->where('laporan_mesyuarat_id', $id);
                 return DataTables::of($data)
                 ->addColumn('type', function($data) {
                     $type = '';
@@ -250,6 +250,9 @@ class LaporanMesyuaratController extends Controller
                 })
                 ->addColumn('action', function($data){
                     return '
+                            <a href="'.route('pengurusan.akademik.laporan.laporan_mesyuarat.download',$data->id).'" class="btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" target="_blank" title="Lihat Dokumen">
+                                <i class="fa fa-eye"></i>
+                            </a>
                             <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id .')" data-bs-toggle="tooltip" title="Hapus">
                                 <i class="fa fa-trash"></i>
                             </a>
@@ -343,19 +346,19 @@ class LaporanMesyuaratController extends Controller
     {
         
         try {
-            $image_name = uniqid() . '.' . $request->file->getClientOriginalExtension();
-            $image_extension = $request->file->getClientOriginalExtension();
-            $image_path = 'uploads/laporan/mesyuarat/';
-            $full_image_path = $image_path . $image_name;
-            $file = $request->file;
-            $file->move(public_path($full_image_path));
+            $file_name = uniqid() . '.' . $request->file->getClientOriginalExtension();
+            $file_extension = $request->file->getClientOriginalExtension();
+            $file_path = 'uploads/laporan/mesyuarat/';
+            $file = $request->file('file');
+            $file->move($file_path, $file_name);
+            $file = $file_path . '/' .$file_name;
 
             LaporanMesyuaratDetail::create([
                 'laporan_mesyuarat_id'  => $id,
                 'file_name'             => $request->file_name,
                 'description'           => $request->description,
-                'file_extension'        => $image_extension,
-                'file_path'             => $full_image_path,
+                'file_extension'        => $file_extension,
+                'file_path'             => $file,
                 'type'                  => $request->type,
                 'uploaded_by'           => auth()->user()->id
             ]);
@@ -393,5 +396,12 @@ class LaporanMesyuaratController extends Controller
             Alert::toast('Uh oh! Something went Wrong', 'error');
             return redirect()->back();
         }
+    }
+
+    public function download($id)
+    {
+        $download = LaporanMesyuaratDetail::find($id);
+
+        return response()->file(public_path($download->file_path));
     }
 }
