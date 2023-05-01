@@ -10,4 +10,10 @@ class TemudugaMarkah extends Model
     use HasFactory;
     protected $table = 'temuduga_markah';
     protected $guarded = ['id'];
+
+
+    public function pemohon()
+    {
+        return $this->belongsTo(Permohonan::class,'permohonan_id');
+    }
 }

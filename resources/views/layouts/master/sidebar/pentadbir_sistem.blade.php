@@ -85,6 +85,16 @@
                         </a>
                     </div>
                 </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.pentadbir_sistem.pusat_temuduga.index') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbir_sistem.pusat_temuduga.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pusat Temuduga</span>
+                        </a>
+                    </div>
+                </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
                 <span class="menu-link">
