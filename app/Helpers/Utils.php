@@ -22,6 +22,13 @@ class Utils
         return $date;
     }
 
+    public static function formatTime($time)
+    {
+        $time = Carbon::parse($time)->format('H:i:s A');
+
+        return $time;
+    }
+
     public static function pdfGenerate($title, $datas, $view_file, $paper_orientation)
     {
         $pdf = App::make('dompdf.wrapper');

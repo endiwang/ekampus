@@ -60,5 +60,15 @@
                 @endforeach
             </div>
         @endif
+
+        @if(isset($modals) && is_array($modals) && count($modals))
+            <div class="d-flex align-items-center gap-2 gap-lg-3">
+                @foreach ($modals as $modal)
+                <a href="#" data-bs-toggle="modal" data-bs-target="{{ $modal['id'] }}" class="{{ $modal['button_class'] }}" title="{{ $modal['title'] }}">
+                    <i class="{{ $modal['icon_class'] }}" style="vertical-align: initial"></i>{{ $modal['title'] }}
+                </a>
+                @endforeach
+            </div>
+        @endif
     </div>
 </div>
