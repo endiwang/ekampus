@@ -1,5 +1,6 @@
 @extends('layouts.public.main_inner_pemohon')
 @section('content')
+
 <div class="py-10 py-lg-20">
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <!--begin::Content container-->
@@ -7,6 +8,9 @@
             <!--begin::Card-->
             <div class="card">
                 <!--begin::Card body-->
+                <div class="card-header">
+                    <h3 class="card-title">Permohonan Kursus : {{ $kursus->nama }}</h3>
+                </div>
                 <div class="card-body">
                     <!--begin::Stepper-->
                     <div class="stepper stepper-pills" id="permohonan">
@@ -119,11 +123,66 @@
                                 <!--end::Line-->
                             </div>
                             <!--end::Step 4-->
+                            <!--begin::Step 4-->
+                            <div class="stepper-item mx-8 my-4" data-kt-stepper-element="nav">
+                                <!--begin::Wrapper-->
+                                <div class="stepper-wrapper d-flex align-items-center">
+                                    <!--begin::Icon-->
+                                    <div class="stepper-icon w-40px h-40px">
+                                        <i class="stepper-check fas fa-check"></i>
+                                        <span class="stepper-number">E</span>
+                                    </div>
+                                    <!--begin::Icon-->
+
+                                    <!--begin::Label-->
+                                    <div class="stepper-label">
+                                        <h3 class="stepper-title">
+                                            Bahagian E
+                                        </h3>
+                                    </div>
+                                    <!--end::Label-->
+
+                                </div>
+                                <!--end::Wrapper-->
+
+                                <!--begin::Line-->
+                                <div class="stepper-line h-40px"></div>
+                                <!--end::Line-->
+                            </div>
+                            <!--end::Step 4-->
+                            <!--begin::Step 4-->
+                            <div class="stepper-item mx-8 my-4" data-kt-stepper-element="nav">
+                                <!--begin::Wrapper-->
+                                <div class="stepper-wrapper d-flex align-items-center">
+                                    <!--begin::Icon-->
+                                    <div class="stepper-icon w-40px h-40px">
+                                        <i class="stepper-check fas fa-check"></i>
+                                        <span class="stepper-number">F</span>
+                                    </div>
+                                    <!--begin::Icon-->
+
+                                    <!--begin::Label-->
+                                    <div class="stepper-label">
+                                        <h3 class="stepper-title">
+                                            Bahagian F
+                                        </h3>
+                                    </div>
+                                    <!--end::Label-->
+
+                                </div>
+                                <!--end::Wrapper-->
+
+                                <!--begin::Line-->
+                                <div class="stepper-line h-40px"></div>
+                                <!--end::Line-->
+                            </div>
+                            <!--end::Step 4-->
                         </div>
                         <!--end::Nav-->
 
                         <!--begin::Form-->
-                        <form class="form mx-auto" novalidate="novalidate" id="kt_stepper_example_basic_form">
+                        <form class="form mx-auto" novalidate="novalidate" id="borang_permohonan" method="post" action="{{ route('pemohon.permohonan.store') }}" enctype="multipart/form-data">
+                            @csrf
                             <!--begin::Group-->
                             <div class="mb-5">
                                 <!--Bahagian A : Start-->
@@ -146,6 +205,17 @@
                                     @include('pages.pemohon.permohonan.borang.d_kelulusan_akademik')
                                 </div>
                                 <!--Bahagian D : End-->
+                                <!--Bahagian E : Start-->
+                                <div class="flex-column" data-kt-stepper-element="content">
+                                    @include('pages.pemohon.permohonan.borang.e_muatnaik_dokumen')
+                                </div>
+                                <!--Bahagian E : End-->
+                                <!--Bahagian F : Start-->
+                                <div class="flex-column" data-kt-stepper-element="content">
+                                    @include('pages.pemohon.permohonan.borang.f_perakuan_pemohon')
+                                </div>
+                                <!--Bahagian F : End-->
+
 
 
                             </div>
@@ -200,10 +270,13 @@
     var bahagianC = '';
     var bahagianD = '';
     const form = document.querySelector("#permohonan");
+    const submit_button = form.querySelector('[data-kt-stepper-action="submit"]');
     const formBahagianA = document.querySelector("#formPermohonanA");
     const formBahagianB = document.querySelector("#formPermohonanB");
     const formBahagianC = document.querySelector("#formPermohonanE");
     const formBahagianD = document.querySelector("#formPermohonanC");
+    const formBahagianE = document.querySelector("#formPermohonanF");
+    const formBahagianF = document.querySelector("#formPermohonanG");
 
     const namaValidators = {
                     validators: {
@@ -384,11 +457,73 @@
     // Handle next step
     stepper.on("kt.stepper.next", function (stepper) {
             var step_validation = step[stepper.getCurrentStepIndex() - 1];
+            var form_permohonan = $('#borang_permohonan')[0];
+            var form_data = new FormData(form_permohonan);
+
+            if($('input[name=mykad_passport]')[0].files[0])
+            {
+                form_data.append('mykad_passport', $('input[name=mykad_passport]')[0].files[0]);
+            }
+
+            if($('input[name=sijil_spm_setara]')[0].files[0])
+            {
+                form_data.append('sijil_spm_setara', $('input[name=sijil_spm_setara]')[0].files[0]);
+            }
+
+            if($('input[name=kad_oku]')[0].files[0])
+            {
+                form_data.append('kad_oku', $('input[name=kad_oku]')[0].files[0]);
+            }
+
+
+            // form_data.append("file", document.getElementById('avatar').files[0]);
+            // form_data.append("nama_pemohon", $("#nama_pemohon").val());
+            // console.log(form_data.entries());
+
+            var gambar = '';
+            if(stepper.getCurrentStepIndex() == 2)
+            {
+                var count_checkbox = 0;
+                $("[name^=pilih_pusat_pengajian_]").each(function() {
+                    if(this.checked){
+                        count_checkbox++;
+                    }
+                })
+                if(count_checkbox < 1)
+                {
+                    stepper.goPrevious();
+                    Swal.fire({
+                            title: "Maklumat Tidak Lengkap",
+                            text: "Maaf, sila pilih sekurang-kurangnya satu pusat pengajian",
+                            icon: "error",
+                            buttonsStyling: !1,
+                            confirmButtonText: "Baik",
+                            customClass: { confirmButton: "btn btn-light" },
+                            }).then(function () {
+                            KTUtil.scrollTop();
+                            });
+                }
+            }
             step_validation
                 ? step_validation.validate().then(function (t)
                     {
                         "Valid" == t
-                        ? (stepper.goNext(), KTUtil.scrollTop())
+                        ? (
+                            $.ajax({
+                                url: "{!! route('pemohon.permohonan.store_bahagian_a')!!}",
+                                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+
+                                type: "POST",
+                                processData: false,
+                                contentType: false,
+                                data: form_data,
+                                dataType: 'json',
+                                success: function(data){
+                                    console.log('ok');
+                                }
+                            }),
+                            stepper.goNext(),
+                            KTUtil.scrollTop())
                         : Swal.fire({
                             title: "Maklumat Tidak Lengkap",
                             text: "Maaf, maklumat yang anda isi tidak lengkap, sila semak kotak bertanda merah.",
@@ -400,13 +535,51 @@
                             KTUtil.scrollTop();
                             });
                     })
-                : (stepper.goNext(), KTUtil.scrollTop());
+                : (
+                    $.ajax({
+                                url: "{!! route('pemohon.permohonan.store_bahagian_a')!!}",
+                                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+
+                                type: "POST",
+                                processData: false,
+                                contentType: false,
+                                data: form_data,
+                                dataType: 'json',
+                                success: function(data){
+                                    console.log('ok');
+                                }
+                            }),
+                            stepper.goNext(),
+                            KTUtil.scrollTop()
+                );
 
     });
 
     // Handle previous step
     stepper.on("kt.stepper.previous", function (stepper) {
         stepper.goPrevious(); // go previous step
+    });
+    // Handle submit button
+    submit_button.addEventListener("click", function (stepper) {
+        var step_validation = step[5];
+        let isChecked = $('#perakuan_pemohon').prop('checked');
+        if(isChecked)
+        {
+            $("#borang_permohonan").submit()
+        }else{
+            Swal.fire({
+                            title: "Maklumat Tidak Lengkap",
+                            text: "Maaf, sila tanda kotak perakuan untuk menghantar permohonan",
+                            icon: "error",
+                            buttonsStyling: !1,
+                            confirmButtonText: "Baik",
+                            customClass: { confirmButton: "btn btn-light" },
+                            }).then(function () {
+                            KTUtil.scrollTop();
+                            });
+        }
+
+
     });
 
     $("#tarikh_lahir").daterangepicker({
@@ -444,6 +617,23 @@
             bahagianC.disableValidator('status_pekerjaan_bapa','notEmpty');
             bahagianC.disableValidator('jenis_pekerjaan_bapa','notEmpty');
             bahagianC.disableValidator('pendapatan_bapa','notEmpty');
+        }
+
+    });
+
+    $("#jenis_peperiksaan").change(function () {
+        if(this.value == 'setara')
+        {
+            bahagianD.enableValidator('sijil_lain', 'notEmpty');
+            bahagianD.enableValidator('nama_peperiksaan_sijil_lain','notEmpty');
+            bahagianD.enableValidator('subjek[0].nama', 'notEmpty');
+            bahagianD.enableValidator('subjek[0].gred','notEmpty');
+
+        }else{
+            bahagianD.disableValidator('sijil_lain', 'notEmpty');
+            bahagianD.disableValidator('nama_peperiksaan_sijil_lain','notEmpty');
+            bahagianD.disableValidator('subjek[0].nama', 'notEmpty');
+            bahagianD.disableValidator('subjek[0].gred','notEmpty');
         }
 
     });
@@ -536,13 +726,16 @@
         let institusi_tanggungan = clone.querySelector('[data-name="tanggungan.institusi"]');
         let umur_tanggungan = clone.querySelector('[data-name="tanggungan.umur"]');
 
-        nama_tanggungan.setAttribute('name', 'tanggungan[' + rowIndex + '].nama');
+        nama_tanggungan.setAttribute('name', 'tanggungan_nama[' + rowIndex + ']');
+        // nama_tanggungan.setAttribute('name', 'tanggungan[' + rowIndex + '].nama');
         nama_tanggungan.value = '';
 
-        institusi_tanggungan.setAttribute('name', 'tanggungan[' + rowIndex + '].institusi');
+        institusi_tanggungan.setAttribute('name', 'tanggungan_institusi[' + rowIndex + ']');
+        // institusi_tanggungan.setAttribute('name', 'tanggungan[' + rowIndex + '].institusi');
         institusi_tanggungan.value = '';
 
-        umur_tanggungan.setAttribute('name', 'tanggungan[' + rowIndex + '].umur');
+        umur_tanggungan.setAttribute('name', 'tanggungan_umur[' + rowIndex + ']');
+        // umur_tanggungan.setAttribute('name', 'tanggungan[' + rowIndex + '].umur');
         umur_tanggungan.value = '';
 
         let button_remove = clone.querySelector('.js-remove-button');
@@ -560,9 +753,12 @@
             removeRow(index);
         });
 
-        bahagianC.addField('tanggungan[' + rowIndex + '].nama', namaValidators)
-                .addField('tanggungan[' + rowIndex + '].institusi', institusiValidators)
-                .addField('tanggungan[' + rowIndex + '].umur', umurValidators);
+        // bahagianC.addField('tanggungan[' + rowIndex + '].nama', namaValidators)
+        //         .addField('tanggungan[' + rowIndex + '].institusi', institusiValidators)
+        //         .addField('tanggungan[' + rowIndex + '].umur', umurValidators);
+        bahagianC.addField('tanggungan_nama[' + rowIndex + ']', namaValidators)
+                .addField('tanggungan_institusi[' + rowIndex + ']', institusiValidators)
+                .addField('tanggungan_umur[' + rowIndex + ']', umurValidators);
     });
 
 
@@ -593,10 +789,12 @@
         let nama_subjek = cloneSijilSetaraf.querySelector('[data-name="subjek.nama"]');
         let gred_subjek = cloneSijilSetaraf.querySelector('[data-name="subjek.gred"]');
 
-        nama_subjek.setAttribute('name', 'subjek[' + rowIndexSijilSetaraf + '].nama');
+        nama_subjek.setAttribute('name', 'subjek_nama[' + rowIndexSijilSetaraf + ']');
+        // nama_subjek.setAttribute('name', 'subjek[' + rowIndexSijilSetaraf + '].nama');
         nama_subjek.value = '';
 
-        gred_subjek.setAttribute('name', 'subjek[' + rowIndexSijilSetaraf + '].gred');
+        // gred_subjek.setAttribute('name', 'subjek[' + rowIndexSijilSetaraf + '].gred');
+        gred_subjek.setAttribute('name', 'subjek_gred[' + rowIndexSijilSetaraf + ']');
         gred_subjek.value = '';
 
         let button_remove_sijil_setaraf = cloneSijilSetaraf.querySelector('.js-remove-button-sijil-setaraf');
@@ -614,9 +812,20 @@
             removeRowSijilSetaraf(index);
         });
 
-        bahagianD.addField('subjek[' + rowIndexSijilSetaraf + '].nama', namaSijilSetarafValidators)
-                .addField('subjek[' + rowIndexSijilSetaraf + '].gred', gredSijilSetarafValidators)
+        // bahagianD.addField('subjek[' + rowIndexSijilSetaraf + '].nama', namaSijilSetarafValidators)
+        //         .addField('subjek[' + rowIndexSijilSetaraf + '].gred', gredSijilSetarafValidators)
+        bahagianD.addField('subjek_nama[' + rowIndexSijilSetaraf + ']', namaSijilSetarafValidators)
+                .addField('subjek_gred[' + rowIndexSijilSetaraf + ']', gredSijilSetarafValidators)
     });
+
+    $("#salin_alamat_tetap").click(function(){
+        $("#alamat_surat").val($("#alamat_tetap").val());
+        $("#bandar_surat").val($("#bandar_tetap").val());
+        $("#negeri_surat").val($("#negeri_tetap").val());
+        $("#poskod_surat").val($("#poskod_tetap").val());
+    });
+
+
 
 </script>
 @endsection
