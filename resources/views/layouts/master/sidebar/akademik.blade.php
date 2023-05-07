@@ -146,6 +146,15 @@
                             <span class="menu-title">Hebahan Aktiviti</span>
                         </a>
                     </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.aktiviti_pdp.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.aktiviti_pdp.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Aktiviti PDP</span>
+                        </a>
+                    </div>
                     
                 </div>
             </div>

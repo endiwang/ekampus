@@ -9,6 +9,7 @@ use App\Http\Controllers\Pengurusan\Akademik\MainAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\KelasPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\SyukbahController;
 use App\Http\Controllers\Pengurusan\Akademik\Laporan\LaporanMesyuaratController;
+use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\AktivitiPdpController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\HebahanAktivitiController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\MpkIsoController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
@@ -78,5 +79,7 @@ Route::group(['prefix'=>'pengurusan','as'=>'pengurusan.'], function(){
     Route::post('hebahan_aktiviti/update/{id}', [HebahanAktivitiController::class, 'update'])->name('hebahan_aktiviti.update_aktiviti');
     Route::post('hebahan_aktiviti/upload_file/{id}', [HebahanAktivitiController::class, 'uploadFile'])->name('hebahan_aktiviti.upload_file');
     Route::resource('hebahan_aktiviti', HebahanAktivitiController::class);
+
+    Route::resource('aktiviti_pdp', AktivitiPdpController::class);
 });
 
