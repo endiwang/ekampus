@@ -155,6 +155,15 @@
                             <span class="menu-title">Rekod Aktiviti PDP</span>
                         </a>
                     </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.penilaian_pensyarah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.penilaian_pensyarah.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Soalan Penilaian Pensyarah</span>
+                        </a>
+                    </div>
                     
                 </div>
             </div>
