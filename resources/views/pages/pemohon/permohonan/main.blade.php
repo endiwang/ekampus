@@ -43,7 +43,7 @@
                             </div>
                             <!--end::Step 1-->
 
-                            <!--begin::Step 2-->
+                            {{-- <!--begin::Step 2-->
                             <div class="stepper-item mx-8 my-4" data-kt-stepper-element="nav">
                                 <!--begin::Wrapper-->
                                 <div class="stepper-wrapper d-flex align-items-center">
@@ -68,9 +68,36 @@
                                 <div class="stepper-line h-40px"></div>
                                 <!--end::Line-->
                             </div>
-                            <!--end::Step 2-->
+                            <!--end::Step 2--> --}}
 
                             <!--begin::Step 3-->
+                            <div class="stepper-item mx-8 my-4" data-kt-stepper-element="nav">
+                                <!--begin::Wrapper-->
+                                <div class="stepper-wrapper d-flex align-items-center">
+                                    <!--begin::Icon-->
+                                    <div class="stepper-icon w-40px h-40px">
+                                        <i class="stepper-check fas fa-check"></i>
+                                        <span class="stepper-number">B</span>
+                                    </div>
+                                    <!--begin::Icon-->
+
+                                    <!--begin::Label-->
+                                    <div class="stepper-label">
+                                        <h3 class="stepper-title">
+                                            Bahagian B
+                                        </h3>
+                                    </div>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Wrapper-->
+
+                                <!--begin::Line-->
+                                <div class="stepper-line h-40px"></div>
+                                <!--end::Line-->
+                            </div>
+                            <!--end::Step 3-->
+
+                            <!--begin::Step 4-->
                             <div class="stepper-item mx-8 my-4" data-kt-stepper-element="nav">
                                 <!--begin::Wrapper-->
                                 <div class="stepper-wrapper d-flex align-items-center">
@@ -95,8 +122,7 @@
                                 <div class="stepper-line h-40px"></div>
                                 <!--end::Line-->
                             </div>
-                            <!--end::Step 3-->
-
+                            <!--end::Step 4-->
                             <!--begin::Step 4-->
                             <div class="stepper-item mx-8 my-4" data-kt-stepper-element="nav">
                                 <!--begin::Wrapper-->
@@ -115,6 +141,7 @@
                                         </h3>
                                     </div>
                                     <!--end::Label-->
+
                                 </div>
                                 <!--end::Wrapper-->
 
@@ -150,33 +177,6 @@
                                 <!--end::Line-->
                             </div>
                             <!--end::Step 4-->
-                            <!--begin::Step 4-->
-                            <div class="stepper-item mx-8 my-4" data-kt-stepper-element="nav">
-                                <!--begin::Wrapper-->
-                                <div class="stepper-wrapper d-flex align-items-center">
-                                    <!--begin::Icon-->
-                                    <div class="stepper-icon w-40px h-40px">
-                                        <i class="stepper-check fas fa-check"></i>
-                                        <span class="stepper-number">F</span>
-                                    </div>
-                                    <!--begin::Icon-->
-
-                                    <!--begin::Label-->
-                                    <div class="stepper-label">
-                                        <h3 class="stepper-title">
-                                            Bahagian F
-                                        </h3>
-                                    </div>
-                                    <!--end::Label-->
-
-                                </div>
-                                <!--end::Wrapper-->
-
-                                <!--begin::Line-->
-                                <div class="stepper-line h-40px"></div>
-                                <!--end::Line-->
-                            </div>
-                            <!--end::Step 4-->
                         </div>
                         <!--end::Nav-->
 
@@ -185,15 +185,16 @@
                             @csrf
                             <!--begin::Group-->
                             <div class="mb-5">
+
                                 <!--Bahagian A : Start-->
                                 <div class="flex-column current" data-kt-stepper-element="content">
                                     @include('pages.pemohon.permohonan.borang.a_maklumat_pemohon')
                                 </div>
                                 <!--Bahagian A : End-->
                                 <!--Bahagian B : Start-->
-                                <div class="flex-column" data-kt-stepper-element="content">
+                                {{-- <div class="flex-column" data-kt-stepper-element="content">
                                     @include('pages.pemohon.permohonan.borang.b_tempat_temuduga')
-                                </div>
+                                </div> --}}
                                 <!--Bahagian B : End-->
                                 <!--Bahagian C : Start-->
                                 <div class="flex-column" data-kt-stepper-element="content">
@@ -480,37 +481,36 @@
             // form_data.append("nama_pemohon", $("#nama_pemohon").val());
             // console.log(form_data.entries());
 
-            var gambar = '';
-            if(stepper.getCurrentStepIndex() == 2)
-            {
-                var count_checkbox = 0;
-                $("[name^=pilih_pusat_pengajian_]").each(function() {
-                    if(this.checked){
-                        count_checkbox++;
-                    }
-                })
-                if(count_checkbox < 1)
-                {
-                    stepper.goPrevious();
-                    Swal.fire({
-                            title: "Maklumat Tidak Lengkap",
-                            text: "Maaf, sila pilih sekurang-kurangnya satu pusat pengajian",
-                            icon: "error",
-                            buttonsStyling: !1,
-                            confirmButtonText: "Baik",
-                            customClass: { confirmButton: "btn btn-light" },
-                            }).then(function () {
-                            KTUtil.scrollTop();
-                            });
-                }
-            }
+            // if(stepper.getCurrentStepIndex() == 4)
+            // {
+            //     var count_checkbox = 0;
+            //     $("[name^=pilih_pusat_pengajian_]").each(function() {
+            //         if(this.checked){
+            //             count_checkbox++;
+            //         }
+            //     })
+            //     if(count_checkbox < 1)
+            //     {
+            //         stepper.goPrevious();
+            //         Swal.fire({
+            //                 title: "Maklumat Tidak Lengkap",
+            //                 text: "Maaf, sila pilih sekurang-kurangnya satu pusat pengajian",
+            //                 icon: "error",
+            //                 buttonsStyling: !1,
+            //                 confirmButtonText: "Baik",
+            //                 customClass: { confirmButton: "btn btn-light" },
+            //                 }).then(function () {
+            //                 KTUtil.scrollTop();
+            //                 });
+            //     }
+            // }
             step_validation
                 ? step_validation.validate().then(function (t)
                     {
                         "Valid" == t
                         ? (
                             $.ajax({
-                                url: "{!! route('pemohon.permohonan.store_bahagian_a')!!}",
+                                url: "{!! route('pemohon.permohonan.simpan_dan_seterusnya')!!}",
                                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 
                                 type: "POST",
@@ -537,7 +537,7 @@
                     })
                 : (
                     $.ajax({
-                                url: "{!! route('pemohon.permohonan.store_bahagian_a')!!}",
+                                url: "{!! route('pemohon.permohonan.simpan_dan_seterusnya')!!}",
                                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 
                                 type: "POST",
@@ -561,15 +561,41 @@
     });
     // Handle submit button
     submit_button.addEventListener("click", function (stepper) {
-        var step_validation = step[5];
+        var step_validation = step[4];
         let isChecked = $('#perakuan_pemohon').prop('checked');
-        if(isChecked)
+        var step_validation_final = step[4];
+
+
+
+        var count_checkbox = 0;
+        $("[name^=pilih_pusat_pengajian]").each(function() {
+            if(this.checked){
+                count_checkbox++;
+            }
+        })
+        if(count_checkbox < 1)
         {
-            $("#borang_permohonan").submit()
-        }else{
+            // stepper.goPrevious();
             Swal.fire({
+                    title: "Maklumat Tidak Lengkap",
+                    text: "Maaf, sila pilih sekurang-kurangnya satu pusat pengajian",
+                    icon: "error",
+                    buttonsStyling: !1,
+                    confirmButtonText: "Baik",
+                    customClass: { confirmButton: "btn btn-light" },
+                    }).then(function () {
+                    KTUtil.scrollTop();
+                    });
+        }else{
+
+
+            step_validation.validate().then(function (t)
+                    {
+                        if( "Valid" != t)
+                        {
+                            Swal.fire({
                             title: "Maklumat Tidak Lengkap",
-                            text: "Maaf, sila tanda kotak perakuan untuk menghantar permohonan",
+                            text: "Maaf, maklumat yang anda isi tidak lengkap, sila semak kotak bertanda merah.",
                             icon: "error",
                             buttonsStyling: !1,
                             confirmButtonText: "Baik",
@@ -577,7 +603,30 @@
                             }).then(function () {
                             KTUtil.scrollTop();
                             });
+                        }else{
+
+                            if(isChecked)
+                            {
+                                $("#borang_permohonan").submit()
+                            }else{
+                            Swal.fire({
+                                    title: "Maklumat Tidak Lengkap",
+                                    text: "Maaf, sila tanda kotak perakuan untuk menghantar permohonan",
+                                    icon: "error",
+                                    buttonsStyling: !1,
+                                    confirmButtonText: "Baik",
+                                    customClass: { confirmButton: "btn btn-light" },
+                                    }).then(function () {
+                                    KTUtil.scrollTop();
+                                    });
+                            }
+
+                        }
+
+                    });
         }
+
+
 
 
     });
@@ -626,14 +675,14 @@
         {
             bahagianD.enableValidator('sijil_lain', 'notEmpty');
             bahagianD.enableValidator('nama_peperiksaan_sijil_lain','notEmpty');
-            bahagianD.enableValidator('subjek[0].nama', 'notEmpty');
-            bahagianD.enableValidator('subjek[0].gred','notEmpty');
+            bahagianD.enableValidator('subjek_nama[0]', 'notEmpty');
+            bahagianD.enableValidator('subjek_gred[0]','notEmpty');
 
         }else{
             bahagianD.disableValidator('sijil_lain', 'notEmpty');
             bahagianD.disableValidator('nama_peperiksaan_sijil_lain','notEmpty');
-            bahagianD.disableValidator('subjek[0].nama', 'notEmpty');
-            bahagianD.disableValidator('subjek[0].gred','notEmpty');
+            bahagianD.disableValidator('subjek_nama[0]', 'notEmpty');
+            bahagianD.disableValidator('subjek_gred[0].gred','notEmpty');
         }
 
     });
@@ -701,9 +750,9 @@
 
     const removeRow = function (rowIndex) {
         const row = formBahagianC.querySelector('[data-row-index="' + rowIndex + '"]');
-        bahagianC.removeField('tanggungan[' + rowIndex + '].nama')
-                .removeField('tanggungan[' + rowIndex + '].institusi')
-                .removeField('tanggungan[' + rowIndex + '].umur');
+        bahagianC.removeField('tanggungan_nama[' + rowIndex + ']')
+                .removeField('tanggungan_institusi[' + rowIndex + ']')
+                .removeField('tanggungan_umur[' + rowIndex + ']');
         row.parentNode.removeChild(row);
     };
 
@@ -766,8 +815,8 @@
 
     const removeRowSijilSetaraf = function (rowIndexSijilSetaraf) {
         const rowSijilSetaraf = formBahagianD.querySelector('[data-row-index-sijil-setaraf="' + rowIndexSijilSetaraf + '"]');
-        bahagianD.removeField('subjek[' + rowIndexSijilSetaraf + '].nama')
-                .removeField('subjek[' + rowIndexSijilSetaraf + '].gred')
+        bahagianD.removeField('subjek_nama[' + rowIndexSijilSetaraf + ']')
+                .removeField('subjek_gred[' + rowIndexSijilSetaraf + ']')
         rowSijilSetaraf.parentNode.removeChild(rowSijilSetaraf);
     };
 
