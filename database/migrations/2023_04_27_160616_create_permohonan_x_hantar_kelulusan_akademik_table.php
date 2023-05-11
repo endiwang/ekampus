@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('permohonan_x_hantar_kelulusan_akademik', function (Blueprint $table) {
             $table->id();
-            $table->integer('permohoan_x_hantar_id');
+            $table->integer('permohonan_x_hantar_id');
             $table->string('type');
             $table->string('tahun_pepriksaan');
             $table->string('nama_sijil');

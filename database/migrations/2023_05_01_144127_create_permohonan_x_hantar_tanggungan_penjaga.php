@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('permohonan_x_hantar_tanggungan_penjaga', function (Blueprint $table) {
             $table->id();
-            $table->integer('permohoan_x_hantar_id');
+            $table->integer('permohonan_x_hantar_id');
             $table->string('nama');
             $table->string('institusi');
             $table->string('umur');
