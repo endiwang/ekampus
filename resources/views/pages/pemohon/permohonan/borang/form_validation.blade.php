@@ -147,33 +147,6 @@ var step = [
             }
         }
     ),
-    bahagianB = FormValidation.formValidation(
-    formBahagianB,
-        {
-            fields: {
-                @foreach ($permohonan as $index => $permohonan_data)
-                'pusat_temuduga_{{ $index+1 }}': {
-                    validators: {
-                        notEmpty: {
-                            enabled: false,
-                            message: 'Sila pilih tempat temuduga.'
-                        }
-                    }
-                },
-                @endforeach
-
-            },
-
-            plugins: {
-                trigger: new FormValidation.plugins.Trigger(),
-                bootstrap: new FormValidation.plugins.Bootstrap5({
-                    rowSelector: '.fv-row',
-                    eleInvalidClass: '',
-                    eleValidClass: ''
-                })
-            }
-        }
-    ),
     bahagianC = FormValidation.formValidation(
     formBahagianC,
         {
@@ -444,7 +417,7 @@ var step = [
                         }
                     }
                 },
-                'subjek[0].nama': {
+                'subjek_nama[0]': {
                     validators: {
                         notEmpty: {
                             enabled: false,
@@ -452,7 +425,7 @@ var step = [
                         }
                     }
                 },
-                'subjek[0].gred': {
+                'subjek_gred[0]': {
                     validators: {
                         notEmpty: {
                             enabled: false,
@@ -510,6 +483,33 @@ var step = [
                         },
                     },
                 },
+            },
+
+            plugins: {
+                trigger: new FormValidation.plugins.Trigger(),
+                bootstrap: new FormValidation.plugins.Bootstrap5({
+                    rowSelector: '.fv-row',
+                    eleInvalidClass: '',
+                    eleValidClass: ''
+                })
+            }
+        }
+    ),
+    bahagianB = FormValidation.formValidation(
+    formBahagianB,
+        {
+            fields: {
+                @foreach ($permohonan as $index => $permohonan_data)
+                'pusat_temuduga[{{ $index }}]': {
+                    validators: {
+                        notEmpty: {
+                            enabled: false,
+                            message: 'Sila pilih tempat temuduga.'
+                        }
+                    }
+                },
+                @endforeach
+
             },
 
             plugins: {

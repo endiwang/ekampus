@@ -11,7 +11,8 @@ Route::group(['middleware' => ['auth_pemohon']], function() {
     Route::post('/permohonan', [PermohonanController::class, 'index'])->name('permohonan.index');
     Route::post('/permohonan/store', [PermohonanController::class, 'store'])->name('permohonan.store');
 
-    Route::post('/permohonan/store_bahagian_a', [PermohonanController::class, 'store_bahagian_a'])->name('permohonan.store_bahagian_a');
+    Route::post('/permohonan/simpan_dan_seterusnya', [PermohonanController::class, 'simpan_dan_seterusnya'])->name('permohonan.simpan_dan_seterusnya');
+    Route::get('/permohonan/berjaya_dihantar', [PermohonanController::class, 'berjaya_dihantar'])->name('permohonan.berjaya_dihantar');
 
 });
 

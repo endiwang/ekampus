@@ -82,7 +82,7 @@
                         <div class="form-text mt-0">Father's Occupation Status</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('status_pekerjaan_bapa', ['bekerja' => 'Bekerja', 'tidak_bekerja' => 'Tidak Bekerja', 'bersara' => 'Bersara'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                        {{ Form::select('status_pekerjaan_bapa', [1 => 'Bekerja', 2 => 'Tidak Bekerja', 3 => 'Bersara'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                     </div>
                 </div>
 
@@ -185,7 +185,7 @@
                         <div class="form-text mt-0">Mother's Occupation Status</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('status_pekerjaan_ibu', ['bekerja' => 'Bekerja', 'tidak_bekerja' => 'Tidak Bekerja', 'bersara' => 'Bersara'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                        {{ Form::select('status_pekerjaan_ibu', [1 => 'Bekerja', 2 => 'Tidak Bekerja', 3 => 'Bersara'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                     </div>
                 </div>
 
@@ -287,7 +287,7 @@
                             <div class="form-text mt-0">Guardian's Occupation Status</div>
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::select('status_pekerjaan_penjaga', ['bekerja' => 'Bekerja', 'tidak_bekerja' => 'Tidak Bekerja', 'bersara' => 'Bersara'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                            {{ Form::select('status_pekerjaan_penjaga', [1 => 'Bekerja', 2 => 'Tidak Bekerja', 3 => 'Bersara'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                         </div>
                     </div>
 
@@ -317,7 +317,7 @@
                             <div class="form-text mt-0">Relationship</div>
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::select('pertalian_penjaga', ['bapa_saudara' => 'Bapa Saudara', 'datuk' => 'Datuk','ibu_saudara' => 'Ibu Saudara', 'nenek' => 'Nenek', 'lain' => 'Lain-lain'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                            {{ Form::select('pertalian_penjaga', [1 => 'Bapa Saudara', 2 => 'Datuk',3 => 'Ibu Saudara', 4 => 'Nenek', 5 => 'Lain-lain'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                         </div>
                     </div>
                 </div>

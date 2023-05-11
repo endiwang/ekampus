@@ -60,7 +60,7 @@
 
 
                 @php
-                    $pilihan_keputusan = ['-'=>'-', 'A+' => 'A+', 'A' => 'A', 'A-' =>'A-'];
+                    $pilihan_keputusan = ['-'=>'-', 'A+' => 'A+', 'A' => 'A', 'A-' =>'A-', 'B+' => 'B+','B' => 'B', 'C+' => 'C+','C'=>'C','D'=>'D','E'=>'E','G'=>'G'];
                 @endphp
                 <!-- SPM -->
                 <div v-show="showResultSPM">
@@ -131,7 +131,7 @@
                                     <input type="text" class="form-control form-control-lg " name='subjek_nama[0]' placeholder="Nama Mata Pelajaran / Subject Name">
                                 </div>
                                 <div class="col-lg-3 col-md-2 col-6 mt-2 mt-md-0 mt-lg-0">
-                                    <input type="text" class="form-control form-control-lg " name='subjek.gred[0]' placeholder="Gred / Grade">
+                                    <input type="text" class="form-control form-control-lg " name='subjek_gred[0]' placeholder="Gred / Grade">
                                 </div>
                                 <div class=" d-grid col-lg-1 col-md-2 col-6 mt-2 mt-md-0 mt-lg-0">
                                 </div>
