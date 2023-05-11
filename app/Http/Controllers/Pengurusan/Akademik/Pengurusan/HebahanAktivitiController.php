@@ -1,24 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Pengurusan\Akademik\Laporan;
+namespace App\Http\Controllers\Pengurusan\Akademik\Pengurusan;
 
 use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
-use App\Models\Jabatan;
-use App\Models\LaporanMesyuarat;
-use App\Models\LaporanMesyuaratDetail;
+use App\Models\Aktiviti;
+use App\Models\AktivitiDetail;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use Image, File;
-use Nette\Utils\Json;
+use File;
 
-class LaporanMesyuaratController extends Controller
+class HebahanAktivitiController extends Controller
 {
-    protected $baseView = 'pages.pengurusan.akademik.laporan.mesyuarat.';
+    protected $baseView = 'pages.pengurusan.akademik.pengurusan.hebahan_aktiviti.';
 
     /**
      * Display a listing of the resource.
@@ -29,42 +27,60 @@ class LaporanMesyuaratController extends Controller
     {
         try {
 
-            $title = "Laporan Mesyuarat";
+            $title = "Hebahan Aktiviti";
             $breadcrumbs = [
                 "Akademik" =>  false,
-                "Laporan Mesyuarat" =>  false,
+                "Hebahan Aktiviti" =>  false,
             ];
 
             $buttons = [
                 [
-                    'title' => "Tambah Laporan Mesyuarat Baru", 
-                    'route' => route('pengurusan.akademik.laporan.laporan_mesyuarat.create'), 
+                    'title' => "Tambah Hebahan Aktiviti", 
+                    'route' => route('pengurusan.akademik.pengurusan.hebahan_aktiviti.create'), 
                     'button_class' => "btn btn-sm btn-primary fw-bold",
                     'icon_class' => "fa fa-plus-circle"
                 ],
             ];
 
             if (request()->ajax()) {
-                $data = LaporanMesyuarat::query();
+                $data = Aktiviti::query();
                 return DataTables::of($data)
-                ->addColumn('tarikh_mesyuarat', function($data) {
-                    return Utils::formatDate($data->tarikh_mesyuarat) ?? null;
+                ->addColumn('tarikh_program', function($data) {
+                    return Utils::formatDate($data->tarikh_program) ?? null;
                 })
-                ->addColumn('bahagian_terlibat', function($data) {
-                    $jabatan_id = json_decode($data->bahagian_terlibat);
-                    $jabatan = Jabatan::whereIn('id', $jabatan_id)->pluck('nama');
+                ->addColumn('tarikh_mula', function($data) {
+                    return Utils::formatDate($data->tarikh_mula) ?? null;
+                })
+                ->addColumn('tarikh_tamat', function($data) {
+                    return Utils::formatDate($data->tarikh_tamat) ?? null;
+                })
+                ->addColumn('status_kelulusan', function($data) {
+                    $kelulusan = '';
+                    
+                    if($data->kelulusan == 0)
+                    {
+                        $kelulusan = 'Dalam Proses';
+                    }
+                    elseif($data->kelulusan == 1)
+                    {
+                        $kelulusan = 'Diluluskan';
+                    }
+                    elseif($data->kelulusan == 1)
+                    {
+                        $kelulusan = 'Ditolak';
+                    }
 
-                    return json_decode($jabatan) ?? null;
+                    return $kelulusan;
                 })
                 ->addColumn('action', function($data){
                     return '
-                            <a href="'.route('pengurusan.akademik.laporan.laporan_mesyuarat.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                            <a href="'.route('pengurusan.akademik.pengurusan.hebahan_aktiviti.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
                             <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id .')" data-bs-toggle="tooltip" title="Hapus">
                                 <i class="fa fa-trash"></i>
                             </a>
-                            <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.laporan.laporan_mesyuarat.destroy', $data->id).'" method="POST">
+                            <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.pengurusan.hebahan_aktiviti.destroy', $data->id).'" method="POST">
                                 <input type="hidden" name="_token" value="'.csrf_token().'">
                                 <input type="hidden" name="_method" value="DELETE">
                             </form>';
@@ -80,9 +96,11 @@ class LaporanMesyuaratController extends Controller
             $dataTable = $builder
             ->columns([
                 [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
-                ['data' => 'nama_mesyuarat', 'name' => 'nama_mesyuarat', 'title' => 'Nama Mesyuarat', 'orderable'=> false, ],
-                ['data' => 'tarikh_mesyuarat', 'name' => 'tarikh_mesyuarat', 'title' => 'Tarikh Mesyuarat', 'orderable'=> false],
-                ['data' => 'bahagian_terlibat', 'name' => 'bahagian_terlibat', 'title' => 'Bahagian Terlibat', 'orderable'=> false],
+                ['data' => 'nama_program', 'name' => 'document_name', 'title' => 'Nama Program', 'orderable'=> false, ],
+                ['data' => 'tarikh_program', 'name' => 'type', 'title' => 'Tarikh Program', 'orderable'=> false],
+                ['data' => 'tarikh_mula', 'name' => 'tarikh_mula', 'title' => 'Tarikh Mula Hebahan', 'orderable'=> false],
+                ['data' => 'tarikh_tamat', 'name' => 'tarikh_tamat', 'title' => 'Tarikh Habis Hebahan', 'orderable'=> false],
+                ['data' => 'status_kelulusan', 'name' => 'status_kelulusan', 'title' => 'Kelulusan', 'orderable'=> false],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
     
             ])
@@ -107,20 +125,24 @@ class LaporanMesyuaratController extends Controller
     {
         try {
 
-            $title = 'Laporan Mesyuarat';
-            $action = route('pengurusan.akademik.laporan.laporan_mesyuarat.store');
-            $page_title = 'Tambah Laporan Mesyuarat';
+            $title = 'Hebahan Aktiviti';
+            $action = route('pengurusan.akademik.pengurusan.hebahan_aktiviti.store');
+            $page_title = 'Tambah Hebahan Aktiviti';
             $breadcrumbs = [
                 "Akademik" =>  false,
-                "Laporan Mesyuarat" =>  route('pengurusan.akademik.laporan.laporan_mesyuarat.index'),
-                "Tambah Laporan Mesyuarat" =>  false,
+                "Hebahan Aktiviti" =>  route('pengurusan.akademik.pengurusan.hebahan_aktiviti.index'),
+                "Tambah Hebahan Aktiviti" =>  false,
             ];
 
-            $model = new LaporanMesyuarat();
+            $model = new Aktiviti();
 
-            $departments = Jabatan::where('deleted_at', null)->pluck('nama', 'id');
+            $statuses = [
+                '1' => 'Dalam Proses',
+                '2' => 'Diluluskan',
+                '3' => 'Ditolak',
+            ];
 
-            return view($this->baseView.'create', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'departments'));
+            return view($this->baseView.'create', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'statuses'));
 
         }catch (Exception $e) {
             report($e);
@@ -138,45 +160,45 @@ class LaporanMesyuaratController extends Controller
      */
     public function store(Request $request)
     {
-        $validation = $request->validate([
-            'nama_mesyuarat'        => 'required',
-            'tarikh_mesyuarat'      => 'required',
-            'bahagian_terlibat'     => 'required',
-        ],[
-            'nama_mesyuarat.required'       => 'Sila masukkan nama mesyuarat',
-            'tarikh_mesyuarat.required'     => 'Sila pilih tarikh mesyuarat',
-            'bahagian_terlibat.required'    => 'Sila pilih unit/bahagian',
-        ]);
-        
         try {
-            $laporan = new LaporanMesyuarat();
-            $laporan->nama_mesyuarat    = $request->nama_mesyuarat;
-            $laporan->tarikh_mesyuarat  = Carbon::createFromFormat('d/m/Y',$request->tarikh_mesyuarat)->format('Y-m-d');
-            $laporan->bahagian_terlibat = json_encode($request->bahagian_terlibat);
-            $laporan->save();
+            $aktiviti = new Aktiviti();
+            $aktiviti->nama_program         = $request->nama_program;
+            $aktiviti->tarikh_program       = Carbon::createFromFormat('d/m/Y',$request->tarikh_program)->format('Y-m-d');
+            $aktiviti->jenis_hebahan        = $request->jenis_hebahan;
+            $aktiviti->jenis_hebahan_detail = $request->jenis_hebahan_detail;
+            $aktiviti->tarikh_mula          = Carbon::createFromFormat('d/m/Y',$request->tarikh_mula)->format('Y-m-d');
+            $aktiviti->tarikh_tamat         = Carbon::createFromFormat('d/m/Y',$request->tarikh_tamat)->format('Y-m-d');
+            $aktiviti->status_kelulusan     = $request->kelulusan;
+            $aktiviti->save();
 
             //save multiple files
             foreach($request->data as $value)
             {
-                $file_name = uniqid() . '.' . $value['file']->getClientOriginalExtension();
-                $file_extension = $value['file']->getClientOriginalExtension();
-                $file_path = 'uploads/laporan/mesyuarat/';
-                $file = $value['file'];
-                $file->move($file_path, $file_name);
-                $file = $file_path . '/' .$file_name;
+                if(!empty($value['file']))
+                {
 
-                LaporanMesyuaratDetail::create([
-                    'laporan_mesyuarat_id'  => $laporan->id,
-                    'file_name'             => $value['file_name'],
-                    'description'           => $value['description'],
-                    'file_extension'        => $file_extension,
-                    'file_path'             => $file,
-                    'uploaded_by'           => auth()->user()->id
-                ]);
+                    
+                    $file_name = uniqid() . '.' . $value['file']->getClientOriginalExtension();
+                    $file_extension = $value['file']->getClientOriginalExtension();
+                    $file_path = 'uploads/pengurusan/hebahan_aktiviti/';
+                    $file_data = $value['file'];
+                    $file = $value['file'];
+                    //dd($request->all());
+                    $file->move($file_path, $file_name);
+                    $file = $file_path . '/' .$file_name;
+
+                    AktivitiDetail::create([
+                        'aktiviti_id'       => $aktiviti->id,
+                        'file_name'         => $value['file_name'],
+                        'file_extension'    => $file_extension,
+                        'file_path'         => $file,
+                    ]);
+                }
+                
             }
 
-            Alert::toast('Maklumat laporan mesyuarat berjaya disimpan!', 'success');
-            return redirect()->route('pengurusan.akademik.laporan.laporan_mesyuarat.index');
+            Alert::toast('Maklumat hebahan aktiviti berjaya disimpan!', 'success');
+            return redirect()->route('pengurusan.akademik.pengurusan.hebahan_aktiviti.index');
 
         }catch (Exception $e) {
             report($e);
@@ -207,56 +229,42 @@ class LaporanMesyuaratController extends Controller
     {
         try {
 
-            $title = 'Laporan Mesyuarat';
-            $action = route('pengurusan.akademik.laporan.laporan_mesyuarat.update_laporan', $id);
-            $page_title = 'Pinda Laporan Mesyuarat';
+            $title = 'Hebahan Aktiviti';
+            $action = route('pengurusan.akademik.pengurusan.hebahan_aktiviti.update_aktiviti', $id);
+            $page_title = 'Pinda Hebahan Aktiviti';
             $breadcrumbs = [
                 "Akademik" =>  false,
-                "Laporan Mesyuarat" =>  route('pengurusan.akademik.laporan.laporan_mesyuarat.index'),
-                "Pinda Laporan Mesyuarat" =>  false,
+                "Hebahan Aktiviti" =>  route('pengurusan.akademik.pengurusan.hebahan_aktiviti.index'),
+                "Pinda Hebahan Aktiviti" =>  false,
             ];
 
-            $model = LaporanMesyuarat::find($id);
-            $selected_departments = json_decode($model->bahagian_terlibat);
-            $departments = Jabatan::where('deleted_at', null)->pluck('nama', 'id');
-            $types = [
-                '0' => 'Dokumen Baru',
-                '1' => 'Dokumen Tambahan',
-                '2' => 'Dokumen Ganti (versi baru)'
+            $model = Aktiviti::find($id);
+            $selected_status = $model->status_kelulusan;
+
+            $statuses = [
+                '1' => 'Dalam Proses',
+                '2' => 'Diluluskan',
+                '3' => 'Ditolak',
             ];
+
+            $selected_type = $model->jenis_hebahan;
+            $selected_detail = $model->jenis_hebahan_detail;
 
             if (request()->ajax()) {
-                $data = LaporanMesyuaratDetail::with('staff')->where('laporan_mesyuarat_id', $id);
+                $data = AktivitiDetail::where('aktiviti_id', $id);
                 return DataTables::of($data)
-                ->addColumn('type', function($data) {
-                    $type = '';
-
-                    if($data->type == 0)
-                    {
-                        $type = 'Dokumen Baru';
-                    }
-                    elseif($data->type == 1)
-                    {
-                        $type = 'Dokumen Tambahan';
-                    }
-                    elseif($data->type == 2)
-                    {
-                        $type = 'Dokumen Ganti (versi Baru)';
-                    }
-                    return $type;
-                })
                 ->addColumn('created_at', function($data) {
                     return Utils::formatDate($data->created_at);
                 })
                 ->addColumn('action', function($data){
                     return '
-                            <a href="'.route('pengurusan.akademik.laporan.laporan_mesyuarat.download',$data->id).'" class="btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" target="_blank" title="Lihat Dokumen">
+                            <a href="'.route('pengurusan.akademik.pengurusan.hebahan_aktiviti.download',$data->id).'" class="btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" target="_blank" title="Lihat Dokumen">
                                 <i class="fa fa-eye"></i>
                             </a>
                             <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id .')" data-bs-toggle="tooltip" title="Hapus">
                                 <i class="fa fa-trash"></i>
                             </a>
-                            <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.laporan.laporan_mesyuarat.delete_file', $data->id).'" method="POST">
+                            <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.pengurusan.hebahan_aktiviti.delete_file', $data->id).'" method="POST">
                                 <input type="hidden" name="_token" value="'.csrf_token().'">
                                 <input type="hidden" name="_method" value="POST">
                             </form>';
@@ -273,15 +281,12 @@ class LaporanMesyuaratController extends Controller
             ->columns([
                 [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
                 ['data' => 'file_name', 'name' => 'file_name', 'title' => 'Nama Fail', 'orderable'=> false, ],
-                ['data' => 'description', 'name' => 'description', 'title' => 'Keterangan', 'orderable'=> false, ],
-                ['data' => 'type', 'name' => 'type', 'title' => 'Keadaan Dokumen', 'orderable'=> false, ],
                 ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Tarikh Muat Naik', 'orderable'=> false, ],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
-    
             ])
             ->minifiedAjax();
 
-            return view($this->baseView.'edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'departments', 'selected_departments', 'types', 'id', 'dataTable'));
+            return view($this->baseView.'edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'id', 'dataTable', 'statuses', 'selected_status', 'selected_type', 'selected_detail'));
 
         } catch (Exception $e) {
             report($e);
@@ -301,13 +306,16 @@ class LaporanMesyuaratController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $laporan = LaporanMesyuarat::find($id);
-            $laporan->nama_mesyuarat    = $request->nama_mesyuarat;
-            $laporan->tarikh_mesyuarat  = Carbon::createFromFormat('d/m/Y',$request->tarikh_mesyuarat)->format('Y-m-d');
-            $laporan->bahagian_terlibat = json_encode($request->bahagian_terlibat);
-            $laporan->save();
+            $aktiviti = Aktiviti::find($id);
+            $aktiviti->nama_program     = $request->nama_program;
+            $aktiviti->tarikh_program       = Carbon::createFromFormat('d/m/Y',$request->tarikh_program)->format('Y-m-d');
+            $aktiviti->tarikh_mula          = Carbon::createFromFormat('d/m/Y',$request->tarikh_mula)->format('Y-m-d');
+            $aktiviti->tarikh_tamat         = Carbon::createFromFormat('d/m/Y',$request->tarikh_tamat)->format('Y-m-d');
+            $aktiviti->jenis_hebahan        = $request->jenis_hebahan;
+            $aktiviti->jenis_hebahan_detail = $request->jenis_hebahan_detail;
+            $aktiviti->save();
 
-            Alert::toast('Maklumat laporan mesyuarat berjaya dipinda!', 'success');
+            Alert::toast('Maklumat hebahan aktiviti berjaya dipinda!', 'success');
             return redirect()->back();
 
         }catch (Exception $e) {
@@ -327,11 +335,11 @@ class LaporanMesyuaratController extends Controller
     public function destroy($id)
     {
         try {
-            LaporanMesyuarat::find($id)->delete();
+            Aktiviti::find($id)->delete();
 
-            LaporanMesyuaratDetail::where('laporan_mesyuarat_id', $id)->delete();
+            AktivitiDetail::where('aktiviti_id', $id)->delete();
 
-            Alert::toast('Maklumat laporan mesyuarat berjaya dihapus!', 'success');
+            Alert::toast('Maklumat hebahan aktiviti berjaya dihapus!', 'success');
             return redirect()->back();
 
         }catch (Exception $e) {
@@ -348,22 +356,19 @@ class LaporanMesyuaratController extends Controller
         try {
             $file_name = uniqid() . '.' . $request->file->getClientOriginalExtension();
             $file_extension = $request->file->getClientOriginalExtension();
-            $file_path = 'uploads/laporan/mesyuarat/';
+            $file_path = 'uploads/pengurusan/hebahan_aktiviti/';
             $file = $request->file('file');
             $file->move($file_path, $file_name);
             $file = $file_path . '/' .$file_name;
 
-            LaporanMesyuaratDetail::create([
-                'laporan_mesyuarat_id'  => $id,
+            AktivitiDetail::create([
+                'aktiviti_id'       => $id,
                 'file_name'             => $request->file_name,
-                'description'           => $request->description,
                 'file_extension'        => $file_extension,
                 'file_path'             => $file,
-                'type'                  => $request->type,
-                'uploaded_by'           => auth()->user()->id
             ]);
 
-            Alert::toast('Maklumat fail mesyuarat berjaya ditambah!', 'success');
+            Alert::toast('Maklumat fail hebahan aktiviti berjaya ditambah!', 'success');
             return redirect()->back();
 
         }catch (Exception $e) {
@@ -377,7 +382,7 @@ class LaporanMesyuaratController extends Controller
     public function deleteFile($id)
     {
         try {
-            $check_file = LaporanMesyuaratDetail::find($id);
+            $check_file = AktivitiDetail::find($id);
 
             if(File::exists(public_path($check_file->file_path))){
                 File::delete(public_path($check_file->file_path));
@@ -388,7 +393,7 @@ class LaporanMesyuaratController extends Controller
                 return redirect()->back();
             }
 
-            Alert::toast('Maklumat fail mesyuarat berjaya dihapus!', 'success');
+            Alert::toast('Maklumat fail hebahan aktiviti berjaya dihapus!', 'success');
             return redirect()->back();
 
         }catch (Exception $e) {
@@ -401,7 +406,7 @@ class LaporanMesyuaratController extends Controller
 
     public function download($id)
     {
-        $download = LaporanMesyuaratDetail::find($id);
+        $download = AktivitiDetail::find($id);
 
         return response()->file(public_path($download->file_path));
     }

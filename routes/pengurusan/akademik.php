@@ -9,6 +9,8 @@ use App\Http\Controllers\Pengurusan\Akademik\MainAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\KelasPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\SyukbahController;
 use App\Http\Controllers\Pengurusan\Akademik\Laporan\LaporanMesyuaratController;
+use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\AktivitiPdpController;
+use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\HebahanAktivitiController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\MpkIsoController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahController;
@@ -71,5 +73,13 @@ Route::group(['prefix'=>'pensyarah','as'=>'pensyarah.'], function(){
 Route::group(['prefix'=>'pengurusan','as'=>'pengurusan.'], function(){
     Route::get('mpk_iso/download/{id}', [MpkIsoController::class, 'download'])->name('mpk_iso.download');
     Route::resource('mpk_iso', MpkIsoController::class);
+
+    Route::get('hebahan_aktiviti/download/{id}', [HebahanAktivitiController::class, 'download'])->name('hebahan_aktiviti.download');
+    Route::post('hebahan_aktiviti/delete_file/{id}', [HebahanAktivitiController::class, 'deleteFile'])->name('hebahan_aktiviti.delete_file');
+    Route::post('hebahan_aktiviti/update/{id}', [HebahanAktivitiController::class, 'update'])->name('hebahan_aktiviti.update_aktiviti');
+    Route::post('hebahan_aktiviti/upload_file/{id}', [HebahanAktivitiController::class, 'uploadFile'])->name('hebahan_aktiviti.upload_file');
+    Route::resource('hebahan_aktiviti', HebahanAktivitiController::class);
+
+    Route::resource('aktiviti_pdp', AktivitiPdpController::class);
 });
 
