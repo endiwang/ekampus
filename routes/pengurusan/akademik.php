@@ -12,6 +12,7 @@ use App\Http\Controllers\Pengurusan\Akademik\Laporan\LaporanMesyuaratController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\AktivitiPdpController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\HebahanAktivitiController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\MpkIsoController;
+use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenilaianPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
@@ -81,5 +82,10 @@ Route::group(['prefix'=>'pengurusan','as'=>'pengurusan.'], function(){
     Route::resource('hebahan_aktiviti', HebahanAktivitiController::class);
 
     Route::resource('aktiviti_pdp', AktivitiPdpController::class);
+
+    Route::post('penilaian_pensyarah/skala_penilaian/delete/{id}', [PenilaianPensyarahController::class, 'deleteRating'])->name('penilaian_pensyarah.rating.delete');
+    Route::post('penilaian_pensyarah/skala_penilaian/store', [PenilaianPensyarahController::class, 'storeRating'])->name('penilaian_pensyarah.rating.store');
+    Route::get('penilaian_pensyarah/skala_penilaian', [PenilaianPensyarahController::class, 'createRating'])->name('penilaian_pensyarah.rating');
+    Route::resource('penilaian_pensyarah', PenilaianPensyarahController::class);
 });
 
