@@ -45,7 +45,7 @@ class GuruTasmikController extends Controller
             ];
 
             if (request()->ajax()) {
-                $data = Staff::with('pusatPengajian', 'jabatan');
+                $data = Staff::with('pusatPengajian', 'jabatan')->where('is_guru_tasmik', 'Y');
                 return DataTables::of($data)
                 ->addColumn('nama', function($data) {
                     return $data->nama ?? null;

@@ -1,11 +1,11 @@
 <div class="card shadow-none" id="formPermohonanE">
     <div class="card-header border-0">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bold text-dark">C. MAKLUMAT IBU , BAPA DAN PENJAGA (MOTHER , FATHER AND GUARDIAN INFORMATION)</span>
+            <span class="card-label fw-bold text-dark">MAKLUMAT IBU , BAPA DAN PENJAGA (MOTHER , FATHER AND GUARDIAN INFORMATION)</span>
         </h3>
     </div>
     <div id="kt_account_settings_profile_details" class="collapse show">
-        <form id="kt_account_profile_details_form" class="form">
+        {{-- <form id="kt_account_profile_details_form" class="form"> --}}
             <div class="card-body border-top p-9">
 
                 <div class="row mb-6">
@@ -16,7 +16,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('status_bapa', '31. Status Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('status_bapa', 'Status Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Father's status</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -26,7 +26,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('nama_bapa', '31. Nama Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('nama_bapa', 'Nama Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Father's Name</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -38,7 +38,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('ic_no_bapa', '32. No. Kad Pengenalan Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('ic_no_bapa', 'No. Kad Pengenalan Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Father's IC Number</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -48,7 +48,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('alamat_bapa', '33. Alamat Surat-menyurat Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('alamat_bapa', 'Alamat Surat-menyurat Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Father's Mailing Address</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -58,7 +58,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('poskod_bapa', '34. Poskod Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('poskod_bapa', 'Poskod Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Father's Postcode</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -68,7 +68,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('no_telefon_bapa', '35. No. Telefon Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('no_telefon_bapa', 'No. Telefon Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Father's Phone Number</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -78,7 +78,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('status_pekerjaan_bapa', '35. Status Pekerjaan Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('status_pekerjaan_bapa', 'Status Pekerjaan Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Father's Occupation Status</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -88,7 +88,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('jenis_pekerjaan_bapa', '35. Jenis Perkerjaan Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('jenis_pekerjaan_bapa', 'Jenis Perkerjaan Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Father's Occupation Type</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -97,7 +97,7 @@
                 </div>
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('pendapatan_bapa', '38. Pendapatan Bulanan Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('pendapatan_bapa', 'Pendapatan Bulanan Bapa', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Father's Monthly Income</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -119,7 +119,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('status_ibu', '31. Status Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('status_ibu', 'Status Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Mother's status</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -129,7 +129,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('nama_ibu', '31. Nama Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('nama_ibu', 'Nama Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Mother's Name</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -141,7 +141,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('ic_no_ibu', '32. No. Kad Pengenalan Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('ic_no_ibu', 'No. Kad Pengenalan Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Mother's IC Number</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -151,7 +151,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('alamat_ibu', '33. Alamat Surat-menyurat Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('alamat_ibu', 'Alamat Surat-menyurat Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Mother's Mailing Address</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -161,7 +161,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('poskod_ibu', '34. Poskod Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('poskod_ibu', 'Poskod Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Mother's Postcode</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -171,7 +171,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('no_telefon_ibu', '35. No. Telefon Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('no_telefon_ibu', 'No. Telefon Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Mother's Phone Number</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -181,7 +181,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('status_pekerjaan_ibu', '35. Status Pekerjaan Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('status_pekerjaan_ibu', 'Status Pekerjaan Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Mother's Occupation Status</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -191,7 +191,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('jenis_pekerjaan_ibu', '35. Jenis Perkerjaan Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('jenis_pekerjaan_ibu', 'Jenis Perkerjaan Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Mother's Occupation Type</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -201,7 +201,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('pendapatan_ibu', '38. Pendapatan Bulanan Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('pendapatan_ibu', 'Pendapatan Bulanan Ibu', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Mother's Monthly Income</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -213,7 +213,7 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('pemohon_tinggal_bersama', '31. Pemohon Tinggal Bersama', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('pemohon_tinggal_bersama', 'Pemohon Tinggal Bersama', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Applicant live with</div>
                     </div>
                     <div class="col-lg-8 fv-row">
@@ -233,7 +233,7 @@
 
                     <div class="row mb-6">
                         <div class="col-lg-4">
-                            {{ Form::label('nama_penjaga', '31. Nama Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                            {{ Form::label('nama_penjaga', 'Nama Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                             <div class="form-text mt-0">Guardian's Name</div>
                         </div>
                         <div class="col-lg-8 fv-row">
@@ -243,7 +243,7 @@
 
                     <div class="row mb-6">
                         <div class="col-lg-4">
-                            {{ Form::label('ic_no_penjaga', '32. No. Kad Pengenalan Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                            {{ Form::label('ic_no_penjaga', 'No. Kad Pengenalan Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                             <div class="form-text mt-0">Guardian's IC Number</div>
                         </div>
                         <div class="col-lg-8 fv-row">
@@ -253,7 +253,7 @@
 
                     <div class="row mb-6">
                         <div class="col-lg-4">
-                            {{ Form::label('alamat_penjaga', '33. Alamat Surat-menyurat Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                            {{ Form::label('alamat_penjaga', 'Alamat Surat-menyurat Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                             <div class="form-text mt-0">Guardian's Mailing Address</div>
                         </div>
                         <div class="col-lg-8 fv-row">
@@ -263,7 +263,7 @@
 
                     <div class="row mb-6">
                         <div class="col-lg-4">
-                            {{ Form::label('poskod_penjaga', '34. Poskod Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                            {{ Form::label('poskod_penjaga', 'Poskod Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                             <div class="form-text mt-0">Guardian's Postcode</div>
                         </div>
                         <div class="col-lg-8 fv-row">
@@ -273,7 +273,7 @@
 
                     <div class="row mb-6">
                         <div class="col-lg-4">
-                            {{ Form::label('no_telefon_penjaga', '35. No. Telefon Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                            {{ Form::label('no_telefon_penjaga', 'No. Telefon Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                             <div class="form-text mt-0">Guardian's Phone Number</div>
                         </div>
                         <div class="col-lg-8 fv-row">
@@ -283,7 +283,7 @@
 
                     <div class="row mb-6">
                         <div class="col-lg-4">
-                            {{ Form::label('status_pekerjaan_penjaga', '35. Status Pekerjaan Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                            {{ Form::label('status_pekerjaan_penjaga', 'Status Pekerjaan Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                             <div class="form-text mt-0">Guardian's Occupation Status</div>
                         </div>
                         <div class="col-lg-8 fv-row">
@@ -293,7 +293,7 @@
 
                     <div class="row mb-6">
                         <div class="col-lg-4">
-                            {{ Form::label('jenis_pekerjaan_penjaga', '35. Jenis Perkerjaan Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                            {{ Form::label('jenis_pekerjaan_penjaga', 'Jenis Perkerjaan Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                             <div class="form-text mt-0">Guardian's Occupation Type</div>
                         </div>
                         <div class="col-lg-8 fv-row">
@@ -303,7 +303,7 @@
 
                     <div class="row mb-6">
                         <div class="col-lg-4">
-                            {{ Form::label('pendapatan_penjaga', '38. Pendapatan Bulanan Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                            {{ Form::label('pendapatan_penjaga', 'Pendapatan Bulanan Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                             <div class="form-text mt-0">Guardian's Monthly Income</div>
                         </div>
                         <div class="col-lg-8 fv-row">
@@ -313,7 +313,7 @@
 
                     <div class="row mb-6">
                         <div class="col-lg-4">
-                            {{ Form::label('pertalian_penjaga', '36. Pertalian Hubungan', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                            {{ Form::label('pertalian_penjaga', 'Pertalian Hubungan', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                             <div class="form-text mt-0">Relationship</div>
                         </div>
                         <div class="col-lg-8 fv-row">
@@ -323,16 +323,10 @@
                 </div>
 
                 <div class="separator separator-dashed my-6"></div>
-                <div class="row mb-6">
-                    <div class="col-lg-4">
-                        {{ Form::label('pertalian_penjaga', '36. Pertalian Hubungan', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
-                        <div class="form-text mt-0">Relationship</div>
-                    </div>
-                </div>
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('tanggungan_ibu_bapa_penjaga', '39. Tanggungan Ibu/Bapa/Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+                        {{ Form::label('tanggungan_ibu_bapa_penjaga', 'Tanggungan Ibu/Bapa/Penjaga', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Dependents of Mother/Father/Guardian</div>
                     </div>
                 </div>
@@ -380,6 +374,6 @@
             </div>
             <div class="card-footer d-flex justify-content-end py-6 px-9">
             </div>
-        </form>
+        {{-- </form> --}}
     </div>
 </div>

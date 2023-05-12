@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Pemohon;
 
 use App\Http\Controllers\Controller;
+use App\Models\TetapanPermohonanPelajar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class MainPemohonController extends Controller
 {
@@ -14,72 +16,10 @@ class MainPemohonController extends Controller
      */
     public function index()
     {
-        return view('pages.pemohon.dashboard.main');
+        $permohonan = TetapanPermohonanPelajar::whereDate('tutup_permohonan', '>=', Carbon::now('Asia/Kuala_Lumpur'))->get();
+        $kursus_pilihan = TetapanPermohonanPelajar::select('kursus_id')->whereDate('tutup_permohonan', '>=', Carbon::now('Asia/Kuala_Lumpur'))->groupBy('kursus_id')->get();
+        return view('pages.pemohon.dashboard.main', compact('permohonan','kursus_pilihan'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

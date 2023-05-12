@@ -3,7 +3,20 @@ var step = [
     formBahagianA,
         {
             fields: {
-                'nama_pemohon': {
+                'avatar': {
+                    validators: {
+                        notEmpty: {
+                            message: 'Sila masukkan gambar',
+                        },
+                        file: {
+                            extension: 'jpeg,jpg,png',
+                            type: 'image/jpeg,image/png',
+                            maxSize: 2097152, // 2048 * 1024
+                            message: 'Gambar tidak mengikut format yang dibenarkan',
+                        },
+                    },
+                },
+                nama_pemohon: {
                     validators: {
                         notEmpty: {
                             message: 'Sila isi nama penuh anda.'
@@ -32,17 +45,42 @@ var step = [
                 },
                 alamat_tetap: {
                     validators: {
-                        notEmpty: { message: "Sila isi alamat tetap anda." },
+                        notEmpty: { message: "Sila isi alamat penuh tetap anda." },
                     },
                 },
-                alamat_rumah: {
+                bandar_tetap: {
                     validators: {
-                        notEmpty: { message: "Sila isi alamat surat-menyurat anda." },
+                        notEmpty: { message: "Sila isi bandar alamat tetap anda." },
                     },
                 },
-                poskod: {
+                poskod_tetap: {
                     validators: {
-                        notEmpty: { message: "Sila isi poskod anda." },
+                        notEmpty: { message: "Sila isi poskod alamat tetap anda." },
+                    },
+                },
+                negeri_tetap: {
+                    validators: {
+                        notEmpty: { message: "Sila pilih negeri alamat tetap anda." },
+                    },
+                },
+                alamat_surat: {
+                    validators: {
+                        notEmpty: { message: "Sila isi alamat penuh surat-menyurat anda." },
+                    },
+                },
+                bandar_surat: {
+                    validators: {
+                        notEmpty: { message: "Sila isi bandar alamat surat-menyurat anda." },
+                    },
+                },
+                poskod_surat: {
+                    validators: {
+                        notEmpty: { message: "Sila isi poskod alamat surat-menyurat anda." },
+                    },
+                },
+                negeri_surat: {
+                    validators: {
+                        notEmpty: { message: "Sila pilih negeri alamat surat-menyurat anda." },
                     },
                 },
                 no_telefon: {
@@ -113,13 +151,17 @@ var step = [
     formBahagianB,
         {
             fields: {
-                'pusat_temuduga': {
+                @foreach ($permohonan as $index => $permohonan_data)
+                'pusat_temuduga_{{ $index+1 }}': {
                     validators: {
                         notEmpty: {
+                            enabled: false,
                             message: 'Sila pilih tempat temuduga.'
                         }
                     }
                 },
+                @endforeach
+
             },
 
             plugins: {
@@ -369,57 +411,116 @@ var step = [
         }
     ),
     bahagianD = FormValidation.formValidation(
-        formBahagianD,
-            {
-                fields: {
-                    'tahun_peperiksaan': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Sila pilih tahun peperiksaan.'
-                            }
+    formBahagianD,
+        {
+            fields: {
+                'tahun_peperiksaan': {
+                    validators: {
+                        notEmpty: {
+                            message: 'Sila pilih tahun peperiksaan.'
                         }
-                    },
-                    'jenis_peperiksaan': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Sila pilih jenis peperiksaan.'
-                            }
-                        }
-                    },
-                    'subjek[0].nama': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Sila masukkan nama subjek.'
-                            }
-                        }
-                    },
-                    'subjek[0].gred': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Sila masukkan gred subjek.'
-                            }
-                        }
-                    },
-                    @foreach ($subjek_spm as $subjek)
-                    '{!! $subjek->slug !!}': {
-                        validators: {
-                            notEmpty: {
-                                enabled: false,
-                                message: 'Sila pilih.'
-                            }
-                        }
-                    },
-                    @endforeach
+                    }
                 },
+                'jenis_peperiksaan': {
+                    validators: {
+                        notEmpty: {
+                            message: 'Sila pilih jenis peperiksaan.'
+                        }
+                    }
+                },
+                'sijil_lain': {
+                    validators: {
+                        notEmpty: {
+                            enabled: false,
+                            message: 'Sila masukkan nama sijil.'
+                        }
+                    }
+                },
+                'nama_peperiksaan_sijil_lain': {
+                    validators: {
+                        notEmpty: {
+                            enabled: false,
+                            message: 'sila masukkan nama peperiksaan.'
+                        }
+                    }
+                },
+                'subjek[0].nama': {
+                    validators: {
+                        notEmpty: {
+                            enabled: false,
+                            message: 'Sila masukkan nama subjek.'
+                        }
+                    }
+                },
+                'subjek[0].gred': {
+                    validators: {
+                        notEmpty: {
+                            enabled: false,
+                            message: 'Sila masukkan gred subjek.'
+                        }
+                    }
+                },
+                @foreach ($subjek_spm as $subjek)
+                '{!! $subjek->slug !!}': {
+                    validators: {
+                        notEmpty: {
+                            enabled: false,
+                            message: 'Sila pilih.'
+                        }
+                    }
+                },
+                @endforeach
+            },
 
-                plugins: {
-                    trigger: new FormValidation.plugins.Trigger(),
-                    bootstrap: new FormValidation.plugins.Bootstrap5({
-                        rowSelector: '.fv-row',
-                        eleInvalidClass: '',
-                        eleValidClass: ''
-                    })
-                }
+            plugins: {
+                trigger: new FormValidation.plugins.Trigger(),
+                bootstrap: new FormValidation.plugins.Bootstrap5({
+                    rowSelector: '.fv-row',
+                    eleInvalidClass: '',
+                    eleValidClass: ''
+                })
             }
-        ),
+        }
+    ),
+    bahagianE = FormValidation.formValidation(
+    formBahagianE,
+        {
+            fields: {
+                'mykad_passport': {
+                    validators: {
+                        notEmpty: {
+                            message: 'Sila muat naik salinan mykad atau passport ',
+                        },
+                        file: {
+                            extension: 'jpeg,jpg,png,pdf',
+                            maxSize: 2097152, // 2048 * 1024
+                            message: 'File tidak mengikut format yang dibenarkan',
+                        },
+                    },
+                },
+                'sijil_spm_setara': {
+                    validators: {
+                        notEmpty: {
+                            message: 'Sila muat naik salinan sijil SPM / setara ',
+                        },
+                        file: {
+                            extension: 'jpeg,jpg,png,pdf',
+                            maxSize: 2097152, // 2048 * 1024
+                            message: 'File tidak mengikut format yang dibenarkan',
+                        },
+                    },
+                },
+            },
+
+            plugins: {
+                trigger: new FormValidation.plugins.Trigger(),
+                bootstrap: new FormValidation.plugins.Bootstrap5({
+                    rowSelector: '.fv-row',
+                    eleInvalidClass: '',
+                    eleValidClass: ''
+                })
+            }
+        }
+    ),
+
 ]

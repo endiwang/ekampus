@@ -12,11 +12,14 @@ use App\Helpers\Utils;
 use App\Models\Kursus;
 use App\Models\Negeri;
 use App\Models\PusatPengajian;
+use App\Models\Sesi;
 use App\Models\Staff;
 use App\Models\Temuduga;
+use App\Models\TemudugaMarkah;
 use Exception;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class ProsesTemudugaController extends Controller
 {
@@ -47,7 +50,8 @@ class ProsesTemudugaController extends Controller
             ];
 
             if (request()->ajax()) {
-                $data = Temuduga::where('is_close',0)->get();
+                $data = Temuduga::where('is_close',0)->where('is_sph',0)->whereDate('tarikh', '>=', Carbon::now('Asia/Kuala_Lumpur'))
+                ->get();
                 return DataTables::of($data)
 
                 ->addColumn('pusat_temuduga', function($data) {
@@ -77,7 +81,10 @@ class ProsesTemudugaController extends Controller
                             <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-warning btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Hantar Senarai Keputusan Ke Format Excel">
                                 <i class="fa fa-file-excel"></i>
                             </a>
-                            <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-success btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Hantar Senarai Keputusan Ke Format Excel">
+                            <a href="'.route('pengurusan.kbg.pengurusan.proses_temuduga.pilih_pemohon',$data->id).'" class="edit btn btn-icon btn-dark btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pilih Pemohon">
+                                <i class="fa fa-user-plus"></i>
+                            </a>
+                            <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-success btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>';
 
@@ -235,5 +242,105 @@ class ProsesTemudugaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function pilih_pemohon(Builder $builder, $id)
+    {
+
+        // try {
+            $proses_temuduga = Temuduga::find($id);
+            $sesi = Sesi::find('135');
+
+            $title = 'Maklumat Senarai Pemohon';
+            $page_title = $proses_temuduga->kursus->nama.' - '.$sesi->nama;
+            $breadcrumbs = [
+                "Kemasukan Biasiswa Graduasi" =>  false,
+                "Proses Temuduga" =>  false,
+                "Pilih Pemohon" =>  false,
+            ];
+
+
+
+
+            if (request()->ajax()) {
+                $data = Permohonan::where('kursus_id', $proses_temuduga->kursus_id)->where('is_deleted',0)->where('is_submitted',1)->where('is_selected',1)->where('is_tawaran',0)->where('is_interview',0)->where('sesi_id',$sesi->id)->get();
+                return DataTables::of($data)
+                ->addColumn('kursus', function($data) {
+                    if(!empty($data->kursus_id))
+                    {
+                        return $data->kursus->nama ?? 'N/A';
+                    }
+                    else {
+                        return 'N/A';
+                    }
+                })
+                ->addColumn('checkbox', function($data) {
+                    $checkbox = '<input class="form-check-input" type="checkbox"  value="1">';
+                    return $checkbox;
+                })
+                ->addIndexColumn()
+                ->rawColumns(['kursus','checkbox'])
+                ->toJson();
+            }
+
+                $dataTable = $builder
+                ->columns([
+                    ['data' => 'checkbox',  'name' => 'checkbox', 'title' => '', 'orderable'=> false],
+                    [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
+                    ['data' => 'nama',      'name' => 'nama',         'title' => 'Nama', 'orderable'=> false],
+                    ['data' => 'no_ic',      'name' => 'no_ic',         'title' => 'No IC', 'orderable'=> false],
+                ])
+                ->minifiedAjax();
+
+
+            return view('pages.pengurusan.kbg.proses_temuduga.pilih_pemohon', compact('title', 'breadcrumbs', 'page_title','proses_temuduga','dataTable'));
+
+        // }
+        // catch (Exception $e) {
+        //     report($e);
+
+        //     Alert::toast('Uh oh! Something went Wrong', 'error');
+        //     return redirect()->back();
+        // }
+    }
+
+    public function pilih_pemohon_api($id)
+    {
+        // if (request()->ajax()) {
+            $proses_temuduga = Temuduga::find($id);
+            $sesi = Sesi::find('135');
+
+            $data = Permohonan::where('kursus_id', $proses_temuduga->kursus_id)->where('is_deleted',0)->where('is_submitted',1)->where('is_selected',1)->where('is_tawaran',0)->where('is_interview',0)->where('sesi_id',$sesi->id)->get();
+
+            return Datatables::of($data)
+                // ->addIndexColumn()
+                // ->rawColumns(['paid','status','amount','category','application_date','action','checkbox'])
+                ->make(true);
+        // }
+    }
+
+    public function store_pemohon(Request $request)
+    {
+        $proses_temuduga = Temuduga::find($request->proses_temuduga_id);
+        foreach($request->ids as $id)
+        {
+            $permohonan = Permohonan::find($id);
+            $permohonan->is_interview = 1;
+            $permohonan->interview_date = Carbon::now()->format('Y-m-d');
+            $permohonan->interview_by = $proses_temuduga->id_ketua;
+            $permohonan->save();
+
+
+            TemudugaMarkah::create([
+                'temuduga_id' => $request->proses_temuduga_id,
+                'permohonan_id' => $id,
+                'kursus_id' => $permohonan->kursus_id,
+                'pusat_temuduga_id' => $proses_temuduga->pusat_temuduga_id,
+                'temuduga_type' => $proses_temuduga->temuduga_type,
+                'create_by' => Auth::user()->staff_id,
+            ]);
+        }
+        Alert::success( 'Pemohon berjaya dipilih');
+        return ['success' => true];
     }
 }

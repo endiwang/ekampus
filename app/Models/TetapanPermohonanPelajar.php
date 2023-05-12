@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 
 
 class TetapanPermohonanPelajar extends Model
@@ -32,6 +34,7 @@ class TetapanPermohonanPelajar extends Model
                             'tutup_semakan_rayuan',
                             'tajuk_semakan_tawaran',
                             'maklumat_semakan_tawaran',
+                            'pusat_temuduga',
                             'is_deleted',
                             'deleted_by',
                             'deleted_at',
@@ -45,5 +48,17 @@ class TetapanPermohonanPelajar extends Model
     public function sesi()
     {
         return $this->belongsTo(Sesi::class,'sesi_id','id');
+    }
+
+    public function pusat_pengajian()
+    {
+        return $this->belongsTo(PusatPengajian::class,'pusat_pengajian_id','id');
+    }
+
+    protected function getPusatTemudugaAttribute($value)
+    {
+        $data = PusatTemuduga::whereIn('id', json_decode($value))->pluck('nama', 'id');
+
+        return json_decode($data);
     }
 }

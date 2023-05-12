@@ -11,6 +11,8 @@
 		<meta property="og:title" content="Metronic | Bootstrap HTML, VueJS, React, Angular, Asp.Net Core, Rails, Spring, Blazor, Django, Flask & Laravel Admin Dashboard Theme" />
 		<meta property="og:url" content="https://keenthemes.com/metronic" />
 		<meta property="og:site_name" content="Keenthemes | Metronic" />
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
+
         @include('layouts.public.css')
 	</head>
 	<body id="kt_body" data-bs-spy="scroll" data-bs-target="#kt_landing_menu" class="position-relative app-default">

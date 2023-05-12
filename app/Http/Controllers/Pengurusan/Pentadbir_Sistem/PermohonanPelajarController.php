@@ -9,6 +9,7 @@ use App\Models\TetapanPermohonanPelajar;
 use Yajra\DataTables\Html\Builder;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\Kursus;
+use App\Models\PusatTemuduga;
 use App\Models\Sesi;
 use Carbon\Carbon;
 
@@ -21,6 +22,8 @@ class PermohonanPelajarController extends Controller
      */
     public function index(Builder $builder)
     {
+        $test = TetapanPermohonanPelajar::find(19);
+        dd($test->pusat_temuduga);
         if (request()->ajax()) {
             $data = TetapanPermohonanPelajar::query();
             return DataTables::of($data)
@@ -108,8 +111,9 @@ class PermohonanPelajarController extends Controller
 
         $kursus = Kursus::where('is_deleted',0)->pluck('nama', 'id');
         $sesi = Sesi::where('is_deleted',0)->pluck('nama', 'id');
+        $pusat_temuduga = PusatTemuduga::where('pusat_pengajian_id',1)->get();
 
-        return view('pages.pengurusan.pentadbir_sistem.permohonan_pelajaran.add_new', compact(['kursus','sesi']));
+        return view('pages.pengurusan.pentadbir_sistem.permohonan_pelajaran.add_new', compact(['kursus','sesi','pusat_temuduga']));
     }
 
     /**
@@ -120,6 +124,7 @@ class PermohonanPelajarController extends Controller
      */
     public function store(Request $request)
     {
+
         $validated = $request->validate([
             'kursus'                    => 'required',
             'sesi'                      => 'required',
@@ -138,6 +143,7 @@ class PermohonanPelajarController extends Controller
             'tutup_semakan_rayuan'      => 'required',
             'tajuk_semakan_tawaran'     => 'required',
             'maklumat_semakan_tawaran'  => 'required',
+            'pusat_temuduga'            => 'required',
         ],[
             'kursus.required'                       => 'Sila pilih program pengajian.',
             'sesi.required'                         => 'Sila pilih sesi pengajian.',
@@ -156,6 +162,7 @@ class PermohonanPelajarController extends Controller
             'tutup_semakan_rayuan.required'         => 'Sila pilih tarikh tutup semakan rayuan.',
             'tajuk_semakan_tawaran.required'        => 'Sila isi tajuk semakan tawaran.',
             'maklumat_semakan_tawaran.required'     => 'Sila isi maklumat semakan tawaran.',
+            'pusat_temuduga.required'               => 'Sila pilih pusat temuduga.',
         ]);
 
         if($request->has('status_ujian'))
@@ -193,6 +200,7 @@ class PermohonanPelajarController extends Controller
             'tutup_semakan_rayuan'      => Carbon::createFromFormat('d/m/Y',$request->tutup_semakan_rayuan)->format('Y-m-d'),
             'tajuk_semakan_tawaran'     => $request->tajuk_semakan_tawaran,
             'maklumat_semakan_tawaran'  => $request->maklumat_semakan_tawaran,
+            'pusat_temuduga'            => json_encode($request->pusat_temuduga)
         ]);
 
         Alert::toast('Tetapan Baru Berjaya Ditambah', 'success');
