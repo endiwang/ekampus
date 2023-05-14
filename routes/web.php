@@ -50,7 +50,8 @@ Route::prefix('permohonan')->group(function () {
 Route::get('/test2', [TestController::class, 'index2'])->name('test2');
 Route::get('/test_con', [TestController::class, 'testConnection'])->name('test_con');
 
-Route::post('kehadiran/pelajar/submit', [KehadiranPelajarController::class, 'kehadiran'])->name('kehadiran.pelajar.submit');
+Route::get('kehadiran/pelajar/berjaya', [KehadiranPelajarController::class, 'successfulSubmission'])->name('kehadiran.pelajar.successful');
+Route::post('kehadiran/pelajar/submit', [KehadiranPelajarController::class, 'submitKehadiran'])->name('kehadiran.pelajar.submit');
 Route::get('kehadiran/{subjek_id}/{date}', [KehadiranPelajarController::class, 'getkehadiranForm'])->name('kehadiran.submit');
 
 

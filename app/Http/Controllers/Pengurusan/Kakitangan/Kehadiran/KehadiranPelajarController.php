@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Pengurusan\Kakitangan\Kehadiran;
 
 use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
+use App\Models\KehadiranPelajar;
+use App\Models\Pelajar;
 use App\Models\PensyarahKelas;
 use App\Models\Subjek;
 use Exception;
@@ -104,7 +106,7 @@ class KehadiranPelajarController extends Controller
      */
     public function show($id)
     {
-        try {
+        // try {
 
             $title = "Kehadiran Pelajar";
             $breadcrumbs = [
@@ -113,19 +115,20 @@ class KehadiranPelajarController extends Controller
             ];
            
             //to do generate URL to payment
-            $qr_code = QrCode::size(500)->generate(route('kehadiran.submit', $id));
+            $date = Utils::formatDate2(now());
+            $qr_code = QrCode::size(500)->generate(route('kehadiran.submit', [$id, $date]));
 
             $subjek = Subjek::find($id);
             $generated_at = Utils::formatDateTime(now());
 
             return view($this->baseView.'show', compact('title', 'breadcrumbs', 'qr_code','subjek', 'generated_at', 'id'));
 
-        }catch (Exception $e) {
-            report($e);
+        // }catch (Exception $e) {
+        //     report($e);
     
-            Alert::toast('Uh oh! Something went Wrong', 'error');
-            return redirect()->back();
-        }
+        //     Alert::toast('Uh oh! Something went Wrong', 'error');
+        //     return redirect()->back();
+        // }
     }
 
     /**
@@ -185,9 +188,11 @@ class KehadiranPelajarController extends Controller
     public function getKehadiranForm($subjek_id, $date)
     {
         try{
-            
 
-            return view($this->baseView.'show', compact('title', 'breadcrumbs', 'qr_code','subjek', 'generated_at', 'id'));
+            $action = route('kehadiran.pelajar.submit');
+            $subject = Subjek::find($subjek_id);
+
+            return view($this->baseView.'attendance_form', compact('action', 'subjek_id', 'date', 'subject'));
 
         }catch (Exception $e) {
             report($e);
@@ -199,6 +204,36 @@ class KehadiranPelajarController extends Controller
 
     public function submitKehadiran(Request $request)
     {
+        // try{
+            //check if no matrik exist
+            $student_exist = Pelajar::where('no_matrik', $request->no_matrik)->first();
 
+            if(!empty($student_exist))
+            {
+                $attendance = new KehadiranPelajar();
+                $attendance->pelajar_id = $student_exist->id;
+                $attendance->subjek_id  = $request->subjek_id;
+                $attendance->tarikh     = now();
+                $attendance->waktu      = now();
+                $attendance->save();
+
+                return redirect()->route('kehadiran.pelajar.successful');
+            }
+            else {
+                Alert::toast('Maklumat no matrik tidak sah!', 'success');
+                return redirect()->back();
+            }
+
+        // }catch (Exception $e) {
+        //     report($e);
+
+        //     Alert::toast('Uh oh! Something went Wrong', 'error');
+        //     return redirect()->back();
+        // }
+    }
+
+    public function successfulSubmission()
+    {
+        return view($this->baseView.'thank_you_page');
     }
 }
