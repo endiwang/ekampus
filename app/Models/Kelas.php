@@ -36,7 +36,7 @@ class Kelas extends Model
 
     public function jadualKelas()
     {
-        return $this->hasOne(JadualWaktu::class, 'id', 'kelas_id');
+        return $this->belongsTo(JadualWaktu::class, 'id', 'kelas_id');
     }
 
     public function pusatPengajian()

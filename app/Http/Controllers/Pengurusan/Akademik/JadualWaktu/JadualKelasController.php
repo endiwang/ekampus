@@ -8,6 +8,7 @@ use App\Models\Bilik;
 use App\Models\JadualWaktu;
 use App\Models\JadualWaktuDetail;
 use App\Models\Kelas;
+use App\Models\PensyarahKelas;
 use App\Models\Staff;
 use App\Models\Subjek;
 use Carbon\Carbon;
@@ -146,6 +147,13 @@ class JadualKelasController extends Controller
             $jadual_detail->masa_akhir      = $request->masa_tamat;
             $jadual_detail->lokasi          = $request->lokasi;
             $jadual_detail->save();
+
+            //save into pensyarah_kelas table
+            $pensyarah_kelas = new PensyarahKelas();
+            $pensyarah_kelas->staff_id  = $request->pensyarah;
+            $pensyarah_kelas->subjek_id = $request->subjek;
+            $pensyarah_kelas->kelas_id     = $request->kelas_id;
+            $pensyarah_kelas->save();
 
             Alert::toast('Maklumat Subjek berjaya disimpan!', 'success');
             return redirect()->back();
@@ -335,7 +343,12 @@ class JadualKelasController extends Controller
     public function destroy($id)
     {
         try {
-            JadualWaktuDetail::find($id)->delete();
+            $jadual_detail = JadualWaktuDetail::find($id);
+
+            $pensyarah = PensyarahKelas::where('staff_id', $jadual_detail->staff_id)->where('subjek_id', $jadual_detail->subjek_id)->first();
+            $pensyarah = $pensyarah->delete();
+            
+            $jadual_detail = $jadual_detail->delete();
 
             Alert::toast('Maklumat subjek berjaya dipadam!', 'success');
             return redirect()->back();
@@ -348,19 +361,35 @@ class JadualKelasController extends Controller
         }
     }
 
-    // public function downloadTimetable()
-    // {
-    //     try {
-    //         JadualWaktuDetail::find($id)->delete();
+    public function downloadTimetable($id)
+    {
+        // try {
+            $detail = JadualWaktu::where('kelas_id', $id)->first();
+            $kelas = Kelas::find($detail->kelas_id);
 
-    //         Alert::toast('Maklumat subjek berjaya dipadam!', 'success');
-    //         return redirect()->back();
+            $status = '';
+            if($detail->status == 1)
+            {
+                $status = 'Belum Disahkan';
+            }
+            elseif($detail->status == 2)
+            {
+                $status = 'Telah Disahkan';
+            }
 
-    //     }catch (Exception $e) {
-    //         report($e);
+            $jadual_detail = JadualWaktuDetail::with('subjek', 'staff')->where('id', $detail->id)->get();
+
+            $days = Utils::days();
+
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadView($this->baseView. '.timetable_pdf', compact('detail', 'days', 'status', 'kelas'))->setPaper('a4', 'landscape');
+            return $pdf->stream();
+
+        // }catch (Exception $e) {
+        //     report($e);
     
-    //         Alert::toast('Uh oh! Something went Wrong', 'error');
-    //         return redirect()->back();
-    //     }
-    // }
+        //     Alert::toast('Uh oh! Something went Wrong', 'error');
+        //     return redirect()->back();
+        // }
+    }
 }

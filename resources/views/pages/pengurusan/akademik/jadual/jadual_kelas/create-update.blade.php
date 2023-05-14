@@ -59,7 +59,7 @@
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#tambahFail" class="btn btn-sm btn-primary fw-bold" title="Tambah Fail Hebahan Aktiviti">
                                         <i class="fa fa-plus-circle" style="vertical-align: initial"></i>Tambah Subjek
                                     </a>
-                                    <a href="#" class="btn btn-sm btn-primary fw-bold" title="Tambah Fail Hebahan Aktiviti">
+                                    <a href="{{ route('pengurusan.akademik.jadual.jadual_kelas.download_timetable', $id) }}" class="btn btn-sm btn-primary fw-bold" title="Tambah Fail Hebahan Aktiviti">
                                         <i class="fa fa-circle-down" style="vertical-align: initial"></i>Muat Turun Jadual
                                     </a>
                                 </div>

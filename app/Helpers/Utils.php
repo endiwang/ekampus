@@ -52,8 +52,6 @@ class Utils
             3 => 'Rabu',
             4 => 'Khamis',
             5 => 'Jumaat',
-            6 => 'Sabtu',
-            7 => 'Ahad'
         ];
 
         return $days;

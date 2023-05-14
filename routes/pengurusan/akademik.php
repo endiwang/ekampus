@@ -91,6 +91,7 @@ Route::group(['prefix'=>'pengurusan','as'=>'pengurusan.'], function(){
 });
 
 Route::group(['prefix'=>'jadual','as'=>'jadual.'], function(){
+    Route::get('jadual_kelas/download_timetable/{id}', [JadualKelasController::class, 'downloadTimetable'])->name('jadual_kelas.download_timetable');
     Route::post('jadual_kelas/add_subject', [JadualKelasController::class, 'addSubject'])->name('jadual_kelas.add_subject');
     Route::post('jadual_kelas/update/{id}', [JadualKelasController::class, 'update'])->name('jadual_kelas.update_status');
     Route::resource('jadual_kelas', JadualKelasController::class);
