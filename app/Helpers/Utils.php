@@ -15,6 +15,13 @@ class Utils
         return $date;
     }
 
+    public static function formatDate2($date)
+    {
+        $date = Carbon::parse($date)->format('d-m-Y');
+
+        return $date;
+    }
+
     public static function formatDateTime($date)
     {
         $date = Carbon::parse($date)->format('d/m/Y H:i:s A');
