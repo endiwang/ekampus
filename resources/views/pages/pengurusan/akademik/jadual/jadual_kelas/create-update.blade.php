@@ -201,10 +201,8 @@
             return {}
         }
     }).mount('#advanceSearch')
-
-
-    
-
     </script>
 
-{!! $dataTable->scripts() !!}
+    {!! $dataTable->scripts() !!}
+@endpush
+
