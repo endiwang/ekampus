@@ -10,7 +10,6 @@ use App\Jobs\MigratePermohonan;
 use App\Jobs\MigratePermohonanKelulusanAkademik;
 use App\Jobs\MigratePermohonanPenjaga;
 use App\Jobs\MigratePermohonanTanggunganPenjaga;
-use App\Models\Bilik;
 use App\Models\Gred;
 //New DB
 use App\Models\User;
@@ -48,7 +47,6 @@ use App\Models\OldDatabase\tbl_masuk_permohonan;
 use App\Models\OldDatabase\ref_jabatan;
 use App\Models\OldDatabase\sis_semester_now;
 use App\Models\OldDatabase\ref_keturunan;
-use App\Models\oldDatabase\sis_jadbilik;
 use App\Models\OldDatabase\sis_tblpermohonan_pelajaran;
 use App\Models\OldDatabase\sis_tblpermohonan_penjaga;
 use App\Models\OldDatabase\sis_tblpermohonan_tanggung;

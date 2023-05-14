@@ -10,4 +10,5 @@ class Bilik extends Model
     use HasFactory;
     protected $table = 'bilik';
     protected $guarded = ['id'];
+
 }

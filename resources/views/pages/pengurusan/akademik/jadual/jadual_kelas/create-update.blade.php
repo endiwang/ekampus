@@ -207,6 +207,4 @@
 
     </script>
 
-    {!! $dataTable->scripts() !!}
-
-@endpush
+{!! $dataTable->scripts() !!}

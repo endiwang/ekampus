@@ -8,11 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class JadualWaktu extends Model
 {
     use HasFactory;
-    protected $table = "jadual_waktu";
+    protected $table = 'jadual_waktu';
     protected $guarded = ['id'];
-
-    public function kelas()
-    {
-        return $this->belongsTo(kelas::class, 'kelas_id', 'id');
-    }
 }

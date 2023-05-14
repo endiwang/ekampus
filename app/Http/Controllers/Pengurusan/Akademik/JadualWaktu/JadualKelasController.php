@@ -348,19 +348,19 @@ class JadualKelasController extends Controller
         }
     }
 
-    public function downloadTimetable()
-    {
-        try {
-            JadualWaktuDetail::find($id)->delete();
+    // public function downloadTimetable()
+    // {
+    //     try {
+    //         JadualWaktuDetail::find($id)->delete();
 
-            Alert::toast('Maklumat subjek berjaya dipadam!', 'success');
-            return redirect()->back();
+    //         Alert::toast('Maklumat subjek berjaya dipadam!', 'success');
+    //         return redirect()->back();
 
-        }catch (Exception $e) {
-            report($e);
+    //     }catch (Exception $e) {
+    //         report($e);
     
-            Alert::toast('Uh oh! Something went Wrong', 'error');
-            return redirect()->back();
-        }
-    }
+    //         Alert::toast('Uh oh! Something went Wrong', 'error');
+    //         return redirect()->back();
+    //     }
+    // }
 }
