@@ -293,7 +293,7 @@
                 </span>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.guru_tasmik.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.guru_tasmik.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.jadual.jadual_kelas.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.jadual.jadual_kelas.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>

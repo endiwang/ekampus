@@ -13,18 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('jadual_kelas', function (Blueprint $table) {
+        Schema::create('jadual_waktu_details', function (Blueprint $table) {
             $table->id();
-            $table->integer('pusat_pengajian_id')->nullable();
-            $table->integer('kelas_id')->nullable();
-            $table->integer('kursus_id')->nullable();
+            $table->integer('jadual_waktu_id')->nullable();
             $table->integer('subjek_id')->nullable();
+            $table->integer('jam_kredit')->nullable();
+            $table->string('staff_id')->nullable();
             $table->integer('hari')->nullable();
-            $table->string('masa_mula')->nullable();
-            $table->string('masa_tamat')->nullable();
-            $table->integer('pensyarah_id')->nullable();
-            $table->integer('bilik_id')->nullable();
-            $table->integer('sort')->nullable();
+            $table->time('masa_mula')->nullable();
+            $table->time('masa_akhir')->nullable();
+            $table->string('lokasi')->nullable();
             $table->timestamps();
         });
     }
@@ -36,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jadual_kelas');
+        Schema::dropIfExists('jadual_waktu_details');
     }
 };

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Pengurusan\Akademik\GuruTasmikController;
+use App\Http\Controllers\Pengurusan\Akademik\JadualWaktu\JadualKelasController;
 use App\Http\Controllers\Pengurusan\Akademik\KalendarAkademikController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pengurusan\Akademik\KelasController;
@@ -81,5 +82,11 @@ Route::group(['prefix'=>'pengurusan','as'=>'pengurusan.'], function(){
     Route::resource('hebahan_aktiviti', HebahanAktivitiController::class);
 
     Route::resource('aktiviti_pdp', AktivitiPdpController::class);
+});
+
+Route::group(['prefix'=>'jadual','as'=>'jadual.'], function(){
+    Route::post('jadual_kelas/add_subject', [JadualKelasController::class, 'addSubject'])->name('jadual_kelas.add_subject');
+    Route::post('jadual_kelas/update/{id}', [JadualKelasController::class, 'update'])->name('jadual_kelas.update_status');
+    Route::resource('jadual_kelas', JadualKelasController::class);
 });
 

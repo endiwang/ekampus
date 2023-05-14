@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JadualKelas extends Model
+class Bilik extends Model
 {
     use HasFactory;
-
-    protected $table    = 'jadual_kelas';
-    protected $guarded  = ['id'];
+    protected $table = 'bilik';
+    protected $guarded = ['id'];
 }

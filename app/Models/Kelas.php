@@ -34,6 +34,16 @@ class Kelas extends Model
         return $this->hasMany(Pelajar::class);
     }
 
+    public function jadualKelas()
+    {
+        return $this->hasOne(JadualWaktu::class, 'id', 'kelas_id');
+    }
+
+    public function pusatPengajian()
+    {
+        return $this->belongsTo(Subjek::class, 'pusat_pengajian_id', 'id');
+    }
+
     public function getCountPelajarAttribute()
     {
         $count = self::students()->count();
