@@ -7,8 +7,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Main_Dashboard\UtamaController;
 use App\Http\Controllers\DataMigration\MainController as MigrateMainController;
-
-
+use App\Http\Controllers\Pengurusan\Kakitangan\Kehadiran\KehadiranPelajarController;
 
 Route::group(['middleware' => ['guest']], function() {
     Route::get('/register', [RegisterController::class, 'show'])->name('register');
@@ -50,6 +49,9 @@ Route::prefix('permohonan')->group(function () {
 
 Route::get('/test2', [TestController::class, 'index2'])->name('test2');
 Route::get('/test_con', [TestController::class, 'testConnection'])->name('test_con');
+
+Route::post('kehadiran/pelajar/submit', [KehadiranPelajarController::class, 'kehadiran'])->name('kehadiran.pelajar.submit');
+Route::get('kehadiran/{subjek_id}/{date}', [KehadiranPelajarController::class, 'getkehadiranForm'])->name('kehadiran.submit');
 
 
 
