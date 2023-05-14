@@ -17,6 +17,7 @@ use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PertukaranSyukbahController;
+use App\Http\Controllers\Pengurusan\Akademik\RekodKehadiran\KehadiranPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\SemesterController;
 use App\Http\Controllers\Pengurusan\Akademik\SubjekController;
 
@@ -67,6 +68,11 @@ Route::group(['prefix'=>'permohonan','as'=>'permohonan.'], function(){
 
 Route::group(['prefix'=>'pensyarah','as'=>'pensyarah.'], function(){
     Route::resource('senarai_pensyarah', SenaraiPensyarahController::class);
+});
+
+Route::group(['prefix'=>'rekod_kehadiran','as'=>'rekod_kehadiran.'], function(){
+    Route::post('rekod_pelajar/muat_turun', [KehadiranPelajarController::class, 'downloadAttendancePdf'])->name('rekod_pelajar.muat_turun');
+    Route::resource('rekod_pelajar', KehadiranPelajarController::class);
 
     Route::resource('rekod_kehadiran', RekodKehadiranController::class);
 });
