@@ -35,4 +35,19 @@ class Permohonan extends Model
     {
         return $this->hasMany(PermohonanKelulusanAkademik::class,'permohonan_id','id');
     }
+
+    public function sesi()
+    {
+        return $this->belongsTo(Sesi::class,'sesi_id','id');
+    }
+
+    public function pusat_pengajian()
+    {
+        return $this->belongsTo(PusatPengajian::class,'pusat_pengajian_id','id');
+    }
+
+    public function proses_temuduga()
+    {
+        return $this->belongsTo(Temuduga::class,'temuduga_id','id');
+    }
 }

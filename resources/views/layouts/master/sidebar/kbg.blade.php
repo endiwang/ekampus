@@ -114,6 +114,14 @@
                             <span class="menu-title">Keputusan Temuduga</span>
                         </a>
                     </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.tawaran.index') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.tawaran.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pemilihan Calon</span>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">

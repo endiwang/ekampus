@@ -4,6 +4,7 @@ use App\Http\Controllers\Pengurusan\KBG\KeputusanTemudugaController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\Pengurusan\KBG\MainKBGController;
 use App\Http\Controllers\Pengurusan\KBG\PelajarController;
+use App\Http\Controllers\Pengurusan\KBG\TawaranController;
 use App\Http\Controllers\Pengurusan\KBG\ProsesTemudugaController;
 use App\Http\Controllers\Pengurusan\KBG\SenaraiPermohonanController;
 use App\Http\Controllers\Pengurusan\KBG\SenaraiTapisanPermohonanController;
@@ -29,6 +30,9 @@ use Illuminate\Support\Facades\Route;
     Route::resource('/keputusan_temuduga', KeputusanTemudugaController::class)->only(['index','store'])->name('index','pengurusan.keputusan_temuduga.index','store','pengurusan.keputusan_temuduga.store');
 
     Route::get('/keputusan_temuduga/{id}/kemas_kini_markah', [KeputusanTemudugaController::class,'kemas_kini_markah'])->name('pengurusan.keputusan_temuduga.kemas_kini_markah');
+
+    Route::resource('/tawaran', TawaranController::class)->only(['index','create','store','show','update'])->name('index','pengurusan.tawaran.index','create','pengurusan.tawaran.create','store','pengurusan.tawaran.store','show','pengurusan.tawaran.show','update','pengurusan.tawaran.update');
+
 
 
 
