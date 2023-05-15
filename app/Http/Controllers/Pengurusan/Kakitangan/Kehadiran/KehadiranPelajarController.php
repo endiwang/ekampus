@@ -106,7 +106,7 @@ class KehadiranPelajarController extends Controller
      */
     public function show($id)
     {
-        // try {
+        try {
 
             $title = "Kehadiran Pelajar";
             $breadcrumbs = [
@@ -123,12 +123,12 @@ class KehadiranPelajarController extends Controller
 
             return view($this->baseView.'show', compact('title', 'breadcrumbs', 'qr_code','subjek', 'generated_at', 'id'));
 
-        // }catch (Exception $e) {
-        //     report($e);
+        }catch (Exception $e) {
+            report($e);
     
-        //     Alert::toast('Uh oh! Something went Wrong', 'error');
-        //     return redirect()->back();
-        // }
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -204,7 +204,7 @@ class KehadiranPelajarController extends Controller
 
     public function submitKehadiran(Request $request)
     {
-        // try{
+        try{
             //check if no matrik exist
             $student_exist = Pelajar::where('no_matrik', $request->no_matrik)->first();
 
@@ -220,16 +220,16 @@ class KehadiranPelajarController extends Controller
                 return redirect()->route('kehadiran.pelajar.successful');
             }
             else {
-                Alert::toast('Maklumat no matrik tidak sah!', 'success');
+                Alert::toast('Maklumat no matrik tidak sah!', 'error');
                 return redirect()->back();
             }
 
-        // }catch (Exception $e) {
-        //     report($e);
+        }catch (Exception $e) {
+            report($e);
 
-        //     Alert::toast('Uh oh! Something went Wrong', 'error');
-        //     return redirect()->back();
-        // }
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
     }
 
     public function successfulSubmission()
