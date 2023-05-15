@@ -5,12 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PensyarahKelas extends Model
+class KehadiranPelajar extends Model
 {
     use HasFactory;
-
-    protected $table = 'pensyarah_kelas';
+    protected $table = 'kehadiran_pelajar';
     protected $guarded = ['id'];
+
+    public function pelajar()
+    {
+        return $this->belongsTo(Pelajar::class,'pelajar_id','id');
+    }
 
     public function subjek()
     {

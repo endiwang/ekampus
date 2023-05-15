@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PensyarahKelas extends Model
+class SoalanPenilaian extends Model
 {
     use HasFactory;
-
-    protected $table = 'pensyarah_kelas';
+    protected $table = 'soalan_penilaian';
     protected $guarded = ['id'];
 
-    public function subjek()
+    public function createdBy()
     {
-        return $this->belongsTo(Subjek::class,'subjek_id','id');
+        return $this->belongsTo(Staff::class, 'created_by','user_id');
     }
 }

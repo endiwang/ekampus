@@ -111,7 +111,7 @@
                         </a>
                     </div>
 
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('base2') ? 'active' : '' }}" href="{{ route('base2') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
@@ -127,7 +127,7 @@
                             </span>
                             <span class="menu-title">Pusat Pengajian</span>
                         </a>
-                    </div>
+                    </div> --}}
 
                     <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.mpk_iso.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.mpk_iso.index') }}">
@@ -153,6 +153,15 @@
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Rekod Aktiviti PDP</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.penilaian_pensyarah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.penilaian_pensyarah.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Soalan Penilaian Pensyarah</span>
                         </a>
                     </div>
                     
@@ -182,14 +191,14 @@
                             <span class="menu-title">Pertukaran Syukbah</span>
                         </a>
                     </div>
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('base2') ? 'active' : '' }}" href="{{ route('base2') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Pelepasan Kuliah</span>
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
@@ -208,14 +217,14 @@
                     <span class="menu-arrow"></span>
                 </span>
                 <div class="menu-sub menu-sub-accordion">
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Akademik Pelajar</span>
                         </a>
-                    </div>
+                    </div> --}}
                     <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.akademik.kelas_pelajar.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.kelas_pelajar.index') }}">
                             <span class="menu-bullet">
@@ -266,25 +275,18 @@
                             <span class="menu-title">Guru Tasmik</span>
                         </a>
                     </div>
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Jadual Waktu</span>
                         </a>
-                    </div>
-                    <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pensyarah.rekod_kehadiran.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pensyarah.rekod_kehadiran.index') }}">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                            <span class="menu-title">Rekod Kehadiran</span>
-                        </a>
-                    </div>
+                    </div> --}}
+                    
                 </div>
             </div>
-            <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
+            {{-- <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
                 <span class="menu-link">
                     <span class="menu-icon">
                         <span class="svg-icon svg-icon-2">
@@ -317,6 +319,40 @@
                         </a>
                     </div>
                 </div>
+            </div> --}}
+            <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
+                <span class="menu-link">
+                    <span class="menu-icon">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </span>
+                    <span class="menu-title">Rekod Kehadiran</span>
+                    <span class="menu-arrow"></span>
+                </span>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.rekod_kehadiran.rekod_pelajar.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.rekod_kehadiran.rekod_pelajar.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pelajar</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.rekod_kehadiran.rekod_kehadiran.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.rekod_kehadiran.rekod_kehadiran.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pensyarah</span>
+                        </a>
+                    </div>
+                </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
                 <span class="menu-link">
@@ -342,7 +378,7 @@
                             <span class="menu-title">Laporan Mesyuarat</span>
                         </a>
                     </div>
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
@@ -373,7 +409,7 @@
                             </span>
                             <span class="menu-title">Laporan Tasmik (Guru)</span>
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
