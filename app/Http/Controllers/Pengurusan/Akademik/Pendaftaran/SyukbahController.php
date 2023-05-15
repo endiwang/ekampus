@@ -173,7 +173,7 @@ class SyukbahController extends Controller
 
             $model = Pelajar::with('sesi', 'kursus', 'syukbah')->find($id);
 
-            $syukbah = Syukbah::where('deleted_at', NULL)->where('kursus_id', $model->kursus_id)->pluck('nama', 'id');
+            $syukbah = Syukbah::where('deleted_at', NULL)->get()->pluck('nama', 'id');
 
             return view($this->baseView.'edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'syukbah'));
 

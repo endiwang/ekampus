@@ -111,7 +111,7 @@
                         </a>
                     </div>
 
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('base2') ? 'active' : '' }}" href="{{ route('base2') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
@@ -127,7 +127,7 @@
                             </span>
                             <span class="menu-title">Pusat Pengajian</span>
                         </a>
-                    </div>
+                    </div> --}}
 
                     <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.mpk_iso.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.mpk_iso.index') }}">
@@ -191,14 +191,14 @@
                             <span class="menu-title">Pertukaran Syukbah</span>
                         </a>
                     </div>
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('base2') ? 'active' : '' }}" href="{{ route('base2') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Pelepasan Kuliah</span>
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
@@ -217,14 +217,14 @@
                     <span class="menu-arrow"></span>
                 </span>
                 <div class="menu-sub menu-sub-accordion">
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Akademik Pelajar</span>
                         </a>
-                    </div>
+                    </div> --}}
                     <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.akademik.kelas_pelajar.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.kelas_pelajar.index') }}">
                             <span class="menu-bullet">
@@ -275,18 +275,18 @@
                             <span class="menu-title">Guru Tasmik</span>
                         </a>
                     </div>
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Jadual Waktu</span>
                         </a>
-                    </div>
+                    </div> --}}
                     
                 </div>
             </div>
-            <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
+            {{-- <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
                 <span class="menu-link">
                     <span class="menu-icon">
                         <span class="svg-icon svg-icon-2">
@@ -319,7 +319,7 @@
                         </a>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
                 <span class="menu-link">
                     <span class="menu-icon">
@@ -378,7 +378,7 @@
                             <span class="menu-title">Laporan Mesyuarat</span>
                         </a>
                     </div>
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
@@ -409,7 +409,7 @@
                             </span>
                             <span class="menu-title">Laporan Tasmik (Guru)</span>
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

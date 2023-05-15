@@ -88,3 +88,24 @@
     </div>
 @endsection
 
+@push('scripts')
+    <script>
+        $("#tarikh_kehadiran").daterangepicker({
+        autoApply : true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+        },function(start, end, label) {
+            var datePicked = moment(start).format('DD/MM/YYYY');
+            $("#tarikh_kehadiran").val(datePicked);
+        });
+    </script>
+
+    {!! $dataTable->scripts() !!}
+
+@endpush
