@@ -38,6 +38,17 @@
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
+                                    {{ Form::label('sesi', 'Sesi Pengajian', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        {{ Form::select('sesi', $sesi, old('sesi'), ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('sesi') ? 'is-invalid':''),'id'=>'sesi' ]) }}
+                                        @error('sesi') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
                                     {{ Form::label('pilihan_temuduga', 'Pilihan Temuduga', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
@@ -147,6 +158,53 @@
 
 @push('scripts')
 <script>
+
+    $(document).ready(function () {
+        if($("#program_pengajian").val() != null || $("#program_pengajian").val() != '')
+        {
+            $("#sesi").select2({
+                ajax: {
+                    url: "{{route('pengurusan.pentadbir_sistem.permohonan_pelajar.fetchSesi')}}",
+                    type: "POST",
+                    data: {
+                                kursus_id: $("#program_pengajian").val(),
+                                _token: '{{csrf_token()}}'
+                            },
+                    dataType: 'json',
+                    processResults: function (data) {
+                    // Transforms the top-level key of the response object from 'items' to 'results'
+                    return {
+                        results: data
+                    };
+                    }
+                }
+            })
+        }
+
+        $("#program_pengajian").on('change', function(){
+            var kursus_id = this.value;
+
+            $("#sesi").val('');
+            $("#sesi").select2({
+                ajax: {
+                    url: "{{route('pengurusan.pentadbir_sistem.permohonan_pelajar.fetchSesi')}}",
+                    type: "POST",
+                    data: {
+                                kursus_id: kursus_id,
+                                _token: '{{csrf_token()}}'
+                            },
+                    dataType: 'json',
+                    processResults: function (data) {
+                    // Transforms the top-level key of the response object from 'items' to 'results'
+                    return {
+                        results: data
+                    };
+                    }
+                }
+            })
+        })
+    });
+
     $("#tarikh_temuduga").daterangepicker({
         autoApply : true,
         singleDatePicker: true,

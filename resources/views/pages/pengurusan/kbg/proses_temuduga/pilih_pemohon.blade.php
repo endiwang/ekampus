@@ -107,7 +107,7 @@
                     className: 'row-selected'
                 },
                 ajax: {
-                    url: "{!! route('pengurusan.kbg.pengurusan.proses_temuduga.pilih_pemohon_api',1) !!}",
+                    url: "{!! route('pengurusan.kbg.pengurusan.proses_temuduga.pilih_pemohon_api', $proses_temuduga->id) !!}",
                 },
                 columns: [
                     { data: 'id' },
