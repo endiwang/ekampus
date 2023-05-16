@@ -58,4 +58,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Pelajar::class)->where('is_deleted','!=', 1);
     }
+
+    public function staff()
+    {
+        return $this->hasOne(Staff::class);
+    }
+
 }

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Main_Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Aktiviti;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Auth;
 class UtamaController extends Controller
 {
     /**
@@ -14,7 +16,9 @@ class UtamaController extends Controller
      */
     public function index()
     {
-        return view('pages.main_dashboard.utama');
+        $user = Auth::user();
+        $hebahan_aktiviti = Aktiviti::where('status_kelulusan',2)->get();
+        return view('pages.main_dashboard.utama', compact('hebahan_aktiviti','user'));
     }
 
     /**
