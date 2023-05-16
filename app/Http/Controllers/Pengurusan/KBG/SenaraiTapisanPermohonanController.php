@@ -191,7 +191,7 @@ class SenaraiTapisanPermohonanController extends Controller
 
         $subjek_spm = SubjekSPM::where('status',0)->get();
 
-        $permohonan = Permohonan::where('kursus_id',$kursus_id)->where('sesi_id', $sesi_id)->where('is_deleted' ,0)->where('is_submitted' , 1)->where('is_selected' , 1)->where('is_interview',0)->where('is_tawaran',0)->with('akademik');
+        $permohonan = Permohonan::where('kursus_id',$kursus_id)->where('sesi_id', $sesi_id)->where('is_deleted' ,0)->where('is_submitted' , 1)->where('is_selected' , 0)->where('is_interview',0)->where('is_tawaran',0)->with('akademik');
 
         if($subjek_spm)
         {
@@ -232,7 +232,7 @@ class SenaraiTapisanPermohonanController extends Controller
 
             // if ($permohonan) {
             if (request()->ajax() && $permohonan) {
-                    $data = $permohonan;
+                    $data = $permohonan->get();
                 return DataTables::of($data)
                 ->addColumn('nama', function($data) {
                     return $data->nama ?? null;
