@@ -40,7 +40,7 @@
                 </a>
                 <!--end:Menu link-->
             </div>
-            <div data-kt-menu-trigger="click" class="menu-item {{ Request::routeIs('pengurusan.akademik.kursus.*') ? 'here show' : '' }} menu-accordion">
+            {{-- <div data-kt-menu-trigger="click" class="menu-item {{ Request::routeIs('pengurusan.akademik.kursus.*') ? 'here show' : '' }} menu-accordion">
                 <span class="menu-link">
                     <span class="menu-icon">
                         <span class="svg-icon svg-icon-2">
@@ -123,8 +123,8 @@
                         </a>
                     </div>
                 </div>
-            </div>
-            <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
+            </div> --}}
+            {{-- <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
                 <span class="menu-link">
                     <span class="menu-icon">
                         <span class="svg-icon svg-icon-2">
@@ -157,7 +157,7 @@
                         </a>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
                 <span class="menu-link">
                     <span class="menu-icon">
@@ -182,14 +182,14 @@
                             <span class="menu-title">Pelajar</span>
                         </a>
                     </div>
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('base2') ? 'active' : '' }}" href="{{ route('base2') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Pensyarah</span>
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
