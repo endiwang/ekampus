@@ -1000,7 +1000,12 @@ class MainController extends Controller
 
         foreach($data as $datum)
         {
+            // dump($datum->id);
             dispatch(new MigrateTawaranPermohonan($datum->id));
+            // $tawaran = Tawaran::where('tawaran_id_old',$datum->tawaran_id)->first();
+            // $permohonan= Permohonan::where('no_rujukan',$datum->mohon_id)->first();
+            // dump($tawaran);
+            // dump($permohonan);
         }
 
         dd('done');
