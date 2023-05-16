@@ -27,7 +27,7 @@ class SenaraiTapisanPermohonanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
 
         try {
@@ -48,10 +48,21 @@ class SenaraiTapisanPermohonanController extends Controller
                 ],
             ];
 
+            $kursus = Kursus::where('is_deleted',0)->pluck('nama', 'id');
+            $sesi = Sesi::where('is_deleted',0)->pluck('nama', 'id');
+
 
             if (request()->ajax()) {
-                $data = Permohonan::where('is_submitted',1)->where('is_deleted',0)->where('is_selected',1)->where('is_tawaran',0)->where('is_interview',0)->get();
-                return DataTables::of($data)
+                $data = Permohonan::where('is_submitted',1)->where('is_deleted',0)->where('is_selected',1)->where('is_tawaran',0)->where('is_interview',0);
+                if($request->has('kursus') && $request->kursus != NULL)
+                {
+                    $data = $data->where('kursus_id', $request->kursus);
+                }
+                if($request->has('sesi') && $request->sesi != NULL)
+                {
+                    $data = $data->where('sesi_id', $request->sesi);
+                }
+                return DataTables::of($data->get())
                 ->addColumn('nama', function($data) {
                     return $data->nama ?? null;
                 })
@@ -92,7 +103,7 @@ class SenaraiTapisanPermohonanController extends Controller
             ])
             ->minifiedAjax();
 
-            return view('pages.pengurusan.kbg.senarai_tapisan_permohonan.main', compact('title', 'breadcrumbs','buttons','dataTable'));
+            return view('pages.pengurusan.kbg.senarai_tapisan_permohonan.main', compact('title', 'breadcrumbs','buttons','dataTable','kursus','sesi'));
 
         } catch (Exception $e) {
             report($e);

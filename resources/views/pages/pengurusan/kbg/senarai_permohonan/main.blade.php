@@ -7,23 +7,43 @@
             <!--begin::Row-->
             <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <div class="card" id="advanceSearch">
-                        <div class="card-body py-5">
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('maklumat_carian', 'Maklumat Carian', ['class' => 'fs-6 fw-semibold form-label mt-2']) }}
+                    <form class="form" action="{{ route('pengurusan.kbg.pengurusan.senarai_permohonan.index')}}" method="get">
+                        <div class="card">
+                            <div class="card-body py-5">
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('kursus', 'Program Pengajian', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::select('kursus', $kursus, Request::get('kursus'), ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('kursus') ? 'is-invalid':''), 'data-control'=>'select2' ]) }}
+                                            @error('kursus') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-9">
-                                    <div class="d-flex">
-                                        <input type="text" v-model="keyword.search" v-on:keyup.enter="search()" class="form-control me-3 form-control-sm">
-                                        <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0" @click="search()">
-                                            <i class="fa fa-search" style="vertical-align: initial"></i>Cari
-                                        </button>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('sesi', 'Sesi Pengajian', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::select('sesi', $sesi, Request::get('sesi'), ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('sesi') ? 'is-invalid':''),'id'=>'sesi' ]) }}
+                                            @error('sesi') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-12">
+                                        <div class="d-flex align-items-center justify-content-end">
+                                            <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0">
+                                                <i class="fa fa-search" style="vertical-align: initial"></i>Cari
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <!--end::Row-->
@@ -96,6 +116,54 @@
 
             },
         }).mount('#advanceSearch')
+    </script>
+
+<script>
+    $(document).ready(function () {
+        if($("#kursus").val() != null || $("#kursus").val() != '')
+        {
+            $("#sesi").select2({
+                ajax: {
+                    url: "{{route('pengurusan.pentadbir_sistem.permohonan_pelajar.fetchSesi')}}",
+                    type: "POST",
+                    data: {
+                                kursus_id: $("#kursus").val(),
+                                _token: '{{csrf_token()}}'
+                            },
+                    dataType: 'json',
+                    processResults: function (data) {
+                    // Transforms the top-level key of the response object from 'items' to 'results'
+                    return {
+                        results: data
+                    };
+                    }
+                }
+            })
+        }
+
+        $("#kursus").on('change', function(){
+            var kursus_id = this.value;
+
+            $("#sesi").val('');
+            $("#sesi").select2({
+                ajax: {
+                    url: "{{route('pengurusan.pentadbir_sistem.permohonan_pelajar.fetchSesi')}}",
+                    type: "POST",
+                    data: {
+                                kursus_id: kursus_id,
+                                _token: '{{csrf_token()}}'
+                            },
+                    dataType: 'json',
+                    processResults: function (data) {
+                    // Transforms the top-level key of the response object from 'items' to 'results'
+                    return {
+                        results: data
+                    };
+                    }
+                }
+            })
+        })
+    });
     </script>
 
     {!! $dataTable->scripts() !!}
