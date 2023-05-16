@@ -10,4 +10,9 @@ class TawaranPermohonan extends Model
     use HasFactory;
     protected $table = 'tawaran_pemohon';
     protected $guarded = ['id'];
+
+    public function pemohon()
+    {
+        return $this->belongsTo(Permohonan::class,'permohonan_id');
+    }
 }
