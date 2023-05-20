@@ -57,11 +57,11 @@
                 </span>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.pelajar.*') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.pelajar.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pelajar.permohonan.pelepasan_kuliah.index') ? 'active' : '' }}" href="{{ route('pelajar.permohonan.pelepasan_kuliah.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
-                            <span class="menu-title">Pelajar</span>
+                            <span class="menu-title">Pelepasan Kuliah</span>
                         </a>
                     </div>
                 </div>
