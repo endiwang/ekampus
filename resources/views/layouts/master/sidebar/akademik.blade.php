@@ -191,14 +191,14 @@
                             <span class="menu-title">Pertukaran Syukbah</span>
                         </a>
                     </div>
-                    {{-- <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('base2') ? 'active' : '' }}" href="{{ route('base2') }}">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.permohonan.pelepasan_kuliah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.permohonan.pelepasan_kuliah.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Pelepasan Kuliah</span>
                         </a>
-                    </div> --}}
+                    </div>
                 </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">

@@ -69,6 +69,8 @@
                             @include('layouts.master.sidebar.kbg')
                         @elseif(Request::routeIs('pengurusan.pentadbir_sistem.*'))
                             @include('layouts.master.sidebar.pentadbir_sistem')
+						@elseif(Request::routeIs('pelajar.*'))
+                            @include('layouts.master.sidebar.pelajar')
                         @else
                             @include('layouts.master.sidebar.utama')
                         @endif
