@@ -16,6 +16,7 @@ use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenilaianPensyarahContro
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
+use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PelepasanKuliahController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PertukaranSyukbahController;
 use App\Http\Controllers\Pengurusan\Akademik\RekodKehadiran\KehadiranPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\SemesterController;
@@ -64,6 +65,8 @@ Route::group(['prefix'=>'laporan','as'=>'laporan.'], function(){
 
 Route::group(['prefix'=>'permohonan','as'=>'permohonan.'], function(){
     Route::resource('pertukaran_syukbah', PertukaranSyukbahController::class);
+
+    Route::resource('pelepasan_kuliah', PelepasanKuliahController::class);
 });
 
 Route::group(['prefix'=>'pensyarah','as'=>'pensyarah.'], function(){

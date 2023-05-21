@@ -78,7 +78,7 @@
                             </svg>
                         </span>
                     </span>
-                    <span class="menu-title">Permohonan</span>
+                    <span class="menu-title">Penilaian</span>
                     <span class="menu-arrow"></span>
                 </span>
                 <div class="menu-sub menu-sub-accordion">
@@ -87,39 +87,7 @@
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
-                            <span class="menu-title">Senarai Permohonan</span>
-                        </a>
-                    </div>
-                    <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.senarai_tapisan_permohonan.index') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.senarai_tapisan_permohonan.index') }}">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                            <span class="menu-title">Tapisan Permohonan</span>
-                        </a>
-                    </div>
-                    <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.proses_temuduga.index') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.proses_temuduga.index') }}">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                            <span class="menu-title">Proses Temuduga</span>
-                        </a>
-                    </div>
-                    <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.keputusan_temuduga.index') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.keputusan_temuduga.index') }}">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                            <span class="menu-title">Keputusan Temuduga</span>
-                        </a>
-                    </div>
-                    <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.tawaran.index') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.tawaran.index') }}">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                            <span class="menu-title">Pemilihan Calon</span>
+                            <span class="menu-title">Penilaian Pensyarah</span>
                         </a>
                     </div>
                 </div>

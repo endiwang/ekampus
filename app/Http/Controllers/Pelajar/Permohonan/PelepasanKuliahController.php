@@ -56,15 +56,15 @@ class PelepasanKuliahController extends Controller
                             return 'Baru Diterima';
                         break;
 
-                        case 1 :
-                            return 'Proses';
+                        case 2 :
+                            return 'Dalam Proses';
                         break;
 
-                        case 1 :
+                        case 3 :
                             return 'Lulus';
                         break;
 
-                        case 1 :
+                        case 4 :
                             return 'Tolak';
                         break;
                     }
@@ -209,7 +209,7 @@ class PelepasanKuliahController extends Controller
      */
     public function show($id)
     {
-        // try {
+        try {
 
             $title = "Pelepasan Kuliah";
             $page_title = 'Maklumat Permohonan Pelepasan Kuliah';
@@ -224,12 +224,12 @@ class PelepasanKuliahController extends Controller
     
             return view($this->baseView.'show', compact('title', 'breadcrumbs', 'page_title', 'data'));
 
-        // } catch (Exception $e) {
-        //     report($e);
+        } catch (Exception $e) {
+            report($e);
 
-        //     Alert::toast('Uh oh! Something went Wrong', 'error');
-        //     return redirect()->back();
-        // }
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
     }
 
     /**

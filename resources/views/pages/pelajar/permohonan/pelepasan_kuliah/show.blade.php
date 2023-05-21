@@ -74,12 +74,59 @@
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <a href="{{ route('pengurusan.akademik.pengurusan.mpk_iso.download',$data->id) }}" class="btn btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" target="_blank" title="Lihat Dokumen">
+                                        <a href="{{ route('pelajar.permohonan.pelepasan_kuliah.download',$data->id) }}" class="btn btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" target="_blank" title="Lihat Dokumen">
                                             Lihat Dokumen Sokongan
                                         </a>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="row fv-row mb-2">
+                                <div class="col-md-3 text-md-end">
+                                    {{ Form::label('status_permohonan', 'Status Permohonan', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                </div>
+
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        @if($data->status == 1)
+                                        <p class="mt-1">Baru Diterima</p>
+                                        @elseif($data->status == 2)
+                                        <p class="mt-1">Dalam Proses</p>
+                                        @elseif ($data->status == 3)
+                                        <p class="mt-1">Lulus</p>
+                                        @elseif ($data->status == 4)
+                                        <p class="mt-1">Tolak</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row fv-row mb-2">
+                                <div class="col-md-3 text-md-end">
+                                    {{ Form::label('komen', 'Komen (Jika Ada)', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                </div>
+
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        <p class="mt-2">{{ $data->komen ?? null}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if($data->status == 3)
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
+                                    {{ Form::label('surat_pelepasan', 'Muat Turun Surat Pelepasan', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        <a href="{{ route('pelajar.permohonan.pelepasan_kuliah.download_surat_pelepasan',$data->id) }}" class="btn btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" target="_blank" title="Lihat Dokumen">
+                                            Lihat Dokumen Sokongan
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
 
                             <div class="row mt-5">
                                 <div class="col-md-9 offset-md-3">
