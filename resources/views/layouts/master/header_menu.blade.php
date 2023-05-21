@@ -24,7 +24,7 @@
         </a>
     </div>
     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion me-0 me-lg-2">
-        <a href="#" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold p-0">
+        <a href="{{ route('pelajar.index') }}" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold p-0">
             <span class="menu-link">
                 <span class="menu-title">Pelajar</span>
                 <span class="menu-arrow d-lg-none"></span>
