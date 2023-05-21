@@ -83,7 +83,7 @@
                 </span>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.senarai_permohonan.index') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.senarai_permohonan.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pelajar.penilaian_pensyarah.index') ? 'active' : '' }}" href="{{ route('pelajar.penilaian_pensyarah.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
