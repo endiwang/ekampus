@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Main_Dashboard\UtamaController;
 use App\Http\Controllers\DataMigration\MainController as MigrateMainController;
 use App\Http\Controllers\Pengurusan\Kakitangan\Kehadiran\KehadiranPelajarController;
+use App\Http\Controllers\Pengurusan\Kakitangan\Kehadiran\KehadiranPensyarahController;
 
 Route::group(['middleware' => ['guest']], function() {
     Route::get('/register', [RegisterController::class, 'show'])->name('register');
@@ -54,6 +55,9 @@ Route::get('kehadiran/pelajar/berjaya', [KehadiranPelajarController::class, 'suc
 Route::post('kehadiran/pelajar/submit', [KehadiranPelajarController::class, 'submitKehadiran'])->name('kehadiran.pelajar.submit');
 Route::get('kehadiran/{subjek_id}/{date}', [KehadiranPelajarController::class, 'getkehadiranForm'])->name('kehadiran.submit');
 
+Route::get('pensyarah/pelajar/berjaya', [KehadiranPensyarahController::class, 'successfulSubmission'])->name('pensyarah.kehadiran.successful');
+Route::post('pensyarah/kehadiran/submit', [KehadiranPensyarahController::class, 'submitKehadiran'])->name('pensyarah.kehadiran.submit');
+Route::get('pensyarah/kehadiran/{staff_id}/{date}', [KehadiranPensyarahController::class, 'getkehadiranForm'])->name('pensyarah.kehadiran');
 
 
 //Migrate Data
