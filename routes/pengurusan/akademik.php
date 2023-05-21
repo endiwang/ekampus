@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Pengurusan\Akademik\GuruTasmikController;
+use App\Http\Controllers\Pengurusan\Akademik\JadualWaktu\JadualKelasController;
 use App\Http\Controllers\Pengurusan\Akademik\KalendarAkademikController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pengurusan\Akademik\KelasController;
@@ -93,5 +94,12 @@ Route::group(['prefix'=>'pengurusan','as'=>'pengurusan.'], function(){
     Route::post('penilaian_pensyarah/skala_penilaian/store', [PenilaianPensyarahController::class, 'storeRating'])->name('penilaian_pensyarah.rating.store');
     Route::get('penilaian_pensyarah/skala_penilaian', [PenilaianPensyarahController::class, 'createRating'])->name('penilaian_pensyarah.rating');
     Route::resource('penilaian_pensyarah', PenilaianPensyarahController::class);
+});
+
+Route::group(['prefix'=>'jadual','as'=>'jadual.'], function(){
+    Route::get('jadual_kelas/download_timetable/{id}', [JadualKelasController::class, 'downloadTimetable'])->name('jadual_kelas.download_timetable');
+    Route::post('jadual_kelas/add_subject', [JadualKelasController::class, 'addSubject'])->name('jadual_kelas.add_subject');
+    Route::post('jadual_kelas/update/{id}', [JadualKelasController::class, 'update'])->name('jadual_kelas.update_status');
+    Route::resource('jadual_kelas', JadualKelasController::class);
 });
 
