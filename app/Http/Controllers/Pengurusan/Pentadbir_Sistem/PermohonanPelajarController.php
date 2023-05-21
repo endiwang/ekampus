@@ -23,7 +23,6 @@ class PermohonanPelajarController extends Controller
     public function index(Builder $builder)
     {
         $test = TetapanPermohonanPelajar::find(19);
-        dd($test->pusat_temuduga);
         if (request()->ajax()) {
             $data = TetapanPermohonanPelajar::query();
             return DataTables::of($data)

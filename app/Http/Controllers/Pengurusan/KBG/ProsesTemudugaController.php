@@ -134,9 +134,10 @@ class ProsesTemudugaController extends Controller
             ];
 
             $kursus = Kursus::where('deleted_at', null)->pluck('nama', 'id');
+            $sesi = Sesi::where('is_deleted',0)->pluck('nama', 'id');
             $ketua_temuduga = Staff::where('deleted_at', null)->pluck('nama', 'id');
 
-            return view('pages.pengurusan.kbg.proses_temuduga.add_new', compact('title', 'breadcrumbs', 'page_title','kursus','ketua_temuduga'));
+            return view('pages.pengurusan.kbg.proses_temuduga.add_new', compact('title', 'breadcrumbs', 'page_title','kursus','ketua_temuduga','sesi'));
 
         }catch (Exception $e) {
             report($e);
@@ -157,17 +158,19 @@ class ProsesTemudugaController extends Controller
         $validation = $request->validate([
             'tajuk_borang_temuduga'         => 'required',
             'program_pengajian'             => 'required',
+            'sesi'                          => 'required',
             'pilihan_temuduga'              => 'required',
             'pusat_temuduga'                => 'required',
             'tarikh_temuduga'               => 'required',
             'masa_temuduga'                 => 'required',
-            'nama_tempat_temuduga'        => 'required',
+            'nama_tempat_temuduga'          => 'required',
             'alamat_tempat_temuduga'        => 'required',
             'tarikh_cetak_surat_temuduga'   => 'required',
             'ketua_temuduga'                => 'required',
         ],[
             'tajuk_borang_temuduga.required'        => 'Sila masukkan tajuk borang temuduga',
             'program_pengajian.required'            => 'Sila pilih program pengajian',
+            'sesi.required'                         => 'Sila pilih sesi pengajian',
             'pilihan_temuduga.required'             => 'Sila pilih pilihan temuduga',
             'pusat_temuduga.required'               => 'Sila pilih pusat temuduga',
             'tarikh_temuduga.required'              => 'Sila masukkan tarikh temuduga',
@@ -181,6 +184,7 @@ class ProsesTemudugaController extends Controller
         Temuduga::create([
             'tajuk_borang'      => $request->tajuk_borang_temuduga,
             'kursus_id'         => $request->program_pengajian,
+            'sesi_id'         => $request->sesi,
             'temuduga_type'     => $request->pilihan_temuduga,
             'pusat_temuduga_id'    => $request->pusat_temuduga,
             'tarikh'            => Carbon::createFromFormat('d/m/Y',$request->tarikh_temuduga)->format('Y-m-d'),
@@ -249,8 +253,7 @@ class ProsesTemudugaController extends Controller
 
         // try {
             $proses_temuduga = Temuduga::find($id);
-            $sesi = Sesi::find('135');
-
+            $sesi = Sesi::find($proses_temuduga->sesi_id);
             $title = 'Maklumat Senarai Pemohon';
             $page_title = $proses_temuduga->kursus->nama.' - '.$sesi->nama;
             $breadcrumbs = [
@@ -293,7 +296,7 @@ class ProsesTemudugaController extends Controller
                 ->minifiedAjax();
 
 
-            return view('pages.pengurusan.kbg.proses_temuduga.pilih_pemohon', compact('title', 'breadcrumbs', 'page_title','proses_temuduga','dataTable'));
+            return view('pages.pengurusan.kbg.proses_temuduga.pilih_pemohon', compact('title', 'breadcrumbs', 'page_title','proses_temuduga','dataTable','proses_temuduga'));
 
         // }
         // catch (Exception $e) {
@@ -308,8 +311,7 @@ class ProsesTemudugaController extends Controller
     {
         // if (request()->ajax()) {
             $proses_temuduga = Temuduga::find($id);
-            $sesi = Sesi::find('135');
-
+            $sesi = Sesi::find($proses_temuduga->sesi_id);
             $data = Permohonan::where('kursus_id', $proses_temuduga->kursus_id)->where('is_deleted',0)->where('is_submitted',1)->where('is_selected',1)->where('is_tawaran',0)->where('is_interview',0)->where('sesi_id',$sesi->id)->get();
 
             return Datatables::of($data)
@@ -326,6 +328,7 @@ class ProsesTemudugaController extends Controller
         {
             $permohonan = Permohonan::find($id);
             $permohonan->is_interview = 1;
+            $permohonan->temuduga_id = $request->proses_temuduga_id;
             $permohonan->interview_date = Carbon::now()->format('Y-m-d');
             $permohonan->interview_by = $proses_temuduga->id_ketua;
             $permohonan->save();

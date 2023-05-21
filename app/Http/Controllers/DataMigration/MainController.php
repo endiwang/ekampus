@@ -10,6 +10,8 @@ use App\Jobs\MigratePermohonan;
 use App\Jobs\MigratePermohonanKelulusanAkademik;
 use App\Jobs\MigratePermohonanPenjaga;
 use App\Jobs\MigratePermohonanTanggunganPenjaga;
+use App\Jobs\MigrateTawaranPermohonan;
+use App\Models\Bilik;
 use App\Models\Gred;
 //New DB
 use App\Models\User;
@@ -47,14 +49,19 @@ use App\Models\OldDatabase\tbl_masuk_permohonan;
 use App\Models\OldDatabase\ref_jabatan;
 use App\Models\OldDatabase\sis_semester_now;
 use App\Models\OldDatabase\ref_keturunan;
+use App\Models\OldDatabase\sis_jadbilik;
 use App\Models\OldDatabase\sis_tblpermohonan_pelajaran;
 use App\Models\OldDatabase\sis_tblpermohonan_penjaga;
 use App\Models\OldDatabase\sis_tblpermohonan_tanggung;
 use App\Models\OldDatabase\sis_tbltemuduga;
 use App\Models\Temuduga;
 use App\Models\OldDatabase\sis_tblpelajar_syukbah;
+use App\Models\OldDatabase\sis_tbltawaran;
+use App\Models\OldDatabase\sis_tbltawaran_mohon;
 use App\Models\PermohonanPertukaranSyukbah;
 use App\Models\SemesterTerkini;
+use App\Models\Tawaran;
+use App\Models\TawaranPermohonan;
 
 class MainController extends Controller
 {
@@ -964,6 +971,58 @@ class MainController extends Controller
                 'max_student'   => $datum->max_student,
                 'is_deleted'    => $datum->is_deleted,
             ]);
+        }
+
+        dd('done');
+    }
+    public function sis_tbltawaran_to_tawaran()
+    {
+
+        $data = sis_tbltawaran::all();
+
+        foreach($data as $datum)
+        {
+            if(is_numeric($datum->sesi))
+            {
+                $sesi_id = $datum->sesi;
+            }else{
+                $sesi_id = NULL;
+            }
+            Tawaran::create([
+                'tawaran_id_old'        => $datum->tawaran_id,
+                'type'                  => $datum->type,
+                'kursus_id'             => $datum->kursus_id,
+                'pusat_id'              => $datum->pusat_id,
+                'sesi_id'               => $sesi_id,
+                'tajuk_tawaran'         => $datum->tajuk_tawaran,
+                'tarikh_surat'          => $datum->tarikh_surat,
+                'tarikh'                => $datum->tarikh == '0000-00-00' ? NULL : $datum->tarikh,
+                'masa'                  => $datum->masa,
+                'hari'                  => $datum->hari,
+                'waktu'                 => $datum->waktu,
+                'nama_tempat'           => $datum->nama_tempat,
+                'alamat_pendaftaran'    => $datum->alamat_pendaftaran,
+                'status'                => $datum->status,
+                'close_tawaran'         => $datum->close_twr,
+                'tawaran_type'          => $datum->tawaran_type,
+                'create_by'             => $datum->create_by,
+                'update_by'             => $datum->update_by,
+                'created_at'            => $datum->created_at,
+                'updated_at'            => $datum->created_at,
+            ]);
+        }
+
+        dd('done');
+    }
+
+    public function sis_tbltawaran_mohon_to_tawaran_permohonan()
+    {
+        $data = sis_tbltawaran_mohon::all();
+
+
+        foreach($data as $datum)
+        {
+            dispatch(new MigrateTawaranPermohonan($datum->id));
         }
 
         dd('done');

@@ -112,7 +112,19 @@ class KeputusanTemudugaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $markah = TemudugaMarkah::updateOrCreate(
+            [
+                'id'     => $request->id,
+            ],
+            [
+                'hafazan'           => $request->hafazan,
+                'tajwid'            => $request->tajwid,
+                'akhlak'            => $request->akhlak,
+                'akademik'          => $request->akademik,
+                'jumlah'            => $request->jumlah,
+                'catatan'            => $request->catatan,
+            ]);
     }
 
     /**
@@ -146,7 +158,7 @@ class KeputusanTemudugaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**

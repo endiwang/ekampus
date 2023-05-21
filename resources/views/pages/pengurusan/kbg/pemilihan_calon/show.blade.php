@@ -1,27 +1,34 @@
 @extends('layouts.master.main')
 @section('css')
+<style>
+    .select-info{
+        display: none
+    }
+</style>
 @endsection
 @section('content')
 <div id="kt_app_content" class="app-content flex-column-fluid">
     <div id="kt_app_content_container" class="app-container container-xxl">
-        <!--begin::Row-->
+
         <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
             <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                 <div class="card" id="advanceSearch">
                     <div class="card-header">
-                        <h3 class="card-title">{{ $page_title }}</h3>
+                        <h3 class="card-title">Maklumat Tawaran</h3>
                     </div>
                     <div class="card-body py-5">
-                        <form class="form" action="{{ route('pengurusan.kbg.proses_temuduga.store') }}" method="post">
+                        <form class="form" action="{{ route('pengurusan.kbg.tawaran.update',$tawaran->id) }}" method="post">
+                            @method('PUT')
+
                             @csrf
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('tajuk_borang_temuduga', 'Tajuk Borang Temuduga', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    {{ Form::label('tajuk_tawaran', 'Tajuk Tawaran Kemasukan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::text('tajuk_borang_temuduga', $model->nama ?? old('tajuk_borang_temuduga'),['class' => 'form-control form-control-sm '.($errors->has('tajuk_borang_temuduga') ? 'is-invalid':''), 'id' =>'tajuk_borang_temuduga','autocomplete' => 'off']) }}
-                                        @error('tajuk_borang_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        {{ Form::text('tajuk_tawaran',$tawaran->tajuk_tawaran,['class' => 'form-control form-control-sm '.($errors->has('tajuk_tawaran') ? 'is-invalid':''), 'id' =>'tajuk_tawaran','autocomplete' => 'off']) }}
+                                        @error('tajuk_tawaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
@@ -31,7 +38,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::select('program_pengajian',$kursus, null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm '.($errors->has('program_pengajian') ? 'is-invalid':'')]) }}
+                                        {{ Form::select('program_pengajian',$kursus, $tawaran->kursus_id, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm '.($errors->has('program_pengajian') ? 'is-invalid':'')]) }}
                                         @error('program_pengajian') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
@@ -42,96 +49,85 @@
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::select('sesi', $sesi, old('sesi'), ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('sesi') ? 'is-invalid':''),'id'=>'sesi' ]) }}
+                                        {{ Form::select('sesi', $sesi, $tawaran->sesi_id, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('sesi') ? 'is-invalid':''),'id'=>'sesi' ]) }}
                                         @error('sesi') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('pilihan_temuduga', 'Pilihan Temuduga', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    {{ Form::label('tawaran_type', 'Pilihan Tawaran', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::select('pilihan_temuduga',['B'=>'Temuduga Pengambilan','R'=>'Temuduga Rayuan'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm '.($errors->has('pilihan_temuduga') ? 'is-invalid':'')]) }}
-                                        @error('pilihan_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        {{ Form::select('tawaran_type',['B'=>'Tawaran Pengambilan','R'=>'Tawaran Rayuan'], $tawaran->tawaran_type, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm '.($errors->has('tawaran_type') ? 'is-invalid':'')]) }}
+                                        @error('tawaran_type') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('pusat_temuduga', 'Pusat Temuduga', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    {{ Form::label('tarikh_surat', 'Tarikh Cetakan Surat', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::select('pusat_temuduga',['1'=>'Zon Utara','2'=>'Zon Selatan','3'=>'Zon Timur','4'=>'Zon Tengah'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm '.($errors->has('pusat_temuduga') ? 'is-invalid':'')]) }}
-                                        @error('pusat_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        {{ Form::text('tarikh_surat',\Carbon\Carbon::parse($tawaran->tarikh_surat)->format('d/m/Y'),['class' => 'form-control form-control-sm '.($errors->has('tarikh_surat') ? 'is-invalid':''), 'id' =>'tarikh_surat','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                        @error('tarikh_surat') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('tarikh_temuduga', 'Tarikh Temuduga', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    {{ Form::label('tarikh_pendaftaran', 'Tarikh Pendaftaran', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::text('tarikh_temuduga',old('tarikh_temuduga'),['class' => 'form-control form-control-sm '.($errors->has('tarikh_temuduga') ? 'is-invalid':''), 'id' =>'tarikh_temuduga','onkeydown' =>'return false','autocomplete' => 'off']) }}
-                                        @error('tarikh_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        {{ Form::text('tarikh_pendaftaran',\Carbon\Carbon::parse($tawaran->tarikh_pendaftaran)->format('d/m/Y'),['class' => 'form-control form-control-sm '.($errors->has('tarikh_pendaftaran') ? 'is-invalid':''), 'id' =>'tarikh_pendaftaran','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                        @error('tarikh_pendaftaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('masa_temuduga', 'Masa Temuduga', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    {{ Form::label('masa_pendaftaran', 'Masa Pendaftaran', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::text('masa_temuduga',old('masa_temuduga'),['class' => 'form-control form-control-sm '.($errors->has('masa_temuduga') ? 'is-invalid':''), 'id' =>'masa_temuduga','autocomplete' => 'off']) }}
-                                        @error('masa_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        {{ Form::text('masa_pendaftaran',$tawaran->masa,['class' => 'form-control form-control-sm '.($errors->has('masa_pendaftaran') ? 'is-invalid':''), 'id' =>'masa_pendaftaran','autocomplete' => 'off']) }}
+                                        @error('masa_pendaftaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('nama_tempat_temuduga', 'Nama Tempat Temuduga', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    {{ Form::label('nama_tempat_pendaftaran', 'Nama Tempat Pendaftaran', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::text('nama_tempat_temuduga', $model->nama ?? old('nama_tempat_temuduga'),['class' => 'form-control form-control-sm '.($errors->has('nama_tempat_temuduga') ? 'is-invalid':''), 'id' =>'nama_tempat_temuduga','autocomplete' => 'off']) }}
-                                        @error('nama_tempat_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        {{ Form::text('nama_tempat_pendaftaran', $tawaran->nama_tempat,['class' => 'form-control form-control-sm '.($errors->has('nama_tempat_pendaftaran') ? 'is-invalid':''), 'id' =>'nama_tempat_pendaftaran','autocomplete' => 'off']) }}
+                                        @error('nama_tempat_pendaftaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('alamat_tempat_temuduga', 'Alamat Tempat Temuduga', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    {{ Form::label('alamat_tempat_pendaftaran', 'Alamat Tempat Pendaftaran', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::textarea('alamat_tempat_temuduga', $model->nama ?? old('alamat_tempat_temuduga'),['class' => 'form-control form-control-sm '.($errors->has('alamat_tempat_temuduga') ? 'is-invalid':''), 'id' =>'alamat_tempat_temuduga','autocomplete' => 'off', 'rows'=>'4']) }}
-                                        @error('alamat_tempat_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        {{ Form::textarea('alamat_tempat_pendaftaran', $tawaran->alamat_pendaftaran,['class' => 'form-control form-control-sm '.($errors->has('alamat_tempat_pendaftaran') ? 'is-invalid':''), 'id' =>'alamat_tempat_pendaftaran','autocomplete' => 'off', 'rows'=>'4']) }}
+                                        @error('alamat_tempat_pendaftaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('tarikh_cetak_surat_temuduga', 'Tarikh Cetakan Surat', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    {{ Form::label('status_kemasukan', 'Status Kemasukan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::text('tarikh_cetak_surat_temuduga',old('tarikh_cetak_surat_temuduga'),['class' => 'form-control form-control-sm '.($errors->has('tarikh_cetak_surat_temuduga') ? 'is-invalid':''), 'id' =>'tarikh_cetak_surat_temuduga','onkeydown' =>'return false','autocomplete' => 'off']) }}
-                                        @error('tarikh_cetak_surat_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('ketua_temuduga', 'Ketua Temuduga', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        {{ Form::select('ketua_temuduga',$ketua_temuduga, null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm '.($errors->has('ketua_temuduga') ? 'is-invalid':''),'data-control'=>'select2']) }}
-                                        @error('ketua_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        {{ Form::select('status_kemasukan',[1=>'Tidak Aktif (Proses Penyediaan)',2=>'Aktif (Proses Pendaftaran Pelajar)',3=>'Arkib'], $tawaran->status, ['class' =>'form-control form-control-sm '.($errors->has('status_kemasukan') ? 'is-invalid':'')]) }}
+                                        @error('status_kemasukan') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
@@ -141,22 +137,24 @@
                                         <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
                                             <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
                                         </button>
-                                        <a href="{{ route('pengurusan.akademik.kursus.index') }}" class="btn btn-sm btn-light">Batal</a>
+                                        <button type="button" class="btn btn-primary btn-sm me-3">
+                                            <i class="fa fa-print" style="vertical-align: initial"></i>Cetak Senarai Nama
+                                        </button>
+                                        <a href="{{ route('pengurusan.kbg.pengurusan.tawaran.index') }}" class="btn btn-sm btn-light">Kembali</a>
                                     </div>
                                 </div>
                             </div>
-
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        <!--end::Row-->
-    </div>
 </div>
+
 @endsection
 
 @push('scripts')
+
 <script>
 
     $(document).ready(function () {
@@ -219,7 +217,7 @@
         var datePicked = moment(start).format('DD/MM/YYYY');
         $("#tarikh_temuduga").val(datePicked);
 });
-$("#tarikh_cetak_surat_temuduga").daterangepicker({
+$("#tarikh_surat").daterangepicker({
         autoApply : true,
         singleDatePicker: true,
         showDropdowns: true,
@@ -231,7 +229,22 @@ $("#tarikh_cetak_surat_temuduga").daterangepicker({
         }
     },function(start, end, label) {
         var datePicked = moment(start).format('DD/MM/YYYY');
-        $("#tarikh_cetak_surat_temuduga").val(datePicked);
+        $("#tarikh_surat").val(datePicked);
+});
+
+$("#tarikh_pendaftaran").daterangepicker({
+        autoApply : true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+    },function(start, end, label) {
+        var datePicked = moment(start).format('DD/MM/YYYY');
+        $("#tarikh_pendaftaran").val(datePicked);
 });
 </script>
 

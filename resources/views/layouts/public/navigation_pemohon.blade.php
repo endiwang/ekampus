@@ -5,21 +5,21 @@
             <!--begin::Menu item-->
             <div class="menu-item">
                 <!--begin::Menu link-->
-                <a class="menu-link nav-link active py-3 px-4 px-xxl-6" href="#kt_body" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Utama</a>
+                <a class="menu-link nav-link @if (Route::currentRouteNamed('pemohon.utama.index')) active @endif py-3 px-4 px-xxl-6" href="{{ route('pemohon.utama.index') }}" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Utama</a>
                 <!--end::Menu link-->
             </div>
             <!--end::Menu item-->
             <!--begin::Menu item-->
-            <div class="menu-item">
+            {{-- <div class="menu-item">
                 <!--begin::Menu link-->
                 <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="{{ route('pemohon.permohonan.index') }}" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Permohonan</a>
                 <!--end::Menu link-->
-            </div>
+            </div> --}}
             <!--end::Menu item-->
             <!--begin::Menu item-->
             <div class="menu-item">
                 <!--begin::Menu link-->
-                <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#achievements" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Semakan</a>
+                <a class="menu-link nav-link @if ( Route::currentRouteNamed('pemohon.semakan.index')) active @endif py-3 px-4 px-xxl-6" href="{{ route('pemohon.semakan.index') }}" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Semakan</a>
                 <!--end::Menu link-->
             </div>
             <!--end::Menu item-->

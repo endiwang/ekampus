@@ -1,11 +1,12 @@
 <div class="card shadow-none" id="formPermohonanA">
     <div class="card-header border-0">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bold text-dark">A. MAKLUMAT PEMOHON (PERSONAL PARTICULARS)</span>
+            <span class="card-label fw-bold text-dark">MAKLUMAT PEMOHON (PERSONAL PARTICULARS)</span>
         </h3>
     </div>
     <div id="kt_account_settings_profile_details" class="collapse show">
         <div class="card-body border-top p-9">
+            <input type="hidden" name="kursus_id" value="{{ $kursus->id }}">
 
             <div class="row mb-6">
                 <div class="col-lg-4">
@@ -51,7 +52,7 @@
                     <div class="form-text mt-0">Full Name</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::text('nama_pemohon','',['class' => 'form-control form-control-lg ']) }}
+                    {{ Form::text('nama_pemohon',$maklumat_pemohon ? $maklumat_pemohon->nama_pemohon : '',['class' => 'form-control form-control-lg ']) }}
                     <div class="form-text">Nama penuh mengikut K.P / Full name according to your IC</div>
                 </div>
             </div>
@@ -62,7 +63,7 @@
                     <div class="form-text mt-0">Jawi Name</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::text('nama_jawi','',['class' => 'form-control form-control-lg ']) }}
+                    {{ Form::text('nama_jawi',$maklumat_pemohon ? $maklumat_pemohon->nama_jawi : '',['class' => 'form-control form-control-lg ']) }}
                     <a href="https://www.arabic-keyboard.org/" target="blank">www.arabic-keyboard.org </a>
                     <div class="form-text mt-0">Sila salin "Copy" dan "Paste" semula di dalam ruangan NAMA JAWI. </div>
                 </div>
@@ -74,7 +75,7 @@
                     <div class="form-text mt-0">I/C Number / Passport</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::number('no_kp',$pemohon->username,['class' => 'form-control form-control-lg','disabled']) }}
+                    {{ Form::text('no_kp',$pemohon->username,['class' => 'form-control form-control-lg','disabled']) }}
                 </div>
             </div>
 
@@ -114,7 +115,7 @@
                     <div class="form-text mt-0">Full Address</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::textarea('alamat_tetap','',['class' => 'form-control form-control-lg ', 'rows'=>'4']) }}
+                    {{ Form::textarea('alamat_tetap',$maklumat_pemohon ? $maklumat_pemohon->alamat_tetap : '',['class' => 'form-control form-control-lg ', 'rows'=>'4']) }}
                     <div class="form-text mt-0">Sila masukkan alamat tetap mengikut kad pengenalan / Please your enter fixed address according to the identification card</div>
 
                 </div>
@@ -126,7 +127,7 @@
                     <div class="form-text mt-0">City</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::text('bandar_tetap','',['class' => 'form-control form-control-lg ']) }}
+                    {{ Form::text('bandar_tetap',$maklumat_pemohon ? $maklumat_pemohon->bandar_tetap : '',['class' => 'form-control form-control-lg ']) }}
                 </div>
             </div>
 
@@ -136,7 +137,7 @@
                     <div class="form-text mt-0">Postcode</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::number('poskod_tetap','',['class' => 'form-control form-control-lg ']) }}
+                    {{ Form::number('poskod_tetap',$maklumat_pemohon ? $maklumat_pemohon->poskod_tetap : '',['class' => 'form-control form-control-lg ']) }}
                 </div>
             </div>
 
@@ -146,7 +147,7 @@
                     <div class="form-text mt-0">State</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::select('negeri_tetap', $negeri, null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                    {{ Form::select('negeri_tetap', $negeri, $maklumat_pemohon ? $maklumat_pemohon->negeri_tetap : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                 </div>
             </div>
 
@@ -165,7 +166,7 @@
                     <div class="form-text mt-0">Full Address</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::textarea('alamat_surat','',['class' => 'form-control form-control-lg ', 'rows'=>'4']) }}
+                    {{ Form::textarea('alamat_surat',$maklumat_pemohon ? $maklumat_pemohon->alamat_surat : '',['class' => 'form-control form-control-lg ', 'rows'=>'4']) }}
                     <div class="form-text mt-0">Sila masukkan alamat tetap mengikut kad pengenalan / Please your enter fixed address according to the identification card</div>
 
                 </div>
@@ -177,7 +178,7 @@
                     <div class="form-text mt-0">City</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::text('bandar_surat','',['class' => 'form-control form-control-lg ']) }}
+                    {{ Form::text('bandar_surat',$maklumat_pemohon ? $maklumat_pemohon->bandar_surat : '',['class' => 'form-control form-control-lg ']) }}
                 </div>
             </div>
 
@@ -187,7 +188,7 @@
                     <div class="form-text mt-0">Postcode</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::number('poskod_surat','',['class' => 'form-control form-control-lg ']) }}
+                    {{ Form::number('poskod_surat',$maklumat_pemohon ? $maklumat_pemohon->negeri_surat : '',['class' => 'form-control form-control-lg ']) }}
                 </div>
             </div>
 
@@ -197,7 +198,7 @@
                     <div class="form-text mt-0">State</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::select('negeri_surat', $negeri, null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                    {{ Form::select('negeri_surat', $negeri, $maklumat_pemohon ? $maklumat_pemohon->negeri_surat : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                 </div>
             </div>
 
@@ -210,7 +211,7 @@
                     <div class="form-text mt-0">Phone Number</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::number('no_telefon','',['class' => 'form-control form-control-lg ']) }}
+                    {{ Form::number('no_telefon',$maklumat_pemohon ? $maklumat_pemohon->no_telefon : '',['class' => 'form-control form-control-lg ']) }}
                 </div>
             </div>
 
@@ -220,7 +221,7 @@
                     <div class="form-text mt-0">Gender</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::select('jantina', ['L' => 'Lelaki (Male)', 'P' => 'Perempuan (Female)'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                    {{ Form::select('jantina', ['L' => 'Lelaki (Male)', 'P' => 'Perempuan (Female)'], $maklumat_pemohon ? $maklumat_pemohon->jantina : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                 </div>
             </div>
 
@@ -232,7 +233,7 @@
                     <div class="form-text mt-0">State of Birth</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::select('negeri_kelahiran', $negeri, null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                    {{ Form::select('negeri_kelahiran', $negeri, $maklumat_pemohon ? $maklumat_pemohon->negeri_kelahiran : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                 </div>
             </div>
 
@@ -242,7 +243,7 @@
                     <div class="form-text mt-0">Race</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::select('keturunan', ['M' => 'Melayu', 'C' => 'Cina', 'I' =>'India', 'OS' => 'Orang Asli', 'LL' => 'Lain-lain'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                    {{ Form::select('keturunan', ['M' => 'Melayu', 'C' => 'Cina', 'I' =>'India', 'OS' => 'Orang Asli', 'LL' => 'Lain-lain'], $maklumat_pemohon ? $maklumat_pemohon->keturunan : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                 </div>
             </div>
 
@@ -252,7 +253,7 @@
                     <div class="form-text mt-0">Bumiputra</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::select('bumiputra',['B' => 'Bumiputera', 'BSB' => 'Bumiputera Sabah Sabah', 'BSR' =>'Bumiputera Sarawak', 'BB' => 'Bukan Bumiputera'],null,['placeholder' => 'Sila Pilih','class' => 'form-control form-control-lg ']) }}
+                    {{ Form::select('bumiputra',['B' => 'Bumiputera', 'BSB' => 'Bumiputera Sabah Sabah', 'BSR' =>'Bumiputera Sarawak', 'BB' => 'Bukan Bumiputera'],$maklumat_pemohon ? $maklumat_pemohon->bumiputra : '',['placeholder' => 'Sila Pilih','class' => 'form-control form-control-lg ']) }}
                 </div>
             </div>
             <div class="row mb-6">
@@ -261,7 +262,7 @@
                     <div class="form-text mt-0">Mualaf</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::select('mualaf', ['Y' => 'Ya', 'N' => 'Tidak'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                    {{ Form::select('mualaf', [1 => 'Ya', 0 => 'Tidak'], $maklumat_pemohon ? $maklumat_pemohon->mualaf : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                 </div>
             </div>
 
@@ -271,7 +272,7 @@
                     <div class="form-text mt-0">Nationality</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::select('kewarganegaraan', ['W' => 'Warganegara', 'BW' => 'Bukan Warganegara','PT'=>'Penduduk Tetap'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                    {{ Form::select('kewarganegaraan', [1 => 'Warganegara', 2 => 'Bukan Warganegara', 3=>'Penduduk Tetap'], $maklumat_pemohon ? $maklumat_pemohon->kewarganegaraan : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                     <div class="form-text mt-0">Sila nyatakan jika bukan warganegara Malaysia / Please enter if not Malaysian citizen</div>
                 </div>
             </div>
@@ -281,7 +282,7 @@
                     <div class="form-text mt-0">Physical Condition</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::select('kedaaan_fizikal', ['N' => 'Tiada Masalah', 'penglihatan' => 'Masalah Penglihatan','pendengaran' => 'Masalah Pendengaran','pembelajaran' => 'Masalah Pembelajaran','pertuturan' => 'Masalah Pertuturan','fizikal'=>'Masalah Fizikal'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                    {{ Form::select('kedaaan_fizikal', ['N' => 'Tiada Masalah', 'penglihatan' => 'Masalah Penglihatan','pendengaran' => 'Masalah Pendengaran','pembelajaran' => 'Masalah Pembelajaran','pertuturan' => 'Masalah Pertuturan','fizikal'=>'Masalah Fizikal'], $maklumat_pemohon ? $maklumat_pemohon->kedaaan_fizikal : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                 </div>
             </div>
             <div class="row mb-6">
@@ -302,7 +303,7 @@
                         'darah tinggi' => 'Darah Tinggi',
                         'sakit mental' => 'Sakit Mental',
                         'anxiety disorder' => 'Anxiety Disorder'
-                        ], null, ['class' =>'form-control form-control-lg ', 'data-control'=>'select2', 'multiple'=>'multiple', 'data-placeholder' => 'Sila Pilih']) }}
+                        ], $maklumat_pemohon ? $maklumat_pemohon->penyakit_kronik : '', ['class' =>'form-control form-control-lg ', 'data-control'=>'select2', 'multiple'=>'multiple', 'data-placeholder' => 'Sila Pilih']) }}
                 </div>
             </div>
             <div class="row mb-6">
@@ -311,7 +312,7 @@
                     <div class="form-text mt-0">Ward Admission Record</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::select('rekod_kemasukan_wad', ['N' => 'Tiada Rekod', 'MW' => 'Masuk Wad','pembedahan' => 'Pembedahan','RS' => 'Rawatan Psikiatri'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ','data-placeholder' => 'Sila Pilih', 'data-hide-search'=>'true']) }}
+                    {{ Form::select('rekod_kemasukan_wad', ['N' => 'Tiada Rekod', 'MW' => 'Masuk Wad','pembedahan' => 'Pembedahan','RS' => 'Rawatan Psikiatri'], $maklumat_pemohon ? $maklumat_pemohon->rekod_kemasukan_wad : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ','data-placeholder' => 'Sila Pilih', 'data-hide-search'=>'true']) }}
                 </div>
             </div>
 
