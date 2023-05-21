@@ -43,6 +43,13 @@ class Utils
         return $time;
     }
 
+    public static function formatMonth($date)
+    {
+        $time = Carbon::parse($date)->format('m-Y');
+
+        return $time;
+    }
+
     public static function pdfGenerate($title, $datas, $view_file, $paper_orientation)
     {
         $pdf = App::make('dompdf.wrapper');
