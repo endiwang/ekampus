@@ -183,7 +183,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('base2') ? 'active' : '' }}" href="{{ route('base2') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kakitangan.kehadiran.pensyarah.index') ? 'active' : '' }}" href="{{ route('pengurusan.kakitangan.kehadiran.pensyarah.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
