@@ -56,8 +56,10 @@ use App\Models\OldDatabase\sis_tblpermohonan_tanggung;
 use App\Models\OldDatabase\sis_tbltemuduga;
 use App\Models\Temuduga;
 use App\Models\OldDatabase\sis_tblpelajar_syukbah;
+use App\Models\OldDatabase\sis_tblpelajar_tangguh;
 use App\Models\OldDatabase\sis_tbltawaran;
 use App\Models\OldDatabase\sis_tbltawaran_mohon;
+use App\Models\PenangguhanPengajian;
 use App\Models\PermohonanPertukaranSyukbah;
 use App\Models\SemesterTerkini;
 use App\Models\Tawaran;
@@ -1023,6 +1025,29 @@ class MainController extends Controller
         foreach($data as $datum)
         {
             dispatch(new MigrateTawaranPermohonan($datum->id));
+        }
+
+        dd('done');
+    }
+
+    public function sis_tbl_pelajar_tangguh_to_penangguhan_pengajian()
+    {
+        $data = sis_tblpelajar_tangguh::all();
+
+        foreach($data as $datum)
+        {
+            $pelajar = Pelajar::select('id')->where('pelajar_id_old', $datum->pelajar_id)->first();
+
+            PenangguhanPengajian::create([
+                'old_tangguh_id'    => $datum->id_tangguh,
+                'pelajar_id'        => $pelajar->id,
+                'pelajar_id_old'    => $datum->pelajar_id,
+                'semester_now_id'   => $datum->semester_now_id,
+                'is_gantung'        => $datum->is_gantung,
+                'tarikh_proses'     => Carbon::parse($datum->tkh_proses)->toDateString(),
+                'sebab_penangguhan' => $datum->sebab,
+                'status'            => $datum->status,
+            ]);
         }
 
         dd('done');
