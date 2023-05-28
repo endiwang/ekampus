@@ -292,4 +292,27 @@ class PelepasanKuliahController extends Controller
 
         return response()->file(public_path($download->dokumen_sokongan));
     }
+
+    public function downloadLetter($id)
+    {
+        try {
+            $data = PelepasanKuliah::with('pelajar', 'pelajar.kursus', 'pelajar.semester')->find($id);
+            $export_data = [
+                'data' => $data,
+                'date' => Utils::formatDate($data->tarikh_sokongan),
+            ];
+            $title = 'Surat Kebenaran Pelepasan Kuliah ' . $data->pelajar->nama;
+
+            $view_file  = 'pages.pengurusan.akademik.permohonan.pelepasan_kuliah.export_pdf';
+            $orientation = 'portrait';
+
+            return Utils::pdfGenerate($title, $export_data, $view_file, $orientation);
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Sesuatu yang tidak diingini berlaku', 'error');
+            return redirect()->back();
+        }
+    }
 }

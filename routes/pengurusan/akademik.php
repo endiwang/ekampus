@@ -68,6 +68,8 @@ Route::group(['prefix'=>'laporan','as'=>'laporan.'], function(){
 Route::group(['prefix'=>'permohonan','as'=>'permohonan.'], function(){
     Route::resource('pertukaran_syukbah', PertukaranSyukbahController::class);
 
+    Route::get('pelepasan_kuliah/download/{id}', [PelepasanKuliahController::class, 'suratPelepasan'])->name('pelepasan_kuliah.download_surat_pelepasan');
+    Route::get('pelepasan_kuliah/biodata/{id}/{user_id}', [PelepasanKuliahController::class, 'biodata'])->name('pelepasan_kuliah.biodata');
     Route::resource('pelepasan_kuliah', PelepasanKuliahController::class);
 
     Route::resource('penangguhan_pengajian', PenangguhanPengajianController::class);
