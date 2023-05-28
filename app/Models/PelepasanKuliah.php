@@ -15,4 +15,9 @@ class PelepasanKuliah extends Model
     {
         return $this->belongsTo(Pelajar::class,'user_id','user_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id','id');
+    }
 }

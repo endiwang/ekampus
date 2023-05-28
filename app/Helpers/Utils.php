@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Notifikasi;
 use Carbon\Carbon;
 use PDF;
 use Illuminate\Support\Facades\App;
@@ -88,5 +89,18 @@ class Utils
         ];
 
         return $times;
+    }
+
+    public static function notify($notify_to, $description)
+    {
+        $notify = new Notifikasi();
+        $notify->sent_to = $notify_to;
+        $notify->description = $description;
+        $notify->save();
+    }
+
+    public function sentEmail($data)
+    {
+
     }
 }

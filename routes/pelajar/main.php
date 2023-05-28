@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::resource('/', MainPelajarController::class)->only(['index',]);
 
 Route::group(['prefix'=>'permohonan','as'=>'permohonan.'], function(){
+    Route::get('pelepasan_kuliah/muat_turun_surat/{id}', [PelepasanKuliahController::class, 'downloadLetter'])->name('pelepasan_kuliah.download_surat_pelepasan');
     Route::get('pelepasan_kuliah/download/{id}', [PelepasanKuliahController::class, 'downloadFile'])->name('pelepasan_kuliah.download');
     Route::resource('pelepasan_kuliah', PelepasanKuliahController::class);
 

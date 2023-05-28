@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Notifikasi extends Model
 {
     use HasFactory;
+    protected $table = 'notifikasi';
+    protected $guarded = ['id'];
 }

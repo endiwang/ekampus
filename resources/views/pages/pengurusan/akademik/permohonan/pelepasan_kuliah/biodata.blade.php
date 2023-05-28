@@ -12,35 +12,71 @@
                         <h3 class="card-title">{{ $page_title }}</h3>
                     </div>
                     <div class="card-body py-5">
+                        <form class="form" action="{{ $action }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            @if($data->id) @method('PUT') @endif
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('nama_permohonan', 'Nama Permohonan', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    {{ Form::label('nama_pelajar', 'Nama Pelajar', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <p class="mt-2">{{ $data->nama_permohonan ?? null}}</p>
+                                        <p class="mt-2">{{ $data->pelajar->nama ?? null}}</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('tarikh_mula', 'Tarikh Mula', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    {{ Form::label('no_kp', 'No Kad Pengenalan', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <p class="mt-2">{{ Utils::formatDate($data->tarikh_mula) }}</p>
+                                        <p class="mt-2">{{ $data->pelajar->no_ic ?? null}}</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('tarikh_akhir', 'Tarikh Akhir', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                    {{ Form::label('no_matrik', 'No Matrik', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <p class="mt-2">{{ Utils::formatDate($data->tarikh_akhir) }}</p>
+                                        <p class="mt-2">{{ $data->pelajar->no_matrik ?? null}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
+                                    {{ Form::label('program', 'Program Pengajian', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        <p class="mt-2">{{ $data->pelajar->kursus->nama ?? null}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
+                                    {{ Form::label('tarikh_mohon', 'Tarikh Mohon', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        <p class="mt-2">{{ Utils::formatDate($data->created_at) ?? null}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
+                                    {{ Form::label('tarikh_cuti', 'Tarikh Cuti', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        <p class="mt-2">{{ Utils::formatDate($data->tarikh_mula) ?? null}} - {{ Utils::formatDate($data->tarikh_akhir) ?? null}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -51,32 +87,32 @@
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <p class="mt-2">{{ $data->jumlah_hari ?? null}}</p>
+                                        <p class="mt-2">{{ $data->jumlah_hari ?? 0 }} Hari</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row fv-row mb-2">
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('sebab_mohon', 'Sebab Permohonan', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                    {{ Form::label('sebab_permohonan', 'Sebab Permohonan', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
                                 </div>
 
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <p class="mt-1">{!! $data->sebab_permohonan ?? null !!}</p>
+                                        <p>{!! $data->sebab_permohonan ?? null !!}</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row fv-row mb-2" >
+                            <div class="row fv-row mb-2">
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('sokongan_pensyarah', 'Muat Naik Sokongan Pensyarah', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                    {{ Form::label('komen', 'Surat Jawapan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
+
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <a href="{{ route('pelajar.permohonan.pelepasan_kuliah.download',$data->id) }}" class="btn btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" target="_blank" title="Lihat Dokumen">
-                                            Lihat Dokumen Sokongan
-                                        </a>
+                                        <textarea class="form-control" id="tinymce" name="komen"></textarea>
+                                        @error('komen') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
@@ -88,27 +124,7 @@
 
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        @if($data->status == 1)
-                                        <p class="mt-1">Baru Diterima</p>
-                                        @elseif($data->status == 2)
-                                        <p class="mt-1">Dalam Proses</p>
-                                        @elseif ($data->status == 3)
-                                        <p class="mt-1">Lulus</p>
-                                        @elseif ($data->status == 4)
-                                        <p class="mt-1">Tolak</p>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row fv-row mb-2">
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('komen', 'Komen (Jika Ada)', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
-                                </div>
-
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        <p class="mt-2">{!! $data->komen ?? null !!}</p>
+                                        {{ Form::select('status', $statuses, $data->status, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm ', 'data-control'=>'select2' ]) }}
                                     </div>
                                 </div>
                             </div>
@@ -116,25 +132,29 @@
                             @if($data->status == 3)
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('surat_pelepasan', 'Muat Turun Surat Pelepasan', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                    {{ Form::label('surat_pelepasan', 'Muat Turun Surat Penangguhan', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
                                         <a href="{{ route('pelajar.permohonan.pelepasan_kuliah.download_surat_pelepasan',$data->id) }}" class="btn btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" target="_blank" title="Lihat Dokumen">
-                                            Cetak Surat Pelepasan Kuliah
+                                            Lihat Dokumen Sokongan
                                         </a>
                                     </div>
                                 </div>
                             </div>
                             @endif
 
-                            <div class="row mt-5">
+                            <div class="row mt-3">
                                 <div class="col-md-9 offset-md-3">
                                     <div class="d-flex">
-                                        <a href="{{ route('pelajar.permohonan.pelepasan_kuliah.index') }}" class="btn btn-sm btn-light">Kembali</a>
+                                        <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
+                                            <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
+                                        </button>
+                                        <a href="{{ route('pengurusan.akademik.permohonan.penangguhan_pengajian.index') }}" class="btn btn-sm btn-light">Batal</a>
                                     </div>
                                 </div>
                             </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -143,3 +163,13 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    tinymce.init({
+        selector: 'textarea#tinymce',
+        height: 400
+    });
+</script>
+
+@endpush
