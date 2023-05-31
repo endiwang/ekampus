@@ -55,10 +55,16 @@ class TetapanPermohonanPelajar extends Model
         return $this->belongsTo(PusatPengajian::class,'pusat_pengajian_id','id');
     }
 
-    protected function getPusatTemudugaAttribute($value)
+    public function getPusatTemudugaAttribute($value)
     {
-        $data = PusatTemuduga::whereIn('id', json_decode($value))->pluck('nama', 'id');
+        if($value != NULL)
+        {
+            $data = PusatTemuduga::whereIn('id', json_decode($value))->pluck('nama', 'id');
+            return json_decode($data);
 
-        return json_decode($data);
+        }else{
+            return '';
+        }
+
     }
 }
