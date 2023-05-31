@@ -85,7 +85,8 @@
                     <div class="form-text mt-0">Date of Birth</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    <input class="form-control form-control-lg "name="tarikh_lahir" id="tarikh_lahir" onkeydown="return false"/>
+                    {{-- <input class="form-control form-control-lg "name="tarikh_lahir" id="tarikh_lahir" onkeydown="return false"/> --}}
+                    {{ Form::text('tarikh_lahir', $maklumat_pemohon ? Carbon\Carbon::parse($maklumat_pemohon->tarikh_lahir)->format('d/m/Y') : '',['class' => 'form-control form-control-sm '.($errors->has('tarikh_lahir') ? 'is-invalid':''), 'id' =>'tarikh_lahir','onkeydown' =>'return false','autocomplete' => 'off']) }}
                     {{-- {{ Form::date('tarikh_lahir','',['class' => 'form-control form-control-lg ']) }} --}}
                 </div>
             </div>

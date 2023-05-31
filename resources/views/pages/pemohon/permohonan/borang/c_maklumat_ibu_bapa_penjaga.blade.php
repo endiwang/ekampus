@@ -20,7 +20,7 @@
                         <div class="form-text mt-0">Father's status</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                {{ Form::select('status_bapa', ['masih_hidup' => 'Masih Hidup', 'meninggal_dunia' => 'Meninggal Dunia'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg', 'v-on:change' => 'maklumatBapa($event)']) }}
+                {{ Form::select('status_bapa', ['masih_hidup' => 'Masih Hidup', 'meninggal_dunia' => 'Meninggal Dunia'], $maklumat_penjaga ? $maklumat_penjaga->status_bapa : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg', 'v-on:change' => 'maklumatBapa($event)']) }}
                     </div>
                 </div>
 
@@ -30,11 +30,17 @@
                         <div class="form-text mt-0">Father's Name</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::text('nama_bapa','',['class' => 'form-control form-control-lg ']) }}
+                        {{ Form::text('nama_bapa',$maklumat_penjaga ? $maklumat_penjaga->nama_bapa : '',['class' => 'form-control form-control-lg ']) }}
                     </div>
                 </div>
 
+                {{-- @if ($maklumat_penjaga && $maklumat_penjaga->status_bapa == 'masih_hidup')
+                    <div v-show="showMaklumatBapa = 1">
+                @else
+                    <div v-show="showMaklumatBapa">
+                @endif --}}
                 <div v-show="showMaklumatBapa">
+
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
@@ -42,7 +48,7 @@
                         <div class="form-text mt-0">Father's IC Number</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::number('ic_no_bapa','',['class' => 'form-control form-control-lg ']) }}
+                        {{ Form::number('ic_no_bapa',$maklumat_penjaga ? $maklumat_penjaga->ic_no_bapa : '',['class' => 'form-control form-control-lg ']) }}
                     </div>
                 </div>
 
@@ -52,7 +58,7 @@
                         <div class="form-text mt-0">Father's Mailing Address</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::textarea('alamat_bapa','',['class' => 'form-control form-control-lg ', 'rows'=>'4']) }}
+                        {{ Form::textarea('alamat_bapa',$maklumat_penjaga ? $maklumat_penjaga->alamat_bapa : '',['class' => 'form-control form-control-lg ', 'rows'=>'4']) }}
                     </div>
                 </div>
 
@@ -62,7 +68,7 @@
                         <div class="form-text mt-0">Father's Postcode</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::number('poskod_bapa','',['class' => 'form-control form-control-lg ']) }}
+                        {{ Form::number('poskod_bapa',$maklumat_penjaga ? $maklumat_penjaga->poskod_bapa : '',['class' => 'form-control form-control-lg ']) }}
                     </div>
                 </div>
 
@@ -72,7 +78,7 @@
                         <div class="form-text mt-0">Father's Phone Number</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::number('no_telefon_bapa','',['class' => 'form-control form-control-lg ']) }}
+                        {{ Form::number('no_telefon_bapa',$maklumat_penjaga ? $maklumat_penjaga->no_telefon_bapa : '',['class' => 'form-control form-control-lg ']) }}
                     </div>
                 </div>
 
@@ -82,7 +88,7 @@
                         <div class="form-text mt-0">Father's Occupation Status</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('status_pekerjaan_bapa', [1 => 'Bekerja', 2 => 'Tidak Bekerja', 3 => 'Bersara'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                        {{ Form::select('status_pekerjaan_bapa', [1 => 'Bekerja', 2 => 'Tidak Bekerja', 3 => 'Bersara'], $maklumat_penjaga ? $maklumat_penjaga->status_pekerjaan_bapa : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                     </div>
                 </div>
 
@@ -92,7 +98,7 @@
                         <div class="form-text mt-0">Father's Occupation Type</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('jenis_pekerjaan_bapa', ['kerajaan' => 'Kerajaan', 'swasta' => 'Swasta', 'bekerja_sendiri' => 'Bekerja Sendiri'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                        {{ Form::select('jenis_pekerjaan_bapa', ['kerajaan' => 'Kerajaan', 'swasta' => 'Swasta', 'bekerja_sendiri' => 'Bekerja Sendiri'], $maklumat_penjaga ? $maklumat_penjaga->jenis_pekerjaan_bapa : '',  ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                     </div>
                 </div>
                 <div class="row mb-6">
@@ -101,7 +107,7 @@
                         <div class="form-text mt-0">Father's Monthly Income</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::number('pendapatan_bapa','',['class' => 'form-control form-control-lg ']) }}
+                        {{ Form::number('pendapatan_bapa',$maklumat_penjaga ? $maklumat_penjaga->pendapatan_bapa : '',['class' => 'form-control form-control-lg ']) }}
                     </div>
                 </div>
 
@@ -123,7 +129,7 @@
                         <div class="form-text mt-0">Mother's status</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('status_ibu', ['masih_hidup' => 'Masih Hidup', 'meninggal_dunia' => 'Meninggal Dunia'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg', 'v-on:change' => 'maklumatIbu($event)']) }}
+                        {{ Form::select('status_ibu', ['masih_hidup' => 'Masih Hidup', 'meninggal_dunia' => 'Meninggal Dunia'], $maklumat_penjaga ? $maklumat_penjaga->status_ibu : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg', 'v-on:change' => 'maklumatIbu($event)']) }}
                     </div>
                 </div>
 
@@ -133,11 +139,17 @@
                         <div class="form-text mt-0">Mother's Name</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::text('nama_ibu','',['class' => 'form-control form-control-lg ']) }}
+                        {{ Form::text('nama_ibu',$maklumat_penjaga ? $maklumat_penjaga->nama_ibu : '',['class' => 'form-control form-control-lg ']) }}
                     </div>
                 </div>
 
+                {{-- @if ($maklumat_penjaga && $maklumat_penjaga->status_ibu == 'masih_hidup')
+                    <div v-show="showMaklumatIbu = 1">
+                @else
+                    <div v-show="showMaklumatIbu">
+                @endif --}}
                 <div v-show="showMaklumatIbu">
+
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
@@ -145,7 +157,7 @@
                         <div class="form-text mt-0">Mother's IC Number</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::number('ic_no_ibu','',['class' => 'form-control form-control-lg ']) }}
+                        {{ Form::number('ic_no_ibu',$maklumat_penjaga ? $maklumat_penjaga->ic_no_ibu : '',['class' => 'form-control form-control-lg ']) }}
                     </div>
                 </div>
 
@@ -155,7 +167,7 @@
                         <div class="form-text mt-0">Mother's Mailing Address</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::textarea('alamat_ibu','',['class' => 'form-control form-control-lg ', 'rows'=>'4']) }}
+                        {{ Form::textarea('alamat_ibu',$maklumat_penjaga ? $maklumat_penjaga->alamat_ibu : '',['class' => 'form-control form-control-lg ', 'rows'=>'4']) }}
                     </div>
                 </div>
 
@@ -165,7 +177,7 @@
                         <div class="form-text mt-0">Mother's Postcode</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::number('poskod_ibu','',['class' => 'form-control form-control-lg ']) }}
+                        {{ Form::number('poskod_ibu',$maklumat_penjaga ? $maklumat_penjaga->poskod_ibu : '',['class' => 'form-control form-control-lg ']) }}
                     </div>
                 </div>
 
@@ -175,7 +187,7 @@
                         <div class="form-text mt-0">Mother's Phone Number</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::number('no_telefon_ibu','',['class' => 'form-control form-control-lg ']) }}
+                        {{ Form::number('no_telefon_ibu',$maklumat_penjaga ? $maklumat_penjaga->no_telefon_ibu : '',['class' => 'form-control form-control-lg ']) }}
                     </div>
                 </div>
 
@@ -185,7 +197,7 @@
                         <div class="form-text mt-0">Mother's Occupation Status</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('status_pekerjaan_ibu', [1 => 'Bekerja', 2 => 'Tidak Bekerja', 3 => 'Bersara'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                        {{ Form::select('status_pekerjaan_ibu', [1 => 'Bekerja', 2 => 'Tidak Bekerja', 3 => 'Bersara'], $maklumat_penjaga ? $maklumat_penjaga->status_pekerjaan_ibu : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                     </div>
                 </div>
 
@@ -195,7 +207,7 @@
                         <div class="form-text mt-0">Mother's Occupation Type</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('jenis_pekerjaan_ibu', ['kerajaan' => 'Kerajaan', 'swasta' => 'Swasta', 'bekerja_sendiri' => 'Bekerja Sendiri'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                        {{ Form::select('jenis_pekerjaan_ibu', ['kerajaan' => 'Kerajaan', 'swasta' => 'Swasta', 'bekerja_sendiri' => 'Bekerja Sendiri'], $maklumat_penjaga ? $maklumat_penjaga->jenis_pekerjaan_ibu : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                     </div>
                 </div>
 
@@ -205,7 +217,7 @@
                         <div class="form-text mt-0">Mother's Monthly Income</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::number('pendapatan_ibu','',['class' => 'form-control form-control-lg ']) }}
+                        {{ Form::number('pendapatan_ibu',$maklumat_penjaga ? $maklumat_penjaga->pendapatan_ibu : '',['class' => 'form-control form-control-lg ']) }}
                     </div>
                 </div>
 
@@ -217,10 +229,16 @@
                         <div class="form-text mt-0">Applicant live with</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('pemohon_tinggal_bersama', ['ibu_bapa' => 'Bapa atau Ibu', 'penjaga' => 'Penjaga'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg', 'v-on:change' => 'maklumatPenjaga($event)']) }}
+                        {{ Form::select('pemohon_tinggal_bersama', ['ibu_bapa' => 'Bapa atau Ibu', 'penjaga' => 'Penjaga'], $maklumat_penjaga ? $maklumat_penjaga->pemohon_tinggal_bersama : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg', 'v-on:change' => 'maklumatPenjaga($event)']) }}
                     </div>
                 </div>
 
+
+                {{-- @if ($maklumat_penjaga && $maklumat_penjaga->pemohon_tinggal_bersama == 'penjaga')
+                <div v-show="showMaklumatPenjaga = 1">
+                @else
+                    <div v-show="showMaklumatPenjaga">
+                @endif --}}
 
                 <div v-show="showMaklumatPenjaga">
                     <div class="separator separator-dashed my-6"></div>
@@ -237,7 +255,7 @@
                             <div class="form-text mt-0">Guardian's Name</div>
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::text('nama_penjaga','',['class' => 'form-control form-control-lg ']) }}
+                            {{ Form::text('nama_penjaga',$maklumat_penjaga ? $maklumat_penjaga->nama_penjaga : '',['class' => 'form-control form-control-lg ']) }}
                         </div>
                     </div>
 
@@ -247,7 +265,7 @@
                             <div class="form-text mt-0">Guardian's IC Number</div>
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::number('ic_no_penjaga','',['class' => 'form-control form-control-lg ']) }}
+                            {{ Form::number('ic_no_penjaga',$maklumat_penjaga ? $maklumat_penjaga->ic_no_penjaga : '',['class' => 'form-control form-control-lg ']) }}
                         </div>
                     </div>
 
@@ -257,7 +275,7 @@
                             <div class="form-text mt-0">Guardian's Mailing Address</div>
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::textarea('alamat_penjaga','',['class' => 'form-control form-control-lg ', 'rows'=>'4']) }}
+                            {{ Form::textarea('alamat_penjaga',$maklumat_penjaga ? $maklumat_penjaga->alamat_penjaga : '',['class' => 'form-control form-control-lg ', 'rows'=>'4']) }}
                         </div>
                     </div>
 
@@ -267,7 +285,7 @@
                             <div class="form-text mt-0">Guardian's Postcode</div>
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::number('poskod_penjaga','',['class' => 'form-control form-control-lg ']) }}
+                            {{ Form::number('poskod_penjaga',$maklumat_penjaga ? $maklumat_penjaga->poskod_penjaga : '',['class' => 'form-control form-control-lg ']) }}
                         </div>
                     </div>
 
@@ -277,7 +295,7 @@
                             <div class="form-text mt-0">Guardian's Phone Number</div>
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::number('no_telefon_penjaga','',['class' => 'form-control form-control-lg ']) }}
+                            {{ Form::number('no_telefon_penjaga',$maklumat_penjaga ? $maklumat_penjaga->no_telefon_penjaga : '',['class' => 'form-control form-control-lg ']) }}
                         </div>
                     </div>
 
@@ -287,7 +305,7 @@
                             <div class="form-text mt-0">Guardian's Occupation Status</div>
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::select('status_pekerjaan_penjaga', [1 => 'Bekerja', 2 => 'Tidak Bekerja', 3 => 'Bersara'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                            {{ Form::select('status_pekerjaan_penjaga', [1 => 'Bekerja', 2 => 'Tidak Bekerja', 3 => 'Bersara'], $maklumat_penjaga ? $maklumat_penjaga->status_pekerjaan_penjaga : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                         </div>
                     </div>
 
@@ -297,7 +315,7 @@
                             <div class="form-text mt-0">Guardian's Occupation Type</div>
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::select('jenis_pekerjaan_penjaga', ['kerajaan' => 'Kerajaan', 'swasta' => 'Swasta', 'bekerja_sendiri' => 'Bekerja Sendiri'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                            {{ Form::select('jenis_pekerjaan_penjaga', ['kerajaan' => 'Kerajaan', 'swasta' => 'Swasta', 'bekerja_sendiri' => 'Bekerja Sendiri'], $maklumat_penjaga ? $maklumat_penjaga->jenis_pekerjaan_penjaga : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                         </div>
                     </div>
 
@@ -307,7 +325,7 @@
                             <div class="form-text mt-0">Guardian's Monthly Income</div>
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::number('pendapatan_penjaga','',['class' => 'form-control form-control-lg ']) }}
+                            {{ Form::number('pendapatan_penjaga',$maklumat_penjaga ? $maklumat_penjaga->pendapatan_penjaga : '',['class' => 'form-control form-control-lg ']) }}
                         </div>
                     </div>
 
@@ -317,7 +335,7 @@
                             <div class="form-text mt-0">Relationship</div>
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::select('pertalian_penjaga', [1 => 'Bapa Saudara', 2 => 'Datuk',3 => 'Ibu Saudara', 4 => 'Nenek', 5 => 'Lain-lain'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
+                            {{ Form::select('pertalian_penjaga', [1 => 'Bapa Saudara', 2 => 'Datuk',3 => 'Ibu Saudara', 4 => 'Nenek', 5 => 'Lain-lain'], $maklumat_penjaga ? $maklumat_penjaga->pertalian_penjaga : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg ']) }}
                         </div>
                     </div>
                 </div>

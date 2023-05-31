@@ -44,7 +44,7 @@
                         <div class="form-text mt-0">Year of exermination</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('tahun_peperiksaan', ['2022' => '2022', '2021' => '2021', '2020' =>'2020'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg']) }}
+                        {{ Form::select('tahun_peperiksaan', ['2022' => '2022', '2021' => '2021', '2020' =>'2020'], $maklumat_akademik ? $maklumat_akademik->tahun_pepriksaan : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg']) }}
                     </div>
                 </div>
                 <div class="row mb-6">
@@ -53,7 +53,7 @@
                         <div class="form-text mt-0">Type of exermination</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('jenis_peperiksaan', ['spm' => 'Sijil Pelajaran Malaysia (SPM)', 'setara' => 'Sijil-Sijil Lain Yang Setaraf Dengan SPM'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg', 'v-on:change' => 'jenisPeperiksaan($event)']) }}
+                        {{ Form::select('jenis_peperiksaan', ['spm' => 'Sijil Pelajaran Malaysia (SPM)', 'setara' => 'Sijil-Sijil Lain Yang Setaraf Dengan SPM'], $maklumat_akademik ? $maklumat_akademik->type : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg', 'v-on:change' => 'jenisPeperiksaan($event)']) }}
                     </div>
                 </div>
 

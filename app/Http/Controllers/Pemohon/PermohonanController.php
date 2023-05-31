@@ -33,7 +33,10 @@ class PermohonanController extends Controller
      */
     public function index(Request $request)
     {
-        $maklumat_pemohon = PermohonanXHantar::where('pemohon_id',Auth::guard('pemohon')->user()->id)->first();
+        $maklumat_pemohon = PermohonanXHantar::where('pemohon_id',Auth::guard('pemohon')->user()->id)->get()->last();
+        $maklumat_penjaga = PermohonanXHantarPenjaga::where('permohonan_x_hantar_id',$maklumat_pemohon->id)->first();
+        $maklumat_akademik = PermohonanXHantarKelulusanAkademik::where('permohonan_x_hantar_id',$maklumat_pemohon->id)->first();
+        // dd($maklumat_penjaga);
 
 
         $permohonan = TetapanPermohonanPelajar::whereDate('tutup_permohonan', '>=', Carbon::now('Asia/Kuala_Lumpur'))->where('kursus_id',$request->kursus)->get();
@@ -41,7 +44,7 @@ class PermohonanController extends Controller
         $pemohon = Auth::guard('pemohon')->user();
         $subjek_spm = SubjekSPM::all();
         $negeri =  Negeri::pluck('nama','id');
-        return view('pages.pemohon.permohonan.main', compact('subjek_spm','pemohon','negeri','kursus','permohonan','maklumat_pemohon'));
+        return view('pages.pemohon.permohonan.main', compact('subjek_spm','pemohon','negeri','kursus','permohonan','maklumat_pemohon','maklumat_penjaga','maklumat_akademik'));
     }
 
     /**
