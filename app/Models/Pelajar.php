@@ -38,6 +38,11 @@ class Pelajar extends Model
         return $this->belongsTo(Syukbah::class,'syukbah_id','id');
     }
 
+    public function negeri()
+    {
+        return $this->belongsTo(Negeri::class,'negeri_id','id');
+    }
+
 }
 
 

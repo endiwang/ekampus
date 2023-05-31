@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\DataMigration;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\MigrateKonvoPelajar;
+use App\Jobs\MigrateMaklumatPelajar;
 use App\Models\Jabatan;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -11,6 +13,7 @@ use App\Jobs\MigratePermohonanKelulusanAkademik;
 use App\Jobs\MigratePermohonanPenjaga;
 use App\Jobs\MigratePermohonanTanggunganPenjaga;
 use App\Jobs\MigrateTawaranPermohonan;
+use App\Jobs\MigratePelajarToUser;
 use App\Models\Gred;
 //New DB
 use App\Models\User;
@@ -18,6 +21,8 @@ use App\Models\Kursus;
 use App\Models\Syukbah;
 use App\Models\Kelas;
 use App\Models\Keturunan;
+use App\Models\Konvo;
+use App\Models\KonvoPelajar;
 use App\Models\Negeri;
 use App\Models\OldDatabase\ref_gred;
 use App\Models\Pelajar;
@@ -48,6 +53,8 @@ use App\Models\OldDatabase\tbl_masuk_permohonan;
 use App\Models\OldDatabase\ref_jabatan;
 use App\Models\OldDatabase\sis_semester_now;
 use App\Models\OldDatabase\ref_keturunan;
+use App\Models\OldDatabase\sis_tblkonvo;
+use App\Models\OldDatabase\sis_tblkonvo_mohon;
 use App\Models\OldDatabase\sis_tblpermohonan_pelajaran;
 use App\Models\OldDatabase\sis_tblpermohonan_penjaga;
 use App\Models\OldDatabase\sis_tblpermohonan_tanggung;
@@ -105,18 +112,17 @@ class MainController extends Controller
 
         // Duplicate ic no = 960606016399 , 980310036145
 
-        $student_masih_belajar = sis_tblpelajar::select('p_nokp')->whereNotNull('p_nokp')->distinct()->get();
+        $student = sis_tblpelajar::whereNotNull('p_nokp')->distinct()->get();
+        // $password_hash = '$2y$10$DYl/XAwUYLdFk4BDUD0lkO12yxz0ZO.YpwySx0ZV9.OBVF2o/vi2y';
 
         //passowrd = 123
-        $password_hash = '$2y$10$DYl/XAwUYLdFk4BDUD0lkO12yxz0ZO.YpwySx0ZV9.OBVF2o/vi2y';
-
-        foreach($student_masih_belajar as $datum)
+        foreach($student as $datum)
         {
-            User::create([
-                'username' => $datum->p_nokp,
-                'password' => $password_hash,
-                'is_student' => 1,
-            ]);
+            $created_user = User::where('username',$datum->p_nokp)->first();
+            if($created_user == null){
+
+                dispatch(new MigratePelajarToUser($datum->pelajar_id));
+            }
         }
         dd('done');
     }
@@ -206,112 +212,115 @@ class MainController extends Controller
 
     public function sis_tblpelajar_to_pelajar_table()
     {
-        $sis_tblpelajar = sis_tblpelajar::all();
+        $sis_tblpelajar = sis_tblpelajar::where('is_deleted',0)->get();
         // $pelajar = Pelajar::all();
         foreach($sis_tblpelajar as $datum)
         {
             if($datum->p_nokp != NULL)
             {
 
+                dispatch(new MigrateMaklumatPelajar($datum->pelajar_id));
 
-            $temp = User::where('username', $datum->p_nokp)->first();
 
-            if($datum->p_tkh_lahir = '0000-00-00')
-            {
-                $tarikh_lahir = NULL;
-            }else{
-                $tarikh_lahir = Carbon::parse($datum->p_tkh_lahir)->toDateString();
-            }
 
-            if($datum->tarikh_daftar = '0000-00-00')
-            {
-                $tarikh_daftar = NULL;
-            }else{
-                $tarikh_daftar = Carbon::parse($datum->tarikh_daftar)->toDateString();
-            }
+            // $temp = User::where('username', $datum->p_nokp)->first();
 
-            Pelajar::create([
-                'user_id' => $temp->id,
-                'pelajar_id_old' => $datum->pelajar_id,
-                'mohon_id_old' => $datum->mohon_id,
-                'kursus_id' => $datum->kursus_id,
-                'syukbah_id' => $datum->syukbah_id,
-                'kelas_id' => $datum->kelas_id,
-                'no_matrik' => $datum->no_matrik,
-                'sesi_id' => $datum->sesi_id,
-                'semester' => $datum->semester,
-                'pusat_pengajian_id' => $datum->pusat_id,
-                'nama' => $datum->p_nama,
-                'email' => $datum->p_email,
-                'no_ic' => $datum->p_nokp,
-                'alamat' => $datum->p_alamat1,
-                'poskod' => $datum->p_poskod,
-                'bandar' => $datum->p_bandar,
-                'daerah_id' => $datum->p_daerah_id,
-                'negeri_id' => $datum->p_daerah_id,
-                'no_tel' => $datum->p_notel,
-                'no_hp' => $datum->p_nohp,
-                'jantina' => $datum->p_jantina,
-                'tarikh_lahir' => $tarikh_lahir,
-                'umur_ketika_mendaftar' => $datum->p_umur,
-                'keturunan_id' => $datum->p_keturunan_id,
-                'negeri_kelahiran_id' => $datum->p_nkelahiran,
-                // 'nama_sekolah' => $datum->pk_nama_sekolah,
-                // 'tahun_peperiksaan' => $datum->pk_periksa,
-                // 'jumlah_matapelajaran' => $datum->pk_matapelajaran,
-                // 'gred_percubaan_spm_bm' => $datum->ppc_bm,
-                // 'gred_percubaan_spm_ba' => $datum->ppc_ba,
-                // 'gred_percubaan_spm_bi' => $datum->ppc_bi,
-                'gred_sebenar_bm' => $datum->pk_bm,
-                'gred_sebenar_bi' => $datum->pk_bi,
-                'gred_sebenar_pi' => $datum->pk_pi,
-                'gred_sebenar_aqs' => $datum->pk_aqs,
-                'gred_sebenar_psi' => $datum->pk_bpsi,
-                'gred_sebenar_art' => $datum->pk_art,
-                'gred_sebenar_ark' => $datum->pk_ark,
-                // 'gred_sebenar_fizik' => $datum->pk_fizik,
-                // 'gred_sebenar_kimia' => $datum->pk_kimia,
-                // 'gred_sebenar_biologi' => $datum->pk_biologi,
-                // 'gred_sebenar_math' => $datum->pk_math,
-                // 'gred_sebenar_math_tambahan' => $datum->pk_math_tambahan,
-                // 'gred_sebenar_akaun' => $datum->pk_akaun,
-                'sijil_setaraf' => $datum->pk_setaraf,
-                'tahun_sijil_setaraf' => $datum->pk_sthn,
-                'nama_sijil_setaraf' => $datum->pk_snama,
-                'tahun_stpm' => $datum->pk_stpm_thn,
-                'tahun_stam' => $datum->pk_sagama_thn,
-                // 'nama_tilawah' => $datum->pa_tilawah,
-                // 'cita_cita' => $datum->pa_citacita,
-                // 'sebab_memohon' => $datum->pa_sebab,
-                // 'kursus_dihadiri' => $datum->pa_kursus,
-                // 'kokurikulum_sekolah' => $datum->pa_koku,
-                'status' => $datum->pa_status,
-                // 'img_pelajar' => $datum->img_pelajar,
-                'is_deleted' => $datum->is_deleted,
-                'deleted_by' => $datum->deleted_by,
-                'p_gred' => $datum->p_gred,
-                // 'p_gred_lain' => $datum->p_gred_lain,
-                // 'p_gred_bm' => $datum->p_gred_bm,
-                // 'p_gred_ba' => $datum->p_gred_ba,
-                'is_register' => $datum->is_register,
-                'gred_akhir' => $datum->gred_akhir,
-                'mata_akhir' => $datum->mata_akhir,
-                'kedudukan_result' => $datum->kedudukan_result,
-                'tarikh_daftar' => $tarikh_daftar,
-                'is_berhenti' => $datum->is_berhenti,
-                'sebab_berhenti' => $datum->sebab_berhenti,
-                'kod_berhenti' => $datum->kod_berhenti,
-                'is_calc' => $datum->is_calc,
-                'is_migrate' => $datum->is_migrate,
-                'is_gantung' => $datum->is_gantung,
-                'next_sem' => $datum->next_sem,
-                'jam_kredit' => $datum->j_kredit,
-                'jumlah_jam_kredit' => $datum->jumj_kredit,
-                'is_tamat' => $datum->is_tamat,
-                'is_alumni' => $datum->is_alumni,
-                'nama_arab' => $datum->nama_arab,
-                'hafazan' => $datum->hafazan,
-            ]);
+            // if($datum->p_tkh_lahir = '0000-00-00')
+            // {
+            //     $tarikh_lahir = NULL;
+            // }else{
+            //     $tarikh_lahir = Carbon::parse($datum->p_tkh_lahir)->toDateString();
+            // }
+
+            // if($datum->tarikh_daftar = '0000-00-00')
+            // {
+            //     $tarikh_daftar = NULL;
+            // }else{
+            //     $tarikh_daftar = Carbon::parse($datum->tarikh_daftar)->toDateString();
+            // }
+
+            // Pelajar::create([
+            //     'user_id' => $temp->id,
+            //     'pelajar_id_old' => $datum->pelajar_id,
+            //     'mohon_id_old' => $datum->mohon_id,
+            //     'kursus_id' => $datum->kursus_id,
+            //     'syukbah_id' => $datum->syukbah_id,
+            //     'kelas_id' => $datum->kelas_id,
+            //     'no_matrik' => $datum->no_matrik,
+            //     'sesi_id' => $datum->sesi_id,
+            //     'semester' => $datum->semester,
+            //     'pusat_pengajian_id' => $datum->pusat_id,
+            //     'nama' => $datum->p_nama,
+            //     'email' => $datum->p_email,
+            //     'no_ic' => $datum->p_nokp,
+            //     'alamat' => $datum->p_alamat1,
+            //     'poskod' => $datum->p_poskod,
+            //     'bandar' => $datum->p_bandar,
+            //     'daerah_id' => $datum->p_daerah_id,
+            //     'negeri_id' => $datum->p_daerah_id,
+            //     'no_tel' => $datum->p_notel,
+            //     'no_hp' => $datum->p_nohp,
+            //     'jantina' => $datum->p_jantina,
+            //     'tarikh_lahir' => $tarikh_lahir,
+            //     'umur_ketika_mendaftar' => $datum->p_umur,
+            //     'keturunan_id' => $datum->p_keturunan_id,
+            //     'negeri_kelahiran_id' => $datum->p_nkelahiran,
+            //     // 'nama_sekolah' => $datum->pk_nama_sekolah,
+            //     // 'tahun_peperiksaan' => $datum->pk_periksa,
+            //     // 'jumlah_matapelajaran' => $datum->pk_matapelajaran,
+            //     // 'gred_percubaan_spm_bm' => $datum->ppc_bm,
+            //     // 'gred_percubaan_spm_ba' => $datum->ppc_ba,
+            //     // 'gred_percubaan_spm_bi' => $datum->ppc_bi,
+            //     'gred_sebenar_bm' => $datum->pk_bm,
+            //     'gred_sebenar_bi' => $datum->pk_bi,
+            //     'gred_sebenar_pi' => $datum->pk_pi,
+            //     'gred_sebenar_aqs' => $datum->pk_aqs,
+            //     'gred_sebenar_psi' => $datum->pk_bpsi,
+            //     'gred_sebenar_art' => $datum->pk_art,
+            //     'gred_sebenar_ark' => $datum->pk_ark,
+            //     // 'gred_sebenar_fizik' => $datum->pk_fizik,
+            //     // 'gred_sebenar_kimia' => $datum->pk_kimia,
+            //     // 'gred_sebenar_biologi' => $datum->pk_biologi,
+            //     // 'gred_sebenar_math' => $datum->pk_math,
+            //     // 'gred_sebenar_math_tambahan' => $datum->pk_math_tambahan,
+            //     // 'gred_sebenar_akaun' => $datum->pk_akaun,
+            //     'sijil_setaraf' => $datum->pk_setaraf,
+            //     'tahun_sijil_setaraf' => $datum->pk_sthn,
+            //     'nama_sijil_setaraf' => $datum->pk_snama,
+            //     'tahun_stpm' => $datum->pk_stpm_thn,
+            //     'tahun_stam' => $datum->pk_sagama_thn,
+            //     // 'nama_tilawah' => $datum->pa_tilawah,
+            //     // 'cita_cita' => $datum->pa_citacita,
+            //     // 'sebab_memohon' => $datum->pa_sebab,
+            //     // 'kursus_dihadiri' => $datum->pa_kursus,
+            //     // 'kokurikulum_sekolah' => $datum->pa_koku,
+            //     'status' => $datum->pa_status,
+            //     // 'img_pelajar' => $datum->img_pelajar,
+            //     'is_deleted' => $datum->is_deleted,
+            //     'deleted_by' => $datum->deleted_by,
+            //     'p_gred' => $datum->p_gred,
+            //     // 'p_gred_lain' => $datum->p_gred_lain,
+            //     // 'p_gred_bm' => $datum->p_gred_bm,
+            //     // 'p_gred_ba' => $datum->p_gred_ba,
+            //     'is_register' => $datum->is_register,
+            //     'gred_akhir' => $datum->gred_akhir,
+            //     'mata_akhir' => $datum->mata_akhir,
+            //     'kedudukan_result' => $datum->kedudukan_result,
+            //     'tarikh_daftar' => $tarikh_daftar,
+            //     'is_berhenti' => $datum->is_berhenti,
+            //     'sebab_berhenti' => $datum->sebab_berhenti,
+            //     'kod_berhenti' => $datum->kod_berhenti,
+            //     'is_calc' => $datum->is_calc,
+            //     'is_migrate' => $datum->is_migrate,
+            //     'is_gantung' => $datum->is_gantung,
+            //     'next_sem' => $datum->next_sem,
+            //     'jam_kredit' => $datum->j_kredit,
+            //     'jumlah_jam_kredit' => $datum->jumj_kredit,
+            //     'is_tamat' => $datum->is_tamat,
+            //     'is_alumni' => $datum->is_alumni,
+            //     'nama_arab' => $datum->nama_arab,
+            //     'hafazan' => $datum->hafazan,
+            // ]);
             }
         }
 
@@ -373,7 +382,7 @@ class MainController extends Controller
         foreach($sis_tblstaff as $datum)
         {
 
-            if($datum->fld_bdate = '0000-00-00')
+            if($datum->fld_bdate == '0000-00-00')
             {
                 $tarikh_lahir = NULL;
             }else{
@@ -699,91 +708,91 @@ class MainController extends Controller
 
         foreach($tblsemester_now as $data)
         {
-            if($data->dt_mohon_mula = '0000-00-00')
+            if($data->dt_mohon_mula == '0000-00-00')
             {
                 $dt_mohon_mula = NULL;
             }else{
                 $dt_mohon_mula = Carbon::parse($data->dt_mohon_mula)->toDateString();
             }
 
-            if($data->dt_mohon_akhir = '0000-00-00')
+            if($data->dt_mohon_akhir == '0000-00-00')
             {
                 $dt_mohon_akhir = NULL;
             }else{
                 $dt_mohon_akhir = Carbon::parse($data->dt_mohon_akhir)->toDateString();
             }
 
-            if($data->dt_daftar = '0000-00-00')
+            if($data->dt_daftar == '0000-00-00')
             {
                 $dt_daftar = NULL;
             }else{
                 $dt_daftar = Carbon::parse($data->dt_daftar)->toDateString();
             }
 
-            if($data->dt_kursus_daftar = '0000-00-00')
+            if($data->dt_kursus_daftar == '0000-00-00')
             {
                 $dt_kursus_daftar = NULL;
             }else{
                 $dt_kursus_daftar = Carbon::parse($data->dt_kursus_daftar)->toDateString();
             }
 
-            if($data->dt_kursus_daftar = '0000-00-00')
+            if($data->dt_kursus_daftar == '0000-00-00')
             {
                 $dt_kursus_daftar = NULL;
             }else{
                 $dt_kursus_daftar = Carbon::parse($data->dt_kursus_daftar)->toDateString();
             }
 
-            if($data->dt_kursus_daftara = '0000-00-00')
+            if($data->dt_kursus_daftara == '0000-00-00')
             {
                 $dt_kursus_daftara = NULL;
             }else{
                 $dt_kursus_daftara = Carbon::parse($data->dt_kursus_daftara)->toDateString();
             }
 
-            if($data->dt_kursus_gmula = '0000-00-00')
+            if($data->dt_kursus_gmula == '0000-00-00')
             {
                 $dt_kursus_gmula = NULL;
             }else{
                 $dt_kursus_gmula = Carbon::parse($data->dt_kursus_gmula)->toDateString();
             }
 
-            if($data->dt_kursus_gakhir = '0000-00-00')
+            if($data->dt_kursus_gakhir == '0000-00-00')
             {
                 $dt_kursus_gakhir = NULL;
             }else{
                 $dt_kursus_gakhir = Carbon::parse($data->dt_kursus_gakhir)->toDateString();
             }
 
-            if($data->dt_kuliah_mula = '0000-00-00')
+            if($data->dt_kuliah_mula == '0000-00-00')
             {
                 $dt_kuliah_mula = NULL;
             }else{
                 $dt_kuliah_mula = Carbon::parse($data->dt_kuliah_mula)->toDateString();
             }
 
-            if($data->dt_kuliah_akhir = '0000-00-00')
+            if($data->dt_kuliah_akhir == '0000-00-00')
             {
                 $dt_kuliah_akhir = NULL;
             }else{
                 $dt_kuliah_akhir = Carbon::parse($data->dt_kuliah_akhir)->toDateString();
             }
 
-            if($data->dt_exam_mula = '0000-00-00')
+            if($data->dt_exam_mula == '0000-00-00')
             {
                 $dt_exam_mula = NULL;
             }else{
                 $dt_exam_mula = Carbon::parse($data->dt_exam_mula)->toDateString();
             }
 
-            if($data->dt_exam_akhir = '0000-00-00')
+            if($data->dt_exam_akhir == '0000-00-00')
             {
                 $dt_exam_akhir = NULL;
             }else{
                 $dt_exam_akhir = Carbon::parse($data->dt_exam_akhir)->toDateString();
             }
 
-            if($data->dt_result = '0000-00-00')
+            if($data->dt_result == '0000-00-00')
             {
                 $dt_result = NULL;
             }else{
@@ -846,21 +855,21 @@ class MainController extends Controller
 
         foreach($data as $datum)
         {
-            if($datum->close_dt = '0000-00-00')
+            if($datum->close_dt == '0000-00-00')
             {
                 $close_dt = NULL;
             }else{
                 $close_dt = Carbon::parse($datum->close_dt)->toDateString();
             }
 
-            if($datum->tkh_cetakan	 = '0000-00-00')
+            if($datum->tkh_cetakan	 == '0000-00-00')
             {
                 $tkh_cetakan	 = NULL;
             }else{
                 $tkh_cetakan	 = Carbon::parse($datum->tkh_cetakan)->toDateString();
             }
 
-            if($datum->tarikh = '0000-00-00')
+            if($datum->tarikh == '0000-00-00')
             {
                 $tarikh = NULL;
             }else{
@@ -1009,6 +1018,56 @@ class MainController extends Controller
         }
 
         dd('done');
+    }
+
+    public function sis_tblkonvo_to_konvo()
+    {
+        $data = sis_tblkonvo::all();
+
+        foreach($data as $datum)
+        {
+            Konvo::create([
+                'konvo_id_old' => $datum->konvo_id,
+                'type' => $datum->type,
+                'kursus_id' => $datum->kursus_id,
+                'tajuk_konvo' => $datum->tajuk_konvo,
+                'tarikh' => Carbon::parse($datum->tarikh)->toDateString(),
+                'masa' => $datum->masa,
+                'hari' => $datum->hari,
+                'waktu' => $datum->waktu,
+                'nama_tempat' => $datum->nama_tempat,
+                'alamat_konvo' => $datum->alamat_konvo,
+                'tarikh_cetakan' => Carbon::parse($datum->tkh_cetakan)->toDateString(),
+                'status' => $datum->status,
+                'create_by'             => $datum->create_by,
+                'update_by'             => $datum->update_by,
+                'created_at'            => $datum->create_dt,
+                'updated_at'            => $datum->update_dt,
+                'is_close'              => $datum->is_close,
+                'close_date'            => $datum->close_date,
+                'updated_at'            => $datum->update_dt,
+                'is_deleted'            => $datum->is_deleted,
+            ]);
+        }
+
+        dd('done');
+
+    }
+
+
+    public function sis_tblkonvo_mohon_to_konvo_pelajar()
+    {
+        $data = sis_tblkonvo_mohon::all();
+        foreach($data as $datum)
+        {
+            dispatch(new MigrateKonvoPelajar($datum->konvo_detid));
+
+
+        }
+
+        dd('done');
+
+
     }
 
 }

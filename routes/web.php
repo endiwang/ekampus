@@ -81,6 +81,8 @@ Route::prefix('migrate')->group(function () {
     Route::get('/ref_keturunan_to_keturunan', [MigrateMainController::class,'ref_keturunan_to_keturunan']);
     Route::get('/sis_tbltawaran_to_tawaran', [MigrateMainController::class,'sis_tbltawaran_to_tawaran']);
     Route::get('/sis_tbltawaran_mohon_to_tawaran_permohonan', [MigrateMainController::class,'sis_tbltawaran_mohon_to_tawaran_permohonan']);
+    Route::get('/sis_tblkonvo_to_konvo', [MigrateMainController::class,'sis_tblkonvo_to_konvo']);
+    Route::get('/sis_tblkonvo_mohon_to_konvo_pelajar', [MigrateMainController::class,'sis_tblkonvo_mohon_to_konvo_pelajar']);
 });
 
 Route::get('/duplicate_data', [MigrateMainController::class,'find_duplicate']);

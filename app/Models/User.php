@@ -26,6 +26,7 @@ class User extends Authenticatable
         'is_staff',
         'is_alumni',
         'is_student',
+        'is_berhenti',
         'is_suspended',
     ];
 
