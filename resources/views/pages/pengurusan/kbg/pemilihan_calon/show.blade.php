@@ -140,11 +140,29 @@
                                         <button type="button" class="btn btn-primary btn-sm me-3">
                                             <i class="fa fa-print" style="vertical-align: initial"></i>Cetak Senarai Nama
                                         </button>
+                                        @if($tawaran->tawaran_type == 'R')
+                                        <a href="{{ route('pengurusan.kbg.pengurusan.tawaran.pilih_pelajar',$tawaran->id) }}" class="btn btn-dark btn-sm me-3">
+                                            <i class="fa fa-user-plus" style="vertical-align: initial"></i>Pilih Pelajar Rayuan
+                                        </a>
+                                        @else
+                                        <a href="{{ route('pengurusan.kbg.pengurusan.tawaran.pilih_pelajar',$tawaran->id) }}" class="btn btn-dark btn-sm me-3">
+                                            <i class="fa fa-user-plus" style="vertical-align: initial"></i>Pilih Pelajar
+                                        </a>
+                                        @endif
                                         <a href="{{ route('pengurusan.kbg.pengurusan.tawaran.index') }}" class="btn btn-sm btn-light">Kembali</a>
                                     </div>
                                 </div>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+            <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                <div class="card">
+                    <div class="card-body py-5">
+                        {{ $dataTable->table(['class'=>'table table-striped table-row-bordered gy-5 gs-7 border rounded']) }}
                     </div>
                 </div>
             </div>
@@ -247,5 +265,7 @@ $("#tarikh_pendaftaran").daterangepicker({
         $("#tarikh_pendaftaran").val(datePicked);
 });
 </script>
+{!! $dataTable->scripts() !!}
+
 
 @endpush

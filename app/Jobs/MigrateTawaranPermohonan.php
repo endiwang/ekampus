@@ -38,11 +38,11 @@ class MigrateTawaranPermohonan implements ShouldQueue
     {
         $datum = sis_tbltawaran_mohon::where('id',$this->tawaran_tid)->first();
         $tawaran = Tawaran::where('tawaran_id_old',$datum->tawaran_id)->first();
-        $permohonan= Permohonan::where('no_rujukan',$datum->tawaran_id)->first();
+        $permohonan= Permohonan::where('no_rujukan',$datum->mohon_id)->first();
         TawaranPermohonan::create([
             'tawaran_id'        => $tawaran->id,
             'permohonan_id'     => $permohonan == NULL ? NULL : $permohonan->id,
-            'surat_tawaran'     => $datum->urat_tawaran,
+            'surat_tawaran'     => $datum->surat_tawaran,
             'surat_biasiswa'    => $datum->surat_biasiswa,
             'surat_terimaan'    => $datum->surat_terimaan,
             'tarikh_terima'     => $datum->tkh_terima  == '0000-00-00' ? NULL : $datum->tkh_terima,
@@ -50,8 +50,8 @@ class MigrateTawaranPermohonan implements ShouldQueue
             'is_terima'         => $datum->is_terima,
             'create_by'         => $datum->create_by,
             'update_by'         => $datum->update_by,
-            'created_at'        => $datum->created_at,
-            'updated_at'        => $datum->created_at,
+            'created_at'        => $datum->create_dt,
+            'updated_at'        => $datum->update_dt,
         ]);
     }
 }

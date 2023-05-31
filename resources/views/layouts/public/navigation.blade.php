@@ -3,14 +3,14 @@
         <!--begin::Menu-->
         <div class="menu menu-column flex-nowrap menu-rounded menu-lg-row menu-title-gray-500 menu-state-title-primary nav nav-flush fs-5 fw-semibold" id="kt_landing_menu">
             <!--begin::Menu item-->
-            <div class="menu-item">
+            {{-- <div class="menu-item">
                 <!--begin::Menu link-->
                 <a class="menu-link nav-link active py-3 px-4 px-xxl-6" href="#kt_body" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Utama</a>
                 <!--end::Menu link-->
-            </div>
+            </div> --}}
             <!--end::Menu item-->
             <!--begin::Menu item-->
-            <div class="menu-item">
+            {{-- <div class="menu-item">
                 <!--begin::Menu link-->
                 <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#how-it-works" data-kt-menu-trigger="hover" data-kt-menu-placement="bottom-start">Permohonan
                     <span class="svg-icon svg-icon-3 rotate-180 ms-3 me-0">
@@ -62,10 +62,10 @@
                     <!--end::Menu item-->
                 </div>
                 <!--end::Menu-->
-            </div>
+            </div> --}}
             <!--end::Menu item-->
             <!--begin::Menu item-->
-            <div class="menu-item">
+            {{-- <div class="menu-item">
                 <!--begin::Menu link-->
                 <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#achievements" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Aduan</a>
                 <!--end::Menu link-->
@@ -90,7 +90,7 @@
                 <!--begin::Menu link-->
                 <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#pricing" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Pricing</a>
                 <!--end::Menu link-->
-            </div>
+            </div> --}}
             <!--end::Menu item-->
         </div>
         <!--end::Menu-->

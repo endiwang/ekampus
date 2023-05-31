@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pemohon\MainPemohonController;
 use App\Http\Controllers\Pemohon\PermohonanController;
 use App\Http\Controllers\Pemohon\SemakanController;
+use App\Http\Controllers\Pemohon\TawaranController;
 
 Route::group(['middleware' => ['auth_pemohon']], function() {
     Route::get('/utama', [MainPemohonController::class, 'index'])->name('utama.index');
@@ -16,6 +17,8 @@ Route::group(['middleware' => ['auth_pemohon']], function() {
     Route::get('/permohonan/berjaya_dihantar', [PermohonanController::class, 'berjaya_dihantar'])->name('permohonan.berjaya_dihantar');
 
     Route::get('/semakan', [SemakanController::class, 'index'])->name('semakan.index');
+    Route::get('/tawaran/{id}', [TawaranController::class, 'index'])->name('tawaran.index');
+    Route::post('/tawaran/keputusan', [TawaranController::class, 'store'])->name('tawaran.keputusan.store');
 
 });
 

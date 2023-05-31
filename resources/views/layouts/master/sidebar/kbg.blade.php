@@ -40,7 +40,7 @@
                 </a>
                 <!--end:Menu link-->
             </div>
-            <div data-kt-menu-trigger="click" class="menu-item {{ Request::routeIs('pengurusan.kbg.pengurusan.*') ? 'here show' : '' }} menu-accordion">
+            <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                 <span class="menu-link">
                     <span class="menu-icon">
                         <span class="svg-icon svg-icon-2">
@@ -57,11 +57,71 @@
                 </span>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.pendaftaran_pelajar.*') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.pendaftaran_pelajar.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pendaftaran Pelajar</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.pendaftaran_no_matrik.*') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.pendaftaran_no_matrik.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pendaftaran No Matik</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.pelajar.*') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.pelajar.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
-                            <span class="menu-title">Pelajar</span>
+                            <span class="menu-title">Maklumat Pelajar</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.proses_berhenti.*') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.proses_berhenti.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Proses Berhenti Belajar</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.pelajar_tamat.*') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.pelajar_tamat.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pelajar Tamat</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.cetak_sijil.*') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.cetak_sijil.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Cetakkan Sijil-Sijil</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.konvokesyen.*') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.konvokesyen.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Konvokesyen</span>
                         </a>
                     </div>
                 </div>

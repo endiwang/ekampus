@@ -55,7 +55,7 @@
                                                     @elseif($data->is_selected == 1 && $data->is_interview == 0 && $data->is_tawaran == 0)
                                                         <span class="badge py-3 px-4 fs-7 badge-light-info">Sedang Diproses</span>
                                                     @elseif($data->is_selected == 1 && $data->is_interview == 1 && $data->is_tawaran == 0)
-                                                        <span class="badge py-3 px-4 fs-7 badge-light-danger">Dipanggil Temuduga</span>
+                                                        <span class="badge py-3 px-4 fs-7 badge-light-info">Dipanggil Temuduga</span>
                                                     @elseif($data->is_selected == 1 && $data->is_interview == 1 && $data->is_tawaran == 1)
                                                         <span class="badge py-3 px-4 fs-7 badge-light-success">Ditawarkan</span>
                                                     @endif
@@ -131,7 +131,11 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @endif
+                                                        @elseif($data->is_selected == 1 && $data->is_interview == 1 && $data->is_tawaran == 1)
+                                                            <a href="{{ route('pemohon.tawaran.index',$data->id) }}" class="btn btn-success btn-sm hover-elevate-up mb-1">
+                                                                <i class="fa fa-eye"></i> Maklumat Lanjut
+                                                            </a>
+                                                        @endif
                                                 </td>
                                             </tr>
                                             @endforeach

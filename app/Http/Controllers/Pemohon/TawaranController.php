@@ -1,24 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Main_Dashboard;
+namespace App\Http\Controllers\Pemohon;
 
 use App\Http\Controllers\Controller;
-use App\Models\Aktiviti;
 use Illuminate\Http\Request;
-use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\Auth;
-class UtamaController extends Controller
+use App\Models\Permohonan;
+use App\Models\TawaranPermohonan;
+
+class TawaranController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $user = Auth::user();
-        $hebahan_aktiviti = Aktiviti::where('status_kelulusan',2)->get();
-        return view('pages.main_dashboard.utama', compact('hebahan_aktiviti','user'));
+        $permohonan = Permohonan::find($id);
+        return view('pages.pemohon.tawaran.main', compact('permohonan'));
     }
 
     /**
@@ -39,7 +38,11 @@ class UtamaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $tawaran_pemohon = TawaranPermohonan::where('permohonan_id',$request->id)->first();
+        $tawaran_pemohon->is_terima = $request->is_terima;
+        $tawaran_pemohon->save();
+
+        return redirect()->route('pemohon.utama.index');
     }
 
     /**

@@ -56,7 +56,8 @@
                                             <!--begin::Name-->
                                             <div class="d-flex align-items-center mb-2">
                                                 <a href="#"
-                                                    class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">{{ Auth::user()->name }}</a>
+                                                    class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">@if ($user->staff){{ $user->staff->nama }}@endif
+                                                </a>
                                                 <a href="#">
                                                 </a>
                                             </div>
@@ -106,7 +107,8 @@
                                                                 fill="currentColor" />
                                                         </svg>
                                                     </span>
-                                                    <!--end::Svg Icon-->SF, Bay Area
+                                                    @if ($user->staff != NULL && $user->staff->pusatPengajian != NULL){{ $user->staff->pusatPengajian->nama }}@endif
+
                                                 </a>
                                                 <a href="#"
                                                     class="d-flex align-items-center text-gray-400 text-hover-primary mb-2">
@@ -122,7 +124,7 @@
                                                                 fill="currentColor" />
                                                         </svg>
                                                     </span>
-                                                    <!--end::Svg Icon-->max@kt.com
+                                                    @if ($user->staff){{ $user->staff->email }}@endif
                                                 </a>
                                             </div>
                                             <!--end::Info-->
@@ -178,7 +180,7 @@
                         <div class="card-header mt-6">
                             <!--begin::Card title-->
                             <div class="card-title flex-column">
-                                <h3 class="fw-bold mb-1">Pengumuman</h3>
+                                <h3 class="fw-bold mb-1">Kalendar Akademik</h3>
                             </div>
                             <!--end::Card title-->
                         </div>
@@ -186,30 +188,8 @@
                         <!--begin::Card body-->
                         <div class="card-body d-flex flex-column mb-9 p-9 pt-3">
                             <!--begin::Item-->
-                            <div class="d-flex align-items-center position-relative mb-7">
-                                <!--begin::Label-->
-                                <div class="position-absolute top-0 start-0 rounded h-100 bg-secondary w-4px"></div>
-                                <!--end::Label-->
-                                <!--begin::Checkbox-->
-                                <div class="form-check form-check-custom form-check-solid ms-6 me-4">
-                                    <input class="form-check-input" type="checkbox" value="" />
-                                </div>
-                                <!--end::Checkbox-->
-                                <!--begin::Details-->
-                                <div class="fw-semibold">
-                                    <a href="#" class="fs-6 fw-bold text-gray-900 text-hover-primary">Create
-                                        FureStibe branding logo</a>
-                                    <!--begin::Info-->
-                                    <div class="text-gray-400">Due in 1 day
-                                        <a href="#">Karina Clark</a>
-                                    </div>
-                                    <!--end::Info-->
-                                </div>
-                                <!--end::Details-->
-                                <!--begin::Menu-->
-                                <button type="button" class="btn btn-primary btn-sm ms-auto hover-scale" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Lanjut</button>
-                                <!--end::Menu-->
-                            </div>
+                            <div id="kt_docs_fullcalendar_basic"></div>
+
                             <!--end::Item-->
                         </div>
                         <!--end::Card body-->
@@ -231,30 +211,32 @@
                         <!--begin::Card body-->
                         <div class="card-body d-flex flex-column mb-9 p-9 pt-3">
                             <!--begin::Item-->
+                            @foreach ($hebahan_aktiviti as $aktiviti)
                             <div class="d-flex align-items-center position-relative mb-7">
                                 <!--begin::Label-->
-                                <div class="position-absolute top-0 start-0 rounded h-100 bg-secondary w-4px"></div>
+                                <div class="position-absolute top-0 start-0 rounded h-100 bg-primary w-4px"></div>
                                 <!--end::Label-->
                                 <!--begin::Checkbox-->
                                 <div class="form-check form-check-custom form-check-solid ms-6 me-4">
-                                    <input class="form-check-input" type="checkbox" value="" />
+                                    {{-- <input class="form-check-input" type="checkbox" value="" /> --}}
+
                                 </div>
                                 <!--end::Checkbox-->
                                 <!--begin::Details-->
                                 <div class="fw-semibold">
-                                    <a href="#" class="fs-6 fw-bold text-gray-900 text-hover-primary">Create
-                                        FureStibe branding logo</a>
+                                    <span class="fs-6 fw-bold text-primary">{{ $aktiviti->nama_program }}</span>
                                     <!--begin::Info-->
-                                    <div class="text-gray-400">Due in 1 day
-                                        <a href="#">Karina Clark</a>
+                                    <div class="text-gray-500">{{ \Carbon\Carbon::parse($aktiviti->tarikh_program)->format('d/m/Y') }}
                                     </div>
                                     <!--end::Info-->
                                 </div>
                                 <!--end::Details-->
                                 <!--begin::Menu-->
-                                <button type="button" class="btn btn-primary btn-sm ms-auto hover-scale" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Lanjut</button>
+                                {{-- <button type="button" class="btn btn-primary btn-sm ms-auto hover-scale" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Lanjut</button> --}}
                                 <!--end::Menu-->
                             </div>
+                            @endforeach
+
                             <!--end::Item-->
                         </div>
                         <!--end::Card body-->
@@ -326,5 +308,47 @@
                 gregLang: 'en',
             });
         }
+
+
+    </script>
+    <script>
+        const element = document.getElementById("kt_docs_fullcalendar_basic");
+
+        var todayDate = moment().startOf("day");
+        var YM = todayDate.format("YYYY-MM");
+        var YESTERDAY = todayDate.clone().subtract(1, "day").format("YYYY-MM-DD");
+        var TODAY = todayDate.format("YYYY-MM-DD");
+        var TOMORROW = todayDate.clone().add(1, "day").format("YYYY-MM-DD");
+
+        var calendarEl = document.getElementById("kt_docs_fullcalendar_basic");
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left: "prev,next today",
+                center: "title",
+                right: "dayGridMonth"
+            },
+
+            // height: 500,
+            // withd: 500,
+            // contentHeight: 480,
+            aspectRatio: 1,  // see: https://fullcalendar.io/docs/aspectRatio
+
+            nowIndicator: true,
+            now: TODAY + "T09:25:00", // just for demo
+
+            views: {
+                dayGridMonth: { buttonText: "month" },
+            },
+
+            initialView: "dayGridMonth",
+            initialDate: TODAY,
+
+            editable: true,
+            dayMaxEvents: true, // allow "more" link when too many events
+            navLinks: true,
+            events: [],
+        });
+
+        calendar.render();
     </script>
 @endsection

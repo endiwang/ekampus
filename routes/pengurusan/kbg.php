@@ -1,13 +1,19 @@
 <?php
 
+use App\Http\Controllers\Pengurusan\KBG\CetakSijilController;
 use App\Http\Controllers\Pengurusan\KBG\KeputusanTemudugaController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\Pengurusan\KBG\MainKBGController;
 use App\Http\Controllers\Pengurusan\KBG\PelajarController;
+use App\Http\Controllers\Pengurusan\KBG\PelajarTamatController;
+use App\Http\Controllers\Pengurusan\KBG\PendaftaranNoMatrikController;
 use App\Http\Controllers\Pengurusan\KBG\TawaranController;
 use App\Http\Controllers\Pengurusan\KBG\ProsesTemudugaController;
 use App\Http\Controllers\Pengurusan\KBG\SenaraiPermohonanController;
 use App\Http\Controllers\Pengurusan\KBG\SenaraiTapisanPermohonanController;
+use App\Http\Controllers\Pengurusan\KBG\PendaftaranPelajarController;
+use App\Http\Controllers\Pengurusan\KBG\ProsesBerhentiController;
+use App\Http\Controllers\Pengurusan\KBG\SenaraiKonvokesyenController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -32,6 +38,32 @@ use Illuminate\Support\Facades\Route;
     Route::get('/keputusan_temuduga/{id}/kemas_kini_markah', [KeputusanTemudugaController::class,'kemas_kini_markah'])->name('pengurusan.keputusan_temuduga.kemas_kini_markah');
 
     Route::resource('/tawaran', TawaranController::class)->only(['index','create','store','show','update'])->name('index','pengurusan.tawaran.index','create','pengurusan.tawaran.create','store','pengurusan.tawaran.store','show','pengurusan.tawaran.show','update','pengurusan.tawaran.update');
+    Route::get('tawaran/{id}/pilih_pelajar', [TawaranController::class, 'pilih_pelajar'])->name('pengurusan.tawaran.pilih_pelajar');
+    Route::get('tawaran/pilih_pelajar/{id}', [TawaranController::class, 'pilih_pelajar_api'])->name('pengurusan.tawaran.pilih_pelajar_api');
+    Route::post('tawaran/store_pelajar', [TawaranController::class, 'store_pelajar'])->name('pengurusan.tawaran.store_pelajar');
+
+
+
+    Route::resource('/pendaftaran_pelajar', PendaftaranPelajarController::class)->only(['index','store'])->name('index','pengurusan.pendaftaran_pelajar.index','store','pengurusan.pendaftaran_pelajar.store');
+    Route::post('/pendaftaran_pelajar/maklumat_pelajar', [PendaftaranPelajarController::class, 'getMaklumatPelajar'])->name('pengurusan.pendaftaran_pelajar.getMaklumatPelajar');
+
+    Route::resource('/pendaftaran_no_matrik', PendaftaranNoMatrikController::class)->only(['index'])->name('index','pengurusan.pendaftaran_no_matrik.index');
+    Route::post('/pendaftaran_no_matrik/maklumat_pelajar', [PendaftaranNoMatrikController::class, 'getMaklumatPelajar'])->name('pengurusan.pendaftaran_no_matrik.getMaklumatPelajar');
+
+    Route::resource('/proses_berhenti', ProsesBerhentiController::class)->only(['index'])->name('index','pengurusan.proses_berhenti.index');
+    Route::post('/proses_berhenti/maklumat_pelajar', [ProsesBerhentiController::class, 'getMaklumatPelajar'])->name('pengurusan.proses_berhenti.getMaklumatPelajar');
+
+    Route::resource('/pelajar_tamat', PelajarTamatController::class)->only(['index'])->name('index','pengurusan.pelajar_tamat.index');
+
+    Route::resource('/cetak_sijil', CetakSijilController::class)->only(['index'])->name('index','pengurusan.cetak_sijil.index');
+    Route::resource('/konvokesyen', SenaraiKonvokesyenController::class)->only(['index','create','store','show','update'])->name('index','pengurusan.konvokesyen.index','create','pengurusan.konvokesyen.create','store','pengurusan.konvokesyen.store','show','pengurusan.konvokesyen.show','update','pengurusan.konvokesyen.update');
+    Route::get('konvokesyen/{id}/pilih_pelajar', [SenaraiKonvokesyenController::class, 'pilih_pelajar'])->name('pengurusan.konvokesyen.pilih_pelajar');
+    Route::get('konvokesyen/pilih_pelajar/{id}', [SenaraiKonvokesyenController::class, 'pilih_pelajar_api'])->name('pengurusan.konvokesyen.pilih_pelajar_api');
+    Route::post('konvokesyen/store_pelajar', [SenaraiKonvokesyenController::class, 'store_pelajar'])->name('pengurusan.konvokesyen.store_pelajar');
+
+
+
+
 
 
 
