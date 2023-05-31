@@ -128,6 +128,14 @@
                             <span class="menu-title">Pusat Pengajian</span>
                         </a>
                     </div> --}}
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.penamatan_pengajian.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.penamatan_pengajian.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Arahan Berhenti Belajar</span>
+                        </a>
+                    </div>
 
                     <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.mpk_iso.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.mpk_iso.index') }}">
