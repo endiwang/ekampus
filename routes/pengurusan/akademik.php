@@ -13,6 +13,7 @@ use App\Http\Controllers\Pengurusan\Akademik\Laporan\LaporanMesyuaratController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\AktivitiPdpController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\HebahanAktivitiController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\MpkIsoController;
+use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenamatanPengajianController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenilaianPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahController;
@@ -103,7 +104,7 @@ Route::group(['prefix'=>'pengurusan','as'=>'pengurusan.'], function(){
     Route::get('penilaian_pensyarah/skala_penilaian', [PenilaianPensyarahController::class, 'createRating'])->name('penilaian_pensyarah.rating');
     Route::resource('penilaian_pensyarah', PenilaianPensyarahController::class);
 
-    
+    Route::resource('penamatan_pengajian', PenamatanPengajianController::class);
 });
 
 Route::group(['prefix'=>'jadual','as'=>'jadual.'], function(){
