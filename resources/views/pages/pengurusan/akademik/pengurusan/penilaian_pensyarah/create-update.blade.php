@@ -14,7 +14,6 @@
                     <div class="card-body py-5">
                         <form class="form" action="{{ $action }}" method="post" enctype="multipart/form-data">
                             @csrf
-                            @csrf
                             @if($model->id) @method('PUT') @endif
                             
                             <div class="row fv-row mb-2">

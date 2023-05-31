@@ -14,6 +14,7 @@ use App\Jobs\MigratePermohonanPenjaga;
 use App\Jobs\MigratePermohonanTanggunganPenjaga;
 use App\Jobs\MigrateTawaranPermohonan;
 use App\Jobs\MigratePelajarToUser;
+use App\Models\Bilik;
 use App\Models\Gred;
 //New DB
 use App\Models\User;
@@ -55,14 +56,17 @@ use App\Models\OldDatabase\sis_semester_now;
 use App\Models\OldDatabase\ref_keturunan;
 use App\Models\OldDatabase\sis_tblkonvo;
 use App\Models\OldDatabase\sis_tblkonvo_mohon;
+use App\Models\OldDatabase\sis_jadbilik;
 use App\Models\OldDatabase\sis_tblpermohonan_pelajaran;
 use App\Models\OldDatabase\sis_tblpermohonan_penjaga;
 use App\Models\OldDatabase\sis_tblpermohonan_tanggung;
 use App\Models\OldDatabase\sis_tbltemuduga;
 use App\Models\Temuduga;
 use App\Models\OldDatabase\sis_tblpelajar_syukbah;
+use App\Models\OldDatabase\sis_tblpelajar_tangguh;
 use App\Models\OldDatabase\sis_tbltawaran;
 use App\Models\OldDatabase\sis_tbltawaran_mohon;
+use App\Models\PenangguhanPengajian;
 use App\Models\PermohonanPertukaranSyukbah;
 use App\Models\SemesterTerkini;
 use App\Models\Tawaran;
@@ -961,6 +965,27 @@ class MainController extends Controller
         dd('done');
     }
 
+    public function sis_jadbilik_to_bilik()
+    {
+        $data = sis_jadbilik::all();
+
+        foreach($data as $datum)
+        {
+            Bilik::create([
+                'old_bilik_id'  => $datum->bilik_id,
+                'tingkat_id'    => $datum->tingkat_id,
+                'blok_id'       => $datum->blok_id,
+                'nama_bilik'    => $datum->nama_bilik,
+                'status_bilik'  => $datum->status_bilik,
+                'keadaan_bilik' => $datum->keadaan_bilik,
+                'jenis_bilik'   => $datum->jenis_bilik,
+                'max_student'   => $datum->max_student,
+                'is_deleted'    => $datum->is_deleted,
+            ]);
+        }
+
+        dd('done');
+    }
     public function sis_tbltawaran_to_tawaran()
     {
 
@@ -999,7 +1024,6 @@ class MainController extends Controller
         }
 
         dd('done');
-
     }
 
     public function sis_tbltawaran_mohon_to_tawaran_permohonan()
@@ -1047,6 +1071,29 @@ class MainController extends Controller
                 'close_date'            => $datum->close_date,
                 'updated_at'            => $datum->update_dt,
                 'is_deleted'            => $datum->is_deleted,
+            ]);
+        }
+
+        dd('done');
+    }
+    
+    public function sis_tbl_pelajar_tangguh_to_penangguhan_pengajian()
+    {
+        $data = sis_tblpelajar_tangguh::all();
+
+        foreach($data as $datum)
+        {
+            $pelajar = Pelajar::select('id')->where('pelajar_id_old', $datum->pelajar_id)->first();
+
+            PenangguhanPengajian::create([
+                'old_tangguh_id'    => $datum->id_tangguh,
+                'pelajar_id'        => $pelajar->id,
+                'pelajar_id_old'    => $datum->pelajar_id,
+                'semester_now_id'   => $datum->semester_now_id,
+                'is_gantung'        => $datum->is_gantung,
+                'tarikh_proses'     => Carbon::parse($datum->tkh_proses)->toDateString(),
+                'sebab_penangguhan' => $datum->sebab,
+                'status'            => $datum->status,
             ]);
         }
 
