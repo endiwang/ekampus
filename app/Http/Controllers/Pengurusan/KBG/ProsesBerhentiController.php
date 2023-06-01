@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
 use App\Models\Pelajar;
+use App\Models\SebabBerhenti;
 use Illuminate\Support\Facades\URL;
+use Collective\Html\FormFacade;
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Carbon;
 
 class ProsesBerhentiController extends Controller
 {
@@ -118,7 +122,15 @@ class ProsesBerhentiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pelajar = Pelajar::find($request->id);
+        $pelajar->is_berhenti = 1;
+        $pelajar->tarikh_berhenti = Carbon::parse($request->tarikh_berhenti)->toDateString();
+        $pelajar->sebab_berhenti = $request->sebab_berhenti;
+        $pelajar->kod_berhenti = $request->kod_berhenti;
+        $pelajar->save();
+        Alert::toast('Proses berhenti bejaya', 'success');
+
+        return redirect()->route('pengurusan.kbg.pengurusan.proses_berhenti.index');
     }
 
     /**
@@ -184,6 +196,8 @@ class ProsesBerhentiController extends Controller
             $negeri = '';
         }
 
+        $sebab_berhenti = SebabBerhenti::where('status',0)->get()->pluck('berhenti','id');
+
         $response = "<div class='mb-10'>
                         <div class='fs-3 fw-bold text-gray-800 text-center mb-1'>
                             <span class='me-2'>Proses Pendaftaran Pemberhentian Pelajar</span> <br><br>
@@ -233,7 +247,29 @@ class ProsesBerhentiController extends Controller
                         <div class='col-lg-8'>
                             <span class='fw-bold fs-7 text-gray-800'>: ".$data->no_tel."</span>
                         </div>
-                    </div>";
+                    </div>
+                    <form id='berhenti' action=".route('pengurusan.kbg.proses_berhenti.store')." method='POST'>
+                    <input type='hidden' name='_token' value=".csrf_token().">
+                    <input type='hidden' name='id' value=".$data->id.">
+                    <div class='row mb-2'>
+                        <label class='col-lg-4 fw-semibold'>Tarikh Berhenti </label>
+                        <div class='col-lg-8'>
+                            ".FormFacade::date('tarikh_berhenti','',['class' => 'form-control form-control-sm ', 'id' =>'tarikh_berhenti','onkeydown' =>'return false','autocomplete' => 'off'])."
+                        </div>
+                    </div>
+                    <div class='row mb-2'>
+                        <label class='col-lg-4 fw-semibold'>Sebab Berhenti </label>
+                        <div class='col-lg-8'>
+                            ".FormFacade::select('kod_berhenti', $sebab_berhenti , NULL , ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '])."
+                        </div>
+                    </div>
+                    <div class='row mb-2'>
+                        <label class='col-lg-4 fw-semibold'>Kenyataan </label>
+                        <div class='col-lg-8'>
+                            <input type='text' class='form-control form-control-sm' name='sebab_berhenti'/>
+                        </div>
+                    </div>
+                    </form>";
 
         return $response;
     }

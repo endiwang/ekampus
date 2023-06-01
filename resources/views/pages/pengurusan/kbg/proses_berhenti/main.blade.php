@@ -48,7 +48,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Proses</button>
+                            <button type="submit" form="berhenti" class="btn btn-primary" data-bs-dismiss="modal">Proses</button>
                         </div>
                     </div>
                 </div>
@@ -111,6 +111,22 @@
             });
         }
 
+    </script>
+    <script>
+        $("#tarikh_berhenti").daterangepicker({
+            autoApply : true,
+            singleDatePicker: true,
+            showDropdowns: true,
+            autoUpdateInput: false,
+            minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+            maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+            locale: {
+                format: 'DD/MM/YYYY'
+            }
+        },function(start, end, label) {
+            var datePicked = moment(start).format('DD/MM/YYYY');
+            $("#tarikh_berhenti").val(datePicked);
+    });
     </script>
 
     {!! $dataTable->scripts() !!}
