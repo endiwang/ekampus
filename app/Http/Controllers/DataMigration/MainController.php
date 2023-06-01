@@ -54,6 +54,7 @@ use App\Models\OldDatabase\tbl_masuk_permohonan;
 use App\Models\OldDatabase\ref_jabatan;
 use App\Models\OldDatabase\sis_semester_now;
 use App\Models\OldDatabase\ref_keturunan;
+use App\Models\OldDatabase\ref_sebab_berhenti;
 use App\Models\OldDatabase\sis_tblkonvo;
 use App\Models\OldDatabase\sis_tblkonvo_mohon;
 use App\Models\OldDatabase\sis_jadbilik;
@@ -68,6 +69,7 @@ use App\Models\OldDatabase\sis_tbltawaran;
 use App\Models\OldDatabase\sis_tbltawaran_mohon;
 use App\Models\PenangguhanPengajian;
 use App\Models\PermohonanPertukaranSyukbah;
+use App\Models\SebabBerhenti;
 use App\Models\SemesterTerkini;
 use App\Models\Tawaran;
 use App\Models\TawaranPermohonan;
@@ -1076,7 +1078,7 @@ class MainController extends Controller
 
         dd('done');
     }
-    
+
     public function sis_tbl_pelajar_tangguh_to_penangguhan_pengajian()
     {
         $data = sis_tblpelajar_tangguh::all();
@@ -1109,6 +1111,24 @@ class MainController extends Controller
         {
             dispatch(new MigrateKonvoPelajar($datum->konvo_detid));
 
+
+        }
+
+        dd('done');
+
+
+    }
+
+    public function ref_sebab_berhenti_to_sebab_berhenti()
+    {
+        $data = ref_sebab_berhenti::all();
+        foreach($data as $datum)
+        {
+            SebabBerhenti::create([
+                'id' => $datum->berhenti_id,
+                'berhenti' => $datum->berhenti,
+                'status' => $datum->berhenti_status,
+            ]);
 
         }
 
