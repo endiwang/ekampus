@@ -47,7 +47,7 @@ use Illuminate\Support\Facades\Route;
     Route::resource('/pendaftaran_pelajar', PendaftaranPelajarController::class)->only(['index','store'])->name('index','pengurusan.pendaftaran_pelajar.index','store','pengurusan.pendaftaran_pelajar.store');
     Route::post('/pendaftaran_pelajar/maklumat_pelajar', [PendaftaranPelajarController::class, 'getMaklumatPelajar'])->name('pengurusan.pendaftaran_pelajar.getMaklumatPelajar');
 
-    Route::resource('/pendaftaran_no_matrik', PendaftaranNoMatrikController::class)->only(['index'])->name('index','pengurusan.pendaftaran_no_matrik.index');
+    Route::resource('/pendaftaran_no_matrik', PendaftaranNoMatrikController::class)->only(['index','store'])->name('index','pengurusan.pendaftaran_no_matrik.index','store','pengurusan.pendaftaran_no_matrik.store');
     Route::post('/pendaftaran_no_matrik/maklumat_pelajar', [PendaftaranNoMatrikController::class, 'getMaklumatPelajar'])->name('pengurusan.pendaftaran_no_matrik.getMaklumatPelajar');
 
     Route::resource('/proses_berhenti', ProsesBerhentiController::class)->only(['index'])->name('index','pengurusan.proses_berhenti.index');

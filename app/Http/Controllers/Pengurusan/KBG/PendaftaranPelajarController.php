@@ -40,7 +40,7 @@ class PendaftaranPelajarController extends Controller
             ];
 
             if (request()->ajax()) {
-                $data = Permohonan::with('kursus')->where('is_interview',1)->where('is_tawaran',1);
+                $data = Pelajar::with('kursus')->where('is_berhenti',0)->where('is_register',0)->where('is_deleted',0);
                 return DataTables::of($data)
                 ->addColumn('no_ic', function($data) {
                     if(!empty($data->no_matrik)){
@@ -126,9 +126,9 @@ class PendaftaranPelajarController extends Controller
         $pelajar->is_register = 1;
         $pelajar->tarikh_daftar = Carbon::now()->format('Y-m-d');
         $pelajar->save();
-        Alert::toast('Pelajar berjaya di daftarkan', 'success');
+        Alert::toast('Pelajar berjaya didaftarkan', 'success');
 
-        return redirect()->back();
+        return redirect()->route('pengurusan.kbg.pengurusan.pendaftaran_pelajar.index');
 
     }
 
@@ -245,7 +245,7 @@ class PendaftaranPelajarController extends Controller
                             <span class='fw-bold fs-7 text-gray-800'>: ".$data->no_tel."</span>
                         </div>
                     </div>
-                    <form id='pilih' action=".route('pengurusan.kbg.pengurusan.senarai_permohonan.store')."method='POST'>
+                    <form id='pilih' action=".route('pengurusan.kbg.pendaftaran_pelajar.store')." method='POST'>
                     <input type='hidden' name='_token' value=".csrf_token().">
                     <input type='hidden' name='id' value=".$data->id.">
                     </form>";
