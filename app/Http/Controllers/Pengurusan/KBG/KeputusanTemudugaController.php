@@ -59,9 +59,7 @@ class KeputusanTemudugaController extends Controller
                             <a href="'.route('pengurusan.kbg.pengurusan.keputusan_temuduga.export_senarai',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Cetak markah temuduga" target="_blank">
                                 <i class="fa fa-print"></i>
                             </a>
-                            <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-warning btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Hantar senarai keputusan ke format Excel">
-                                <i class="fa fa-file-excel"></i>
-                            </a>
+                            
                             <a href="'.route('pengurusan.kbg.pengurusan.keputusan_temuduga.kemas_kini_markah',$data->id).'" class="edit btn btn-icon btn-dark btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Masukkan markah">
                                 <i class="fa fa-user-plus"></i>
                             </a>

@@ -100,12 +100,12 @@
                 </td>
                 <td style="text-align: center;">{{ $data->pemohon->no_ic ?? null }}</td>
                 <td style="text-align: center;">{{ $data->pemohon->jantina ?? null }}</td>
-                <td style="text-align: center;">{{ $data->hafazan == 0 ? '' : $data->hafazan }}</td>
-                <td style="text-align: center;">{{ $data->tajwid == 0 ? '' : $data->tajwid}}</td>
-                <td style="text-align: center;">{{ $data->sikap == 0 ? '' : $data->sikap}}</td>
-                <td style="text-align: center;">{{ $data->akademik == 0 ? '' : $data->akademik}}</td>
-                <td style="text-align: center;">{{ $data->jumlah == 0 ? '' : $data->jumlah}}</td>
-                <td style="text-align: center;">{{ $data->catatan }}</td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
             </tr>
             @endforeach
         </tbody>

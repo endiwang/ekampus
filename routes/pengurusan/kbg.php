@@ -32,8 +32,12 @@ use Illuminate\Support\Facades\Route;
     Route::get('/proses_temuduga/{id}/pilih_pemohon', [ProsesTemudugaController::class, 'pilih_pemohon'])->name('pengurusan.proses_temuduga.pilih_pemohon');
     Route::get('/proses_temuduga_api/{id}', [ProsesTemudugaController::class, 'pilih_pemohon_api'])->name('pengurusan.proses_temuduga.pilih_pemohon_api');
     Route::post('/proses_temuduga_store_pemohon', [ProsesTemudugaController::class, 'store_pemohon'])->name('pengurusan.proses_temuduga.store_pemohon');
+    Route::get('proses_temuduga/export_senarai/{id}', [ProsesTemudugaController::class, 'export_senarai'])->name('pengurusan.proses_temuduga.export_senarai');
+
 
     Route::resource('/keputusan_temuduga', KeputusanTemudugaController::class)->only(['index','store'])->name('index','pengurusan.keputusan_temuduga.index','store','pengurusan.keputusan_temuduga.store');
+    Route::get('keputusan_temuduga/export_senarai/{id}', [KeputusanTemudugaController::class, 'export_senarai'])->name('pengurusan.keputusan_temuduga.export_senarai');
+
 
     Route::get('/keputusan_temuduga/{id}/kemas_kini_markah', [KeputusanTemudugaController::class,'kemas_kini_markah'])->name('pengurusan.keputusan_temuduga.kemas_kini_markah');
 
@@ -50,7 +54,7 @@ use Illuminate\Support\Facades\Route;
     Route::resource('/pendaftaran_no_matrik', PendaftaranNoMatrikController::class)->only(['index','store'])->name('index','pengurusan.pendaftaran_no_matrik.index','store','pengurusan.pendaftaran_no_matrik.store');
     Route::post('/pendaftaran_no_matrik/maklumat_pelajar', [PendaftaranNoMatrikController::class, 'getMaklumatPelajar'])->name('pengurusan.pendaftaran_no_matrik.getMaklumatPelajar');
 
-    Route::resource('/proses_berhenti', ProsesBerhentiController::class)->only(['index'])->name('index','pengurusan.proses_berhenti.index');
+    Route::resource('/proses_berhenti', ProsesBerhentiController::class)->only(['index','store'])->name('index','pengurusan.proses_berhenti.index','store','pengurusan.proses_berhenti.store');
     Route::post('/proses_berhenti/maklumat_pelajar', [ProsesBerhentiController::class, 'getMaklumatPelajar'])->name('pengurusan.proses_berhenti.getMaklumatPelajar');
 
     Route::resource('/pelajar_tamat', PelajarTamatController::class)->only(['index'])->name('index','pengurusan.pelajar_tamat.index');
