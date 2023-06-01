@@ -101,7 +101,7 @@ class TawaranController extends Controller
 
                 ->addColumn('action', function($data){
 
-                    $action = '<a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up" data-bs-toggle="tooltip">
+                    $action = '<a href="'.route('pengurusan.kbg.pengurusan.tawaran.export_senarai',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up" data-bs-toggle="tooltip" target="_black">
                     <i class="fa fa-print"></i></a>
 
                     <a href="'.route('pengurusan.kbg.tawaran.show',$data->id).'" class="edit btn btn-icon btn-dark btn-sm hover-elevate-up" data-bs-toggle="tooltip">
@@ -384,6 +384,37 @@ class TawaranController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function export_senarai($id)
+    {
+
+        $temuduga = Tawaran::find($id);
+        // $markah_temuduga = TemudugaMarkah::where('temuduga_id', $id)->get();
+        $title = 'Senarai Pemohon';
+
+        $datas  = $this->exportDataProcess($id);
+        $view_file  = 'pages.pengurusan.kbg.pemilihan_calon.export_pdf';
+        $orientation = 'landscape';
+
+                return Utils::pdfGenerate($title, $datas, $view_file, $orientation);
+    }
+
+    private function exportDataProcess($id)
+    {
+
+
+        $tawaran = Tawaran::find($id);
+        $pemohon = TawaranPermohonan::where('tawaran_id',$id)->with('pemohon')->get();
+
+
+        $datas = [
+            'tawaran'   => $tawaran,
+            'pemohon'   => $pemohon
+        ];
+
+        return $datas;
+
     }
 
 }

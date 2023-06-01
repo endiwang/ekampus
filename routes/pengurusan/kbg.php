@@ -45,6 +45,8 @@ use Illuminate\Support\Facades\Route;
     Route::get('tawaran/{id}/pilih_pelajar', [TawaranController::class, 'pilih_pelajar'])->name('pengurusan.tawaran.pilih_pelajar');
     Route::get('tawaran/pilih_pelajar/{id}', [TawaranController::class, 'pilih_pelajar_api'])->name('pengurusan.tawaran.pilih_pelajar_api');
     Route::post('tawaran/store_pelajar', [TawaranController::class, 'store_pelajar'])->name('pengurusan.tawaran.store_pelajar');
+    Route::get('tawaran/export_senarai/{id}', [TawaranController::class, 'export_senarai'])->name('pengurusan.tawaran.export_senarai');
+
 
 
 
