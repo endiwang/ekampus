@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
     Route::resource('/senarai_tapisan_permohonan', SenaraiTapisanPermohonanController::class)->only(['index'])->name('index','pengurusan.senarai_tapisan_permohonan.index');
     Route::get('/senarai_tapisan_permohonan/proses_pemilihan', [SenaraiTapisanPermohonanController::class,'proses_pemilihan'])->name('pengurusan.senarai_tapisan_permohonan.proses_pemilihan');
 
-    Route::resource('/proses_temuduga', ProsesTemudugaController::class)->only(['index','create','store'])->name('index','pengurusan.proses_temuduga.index','create','pengurusan.proses_temuduga.create','store','pengurusan.proses_temuduga.store');
+    Route::resource('/proses_temuduga', ProsesTemudugaController::class)->only(['index','create','store','show','update'])->name('index','pengurusan.proses_temuduga.index','create','pengurusan.proses_temuduga.create','store','pengurusan.proses_temuduga.store','show','pengurusan.proses_temuduga.show','update','pengurusan.proses_temuduga.update');
     Route::get('/proses_temuduga/{id}/pilih_pemohon', [ProsesTemudugaController::class, 'pilih_pemohon'])->name('pengurusan.proses_temuduga.pilih_pemohon');
     Route::get('/proses_temuduga_api/{id}', [ProsesTemudugaController::class, 'pilih_pemohon_api'])->name('pengurusan.proses_temuduga.pilih_pemohon_api');
     Route::post('/proses_temuduga_store_pemohon', [ProsesTemudugaController::class, 'store_pemohon'])->name('pengurusan.proses_temuduga.store_pemohon');

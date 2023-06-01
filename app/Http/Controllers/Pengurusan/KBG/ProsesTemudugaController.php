@@ -20,6 +20,7 @@ use Exception;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Models\PusatTemuduga;
 
 class ProsesTemudugaController extends Controller
 {
@@ -79,7 +80,7 @@ class ProsesTemudugaController extends Controller
                             <a href="'.route('pengurusan.kbg.pengurusan.proses_temuduga.pilih_pemohon',$data->id).'" class="edit btn btn-icon btn-dark btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pilih Pemohon">
                                 <i class="fa fa-user-plus"></i>
                             </a>
-                            <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-success btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                            <a href="'.route('pengurusan.kbg.proses_temuduga.show', $data->id).'" class="edit btn btn-icon btn-success btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>';
 
@@ -131,8 +132,10 @@ class ProsesTemudugaController extends Controller
             $kursus = Kursus::where('deleted_at', null)->pluck('nama', 'id');
             $sesi = Sesi::where('is_deleted',0)->pluck('nama', 'id');
             $ketua_temuduga = Staff::where('deleted_at', null)->pluck('nama', 'id');
+            $pusat_temuduga = PusatTemuduga::where('pusat_pengajian_id',1)->get()->pluck('nama', 'id');
 
-            return view('pages.pengurusan.kbg.proses_temuduga.add_new', compact('title', 'breadcrumbs', 'page_title','kursus','ketua_temuduga','sesi'));
+
+            return view('pages.pengurusan.kbg.proses_temuduga.add_new', compact('title', 'breadcrumbs', 'page_title','kursus','ketua_temuduga','sesi','pusat_temuduga'));
 
         }catch (Exception $e) {
             report($e);
@@ -206,7 +209,23 @@ class ProsesTemudugaController extends Controller
      */
     public function show($id)
     {
-        //
+        $temuduga = Temuduga::find($id);
+
+        $title = 'Pinda Maklumat Proses Temuduga';
+            $page_title = 'Maklumat Proses Temuduga';
+            $breadcrumbs = [
+                "Kemasukan Biasiswa Graduasi" =>  false,
+                "Proses Temuduga" =>  false,
+                "Pinda Proses" =>  false,
+            ];
+
+        $kursus = Kursus::where('deleted_at', null)->pluck('nama', 'id');
+        $sesi = Sesi::where('is_deleted',0)->pluck('nama', 'id');
+        $ketua_temuduga = Staff::where('deleted_at', null)->pluck('nama', 'id');
+        $pusat_temuduga = PusatTemuduga::where('pusat_pengajian_id',1)->pluck('nama', 'id');
+
+
+        return view('pages.pengurusan.kbg.proses_temuduga.show', compact('title', 'breadcrumbs', 'page_title','kursus','ketua_temuduga','sesi','temuduga','pusat_temuduga'));
     }
 
     /**
@@ -229,7 +248,23 @@ class ProsesTemudugaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $temuduga = Temuduga::find($id);
+        $temuduga->tajuk_borang = $request->tajuk_borang_temuduga;
+        $temuduga->kursus_id = $request->program_pengajian;
+        $temuduga->sesi_id = $request->sesi;
+        $temuduga->temuduga_type = $request->pilihan_temuduga;
+        $temuduga->pusat_temuduga_id = $request->pusat_temuduga;
+        $temuduga->tarikh = Carbon::createFromFormat('d/m/Y',$request->tarikh_temuduga)->format('Y-m-d');
+        $temuduga->masa = $request->masa_temuduga;
+        $temuduga->nama_tempat = $request->nama_tempat_temuduga;
+        $temuduga->alamat_temuduga = $request->alamat_tempat_temuduga;
+        $temuduga->id_ketua = $request->ketua_temuduga;
+        $temuduga->tkh_cetakan = Carbon::createFromFormat('d/m/Y',$request->tarikh_cetak_surat_temuduga)->format('Y-m-d');
+
+        $temuduga->save();
+        Alert::toast('Maklumat proses temuduga berjaya dikemaskini!', 'success');
+        return redirect()->route('pengurusan.kbg.pengurusan.proses_temuduga.index');
+
     }
 
     /**
