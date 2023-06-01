@@ -48,7 +48,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Daftar No Matrik</button>
+                            <button type="submit" form="no_matrik" class="btn btn-primary" data-bs-dismiss="modal">Daftar No Matrik</button>
                         </div>
                     </div>
                 </div>

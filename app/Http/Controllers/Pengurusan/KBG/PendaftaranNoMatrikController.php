@@ -8,6 +8,8 @@ use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
 use App\Models\Pelajar;
 use Illuminate\Support\Facades\URL;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 
 class PendaftaranNoMatrikController extends Controller
@@ -110,7 +112,12 @@ class PendaftaranNoMatrikController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pelajar = Pelajar::find($request->id);
+        $pelajar->no_matrik = $request->no_matrik;
+        $pelajar->save();
+        Alert::toast('No matrik berjaya didaftarkan', 'success');
+
+        return redirect()->route('pengurusan.kbg.pengurusan.pendaftaran_no_matrik.index');
     }
 
     /**
@@ -225,7 +232,17 @@ class PendaftaranNoMatrikController extends Controller
                         <div class='col-lg-8'>
                             <span class='fw-bold fs-7 text-gray-800'>: ".$data->no_tel."</span>
                         </div>
-                    </div>";
+                    </div>
+                    <form id='no_matrik' action=".route('pengurusan.kbg.pendaftaran_no_matrik.store')." method='POST'>
+                    <input type='hidden' name='_token' value=".csrf_token().">
+                    <input type='hidden' name='id' value=".$data->id.">
+                    <div class='row mb-2'>
+                        <label class='col-lg-4 fw-semibold'>No. Matrik </label>
+                        <div class='col-lg-8'>
+                            <input type='text' class='form-control form-control-sm' name='no_matrik'/>
+                        </div>
+                    </div>
+                    </form>";
 
         return $response;
     }
