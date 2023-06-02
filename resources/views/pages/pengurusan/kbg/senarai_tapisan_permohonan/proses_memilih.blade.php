@@ -94,16 +94,76 @@
                     <div class="card">
                         <div class="card-body py-5">
                             {{ $dataTable->table(['class'=>'table table-striped table-row-bordered gy-5 gs-7 border rounded']) }}
+                            <button type="button" class="btn btn-sm btn-success me-5" data-kt-docs-table-select="simpan-selected" onclick="submit()" data-bs-toggle="tooltip" title="Simpan">
+                                <i class="fa fa-save"></i>
+                                Simpan
+                            </button>
+
+                            <a href="{{ route('pengurusan.kbg.pengurusan.proses_temuduga.index') }}" class="btn btn-sm btn-secondary" data-bs-toggle="tooltip">
+                                Kembali
+                            </a>
+
                         </div>
                     </div>
                 </div>
             </div>
+
+
             <!--end::Row-->
         </div>
     </div>
 @endsection
 
 @push('scripts')
+
+<script>
+
+    function submit () {
+            console.log('ok')
+            // Toggle selected action toolbar
+            // Select all checkboxes
+            const container = document.querySelector('#dataTableBuilder');
+            const checkboxes = container.querySelectorAll('[type="checkbox"]');
+            const processSelected = document.querySelector('[data-kt-docs-table-select="simpan-selected"]');
+
+
+            // Toggle delete selected toolbar
+            checkboxes.forEach(c => {
+                // Checkbox on click event
+                c.addEventListener('click', function () {
+                    setTimeout(function () {
+                        toggleToolbars();
+                    }, 50);
+                });
+            });
+
+
+            processSelected.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                var id = [];
+                $('.pemohon_checkbox:checked').each(function(){
+                    id.push($(this).val());
+                });
+
+                $.ajax({
+                    url: "{!! route('pengurusan.kbg.pengurusan.senarai_tapisan_permohonan.store_pemohon')!!}",
+                    type: "POST",
+                    data: {
+                                ids: id,
+                                _token: '{{csrf_token()}}'
+                            },
+                    dataType: 'json',
+                    success: function(data){
+                        location.reload();
+                    }
+                });
+
+            });
+
+
+        }
+    </script>
 
     <script>
     $(document).ready(function () {
@@ -208,5 +268,6 @@
     </script>
 
     {!! $dataTable->scripts() !!}
+
 
 @endpush

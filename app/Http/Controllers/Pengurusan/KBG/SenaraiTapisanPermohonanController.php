@@ -250,26 +250,26 @@ class SenaraiTapisanPermohonanController extends Controller
                     $tarikh_permohonan = Utils::formatDate($data->submitted_date);
                     return $tarikh_permohonan;
                 })
-                // ->addColumn('action', function($data){
-                //     return '
-                //             <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
-                //                 <i class="fa fa-pencil-alt"></i>
-                //             </a>';
+                ->addColumn('checkbox', function($data){
+                        return '<input type="checkbox" name="users_checkbox[]" class="users_checkbox pemohon_checkbox" value='.$data->id.' />';
+                    })
 
-                // })
+
                 ->addIndexColumn()
-                ->rawColumns(['nama','kursus','status', 'action','tarikh_permohonan'])
+                ->rawColumns(['nama','kursus','status', 'checkbox','tarikh_permohonan'])
                 ->toJson();
             }
 
 
             $dataTable = $builder
             ->columns([
+                ['data' => 'checkbox',    'name' => 'checkbox',         'title' => '','orderable' => false, 'searchable' => false, 'class'=>'max-w-10px'],
                 [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
                 ['data' => 'nama',      'name' => 'nama',           'title' => 'Nama Pemohon', 'orderable'=> false, 'class'=>'text-bold'],
                 ['data' => 'no_ic',     'name' => 'no_ic',          'title' => 'No. Kad Pengenalan', 'orderable'=> false],
                 ['data' => 'kursus',      'name' => 'kursus',         'title' => 'Jenis Permohonan', 'orderable'=> false],
                 ['data' => 'tarikh_permohonan',   'name' => 'tarik_permohonan',   'title' => 'Tarikh Permohonan', 'orderable'=> false],
+
                 // ['data' => 'action',    'name' => 'action',         'title' => 'Tindakan','orderable' => false, 'searchable' => false, 'class'=>'min-w-100px'],
 
             ])
@@ -280,5 +280,18 @@ class SenaraiTapisanPermohonanController extends Controller
 
         // dd($permohonan->get());
 
+    }
+
+    public function store_pemohon(Request $request)
+    {
+        // dd($request);
+        foreach($request->ids as $id)
+        {
+            $permohonan = Permohonan::find($id);
+            $permohonan->is_selected = 1;
+            $permohonan->save();
+        }
+        Alert::success( 'Pemohon berjaya dipilih');
+        return ['success' => true];
     }
 }
