@@ -101,7 +101,7 @@ class SenaraiKonvokesyenController extends Controller
                             <a href="'.route('pengurusan.kbg.konvokesyen.show',$data->id).'" class="edit btn btn-icon btn-dark btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Tanbah Pelajar">
                                 <i class="fa fa-user-plus"></i>
                             </a>
-                            <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Cetak Senarai">
+                            <a href="'.route('pengurusan.kbg.pengurusan.konvokesyen.export_senarai',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Cetak Senarai">
                                 <i class="fa fa-file-circle-check"></i>
                             </a>
                             <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="">
@@ -428,5 +428,35 @@ class SenaraiKonvokesyenController extends Controller
         }
         Alert::success( 'Pemohonan berjaya dipilih');
         return ['success' => true];
+    }
+
+    public function export_senarai($id)
+    {
+
+        $konvo = Konvo::find($id);
+        // $markah_temuduga = TemudugaMarkah::where('temuduga_id', $id)->get();
+        $title = 'Senarai Pelajar';
+
+        $datas  = $this->exportDataProcess($id);
+        $view_file  = 'pages.pengurusan.kbg.senarai_konvokesyen.export_pdf';
+        $orientation = 'landscape';
+
+                return Utils::pdfGenerate($title, $datas, $view_file, $orientation);
+    }
+
+    private function exportDataProcess($id)
+    {
+
+
+        $konvo = Konvo::find($id);
+        $pelajar = KonvoPelajar::where('konvo_id',$id)->with('pelajar')->get();
+
+        $datas = [
+            'konvo'   => $konvo,
+            'pelajar'   => $pelajar
+        ];
+
+        return $datas;
+
     }
 }

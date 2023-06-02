@@ -66,6 +66,8 @@ use Illuminate\Support\Facades\Route;
     Route::get('konvokesyen/{id}/pilih_pelajar', [SenaraiKonvokesyenController::class, 'pilih_pelajar'])->name('pengurusan.konvokesyen.pilih_pelajar');
     Route::get('konvokesyen/pilih_pelajar/{id}', [SenaraiKonvokesyenController::class, 'pilih_pelajar_api'])->name('pengurusan.konvokesyen.pilih_pelajar_api');
     Route::post('konvokesyen/store_pelajar', [SenaraiKonvokesyenController::class, 'store_pelajar'])->name('pengurusan.konvokesyen.store_pelajar');
+    Route::get('konvokesyen/export_senarai/{id}', [SenaraiKonvokesyenController::class, 'export_senarai'])->name('pengurusan.konvokesyen.export_senarai');
+
 
 
 
