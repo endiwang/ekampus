@@ -21,6 +21,7 @@ use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PelepasanKuliahController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PenangguhanPengajianController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PertukaranSyukbahController;
+use App\Http\Controllers\Pengurusan\Akademik\Permohonan\RayuanPengajianController;
 use App\Http\Controllers\Pengurusan\Akademik\RekodKehadiran\KehadiranPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\SemesterController;
 use App\Http\Controllers\Pengurusan\Akademik\SubjekController;
@@ -74,6 +75,9 @@ Route::group(['prefix'=>'permohonan','as'=>'permohonan.'], function(){
     Route::resource('pelepasan_kuliah', PelepasanKuliahController::class);
 
     Route::resource('penangguhan_pengajian', PenangguhanPengajianController::class);
+
+    Route::get('rayuan_pengajian/update_status/{id}', [RayuanPengajianController::class, 'updateStatus'])->name('rayuan_pengajian.update_status');
+    Route::resource('rayuan_pengajian', RayuanPengajianController::class);
 });
 
 Route::group(['prefix'=>'pensyarah','as'=>'pensyarah.'], function(){

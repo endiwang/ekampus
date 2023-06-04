@@ -215,6 +215,14 @@
                             <span class="menu-title">Penangguhan Pengajian</span>
                         </a>
                     </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.permohonan.rayuan_pengajian.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.permohonan.rayuan_pengajian.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rayuan Pengajian</span>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
