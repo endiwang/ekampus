@@ -9,6 +9,6 @@ class SebabBerhenti extends Model
 {
     use HasFactory;
     protected $table = 'sebab_berhenti';
-    // protected $fillable = ['id','berhenti','status'];
-    protected $guarded = ['id'];
+    protected $fillable = ['id','berhenti','status'];
+    // protected $guarded = ['id'];
 }
