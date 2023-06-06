@@ -30,12 +30,12 @@ class PendaftaranNoMatrikController extends Controller
             ];
 
             $buttons = [
-                [
-                    'title' => "Pendaftaran Auto",
-                    'route' => route('pengurusan.akademik.semester.create'),
-                    'button_class' => "btn btn-sm btn-primary fw-bold",
-                    'icon_class' => "fa fa-plus-circle"
-                ],
+                // [
+                //     'title' => "Pendaftaran Auto",
+                //     'route' => route('pengurusan.akademik.semester.create'),
+                //     'button_class' => "btn btn-sm btn-primary fw-bold",
+                //     'icon_class' => "fa fa-plus-circle"
+                // ],
             ];
 
             if (request()->ajax()) {
