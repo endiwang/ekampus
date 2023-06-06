@@ -254,7 +254,7 @@
                     <div class="form-text mt-0">Bumiputra</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::select('bumiputra',['B' => 'Bumiputera', 'BSB' => 'Bumiputera Sabah Sabah', 'BSR' =>'Bumiputera Sarawak', 'BB' => 'Bukan Bumiputera'],$maklumat_pemohon ? $maklumat_pemohon->bumiputra : '',['placeholder' => 'Sila Pilih','class' => 'form-control form-control-lg ']) }}
+                    {{ Form::select('bumiputra',[1 => 'Bumiputera', 2 => 'Bumiputera Sabah Sabah', 3 =>'Bumiputera Sarawak', 4 => 'Bukan Bumiputera'],$maklumat_pemohon ? $maklumat_pemohon->bumiputra : '',['placeholder' => 'Sila Pilih','class' => 'form-control form-control-lg ']) }}
                 </div>
             </div>
             <div class="row mb-6">
@@ -292,7 +292,7 @@
                     <div class="form-text mt-0">Chronic Diseases</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::select('penyakit_kronik', [
+                    {{ Form::select('penyakit_kronik[]', [
                         'N' => 'Tiada Penyakit',
                         'alergi' => 'Alergi',
                         'jantung' => 'Jantung',
@@ -304,7 +304,7 @@
                         'darah tinggi' => 'Darah Tinggi',
                         'sakit mental' => 'Sakit Mental',
                         'anxiety disorder' => 'Anxiety Disorder'
-                        ], $maklumat_pemohon ? $maklumat_pemohon->penyakit_kronik : '', ['class' =>'form-control form-control-lg ', 'data-control'=>'select2', 'multiple'=>'multiple', 'data-placeholder' => 'Sila Pilih']) }}
+                        ], $maklumat_pemohon ? json_decode($maklumat_pemohon->penyakit_kronik) : '', ['class' =>'form-control form-control-lg ', 'data-control'=>'select2', 'multiple'=>'multiple', 'data-placeholder' => 'Sila Pilih']) }}
                 </div>
             </div>
             <div class="row mb-6">

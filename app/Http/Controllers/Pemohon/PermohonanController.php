@@ -8,6 +8,7 @@ use App\Models\Kursus;
 use App\Models\Negeri;
 use App\Models\Permohonan;
 use App\Models\PermohonanKelulusanAkademik;
+use App\Models\PermohonanMuatnaikDokumen;
 use App\Models\PermohonanPenjaga;
 use App\Models\PermohonanSekolah;
 use App\Models\PermohonanTanggunganPenjaga;
@@ -67,15 +68,25 @@ class PermohonanController extends Controller
      */
     public function store(Request $request)
     {
+
         $no_rujukan = "P".date("Ymd")."_". uniqid();
 
         // dump($no_rujukan);
         // dd($request);
         $keturunan = Keturunan::where('kod',$request->keturunan)->first();
+
+        if($request->file('avatar')) {
+            $fileName = $request->file('avatar')->getClientOriginalName();
+            $filePath = $request->file('avatar')->storeAs('uploads/permohonan/gambar_pemohon', $fileName, 'public');
+            // $fileModel->name = time().'_'.$req->file->getClientOriginalName();
+            $file_path = '/storage/' . $filePath;
+        }
+
         foreach($request->pilih_pusat_pengajian as $index => $pilih_pusat_pengajian)
         {
             $tetapan_permohonan = TetapanPermohonanPelajar::find($request->permohonan_id[$index]);
             $permohonan = Permohonan::create([
+                'gambar'                => $file_path,
                 'no_rujukan'    => $no_rujukan,
                 'kursus_id' => $tetapan_permohonan->kursus_id,
                 'sesi_id' => $tetapan_permohonan->sesi_id,
@@ -96,14 +107,16 @@ class PermohonanController extends Controller
                 'jantina'   => $request->jantina,
                 'negeri_kelahiran_id'   => $request->negeri_kelahiran_id,
                 'alamat_surat'  => $request->alamat_surat,
-                // 'bandar_surat'
-                // 'poskod_surat'
-                // 'negeri_surat'
+                'bandar_surat'  => $request->bandar_surat,
+                'poskod_surat'  => $request->poskod_surat,
+                'negeri_surat'  => $request->negeri_surat,
                 'keturunan_id' => $keturunan->id,
-                // 'bumiputra' => $request->bumiputra,
-                'bumiputra' => 1,
+                'bumiputra' => $request->bumiputra,
                 'mualaf' => $request->mualaf,
                 'warganegara' => $request->kewarganegaraan,
+                'kedaaan_fizikal'       => $request->kedaaan_fizikal,
+                'penyakit_kronik'       => json_encode($request->penyakit_kronik),
+                'rekod_kemasukan_wad'   => $request->rekod_kemasukan_wad,
                 'temuduga' => $request->pusat_temuduga[$index],
                 'perakuan'  => $request->perakuan_pemohon,
                 'is_submitted'  => 1,
@@ -198,7 +211,9 @@ class PermohonanController extends Controller
                 }
             }
 
-            foreach ($request->pendidikan_sekolah as $index => $pendidikan)
+            if($request->has('pendidikan_sekolah'))
+            {
+                foreach ($request->pendidikan_sekolah as $index => $pendidikan)
                 {
                     $permohonan_sekolah = PermohonanSekolah::create(
                         [
@@ -209,6 +224,59 @@ class PermohonanController extends Controller
                             'kelulusan' => $request->pendidikan_kelulusan[$index],
                         ]);
                 }
+
+            }
+
+
+            if($request->file('mykad_passport')) {
+                $fileNameMykad = $request->file('mykad_passport')->getClientOriginalName();
+                $filePathMykad = $request->file('mykad_passport')->storeAs('uploads/permohonan/dokumen', $fileNameMykad, 'public');
+                $file_path_Mykad = '/storage/' . $filePathMykad;
+
+                $Mykad_passport = PermohonanMuatnaikDokumen::updateOrCreate(
+                    [
+                        'permohonan_id' => $permohonan->id,
+                        'jenis_dokumen' => 'mykad_passport',
+                    ],
+                    [
+                        'nama_dokumen' => $fileNameMykad,
+                        'path' => $file_path_Mykad,
+                    ]);
+            }
+
+
+            if($request->file('sijil_spm_setara')) {
+                $fileNameSPM = $request->file('sijil_spm_setara')->getClientOriginalName();
+                $filePathSPM = $request->file('sijil_spm_setara')->storeAs('uploads/permohonan/dokumen', $fileNameSPM, 'public');
+                $file_path_SPM= '/storage/' . $filePathSPM;
+
+                $SPM = PermohonanMuatnaikDokumen::updateOrCreate(
+                    [
+                        'permohonan_id' => $permohonan->id,
+                        'jenis_dokumen' => 'sijil_spm_setara',
+                    ],
+                    [
+                        'nama_dokumen' => $fileNameSPM,
+                        'path' => $file_path_SPM,
+                    ]);
+            }
+
+
+            if($request->file('kad_oku')) {
+                $fileNameOKU = $request->file('kad_oku')->getClientOriginalName();
+                $filePathOKU = $request->file('kad_oku')->storeAs('uploads/permohonan/dokumen', $fileNameOKU, 'public');
+                $file_path_OKU = '/storage/' . $filePathOKU;
+
+                $Kad_OKU= PermohonanMuatnaikDokumen::updateOrCreate(
+                    [
+                        'permohonan_id' => $permohonan->id,
+                        'jenis_dokumen' => 'kad_oku',
+                    ],
+                    [
+                        'nama_dokumen' => $fileNameOKU,
+                        'path' => $file_path_OKU,
+                    ]);
+            }
 
             return redirect()->route('pemohon.permohonan.berjaya_dihantar')->with( ['data' => $permohonan] );
 

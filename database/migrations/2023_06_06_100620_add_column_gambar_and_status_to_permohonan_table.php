@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sebab_berhenti', function (Blueprint $table) {
-            $table->id();
-            $table->string('berhenti');
-            $table->integer('status');
-            $table->timestamps();
+        Schema::table('permohonan', function (Blueprint $table) {
+            $table->string('gambar')->after('pusat_pengajian_id')->nullable();
+            $table->integer('status')->after('terima_date')->nullable()->default(0);
         });
     }
 
@@ -28,6 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sebab_berhenti');
+        Schema::table('permohonan', function (Blueprint $table) {
+            $table->dropColumn('gambar');
+            $table->dropColumn('status');
+        });
     }
 };
