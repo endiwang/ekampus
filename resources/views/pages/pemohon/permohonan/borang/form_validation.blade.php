@@ -433,6 +433,38 @@ var step = [
                         }
                     }
                 },
+                'pendidikan_sekolah[0]': {
+                    validators: {
+                        notEmpty: {
+                            enabled: true,
+                            message: 'Sila masukkan nama sekolah.'
+                        }
+                    }
+                },
+                'pendidikan_tahun[0]': {
+                    validators: {
+                        notEmpty: {
+                            enabled: true,
+                            message: 'Sila masukkan tahun tamat.'
+                        }
+                    }
+                },
+                'pendidikan_kelulusan[0]': {
+                    validators: {
+                        notEmpty: {
+                            enabled: true,
+                            message: 'Sila masukkan kelulusan tertinggi.'
+                        }
+                    }
+                },
+                'pendidikan_keputusan[0]': {
+                    validators: {
+                        notEmpty: {
+                            enabled: true,
+                            message: 'Sila masukkan keputusan.'
+                        }
+                    }
+                },
                 @foreach ($subjek_spm as $subjek)
                 '{!! $subjek->slug !!}': {
                     validators: {

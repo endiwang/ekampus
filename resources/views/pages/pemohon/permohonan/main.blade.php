@@ -314,6 +314,35 @@
                         },
                     },
                 };
+    const sekolahPendidikanValidators = {
+                    validators: {
+                        notEmpty: {
+                            message: 'Sila masukkan nama sekolah',
+                        },
+                    },
+                };
+    const tahunPendidikanValidators = {
+                    validators: {
+                        notEmpty: {
+                            message: 'Sila masukkan tahun tamat',
+                        },
+                    },
+                };
+    const kelulusanPendidikanValidators = {
+                    validators: {
+                        notEmpty: {
+                            message: 'Sila masukkan kelulusan tertinggi',
+                        },
+                    },
+                };
+    const keputusanPendidikanValidators = {
+                    validators: {
+                        notEmpty: {
+                            message: 'Sila masukkan keputusan',
+                        },
+                    },
+                };
+
 
     const { createApp } = Vue
 
@@ -810,6 +839,76 @@
                 .addField('tanggungan_umur[' + rowIndex + ']', umurValidators);
     });
 
+    //pendidikan menengah
+
+    // const removeRowPendidikan = function (rowIndexPendidikan) {
+    //     const rowPendidikan = formBahagianD.querySelector('[data-row-index-pendidikan="' + rowIndexPendidikan + '"]');
+    //     bahagianD.removeField('pendidikan_sekolah[' + rowIndexPendidikan + ']')
+    //             .removeField('pendidikan_tahun[' + rowIndexPendidikan + ']')
+    //             .removeField('pendidikan_kelulusan[' + rowIndexPendidikan + ']')
+    //             .removeField('pendidikan_keputusan[' + rowIndexPendidikan + ']')
+    //     rowPendidikan.parentNode.removeChild(rowPendidikan);
+    // };
+
+
+    // const template_bahagianD_pendidikan = document.getElementById('template-pendidikan');
+    // let rowIndexPendidikan = 0;
+    // document.getElementById('add-button-pendidikan').addEventListener('click', function () {
+    //     rowIndexPendidikan++;
+
+    //     const clonePendidikan = template_bahagianD_pendidikan.cloneNode(true);
+    //     clonePendidikan.removeAttribute('id');
+
+    //     clonePendidikan.style.display = 'flex';
+
+    //     clonePendidikan.setAttribute('data-row-index-pendidikan', rowIndexPendidikan);
+
+    //     template_bahagianD_pendidikan.before(clonePendidikan);
+
+    //     let pendidikan_sekolah = clonePendidikan.querySelector('[data-name="pendidikan.sekolah"]');
+    //     let pendidikan_tahun = clonePendidikan.querySelector('[data-name="pendidikan.tahun"]');
+    //     let pendidikan_kelulusan = clonePendidikan.querySelector('[data-name="pendidikan.kelulusan"]');
+    //     let pendidikan_keputusan = clonePendidikan.querySelector('[data-name="pendidikan.keputusan"]');
+
+    //     pendidikan_sekolah.setAttribute('name', 'pendidikan_sekolah[' + rowIndexPendidikan + ']');
+    //     // nama_subjek.setAttribute('name', 'subjek[' + rowIndexSijilSetaraf + '].nama');
+    //     pendidikan_sekolah.value = '';
+
+    //     // gred_subjek.setAttribute('name', 'subjek[' + rowIndexSijilSetaraf + '].gred');
+    //     pendidikan_tahun.setAttribute('name', 'pendidikan_tahun[' + rowIndexPendidikan + ']');
+    //     pendidikan_tahun.value = '';
+
+    //     pendidikan_kelulusan.setAttribute('name', 'pendidikan_kelulusan[' + rowIndexPendidikan + ']');
+    //     // nama_subjek.setAttribute('name', 'subjek[' + rowIndexSijilSetaraf + '].nama');
+    //     pendidikan_kelulusan.value = '';
+
+    //     pendidikan_keputusan.setAttribute('name', 'pendidikan_keputusan[' + rowIndexPendidikan + ']');
+    //     // nama_subjek.setAttribute('name', 'subjek[' + rowIndexSijilSetaraf + '].nama');
+    //     pendidikan_keputusan.value = '';
+
+    //     let button_remove_pendidikan = clonePendidikan.querySelector('.js-remove-button-pendidikan');
+    //     let button_remove_icon_pendidikan = clonePendidikan.querySelector('.js-remove-button-pendidikan-icon');
+
+    //     button_remove_pendidikan.setAttribute('data-row-index-pendidikan', rowIndexPendidikan);
+    //     button_remove_icon_pendidikan.setAttribute('data-row-index-pendidikan', rowIndexPendidikan);
+
+    //     button_remove_pendidikan.addEventListener('click', function (e) {
+    //         const indexPendidikan = e.target.getAttribute('data-row-index-pendidikan');
+    //         removeRowPendidikan(indexPendidikan);
+    //     });
+    //     button_remove_icon_pendidikan.addEventListener('click', function (e) {
+    //         const indexPendidikan = e.target.getAttribute('data-row-index-pendidikan');
+    //         removeRowPendidikan(indexPendidikan);
+    //     });
+    //     console.log('ok');
+
+    //     bahagianD.addField('pendidikan_sekolah[' + rowIndexPendidikan + ']', sekolahPendidikanValidators)
+    //             .addField('pendidikan_tahun[' + rowIndexPendidikan + ']', tahunPendidikanValidators)
+    //             .addField('pendidikan_kelulusan[' + rowIndexPendidikan + ']', kelulusanPendidikanValidators)
+    //             .addField('pendidikan_keputusan[' + rowIndexPendidikan + ']', keputusanPendidikanValidators)
+    // });
+
+
 
     // Bahagian D Sijil Setaraf
 
@@ -866,6 +965,9 @@
         bahagianD.addField('subjek_nama[' + rowIndexSijilSetaraf + ']', namaSijilSetarafValidators)
                 .addField('subjek_gred[' + rowIndexSijilSetaraf + ']', gredSijilSetarafValidators)
     });
+
+
+
 
     $("#salin_alamat_tetap").click(function(){
         $("#alamat_surat").val($("#alamat_tetap").val());

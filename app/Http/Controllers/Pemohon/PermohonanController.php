@@ -9,6 +9,7 @@ use App\Models\Negeri;
 use App\Models\Permohonan;
 use App\Models\PermohonanKelulusanAkademik;
 use App\Models\PermohonanPenjaga;
+use App\Models\PermohonanSekolah;
 use App\Models\PermohonanTanggunganPenjaga;
 use App\Models\SubjekSPM;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ use App\Models\PermohonanXHantarPenjaga;
 use App\Models\PermohonanXHantarTanggunganPenjaga;
 use App\Models\PermohonanXHantarKelulusanAkademik;
 use App\Models\PermohonanXHantarMuatNaikDokumen;
+use App\Models\PermohonanXHantarSekolah;
 use Carbon\Carbon;
 use Svg\Tag\Rect;
 use Illuminate\Support\Facades\Session;
@@ -180,7 +182,7 @@ class PermohonanController extends Controller
                             'gred'          => $request->input($subjek->slug),
                         ]);
                 }
-            }else{
+            }elseif($request->jenis_peperiksaan == 'setara'){
                 foreach ($request->subjek_nama as $index => $subjek_setara)
                 {
                     $permohonan_kelulusan_akademik = PermohonanKelulusanAkademik::create(
@@ -195,6 +197,18 @@ class PermohonanController extends Controller
                         ]);
                 }
             }
+
+            foreach ($request->pendidikan_sekolah as $index => $pendidikan)
+                {
+                    $permohonan_sekolah = PermohonanSekolah::create(
+                        [
+                            'permohonan_id' => $permohonan->id,
+                            'sekolah' => $request->pendidikan_sekolah[$index],
+                            'tahun' => $request->pendidikan_tahun[$index],
+                            'keputusan' => $request->pendidikan_keputusan[$index],
+                            'kelulusan' => $request->pendidikan_kelulusan[$index],
+                        ]);
+                }
 
             return redirect()->route('pemohon.permohonan.berjaya_dihantar')->with( ['data' => $permohonan] );
 
@@ -374,7 +388,7 @@ class PermohonanController extends Controller
                             'gred'          => $request->input($subjek->slug),
                         ]);
                 }
-            }else{
+            }elseif($request->jenis_peperiksaan == 'setara'){
                 foreach ($request->subjek_nama as $index => $subjek_setara)
                 {
                     $permohonan_x_hantar_kelulusan_akademik_lama = PermohonanXHantarKelulusanAkademik::create(
@@ -389,6 +403,21 @@ class PermohonanController extends Controller
                         ]);
                 }
             }
+
+            $permohonan_x_hantar_sekolah_lama = PermohonanXHantarSekolah::where('permohonan_x_hantar_id',$permohonan_x_hantar->id)->delete();
+
+            foreach ($request->pendidikan_sekolah as $index => $pendidikan)
+                {
+                    $permohonan_x_hantar_sekolah_lama = PermohonanXHantarSekolah::create(
+                        [
+                            'permohonan_x_hantar_id' => $permohonan_x_hantar->id,
+                            'sekolah' => $request->pendidikan_sekolah[$index],
+                            'tahun' => $request->pendidikan_tahun[$index],
+                            'keputusan' => $request->pendidikan_keputusan[$index],
+                            'kelulusan' => $request->pendidikan_kelulusan[$index],
+                        ]);
+                }
+
 
             $muat_naik_mykad_lama = PermohonanXHantarMuatNaikDokumen::where('permohonan_x_hantar_id',$permohonan_x_hantar->id)->where('jenis_dokumen','mykad_passport')->first();
 
