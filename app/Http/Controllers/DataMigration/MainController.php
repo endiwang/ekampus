@@ -58,6 +58,7 @@ use App\Models\OldDatabase\ref_sebab_berhenti;
 use App\Models\OldDatabase\sis_tblkonvo;
 use App\Models\OldDatabase\sis_tblkonvo_mohon;
 use App\Models\OldDatabase\sis_jadbilik;
+use App\Models\OldDatabase\sis_tblpelajar_berhenti;
 use App\Models\OldDatabase\sis_tblpermohonan_pelajaran;
 use App\Models\OldDatabase\sis_tblpermohonan_penjaga;
 use App\Models\OldDatabase\sis_tblpermohonan_tanggung;
@@ -67,6 +68,7 @@ use App\Models\OldDatabase\sis_tblpelajar_syukbah;
 use App\Models\OldDatabase\sis_tblpelajar_tangguh;
 use App\Models\OldDatabase\sis_tbltawaran;
 use App\Models\OldDatabase\sis_tbltawaran_mohon;
+use App\Models\PelajarBerhenti;
 use App\Models\PenangguhanPengajian;
 use App\Models\PermohonanPertukaranSyukbah;
 use App\Models\SebabBerhenti;
@@ -1133,8 +1135,40 @@ class MainController extends Controller
         }
 
         dd('done');
-
-
     }
+
+
+    public function sis_tbl_pelajar_berhenti_to_pelajar_berhenti()
+    {
+        $data = sis_tblpelajar_berhenti::all();
+
+        foreach($data as $datum)
+        {
+            PelajarBerhenti::create([
+                'old_pelajar_berhenti_id'   => $datum->pberhenti_id,
+                'pelajar_id'                => $datum->pelajar_id,
+                'tarikh_berhenti'           => Carbon::parse($datum->tarikh_berhenti)->toDateString(),
+                'sebab_berhenti'            => $datum->sebab_berhenti,
+                'kod_berhenti'              => $datum->kod_berhenti,
+            ]);
+        }
+
+        dd('done');
+    }
+
+    // public function ref_sebab_berhenti_to_sebab_berhenti()
+    // {
+    //     $data = ref_sebab_berhenti::all();
+
+    //     foreach($data as $datum)
+    //     {
+    //         SebabBerhenti::create([
+    //             'berhenti'          => $datum->berhenti,
+    //             'berhenti_status'   => $datum->berhenti_status,
+    //         ]);
+    //     }
+
+    //     dd('done');
+    // }
 
 }

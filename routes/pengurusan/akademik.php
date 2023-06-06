@@ -13,6 +13,7 @@ use App\Http\Controllers\Pengurusan\Akademik\Laporan\LaporanMesyuaratController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\AktivitiPdpController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\HebahanAktivitiController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\MpkIsoController;
+use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenamatanPengajianController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenilaianPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PelepasanKuliahController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PenangguhanPengajianController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PertukaranSyukbahController;
+use App\Http\Controllers\Pengurusan\Akademik\Permohonan\RayuanPengajianController;
 use App\Http\Controllers\Pengurusan\Akademik\RekodKehadiran\KehadiranPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\SemesterController;
 use App\Http\Controllers\Pengurusan\Akademik\SubjekController;
@@ -73,6 +75,9 @@ Route::group(['prefix'=>'permohonan','as'=>'permohonan.'], function(){
     Route::resource('pelepasan_kuliah', PelepasanKuliahController::class);
 
     Route::resource('penangguhan_pengajian', PenangguhanPengajianController::class);
+
+    Route::get('rayuan_pengajian/update_status/{id}', [RayuanPengajianController::class, 'updateStatus'])->name('rayuan_pengajian.update_status');
+    Route::resource('rayuan_pengajian', RayuanPengajianController::class);
 });
 
 Route::group(['prefix'=>'pensyarah','as'=>'pensyarah.'], function(){
@@ -103,7 +108,7 @@ Route::group(['prefix'=>'pengurusan','as'=>'pengurusan.'], function(){
     Route::get('penilaian_pensyarah/skala_penilaian', [PenilaianPensyarahController::class, 'createRating'])->name('penilaian_pensyarah.rating');
     Route::resource('penilaian_pensyarah', PenilaianPensyarahController::class);
 
-    
+    Route::resource('penamatan_pengajian', PenamatanPengajianController::class);
 });
 
 Route::group(['prefix'=>'jadual','as'=>'jadual.'], function(){
