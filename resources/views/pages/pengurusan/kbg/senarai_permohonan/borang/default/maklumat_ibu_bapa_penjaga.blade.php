@@ -1,7 +1,7 @@
 <div class="card shadow-none" id="formPermohonanE">
     <div class="card-header border-0">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bold text-dark">bapaMAKLUMAT IBU , BAPA DAN PENJAGA</span>
+            <span class="card-label fw-bold text-dark">MAKLUMAT IBU , BAPA DAN PENJAGA</span>
         </h3>
     </div>
     <div id="kt_account_settings_profile_details" class="collapse show">
@@ -196,6 +196,10 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
+                        {{ Form::label('pemohon_tinggal_bersama', 'Pemohon Tinggal Bersama', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+                    </div>
+                    <div class="col-lg-8 fv-row">
+                        {{ Form::select('pemohon_tinggal_bersama', ['ibu_bapa' => 'Bapa atau Ibu', 'penjaga' => 'Penjaga'], $data->penjaga->tingal_bersama, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm', 'v-on:change' => 'maklumatPenjaga($event)']) }}
                         {{ Form::label('pemohon_tinggal_bersama', 'Pemohon Tinggal Bersama', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">

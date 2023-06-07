@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('negeri_surat')->nullable();
             $table->string('no_telefon')->nullable();
             $table->string('jantina')->nullable();
-            $table->string('nageri_kelahiran')->nullable();
+            $table->string('negeri_kelahiran')->nullable();
             $table->string('keturunan')->nullable();
             $table->string('bumiputra')->nullable();
             $table->string('mualaf')->nullable();

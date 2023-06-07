@@ -68,7 +68,6 @@ class PermohonanController extends Controller
      */
     public function store(Request $request)
     {
-
         $no_rujukan = "P".date("Ymd")."_". uniqid();
 
         // dump($no_rujukan);
