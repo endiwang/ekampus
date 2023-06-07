@@ -14,7 +14,11 @@
                 <div class="col-lg-8">
                     <div class="image-input image-input-outline image-input-empty" data-kt-image-input="true" style="background-image: url('assets/media/svg/avatars/blank.svg')">
                         <!--begin::Preview existing avatar-->
+<<<<<<< HEAD
                         <div class="image-input-wrapper w-125px h-125px"></div>
+=======
+                        <div class="image-input-wrapper w-125px h-125px" style="background-image: url('{{ asset($data->gambar)}}')"></div>
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                         <!--end::Preview existing avatar-->
 
                         <!--begin::Label-->
@@ -47,8 +51,12 @@
 
             <div class="row mb-6">
                 <div class="col-lg-4">
+<<<<<<< HEAD
                     {{ Form::label('nama_pemohon', '1. Nama Penuh', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     <div class="form-text mt-0">Full Name</div>
+=======
+                    {{ Form::label('nama_pemohon', 'Nama Penuh', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
                 <div class="col-lg-8 fv-row">
                     {{ Form::text('nama_pemohon',$data->nama,['class' => 'form-control form-control-sm ']) }}
@@ -58,8 +66,12 @@
 
             <div class="row mb-6">
                 <div class="col-lg-4">
+<<<<<<< HEAD
                     {{ Form::label('nama_jawi', '2. Nama Jawi', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     <div class="form-text mt-0">Jawi Name</div>
+=======
+                    {{ Form::label('nama_jawi', 'Nama Jawi', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
                 <div class="col-lg-8 fv-row">
                     {{ Form::text('nama_jawi',$data->nama_jawi,['class' => 'form-control form-control-sm ']) }}
@@ -70,8 +82,12 @@
 
             <div class="row mb-6">
                 <div class="col-lg-4">
+<<<<<<< HEAD
                     {{ Form::label('no_kp', '3. No. Kad Pengenalan / Pasport', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     <div class="form-text mt-0">I/C Number / Passport</div>
+=======
+                    {{ Form::label('no_kp', 'No. Kad Pengenalan / Pasport', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
                 <div class="col-lg-8 fv-row">
                     {{ Form::number('no_kp',$data->no_ic,['class' => 'form-control form-control-sm ']) }}
@@ -80,8 +96,12 @@
 
             <div class="row mb-6">
                 <div class="col-lg-4">
+<<<<<<< HEAD
                     {{ Form::label('tarikh_lahir', '4. Tarikh Lahir', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     <div class="form-text mt-0">Date of Birth</div>
+=======
+                    {{ Form::label('tarikh_lahir', 'Tarikh Lahir', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
                 <div class="col-lg-8 fv-row">
                     <input class="form-control form-control-sm "name="tarikh_lahir" id="tarikh_lahir" value="{{ $data->tarikh_lahir ?? '' }}"/>
@@ -91,8 +111,12 @@
 
             <div class="row mb-6">
                 <div class="col-lg-4">
+<<<<<<< HEAD
                     {{ Form::label('alamat_emel', '3. Alamat Emel', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     <div class="form-text mt-0">Email Address</div>
+=======
+                    {{ Form::label('alamat_emel', 'Alamat Emel', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
                 <div class="col-lg-8 fv-row">
                     {{ Form::email('alamat_emel',$data->email,['class' => 'form-control form-control-sm ']) }}
@@ -100,10 +124,24 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
             <div class="row mb-6">
                 <div class="col-lg-4">
                     {{ Form::label('alamat_tetap', '4. Alamat Tetap', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     <div class="form-text mt-0">Fixed Address</div>
+=======
+            <div class="separator separator-dashed my-6"></div>
+
+            <div class="row mb-6">
+                <div col-lg-12="">
+                    <label for="" class="col-form-label fw-semibold fs-7 pb-0 pt-0">Alamat Tetap</label>
+                </div>
+            </div>
+
+            <div class="row mb-6">
+                <div class="col-lg-4">
+                    {{ Form::label('alamat_tetap', 'Alamat Penuh', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
                 <div class="col-lg-8 fv-row">
                     {{ Form::textarea('alamat_tetap',$data->alamat_tetap,['class' => 'form-control form-control-sm ', 'rows'=>'4']) }}
@@ -114,6 +152,7 @@
 
             <div class="row mb-6">
                 <div class="col-lg-4">
+<<<<<<< HEAD
                     {{ Form::label('alamat_rumah', '5. Alamat Surat-menyurat', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     <div class="form-text mt-0">Mailing Address</div>
                 </div>
@@ -121,23 +160,60 @@
                     {{ Form::textarea('alamat_rumah',$data->alamat_surat,['class' => 'form-control form-control-sm ', 'rows'=>'4']) }}
                     <div class="form-text mt-0">Sila masukkan alamat surat-menyurat anda / Please your enter mailing address</div>
 
+=======
+                    {{ Form::label('bandar_tetap', 'Bandar', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+                </div>
+                <div class="col-lg-8 fv-row">
+                    {{ Form::text('bandar_tetap',$data->bandar,['class' => 'form-control form-control-sm ']) }}
                 </div>
             </div>
 
             <div class="row mb-6">
                 <div class="col-lg-4">
+                    {{ Form::label('poskod_tetap', 'Poskod', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+                </div>
+                <div class="col-lg-8 fv-row">
+                    {{ Form::text('poskod_tetap',$data->poskod,['class' => 'form-control form-control-sm ']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
+                </div>
+            </div>
+
+            <div class="row mb-6">
+                <div class="col-lg-4">
+<<<<<<< HEAD
                     {{ Form::label('poskod', '5. Poskod', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     <div class="form-text mt-0">Postcode</div>
                 </div>
                 <div class="col-lg-8 fv-row">
                     {{ Form::number('poskod',$data->poskod,['class' => 'form-control form-control-sm ']) }}
+=======
+                    {{ Form::label('negeri_kelahiran', 'Negeri', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+                </div>
+                <div class="col-lg-8 fv-row">
+                    {{ Form::select('negeri_kelahiran', $negeri , $data->negeri_id, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
                 </div>
             </div>
 
             <div class="row mb-6">
                 <div class="col-lg-4">
+                    {{ Form::label('alamat_rumah', 'Alamat Surat-menyurat', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+                </div>
+                <div class="col-lg-8 fv-row">
+                    {{ Form::textarea('alamat_rumah',$data->alamat_surat,['class' => 'form-control form-control-sm ', 'rows'=>'4']) }}
+                    <div class="form-text mt-0">Sila masukkan alamat surat-menyurat anda / Please your enter mailing address</div>
+
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
+                </div>
+            </div>
+
+            <div class="row mb-6">
+                <div class="col-lg-4">
+<<<<<<< HEAD
                     {{ Form::label('no_telefon', '6. No. Telefon', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     <div class="form-text mt-0">Phone Number</div>
+=======
+                    {{ Form::label('no_telefon', 'No. Telefon', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
                 <div class="col-lg-8 fv-row">
                     {{ Form::text('no_telefon',$data->no_tel,['class' => 'form-control form-control-sm ']) }}
@@ -146,8 +222,12 @@
 
             <div class="row mb-6">
                 <div class="col-lg-4">
+<<<<<<< HEAD
                     {{ Form::label('jantina', '7. Jantina', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     <div class="form-text mt-0">Gender</div>
+=======
+                    {{ Form::label('jantina', 'Jantina', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
                 <div class="col-lg-8 fv-row">
                     {{ Form::select('jantina', ['L' => 'Lelaki (Male)', 'P' => 'Perempuan (Female)'], $data->jantina, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
@@ -158,8 +238,12 @@
 
             <div class="row mb-6">
                 <div class="col-lg-4">
+<<<<<<< HEAD
                     {{ Form::label('negeri_kelahiran', '10. Negeri Kelahiran', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     <div class="form-text mt-0">State of Birth</div>
+=======
+                    {{ Form::label('negeri_kelahiran', 'Negeri Kelahiran', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
                 <div class="col-lg-8 fv-row">
                     {{ Form::select('negeri_kelahiran', $negeri , $data->negeri_kelahiran_id, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
@@ -168,8 +252,12 @@
 
             <div class="row mb-6">
                 <div class="col-lg-4">
+<<<<<<< HEAD
                     {{ Form::label('keturunan', '11. Keturunan', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     <div class="form-text mt-0">Race</div>
+=======
+                    {{ Form::label('keturunan', 'Keturunan', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
                 <div class="col-lg-8 fv-row">
                     {{ Form::select('keturunan', $keturunan, $data->keturunan_id, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
@@ -178,45 +266,77 @@
 
             <div class="row mb-6">
                 <div class="col-lg-4">
+<<<<<<< HEAD
                     {{ Form::label('bumiputra', '12. Bumiputra', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     <div class="form-text mt-0">Bumiputra</div>
                 </div>
                 <div class="col-lg-8 fv-row">
                     {{ Form::select('bumiputra',['B' => 'Bumiputera', 'BSB' => 'Bumiputera Sabah Sabah', 'BSR' =>'Bumiputera Sarawak', 'BB' => 'Bukan Bumiputera'],null,['placeholder' => 'Sila Pilih','class' => 'form-control form-control-sm ']) }}
+=======
+                    {{ Form::label('bumiputra', 'Bumiputra', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+                </div>
+                <div class="col-lg-8 fv-row">
+                    {{ Form::select('bumiputra',[1 => 'Bumiputera', 2 => 'Bumiputera Sabah Sabah', 3 =>'Bumiputera Sarawak', 4 => 'Bukan Bumiputera'],$data->bumiputra,['placeholder' => 'Sila Pilih','class' => 'form-control form-control-sm ']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
             </div>
             <div class="row mb-6">
                 <div class="col-lg-4">
+<<<<<<< HEAD
                     {{ Form::label('mualaf', '13. Mualaf', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     <div class="form-text mt-0">Mualaf</div>
                 </div>
                 <div class="col-lg-8 fv-row">
                     {{ Form::select('mualaf', ['Y' => 'Ya', 'N' => 'Tidak'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
+=======
+                    {{ Form::label('mualaf', 'Mualaf', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+                </div>
+                <div class="col-lg-8 fv-row">
+                    {{ Form::select('mualaf', [1 => 'Ya', 2 => 'Tidak'], $data->mualaf, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
             </div>
 
             <div class="row mb-6">
                 <div class="col-lg-4">
+<<<<<<< HEAD
                     {{ Form::label('kewarganegaraan', '14. Kewarganegaraan', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     <div class="form-text mt-0">Nationality</div>
                 </div>
                 <div class="col-lg-8 fv-row">
                     {{ Form::select('kewarganegaraan', ['1' => 'Warganegara', '2' => 'Bukan Warganegara','3'=>'Penduduk Tetap'], $data->warganegara, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
                     <div class="form-text mt-0">Sila nyatakan jika bukan warganegara Malaysia / Please enter if not Malaysian citizen</div>
+=======
+                    {{ Form::label('kewarganegaraan', 'Kewarganegaraan', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+                </div>
+                <div class="col-lg-8 fv-row">
+                    {{ Form::select('kewarganegaraan', [1 => 'Warganegara', 2 => 'Bukan Warganegara', 3=>'Penduduk Tetap'], $data->warganegara, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
             </div>
             <div class="row mb-6">
                 <div class="col-lg-4">
+<<<<<<< HEAD
                     {{ Form::label('kedaaan_fizikal', '15. Kedaaan Fizikal', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     <div class="form-text mt-0">Physical Condition</div>
                 </div>
                 <div class="col-lg-8 fv-row">
                     {{ Form::select('kedaaan_fizikal', ['N' => 'Tiada Masalah', 'penglihatan' => 'Masalah Penglihatan','pendengaran' => 'Masalah Pendengaran','pembelajaran' => 'Masalah Pembelajaran','pertuturan' => 'Masalah Pertuturan','fizikal'=>'Masalah Fizikal'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
+=======
+                    {{ Form::label('kedaaan_fizikal', 'Kedaaan Fizikal', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+                </div>
+                <div class="col-lg-8 fv-row">
+                    {{ Form::select('kedaaan_fizikal', ['N' => 'Tiada Masalah', 'penglihatan' => 'Masalah Penglihatan','pendengaran' => 'Masalah Pendengaran','pembelajaran' => 'Masalah Pembelajaran','pertuturan' => 'Masalah Pertuturan','fizikal'=>'Masalah Fizikal'], $data->kedaaan_fizikal, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
             </div>
             <div class="row mb-6">
                 <div class="col-lg-4">
+<<<<<<< HEAD
                     {{ Form::label('penyakit_kronik', '16. Penyakit Kronik', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+=======
+                    {{ Form::label('penyakit_kronik', 'Penyakit Kronik', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                     <div class="form-text mt-0">Chronic Diseases</div>
                 </div>
                 <div class="col-lg-8 fv-row">
@@ -232,16 +352,27 @@
                         'darah tinggi' => 'Darah Tinggi',
                         'sakit mental' => 'Sakit Mental',
                         'anxiety disorder' => 'Anxiety Disorder'
+<<<<<<< HEAD
                         ], null, ['class' =>'form-control form-control-sm ', 'data-control'=>'select2', 'multiple'=>'multiple', 'data-placeholder' => 'Sila Pilih']) }}
+=======
+                        ], json_decode($data->penyakit_kronik), ['class' =>'form-control form-control-sm ', 'data-control'=>'select2', 'multiple'=>'multiple', 'data-placeholder' => 'Sila Pilih']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
             </div>
             <div class="row mb-6">
                 <div class="col-lg-4">
+<<<<<<< HEAD
                     {{ Form::label('rekod_kemasukan_wad', '17. Rekod Kemasukan Wad', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     <div class="form-text mt-0">Ward Admission Record</div>
                 </div>
                 <div class="col-lg-8 fv-row">
                     {{ Form::select('rekod_kemasukan_wad', ['N' => 'Tiada Rekod', 'MW' => 'Masuk Wad','pembedahan' => 'Pembedahan','RS' => 'Rawatan Psikiatri'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ','data-control'=>'select2','data-placeholder' => 'Sila Pilih', 'data-hide-search'=>'true']) }}
+=======
+                    {{ Form::label('rekod_kemasukan_wad', 'Rekod Kemasukan Wad', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+                </div>
+                <div class="col-lg-8 fv-row">
+                    {{ Form::select('rekod_kemasukan_wad', ['N' => 'Tiada Rekod', 'MW' => 'Masuk Wad','pembedahan' => 'Pembedahan','RS' => 'Rawatan Psikiatri'], $data->rekod_kemasukan_wad, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ','data-control'=>'select2','data-placeholder' => 'Sila Pilih', 'data-hide-search'=>'true']) }}
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
             </div>
 

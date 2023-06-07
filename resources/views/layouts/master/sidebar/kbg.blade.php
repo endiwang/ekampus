@@ -40,7 +40,12 @@
                 </a>
                 <!--end:Menu link-->
             </div>
+<<<<<<< HEAD
             <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+=======
+
+            <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 <span class="menu-link">
                     <span class="menu-icon">
                         <span class="svg-icon svg-icon-2">
@@ -52,11 +57,16 @@
                             </svg>
                         </span>
                     </span>
+<<<<<<< HEAD
                     <span class="menu-title">Pengurusan</span>
+=======
+                    <span class="menu-title">Permohonan</span>
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                     <span class="menu-arrow"></span>
                 </span>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
+<<<<<<< HEAD
                         <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.pendaftaran_pelajar.*') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.pendaftaran_pelajar.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
@@ -112,11 +122,77 @@
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Cetakkan Sijil-Sijil</span>
+=======
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.senarai_permohonan.index') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.senarai_permohonan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Senarai Permohonan</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.senarai_tapisan_permohonan.index') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.senarai_tapisan_permohonan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Tapisan Permohonan</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.proses_temuduga.index') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.proses_temuduga.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Proses Temuduga</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.keputusan_temuduga.index') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.keputusan_temuduga.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Keputusan Temuduga</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.tawaran.index') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.tawaran.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pemilihan Calon</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                <span class="menu-link">
+                    <span class="menu-icon">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </span>
+                    <span class="menu-title">Pengurusan</span>
+                    <span class="menu-arrow"></span>
+                </span>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.pendaftaran_pelajar.*') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.pendaftaran_pelajar.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pendaftaran Pelajar</span>
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                         </a>
                     </div>
                 </div>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
+<<<<<<< HEAD
                         <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.konvokesyen.*') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.konvokesyen.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
@@ -180,11 +256,72 @@
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Pemilihan Calon</span>
+=======
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.pendaftaran_no_matrik.*') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.pendaftaran_no_matrik.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pendaftaran No Matik</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.pelajar.*') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.pelajar.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Maklumat Pelajar</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.proses_berhenti.*') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.proses_berhenti.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Proses Berhenti Belajar</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.pelajar_tamat.*') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.pelajar_tamat.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pelajar Tamat</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.cetak_sijil.*') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.cetak_sijil.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Cetakkan Sijil-Sijil</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.konvokesyen.*') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.pengurusan.konvokesyen.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Konvokesyen</span>
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                         </a>
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
+=======
+            <!--div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 <span class="menu-link">
                     <span class="menu-icon">
                         <span class="svg-icon svg-icon-2">
@@ -217,7 +354,11 @@
                         </a>
                     </div>
                 </div>
+<<<<<<< HEAD
             </div>
+=======
+            </!--div-->
+>>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
         </div>
     </div>
 </div>
