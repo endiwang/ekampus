@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::table('permohonan_x_hantar', function (Blueprint $table) {
             $table->integer('negeri_kelahiran')->after('jantina')->nullable();
-            $table->string('bumiputra')->after('keturunan')->nullable();
 
         });
     }
@@ -29,7 +28,6 @@ return new class extends Migration
     {
         Schema::table('permohonan_x_hantar', function (Blueprint $table) {
             $table->dropColumn('negeri_kelahiran');
-            $table->dropColumn('bumiputra');
         });
     }
 };
