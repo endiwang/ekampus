@@ -1,7 +1,7 @@
 <div class="card shadow-none" id="formPermohonanE">
     <div class="card-header border-0">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bold text-dark">bapaMAKLUMAT IBU , BAPA DAN PENJAGA</span>
+            <span class="card-label fw-bold text-dark">MAKLUMAT IBU , BAPA DAN PENJAGA</span>
         </h3>
     </div>
     <div id="kt_account_settings_profile_details" class="collapse show">

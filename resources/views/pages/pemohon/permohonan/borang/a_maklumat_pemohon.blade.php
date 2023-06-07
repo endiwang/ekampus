@@ -254,11 +254,7 @@
                     <div class="form-text mt-0">Bumiputra</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-<<<<<<< HEAD
-                    {{ Form::select('bumiputra',['B' => 'Bumiputera', 'BSB' => 'Bumiputera Sabah Sabah', 'BSR' =>'Bumiputera Sarawak', 'BB' => 'Bukan Bumiputera'],$maklumat_pemohon ? $maklumat_pemohon->bumiputra : '',['placeholder' => 'Sila Pilih','class' => 'form-control form-control-lg ']) }}
-=======
                     {{ Form::select('bumiputra',[1 => 'Bumiputera', 2 => 'Bumiputera Sabah Sabah', 3 =>'Bumiputera Sarawak', 4 => 'Bukan Bumiputera'],$maklumat_pemohon ? $maklumat_pemohon->bumiputra : '',['placeholder' => 'Sila Pilih','class' => 'form-control form-control-lg ']) }}
->>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
             </div>
             <div class="row mb-6">
@@ -296,11 +292,7 @@
                     <div class="form-text mt-0">Chronic Diseases</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-<<<<<<< HEAD
-                    {{ Form::select('penyakit_kronik', [
-=======
                     {{ Form::select('penyakit_kronik[]', [
->>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                         'N' => 'Tiada Penyakit',
                         'alergi' => 'Alergi',
                         'jantung' => 'Jantung',
@@ -312,11 +304,7 @@
                         'darah tinggi' => 'Darah Tinggi',
                         'sakit mental' => 'Sakit Mental',
                         'anxiety disorder' => 'Anxiety Disorder'
-<<<<<<< HEAD
-                        ], $maklumat_pemohon ? $maklumat_pemohon->penyakit_kronik : '', ['class' =>'form-control form-control-lg ', 'data-control'=>'select2', 'multiple'=>'multiple', 'data-placeholder' => 'Sila Pilih']) }}
-=======
                         ], $maklumat_pemohon ? json_decode($maklumat_pemohon->penyakit_kronik) : '', ['class' =>'form-control form-control-lg ', 'data-control'=>'select2', 'multiple'=>'multiple', 'data-placeholder' => 'Sila Pilih']) }}
->>>>>>> 62be4fccb3037c2d36c44d40bae3373e7a4bbd09
                 </div>
             </div>
             <div class="row mb-6">
