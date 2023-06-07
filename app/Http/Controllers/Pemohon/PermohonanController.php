@@ -128,7 +128,7 @@ class PermohonanController extends Controller
                 'permohonan_id' => $permohonan->id,
                 'status_bapa'   => $request->status_bapa == 'masih_hidup'? 1 : 2,
                 'nama_bapa'   => $request->nama_bapa,
-                'ic_no_bapa'   => $request->ic_no_bapa,
+                'no_ic_bapa'   => $request->ic_no_bapa,
                 'alamat_surat_bapa'   => $request->alamat_bapa,
                 'poskod_bapa'   => $request->poskod_bapa,
                 'no_tel_bapa'   => $request->no_telefon_bapa,
@@ -139,7 +139,7 @@ class PermohonanController extends Controller
 
                 'status_ibu'   => $request->status_ibu == 'masih_hidup'? 1 : 2,
                 'nama_ibu'   => $request->nama_ibu,
-                'ic_no_ibu'   => $request->ic_no_ibu,
+                'no_ic_ibu'   => $request->ic_no_ibu,
                 'alamat_surat_ibu'   => $request->alamat_ibu,
                 'poskod_ibu'   => $request->poskod_ibu,
                 'no_tel_ibu'   => $request->no_telefon_ibu,
@@ -151,7 +151,7 @@ class PermohonanController extends Controller
                 'tingal_bersama'   => $request->pemohon_tinggal_bersama == 'ibu_bapa'? 1 : 2,
 
                 'nama_penjaga'   => $request->nama_penjaga,
-                'ic_no_penjaga'   => $request->ic_no_penjaga,
+                'no_ic_penjaga'   => $request->ic_no_penjaga,
                 'alamat_surat_penjaga'   => $request->alamat_penjaga,
                 'poskod_penjaga'   => $request->poskod_penjaga,
                 'no_tel_penjaga'   => $request->no_telefon_penjaga,
