@@ -18,8 +18,8 @@
                                 <br>
                                 @include('pages.pengurusan.kbg.senarai_permohonan.borang.default.tempat_temuduga')
                                 <br>
-                                @include('pages.pengurusan.kbg.senarai_permohonan.borang.default.akuan_bank')
-                                <br>
+                                {{-- @include('pages.pengurusan.kbg.senarai_permohonan.borang.default.akuan_bank')
+                                <br> --}}
                                 @include('pages.pengurusan.kbg.senarai_permohonan.borang.default.dokumen')
                                 <br>
                                 @include('pages.pengurusan.kbg.senarai_permohonan.borang.diploma.kelulusan_akademik')

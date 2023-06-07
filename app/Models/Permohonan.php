@@ -55,4 +55,9 @@ class Permohonan extends Model
     {
         return $this->hasOne(TemudugaMarkah::class,'permohonan_id','id');
     }
+
+    public function muatnaik_dokumen()
+    {
+        return $this->hasMany(PermohonanMuatnaikDokumen::class,'permohonan_id','id');
+    }
 }

@@ -348,8 +348,8 @@
                                 <tr class="fw-semibold fs-7 text-gray-800 border-bottom border-gray-200">
                                     <th></th>
                                     <th>Nama</th>
-                                    <th>Umur</th>
                                     <th>Institusi</th>
+                                    <th>Umur</th>
                                     <th class="text-center">Tidakan</th>
                                 </tr>
                             </thead>
@@ -362,7 +362,6 @@
                                         <td>{{ $tanggungan->institusi }}</td>
                                         <td class="text-center">{{ $tanggungan->umur }}</td>
                                         <td class="text-center">
-                                            <a href="" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda"><i class="fa fa-pencil-alt"></i></a>
                                             <a href="" class="edit btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash-alt"></i></a>
                                         </td>
                                     </tr>
@@ -371,6 +370,7 @@
                             </tbody>
                         </table>
                     </div>
+                    {{-- <button class="btn btn-success btn-sm">Tambah Tanggungan</button> --}}
                 </div>
 
             </div>

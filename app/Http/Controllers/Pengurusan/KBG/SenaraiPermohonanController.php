@@ -15,6 +15,7 @@ use App\Models\SubjekSPM;
 use Exception;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\Kursus;
+use App\Models\PusatTemuduga;
 use App\Models\Sesi;
 
 
@@ -159,6 +160,8 @@ class SenaraiPermohonanController extends Controller
             $negeri = Negeri::pluck('nama', 'id');
             $keturunan = Keturunan::where('status',0)->pluck('nama', 'id');
             $subjek_spm = SubjekSPM::all();
+            $pusat_temuduga = PusatTemuduga::where('pusat_pengajian_id',1)->get()->pluck('nama', 'id');
+
 
 
             $title = "Maklumat Permohonan";
@@ -169,7 +172,7 @@ class SenaraiPermohonanController extends Controller
 
             $data = Permohonan::find($id);
 
-            return view('pages.pengurusan.kbg.senarai_permohonan.edit', compact('title', 'breadcrumbs','data','negeri','keturunan','subjek_spm'));
+            return view('pages.pengurusan.kbg.senarai_permohonan.edit', compact('title', 'breadcrumbs','data','negeri','keturunan','subjek_spm','pusat_temuduga'));
 
         } catch (Exception $e) {
             report($e);
