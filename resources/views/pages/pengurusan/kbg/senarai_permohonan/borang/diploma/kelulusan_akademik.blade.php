@@ -80,7 +80,7 @@
                         {{ Form::label('tahun_peperiksaan', 'Tahun Peperiksaan', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('tahun_peperiksaan', ['2022' => '2022', '2021' => '2021', '2020' =>'2020'], $data->akademik->first()->tahun_pepriksaan, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm']) }}
+                        {{ Form::select('tahun_peperiksaan', ['2022' => '2022', '2021' => '2021', '2020' =>'2020'], $data->akademik->first() ? $data->akademik->first()->tahun_pepriksaan : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm']) }}
                     </div>
                 </div>
                 <div class="row mb-6">
@@ -89,12 +89,12 @@
                         <div class="form-text mt-0">Type of exermination</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('jenis_peperiksaan', ['spm' => 'Sijil Pelajaran Malaysia (SPM)', 'setara' => 'Sijil-Sijil Lain Yang Setaraf Dengan SPM'], $data->akademik->first()->type, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm', 'v-on:change' => 'jenisPeperiksaan($event)']) }}
+                        {{ Form::select('jenis_peperiksaan', ['spm' => 'Sijil Pelajaran Malaysia (SPM)', 'setara' => 'Sijil-Sijil Lain Yang Setaraf Dengan SPM'], $data->akademik->first() ? $data->akademik->first()->type : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm', 'v-on:change' => 'jenisPeperiksaan($event)']) }}
                     </div>
                 </div>
 
 
-                @if ($data->akademik->first()->type == 'spm')
+                @if ($data->akademik->first() && $data->akademik->first()->type == 'spm')
 
 
                 @php
@@ -129,7 +129,7 @@
                 </div>
                 <!-- SPM End -->
                 <!-- Sijil - Sijil Lain -->
-                @elseif ($data->akademik->first()->type == 'setara')
+                @elseif ($data->akademik->first() && $data->akademik->first()->type == 'setara')
 
                 <div v-show="showResultSetara">
                     <div class="separator separator-dashed my-6"></div>

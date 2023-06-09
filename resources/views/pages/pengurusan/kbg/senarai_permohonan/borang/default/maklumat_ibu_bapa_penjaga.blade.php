@@ -19,7 +19,7 @@
                         {{ Form::label('status_bapa', 'Status Bapa', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                {{ Form::select('status_bapa', ['masih_hidup' => 'Masih Hidup', 'meninggal_dunia' => 'Meninggal Dunia'], $data->penjaga->status_bapa == 1 ? 'masih_hidup' : 'meninggal_dunia', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm', 'v-on:change' => 'maklumatBapa($event)']) }}
+                {{ Form::select('status_bapa', ['masih_hidup' => 'Masih Hidup', 'meninggal_dunia' => 'Meninggal Dunia'],$data->penjaga ? $data->penjaga->status_bapa == 1 ? 'masih_hidup' : 'meninggal_dunia' :'', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm', 'v-on:change' => 'maklumatBapa($event)']) }}
                     </div>
                 </div>
 
@@ -28,7 +28,7 @@
                         {{ Form::label('nama_bapa', 'Nama Bapa', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::text('nama_bapa',$data->penjaga->nama_bapa,['class' => 'form-control form-control-sm ']) }}
+                        {{ Form::text('nama_bapa',$data->penjaga ? $data->penjaga->nama_bapa : '',['class' => 'form-control form-control-sm ']) }}
                     </div>
                 </div>
 
@@ -39,7 +39,7 @@
                         {{ Form::label('ic_no_bapa', 'No. Kad Pengenalan Bapa', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::number('ic_no_bapa',$data->penjaga->no_ic_bapa,['class' => 'form-control form-control-sm ']) }}
+                        {{ Form::number('ic_no_bapa',$data->penjaga ? $data->penjaga->no_ic_bapa : '',['class' => 'form-control form-control-sm ']) }}
                     </div>
                 </div>
 
@@ -48,7 +48,7 @@
                         {{ Form::label('alamat_bapa', 'Alamat Surat-menyurat Bapa', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::textarea('alamat_bapa',$data->penjaga->alamat_surat_bapa,['class' => 'form-control form-control-sm ', 'rows'=>'4']) }}
+                        {{ Form::textarea('alamat_bapa',$data->penjaga ? $data->penjaga->alamat_surat_bapa : '',['class' => 'form-control form-control-sm ', 'rows'=>'4']) }}
                     </div>
                 </div>
 
@@ -57,7 +57,7 @@
                         {{ Form::label('poskod_bapa', 'Poskod Bapa', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::number('poskod_bapa',$data->penjaga->poskod_bapa,['class' => 'form-control form-control-sm ']) }}
+                        {{ Form::number('poskod_bapa',$data->penjaga ? $data->penjaga->poskod_bapa : '',['class' => 'form-control form-control-sm ']) }}
                     </div>
                 </div>
 
@@ -66,7 +66,7 @@
                         {{ Form::label('no_telefon_bapa', 'No. Telefon Bapa', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::number('no_telefon_bapa',$data->penjaga->no_tel_bapa,['class' => 'form-control form-control-sm ']) }}
+                        {{ Form::number('no_telefon_bapa',$data->penjaga ? $data->penjaga->no_tel_bapa : '',['class' => 'form-control form-control-sm ']) }}
                     </div>
                 </div>
 
@@ -75,7 +75,7 @@
                         {{ Form::label('status_pekerjaan_bapa', 'Status Pekerjaan Bapa', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('status_pekerjaan_bapa', [1 => 'Bekerja', 2 => 'Tidak Bekerja', 3 => 'Bersara'], $data->penjaga->status_pekerjaan_bapa, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
+                        {{ Form::select('status_pekerjaan_bapa', [1 => 'Bekerja', 2 => 'Tidak Bekerja', 3 => 'Bersara'], $data->penjaga ? $data->penjaga->status_pekerjaan_bapa : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
                     </div>
                 </div>
 
@@ -93,7 +93,7 @@
                         {{ Form::label('pendapatan_bapa', ' Pendapatan Bulanan Bapa', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::number('pendapatan_bapa',$data->penjaga->pendapatan_bapa,['class' => 'form-control form-control-sm ']) }}
+                        {{ Form::number('pendapatan_bapa',$data->penjaga ? $data->penjaga->pendapatan_bapa : '',['class' => 'form-control form-control-sm ']) }}
                     </div>
                 </div>
 
@@ -114,7 +114,7 @@
                         {{ Form::label('status_ibu', 'Status Ibu', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('status_ibu', ['masih_hidup' => 'Masih Hidup', 'meninggal_dunia' => 'Meninggal Dunia'], $data->penjaga->status_ibu == 1 ? 'masih_hidup' : 'meninggal_dunia', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm', 'v-on:change' => 'maklumatIbu($event)']) }}
+                        {{ Form::select('status_ibu', ['masih_hidup' => 'Masih Hidup', 'meninggal_dunia' => 'Meninggal Dunia'], $data->penjaga ? $data->penjaga->status_ibu == 1 ? 'masih_hidup' : 'meninggal_dunia' : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm', 'v-on:change' => 'maklumatIbu($event)']) }}
                     </div>
                 </div>
 
@@ -123,7 +123,7 @@
                         {{ Form::label('nama_ibu', 'Nama Ibu', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::text('nama_ibu',$data->penjaga->nama_ibu,['class' => 'form-control form-control-sm ']) }}
+                        {{ Form::text('nama_ibu',$data->penjaga ? $data->penjaga->nama_ibu : '',['class' => 'form-control form-control-sm ']) }}
                     </div>
                 </div>
 
@@ -134,7 +134,7 @@
                         {{ Form::label('ic_no_ibu', 'No. Kad Pengenalan Ibu', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::number('ic_no_ibu',$data->penjaga->no_ic_ibu,['class' => 'form-control form-control-sm ']) }}
+                        {{ Form::number('ic_no_ibu',$data->penjaga ? $data->penjaga->no_ic_ibu : '',['class' => 'form-control form-control-sm ']) }}
                     </div>
                 </div>
 
@@ -143,7 +143,7 @@
                         {{ Form::label('alamat_ibu', 'Alamat Surat-menyurat Ibu', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::textarea('alamat_ibu',$data->penjaga->alamat_surat_ibu,['class' => 'form-control form-control-sm ', 'rows'=>'4']) }}
+                        {{ Form::textarea('alamat_ibu',$data->penjaga ? $data->penjaga->alamat_surat_ibu : '',['class' => 'form-control form-control-sm ', 'rows'=>'4']) }}
                     </div>
                 </div>
 
@@ -152,7 +152,7 @@
                         {{ Form::label('poskod_ibu', 'Poskod Ibu', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::number('poskod_ibu',$data->penjaga->poskod_ibu,['class' => 'form-control form-control-sm ']) }}
+                        {{ Form::number('poskod_ibu',$data->penjaga ? $data->penjaga->poskod_ibu : '',['class' => 'form-control form-control-sm ']) }}
                     </div>
                 </div>
 
@@ -161,7 +161,7 @@
                         {{ Form::label('no_telefon_ibu', 'No. Telefon Ibu', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::number('no_telefon_ibu',$data->penjaga->no_tel_ibu,['class' => 'form-control form-control-sm ']) }}
+                        {{ Form::number('no_telefon_ibu',$data->penjaga ? $data->penjaga->no_tel_ibu : '',['class' => 'form-control form-control-sm ']) }}
                     </div>
                 </div>
 
@@ -170,7 +170,7 @@
                         {{ Form::label('status_pekerjaan_ibu', 'Status Pekerjaan Ibu', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('status_pekerjaan_ibu', [1 => 'Bekerja', 2 => 'Tidak Bekerja', 3 => 'Bersara'], $data->penjaga->status_pekerjaan_ibu, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
+                        {{ Form::select('status_pekerjaan_ibu', [1 => 'Bekerja', 2 => 'Tidak Bekerja', 3 => 'Bersara'], $data->penjaga ? $data->penjaga->status_pekerjaan_ibu : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
                     </div>
                 </div>
 
@@ -188,7 +188,7 @@
                         {{ Form::label('pendapatan_ibu', 'Pendapatan Bulanan Ibu', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::number('pendapatan_ibu',$data->penjaga->pendapatan_ibu,['class' => 'form-control form-control-sm ']) }}
+                        {{ Form::number('pendapatan_ibu',$data->penjaga ? $data->penjaga->pendapatan_ibu : '',['class' => 'form-control form-control-sm ']) }}
                     </div>
                 </div>
 
@@ -199,11 +199,7 @@
                         {{ Form::label('pemohon_tinggal_bersama', 'Pemohon Tinggal Bersama', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('pemohon_tinggal_bersama', ['ibu_bapa' => 'Bapa atau Ibu', 'penjaga' => 'Penjaga'], $data->penjaga->tingal_bersama, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm', 'v-on:change' => 'maklumatPenjaga($event)']) }}
-                        {{ Form::label('pemohon_tinggal_bersama', 'Pemohon Tinggal Bersama', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
-                    </div>
-                    <div class="col-lg-8 fv-row">
-                        {{ Form::select('pemohon_tinggal_bersama', [1 => 'Bapa atau Ibu', 2 => 'Penjaga'], $data->penjaga->tingal_bersama, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm', 'v-on:change' => 'maklumatPenjaga($event)']) }}
+                        {{ Form::select('pemohon_tinggal_bersama', [1 => 'Bapa atau Ibu', 2 => 'Penjaga'], $data->penjaga ? $data->penjaga->tingal_bersama : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm', 'v-on:change' => 'maklumatPenjaga($event)']) }}
                     </div>
                 </div>
 
@@ -222,7 +218,7 @@
                             {{ Form::label('nama_penjaga', 'Nama Penjaga', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::text('nama_penjaga',$data->penjaga->nama_penjaga,['class' => 'form-control form-control-sm ']) }}
+                            {{ Form::text('nama_penjaga',$data->penjaga ? $data->penjaga->nama_penjaga : '',['class' => 'form-control form-control-sm ']) }}
                         </div>
                     </div>
 
@@ -231,7 +227,7 @@
                             {{ Form::label('ic_no_penjaga', 'No. Kad Pengenalan Penjaga', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::number('ic_no_penjaga',$data->penjaga->no_ic_penjaga,['class' => 'form-control form-control-sm ']) }}
+                            {{ Form::number('ic_no_penjaga',$data->penjaga ? $data->penjaga->no_ic_penjaga : '',['class' => 'form-control form-control-sm ']) }}
                         </div>
                     </div>
 
@@ -240,7 +236,7 @@
                             {{ Form::label('alamat_penjaga', 'Alamat Surat-menyurat Penjaga', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::textarea('alamat_penjaga',$data->penjaga->alamat_surat_penjaga,['class' => 'form-control form-control-sm ', 'rows'=>'4']) }}
+                            {{ Form::textarea('alamat_penjaga',$data->penjaga ? $data->penjaga->alamat_surat_penjaga : '',['class' => 'form-control form-control-sm ', 'rows'=>'4']) }}
                         </div>
                     </div>
 
@@ -249,7 +245,7 @@
                             {{ Form::label('poskod_penjaga', 'Poskod Penjaga', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::number('poskod_penjaga',$data->penjaga->poskod_penjaga,['class' => 'form-control form-control-sm ']) }}
+                            {{ Form::number('poskod_penjaga',$data->penjaga ? $data->penjaga->poskod_penjaga : '',['class' => 'form-control form-control-sm ']) }}
                         </div>
                     </div>
 
@@ -258,7 +254,7 @@
                             {{ Form::label('no_telefon_penjaga', 'No. Telefon Penjaga', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::number('no_telefon_penjaga',$data->penjaga->no_tel_penjaga,['class' => 'form-control form-control-sm ']) }}
+                            {{ Form::number('no_telefon_penjaga',$data->penjaga ? $data->penjaga->no_tel_penjaga : '',['class' => 'form-control form-control-sm ']) }}
                         </div>
                     </div>
 
@@ -267,7 +263,7 @@
                             {{ Form::label('status_pekerjaan_penjaga', 'Status Pekerjaan Penjaga', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::select('status_pekerjaan_penjaga', [1 => 'Bekerja', 2 => 'Tidak Bekerja', 3 => 'Bersara'], $data->penjaga->status_pekerjaan_penjaga, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
+                            {{ Form::select('status_pekerjaan_penjaga', [1 => 'Bekerja', 2 => 'Tidak Bekerja', 3 => 'Bersara'], $data->penjaga ? $data->penjaga->status_pekerjaan_penjaga : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
                         </div>
                     </div>
 
@@ -285,7 +281,7 @@
                             {{ Form::label('pendapatan_penjaga', 'Pendapatan Bulanan Penjaga', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::number('pendapatan_penjaga',$data->penjaga->pendapatan_penjaga,['class' => 'form-control form-control-sm ']) }}
+                            {{ Form::number('pendapatan_penjaga',$data->penjaga ? $data->penjaga->pendapatan_penjaga : '',['class' => 'form-control form-control-sm ']) }}
                         </div>
                     </div>
 
@@ -294,7 +290,7 @@
                             {{ Form::label('pertalian_penjaga', 'Pertalian Hubungan', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                         </div>
                         <div class="col-lg-8 fv-row">
-                            {{ Form::select('pertalian_penjaga', [1 => 'Bapa Saudara', 2 => 'Datuk',3 => 'Ibu Saudara', 4 => 'Nenek', 5 => 'Lain-lain'], $data->penjaga->pertalian_penjaga, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
+                            {{ Form::select('pertalian_penjaga', [1 => 'Bapa Saudara', 2 => 'Datuk',3 => 'Ibu Saudara', 4 => 'Nenek', 5 => 'Lain-lain'], $data->penjaga ? $data->penjaga->pertalian_penjaga : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
                         </div>
                     </div>
                 </div>
