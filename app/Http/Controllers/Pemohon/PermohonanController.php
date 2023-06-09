@@ -37,8 +37,15 @@ class PermohonanController extends Controller
     public function index(Request $request)
     {
         $maklumat_pemohon = PermohonanXHantar::where('pemohon_id',Auth::guard('pemohon')->user()->id)->get()->last();
-        $maklumat_penjaga = PermohonanXHantarPenjaga::where('permohonan_x_hantar_id',$maklumat_pemohon->id)->first();
-        $maklumat_akademik = PermohonanXHantarKelulusanAkademik::where('permohonan_x_hantar_id',$maklumat_pemohon->id)->first();
+        if($maklumat_pemohon != null)
+        {
+            $maklumat_penjaga = PermohonanXHantarPenjaga::where('permohonan_x_hantar_id',$maklumat_pemohon->id)->first();
+            $maklumat_akademik = PermohonanXHantarKelulusanAkademik::where('permohonan_x_hantar_id',$maklumat_pemohon->id)->first();
+        }else{
+            $maklumat_penjaga = null;
+            $maklumat_akademik = null;
+        }
+
         // dd($maklumat_penjaga);
 
 

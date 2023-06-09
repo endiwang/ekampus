@@ -44,13 +44,13 @@
                     </div> --}}
                     <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('assets/media/svg/avatars/blank.svg')">
                         <!--begin::Preview existing avatar-->
-                        <div class="image-input-wrapper w-125px h-125px" style="background-image: url('{{ asset($maklumat_pemohon->gambar)}}')"></div>
+                        <div class="image-input-wrapper w-125px h-125px" style="background-image: url('{{ $maklumat_pemohon ? asset($maklumat_pemohon->gambar) : ''}}')"></div>
                         <!--end::Preview existing avatar-->
                         <!--begin::Label-->
                         <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
                             <i class="bi bi-pencil-fill fs-7"></i>
                             <!--begin::Inputs-->
-                            <input type="file" name="avatar" accept=".png, .jpg, .jpeg" value="{{ asset($maklumat_pemohon->gambar)}}"/>
+                            <input type="file" name="avatar" accept=".png, .jpg, .jpeg"/>
                             <input type="hidden" name="avatar_remove" />
                             <!--end::Inputs-->
                         </label>
