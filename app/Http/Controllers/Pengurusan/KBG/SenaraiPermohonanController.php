@@ -42,7 +42,7 @@ class SenaraiPermohonanController extends Controller
             $buttons = [
                 [
                     'title' => "Tambah Permohonan",
-                    'route' => route('pengurusan.akademik.guru_tasmik.create'),
+                    'route' => "",
                     'button_class' => "btn btn-sm btn-primary fw-bold",
                     'icon_class' => "fa fa-plus-circle"
                 ],
