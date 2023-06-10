@@ -21,6 +21,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\PusatTemuduga;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PanggilanTemuduga;
 
 class ProsesTemudugaController extends Controller
 {
@@ -373,6 +375,10 @@ class ProsesTemudugaController extends Controller
                 'create_by' => Auth::user()->staff_id,
             ]);
         }
+
+
+        Mail::to($permohonan->email)->send(new PanggilanTemuduga($proses_temuduga,$permohonan));
+
         Alert::success( 'Pemohon berjaya dipilih');
         return ['success' => true];
     }
