@@ -26,6 +26,9 @@ use App\Models\PermohonanXHantarSekolah;
 use Carbon\Carbon;
 use Svg\Tag\Rect;
 use Illuminate\Support\Facades\Session;
+use App\Mail\PermohonanBerjayaDihantar;
+use Illuminate\Support\Facades\Mail;
+
 
 class PermohonanController extends Controller
 {
@@ -284,10 +287,12 @@ class PermohonanController extends Controller
                     ]);
             }
 
-            return redirect()->route('pemohon.permohonan.berjaya_dihantar')->with( ['data' => $permohonan] );
-
+            Mail::to($permohonan->email)->send(new PermohonanBerjayaDihantar($permohonan));
 
         }
+
+        return redirect()->route('pemohon.permohonan.berjaya_dihantar')->with( ['data' => $permohonan] );
+
     }
 
     /**
