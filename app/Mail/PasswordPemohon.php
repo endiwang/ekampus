@@ -32,7 +32,7 @@ class PasswordPemohon extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Password Pemohon',
+            subject: 'Kata Laluan Pemohon',
         );
     }
 

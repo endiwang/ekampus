@@ -1,7 +1,7 @@
 <x-mail::message>
-# Order Shipped
+# Verifikasi
 
-Terima kasih kerana anda sudah mengesahkan emel anda. Sekarang anda boleh log masuk ke akuan pemohon menggunakan katalaluan dibawah
+Terima kasih kerana anda sudah mengesahkan emel anda. Sekarang anda boleh log masuk ke akuan pemohon menggunakan kata laluan dibawah
 
 <x-mail::panel>
 {{ $password }}

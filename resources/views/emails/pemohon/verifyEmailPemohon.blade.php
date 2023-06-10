@@ -1,10 +1,10 @@
 <x-mail::message>
-# Order Shipped
+# Pengesahan Emel
 
-Sila sahkan email anda dengan menekan butang "Sahkan Email" dibawah untuk mendapatakan katalaluan untuk akuan pemohon anda.
+Sila sahkan emel anda dengan menekan butang "Sahkan Emel" dibawah untuk mendapatakan katalaluan untuk akuan pemohon anda.
 
 <x-mail::button :url="route('verify_email_pemohon',$pemohon->verifyEmailPemohon->token)">
-Sahkan Email
+Sahkan Emel
 </x-mail::button>
 
 Terima Kasih,<br>
