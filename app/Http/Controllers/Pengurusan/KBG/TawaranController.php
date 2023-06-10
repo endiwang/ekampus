@@ -8,6 +8,7 @@ use Yajra\DataTables\Html\Builder;
 use App\Models\Tawaran;
 use Yajra\DataTables\DataTables;
 use App\Helpers\Utils;
+use App\Mail\TawaranPemohon;
 use App\Models\Kursus;
 use App\Models\Permohonan;
 use App\Models\Sesi;
@@ -16,6 +17,7 @@ use App\Models\TawaranPermohonan;
 use App\Models\TemudugaMarkah;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class TawaranController extends Controller
 {
@@ -176,6 +178,7 @@ class TawaranController extends Controller
             'tawaran_id_old' => 'NULL',
             'kursus_id' => $request->program_pengajian,
             'sesi_id' => $request->sesi,
+            'pusat_id' => 1,
             'tajuk_tawaran' => $request->tajuk_tawaran,
             'tarikh_surat' => Carbon::createFromFormat('d/m/Y',$request->tarikh_surat)->format('Y-m-d'),
             'tarikh' => Carbon::createFromFormat('d/m/Y',$request->tarikh_pendaftaran)->format('Y-m-d'),
@@ -370,7 +373,11 @@ class TawaranController extends Controller
                 'tawaran_id' => $request->tawaran_id,
                 'permohonan_id' => $id,
             ]);
+
+            Mail::to($permohonan->email)->send(new TawaranPemohon($tawaran,$permohonan));
+
         }
+
         Alert::success( 'Pemohonan berjaya dipilih');
         return ['success' => true];
     }

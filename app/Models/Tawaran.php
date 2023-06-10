@@ -21,6 +21,11 @@ class Tawaran extends Model
         return $this->belongsTo(Sesi::class,'sesi_id','id');
     }
 
+    public function pusat_pengajian()
+    {
+        return $this->belongsTo(PusatPengajian::class,'pusat_id','id');
+    }
+
     public function tawaran_permohonan()
     {
         return $this->hasMany(TawaranPermohonan::class);

@@ -374,10 +374,10 @@ class ProsesTemudugaController extends Controller
                 'temuduga_type' => $proses_temuduga->temuduga_type,
                 'create_by' => Auth::user()->staff_id,
             ]);
+
+            Mail::to($permohonan->email)->send(new PanggilanTemuduga($proses_temuduga,$permohonan));
+
         }
-
-
-        Mail::to($permohonan->email)->send(new PanggilanTemuduga($proses_temuduga,$permohonan));
 
         Alert::success( 'Pemohon berjaya dipilih');
         return ['success' => true];
