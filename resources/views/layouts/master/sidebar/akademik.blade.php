@@ -307,7 +307,7 @@
                             <span class="menu-title">Rekod Kehadiran</span>
                         </a>
                     </div>
-                </div>
+                </div>--}}
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
                 <span class="menu-link">
@@ -341,7 +341,7 @@
                             <span class="menu-title">Pensyarah</span>
                         </a>
                     </div>
-                </div> --}}
+                </div>
                     
                 </div>
             </div>

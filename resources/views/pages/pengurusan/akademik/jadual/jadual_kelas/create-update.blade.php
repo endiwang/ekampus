@@ -200,7 +200,24 @@
         data() {
             return {}
         }
-    }).mount('#advanceSearch')
+        }).mount('#advanceSearch')
+
+        $(".lesson-timepicker").daterangepicker({
+            autoApply : true,
+            singleDatePicker: true,
+            showDropdowns: true,
+            autoUpdateInput: false,
+            minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+            maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+            locale: {
+                format: 'HH:mm'
+            },
+            stepping: 30,
+            },function(start, end, label) {
+                var datePicked = moment(start).format('HH:mm');
+                $(".esson-timepicker").val(datePicked);
+        });
+
     </script>
 
     {!! $dataTable->scripts() !!}
