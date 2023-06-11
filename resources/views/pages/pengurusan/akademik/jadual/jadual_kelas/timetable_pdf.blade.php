@@ -1,20 +1,22 @@
 <style type="text/css">
     html {
-        font-family: Arial, Helvetica, sans-serif
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;
     }
 
-    table {
+
+    .timetable {
         width: 100%;
         border: 1px solid black;
         border-collapse: collapse;
     }
 
-    table tr td {
+    .timetable tr td {
         border: 1px solid black;
         padding: 10px;
     }
     
-    table tr:nth-child(even) {
+    .timetable tr:nth-child(even) {
         background-color: #f2f2f2;
     }
 
@@ -25,22 +27,51 @@
 </style>
 
 <html>
-    <div>
-        <p style="font-weight: bold; font-size: 16px;">Jadual Waktu Kelas {{ $kelas->nama ?? null }}</p>
-        <p style="font-weight: bold; font-size: 16px;">Status : {{ $status ?? null }}</p>
+    <div class="header">
+        <table style="border: none !important; margin-top:-40px;" width="100%">
+            <tbody>
+                <tr>
+                    <td>
+                        <p style="font-weight: bold; font-size: 13px; text-transform:uppercase;">Jadual Waktu Kelas {{ $kelas->nama ?? null }}</p>
+                    </td>
+                    <td>
+                        <p style="text-align: right">Status : {{ $status ?? null }}</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <div>
-        <table class="table table-bordered" width="100%">
+        <table class="table table-bordered timetable" width="100%">
             <thead>
-                <th>Waktu</th>
-                @foreach($days as $index => $day)
+                <th width="125">Time</th>
+                @foreach($days as $day)
                     <th>{{ $day }}</th>
                 @endforeach
             </thead>
             <tbody>
-                <tr>
-                    <td></td>
-                </tr>
+                @foreach($calendarData as $time => $days)
+                    <tr>
+                        <td>
+                            {{ $time }}
+                        </td>
+                        @foreach($days as $value)
+                            @if (is_array($value))
+                                <td rowspan="{{ $value['rowspan'] }}" class="align-middle text-center" style="background-color:#f0f0f0; width:15%; text-align:center">
+                                    {{ $value['lesson_name'] }}<br>
+                                    @if(!empty($value['teacher_name']))
+                                    Pensyarah: {{ $value['teacher_name'] }} <br/>
+                                    @endif
+                                    @if(!empty($value['location']))
+                                    Lokasi : {{ $value['location'] }}
+                                    @endif
+                                </td>
+                            @elseif ($value === 1)
+                                <td></td>
+                            @endif
+                        @endforeach
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

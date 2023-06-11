@@ -23,7 +23,7 @@
                                 
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <select class="form-control form-select form-select-sm" data-control="select2" name="status" id="status">
+                                        <select class="form-control form-select form-select-sm" data-control="select2" name="pelajar" id="pelajar">
                                             <option value="">Pilih Pelajar</option>
                                             @foreach($students as $student)
                                             <option value="{{ $student->id }}" @if(!empty($model->pelajar_id) && $student->id == $model->pelajar_id) selected @endif>{{ $student->nama ?? null }} ({{ $student->no_matrik ?? null }})</option>
