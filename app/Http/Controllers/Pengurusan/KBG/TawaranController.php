@@ -382,6 +382,19 @@ class TawaranController extends Controller
         return ['success' => true];
     }
 
+    public function store_tolak_pemohon(Request $request)
+    {
+        // dd($request);
+        foreach($request->ids as $id)
+        {
+            $permohonan = Permohonan::find($id);
+            $permohonan->status = 2;
+            $permohonan->save();
+        }
+        Alert::success( 'Pemohon berjaya ditolak');
+        return ['success' => true];
+    }
+
     /**
      * Remove the specified resource from storage.
      *

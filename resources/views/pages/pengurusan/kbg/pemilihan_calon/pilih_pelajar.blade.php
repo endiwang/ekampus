@@ -72,6 +72,10 @@
                         <i class="fa fa-save"></i>
                         Pilih
                     </button>
+                    <button type="button" class="btn btn-sm btn-danger me-5" data-kt-docs-table-select="tolak-selected" data-bs-toggle="tooltip" title="Tolak">
+                        <i class="fa fa-save"></i>
+                        Tolak
+                    </button>
 
                     <a href="{{ url()->previous() }}" class="btn btn-sm btn-secondary" data-bs-toggle="tooltip">
                         Kembali
@@ -199,6 +203,7 @@
             const container = document.querySelector('#senarai_pemohon_table');
             const checkboxes = container.querySelectorAll('[type="checkbox"]');
             const processSelected = document.querySelector('[data-kt-docs-table-select="simpan-selected"]');
+            const processTolakSelected = document.querySelector('[data-kt-docs-table-select="tolak-selected"]');
 
 
             // Toggle delete selected toolbar
@@ -221,6 +226,30 @@
 
                 $.ajax({
                     url: "{!! route('pengurusan.kbg.pengurusan.tawaran.store_pelajar')!!}",
+                    type: "POST",
+                    data: {
+                                ids: id,
+                                tawaran_id : {!! $tawaran->id !!},
+                                _token: '{{csrf_token()}}'
+                            },
+                    dataType: 'json',
+                    success: function(data){
+                        location.reload();
+                    }
+                });
+
+            });
+
+            processTolakSelected.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                var id = [];
+                $('.pemohon_checkbox:checked').each(function(){
+                    id.push($(this).val());
+                });
+
+                $.ajax({
+                    url: "{!! route('pengurusan.kbg.pengurusan.tawaran.store_tolak_pemohon')!!}",
                     type: "POST",
                     data: {
                                 ids: id,
