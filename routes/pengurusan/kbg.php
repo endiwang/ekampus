@@ -14,6 +14,7 @@ use App\Http\Controllers\Pengurusan\KBG\SenaraiTapisanPermohonanController;
 use App\Http\Controllers\Pengurusan\KBG\PendaftaranPelajarController;
 use App\Http\Controllers\Pengurusan\KBG\ProsesBerhentiController;
 use App\Http\Controllers\Pengurusan\KBG\SenaraiKonvokesyenController;
+use App\Http\Controllers\Pengurusan\KBG\SenaraiRayuanController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -64,6 +65,8 @@ use Illuminate\Support\Facades\Route;
     Route::post('/proses_berhenti/maklumat_pelajar', [ProsesBerhentiController::class, 'getMaklumatPelajar'])->name('pengurusan.proses_berhenti.getMaklumatPelajar');
 
     Route::resource('/pelajar_tamat', PelajarTamatController::class)->only(['index'])->name('index','pengurusan.pelajar_tamat.index');
+
+    Route::resource('/senarai_rayuan', SenaraiRayuanController::class)->only(['index'])->name('index','pengurusan.senarai_rayuan.index');
 
     Route::resource('/cetak_sijil', CetakSijilController::class)->only(['index'])->name('index','pengurusan.cetak_sijil.index');
     Route::resource('/konvokesyen', SenaraiKonvokesyenController::class)->only(['index','create','store','show','update'])->name('index','pengurusan.konvokesyen.index','create','pengurusan.konvokesyen.create','store','pengurusan.konvokesyen.store','show','pengurusan.konvokesyen.show','update','pengurusan.konvokesyen.update');
