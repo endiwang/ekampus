@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Main_Dashboard\UtamaController;
 use App\Http\Controllers\DataMigration\MainController as MigrateMainController;
 use App\Http\Controllers\Pengurusan\Kakitangan\Kehadiran\KehadiranPelajarController;
+use App\Http\Controllers\Pengurusan\Kakitangan\Kehadiran\KehadiranPensyarahController;
 
 Route::group(['middleware' => ['guest']], function() {
     Route::get('/register', [RegisterController::class, 'show'])->name('register');
@@ -54,6 +55,9 @@ Route::get('kehadiran/pelajar/berjaya', [KehadiranPelajarController::class, 'suc
 Route::post('kehadiran/pelajar/submit', [KehadiranPelajarController::class, 'submitKehadiran'])->name('kehadiran.pelajar.submit');
 Route::get('kehadiran/{subjek_id}/{date}', [KehadiranPelajarController::class, 'getkehadiranForm'])->name('kehadiran.submit');
 
+Route::get('pensyarah/pelajar/berjaya', [KehadiranPensyarahController::class, 'successfulSubmission'])->name('pensyarah.kehadiran.successful');
+Route::post('pensyarah/kehadiran/submit', [KehadiranPensyarahController::class, 'submitKehadiran'])->name('pensyarah.kehadiran.submit');
+Route::get('pensyarah/kehadiran/{staff_id}/{date}', [KehadiranPensyarahController::class, 'getkehadiranForm'])->name('pensyarah.kehadiran');
 
 
 //Migrate Data
@@ -81,6 +85,9 @@ Route::prefix('migrate')->group(function () {
     Route::get('/ref_keturunan_to_keturunan', [MigrateMainController::class,'ref_keturunan_to_keturunan']);
     Route::get('/sis_tbltawaran_to_tawaran', [MigrateMainController::class,'sis_tbltawaran_to_tawaran']);
     Route::get('/sis_tbltawaran_mohon_to_tawaran_permohonan', [MigrateMainController::class,'sis_tbltawaran_mohon_to_tawaran_permohonan']);
+    Route::get('/sis_tblkonvo_to_konvo', [MigrateMainController::class,'sis_tblkonvo_to_konvo']);
+    Route::get('/sis_tblkonvo_mohon_to_konvo_pelajar', [MigrateMainController::class,'sis_tblkonvo_mohon_to_konvo_pelajar']);
+    Route::get('/ref_sebab_berhenti_to_sebab_berhenti', [MigrateMainController::class,'ref_sebab_berhenti_to_sebab_berhenti']);
 });
 
 Route::get('/duplicate_data', [MigrateMainController::class,'find_duplicate']);

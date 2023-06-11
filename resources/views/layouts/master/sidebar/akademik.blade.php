@@ -128,6 +128,14 @@
                             <span class="menu-title">Pusat Pengajian</span>
                         </a>
                     </div> --}}
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.penamatan_pengajian.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.penamatan_pengajian.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Arahan Berhenti Belajar</span>
+                        </a>
+                    </div>
 
                     <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.mpk_iso.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.mpk_iso.index') }}">
@@ -191,14 +199,30 @@
                             <span class="menu-title">Pertukaran Syukbah</span>
                         </a>
                     </div>
-                    {{-- <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('base2') ? 'active' : '' }}" href="{{ route('base2') }}">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.permohonan.pelepasan_kuliah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.permohonan.pelepasan_kuliah.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Pelepasan Kuliah</span>
                         </a>
-                    </div> --}}
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.permohonan.penangguhan_pengajian.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.permohonan.penangguhan_pengajian.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Penangguhan Pengajian</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.permohonan.rayuan_pengajian.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.permohonan.rayuan_pengajian.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rayuan Pengajian</span>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">

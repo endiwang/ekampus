@@ -50,4 +50,14 @@ class Permohonan extends Model
     {
         return $this->belongsTo(Temuduga::class,'temuduga_id','id');
     }
+
+    public function temuduga_markah()
+    {
+        return $this->hasOne(TemudugaMarkah::class,'permohonan_id','id');
+    }
+
+    public function muatnaik_dokumen()
+    {
+        return $this->hasMany(PermohonanMuatnaikDokumen::class,'permohonan_id','id');
+    }
 }

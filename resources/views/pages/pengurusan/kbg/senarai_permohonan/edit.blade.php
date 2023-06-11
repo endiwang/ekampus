@@ -18,8 +18,8 @@
                                 <br>
                                 @include('pages.pengurusan.kbg.senarai_permohonan.borang.default.tempat_temuduga')
                                 <br>
-                                @include('pages.pengurusan.kbg.senarai_permohonan.borang.default.akuan_bank')
-                                <br>
+                                {{-- @include('pages.pengurusan.kbg.senarai_permohonan.borang.default.akuan_bank')
+                                <br> --}}
                                 @include('pages.pengurusan.kbg.senarai_permohonan.borang.default.dokumen')
                                 <br>
                                 @include('pages.pengurusan.kbg.senarai_permohonan.borang.diploma.kelulusan_akademik')
@@ -68,14 +68,14 @@
                             @endif
                             <div class="d-flex justify-content-center">
                                 <!--begin::Button-->
-                                <a href="../../demo1/dist/apps/ecommerce/catalog/products.html" id="kt_ecommerce_add_product_cancel" class="btn btn-success me-5">Simpan</a>
-                                <a href="../../demo1/dist/apps/ecommerce/catalog/products.html" id="kt_ecommerce_add_product_cancel" class="btn btn-info me-5">Cetak Borang</a>
+                                <a href="" id="kt_ecommerce_add_product_cancel" class="btn btn-success me-5">Simpan</a>
+                                <a href="" id="kt_ecommerce_add_product_cancel" class="btn btn-info me-5">Cetak Borang</a>
                                 <button onclick="pilih()" id="kt_ecommerce_add_product_cancel" class="btn btn-primary me-5">Proses Pemilihan</button>
                                 <form id="pilih" action="{{ route('pengurusan.kbg.pengurusan.senarai_permohonan.pilih') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $data->id }}">
                                 </form>
-                                <a href="../../demo1/dist/apps/ecommerce/catalog/products.html" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">Kembali</a>
+                                <a href="{{ URL::previous() }}" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">Kembali</a>
                                 <!--end::Button-->
                             </div>
 

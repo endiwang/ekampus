@@ -14,7 +14,7 @@
                         <div class="form-text mt-0">Select Center of Interview</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('pusat_temuduga', ['Z1' => 'Zon Utara', 'Z2' => 'Zon Selatan', 'Z3' =>'Zon Tengah'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
+                        {{ Form::select('pusat_temuduga',$pusat_temuduga, $data->temuduga, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ']) }}
                     </div>
                 </div>
 

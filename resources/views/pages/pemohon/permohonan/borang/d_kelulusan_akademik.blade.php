@@ -9,27 +9,61 @@
         {{-- <form id="kt_account_profile_details_form" class="form"> --}}
             <div class="card-body border-top p-9">
 
-                {{-- <div class="row mb-6">
-                    <div class="col-lg-4">
-                        {{ Form::label('nama_sekolah', '15. Nama Sekolah Terakhir', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
-                        <div class="form-text mt-0">School Name (Last)</div>
-                    </div>
-                    <div class="col-lg-8 fv-row">
-                        {{ Form::text('nama_sekolah','',['class' => 'form-control form-control-lg form-control-solid']) }}
+                @if ($kursus->kod == 'S' || $kursus->kod == 'ST')
+
+                <div>
+                    <div class="row">
+                        <div class="row mb-6">
+                            <div col-lg-12>
+                                <span class="text-black-100 mt-1 fs-6">Maklumat Pendidikan Menengah</span>
+                                {{-- <span class="text-black-100 mt-1 fs-6">Keputusan Percubaan SIJIL PELAJARAN MALAYSIA (SPM) / SPM TRIAL RESULT</span> --}}
+                            </div>
+                        </div>
+
+                        <div class="d-grid col-lg-12 fv-row">
+                            <div class="row mb-6">
+                                <div class="col-lg-4 col-md-8 col-12">
+                                    <input type="text" class="form-control form-control-lg " name='pendidikan_sekolah[0]' placeholder="Nama Sekolah">
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-6 mt-2 mt-md-0 mt-lg-0">
+                                    <input type="number" class="form-control form-control-lg " name='pendidikan_tahun[0]' placeholder="Tahun Tamat">
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-6 mt-2 mt-md-0 mt-lg-0">
+                                    <input type="text" class="form-control form-control-lg " name='pendidikan_kelulusan[0]' placeholder="Kelulusan Tertinggi">
+                                </div>
+                                <div class="col-lg-3 col-md-2 col-6 mt-2 mt-md-0 mt-lg-0">
+                                    <input type="text" class="form-control form-control-lg " name='pendidikan_keputusan[0]' placeholder="Keputusan">
+                                </div>
+                                <div class=" d-grid col-lg-1 col-md-2 col-6 mt-2 mt-md-0 mt-lg-0">
+                                </div>
+                            </div>
+
+                            <div class="row mb-6" id="template-pendidikan" style="display: none">
+                                <div class="col-lg-4 col-md-8 col-12">
+                                    <input type="text" class="form-control form-control-lg " data-name='pendidikan.sekolah' placeholder="Nama Sekolah">
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-6 mt-2 mt-md-0 mt-lg-0">
+                                    <input type="number" class="form-control form-control-lg " data-name='pendidikan.tahun' placeholder="Tahun Tamat">
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-6 mt-2 mt-md-0 mt-lg-0">
+                                    <input type="text" class="form-control form-control-lg " data-name='pendidikan.kelulusan' placeholder="Kelulusan Tertinggi">
+                                </div>
+                                <div class="col-lg-3 col-md-2 col-6 mt-2 mt-md-0 mt-lg-0">
+                                    <input type="text" class="form-control form-control-lg " data-name='pendidikan.keputusan' placeholder="Keputusan">
+                                </div>
+                                <div class=" d-grid col-lg-1 col-md-2 col-6 mt-2 mt-md-0 mt-lg-0">
+                                    <button type="button" class="btn btn-danger btn-block p-0 js-remove-button-pendidikan"><i class="bi bi-x-circle-fill fs-2 p-0 js-remove-button-pendidikan-icon"></i></button>
+                                </div>
+                            </div>
+                            {{-- <button type="button" class="btn btn-success btn-block" id="add-button-pendidikan" style="margin-right: 3px"><i class="bi bi-plus-circle-fill fs-2"></i>Tambah Maklumat Pendidikan Menengah</button> --}}
+                        </div>
                     </div>
                 </div>
 
-                <div class="row mb-6">
-                    <div class="col-lg-4">
-                        {{ Form::label('alamat_sekolah', '16. Alamat Sekolah Terakhir', ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
-                        <div class="form-text mt-0">School Addess (Last)</div>
-                    </div>
-                    <div class="col-lg-8 fv-row">
-                        {{ Form::textarea('alamat_sekolah','',['class' => 'form-control form-control-lg form-control-solid', 'rows'=>'4']) }}
-                    </div>
-                </div>
+                @endif
+                @if ($kursus->kod == 'D' || $kursus->kod == 'S')
 
-                <div class="separator separator-dashed my-6"></div> --}}
+                <div class="separator separator-dashed my-6"></div>
 
                 <div class="row mb-6">
                     <div col-lg-12>
@@ -44,7 +78,7 @@
                         <div class="form-text mt-0">Year of exermination</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('tahun_peperiksaan', ['2022' => '2022', '2021' => '2021', '2020' =>'2020'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg']) }}
+                        {{ Form::select('tahun_peperiksaan', ['2022' => '2022', '2021' => '2021', '2020' =>'2020'], $maklumat_akademik ? $maklumat_akademik->tahun_pepriksaan : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg']) }}
                     </div>
                 </div>
                 <div class="row mb-6">
@@ -53,7 +87,7 @@
                         <div class="form-text mt-0">Type of exermination</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('jenis_peperiksaan', ['spm' => 'Sijil Pelajaran Malaysia (SPM)', 'setara' => 'Sijil-Sijil Lain Yang Setaraf Dengan SPM'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg', 'v-on:change' => 'jenisPeperiksaan($event)']) }}
+                        {{ Form::select('jenis_peperiksaan', ['spm' => 'Sijil Pelajaran Malaysia (SPM)', 'setara' => 'Sijil-Sijil Lain Yang Setaraf Dengan SPM'], $maklumat_akademik ? $maklumat_akademik->type : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-lg', 'v-on:change' => 'jenisPeperiksaan($event)']) }}
                     </div>
                 </div>
 
@@ -152,6 +186,9 @@
                         </div>
                     </div>
                 </div>
+
+                @endif
+
 
                 <!-- Sijil - Sijil Lain End -->
                 <!-- STAM -->

@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::select('pusat_temuduga',['1'=>'Zon Utara','2'=>'Zon Selatan','3'=>'Zon Timur','4'=>'Zon Tengah'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm '.($errors->has('pusat_temuduga') ? 'is-invalid':'')]) }}
+                                        {{ Form::select('pusat_temuduga',$pusat_temuduga, null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm '.($errors->has('pusat_temuduga') ? 'is-invalid':'')]) }}
                                         @error('pusat_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>

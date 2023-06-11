@@ -256,6 +256,25 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('pusat_temuduga', 'Pusat Temuduga', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{-- <label class="form-check form-check-custom form-check-inline"> --}}
+                                                <div class="row">
+                                                @foreach ($pusat_temuduga as $pusat_temuduga_data)
+                                                    <div class="col-md-4 mb-2">
+                                                        <input class="form-check-input" name="pusat_temuduga[]" type="checkbox" value="{{$pusat_temuduga_data->id}}" @if ($tetapan_permohonan->pusat_temuduga != NULL && array_key_exists($pusat_temuduga_data->id,(array)$tetapan_permohonan->pusat_temuduga)) @checked(true) @endif>
+                                                        <span class="fw-semibold p-2 fs-7 text-capitalize">{{ $pusat_temuduga_data->nama }}</span>
+                                                    </div>
+                                                @endforeach
+                                                </div>
+                                            {{-- </label> --}}
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-9 offset-md-3">
                                         <div class="d-flex">

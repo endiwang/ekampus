@@ -8,11 +8,16 @@ use Yajra\DataTables\Html\Builder;
 use App\Models\Tawaran;
 use Yajra\DataTables\DataTables;
 use App\Helpers\Utils;
+use App\Mail\TawaranPemohon;
 use App\Models\Kursus;
+use App\Models\Permohonan;
 use App\Models\Sesi;
 use App\Models\Staff;
+use App\Models\TawaranPermohonan;
+use App\Models\TemudugaMarkah;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class TawaranController extends Controller
 {
@@ -24,7 +29,6 @@ class TawaranController extends Controller
     public function index(Builder $builder)
     {
         // try {
-
 
             $title = "Senarai Maklumat Pemilihan Pelajar";
             $breadcrumbs = [
@@ -42,8 +46,8 @@ class TawaranController extends Controller
             ];
 
             if (request()->ajax()) {
-                $data = Tawaran::all();
-                return DataTables::of($data)
+                $data = Tawaran::orderBy('id', 'desc');
+                return DataTables::of($data->get())
 
                 ->addColumn('kursus', function($data) {
 
@@ -84,10 +88,22 @@ class TawaranController extends Controller
                     return Utils::formatDate($data->tarikh);
                 })
 
+                ->addColumn('bilangan_pemohon', function($data) {
+
+                    $bil = $data->tawaran_permohonan;
+
+                    if($bil)
+                    {
+                        return $bil->count();
+                    }else{
+                        return 0;
+                    }
+                })
+
 
                 ->addColumn('action', function($data){
 
-                    $action = '<a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up" data-bs-toggle="tooltip">
+                    $action = '<a href="'.route('pengurusan.kbg.pengurusan.tawaran.export_senarai',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up" data-bs-toggle="tooltip" target="_black">
                     <i class="fa fa-print"></i></a>
 
                     <a href="'.route('pengurusan.kbg.tawaran.show',$data->id).'" class="edit btn btn-icon btn-dark btn-sm hover-elevate-up" data-bs-toggle="tooltip">
@@ -102,7 +118,7 @@ class TawaranController extends Controller
                 })
 
                 ->addIndexColumn()
-                ->rawColumns(['kursus','kod','action','sesi','tarikh_format'])
+                ->rawColumns(['kursus','kod','action','sesi','tarikh_format','bilangan_pemohon'])
                 ->toJson();
             }
 
@@ -113,7 +129,7 @@ class TawaranController extends Controller
                 ['data' => 'sesi',     'name' => 'sesi',          'title' => 'Sesi Pengajian', 'orderable'=> false],
                 ['data' => 'tarikh_format',     'name' => 'tarikh_format',          'title' => 'Tarikh Pendaftaran', 'orderable'=> false],
                 ['data' => 'masa',     'name' => 'masa',          'title' => 'Masa', 'orderable'=> false],
-                ['data' => 'bil_calon',     'name' => 'bil_calon',          'title' => 'Bilangan Calon', 'orderable'=> false],
+                ['data' => 'bilangan_pemohon',     'name' => 'bilangan_pemohon',          'title' => 'Bilangan Calon', 'orderable'=> false],
                 ['data' => 'action',    'name' => 'action',         'title' => 'Tindakan','orderable' => false, 'searchable' => false, 'class'=>'max-w-10px'],
 
             ])
@@ -159,8 +175,10 @@ class TawaranController extends Controller
     public function store(Request $request)
     {
         Tawaran::create([
+            'tawaran_id_old' => 'NULL',
             'kursus_id' => $request->program_pengajian,
             'sesi_id' => $request->sesi,
+            'pusat_id' => 1,
             'tajuk_tawaran' => $request->tajuk_tawaran,
             'tarikh_surat' => Carbon::createFromFormat('d/m/Y',$request->tarikh_surat)->format('Y-m-d'),
             'tarikh' => Carbon::createFromFormat('d/m/Y',$request->tarikh_pendaftaran)->format('Y-m-d'),
@@ -182,12 +200,84 @@ class TawaranController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Builder $builder, $id)
     {
+        $title = "Maklumat Tawaran";
+        $breadcrumbs = [
+            "Kemasukan Biasiswa Graduasi" =>  false,
+            "Senarai Maklumat Pemilihan Pelajar	" =>  false,
+            "Maklumat Tawaran	" =>  false,
+        ];
+
         $tawaran = Tawaran::find($id);
         $kursus = Kursus::where('deleted_at', null)->pluck('nama', 'id');
         $sesi = Sesi::where('is_deleted',0)->pluck('nama', 'id');
-        return view('pages.pengurusan.kbg.pemilihan_calon.show', compact('tawaran','kursus','sesi'));
+
+
+
+        if (request()->ajax()) {
+            $data = TawaranPermohonan::where('tawaran_id',$id)->with('pemohon');
+            return DataTables::of($data->get())
+
+            ->addColumn('nama', function($data) {
+
+
+                return $data->pemohon->nama;
+
+            })
+            ->addColumn('no_ic', function($data) {
+
+                return $data->pemohon->no_ic;
+
+            })
+            ->addColumn('no_tel', function($data) {
+
+                return $data->pemohon->no_tel;
+            })
+            ->addColumn('status', function($data) {
+
+                if($data->is_terima == '1')
+                {
+                    return '<span class="badge badge-primary">Terima</span>';
+                }elseif($data->is_terima == '2'){
+                    return '<span class="badge badge-danger">Tolak</span>';
+                }else{
+                    return '';
+                }
+            })
+
+
+            ->addColumn('action', function($data){
+
+                $action = '<a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up" data-bs-toggle="tooltip">
+                <i class="fa fa-copy"></i></a>
+                <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-success btn-sm hover-elevate-up" data-bs-toggle="tooltip">
+                <i class="fa fa-print"></i></a>
+                <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up" data-bs-toggle="tooltip">
+                <i class="fa fa-print"></i></a>';
+
+                return $action;
+            })
+
+            ->addIndexColumn()
+            ->rawColumns(['nama','no_ic','no_tel','action','status'])
+            ->toJson();
+        }
+
+        $dataTable = $builder
+        ->columns([
+            [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false, 'class'=>'min-w-10px'],
+            ['data' => 'nama',      'name' => 'nama',           'title' => 'Nama', 'orderable'=> false, 'class'=>'text-bold'],
+            ['data' => 'no_ic',     'name' => 'no_ic',          'title' => 'No IC', 'orderable'=> false],
+            ['data' => 'no_tel',     'name' => 'no_tel',          'title' => 'No Tel', 'orderable'=> false],
+            ['data' => 'action',    'name' => 'action',         'title' => 'Tindakan','orderable' => false, 'searchable' => false, 'class'=>'max-w-10px'],
+            ['data' => 'status',    'name' => 'status',         'title' => 'Status','orderable' => false, 'searchable' => false, 'class'=>'max-w-10px'],
+
+        ])
+        ->minifiedAjax();
+
+
+        return view('pages.pengurusan.kbg.pemilihan_calon.show', compact('tawaran','kursus','sesi','title','breadcrumbs','dataTable'));
     }
 
     /**
@@ -230,6 +320,68 @@ class TawaranController extends Controller
 
     }
 
+    public function pilih_pelajar($id)
+    {
+        $title = "Pilih Pelajar";
+        $breadcrumbs = [
+            "Kemasukan Biasiswa Graduasi" =>  false,
+            "Senarai Maklumat Pemilihan Pelajar	" =>  false,
+            "Maklumat Tawaran" =>  false,
+            "Pilih Pelajar" =>  false,
+        ];
+
+        $tawaran = Tawaran::find($id);
+
+        return view('pages.pengurusan.kbg.pemilihan_calon.pilih_pelajar', compact('tawaran','title','breadcrumbs'));
+    }
+
+    public function pilih_pelajar_api($id)
+    {
+        // if (request()->ajax()) {
+            $tawaran = Tawaran::find($id);
+
+            // $data = TemudugaMarkah::where('tawaran_id',$id);
+
+            $data = Permohonan::where('kursus_id', $tawaran->kursus_id)->where('sesi_id',$tawaran->sesi_id)->where('is_tawaran',0)
+                        ->whereHas('temuduga_markah', function ($query) use ($tawaran) {
+                            $query  ->where('jumlah', '>',0);
+                        })->with('temuduga_markah')->get();
+
+            // $data = Permohonan::where('kursus_id', $proses_temuduga->kursus_id)->where('is_deleted',0)->where('is_submitted',1)->where('is_selected',1)->where('is_tawaran',0)->where('is_interview',0)->where('sesi_id',$sesi->id)->get();
+
+            return Datatables::of($data)
+                // ->addIndexColumn()
+                // ->rawColumns(['paid','status','amount','category','application_date','action','checkbox'])
+                ->make(true);
+        // }
+    }
+
+    public function store_pelajar(Request $request)
+    {
+        $tawaran = Tawaran::find($request->tawaran_id);
+        foreach($request->ids as $id)
+        {
+            $permohonan = Permohonan::find($id);
+            $permohonan->is_tawaran = 1;
+            // $permohonan->temuduga_id = $request->proses_temuduga_id;
+            // $permohonan->interview_date = Carbon::now()->format('Y-m-d');
+            // $permohonan->interview_by = $proses_temuduga->id_ketua;
+            $permohonan->save();
+
+
+            TawaranPermohonan::create([
+                'tawaran_id' => $request->tawaran_id,
+                'permohonan_id' => $id,
+            ]);
+
+            Mail::to($permohonan->email)->send(new TawaranPemohon($tawaran,$permohonan));
+
+        }
+
+        Alert::success( 'Pemohonan berjaya dipilih');
+        return ['success' => true];
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -239,6 +391,37 @@ class TawaranController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function export_senarai($id)
+    {
+
+        $temuduga = Tawaran::find($id);
+        // $markah_temuduga = TemudugaMarkah::where('temuduga_id', $id)->get();
+        $title = 'Senarai Pemohon';
+
+        $datas  = $this->exportDataProcess($id);
+        $view_file  = 'pages.pengurusan.kbg.pemilihan_calon.export_pdf';
+        $orientation = 'landscape';
+
+                return Utils::pdfGenerate($title, $datas, $view_file, $orientation);
+    }
+
+    private function exportDataProcess($id)
+    {
+
+
+        $tawaran = Tawaran::find($id);
+        $pemohon = TawaranPermohonan::where('tawaran_id',$id)->with('pemohon')->get();
+
+
+        $datas = [
+            'tawaran'   => $tawaran,
+            'pemohon'   => $pemohon
+        ];
+
+        return $datas;
+
     }
 
 }

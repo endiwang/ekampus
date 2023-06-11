@@ -31,14 +31,14 @@
 
                 <div class="separator separator-dashed my-6"></div> --}}
 
-                <div class="row mb-6">
+                {{-- <div class="row mb-6">
                     <div col-lg-12>
-                        <span class="text-black-100 mt-1 fs-7">Maklumat Pengajian Sedia Ada</span>
+                        <span class="text-black-100 mt-1 fs-7">Maklumat Pengajian Sedia Ada</span> --}}
                         {{-- <span class="text-black-100 mt-1 fs-7">Keputusan Percubaan SIJIL PELAJARAN MALAYSIA (SPM) / SPM TRIAL RESULT</span> --}}
-                    </div>
-                </div>
+                    {{-- </div>
+                </div> --}}
 
-                <div class="row mb-6">
+                {{-- <div class="row mb-6">
                     <div class="col-lg-4">
                         {{ Form::label('peringkat_pengajian', '17. Peringkat Pengajian Tertinggi', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
@@ -66,7 +66,7 @@
                     <div class="col-lg-8 fv-row">
                         {{ Form::select('tahun_pengajian', ['2022' => '2022', '2021' => '2021', '2020' =>'2020'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm', 'v-on:change' => 'jenisPeperiksaan($event)']) }}
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="row mb-6">
                     <div col-lg-12>
@@ -77,23 +77,24 @@
 
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('tahun_peperiksaan', '17. Tahun Peperiksaan', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
-                        <div class="form-text mt-0">Year of exermination</div>
+                        {{ Form::label('tahun_peperiksaan', 'Tahun Peperiksaan', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('tahun_peperiksaan', ['2022' => '2022', '2021' => '2021', '2020' =>'2020'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm']) }}
+                        {{ Form::select('tahun_peperiksaan', ['2022' => '2022', '2021' => '2021', '2020' =>'2020'], $data->akademik->first() ? $data->akademik->first()->tahun_pepriksaan : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm']) }}
                     </div>
                 </div>
                 <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('jenis_peperiksaan', '17. Jenis Peperiksaan', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+                        {{ Form::label('jenis_peperiksaan', 'Jenis Peperiksaan', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                         <div class="form-text mt-0">Type of exermination</div>
                     </div>
                     <div class="col-lg-8 fv-row">
-                        {{ Form::select('jenis_peperiksaan', ['spm' => 'Sijil Pelajaran Malaysia (SPM)', 'setara' => 'Sijil-Sijil Lain Yang Setaraf Dengan SPM'], null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm', 'v-on:change' => 'jenisPeperiksaan($event)']) }}
+                        {{ Form::select('jenis_peperiksaan', ['spm' => 'Sijil Pelajaran Malaysia (SPM)', 'setara' => 'Sijil-Sijil Lain Yang Setaraf Dengan SPM'], $data->akademik->first() ? $data->akademik->first()->type : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm', 'v-on:change' => 'jenisPeperiksaan($event)']) }}
                     </div>
                 </div>
 
+
+                @if ($data->akademik->first() && $data->akademik->first()->type == 'spm')
 
 
                 @php
@@ -109,8 +110,7 @@
                     </div>
                     <div class="row mb-6">
                     <div class="col-lg-4">
-                        {{ Form::label('pusat_temuduga', '18. Mata Pelajaran & Keputusan', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
-                        <div class="form-text mt-0">Subject & Result</div>
+                        {{ Form::label('pusat_temuduga', 'Mata Pelajaran & Keputusan', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                     </div>
                     <div class="col-lg-8 fv-row">
                         <div class="row mb-lg-6">
@@ -119,138 +119,18 @@
                                 {{ Form::label($subjek->slug, $subjek->nama, ['class' => 'col-form-label fw-semibold fs-7 pb-0 pt-0']) }}
                             </div>
                             <div class="col-lg-2 mt-md-3 mt-3 mt-lg-3 fv-row">
-                                {{ Form::select($subjek->slug, $pilihan_keputusan , null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm']) }}
+                                {{ Form::select($subjek->slug, $pilihan_keputusan , $data->akademik->where('matapelajaran',$subjek->nama)->first() ? $data->akademik->where('matapelajaran',$subjek->nama)->first()->gred : '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm']) }}
                             </div>
                             @endforeach
                         </div>
-                        {{-- <div class="row mb-lg-6">
-                            <div class="col-lg-4 mt-md-3 mt-3 mt-lg-0">
-                                {{ Form::label('bahasa_melayu', 'Bahasa Melayu', ['class' => 'col-form-label fw-semibold fs-7 pb-0 pt-0']) }}
-                                <div class="form-text mt-0">Malay Language</div>
-                            </div>
-                            <div class="col-lg-2 fv-row">
-                                {{ Form::select('bahasa_melayu', $pilihan_keputusan , null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm form-control-solid']) }}
-                            </div>
-
-                            <div class="col-lg-4 mt-md-3 mt-3 mt-lg-0">
-                                {{ Form::label('al_syariah', 'Al-Syariah', ['class' => 'col-form-label fw-semibold fs-7 pb-0 pt-0']) }}
-                            </div>
-                            <div class="col-lg-2 fv-row">
-                                {{ Form::select('al_syariah', $pilihan_keputusan , null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm form-control-solid']) }}
-                            </div>
-                        </div>
-                        <div class="row mb-lg-6">
-                             <div class="col-lg-4 mt-md-3 mt-3 mt-lg-0">
-                                {{ Form::label('bahasa_inggeris', 'Bahasa Inggeris', ['class' => 'col-form-label fw-semibold fs-7 pb-0 pt-0']) }}
-                                <div class="form-text mt-0">English</div>
-                            </div>
-                            <div class="col-lg-2 fv-row">
-                                {{ Form::select('bahasa_inggeris', $pilihan_keputusan , null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm form-control-solid']) }}
-                            </div>
-
-                            <div class="col-lg-4 mt-md-3 mt-3 mt-lg-0">
-                                {{ Form::label('turath_dirasat_islamiah', 'Turath Dirasat Islamiah', ['class' => 'col-form-label fw-semibold fs-7 pb-0 pt-0']) }}
-                            </div>
-                            <div class="col-lg-2 fv-row">
-                                {{ Form::select('turath_dirasat_islamiah', $pilihan_keputusan , null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm form-control-solid']) }}
-                            </div>
-                        </div>
-                        <div class="row mb-lg-6">
-                            <div class="col-lg-4 mt-md-3 mt-3 mt-lg-0">
-                                {{ Form::label('quran_sunnah', 'Pendidikan Al-Quran & Sunnah', ['class' => 'col-form-label fw-semibold fs-7 pb-0 pt-0']) }}
-                            </div>
-                            <div class="col-lg-2 fv-row">
-                                {{ Form::select('quran_sunnah', $pilihan_keputusan , null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm form-control-solid']) }}
-                            </div>
-
-                            <div class="col-lg-4 mt-md-3 mt-3 mt-lg-0">
-                                {{ Form::label('manahij_al_ulum', 'Manahij Al-Ulum Al-Islamiah', ['class' => 'col-form-label fw-semibold fs-7 pb-0 pt-0']) }}
-                            </div>
-                            <div class="col-lg-2 fv-row">
-                                {{ Form::select('manahij_al_ulum', $pilihan_keputusan , null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm form-control-solid']) }}
-                            </div>
-                        </div>
-                        <div class="row mb-lg-6">
-                            <div class="col-lg-4 mt-md-3 mt-3 mt-lg-0">
-                                {{ Form::label('syariah_islam', 'Pendidikan Syariah Islam', ['class' => 'col-form-label fw-semibold fs-7 pb-0 pt-0']) }}
-                            </div>
-                            <div class="col-lg-2 fv-row">
-                                {{ Form::select('syariah_islam', $pilihan_keputusan , null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm form-control-solid']) }}
-                            </div>
-
-                            <div class="col-lg-4 mt-md-3 mt-3 mt-lg-0">
-                                {{ Form::label('maharat_al_quran', 'Maharat Al-Quran', ['class' => 'col-form-label fw-semibold fs-7 pb-0 pt-0']) }}
-                            </div>
-                            <div class="col-lg-2 fv-row">
-                                {{ Form::select('maharat_al_quran', $pilihan_keputusan , null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm form-control-solid']) }}
-                            </div>
-                        </div>
-                        <div class="row mb-lg-6">
-                            <div class="col-lg-4 mt-md-3 mt-3 mt-lg-0">
-                                {{ Form::label('pendidikan_islam', 'Pendidikan Islam', ['class' => 'col-form-label fw-semibold fs-7 pb-0 pt-0']) }}
-                            </div>
-                            <div class="col-lg-2 fv-row">
-                                {{ Form::select('pendidikan_islam', $pilihan_keputusan , null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm form-control-solid']) }}
-                            </div>
-
-                            <div class="col-lg-4 mt-md-3 mt-3 mt-lg-0">
-                                {{ Form::label('bahasa_arab', 'Bahasaa Arab', ['class' => 'col-form-label fw-semibold fs-7 pb-0 pt-0']) }}
-                            </div>
-                            <div class="col-lg-2 fv-row">
-                                {{ Form::select('bahasa_arab', $pilihan_keputusan , null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm form-control-solid']) }}
-                            </div>
-                        </div>
-                        <div class="row mb-lg-6">
-                            <div class="col-lg-4 mt-md-3 mt-3 mt-lg-0">
-                                {{ Form::label('tasawwur_islam', 'Tasawwur Islam', ['class' => 'col-form-label fw-semibold fs-7 pb-0 pt-0']) }}
-                            </div>
-                            <div class="col-lg-2 fv-row">
-                                {{ Form::select('tasawwur_islam', $pilihan_keputusan , null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm form-control-solid']) }}
-                            </div>
-
-                            <div class="col-lg-4 mt-md-3 mt-3 mt-lg-0">
-                                {{ Form::label('adab_balaghah', 'Al-Adab Wa Al-Balaghah', ['class' => 'col-form-label fw-semibold fs-7 pb-0 pt-0']) }}
-                            </div>
-                            <div class="col-lg-2 fv-row">
-                                {{ Form::select('adab_balaghah', $pilihan_keputusan , null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm form-control-solid']) }}
-                            </div>
-                        </div>
-                        <div class="row mb-lg-6">
-                            <div class="col-lg-4 mt-md-3 mt-3 mt-lg-0">
-                                {{ Form::label('usuluddin', 'Usuluddin', ['class' => 'col-form-label fw-semibold fs-7 pb-0 pt-0']) }}
-                            </div>
-                            <div class="col-lg-2 fv-row">
-                                {{ Form::select('usuluddin', $pilihan_keputusan , null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm form-control-solid']) }}
-                            </div>
-
-                            <div class="col-lg-4 mt-md-3 mt-3 mt-lg-0">
-                                {{ Form::label('arabiah_muasirah', 'Al-Lughah Al-Arabiah Al-Mu’asirah', ['class' => 'col-form-label fw-semibold fs-7 pb-0 pt-0']) }}
-                            </div>
-                            <div class="col-lg-2 fv-row">
-                                {{ Form::select('arabiah_muasirah', $pilihan_keputusan , null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm form-control-solid']) }}
-                            </div>
-                        </div>
-                        <div class="row mb-lg-6">
-                            <div class="col-lg-4 mt-md-3 mt-3 mt-lg-0">
-                                {{ Form::label('quran_sunnah', 'Turath al-Quran dan Sunnah', ['class' => 'col-form-label fw-semibold fs-7 pb-0 pt-0']) }}
-                            </div>
-                            <div class="col-lg-2 fv-row">
-                                {{ Form::select('turath_quran_sunnah', $pilihan_keputusan , null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm form-control-solid']) }}
-                            </div>
-
-                            <div class="col-lg-4 mt-md-3 mt-3 mt-lg-0">
-                                {{ Form::label('turath_bahasa_arab', 'Turath Bahasa Arab', ['class' => 'col-form-label fw-semibold fs-7 pb-0 pt-0']) }}
-                            </div>
-                            <div class="col-lg-2 fv-row">
-                                {{ Form::select('turath_bahasa_arab', $pilihan_keputusan , null, ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm form-control-solid']) }}
-                            </div>
-                        </div> --}}
 
                     </div>
                     </div>
                 </div>
                 <!-- SPM End -->
                 <!-- Sijil - Sijil Lain -->
+                @elseif ($data->akademik->first() && $data->akademik->first()->type == 'setara')
+
                 <div v-show="showResultSetara">
                     <div class="separator separator-dashed my-6"></div>
                     <div class="row mb-6">
@@ -261,8 +141,7 @@
 
                     <div class="row mb-6">
                         <div class="col-lg-4">
-                            {{ Form::label('nama_sijil_lain', '19. Nama Sijil', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
-                            <div class="form-text mt-0">Certificate Name</div>
+                            {{ Form::label('nama_sijil_lain', 'Nama Sijil', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                         </div>
                         <div class="col-lg-8 fv-row">
                             {{ Form::text('sijil_lain','',['class' => 'form-control form-control-sm']) }}
@@ -271,8 +150,7 @@
 
                     <div class="row mb-6">
                         <div class="col-lg-4">
-                            {{ Form::label('nama_peperiksaan_sijil_lain', '21. Nama Peperiksaan', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
-                            <div class="form-text mt-0">Name of exermination</div>
+                            {{ Form::label('nama_peperiksaan_sijil_lain', 'Nama Peperiksaan', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                         </div>
                         <div class="col-lg-8 fv-row">
                             {{ Form::text('nama_peperiksaan_sijil_lain','',['class' => 'form-control form-control-sm']) }}
@@ -281,7 +159,7 @@
 
                     <div class="row">
                         <div class="col-lg-4">
-                            {{ Form::label('subject_result_sijil_lain', '22. Mata Pelajaran & Keputusan', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
+                            {{ Form::label('subject_result_sijil_lain', 'Mata Pelajaran & Keputusan', ['class' => 'col-form-label required fw-semibold fs-7 pb-0 pt-0']) }}
                             <div class="form-text mt-0">Subject & Result</div>
                         </div>
                         {{-- <div class="d-grid col-lg-8 fv-row">
@@ -326,6 +204,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
 
                 <!-- Sijil - Sijil Lain End -->
                 <!-- STAM -->

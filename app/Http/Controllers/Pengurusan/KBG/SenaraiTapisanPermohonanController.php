@@ -27,7 +27,7 @@ class SenaraiTapisanPermohonanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
 
         try {
@@ -48,10 +48,21 @@ class SenaraiTapisanPermohonanController extends Controller
                 ],
             ];
 
+            $kursus = Kursus::where('is_deleted',0)->pluck('nama', 'id');
+            $sesi = Sesi::where('is_deleted',0)->pluck('nama', 'id');
+
 
             if (request()->ajax()) {
-                $data = Permohonan::where('is_submitted',1)->where('is_deleted',0)->where('is_selected',1)->where('is_tawaran',0)->where('is_interview',0)->get();
-                return DataTables::of($data)
+                $data = Permohonan::where('is_submitted',1)->where('is_deleted',0)->where('is_selected',1)->where('is_tawaran',0)->where('is_interview',0);
+                if($request->has('kursus') && $request->kursus != NULL)
+                {
+                    $data = $data->where('kursus_id', $request->kursus);
+                }
+                if($request->has('sesi') && $request->sesi != NULL)
+                {
+                    $data = $data->where('sesi_id', $request->sesi);
+                }
+                return DataTables::of($data->get())
                 ->addColumn('nama', function($data) {
                     return $data->nama ?? null;
                 })
@@ -92,7 +103,7 @@ class SenaraiTapisanPermohonanController extends Controller
             ])
             ->minifiedAjax();
 
-            return view('pages.pengurusan.kbg.senarai_tapisan_permohonan.main', compact('title', 'breadcrumbs','buttons','dataTable'));
+            return view('pages.pengurusan.kbg.senarai_tapisan_permohonan.main', compact('title', 'breadcrumbs','buttons','dataTable','kursus','sesi'));
 
         } catch (Exception $e) {
             report($e);
@@ -180,7 +191,7 @@ class SenaraiTapisanPermohonanController extends Controller
 
         $subjek_spm = SubjekSPM::where('status',0)->get();
 
-        $permohonan = Permohonan::where('kursus_id',$kursus_id)->where('sesi_id', $sesi_id)->where('is_deleted' ,0)->where('is_submitted' , 1)->where('is_selected' , 1)->where('is_interview',0)->where('is_tawaran',0)->with('akademik');
+        $permohonan = Permohonan::where('kursus_id',$kursus_id)->where('sesi_id', $sesi_id)->where('is_deleted' ,0)->where('is_submitted' , 1)->where('is_selected' , 0)->where('is_interview',0)->where('is_tawaran',0)->with('akademik');
 
         if($subjek_spm)
         {
@@ -221,7 +232,7 @@ class SenaraiTapisanPermohonanController extends Controller
 
             // if ($permohonan) {
             if (request()->ajax() && $permohonan) {
-                    $data = $permohonan;
+                    $data = $permohonan->get();
                 return DataTables::of($data)
                 ->addColumn('nama', function($data) {
                     return $data->nama ?? null;
@@ -239,26 +250,26 @@ class SenaraiTapisanPermohonanController extends Controller
                     $tarikh_permohonan = Utils::formatDate($data->submitted_date);
                     return $tarikh_permohonan;
                 })
-                // ->addColumn('action', function($data){
-                //     return '
-                //             <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
-                //                 <i class="fa fa-pencil-alt"></i>
-                //             </a>';
+                ->addColumn('checkbox', function($data){
+                        return '<input type="checkbox" name="users_checkbox[]" class="users_checkbox pemohon_checkbox" value='.$data->id.' />';
+                    })
 
-                // })
+
                 ->addIndexColumn()
-                ->rawColumns(['nama','kursus','status', 'action','tarikh_permohonan'])
+                ->rawColumns(['nama','kursus','status', 'checkbox','tarikh_permohonan'])
                 ->toJson();
             }
 
 
             $dataTable = $builder
             ->columns([
+                ['data' => 'checkbox',    'name' => 'checkbox',         'title' => '','orderable' => false, 'searchable' => false, 'class'=>'max-w-10px'],
                 [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
                 ['data' => 'nama',      'name' => 'nama',           'title' => 'Nama Pemohon', 'orderable'=> false, 'class'=>'text-bold'],
                 ['data' => 'no_ic',     'name' => 'no_ic',          'title' => 'No. Kad Pengenalan', 'orderable'=> false],
                 ['data' => 'kursus',      'name' => 'kursus',         'title' => 'Jenis Permohonan', 'orderable'=> false],
                 ['data' => 'tarikh_permohonan',   'name' => 'tarik_permohonan',   'title' => 'Tarikh Permohonan', 'orderable'=> false],
+
                 // ['data' => 'action',    'name' => 'action',         'title' => 'Tindakan','orderable' => false, 'searchable' => false, 'class'=>'min-w-100px'],
 
             ])
@@ -269,5 +280,18 @@ class SenaraiTapisanPermohonanController extends Controller
 
         // dd($permohonan->get());
 
+    }
+
+    public function store_pemohon(Request $request)
+    {
+        // dd($request);
+        foreach($request->ids as $id)
+        {
+            $permohonan = Permohonan::find($id);
+            $permohonan->is_selected = 1;
+            $permohonan->save();
+        }
+        Alert::success( 'Pemohon berjaya dipilih');
+        return ['success' => true];
     }
 }

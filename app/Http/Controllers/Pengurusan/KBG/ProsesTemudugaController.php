@@ -20,6 +20,9 @@ use Exception;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Models\PusatTemuduga;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PanggilanTemuduga;
 
 class ProsesTemudugaController extends Controller
 {
@@ -72,19 +75,14 @@ class ProsesTemudugaController extends Controller
 
                 ->addColumn('action', function($data){
                     return '
-                            <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Cetak Borang Kehadiran Temuduga">
-                                <i class="fa fa-file-circle-check"></i>
-                            </a>
-                            <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Cetak Pemarkahan Temuduga">
+                            <a href="'.route('pengurusan.kbg.pengurusan.proses_temuduga.export_senarai',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Cetak Pemarkahan Temuduga" target="_blank">
                                 <i class="fa fa-print"></i>
                             </a>
-                            <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-warning btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Hantar Senarai Keputusan Ke Format Excel">
-                                <i class="fa fa-file-excel"></i>
-                            </a>
+
                             <a href="'.route('pengurusan.kbg.pengurusan.proses_temuduga.pilih_pemohon',$data->id).'" class="edit btn btn-icon btn-dark btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pilih Pemohon">
                                 <i class="fa fa-user-plus"></i>
                             </a>
-                            <a href="'.route('pengurusan.kbg.pengurusan.senarai_permohonan.pemohon',$data->id).'" class="edit btn btn-icon btn-success btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                            <a href="'.route('pengurusan.kbg.proses_temuduga.show', $data->id).'" class="edit btn btn-icon btn-success btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>';
 
@@ -136,8 +134,10 @@ class ProsesTemudugaController extends Controller
             $kursus = Kursus::where('deleted_at', null)->pluck('nama', 'id');
             $sesi = Sesi::where('is_deleted',0)->pluck('nama', 'id');
             $ketua_temuduga = Staff::where('deleted_at', null)->pluck('nama', 'id');
+            $pusat_temuduga = PusatTemuduga::where('pusat_pengajian_id',1)->get()->pluck('nama', 'id');
 
-            return view('pages.pengurusan.kbg.proses_temuduga.add_new', compact('title', 'breadcrumbs', 'page_title','kursus','ketua_temuduga','sesi'));
+
+            return view('pages.pengurusan.kbg.proses_temuduga.add_new', compact('title', 'breadcrumbs', 'page_title','kursus','ketua_temuduga','sesi','pusat_temuduga'));
 
         }catch (Exception $e) {
             report($e);
@@ -211,7 +211,23 @@ class ProsesTemudugaController extends Controller
      */
     public function show($id)
     {
-        //
+        $temuduga = Temuduga::find($id);
+
+        $title = 'Pinda Maklumat Proses Temuduga';
+            $page_title = 'Maklumat Proses Temuduga';
+            $breadcrumbs = [
+                "Kemasukan Biasiswa Graduasi" =>  false,
+                "Proses Temuduga" =>  false,
+                "Pinda Proses" =>  false,
+            ];
+
+        $kursus = Kursus::where('deleted_at', null)->pluck('nama', 'id');
+        $sesi = Sesi::where('is_deleted',0)->pluck('nama', 'id');
+        $ketua_temuduga = Staff::where('deleted_at', null)->pluck('nama', 'id');
+        $pusat_temuduga = PusatTemuduga::where('pusat_pengajian_id',1)->pluck('nama', 'id');
+
+
+        return view('pages.pengurusan.kbg.proses_temuduga.show', compact('title', 'breadcrumbs', 'page_title','kursus','ketua_temuduga','sesi','temuduga','pusat_temuduga'));
     }
 
     /**
@@ -234,7 +250,23 @@ class ProsesTemudugaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $temuduga = Temuduga::find($id);
+        $temuduga->tajuk_borang = $request->tajuk_borang_temuduga;
+        $temuduga->kursus_id = $request->program_pengajian;
+        $temuduga->sesi_id = $request->sesi;
+        $temuduga->temuduga_type = $request->pilihan_temuduga;
+        $temuduga->pusat_temuduga_id = $request->pusat_temuduga;
+        $temuduga->tarikh = Carbon::createFromFormat('d/m/Y',$request->tarikh_temuduga)->format('Y-m-d');
+        $temuduga->masa = $request->masa_temuduga;
+        $temuduga->nama_tempat = $request->nama_tempat_temuduga;
+        $temuduga->alamat_temuduga = $request->alamat_tempat_temuduga;
+        $temuduga->id_ketua = $request->ketua_temuduga;
+        $temuduga->tkh_cetakan = Carbon::createFromFormat('d/m/Y',$request->tarikh_cetak_surat_temuduga)->format('Y-m-d');
+
+        $temuduga->save();
+        Alert::toast('Maklumat proses temuduga berjaya dikemaskini!', 'success');
+        return redirect()->route('pengurusan.kbg.pengurusan.proses_temuduga.index');
+
     }
 
     /**
@@ -342,8 +374,60 @@ class ProsesTemudugaController extends Controller
                 'temuduga_type' => $proses_temuduga->temuduga_type,
                 'create_by' => Auth::user()->staff_id,
             ]);
+
+            Mail::to($permohonan->email)->send(new PanggilanTemuduga($proses_temuduga,$permohonan));
+
         }
+
         Alert::success( 'Pemohon berjaya dipilih');
         return ['success' => true];
+    }
+
+    public function kemas_kini_markah($id)
+    {
+        $markah_temuduga = TemudugaMarkah::where('temuduga_id', $id)->get();
+
+        $title = "Kemas Kini Markah Temuduga";
+        $breadcrumbs = [
+            "Kemasukan Biasiswa Graduasi" =>  false,
+            "Keputusan Temuduga" =>  false,
+            "Kemas Kini Markah" =>  false,
+        ];
+
+        $temuduga = Temuduga::find($id);
+
+        return view('pages.pengurusan.kbg.keputusan_temuduga.kemas_kini_markah', compact('title', 'breadcrumbs', 'markah_temuduga','temuduga'));
+
+
+    }
+
+    public function export_senarai($id)
+    {
+
+        $temuduga = Temuduga::find($id);
+        // $markah_temuduga = TemudugaMarkah::where('temuduga_id', $id)->get();
+        $title = 'Temuduga Program ' . $temuduga->tajuk_borang;
+
+        $datas  = $this->exportDataProcess($id);
+        $view_file  = 'pages.pengurusan.kbg.proses_temuduga.export_pdf';
+        $orientation = 'landscape';
+
+                return Utils::pdfGenerate($title, $datas, $view_file, $orientation);
+    }
+
+    private function exportDataProcess($id)
+    {
+
+        $markah_temuduga = TemudugaMarkah::where('temuduga_id', $id)->with('pemohon',)->get();
+
+        $temuduga = Temuduga::find($id);
+
+        $datas = [
+            'temuduga'        => $temuduga,
+            'markah_temuduga' => $markah_temuduga
+        ];
+
+        return $datas;
+
     }
 }

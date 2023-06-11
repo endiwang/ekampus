@@ -13,10 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('permohonan_x_hantar', function (Blueprint $table) {
-            $table->integer('negeri_kelahiran')->after('jantina')->nullable();
-            $table->string('bumiputra')->after('keturunan')->nullable();
-
+        Schema::table('users', function (Blueprint $table) {
+            $table->tinyInteger('is_berhenti')->after('is_student')->default(0);
         });
     }
 
@@ -27,9 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('permohonan_x_hantar', function (Blueprint $table) {
-            $table->dropColumn('negeri_kelahiran');
-            $table->dropColumn('bumiputra');
+        Schema::table('users', function (Blueprint $table) {
+            Schema::dropIfExists('is_berhenti');
         });
     }
 };

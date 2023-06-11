@@ -14,6 +14,9 @@ use App\Models\Negeri;
 use App\Models\SubjekSPM;
 use Exception;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\Kursus;
+use App\Models\PusatTemuduga;
+use App\Models\Sesi;
 
 
 
@@ -25,7 +28,7 @@ class SenaraiPermohonanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -39,15 +42,27 @@ class SenaraiPermohonanController extends Controller
             $buttons = [
                 [
                     'title' => "Tambah Permohonan",
-                    'route' => route('pengurusan.akademik.guru_tasmik.create'),
+                    'route' => "",
                     'button_class' => "btn btn-sm btn-primary fw-bold",
                     'icon_class' => "fa fa-plus-circle"
                 ],
             ];
 
+            $kursus = Kursus::where('is_deleted',0)->pluck('nama', 'id');
+            $sesi = Sesi::where('is_deleted',0)->pluck('nama', 'id');
+
             if (request()->ajax()) {
-                $data = Permohonan::where('is_submitted',1)->where('is_deleted',0)->where('is_selected',0)->where('is_tawaran',0)->where('is_interview',0)->get();
-                return DataTables::of($data)
+                $data = Permohonan::where('is_submitted',1)->where('is_deleted',0)->where('is_selected',0)->where('is_tawaran',0)->where('is_interview',0);
+                if($request->has('kursus') && $request->kursus != NULL)
+                {
+                    $data = $data->where('kursus_id', $request->kursus);
+                }
+                if($request->has('sesi') && $request->sesi != NULL)
+                {
+                    $data = $data->where('sesi_id', $request->sesi);
+                }
+
+                return DataTables::of($data->get())
                 ->addColumn('nama', function($data) {
                     return $data->nama ?? null;
                 })
@@ -87,7 +102,7 @@ class SenaraiPermohonanController extends Controller
             ])
             ->minifiedAjax();
 
-            return view('pages.pengurusan.kbg.senarai_permohonan.main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
+            return view('pages.pengurusan.kbg.senarai_permohonan.main', compact('title', 'breadcrumbs', 'buttons', 'dataTable','kursus','sesi'));
 
         } catch (Exception $e) {
             report($e);
@@ -145,6 +160,8 @@ class SenaraiPermohonanController extends Controller
             $negeri = Negeri::pluck('nama', 'id');
             $keturunan = Keturunan::where('status',0)->pluck('nama', 'id');
             $subjek_spm = SubjekSPM::all();
+            $pusat_temuduga = PusatTemuduga::where('pusat_pengajian_id',1)->get()->pluck('nama', 'id');
+
 
 
             $title = "Maklumat Permohonan";
@@ -155,7 +172,7 @@ class SenaraiPermohonanController extends Controller
 
             $data = Permohonan::find($id);
 
-            return view('pages.pengurusan.kbg.senarai_permohonan.edit', compact('title', 'breadcrumbs','data','negeri','keturunan','subjek_spm'));
+            return view('pages.pengurusan.kbg.senarai_permohonan.edit', compact('title', 'breadcrumbs','data','negeri','keturunan','subjek_spm','pusat_temuduga'));
 
         } catch (Exception $e) {
             report($e);

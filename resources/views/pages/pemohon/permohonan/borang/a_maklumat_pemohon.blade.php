@@ -14,7 +14,7 @@
                     <div class="form-text mt-0">Picture</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    <div class="image-input image-input-outline image-input-empty" data-kt-image-input="true" style="background-image: url('assets/media/svg/avatars/blank.svg')">
+                    {{-- <div class="image-input image-input-outline image-input-empty" data-kt-image-input="true" style="background-image: url('assets/media/svg/avatars/blank.svg')">
                         <!--begin::Preview existing avatar-->
                         <div class="image-input-wrapper w-125px h-125px"></div>
                         <!--end::Preview existing avatar-->
@@ -38,6 +38,30 @@
 
                         <!--begin::Remove-->
                         <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Tukar gambar">
+                            <i class="bi bi-x fs-2"></i>
+                        </span>
+                        <!--end::Remove-->
+                    </div> --}}
+                    <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('assets/media/svg/avatars/blank.svg')">
+                        <!--begin::Preview existing avatar-->
+                        <div class="image-input-wrapper w-125px h-125px" style="background-image: url('{{ $maklumat_pemohon ? asset($maklumat_pemohon->gambar) : ''}}')"></div>
+                        <!--end::Preview existing avatar-->
+                        <!--begin::Label-->
+                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
+                            <i class="bi bi-pencil-fill fs-7"></i>
+                            <!--begin::Inputs-->
+                            <input type="file" name="avatar" accept=".png, .jpg, .jpeg"/>
+                            <input type="hidden" name="avatar_remove" />
+                            <!--end::Inputs-->
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Cancel-->
+                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
+                            <i class="bi bi-x fs-2"></i>
+                        </span>
+                        <!--end::Cancel-->
+                        <!--begin::Remove-->
+                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
                             <i class="bi bi-x fs-2"></i>
                         </span>
                         <!--end::Remove-->
@@ -85,7 +109,8 @@
                     <div class="form-text mt-0">Date of Birth</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    <input class="form-control form-control-lg "name="tarikh_lahir" id="tarikh_lahir" onkeydown="return false"/>
+                    {{-- <input class="form-control form-control-lg "name="tarikh_lahir" id="tarikh_lahir" onkeydown="return false"/> --}}
+                    {{ Form::text('tarikh_lahir', $maklumat_pemohon ? Carbon\Carbon::parse($maklumat_pemohon->tarikh_lahir)->format('d/m/Y') : '',['class' => 'form-control form-control-sm '.($errors->has('tarikh_lahir') ? 'is-invalid':''), 'id' =>'tarikh_lahir','onkeydown' =>'return false','autocomplete' => 'off']) }}
                     {{-- {{ Form::date('tarikh_lahir','',['class' => 'form-control form-control-lg ']) }} --}}
                 </div>
             </div>
@@ -253,7 +278,7 @@
                     <div class="form-text mt-0">Bumiputra</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::select('bumiputra',['B' => 'Bumiputera', 'BSB' => 'Bumiputera Sabah Sabah', 'BSR' =>'Bumiputera Sarawak', 'BB' => 'Bukan Bumiputera'],$maklumat_pemohon ? $maklumat_pemohon->bumiputra : '',['placeholder' => 'Sila Pilih','class' => 'form-control form-control-lg ']) }}
+                    {{ Form::select('bumiputra',[1 => 'Bumiputera', 2 => 'Bumiputera Sabah Sabah', 3 =>'Bumiputera Sarawak', 4 => 'Bukan Bumiputera'],$maklumat_pemohon ? $maklumat_pemohon->bumiputra : '',['placeholder' => 'Sila Pilih','class' => 'form-control form-control-lg ']) }}
                 </div>
             </div>
             <div class="row mb-6">
@@ -291,7 +316,7 @@
                     <div class="form-text mt-0">Chronic Diseases</div>
                 </div>
                 <div class="col-lg-8 fv-row">
-                    {{ Form::select('penyakit_kronik', [
+                    {{ Form::select('penyakit_kronik[]', [
                         'N' => 'Tiada Penyakit',
                         'alergi' => 'Alergi',
                         'jantung' => 'Jantung',
@@ -303,7 +328,7 @@
                         'darah tinggi' => 'Darah Tinggi',
                         'sakit mental' => 'Sakit Mental',
                         'anxiety disorder' => 'Anxiety Disorder'
-                        ], $maklumat_pemohon ? $maklumat_pemohon->penyakit_kronik : '', ['class' =>'form-control form-control-lg ', 'data-control'=>'select2', 'multiple'=>'multiple', 'data-placeholder' => 'Sila Pilih']) }}
+                        ], $maklumat_pemohon ? json_decode($maklumat_pemohon->penyakit_kronik) : '', ['class' =>'form-control form-control-lg ', 'data-control'=>'select2', 'multiple'=>'multiple', 'data-placeholder' => 'Sila Pilih']) }}
                 </div>
             </div>
             <div class="row mb-6">

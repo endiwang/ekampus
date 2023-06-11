@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('tawaran', function (Blueprint $table) {
             $table->id();
-            $table->string('tawaran_id_old')->comment('Dari table lama');
+            $table->string('tawaran_id_old')->nullable()->comment('Dari table lama');
             $table->char('type',2)->nullable();
             $table->integer('kursus_id')->nullable();
             $table->integer('pusat_id')->nullable();

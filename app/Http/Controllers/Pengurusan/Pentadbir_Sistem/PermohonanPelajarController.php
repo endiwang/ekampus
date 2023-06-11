@@ -22,9 +22,11 @@ class PermohonanPelajarController extends Controller
      */
     public function index(Builder $builder)
     {
-        $test = TetapanPermohonanPelajar::find(19);
+        // $test = TetapanPermohonanPelajar::find(19);
+        // $data = TetapanPermohonanPelajar::first();
+        // dd($data->pusat_temuduga);
         if (request()->ajax()) {
-            $data = TetapanPermohonanPelajar::query();
+            $data = TetapanPermohonanPelajar::select('id','kursus_id','sesi_id','mula_permohonan','tutup_permohonan','status');
             return DataTables::of($data)
             ->addColumn('kursus', function($data) {
                 if($data->kursus == NULL)
@@ -229,7 +231,9 @@ class PermohonanPelajarController extends Controller
         $kursus = Kursus::where('is_deleted',0)->pluck('nama', 'id');
         $sesi = Sesi::where('is_deleted',0)->pluck('nama', 'id');
         $tetapan_permohonan = TetapanPermohonanPelajar::find($id);
-        return view('pages.pengurusan.pentadbir_sistem.permohonan_pelajaran.edit', compact('kursus','sesi','tetapan_permohonan'));
+        $pusat_temuduga = PusatTemuduga::where('pusat_pengajian_id',1)->get();
+
+        return view('pages.pengurusan.pentadbir_sistem.permohonan_pelajaran.edit', compact('kursus','sesi','tetapan_permohonan','pusat_temuduga'));
     }
 
     /**
