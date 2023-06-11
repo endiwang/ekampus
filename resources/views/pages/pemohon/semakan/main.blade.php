@@ -54,15 +54,19 @@
                                                         <span class="badge py-3 px-4 fs-7 badge-light-primary">Berjaya Dihantar</span>
                                                     @elseif($data->is_selected == 1 && $data->is_interview == 0 && $data->is_tawaran == 0)
                                                         <span class="badge py-3 px-4 fs-7 badge-light-info">Sedang Diproses</span>
-                                                    @elseif($data->is_selected == 1 && $data->is_interview == 1 && $data->is_tawaran == 0)
+                                                    @elseif($data->is_selected == 1 && $data->is_interview == 1 && $data->is_tawaran == 0 && $data->status == 0)
                                                         <span class="badge py-3 px-4 fs-7 badge-light-info">Dipanggil Temuduga</span>
+                                                    @elseif($data->is_selected == 1 && $data->is_interview == 1 && $data->is_tawaran == 0 && $data->status == 2)
+                                                        <span class="badge py-3 px-4 fs-7 badge-light-danger">Permohonan Tidak Berjaya</span>
+                                                    @elseif($data->is_selected == 1 && $data->is_interview == 1 && $data->is_tawaran == 0 && $data->status == 3)
+                                                    <span class="badge py-3 px-4 fs-7 badge-light-primary">Rayuan Berjaya Dihantar</span>
                                                     @elseif($data->is_selected == 1 && $data->is_interview == 1 && $data->is_tawaran == 1)
                                                         <span class="badge py-3 px-4 fs-7 badge-light-success">Ditawarkan</span>
                                                     @endif
 
                                                 </td>
                                                 <td class="text-center pe-0">
-                                                    @if ($data->is_selected == 1 && $data->is_interview == 1 && $data->is_tawaran == 0)
+                                                    @if ($data->is_selected == 1 && $data->is_interview == 1 && $data->is_tawaran == 0 && $data->status == 0)
                                                         <button type="button" class="btn btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="modal" data-bs-target="#maklumat_lanjut_{{ $data->id }}">
                                                             <i class="fa fa-eye"></i> Maklumat Lanjut
                                                         </button>
@@ -131,6 +135,10 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        @elseif($data->is_selected == 1 && $data->is_interview == 1 && $data->is_tawaran == 0 && $data->status == 2)
+                                                            <a href="{{ route('pemohon.rayuan.index',$data->id) }}" class="btn btn-danger btn-sm hover-elevate-up mb-1">
+                                                                <i class="fa fa-pencil"></i> Hantar Rayuan
+                                                            </a>
                                                         @elseif($data->is_selected == 1 && $data->is_interview == 1 && $data->is_tawaran == 1)
                                                             <a href="{{ route('pemohon.tawaran.index',$data->id) }}" class="btn btn-success btn-sm hover-elevate-up mb-1">
                                                                 <i class="fa fa-eye"></i> Maklumat Lanjut
