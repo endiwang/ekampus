@@ -11,6 +11,8 @@ use App\Models\Kelas;
 use App\Models\PensyarahKelas;
 use App\Models\Staff;
 use App\Models\Subjek;
+use App\Services\CalendarService;
+use App\Services\TimeService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -113,21 +115,18 @@ class JadualKelasController extends Controller
      */
     public function store(Request $request)
     {
-        $validation = $request->validate([
-            'hari'          => 'required',
-            'subjek'        => 'required',
-            'masa_mula'     => 'required',
-            'masa_tamat'    => 'required',
-            'pensyarah'     => 'required',
-            'lokasi'        => 'required'
-        ],[
-            'hari.required'         => 'Sila pilih hari',
-            'subjek.required'       => 'Sila pilih subjek',
-            'masa_mula.required'    => 'Sila pilih masa mula',
-            'masa_tamat.required'   => 'Sila pilih masa tamat',
-            'pensyarah.required'    => 'Sila pilih pensyarah',
-            'lokasi.required'       => 'Sila pilih lokasi',
-        ]);
+        //dd($request->all());
+        // $validation = $request->validate([
+        //     'hari'          => 'required',
+        //     'subjek'        => 'required',
+        //     'masa_mula'     => 'required',
+        //     'masa_tamat'    => 'required',
+        // ],[
+        //     'hari.required'         => 'Sila pilih hari',
+        //     'subjek.required'       => 'Sila pilih subjek',
+        //     'masa_mula.required'    => 'Sila pilih masa mula',
+        //     'masa_tamat.required'   => 'Sila pilih masa tamat',
+        // ]);
 
         try {
             $jadual_waktu = JadualWaktu::updateOrCreate([
@@ -203,6 +202,7 @@ class JadualKelasController extends Controller
             $days = Utils::days();
             $times = Utils::times();
             $lecturers = Staff::all()->pluck('nama', 'staff_id');
+
 
             $statuses = [
                 1 => 'Belum Diluluskan',
@@ -361,9 +361,9 @@ class JadualKelasController extends Controller
         }
     }
 
-    public function downloadTimetable($id)
+    public function downloadTimetable(CalendarService $calendarService, $id)
     {
-        // try {
+        try {
             $detail = JadualWaktu::where('kelas_id', $id)->first();
             $kelas = Kelas::find($detail->kelas_id);
 
@@ -376,20 +376,22 @@ class JadualKelasController extends Controller
             {
                 $status = 'Telah Disahkan';
             }
-
-            $jadual_detail = JadualWaktuDetail::with('subjek', 'staff')->where('id', $detail->id)->get();
+            else {
+                $status = 'Tiada Status';
+            }
 
             $days = Utils::days();
+            $calendarData = $calendarService->generateCalendarData($days, $detail->id);
 
             $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadView($this->baseView. '.timetable_pdf', compact('detail', 'days', 'status', 'kelas'))->setPaper('a4', 'landscape');
+            $pdf->loadView($this->baseView. '.timetable_pdf', compact('detail', 'days', 'status', 'kelas', 'calendarData'))->setPaper('a4', 'landscape');
             return $pdf->stream();
 
-        // }catch (Exception $e) {
-        //     report($e);
+        }catch (Exception $e) {
+            report($e);
     
-        //     Alert::toast('Uh oh! Something went Wrong', 'error');
-        //     return redirect()->back();
-        // }
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
     }
 }
