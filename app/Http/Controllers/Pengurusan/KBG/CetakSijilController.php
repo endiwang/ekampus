@@ -27,12 +27,7 @@ class CetakSijilController extends Controller
             ];
 
             $buttons = [
-                [
-                    'title' => "Pendaftaran Pelajar",
-                    'route' => route('pengurusan.akademik.semester.create'),
-                    'button_class' => "btn btn-sm btn-primary fw-bold",
-                    'icon_class' => "fa fa-plus-circle"
-                ],
+                
             ];
 
             if (request()->ajax()) {
@@ -124,7 +119,7 @@ class CetakSijilController extends Controller
             ])
             ->minifiedAjax();
 
-            return view('pages.pengurusan.kbg.cetak_sijil.main', compact('title', 'breadcrumbs', 'buttons', 'dataTable','buttons'));
+            return view('pages.pengurusan.kbg.cetak_sijil.main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
 
         // } catch (Exception $e) {
         //     report($e);
