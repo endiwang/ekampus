@@ -202,7 +202,7 @@ class PenamatanPengajianController extends Controller
         try {
 
             $title = 'Arahan Berhenti Belajar';
-            $action = route('pengurusan.akademik.pengurusan.penamatan_pengajian.store');
+            $action = route('pengurusan.akademik.pengurusan.penamatan_pengajian.update', $id);
             $page_title = 'Pinda Rekod Pelajar Diberhentikan';
             $breadcrumbs = [
                 "Akademik" =>  false,
