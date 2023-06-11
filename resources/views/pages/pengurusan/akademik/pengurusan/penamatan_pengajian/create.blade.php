@@ -14,7 +14,6 @@
                     <div class="card-body py-5">
                         <form class="form" action="{{ $action }}" method="post" enctype="multipart/form-data">
                             @csrf
-                            @csrf
                             @if($model->id) @method('PUT') @endif
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
@@ -111,7 +110,7 @@
         }
     },function(start, end, label) {
         var datePicked = moment(start).format('DD/MM/YYYY');
-        $("#tarikh_rekod").val(datePicked);
+        $("#tarikh_berhenti").val(datePicked);
     });
 
     

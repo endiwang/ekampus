@@ -42,18 +42,34 @@ class PenamatanPengajianController extends Controller
             ];
 
             if (request()->ajax()) {
-                $data = PelajarBerhenti::with('pelajar');
+                $data = PelajarBerhenti::with('pelajar', 'pelajarOld');
                 return DataTables::of($data)
                 ->addColumn('nama_pelajar', function($data) {
-                    return $data->pelajar->nama ?? null;
+                    if(!empty($data->pelajar->nama))
+                    {
+                        return $data->pelajar->nama;
+                    }
+                    else {
+                        return $data->pelajarOld->nama ?? null;
+                    }
                 })
                 ->addColumn('tarikh_berhenti', function($data) {
                     return !empty($data->tarikh_berhenti) ? Utils::formatDate($data->tarikh_berhenti) : null;
                 })
                 ->addColumn('no_ic', function($data) {
-                    $no_ic = !empty($data->pelajar->no_ic) ? $data->pelajar->no_ic : null;
-                    $no_matrik = !empty($data->pelajar->no_matrik) ? $data->pelajar->no_matrik : null;
-                    $student = nl2br($no_ic . "\n" . ' [' . $no_matrik . ']');
+                    $student = '';
+                    if(!empty($data->pelajar->no_ic))
+                    {
+                        $no_ic = !empty($data->pelajar->no_ic) ? $data->pelajar->no_ic : null;
+                        $no_matrik = !empty($data->pelajar->no_matrik) ? $data->pelajar->no_matrik : null;
+                        $student = nl2br($no_ic . "\n" . ' [' . $no_matrik . ']');
+                    }
+                    else  {
+                        $no_ic = !empty($data->pelajarOld->no_ic) ? $data->pelajarOld->no_ic : null;
+                        $no_matrik = !empty($data->pelajarOld->no_matrik) ? $data->pelajarOld->no_matrik : null;
+                        $student = nl2br($no_ic . "\n" . ' [' . $no_matrik . ']');
+                    }
+                    
 
                     return $student;
                 })
@@ -202,7 +218,7 @@ class PenamatanPengajianController extends Controller
         try {
 
             $title = 'Arahan Berhenti Belajar';
-            $action = route('pengurusan.akademik.pengurusan.penamatan_pengajian.store');
+            $action = route('pengurusan.akademik.pengurusan.penamatan_pengajian.update', $id);
             $page_title = 'Pinda Rekod Pelajar Diberhentikan';
             $breadcrumbs = [
                 "Akademik" =>  false,

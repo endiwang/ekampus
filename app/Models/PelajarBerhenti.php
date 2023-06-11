@@ -14,7 +14,7 @@ class PelajarBerhenti extends Model
 
     public function pelajar()
     {
-        return $this->belongsTo(Pelajar::class,'pelajar_id','user_id');
+        return $this->belongsTo(Pelajar::class,'pelajar_id','id');
     }
 
     public function pelajarOld()
