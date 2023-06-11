@@ -196,7 +196,7 @@ class ProsesBerhentiController extends Controller
             $negeri = '';
         }
 
-        $sebab_berhenti = SebabBerhenti::where('status',0)->get()->pluck('berhenti','id');
+        $sebab_berhenti = SebabBerhenti::where('berhenti_status',0)->get()->pluck('berhenti','id');
 
         $response = "<div class='mb-10'>
                         <div class='fs-3 fw-bold text-gray-800 text-center mb-1'>
