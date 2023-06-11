@@ -170,10 +170,10 @@
                     <div class="card-footer">
                         <div class="d-flex justify-content-start" data-kt-docs-table-toolbar="base">
                             <!--begin::Add customer-->
-                            <button type="button" class="btn btn-sm btn-success me-5" data-bs-toggle="tooltip">
+                            <a href="{{ route('pengurusan.kbg.pengurusan.keputusan_temuduga.export_senarai',$temuduga->id) }}" class="btn btn-sm btn-success me-5" data-bs-toggle="tooltip" target="_blank">
                                 <i class="fa fa-print"></i>
                                 Cetak Keputusan Temuduga
-                            </button>
+                            </a>
 
                             <a href="{{ route('pengurusan.kbg.pengurusan.keputusan_temuduga.index') }}" class="btn btn-sm btn-secondary" data-bs-toggle="tooltip">
                                 Kembali
