@@ -16,6 +16,8 @@ use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\HebahanAktivitiControlle
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\MpkIsoController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenamatanPengajianController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenilaianPensyarahController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodAkademikController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodJadualPembelajaranController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodPenawaranSubjekController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahController;
@@ -131,6 +133,9 @@ Route::group(['prefix'=>'pengurusan_ijazah','as'=>'pengurusan_ijazah.'], functio
     Route::resource('pelajar', KemasukanPelajarIjazahController::class);
     Route::resource('penawaran_subjek', RekodPenawaranSubjekController::class);
     Route::get('penawaran_subjek/download/{id}', [RekodPenawaranSubjekController::class, 'download'])->name('penawaran_subjek.download');
-
+    Route::resource('akademik', RekodAkademikController::class);
+    Route::get('akademik/download/{id}', [RekodAkademikController::class, 'download'])->name('akademik.download');
+    Route::resource('jadual_pembelajaran', RekodJadualPembelajaranController::class);
+    Route::get('jadual_pembelajaran/download/{id}', [RekodJadualPembelajaranController::class, 'download'])->name('jadual_pembelajaran.download');
 });
 
