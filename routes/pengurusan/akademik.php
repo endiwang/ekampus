@@ -5,6 +5,7 @@ use App\Http\Controllers\Pengurusan\Akademik\GuruTasmikController;
 use App\Http\Controllers\Pengurusan\Akademik\JadualWaktu\JadualKelasController;
 use App\Http\Controllers\Pengurusan\Akademik\KalendarAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\KelasController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\KemasukanPelajarIjazahController;
 use App\Http\Controllers\Pengurusan\Akademik\KursusController;
 use App\Http\Controllers\Pengurusan\Akademik\MainAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\KelasPelajarController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\HebahanAktivitiControlle
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\MpkIsoController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenamatanPengajianController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenilaianPensyarahController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodPenawaranSubjekController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
@@ -116,5 +118,19 @@ Route::group(['prefix'=>'jadual','as'=>'jadual.'], function(){
     Route::post('jadual_kelas/add_subject', [JadualKelasController::class, 'addSubject'])->name('jadual_kelas.add_subject');
     Route::post('jadual_kelas/update/{id}', [JadualKelasController::class, 'update'])->name('jadual_kelas.update_status');
     Route::resource('jadual_kelas', JadualKelasController::class);
+});
+
+Route::group(['prefix'=>'jadual','as'=>'jadual.'], function(){
+    Route::get('jadual_kelas/download_timetable/{id}', [JadualKelasController::class, 'downloadTimetable'])->name('jadual_kelas.download_timetable');
+    Route::post('jadual_kelas/add_subject', [JadualKelasController::class, 'addSubject'])->name('jadual_kelas.add_subject');
+    Route::post('jadual_kelas/update/{id}', [JadualKelasController::class, 'update'])->name('jadual_kelas.update_status');
+    Route::resource('jadual_kelas', JadualKelasController::class);
+});
+
+Route::group(['prefix'=>'pengurusan_ijazah','as'=>'pengurusan_ijazah.'], function(){
+    Route::resource('pelajar', KemasukanPelajarIjazahController::class);
+    Route::resource('penawaran_subjek', RekodPenawaranSubjekController::class);
+    Route::get('penawaran_subjek/download/{id}', [RekodPenawaranSubjekController::class, 'download'])->name('penawaran_subjek.download');
+
 });
 
