@@ -11,6 +11,7 @@ use App\Http\Controllers\Pengurusan\Akademik\MainAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\KelasPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\SyukbahController;
 use App\Http\Controllers\Pengurusan\Akademik\Laporan\LaporanMesyuaratController;
+use App\Http\Controllers\Pengurusan\Akademik\Laporan\PelajarTangguhController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\AktivitiPdpController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\HebahanAktivitiController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\MpkIsoController;
@@ -71,6 +72,8 @@ Route::group(['prefix'=>'laporan','as'=>'laporan.'], function(){
     Route::post('laporan_mesyuarat/update/{id}', [LaporanMesyuaratController::class, 'update'])->name('laporan_mesyuarat.update_laporan');
     Route::post('laporan_mesyuarat/upload_file/{id}', [LaporanMesyuaratController::class, 'uploadFile'])->name('laporan_mesyuarat.upload_file');
     Route::resource('laporan_mesyuarat', LaporanMesyuaratController::class);
+
+    Route::resource('tangguh_pengajian', PelajarTangguhController::class);
 });
 
 Route::group(['prefix'=>'permohonan','as'=>'permohonan.'], function(){

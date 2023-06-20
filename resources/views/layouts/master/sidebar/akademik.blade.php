@@ -437,6 +437,14 @@
                             <span class="menu-title">Laporan Mesyuarat</span>
                         </a>
                     </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.laporan.tangguh_pengajian.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.laporan.tangguh_pengajian.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pelajar Gantung/Tangguh</span>
+                        </a>
+                    </div>
                     {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
                             <span class="menu-bullet">
