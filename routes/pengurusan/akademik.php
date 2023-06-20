@@ -18,6 +18,8 @@ use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenamatanPengajianContro
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenilaianPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodJadualPembelajaranController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodKompilasiSoalanController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodNotaKuliahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodPenawaranSubjekController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahController;
@@ -137,5 +139,9 @@ Route::group(['prefix'=>'pengurusan_ijazah','as'=>'pengurusan_ijazah.'], functio
     Route::get('akademik/download/{id}', [RekodAkademikController::class, 'download'])->name('akademik.download');
     Route::resource('jadual_pembelajaran', RekodJadualPembelajaranController::class);
     Route::get('jadual_pembelajaran/download/{id}', [RekodJadualPembelajaranController::class, 'download'])->name('jadual_pembelajaran.download');
+    Route::resource('nota_kuliah', RekodNotaKuliahController::class);
+    Route::get('nota_kuliah/download/{id}', [RekodJadualPembelajaranController::class, 'download'])->name('nota_kuliah.download');
+    Route::resource('kompilasi_soalan', RekodKompilasiSoalanController::class);
+    Route::get('kompilasi_soalan/download/{id}', [RekodKompilasiSoalanController::class, 'download'])->name('kompilasi_soalan.download');
 });
 
