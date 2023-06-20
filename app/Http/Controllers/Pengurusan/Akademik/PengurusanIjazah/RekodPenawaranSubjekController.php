@@ -110,7 +110,6 @@ class RekodPenawaranSubjekController extends Controller
         $model = new IjazahPenawaranSubjek();
         $sesi =  Sesi::where('kursus_id', 12)->pluck('nama','id');
 
-
         return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action','sesi'));
     }
 
@@ -129,7 +128,7 @@ class RekodPenawaranSubjekController extends Controller
         ],[
             'nama.required'         => 'Sila pilih sesi pengajian',
             'nama_dokumen.required' => 'Sila masukkan nama dokument',
-            'file.required'         => 'Sila muat naik rekod penawaran akademik',
+            'file.required'         => 'Sila muat naik rekod penawaran subjek',
         ]);
 
         $file_name = uniqid() . '.' . $request->file->getClientOriginalExtension();
@@ -214,7 +213,7 @@ class RekodPenawaranSubjekController extends Controller
         {
             unlink(storage_path($data->uploaded_document));
             $file_name = uniqid() . '.' . $request->file->getClientOriginalExtension();
-            $file_path = 'uploads/peraturan_akademik/';
+            $file_path = 'uploads/ijazah/rekod_penawaran_subjek';
             $file = $request->file('file');
             $file->move($file_path, $file_name);
             $file = $file_path . '/' .$file_name;
