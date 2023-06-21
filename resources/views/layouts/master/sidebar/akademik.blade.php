@@ -486,6 +486,14 @@
                         </a>
                     </div>
                     <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.rekod_tesis.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.rekod_tesis.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Tesis/Projek Ilmiah</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.latihan_industri.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.latihan_industri.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
