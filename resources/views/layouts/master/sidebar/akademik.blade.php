@@ -430,6 +430,62 @@
                 </span>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.pelajar.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.pelajar.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Kemasukan Pelajar Ijazah</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.penawaran_subjek.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.penawaran_subjek.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Penawaran Subjek</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.akademik.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.akademik.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Akademik</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.jadual_pembelajaran.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.jadual_pembelajaran.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Jadual Pembelajaran</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.nota_kuliah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.nota_kuliah.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Nota Kuliah</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.profil_pensyarah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.profil_pensyarah.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Profil Pensyarah</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.kompilasi_soalan.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.kompilasi_soalan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Kompilasi Soalan</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.latihan_industri.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.latihan_industri.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
