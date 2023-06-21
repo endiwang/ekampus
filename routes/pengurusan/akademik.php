@@ -21,6 +21,7 @@ use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodAkademikContr
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodJadualPembelajaranController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodKompilasiSoalanController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodLatihanIndustriController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodMaklumatGraduasiController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodNotaKuliahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodPenawaranSubjekController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
@@ -149,5 +150,7 @@ Route::group(['prefix'=>'pengurusan_ijazah','as'=>'pengurusan_ijazah.'], functio
     Route::get('kompilasi_soalan/download/{id}', [RekodKompilasiSoalanController::class, 'download'])->name('kompilasi_soalan.download');
 
     Route::resource('latihan_industri', RekodLatihanIndustriController::class);
+
+    Route::resource('maklumat_graduasi', RekodMaklumatGraduasiController::class);
 });
 

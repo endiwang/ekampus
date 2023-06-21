@@ -438,11 +438,11 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.syukbah_pelajar.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.syukbah_pelajar.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
-                            <span class="menu-title">Syukbah Pelajar</span>
+                            <span class="menu-title">Rekod Maklumat Graduasi</span>
                         </a>
                     </div>
                 </div>
