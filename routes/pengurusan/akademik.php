@@ -151,6 +151,7 @@ Route::group(['prefix'=>'pengurusan_ijazah','as'=>'pengurusan_ijazah.'], functio
 
     Route::resource('latihan_industri', RekodLatihanIndustriController::class);
 
+    Route::get('maklumat_graduasi/download/{id}', [RekodMaklumatGraduasiController::class, 'download'])->name('maklumat_graduasi.download');
     Route::resource('maklumat_graduasi', RekodMaklumatGraduasiController::class);
 });
 
