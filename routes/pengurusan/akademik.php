@@ -24,6 +24,7 @@ use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodLatihanIndust
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodMaklumatGraduasiController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodNotaKuliahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodPenawaranSubjekController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodProfilPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
@@ -151,6 +152,12 @@ Route::group(['prefix'=>'pengurusan_ijazah','as'=>'pengurusan_ijazah.'], functio
 
     Route::resource('latihan_industri', RekodLatihanIndustriController::class);
 
+    Route::get('maklumat_graduasi/download/{id}', [RekodMaklumatGraduasiController::class, 'download'])->name('maklumat_graduasi.download');
     Route::resource('maklumat_graduasi', RekodMaklumatGraduasiController::class);
+
+    Route::get('profil_pensyarah/download/{id}', [RekodProfilPensyarahController::class, 'download'])->name('profil_pensyarah.download');
+    Route::post('profil_pensyarah/upload_file/{id}', [RekodProfilPensyarahController::class, 'uploadFile'])->name('profil_pensyarah.upload_file');
+    Route::post('profil_pensyarah/delete_file/{id}', [RekodProfilPensyarahController::class, 'deleteFile'])->name('profil_pensyarah.delete_file');
+    Route::resource('profil_pensyarah', RekodProfilPensyarahController::class);
 });
 

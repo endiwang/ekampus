@@ -73,6 +73,9 @@ class RekodMaklumatGraduasiController extends Controller
                     }
                   
                 })
+                ->addColumn('uploaded_document', function($data) {
+                    return '<a href="'. route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.download', $data->id) .'" target="_blank">'. $data->file_name.'</a>';
+                })
                 ->addColumn('action', function($data){
                     return '<a href="'.route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
@@ -89,7 +92,7 @@ class RekodMaklumatGraduasiController extends Controller
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['document_name','sesi', 'action'])
+                ->rawColumns(['uploaded_document', 'action'])
                 ->toJson();
             }
 
@@ -99,6 +102,7 @@ class RekodMaklumatGraduasiController extends Controller
                 ['data' => 'file_name', 'name' => 'file_name', 'title' => 'Nama Fail', 'orderable'=> false, 'class'=>'text-bold'],
                 ['data' => 'description', 'name' => 'description', 'title' => 'Keterangan', 'orderable'=> false],
                 ['data' => 'document_type', 'name' => 'document_type', 'title' => 'Keadaan Dokumen', 'orderable'=> false, 'class'=>'text-bold'],
+                ['data' => 'uploaded_document', 'name' => 'uploaded_document', 'title' => 'Dokumen Graduasi', 'orderable'=> false, 'class'=>'text-bold'],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
 
             ])
@@ -322,5 +326,12 @@ class RekodMaklumatGraduasiController extends Controller
             Alert::toast('Uh oh! Something went Wrong', 'error');
             return redirect()->back();
         }
+    }
+
+    public function download($id)
+    {
+        $download = IjazahMaklumatGraduasi::find($id);
+
+        return response()->file(public_path($download->uploaded_document));
     }
 }

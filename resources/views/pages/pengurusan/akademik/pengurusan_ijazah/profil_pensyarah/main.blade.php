@@ -7,28 +7,28 @@
             <!--begin::Row-->
             <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <form class="form" action="{{ route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.index')}}" method="get">
+                    <form class="form" action="{{ route('pengurusan.akademik.pengurusan_ijazah.profil_pensyarah.index')}}" method="get">
                         <div class="card">
                             <div class="card-body py-5">
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('nama_fail', 'Nama Fail', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('nama_pensyarah', 'Nama Pensyarah', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('nama_fail', Request::get('nama_fail') ,['class' => 'form-control form-control-sm', 'id' =>'nama_fail','onkeydown' =>'return true','autocomplete' => 'off']) }}
-                                            @error('nama_fail') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            {{ Form::text('nama_pensyarah', Request::get('nama_pensyarah') ,['class' => 'form-control form-control-sm', 'id' =>'nama_pensyarah','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                            @error('nama_pensyarah') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('jenis_dokumen', 'Keadaan Dokumen', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('id_pensyarah', 'ID Pensyarah', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::select('jenis_dokumen', $types, Request::get('jenis_dokumen') ?? '', ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ' , 'data-control'=>'select2']) }}
-                                            @error('jenis_dokumen') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            {{ Form::text('id_pensyarah', Request::get('id_pensyarah') ,['class' => 'form-control form-control-sm', 'id' =>'id_pensyarah','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                            @error('id_pensyarah') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -38,7 +38,7 @@
                                             <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0 me-3">
                                                 <i class="fa fa-search" style="vertical-align: initial"></i>Cari
                                             </button>
-                                            <a href="{{ route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.index') }}" class="btn btn-sm btn-light">Set Semula</a>
+                                            <a href="{{ route('pengurusan.akademik.pengurusan_ijazah.profil_pensyarah.index') }}" class="btn btn-sm btn-light">Set Semula</a>
                                         </div>
                                     </div>
                                 </div>
