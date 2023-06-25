@@ -170,7 +170,7 @@ class RekodHafazanTahririController extends Controller
         ]);
         
         try {
-            $percentage = $request->baki / $request->mukasurat_sepatutnya * 100;
+            $percentage = $request->mukasurat_semasa / $request->mukasurat_sepatutnya * 100;
             
             $rekod = new JabatanHafazanTahriri();
             $rekod->pelajar_id          = $request->pelajar;

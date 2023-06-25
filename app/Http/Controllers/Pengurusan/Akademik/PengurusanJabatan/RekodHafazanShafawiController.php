@@ -153,27 +153,29 @@ class RekodHafazanShafawiController extends Controller
     public function store(Request $request)
     {
         $validation = $request->validate([
-            'pelajar'       => 'required',
-            'surah'         => 'required|string',
-            'juzuk'         => 'required|integer',
-            'maqra'         => 'required|string',
-            'ayat_awal'     => 'required|integer',
-            'ayat_akhir'    => 'required|integer',
-            'muka_surat'    => 'required|integer',
-            'baki_tasmik'   => 'required|integer',
+            'pelajar'               => 'required',
+            'surah'                 => 'required|string',
+            'juzuk'                 => 'required|string',
+            'maqra'                 => 'required|string',
+            'ayat_awal'             => 'required|string',
+            'ayat_akhir'            => 'required|string',
+            'muka_surat_semasa'     => 'required|integer',
+            'muka_surat_akhir'      => 'required|integer',
+            'baki_tasmik'           => 'required|integer',
         ],[
-            'pelajar.required'      => 'Sila pilih pelajar',
-            'surah.required'        => 'Sila masukkan maklumat surah',
-            'juzuk.required'        => 'Sila masukkan maklumat juzuk',
-            'maqra.required'        => 'Sila masukkan maklumat maqra',
-            'ayat_awal.required'    => 'Sila masukkan maklumat ayat awal',
-            'ayat_akhir.required'   => 'Sila masukkan maklumat ayat akhir',
-            'muka_surat.required'   => 'Sila masukkan maklumat muka surat',
-            'baki_tasmik.required'  => 'Sila masukkan maklumat baki tasmik',
+            'pelajar.required'              => 'Sila pilih pelajar',
+            'surah.required'                => 'Sila masukkan maklumat surah',
+            'juzuk.required'                => 'Sila masukkan maklumat juzuk',
+            'maqra.required'                => 'Sila masukkan maklumat maqra',
+            'ayat_awal.required'            => 'Sila masukkan maklumat ayat awal',
+            'ayat_akhir.required'           => 'Sila masukkan maklumat ayat akhir',
+            'muka_surat_semasa.required'    => 'Sila masukkan maklumat muka surat',
+            'muka_surat_akhir.required'     => 'Sila masukkan maklumat muka surat',
+            'baki_tasmik.required'          => 'Sila masukkan maklumat baki tasmik',
         ]);
         
-        try {
-            $percentage = $request->page / $request->baki_tasmik * 100;
+        // try {
+            $percentage = $request->muka_surat_semasa / $request->muka_surat_akhir * 100;
             
             $rekod = new JabatanHafazanShafawi();
             $rekod->pelajar_id          = $request->pelajar;
@@ -182,7 +184,8 @@ class RekodHafazanShafawiController extends Controller
             $rekod->maqra               = $request->maqra;
             $rekod->ayat_awal           = $request->ayat_awal;
             $rekod->ayat_akhir          = $request->ayat_akhir;
-            $rekod->page                = $request->muka_surat;
+            $rekod->current_page        = $request->muka_surat_semasa;
+            $rekod->page_end            = $request->muka_surat_akhir;
             $rekod->remarks             = $request->catatan_tambahan;
             $rekod->page_remaining      = $request->baki_tasmik;
             $rekod->current_percentage  = $percentage ?? 0;
@@ -192,12 +195,12 @@ class RekodHafazanShafawiController extends Controller
             return redirect()->route('pengurusan.akademik.pengurusan_jabatan.rekod_hafazan_shafawi.index');
 
 
-        } catch (Exception $e) {
-            report($e);
+        // } catch (Exception $e) {
+        //     report($e);
 
-            Alert::toast('Uh oh! Something went Wrong', 'error');
-            return redirect()->back();
-        }
+        //     Alert::toast('Uh oh! Something went Wrong', 'error');
+        //     return redirect()->back();
+        // }
     }
 
     /**

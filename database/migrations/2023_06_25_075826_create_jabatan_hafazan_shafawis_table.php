@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('maqra')->nullable();
             $table->integer('ayat_awal')->nullable();
             $table->integer('ayat_akhir')->nullable();
-            $table->integer('page')->nullable();
+            $table->integer('current_page')->nullable();
+            $table->integer('page_end')->nullable();
             $table->longText('remarks')->nullable();
             $table->integer('page_remaining')->nullable();
             $table->double('current_percentage', 8,2);

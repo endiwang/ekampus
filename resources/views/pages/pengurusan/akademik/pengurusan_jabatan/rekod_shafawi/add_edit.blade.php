@@ -95,12 +95,23 @@
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('muka_surat', 'Nombor Muka Surat', ['class' => 'fs-7 fw-semibold form-label mt-2 required']) }}
+                                    {{ Form::label('muka_surat_semasa', 'Nombor Muka Surat Semasa', ['class' => 'fs-7 fw-semibold form-label mt-2 required']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::number('muka_surat', $model->page ?? old('muka_surat') ,['class' => 'form-control form-control-sm', 'id' =>'muka_surat','onkeydown' =>'return true','autocomplete' => 'off']) }}
-                                        @error('muka_surat') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        {{ Form::number('muka_surat_semasa', $model->current_page ?? old('muka_surat_semasa') ,['class' => 'form-control form-control-sm', 'id' =>'muka_surat_semasa','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                        @error('muka_surat_semasa') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
+                                    {{ Form::label('muka_surat_akhir', 'Nombor Muka Surat Akhir Ditetapkan', ['class' => 'fs-7 fw-semibold form-label mt-2 required']) }}
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        {{ Form::number('muka_surat_akhir', $model->page_end ?? old('muka_surat_akhir') ,['class' => 'form-control form-control-sm', 'id' =>'muka_surat_akhir','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                        @error('muka_surat_akhir') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
