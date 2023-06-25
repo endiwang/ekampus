@@ -26,6 +26,7 @@ use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodNotaKuliahCon
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodPenawaranSubjekController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodProfilPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodTesisController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanShafawiController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
@@ -165,3 +166,6 @@ Route::group(['prefix'=>'pengurusan_ijazah','as'=>'pengurusan_ijazah.'], functio
     Route::resource('rekod_tesis', RekodTesisController::class);
 });
 
+Route::group(['prefix'=>'pengurusan_jabatan','as'=>'pengurusan_jabatan.'], function(){
+    Route::resource('rekod_hafazan_shafawi', RekodHafazanShafawiController::class);
+});
