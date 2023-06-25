@@ -27,6 +27,7 @@ use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodPenawaranSubj
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodProfilPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodTesisController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanShafawiController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanTahririController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
@@ -168,4 +169,6 @@ Route::group(['prefix'=>'pengurusan_ijazah','as'=>'pengurusan_ijazah.'], functio
 
 Route::group(['prefix'=>'pengurusan_jabatan','as'=>'pengurusan_jabatan.'], function(){
     Route::resource('rekod_hafazan_shafawi', RekodHafazanShafawiController::class);
+
+    Route::resource('rekod_tahriri', RekodHafazanTahririController::class);
 });
