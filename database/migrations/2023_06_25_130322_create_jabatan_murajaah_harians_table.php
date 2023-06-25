@@ -13,19 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('jabatan_hafazan_shafawi', function (Blueprint $table) {
+        Schema::create('jabatan_murajaah_harian', function (Blueprint $table) {
             $table->id();
             $table->integer('pelajar_id');
             $table->string('surah')->nullable();
             $table->string('juzuk')->nullable();
-            $table->string('maqra')->nullable();
-            $table->integer('ayat_awal')->nullable();
-            $table->integer('ayat_akhir')->nullable();
-            $table->integer('current_page')->nullable();
+            $table->string('ayat_akhir')->nullable();
+            $table->integer('page_start')->nullable();
             $table->integer('page_end')->nullable();
-            $table->longText('remarks')->nullable();
-            $table->integer('page_remaining')->nullable();
-            $table->double('current_percentage', 8,2);
+            $table->integer('total_page')->nullable();
             $table->integer('created_by')->nullable();
             $table->timestamps();
         });
@@ -38,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jabatan_hafazan_shafawi');
+        Schema::dropIfExists('jabatan_murajaah_harian');
     }
 };

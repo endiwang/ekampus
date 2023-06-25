@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan;
 
 use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
-use App\Models\JabatanHafazanTahriri;
+use App\Models\JabatanMurajaahHarian;
 use App\Models\Pelajar;
 use Exception;
 use Illuminate\Http\Request;
@@ -12,10 +12,9 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
 
-class RekodHafazanTahririController extends Controller
+class RekodMurajaahHarianController extends Controller
 {
-    protected $baseView = 'pages.pengurusan.akademik.pengurusan_jabatan.rekod_tahriri.';
-
+    protected $baseView = 'pages.pengurusan.akademik.pengurusan_jabatan.rekod_murajaah_harian.';
     /**
      * Display a listing of the resource.
      *
@@ -24,24 +23,24 @@ class RekodHafazanTahririController extends Controller
     public function index(Builder $builder, Request $request)
     {
         try {    
-            $title = "Rekod Bertulis (Tahriri)";
+            $title = "Rekod Murajaah Harian";
             $breadcrumbs = [
                 "Akademik" =>  false,
                 "Pengurusan Jabatan" =>  false,
-                "Rekod Bertulis (Tahriri)" =>  false,
+                "Rekod Murajaah Harian" =>  false,
             ];
 
             $buttons = [
                 [
-                    'title' => "Tambah Rekod Bertulis (Tahriri)",
-                    'route' => route('pengurusan.akademik.pengurusan_jabatan.rekod_tahriri.create'),
+                    'title' => "Tambah Rekod Murajaah Harian",
+                    'route' => route('pengurusan.akademik.pengurusan_jabatan.rekod_murajaah_harian.create'),
                     'button_class' => "btn btn-sm btn-primary fw-bold",
                     'icon_class' => "fa fa-plus-circle"
                 ],
             ];
 
             if (request()->ajax()) {
-                $data = JabatanHafazanTahriri::with('pelajar');
+                $data = JabatanMurajaahHarian::with('pelajar');
                 if($request->has('nama_pelajar') && $request->nama_pelajar != NULL)
                 {
                     $data = $data->whereHas('pelajar', function($data) use ($request){
@@ -69,13 +68,13 @@ class RekodHafazanTahririController extends Controller
                     return number_format($data->current_percentage, 2) ?? null;
                 })
                 ->addColumn('action', function($data){
-                    return '<a href="'.route('pengurusan.akademik.pengurusan_jabatan.rekod_tahriri.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                    return '<a href="'.route('pengurusan.akademik.pengurusan_jabatan.rekod_murajaah_harian.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
                             <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id .')" data-bs-toggle="tooltip" title="Hapus">
                                 <i class="fa fa-trash"></i>
                             </a>
-                            <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.pengurusan_jabatan.rekod_tahriri.destroy', $data->id).'" method="POST">
+                            <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.pengurusan_jabatan.rekod_murajaah_harian.destroy', $data->id).'" method="POST">
                                 <input type="hidden" name="_token" value="'.csrf_token().'">
                                 <input type="hidden" name="_method" value="DELETE">
                             </form>';
@@ -93,9 +92,11 @@ class RekodHafazanTahririController extends Controller
                 ['defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
                 ['data' => 'nama_pelajar', 'name' => 'nama_pelajar', 'title' => 'Nama Pelajar', 'orderable'=> false, 'class'=>'text-bold'],
                 ['data' => 'no_matrik', 'name' => 'no_matrik', 'title' => 'No Matrik', 'orderable'=> false],
-                ['data' => 'ayat', 'name' => 'ayat', 'title' => 'Ayat', 'orderable'=> false, 'class'=>'text-bold'],
+                ['data' => 'surah', 'name' => 'surah', 'title' => 'surah', 'orderable'=> false, 'class'=>'text-bold'],
+                ['data' => 'page_start', 'name' => 'page_start', 'title' => 'Mukasurat Mula', 'orderable'=> false, 'class'=>'text-bold'],
+                ['data' => 'page_end', 'name' => 'page_end', 'title' => 'Mukasurat Akhir', 'orderable'=> false, 'class'=>'text-bold'],
+                ['data' => 'total_page', 'name' => 'total_page', 'title' => 'Jumlah Mukasurat', 'orderable'=> false, 'class'=>'text-bold'],
                 ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Tarikh Rekod Dicipta', 'orderable'=> false],
-                ['data' => 'current_percentage', 'name' => 'current_percentage', 'title' => 'Peratus Pencapaian Semasa (%)', 'orderable'=> false],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
 
             ])
@@ -120,17 +121,17 @@ class RekodHafazanTahririController extends Controller
     {
         try {
 
-            $title = 'Tambah Rekod Bertulis (Tahriri)';
-            $action = route('pengurusan.akademik.pengurusan_jabatan.rekod_tahriri.store');
-            $page_title = 'Maklumat Rekod Bertulis (Tahriri)';
+            $title = 'Tambah Rekod Murajaah Harian';
+            $action = route('pengurusan.akademik.pengurusan_jabatan.rekod_murajaah_harian.store');
+            $page_title = 'Maklumat Rekod Murajaah Harian';
             $breadcrumbs = [
                 "Akademik" =>  false,
                 "Pengurusan Jabatan" =>  false,
-                "Rekod Bertulis (Tahriri)" =>  route('pengurusan.akademik.pengurusan_jabatan.rekod_tahriri.index'),
-                "Tambah Rekod Bertulis (Tahriri)" => false,
+                "Rekod Murajaah Harian" =>  route('pengurusan.akademik.pengurusan_jabatan.rekod_murajaah_harian.index'),
+                "Tambah Rekod Murajaah Harian" => false,
             ];
 
-            $model = new JabatanHafazanTahriri();
+            $model = new JabatanMurajaahHarian();
 
             $students = Pelajar::where('is_register', 1)->where('is_berhenti', 0)->where('is_gantung', 0)->where('is_tamat', 0)->where('deleted_at', NULL)->get();
 
@@ -155,36 +156,36 @@ class RekodHafazanTahririController extends Controller
     {
         $validation = $request->validate([
             'pelajar'               => 'required',
-            'juzuk'                 => 'required|integer',
-            'ayat'                  => 'required|string',
-            'mukasurat_semasa'      => 'required|integer',
-            'mukasurat_sepatutnya'  => 'required|integer',
-            'baki'                  => 'required|integer',
+            'surah'                 => 'required',
+            'juzuk'                 => 'required',
+            'ayat_akhir'            => 'required',
+            'mukasurat_mula'        => 'required',
+            'mukasurat_akhir'       => 'required',
+            'jumlah_mukasurat'      => 'required|integer',
         ],[
             'pelajar.required'              => 'Sila pilih pelajar',
+            'surah.required'                => 'Sila masukkan maklumat surah',
             'juzuk.required'                => 'Sila masukkan maklumat juzuk',
-            'ayat.required'                 => 'Sila masukkan maklumat ayat',
-            'mukasurat_semasa.required'     => 'Sila masukkan maklumat mukasurat semasa',
-            'mukasurat_sepatutnya.required' => 'Sila masukkan maklumat mukasurat sepatutnya',
-            'baki.required'                 => 'Sila masukkan maklumat muka surat',
+            'ayat_akhir.required'           => 'Sila masukkan maklumat ayat akhir',
+            'mukasurat_mula.required'       => 'Sila masukkan maklumat mukasurat mula',
+            'mukasurat_akhir.required'      => 'Sila masukkan maklumat mukasurat akhir',
+            'jumlah_mukasurat.required'     => 'Sila masukkan maklumat jumla mukasurat',
         ]);
         
         try {
-            $percentage = $request->mukasurat_semasa / $request->mukasurat_sepatutnya * 100;
-            
-            $rekod = new JabatanHafazanTahriri();
-            $rekod->pelajar_id          = $request->pelajar;
-            $rekod->juzuk               = $request->juzuk;
-            $rekod->ayat                = $request->ayat;
-            $rekod->current_page        = $request->mukasurat_semasa;
-            $rekod->designated_page     = $request->mukasurat_sepatutnya;
-            $rekod->balance             = $request->baki;
-            $rekod->current_percentage  = $percentage ?? 0;
-            $rekod->created_by          = auth()->user()->id;
+            $rekod = new JabatanMurajaahHarian();
+            $rekod->pelajar_id     = $request->pelajar;
+            $rekod->surah          = $request->surah;
+            $rekod->juzuk          = $request->juzuk;
+            $rekod->ayat_akhir     = $request->ayat_akhir;
+            $rekod->page_start     = $request->mukasurat_mula;
+            $rekod->page_end       = $request->mukasurat_akhir;
+            $rekod->total_page     = $request->jumlah_mukasurat;
+            $rekod->created_by     = auth()->user()->id;
             $rekod->save();
 
-            Alert::toast('Maklumat rekod bertulis (tahriri) berjaya ditambah!', 'success');
-            return redirect()->route('pengurusan.akademik.pengurusan_jabatan.rekod_tahriri.index');
+            Alert::toast('Maklumat rekod murajaah harian berjaya ditambah!', 'success');
+            return redirect()->route('pengurusan.akademik.pengurusan_jabatan.rekod_murajaah_harian.index');
 
 
         } catch (Exception $e) {
@@ -216,17 +217,17 @@ class RekodHafazanTahririController extends Controller
     {
         try {
 
-            $title = 'Pinda Rekod Bertulis (Tahriri)';
-            $action = route('pengurusan.akademik.pengurusan_jabatan.rekod_tahriri.update', $id);
-            $page_title = 'Maklumat Rekod Bertulis (Tahriri)';
+            $title = 'Pinda Rekod Murajaah Harian';
+            $action = route('pengurusan.akademik.pengurusan_jabatan.rekod_murajaah_harian.update', $id);
+            $page_title = 'Maklumat Rekod Murajaah Harian';
             $breadcrumbs = [
                 "Akademik" =>  false,
                 "Pengurusan Jabatan" =>  false,
-                "Rekod Rekod Bertulis (Tahriri)" =>  route('pengurusan.akademik.pengurusan_jabatan.rekod_tahriri.index'),
-                "Pinda Rekod Bertulis (Tahriri)" => false,
+                "Rekod Rekod Murajaah Harian" =>  route('pengurusan.akademik.pengurusan_jabatan.rekod_murajaah_harian.index'),
+                "Pinda Rekod Murajaah Harian" => false,
             ];
 
-            $model = JabatanHafazanTahriri::find($id);
+            $model = JabatanMurajaahHarian::find($id);
 
             $students = Pelajar::where('is_register', 1)->where('is_berhenti', 0)->where('is_gantung', 0)->where('is_tamat', 0)->where('deleted_at', NULL)->get();
 
@@ -252,35 +253,36 @@ class RekodHafazanTahririController extends Controller
     {
         $validation = $request->validate([
             'pelajar'               => 'required',
-            'juzuk'                 => 'required|integer',
-            'ayat'                  => 'required|string',
-            'mukasurat_semasa'      => 'required|integer',
-            'mukasurat_sepatutnya'  => 'required|integer',
-            'baki'                  => 'required|integer',
+            'surah'                 => 'required',
+            'juzuk'                 => 'required',
+            'ayat_akhir'            => 'required',
+            'mukasurat_mula'        => 'required',
+            'mukasurat_akhir'       => 'required',
+            'jumlah_mukasurat'      => 'required|integer',
         ],[
             'pelajar.required'              => 'Sila pilih pelajar',
+            'surah.required'                => 'Sila masukkan maklumat surah',
             'juzuk.required'                => 'Sila masukkan maklumat juzuk',
-            'ayat.required'                 => 'Sila masukkan maklumat ayat',
-            'mukasurat_semasa.required'     => 'Sila masukkan maklumat mukasurat semasa',
-            'mukasurat_sepatutnya.required' => 'Sila masukkan maklumat mukasurat sepatutnya',
-            'baki.required'                 => 'Sila masukkan maklumat muka surat',
+            'ayat_akhir.required'           => 'Sila masukkan maklumat ayat akhir',
+            'mukasurat_mula.required'       => 'Sila masukkan maklumat mukasurat mula',
+            'mukasurat_akhir.required'      => 'Sila masukkan maklumat mukasurat akhir',
+            'jumlah_mukasurat.required'     => 'Sila masukkan maklumat jumla mukasurat',
         ]);
         
         try {
-            $percentage = $request->baki / $request->mukasurat_sepatutnya * 100;
-            
-            $rekod = JabatanHafazanTahriri::find($id);
-            $rekod->pelajar_id          = $request->pelajar;
-            $rekod->juzuk               = $request->juzuk;
-            $rekod->ayat                = $request->ayat;
-            $rekod->current_page        = $request->mukasurat_semasa;
-            $rekod->designated_page     = $request->mukasurat_sepatutnya;
-            $rekod->balance             = $request->baki;
-            $rekod->current_percentage  = $percentage ?? 0;
+            $rekod = JabatanMurajaahHarian::find($id);
+            $rekod->pelajar_id     = $request->pelajar;
+            $rekod->surah          = $request->surah;
+            $rekod->juzuk          = $request->juzuk;
+            $rekod->ayat_akhir     = $request->ayat_akhir;
+            $rekod->page_start     = $request->mukasurat_mula;
+            $rekod->page_end       = $request->mukasurat_akhir;
+            $rekod->total_page     = $request->jumlah_mukasurat;
+            $rekod->created_by     = auth()->user()->id;
             $rekod->save();
 
-            Alert::toast('Maklumat rekod bertulis (tahriri) berjaya dikemaskini!', 'success');
-            return redirect()->route('pengurusan.akademik.pengurusan_jabatan.rekod_tahriri.index');
+            Alert::toast('Maklumat rekod murajaah harian berjaya dikemaskini!', 'success');
+            return redirect()->route('pengurusan.akademik.pengurusan_jabatan.rekod_murajaah_harian.index');
 
 
         } catch (Exception $e) {
@@ -301,10 +303,10 @@ class RekodHafazanTahririController extends Controller
     {
         try {
 
-            JabatanHafazanTahriri::find($id)->delete();
+            JabatanMurajaahHarian::find($id)->delete();
 
             Alert::toast('Maklumat rekod bertulis (tahriri) berjaya dihapuskan!', 'success');
-            return redirect()->route('pengurusan.akademik.pengurusan_jabatan.rekod_tahriri.index');
+            return redirect()->route('pengurusan.akademik.pengurusan_jabatan.rekod_murajaah_harian.index');
 
 
         } catch (Exception $e) {
