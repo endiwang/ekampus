@@ -28,7 +28,7 @@ class SubjekController extends Controller
             $title = "Subjek";
             $breadcrumbs = [
                 "Akademik" =>  false,
-                "Maklumat Kursus Bagi Maklumat Subjek" =>  false,
+                "Maklumat Kursus Bagi Maklumat Subjek" =>  route('pengurusan.akademik.kursus.index'),
             ];
 
             $buttons = [];
@@ -96,7 +96,7 @@ class SubjekController extends Controller
             $page_title = 'Tambah Maklumat Subjek';
             $breadcrumbs = [
                 "Akademik" =>  false,
-                "Maklumat Kursus Bagi Maklumat Subjek" =>  route('pengurusan.akademik.subjek.index'),
+                "Maklumat Kursus Bagi Maklumat Subjek" =>  route('pengurusan.akademik.kursus.index'),
                 "Maklumat Subjek" =>  route('pengurusan.akademik.subjek.show', $id),
                 "Tambah Maklumat Subjek" => false
             ];
@@ -203,8 +203,9 @@ class SubjekController extends Controller
             $title = "Subjek";
             $breadcrumbs = [
                 "Akademik" =>  false,
-                "Maklumat Kursus Bagi Maklumat Subjek" =>  route('pengurusan.akademik.subjek.index'),
-                "Maklumat Subjek" =>  false,
+                "Maklumat Kursus Bagi Maklumat Subjek" =>  route('pengurusan.akademik.kursus.index'),
+                "Maklumat Subjek" =>  route('pengurusan.akademik.subjek.index'),
+                "Lihat Maklumat Subjek" =>  false,
             ];
 
             $buttons = [
