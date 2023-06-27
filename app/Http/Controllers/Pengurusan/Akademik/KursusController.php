@@ -8,6 +8,7 @@ use App\DataTables\Pengurusan\KursusDataTable;
 use App\DataTables\UsersDataTable;
 use App\Helpers\Utils;
 use App\Models\Kursus;
+use App\Models\Subjek;
 use Exception;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
@@ -55,24 +56,31 @@ class KursusController extends Controller
                           return '';
                     }
                 })
+                ->addColumn('bil_subjek', function($data)
+                {
+                    $total_subject = Subjek::where('kursus_id', $data->id)->count();
+
+                    return '<span class="dt-center">' .$total_subject .'</span>';
+                })
                 ->addColumn('created_at', function($data) {
                     $format_date = Utils::formatDateTime($data->created_at);
     
                     return $format_date;
                 })
                 ->addColumn('action', function($data){
-                    $btn = '<a href="'.route('pengurusan.pentadbir_sistem.sesi.edit',$data->id).'" class="edit btn btn-primary btn-sm hover-elevate-up me-2 mb-1">Pinda</a>';
-    
-                    return '<div class="btn-group btn-group-sm">
-                        '.$btn.'
-                    </div>';
-                    //return $btn;
+                    return '<a href="'.route('pengurusan.akademik.semester.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                                <i class="fa fa-pencil-alt"></i>
+                            </a>
+                            <a href="'.route('pengurusan.akademik.subjek.show',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Lihat Subjek">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                            ';
                 })
                 ->addIndexColumn()
                 ->order(function ($data) {
                     $data->orderBy('created_at', 'desc');
                 })
-                ->rawColumns(['kursus','status','action'])
+                ->rawColumns(['bil_subjek','status','action'])
                 ->toJson();
             }
     
@@ -81,6 +89,7 @@ class KursusController extends Controller
                 [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
                 ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'orderable'=> false, 'class'=>'text-bold'],
                 ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Created At', 'orderable'=> false],
+                ['data' => 'bil_subjek', 'name' => 'bil_subjek', 'title' => 'Bilangan Subjek', 'orderable'=> false],
                 ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
     
