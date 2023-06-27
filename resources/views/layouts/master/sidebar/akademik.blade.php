@@ -102,14 +102,14 @@
                         </a>
                     </div>
                     
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.akademik.subjek.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.subjek.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Subjek</span>
                         </a>
-                    </div>
+                    </div> --}}
 
                     {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('base2') ? 'active' : '' }}" href="{{ route('base2') }}">
