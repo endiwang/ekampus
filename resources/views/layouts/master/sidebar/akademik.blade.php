@@ -458,6 +458,46 @@
                         </a>
                     </div>
                 </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.pengurusan_clo.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.pengurusan_clo.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pengurusan CLO</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.pengurusan_plo.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.pengurusan_plo.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pengurusan PLO</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.pemetaan_clo_plo.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.pemetaan_clo_plo.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pemetaan CLO & PLO</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.rekod_murajaah_harian.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.rekod_murajaah_harian.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pendaftaran Markah CLO & PLO</span>
+                        </a>
+                    </div>
+                </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
                 <span class="menu-link">
