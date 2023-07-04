@@ -48,15 +48,27 @@ class CloPloController extends Controller
 
             if (request()->ajax()) {
                 $data = CloPlo::with('subjek', 'kursus', 'clo', 'plo', 'pensyarah', 'kelas');
-                if($request->has('tajuk') && $request->tajuk != NULL)
-                {
-                    $data->where('name', 'LIKE', '%'. $request->tajuk . '%');
-                }
                 if($request->has('program_pengajian') && $request->program_pengajian != NULL)
                 {
                     $data->where('program_pengajian_id', $request->program_pengajian);
                 }
-
+                if($request->has('kursus') && $request->kursus != NULL)
+                {
+                    $data->where('kursus_id', $request->kursus);
+                }
+                if($request->has('kelas') && $request->kelas != NULL)
+                {
+                    $data->where('kelas_id', $request->kelas);
+                }
+                if($request->has('clo') && $request->clo != NULL)
+                {
+                    $data->where('clo_id', $request->clo);
+                }
+                if($request->has('plo') && $request->plo != NULL)
+                {
+                    $data->where('plo_id', $request->plo);
+                }
+                
                 return DataTables::of($data)
                 ->addColumn('clo', function($data) {
                     return $data->clo->name ?? null;
@@ -119,8 +131,12 @@ class CloPloController extends Controller
             ->minifiedAjax();
 
             $courses = Kursus::where('is_deleted', 0)->get()->pluck('nama','id');
+            $subjects = Subjek::where('is_deleted', 0)->get()->pluck('nama', 'id');
+            $clos = Clo::where('is_deleted', 0)->get()->pluck('name', 'id');
+            $plos = Plo::where('is_deleted', 0)->get()->pluck('name', 'id');
+            $classes = Kelas::where('is_deleted', 0)->get()->pluck('nama', 'id');
 
-            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable','courses'));
+            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable','courses', 'subjects', 'clos', 'plos', 'classes'));
 
         } catch (Exception $e) {
             report($e);
