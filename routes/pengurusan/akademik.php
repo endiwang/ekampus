@@ -26,6 +26,9 @@ use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodNotaKuliahCon
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodPenawaranSubjekController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodProfilPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodTesisController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\CloPloController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanCloController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanPloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanShafawiController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanTahririController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodMurajaahHarianController;
@@ -174,4 +177,10 @@ Route::group(['prefix'=>'pengurusan_jabatan','as'=>'pengurusan_jabatan.'], funct
     Route::resource('rekod_tahriri', RekodHafazanTahririController::class);
 
     Route::resource('rekod_murajaah_harian', RekodMurajaahHarianController::class);
+
+    Route::resource('pengurusan_clo', PengurusanCloController::class);
+
+    Route::resource('pengurusan_plo', PengurusanPloController::class);
+
+    Route::resource('pemetaan_clo_plo', CloPloController::class);
 });
