@@ -25,6 +25,7 @@ use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodNotaKuliahCon
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodPenawaranSubjekController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahController;
+use App\Http\Controllers\Pengurusan\Akademik\Peperiksaan\TetapanPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PelepasanKuliahController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PenangguhanPengajianController;
@@ -149,5 +150,12 @@ Route::group(['prefix'=>'pengurusan_ijazah','as'=>'pengurusan_ijazah.'], functio
     Route::get('kompilasi_soalan/download/{id}', [RekodKompilasiSoalanController::class, 'download'])->name('kompilasi_soalan.download');
 
     Route::resource('latihan_industri', RekodLatihanIndustriController::class);
+});
+
+Route::group(['prefix'=>'peperiksaan','as'=>'peperiksaan.'], function(){
+    Route::resource('tetapan_peperiksaan', TetapanPeperiksaanController::class);
+    Route::get('tetapan_peperiksaan/{id}/pilih_subjek', [TetapanPeperiksaanController::class, 'pilih_subjek'])->name('tetapan_peperiksaan.pilih_subjek');
+    Route::post('tetapan_peperiksaan/{id}/store_pilihan_subjek', [TetapanPeperiksaanController::class, 'store_pilihan_subjek'])->name('tetapan_peperiksaan.store_pilihan_subjek');
+
 });
 
