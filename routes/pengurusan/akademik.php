@@ -21,8 +21,17 @@ use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodAkademikContr
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodJadualPembelajaranController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodKompilasiSoalanController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodLatihanIndustriController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodMaklumatGraduasiController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodNotaKuliahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodPenawaranSubjekController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodProfilPensyarahController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodTesisController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\CloPloController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanCloController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanPloController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanShafawiController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanTahririController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodMurajaahHarianController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\RekodKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\Peperiksaan\TetapanPeperiksaanController;
@@ -150,6 +159,17 @@ Route::group(['prefix'=>'pengurusan_ijazah','as'=>'pengurusan_ijazah.'], functio
     Route::get('kompilasi_soalan/download/{id}', [RekodKompilasiSoalanController::class, 'download'])->name('kompilasi_soalan.download');
 
     Route::resource('latihan_industri', RekodLatihanIndustriController::class);
+
+    Route::get('maklumat_graduasi/download/{id}', [RekodMaklumatGraduasiController::class, 'download'])->name('maklumat_graduasi.download');
+    Route::resource('maklumat_graduasi', RekodMaklumatGraduasiController::class);
+
+    Route::get('profil_pensyarah/download/{id}', [RekodProfilPensyarahController::class, 'download'])->name('profil_pensyarah.download');
+    Route::post('profil_pensyarah/upload_file/{id}', [RekodProfilPensyarahController::class, 'uploadFile'])->name('profil_pensyarah.upload_file');
+    Route::post('profil_pensyarah/delete_file/{id}', [RekodProfilPensyarahController::class, 'deleteFile'])->name('profil_pensyarah.delete_file');
+    Route::resource('profil_pensyarah', RekodProfilPensyarahController::class);
+
+    Route::get('rekod_tesis/download/{id}', [RekodTesisController::class, 'download'])->name('rekod_tesis.download');
+    Route::resource('rekod_tesis', RekodTesisController::class);
 });
 
 Route::group(['prefix'=>'peperiksaan','as'=>'peperiksaan.'], function(){
@@ -159,3 +179,16 @@ Route::group(['prefix'=>'peperiksaan','as'=>'peperiksaan.'], function(){
 
 });
 
+Route::group(['prefix'=>'pengurusan_jabatan','as'=>'pengurusan_jabatan.'], function(){
+    Route::resource('rekod_hafazan_shafawi', RekodHafazanShafawiController::class);
+
+    Route::resource('rekod_tahriri', RekodHafazanTahririController::class);
+
+    Route::resource('rekod_murajaah_harian', RekodMurajaahHarianController::class);
+
+    Route::resource('pengurusan_clo', PengurusanCloController::class);
+
+    Route::resource('pengurusan_plo', PengurusanPloController::class);
+
+    Route::resource('pemetaan_clo_plo', CloPloController::class);
+});
