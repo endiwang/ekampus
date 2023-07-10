@@ -27,6 +27,7 @@ use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodPenawaranSubj
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodProfilPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodTesisController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\CloPloController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\DaftarMarkahCloPloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanCloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanPloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanShafawiController;
@@ -191,4 +192,10 @@ Route::group(['prefix'=>'pengurusan_jabatan','as'=>'pengurusan_jabatan.'], funct
     Route::resource('pengurusan_plo', PengurusanPloController::class);
 
     Route::resource('pemetaan_clo_plo', CloPloController::class);
+
+    Route::post('daftar_markah_clo_plo/store_marks', [DaftarMarkahCloPloController::class, 'storeMark'])->name('daftar_markah_clo_plo.store_marks');
+    Route::get('daftar_markah_clo_plo/update_marks/{clo_plo_id}/{class_id}/{student_id}', [DaftarMarkahCloPloController::class, 'updateMark'])->name('daftar_markah_clo_plo.update_marks');
+    Route::get('daftar_markah_clo_plo/clo_plo/{student_id}/{class_id}', [DaftarMarkahCloPloController::class, 'show'])->name('daftar_markah_clo_plo.clo_plo_list');
+    Route::get('daftar_markah_clo_plo/student_list/{class_id}', [DaftarMarkahCloPloController::class, 'studentList'])->name('daftar_markah_clo_plo.student_list');
+    Route::resource('daftar_markah_clo_plo', DaftarMarkahCloPloController::class);
 });
