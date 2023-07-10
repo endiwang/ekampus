@@ -67,6 +67,8 @@
                             @include('layouts.master.sidebar.kakitangan')
                         @elseif(Request::routeIs('pengurusan.kbg.*'))
                             @include('layouts.master.sidebar.kbg')
+                        @elseif(Request::routeIs('pengurusan.hep.*'))
+                            @include('layouts.master.sidebar.hep')
                         @elseif(Request::routeIs('pengurusan.pentadbir_sistem.*'))
                             @include('layouts.master.sidebar.pentadbir_sistem')
 						@elseif(Request::routeIs('pelajar.*'))
