@@ -7,14 +7,6 @@
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
             <!--begin::Row-->
-            <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-                <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <div class="card">
-                        <div class="card-body py-5">
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="row">
                 @php($key = 1)
                 @foreach ($chartData as $chart)
