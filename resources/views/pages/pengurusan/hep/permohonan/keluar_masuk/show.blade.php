@@ -17,7 +17,7 @@
                             @if($data->id) @method('PUT') @endif
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('nama_pelajar', 'Nama Pelajar', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    {{ Form::label('nama_pelajar', 'Nama Pelajar :', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
@@ -28,7 +28,7 @@
 
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('no_kp', 'No Kad Pengenalan', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    {{ Form::label('no_kp', 'No Kad Pengenalan :', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
@@ -39,7 +39,7 @@
 
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('no_matrik', 'No Matrik', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                    {{ Form::label('no_matrik', 'No Matrik :', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
@@ -50,7 +50,7 @@
 
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('program', 'Program Pengajian', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                    {{ Form::label('program', 'Program Pengajian :', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
@@ -61,7 +61,7 @@
 
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('tarikh_mohon', 'Tarikh Mohon', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                    {{ Form::label('tarikh_mohon', 'Tarikh Mohon :', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
@@ -72,18 +72,18 @@
 
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('tarikh_cuti', 'Tarikh Cuti', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                    {{ Form::label('tarikh_cuti', 'Tarikh Cuti :', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <p class="mt-2">{{ Utils::formatDate($data->tarikh_mula) ?? null}} - {{ Utils::formatDate($data->tarikh_akhir) ?? null}}</p>
+                                        <p class="mt-2">{{ Utils::formatDate($data->tarikh_keluar) ?? null}} - {{ Utils::formatDate($data->tarikh_masuk) ?? null}}</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('jumlah_hari', 'Jumlah Hari', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                    {{ Form::label('jumlah_hari', 'Jumlah Hari :', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
@@ -94,7 +94,7 @@
 
                             <div class="row fv-row mb-2">
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('sebab_permohonan', 'Sebab Permohonan', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                    {{ Form::label('sebab_permohonan', 'Sebab Permohonan :', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
                                 </div>
 
                                 <div class="col-md-9">
@@ -103,15 +103,14 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row fv-row mb-2">
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('komen', 'Surat Jawapan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    {{ Form::label('komen', 'Komen :', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                 </div>
 
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <textarea class="form-control" id="tinymce" name="komen">{{ $data->komen ?? null }}</textarea>
+                                        {{ Form::textarea('komen',$data->komen ?? null,['class' => 'form-control form-control-sm'.($errors->has('komen') ? 'is-invalid':''), 'rows'=>'4']) }}
                                         @error('komen') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
@@ -119,30 +118,7 @@
 
                             <div class="row fv-row mb-2">
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('tandatangan_oleh', 'Tandatangan Oleh', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
-                                </div>
-
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        <textarea class="form-control" name="tandatangan_oleh">{{ $data->tandatangan_oleh ?? null }}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row fv-row mb-2">
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('salinan_kp', 'Salinan Kepada', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
-                                </div>
-
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        <textarea class="form-control" name="salinan_kp">{{ $data->salinan_kepada ?? null }}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row fv-row mb-2">
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('status_permohonan', 'Status Permohonan', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                    {{ Form::label('status_permohonan', 'Status Permohonan :', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
                                 </div>
 
                                 <div class="col-md-9">
@@ -152,7 +128,7 @@
                                 </div>
                             </div>
 
-                            @if($data->status == 3)
+                            {{-- @if($data->status == 3)
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
                                     {{ Form::label('surat_pelepasan', 'Muat Turun Surat Pelepasan Kuliah', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
@@ -165,7 +141,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @endif
+                            @endif --}}
 
                             <div class="row mt-3">
                                 <div class="col-md-9 offset-md-3">
@@ -173,7 +149,7 @@
                                         <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
                                             <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
                                         </button>
-                                        <a href="{{ route('pengurusan.akademik.permohonan.penangguhan_pengajian.index') }}" class="btn btn-sm btn-light">Batal</a>
+                                        <a href="{{ route('pengurusan.hep.permohonan.keluar_masuk.index') }}" class="btn btn-sm btn-light">Batal</a>
                                     </div>
                                 </div>
                             </div>

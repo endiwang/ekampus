@@ -121,7 +121,7 @@
                             <div class="row mt-5">
                                 <div class="col-md-9 offset-md-3">
                                     <div class="d-flex">
-                                        <a href="{{ route('pelajar.permohonan.pelepasan_kuliah.index') }}" class="btn btn-sm btn-light">Kembali</a>
+                                        <a href="{{ route('pelajar.permohonan.keluar_masuk.index') }}" class="btn btn-sm btn-light">Kembali</a>
                                     </div>
                                 </div>
                             </div>

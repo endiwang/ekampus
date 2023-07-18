@@ -58,19 +58,19 @@ class KeluarMasukController extends Controller
                 switch($data->status)
                 {
                     case 1 :
-                        return 'Baru Diterima';
+                        return '<span class="badge badge-primary">Baru Diterima</span>';
                     break;
 
                     case 2 :
-                        return 'Dalam Proses';
+                        return '<span class="badge badge-info">Dalam Proses</span>';
                     break;
 
                     case 3 :
-                        return 'Lulus';
+                        return  '<span class="badge badge-success">Lulus</span>';
                     break;
 
                     case 4 :
-                        return 'Tolak';
+                        return  '<span class="badge badge-danger">Ditolak</span>';
                     break;
                 }
             })
@@ -79,9 +79,11 @@ class KeluarMasukController extends Controller
                         <a href="'.route('pelajar.permohonan.keluar_masuk.show',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                             <i class="fa fa-eye"></i>
                         </a>
+
                         <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id .')" data-bs-toggle="tooltip" title="Hapus">
                             <i class="fa fa-trash"></i>
                         </a>
+
                         <form id="delete-'.$data->id.'" action="'.route('pelajar.permohonan.keluar_masuk.destroy', $data->id).'" method="POST">
                             <input type="hidden" name="_token" value="'.csrf_token().'">
                             <input type="hidden" name="_method" value="DELETE">
