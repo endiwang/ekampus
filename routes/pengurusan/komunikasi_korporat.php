@@ -4,7 +4,7 @@ use App\Http\Controllers\Pengurusan\Komunikasi_Korporat\KajiSelidikController;
 use App\Http\Controllers\Pengurusan\Komunikasi_Korporat\MainKomunikasiKorporatController;
 use Illuminate\Support\Facades\Route;
 
-Route::resource('/', MainKomunikasiKorporatController::class);
+Route::resource('///', MainKomunikasiKorporatController::class);
 Route::resource('/kaji_selidik', KajiSelidikController::class);
 Route::get('kaji_selidik/{id}/design_form', [KajiSelidikController::class, 'design_form'])->name('kaji_selidik.design_form');
 Route::put('kaji_selidik/{id}/design_update', [KajiSelidikController::class, 'design_update'])->name('kaji_selidik.design_update');
