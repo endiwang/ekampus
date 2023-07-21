@@ -107,7 +107,7 @@ class TetapanKeluarMasukController extends Controller
                         <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id .')" data-bs-toggle="tooltip" title="Hapus">
                             <i class="fa fa-trash"></i>
                         </a>
-                        <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.kelas.destroy', $data->id).'" method="POST">
+                        <form id="delete-'.$data->id.'" action="'.route('pengurusan.hep.tetapan.keluar_masuk.destroy', $data->id).'" method="POST">
                             <input type="hidden" name="_token" value="'.csrf_token().'">
                             <input type="hidden" name="_method" value="DELETE">
                         </form>';
@@ -273,6 +273,12 @@ class TetapanKeluarMasukController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $tetapan = TetapanKeluarMasuk::find($id);
+
+            $tetapan = $tetapan->delete();
+
+            Alert::toast('Maklumat kelas berjaya dihapus!', 'success');
+            return redirect()->back();
+
     }
 }
