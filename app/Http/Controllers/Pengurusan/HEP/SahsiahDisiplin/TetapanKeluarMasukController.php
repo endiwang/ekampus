@@ -152,8 +152,8 @@ class TetapanKeluarMasukController extends Controller
         $model = new TetapanKeluarMasuk();
 
         $genders = [
-            'BN' => 'Kelas Banin (Lelaki)',
-            'BT' => 'Kelas Banat (Perempuan)'
+            'BN' => 'Banin (Lelaki)',
+            'BT' => 'Banat (Perempuan)'
         ];
 
         $hari = Hari::pluck('nama','id');
@@ -221,8 +221,8 @@ class TetapanKeluarMasukController extends Controller
         $model = TetapanKeluarMasuk::find($id);
 
         $genders = [
-            'BN' => 'Kelas Banin (Lelaki)',
-            'BT' => 'Kelas Banat (Perempuan)'
+            'BN' => 'Banin (Lelaki)',
+            'BT' => 'Banat (Perempuan)'
         ];
 
         $hari = Hari::pluck('nama','id');
