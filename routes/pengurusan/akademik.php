@@ -16,6 +16,7 @@ use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\AktivitiPdpController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\HebahanAktivitiController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\MpkIsoController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenamatanPengajianController;
+use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenilaianBerterusanSettingController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenilaianPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodJadualPembelajaranController;
@@ -44,6 +45,7 @@ use App\Http\Controllers\Pengurusan\Akademik\Permohonan\RayuanPengajianControlle
 use App\Http\Controllers\Pengurusan\Akademik\RekodKehadiran\KehadiranPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\SemesterController;
 use App\Http\Controllers\Pengurusan\Akademik\SubjekController;
+
 
 Route::resource('/', MainAkademikController::class)->only(['index',]);
 Route::resource('kursus', KursusController::class);
@@ -131,6 +133,9 @@ Route::group(['prefix'=>'pengurusan','as'=>'pengurusan.'], function(){
     Route::resource('penilaian_pensyarah', PenilaianPensyarahController::class);
 
     Route::resource('penamatan_pengajian', PenamatanPengajianController::class);
+
+    Route::post('tetapan_penilaian_berterusan/store_item', [PenilaianBerterusanSettingController::class, 'storeItem'])->name('tetapan_penilaian_berterusan.store_item');
+    Route::resource('tetapan_penilaian_berterusan', PenilaianBerterusanSettingController::class);
 });
 
 Route::group(['prefix'=>'jadual','as'=>'jadual.'], function(){

@@ -172,6 +172,15 @@
                             <span class="menu-title">Soalan Penilaian Pensyarah</span>
                         </a>
                     </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.tetapan_penilaian_berterusan.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.tetapan_penilaian_berterusan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Tetapan Penilaian Berterusan</span>
+                        </a>
+                    </div>
                     
                 </div>
             </div>
