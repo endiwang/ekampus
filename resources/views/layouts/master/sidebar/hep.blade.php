@@ -23,7 +23,7 @@
                 </a>
                 <!--end:Menu link-->
             </div>
-            <div data-kt-menu-trigger="click" class="menu-item {{ Request::routeIs('pengurusan.akademik.kursus.*') ? 'here show' : '' }} menu-accordion">
+            <div data-kt-menu-trigger="click" class="menu-item {{ Request::routeIs('pengurusan.hep.pengurusan.*') ? 'here show' : '' }} menu-accordion">
                 <span class="menu-link">
                     <span class="menu-icon">
                         <span class="svg-icon svg-icon-2">
@@ -41,11 +41,11 @@
                 <div class="menu-sub menu-sub-accordion">
 
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.kalendar_akademik.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.kalendar_akademik.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.hep.pengurusan.salahlaku_pelajar.index') ? 'active' : '' }}" href="{{ route('pengurusan.hep.pengurusan.salahlaku_pelajar.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
-                            <span class="menu-title">Kalendar Akademik</span>
+                            <span class="menu-title">Salahlaku Pelajar</span>
                         </a>
                     </div>
 

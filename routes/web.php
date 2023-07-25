@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Main_Dashboard\UtamaController;
 use App\Http\Controllers\DataMigration\MainController as MigrateMainController;
+use App\Http\Controllers\Main_Dashboard\AduanSalahlakuPelajarController;
 use App\Http\Controllers\Pengurusan\Kakitangan\Kehadiran\KehadiranPelajarController;
 use App\Http\Controllers\Pengurusan\Kakitangan\Kehadiran\KehadiranPensyarahController;
 
@@ -25,6 +26,7 @@ Route::group(['middleware' => ['guest_pemohon']], function() {
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
     Route::get('/utama', [UtamaController::class, 'index'])->name('home');
+    Route::resource('/utama/aduan_salahlaku_pelajar', AduanSalahlakuPelajarController::class);
 });
 
 
