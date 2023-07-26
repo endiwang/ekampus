@@ -80,11 +80,16 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->as('public.')
                 ->group(base_path('routes/public/main.php'));
-                
+
             Route::middleware('web')
                 ->prefix('pengurusan/komunikasi_korporat')
                 ->as('pengurusan.komunikasi_korporat.')
                 ->group(base_path('routes/pengurusan/komunikasi_korporat.php'));
+
+            Route::middleware('web')
+                ->prefix('pengurusan/perpustakaan')
+                ->as('pengurusan.perpustakaan.')
+                ->group(base_path('routes/pengurusan/perpustakaan.php'));
         });
     }
 
