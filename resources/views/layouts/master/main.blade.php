@@ -71,6 +71,8 @@
                             @include('layouts.master.sidebar.hep')
                         @elseif(Request::routeIs('pengurusan.pentadbir_sistem.*'))
                             @include('layouts.master.sidebar.pentadbir_sistem')
+						@elseif(Request::routeIs('pengurusan.kualiti.*'))
+                            @include('layouts.master.sidebar.kualiti')
 						@elseif(Request::routeIs('pelajar.*'))
                             @include('layouts.master.sidebar.pelajar')
                         @elseif(Request::routeIs('pengurusan.komunikasi_korporat.*'))
