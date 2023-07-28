@@ -172,6 +172,15 @@
                             <span class="menu-title">Soalan Penilaian Pensyarah</span>
                         </a>
                     </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.tetapan_penilaian_berterusan.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.tetapan_penilaian_berterusan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Tetapan Penilaian Berterusan</span>
+                        </a>
+                    </div>
                     
                 </div>
             </div>
@@ -495,6 +504,16 @@
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Pendaftaran Markah CLO & PLO</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.penilaian_berterusan.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.penilaian_berterusan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Penilaian Berterusan</span>
                         </a>
                     </div>
                 </div>

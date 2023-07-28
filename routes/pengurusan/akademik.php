@@ -16,6 +16,7 @@ use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\AktivitiPdpController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\HebahanAktivitiController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\MpkIsoController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenamatanPengajianController;
+use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenilaianBerterusanSettingController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenilaianPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodJadualPembelajaranController;
@@ -30,6 +31,7 @@ use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\CloPloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\DaftarMarkahCloPloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanCloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanPloController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PenilaianBerterusanController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanShafawiController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanTahririController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodMurajaahHarianController;
@@ -45,6 +47,7 @@ use App\Http\Controllers\Pengurusan\Akademik\RekodKehadiran\KehadiranPelajarCont
 use App\Http\Controllers\Pengurusan\Akademik\SemesterController;
 use App\Http\Controllers\Pengurusan\Akademik\SubjekController;
 
+
 Route::resource('/', MainAkademikController::class)->only(['index',]);
 Route::resource('kursus', KursusController::class);
 
@@ -53,6 +56,7 @@ Route::post('kelas/edit', [KelasController::class, 'edit'])->name('pengurusan_ke
 Route::post('kelas/store', [KelasController::class, 'store'])->name('pengurusan_kelas.store');
 Route::resource('kelas', KelasController::class);
 
+Route::get('subjek/{subjek_id}/daftar_item_penilaian', [SubjekController::class, 'registerMarkItems'])->name('pengurusan_subjek.register_mark_item');
 Route::post('subjek/store', [SubjekController::class, 'store'])->name('pengurusan_subjek.store');
 Route::get('subjek/edit/{id}/{course_id}', [SubjekController::class, 'edit'])->name('pengurusan_subjek.edit');
 Route::get('subjek/create/{id}', [SubjekController::class, 'create'])->name('pengurusan_subjek.create');
@@ -130,6 +134,9 @@ Route::group(['prefix'=>'pengurusan','as'=>'pengurusan.'], function(){
     Route::resource('penilaian_pensyarah', PenilaianPensyarahController::class);
 
     Route::resource('penamatan_pengajian', PenamatanPengajianController::class);
+
+    Route::post('tetapan_penilaian_berterusan/store_item', [PenilaianBerterusanSettingController::class, 'storeItem'])->name('tetapan_penilaian_berterusan.store_item');
+    Route::resource('tetapan_penilaian_berterusan', PenilaianBerterusanSettingController::class);
 });
 
 Route::group(['prefix'=>'jadual','as'=>'jadual.'], function(){
@@ -198,4 +205,12 @@ Route::group(['prefix'=>'pengurusan_jabatan','as'=>'pengurusan_jabatan.'], funct
     Route::get('daftar_markah_clo_plo/clo_plo/{student_id}/{class_id}', [DaftarMarkahCloPloController::class, 'show'])->name('daftar_markah_clo_plo.clo_plo_list');
     Route::get('daftar_markah_clo_plo/student_list/{class_id}', [DaftarMarkahCloPloController::class, 'studentList'])->name('daftar_markah_clo_plo.student_list');
     Route::resource('daftar_markah_clo_plo', DaftarMarkahCloPloController::class);
+
+    Route::get('penilaian_berterusan/kemaskini_markah/{id}/{student_id}/{class_id}', [PenilaianBerterusanController::class, 'edit'])->name('penilaian_berterusan.markah');
+    Route::resource('penilaian_berterusan', PenilaianBerterusanController::class);
+});
+
+Route::group(['prefix'=>'e-learning','as'=>'e-learning.'], function(){
+    
+
 });

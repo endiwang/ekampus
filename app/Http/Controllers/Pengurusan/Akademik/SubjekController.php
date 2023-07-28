@@ -266,7 +266,10 @@ class SubjekController extends Controller
                 })
                 ->addColumn('action', function($data)
                 {
-                    return '<a href="'.route('pengurusan.akademik.pengurusan_subjek.edit',[$data->id, $data->kursus_id]).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                    return '<a href="'.route('pengurusan.akademik.pengurusan_subjek.register_mark_item', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Daftar Item Pemarkahan">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                            <a href="'.route('pengurusan.akademik.pengurusan_subjek.edit',[$data->id, $data->kursus_id]).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
                             <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id .')" data-bs-toggle="tooltip" title="Hapus">
@@ -435,6 +438,31 @@ class SubjekController extends Controller
 
             Alert::toast('Maklumat subjek berjaya dihapuskan!', 'success');
             return redirect()->back();
+
+        }catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+    }
+
+    public function registerMarkItems($subjek_id)
+    {
+        try {
+
+            $title = "Daftar Item Penilaian";
+            $action = route('pengurusan.akademik.pengurusan_subjek.register_mark_item', $subjek_id);
+            $page_title = 'Daftar Item Penilaian';
+            $breadcrumbs = [
+                "Akademik" =>  false,
+                "Maklumat Kursus Bagi Maklumat Subjek" =>  route('pengurusan.akademik.subjek.index'),
+                "Maklumat Subjek" =>  route('pengurusan.akademik.subjek.show', $subjek_id),
+                "Daftar Item Penilaian" => false
+            ];
+
+
+            return view($this->baseView.'register_mark_item', compact('title', 'action', 'page_title', 'breadcrumbs', 'subjek_id'));
 
         }catch (Exception $e) {
             report($e);
