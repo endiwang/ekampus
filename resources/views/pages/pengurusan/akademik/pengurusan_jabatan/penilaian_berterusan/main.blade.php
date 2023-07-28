@@ -7,7 +7,7 @@
             <!--begin::Row-->
             <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <form class="form" action="{{ route('pengurusan.akademik.pengurusan.tetapan_penilaian_berterusan.index')}}" method="get">
+                    <form class="form" action="{{ route('pengurusan.akademik.pengurusan_jabatan.penilaian_berterusan.index')}}" method="get">
                         <div class="card">
                             <div class="card-body py-5">
                                 <div class="row fv-row mb-2" >
@@ -32,13 +32,14 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-12">
                                         <div class="d-flex align-items-center justify-content-end">
                                             <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0 me-3">
                                                 <i class="fa fa-search" style="vertical-align: initial"></i>Cari
                                             </button>
-                                            <a href="{{ route('pengurusan.akademik.pengurusan.tetapan_penilaian_berterusan.index') }}" class="btn btn-sm btn-light">Set Semula</a>
+                                            <a href="{{ route('pengurusan.akademik.pengurusan_jabatan.penilaian_berterusan.index') }}" class="btn btn-sm btn-light">Set Semula</a>
                                         </div>
                                     </div>
                                 </div>

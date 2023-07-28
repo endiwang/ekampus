@@ -7,38 +7,39 @@
             <!--begin::Row-->
             <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <form class="form" action="{{ route('pengurusan.akademik.pengurusan.tetapan_penilaian_berterusan.index')}}" method="get">
+                    <form class="form" action="{{ route('pengurusan.akademik.pengurusan_jabatan.penilaian_berterusan.show', $id)}}" method="get">
                         <div class="card">
                             <div class="card-body py-5">
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('nama_subjek', 'Nama Subjek', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('nama_pelajar', 'Nama Pelajar', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('nama_subjek', Request::get('nama_subjek') ,['class' => 'form-control form-control-sm', 'id' =>'nama_subjek','onkeydown' =>'return true','autocomplete' => 'off']) }}
-                                            @error('nama_subjek') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            {{ Form::text('nama_pelajar', Request::get('nama_pelajar') ,['class' => 'form-control form-control-sm', 'id' =>'nama_pelajar','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                            @error('nama_pelajar') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('kod_subjek', 'Kod Subjek', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('no_matrik', 'No. Matrik', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('kod_subjek', Request::get('kod_subjek') ,['class' => 'form-control form-control-sm', 'id' =>'kod_subjek','onkeydown' =>'return true','autocomplete' => 'off']) }}
-                                            @error('kod_subjek') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            {{ Form::text('no_matrik', Request::get('no_matrik') ,['class' => 'form-control form-control-sm', 'id' =>'no_matrik','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                            @error('no_matrik') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-12">
                                         <div class="d-flex align-items-center justify-content-end">
                                             <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0 me-3">
                                                 <i class="fa fa-search" style="vertical-align: initial"></i>Cari
                                             </button>
-                                            <a href="{{ route('pengurusan.akademik.pengurusan.tetapan_penilaian_berterusan.index') }}" class="btn btn-sm btn-light">Set Semula</a>
+                                            <a href="{{ route('pengurusan.akademik.pengurusan_jabatan.penilaian_berterusan.show', $id) }}" class="btn btn-sm btn-light">Set Semula</a>
                                         </div>
                                     </div>
                                 </div>

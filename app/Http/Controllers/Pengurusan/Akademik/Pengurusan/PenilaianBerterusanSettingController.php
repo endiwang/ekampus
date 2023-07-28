@@ -37,7 +37,7 @@ class PenilaianBerterusanSettingController extends Controller
                 $data = Subjek::where('deleted_at', NULL);
                 if($request->has('nama_subjek') && $request->nama_subjek != NULL)
                 {
-                    $data->where('name', 'LIKE', '%'. $request->nama_subjek . '%');
+                    $data->where('nama', 'LIKE', '%'. $request->nama_subjek . '%');
                 }
                 if($request->has('kod_subjek') && $request->kod_subjek != NULL)
                 {

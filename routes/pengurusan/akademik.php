@@ -31,6 +31,7 @@ use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\CloPloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\DaftarMarkahCloPloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanCloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanPloController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PenilaianBerterusanController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanShafawiController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanTahririController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodMurajaahHarianController;
@@ -204,4 +205,12 @@ Route::group(['prefix'=>'pengurusan_jabatan','as'=>'pengurusan_jabatan.'], funct
     Route::get('daftar_markah_clo_plo/clo_plo/{student_id}/{class_id}', [DaftarMarkahCloPloController::class, 'show'])->name('daftar_markah_clo_plo.clo_plo_list');
     Route::get('daftar_markah_clo_plo/student_list/{class_id}', [DaftarMarkahCloPloController::class, 'studentList'])->name('daftar_markah_clo_plo.student_list');
     Route::resource('daftar_markah_clo_plo', DaftarMarkahCloPloController::class);
+
+    Route::get('penilaian_berterusan/kemaskini_markah/{id}/{student_id}/{class_id}', [PenilaianBerterusanController::class, 'edit'])->name('penilaian_berterusan.markah');
+    Route::resource('penilaian_berterusan', PenilaianBerterusanController::class);
+});
+
+Route::group(['prefix'=>'e-learning','as'=>'e-learning.'], function(){
+    
+
 });
