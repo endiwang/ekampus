@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Pengurusan\Akademik\eLearning\PengurusanKandunganController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pengurusan\Akademik\GuruTasmikController;
 use App\Http\Controllers\Pengurusan\Akademik\JadualWaktu\JadualKelasController;
@@ -210,7 +211,10 @@ Route::group(['prefix'=>'pengurusan_jabatan','as'=>'pengurusan_jabatan.'], funct
     Route::resource('penilaian_berterusan', PenilaianBerterusanController::class);
 });
 
-Route::group(['prefix'=>'e-learning','as'=>'e-learning.'], function(){
-    
-
+Route::group(['prefix'=>'e_learning','as'=>'e_learning.'], function(){
+    Route::post('pengurusan_kandungan/upload_file/{id}', [PengurusanKandunganController::class, 'uploadFile'])->name('pengurusan_kandungan.upload_file');
+    Route::get('pengurusan_kandungan/download/{id}', [PengurusanKandunganController::class, 'download'])->name('pengurusan_kandungan.download');
+    Route::post('pengurusan_kandungan/delete_file/{id}', [PengurusanKandunganController::class, 'deleteFile'])->name('pengurusan_kandungan.delete_file');
+    Route::post('pengurusan_kandungan/update/{id}', [PengurusanKandunganController::class, 'update'])->name('pengurusan_kandungan.update_kandungan_pemebelajaran');
+    Route::resource('pengurusan_kandungan', PengurusanKandunganController::class);
 });
