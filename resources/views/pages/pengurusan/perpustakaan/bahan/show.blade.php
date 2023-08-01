@@ -44,12 +44,23 @@
                         </div>
                         <div class="row fv-row mb-2" >
                             <div class="col-md-3 text-md-end">
-                                {{ Form::label('peminjam', 'Peminjam', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                {{ Form::label('keahlian_id', 'Peminjam', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                             </div>
                             <div class="col-md-9">
                                 <div class="w-100">
-                                    {{ Form::select('peminjam', $peminjam, Request::get('peminjam'), ['placeholder' => 'Sila Pilih','class' =>'form-select form-select-sm', 'data-control'=>'select2', 'form'=>'pinjam' ]) }}
-                                    @error('peminjam') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    {{ Form::select('keahlian_id', $peminjam, Request::get('keahlian_id'), ['placeholder' => 'Sila Pilih','class' =>'form-select form-select-sm', 'data-control'=>'select2', 'form'=>'pinjam' ]) }}
+                                    @error('keahlian_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row fv-row mb-2" >
+                            <div class="col-md-3 text-md-end">
+                                {{ Form::label('tarikh_pulang', 'Tarikh Pemulangan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                            </div>
+                            <div class="col-md-9">
+                                <div class="w-100">
+                                    {{ Form::text('tarikh_pulang', old('tarikh_pulang'),['class' => 'form-control form-control-sm '.($errors->has('tarikh_pulang') ? 'is-invalid':''), 'id' =>'tarikh_pulang','onkeydown' =>'return true','autocomplete' => 'off', 'form'=>'pinjam']) }}
+                                    @error('tarikh_pulang') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
                         </div>
@@ -81,30 +92,22 @@
 
 @push('scripts')
 <script>
-    const { createApp } = Vue
-
-    createApp({
-    data() {
-        return {
-            show_section_1: true,
-            show_section_2: false,
-        }
-    },
-    methods: {
-            viewMore(){
-                this.show_section_1 = false;
-                this.show_section_2 = true;
-            },
-            hideMore(){
-                this.show_section_1 = true;
-                this.show_section_2 = false;
-            },
-        },
-    mounted() {
-
-        },
-    }).mount('#advanceSearch')
+    $("#tarikh_pulang").daterangepicker({
+    autoApply : true,
+    singleDatePicker: true,
+    showDropdowns: true,
+    autoUpdateInput: false,
+    minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+    maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+    locale: {
+        format: 'DD/MM/YYYY'
+    }
+    },function(start, end, label) {
+        var datePicked = moment(start).format('DD/MM/YYYY');
+        $("#tarikh_pulang").val(datePicked);
+    });
 </script>
+
 
 
 

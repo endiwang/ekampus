@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-
+use Illuminate\Support\Carbon;
 class BahanController extends Controller
 {    protected $baseView = 'pages.pengurusan.perpustakaan.bahan.';
 
@@ -235,6 +235,26 @@ class BahanController extends Controller
 
     public function pinjam(Request $request)
     {
-        dd($request);
+        $validation = $request->validate([
+            'keahlian_id'        => 'required',
+            'tarikh_pulang'   => 'required',
+        ],[
+            'keahlian_id.required'         => 'Sila pilih peminjam',
+            'tarikh_pulang.required'        => 'Sila masukkan tarikh pemulanggan',
+        ]);
+
+        $request->request->add(['tarikh_pulang' => Carbon::createFromFormat('d/m/Y',$request->tarikh_pulang)->format('Y-m-d')]);
+        $request->request->add(['tarikh_pinjam' => Carbon::now('Asia/Kuala_Lumpur')->format('Y-m-d')]);
+        $request->request->add(['status' => 0]);
+        $request->request->add(['denda' => '0']);
+        $request->request->add(['status_denda' => 0]);
+
+        $pinjam  = PinjamanPerpustakaan::create($request->all());
+        $bahan = BahanPerpustakaan::find($request->bahan_id);
+        $bahan->status = 1;
+        $bahan->save();
+
+        Alert::toast('Proses pinjaman berjaya!', 'success');
+        return redirect()->route('pengurusan.perpustakaan.bahan.index');
     }
 }
