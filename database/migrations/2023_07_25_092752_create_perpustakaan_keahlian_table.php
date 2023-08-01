@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('no_matrik')->nullable();
             $table->string('no_telefon');
             $table->integer('is_public')->default('0')->comment('0 is staff or student , 1 is public');
+            $table->integer('is_staff')->default('0')->comment('0 not staff, 1 is staff');
+            $table->integer('is_pelajar')->default('0')->comment('0 not student , 1 is student');
             $table->integer('user_id')->nullable();
             $table->integer('status')->default('0')->comment('0 active , 1 inactive');
             $table->timestamps();

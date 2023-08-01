@@ -10,7 +10,9 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
 use App\Helpers\Utils;
-
+use App\Models\Pelajar;
+use App\Models\Staff;
+use App\Models\User;
 
 class KeahlianController extends Controller
 {
@@ -53,6 +55,11 @@ class KeahlianController extends Controller
                           return '';
                     }
                 })
+                ->addColumn('kategori', function($data) {
+                    if ($data->is_public == 1) { return '<span class="badge badge-info">Orang Awam</span>'; }
+                    elseif($data->is_pelajar == 1) { return '<span class="badge badge-info">Pelajar</span>'; }
+                    elseif($data->is_staff == 1) { return '<span class="badge badge-info">Kakitagan</span>'; }
+                })
                 ->addColumn('action', function($data){
                     return '<a href="'.route('pengurusan.perpustakaan.keahlian.show',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Cetak Kehadiran">
                                 <i class="fa fa-eye"></i>
@@ -72,7 +79,7 @@ class KeahlianController extends Controller
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['status', 'action'])
+                ->rawColumns(['status', 'action','kategori'])
                 ->toJson();
             }
 
@@ -81,6 +88,7 @@ class KeahlianController extends Controller
                 [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
                 ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Kelas', 'orderable'=> false, 'class'=>'text-bold'],
                 ['data' => 'ic_no', 'name' => 'ic_no', 'title' => 'No IC', 'orderable'=> false],
+                ['data' => 'kategori', 'name' => 'kategori', 'title' => 'Kategori', 'orderable'=> false],
                 ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
 
@@ -106,9 +114,12 @@ class KeahlianController extends Controller
             "Tambah Keahlian Perpustakaan" =>  false,
         ];
 
+        $pelajar = Pelajar::where('is_berhenti',0)->get()->pluck('name_ic','id');
+        $kakitangan = Staff::where('is_deleted',0)->get()->pluck('name_ic','id');
+
         $model = new KeahlianPerpustakaan();
 
-        return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action'));
+        return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'pelajar','kakitangan'));
 
 
     }
@@ -121,17 +132,59 @@ class KeahlianController extends Controller
      */
     public function store(Request $request)
     {
-        $validation = $request->validate([
-            'nama'        => 'required',
-            'ic_no'  => 'required',
-            'no_telefon'   => 'required',
-        ],[
-            'nama.required'         => 'Sila masukkan nama',
-            'ic_no.required'        => 'Sila masukkan no ic',
-            'no_telefon.required'   => 'Sila masukkan no telefon',
-        ]);
+        if($request->type == 'awam')
+        {
+            $validation = $request->validate([
+                'nama'        => 'required',
+                'ic_no'  => 'required',
+                'no_telefon'   => 'required',
+            ],[
+                'nama.required'         => 'Sila masukkan nama',
+                'ic_no.required'        => 'Sila masukkan no ic',
+                'no_telefon.required'   => 'Sila masukkan no telefon',
+            ]);
 
-        $ahli = KeahlianPerpustakaan::create($request->all());
+            $ahli = KeahlianPerpustakaan::create($request->all());
+        }elseif($request->type == 'pelajar')
+        {
+            $validation = $request->validate([
+                'pelajar_id'        => 'required',
+            ],[
+                'pelajar_id.required'         => 'Sila pilih pelajar yang akan didaftarkan',
+            ]);
+
+            $pelajar = Pelajar::find($request->pelajar_id);
+
+            KeahlianPerpustakaan::create([
+                'nama' => $pelajar->nama,
+                'ic_no' => $pelajar->no_ic,
+                'no_matrik' => $pelajar->no_matrik,
+                'no_telefon' => $pelajar->no_tel,
+                'user_id' => $pelajar->user_id,
+                'is_public' => 0,
+                'is_pelajar' => 1,
+            ]);
+
+        }else{
+            $validation = $request->validate([
+                'staff_id'        => 'required',
+            ],[
+                'staff_id.required'         => 'Sila pilih kakitangan yang akan didaftarkan',
+            ]);
+
+            $staff = Staff::find($request->staff_id);
+
+            KeahlianPerpustakaan::create([
+                'nama' => $staff->nama,
+                'ic_no' => $staff->no_ic,
+                'user_id' => $staff->user_id,
+                'no_telefon' => $staff ->no_tel,
+                'is_public' => 0,
+                'is_staff' => 1,
+            ]);
+
+        }
+
 
         Alert::toast('Ahli berjaya ditambah!', 'success');
         return redirect()->route('pengurusan.perpustakaan.keahlian.index');
@@ -262,4 +315,6 @@ class KeahlianController extends Controller
     {
         //
     }
+
+
 }
