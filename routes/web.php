@@ -90,6 +90,8 @@ Route::prefix('migrate')->group(function () {
     Route::get('/sis_tblkonvo_to_konvo', [MigrateMainController::class,'sis_tblkonvo_to_konvo']);
     Route::get('/sis_tblkonvo_mohon_to_konvo_pelajar', [MigrateMainController::class,'sis_tblkonvo_mohon_to_konvo_pelajar']);
     Route::get('/ref_sebab_berhenti_to_sebab_berhenti', [MigrateMainController::class,'ref_sebab_berhenti_to_sebab_berhenti']);
+    Route::get('/ref_asrama_blok_to_blok', [MigrateMainController::class,'ref_asrama_blok_to_blok']);
+    Route::get('/ref_asrama_tingkat_to_tingkat', [MigrateMainController::class,'ref_asrama_tingkat_to_tingkat']);
 });
 
 Route::get('/duplicate_data', [MigrateMainController::class,'find_duplicate']);
