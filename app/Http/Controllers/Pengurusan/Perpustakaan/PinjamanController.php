@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pengurusan\Perpustakaan;
 
 use App\Http\Controllers\Controller;
 use App\Models\PinjamanPerpustakaan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
@@ -36,7 +37,7 @@ class PinjamanController extends Controller
             ];
 
             if (request()->ajax()) {
-                $data = PinjamanPerpustakaan::where('status',0)->with('bahan','ahli');
+                $data = PinjamanPerpustakaan::with('bahan','ahli');
                 return DataTables::of($data)
                 ->addColumn('status', function($data) {
                     switch ($data->status) {
@@ -54,11 +55,32 @@ class PinjamanController extends Controller
                                 <i class="fa fa-gear"></i>
                             </a>';
                 })
+                ->addColumn('denda', function($data) {
+                    switch ($data->status_denda) {
+                        case 0:
+                            return '<span class="badge badge-success">Tiada</span>';
+                          break;
+                        case 1:
+                            return '<span class="badge badge-danger">Didenda</span>';
+                            break;
+                        case 2:
+                            return '<span class="badge badge-primary">Selesai</span>';
+                            break;
+
+                        default:
+                          return '';
+                    }
+                })
+                ->addColumn('action', function($data){
+                    return '<a href="'.route('pengurusan.perpustakaan.pinjaman.show',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Maklumat lanjut">
+                                <i class="fa fa-gear"></i>
+                            </a>';
+                })
                 ->addIndexColumn()
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['status', 'action'])
+                ->rawColumns(['status', 'action','denda'])
                 ->toJson();
             }
 
@@ -70,7 +92,8 @@ class PinjamanController extends Controller
                 ['data' => 'ahli.no_telefon', 'name' => 'ahli.no_telefon', 'title' => 'No Telefon', 'orderable'=> false, 'class'=>'text-bold'],
                 ['data' => 'bahan.nama', 'name' => 'nama', 'title' => 'Nama Bahan', 'orderable'=> false, 'class'=>'text-bold'],
                 ['data' => 'bahan.isbn', 'name' => 'isbn', 'title' => 'ISBN', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false],
+                ['data' => 'status', 'name' => 'status', 'title' => 'Status Pinjaman', 'orderable'=> false],
+                ['data' => 'denda', 'name' => 'denda', 'title' => 'Status Denda', 'orderable'=> false],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
 
             ])
@@ -155,5 +178,43 @@ class PinjamanController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function pulang(Request $request)
+    {
+        $pulang = PinjamanPerpustakaan::find($request->id);
+
+        $today = Carbon::now('Asia/Kuala_Lumpur');
+
+        $tarikh_pulang  = Carbon::parse($pulang->tarikh_pulang);
+
+        if($tarikh_pulang->isPast())
+        {
+            $pulang->status = 1;
+            $pulang->status_denda = 1;
+            $pulang->tarikh_pemulangan = Carbon::now('Asia/Kuala_Lumpur')->format('Y-m-d');
+
+            $diff_day = $today->diffInDays($tarikh_pulang);
+            $pulang->denda = 0.10*$diff_day;
+            Alert::warning( 'Bahan Dipulangkan Lewat');
+
+        }else{
+            $pulang->status = 1;
+            $pulang->status_denda = 0;
+            $pulang->tarikh_pemulangan = Carbon::now('Asia/Kuala_Lumpur')->format('Y-m-d');
+            Alert::success( 'Bahan Telah Dipulangkan');
+        }
+
+        $pulang->save();
+        return ['success' => true];
+    }
+
+    public function bayar_denda(Request $request)
+    {
+        $pulang = PinjamanPerpustakaan::find($request->id);
+
+        $pulang->status_denda = 2;
+        $pulang->save();
+        return ['success' => true];
     }
 }

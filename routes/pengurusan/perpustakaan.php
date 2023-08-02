@@ -11,5 +11,8 @@ Route::resource('keahlian', KeahlianController::class);
 Route::resource('bahan', BahanController::class);
 Route::post('bahan/pinjam', [BahanController::class, 'pinjam'])->name('bahan.pinjam');
 Route::resource('pinjaman', PinjamanController::class);
+Route::post('pinjaman/pulang', [PinjamanController::class, 'pulang'])->name('pinjaman.pulang');
+Route::post('pinjaman/bayar_denda', [PinjamanController::class, 'bayar_denda'])->name('pinjaman.bayar_denda');
+
 
 
