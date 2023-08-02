@@ -19,7 +19,8 @@ return new class extends Migration
             $table->integer('bahan_id');
             $table->date('tarikh_pinjam');
             $table->date('tarikh_pulang');
-            $table->integer('status');
+            $table->date('tarikh_pemulangan')->nullable();
+            $table->integer('status')->comment('0 - pinjam, 1 - sudah pulang');
             $table->string('denda');
             $table->integer('status_denda')->default(0)->comment('0 - tiada denda, 1 - belum bayar - 2 selesa');
             $table->timestamps();

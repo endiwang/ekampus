@@ -16,4 +16,9 @@ class PinjamanPerpustakaan extends Model
     {
         return $this->belongsTo(BahanPerpustakaan::class,'bahan_id','id');
     }
+
+    public function ahli()
+    {
+        return $this->belongsTo(KeahlianPerpustakaan::class,'keahlian_id','id');
+    }
 }

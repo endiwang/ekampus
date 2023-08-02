@@ -47,6 +47,11 @@ class Pelajar extends Model
         return $this->belongsTo(Semester::class,'semester','id');
     }
 
+    public function getNameIcAttribute()
+    {
+       return ucfirst($this->nama) . ' - ' . ucfirst($this->no_ic);
+    }
+
 }
 
 
