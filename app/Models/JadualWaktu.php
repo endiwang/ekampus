@@ -15,4 +15,9 @@ class JadualWaktu extends Model
     {
         return $this->belongsTo(Kelas::class, 'kelas_id', 'id');
     }
+
+    public function jadualWaktuDetail()
+    {
+        return $this->HasMany(JadualWaktuDetail::class, 'jadual_waktu_id', 'id');
+    }
 }

@@ -128,7 +128,7 @@ class JadualKelasController extends Controller
         //     'masa_tamat.required'   => 'Sila pilih masa tamat',
         // ]);
 
-        try {
+        // try {
             $jadual_waktu = JadualWaktu::updateOrCreate([
                 'kelas_id' => $request->kelas_id,
                 'pengajian_id' => $request->pusat_pengajian_id,
@@ -157,12 +157,12 @@ class JadualKelasController extends Controller
             Alert::toast('Maklumat Subjek berjaya disimpan!', 'success');
             return redirect()->back();
 
-        }catch (Exception $e) {
-            report($e);
+        // }catch (Exception $e) {
+        //     report($e);
     
-            Alert::toast('Uh oh! Something went Wrong', 'error');
-            return redirect()->back();
-        }
+        //     Alert::toast('Uh oh! Something went Wrong', 'error');
+        //     return redirect()->back();
+        // }
     }
 
     /**
@@ -201,7 +201,7 @@ class JadualKelasController extends Controller
             $locations = Bilik::where('is_deleted', 0)->get()->pluck('nama_bilik', 'id');
             $days = Utils::days();
             $times = Utils::times();
-            $lecturers = Staff::all()->pluck('nama', 'staff_id');
+            $lecturers = Staff::all()->pluck('nama', 'id');
 
 
             $statuses = [
