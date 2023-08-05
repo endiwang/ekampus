@@ -648,6 +648,14 @@
                             <span class="menu-title">Pelajar Gantung/Tangguh</span>
                         </a>
                     </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.laporan.akademik.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.laporan.akademik.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Akademik</span>
+                        </a>
+                    </div>
                     {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
                             <span class="menu-bullet">
