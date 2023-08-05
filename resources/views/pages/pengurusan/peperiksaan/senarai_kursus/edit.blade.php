@@ -63,7 +63,7 @@
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('semester_setahun', 'Jumlah Semester Setahuan', ['class' => 'fs-7 fw-semibold form-label mt-2 required']) }}
+                                    {{ Form::label('semester_setahun', 'Jumlah Semester Setahun', ['class' => 'fs-7 fw-semibold form-label mt-2 required']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">

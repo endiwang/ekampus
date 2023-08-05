@@ -50,11 +50,11 @@
                 </div>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pelajar.permohonan.penangguhan_pengajian.index') ? 'active' : '' }}" href="{{ route('pelajar.permohonan.penangguhan_pengajian.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.peperiksaan.kemaskini.sesi_pengajian.index') ? 'active' : '' }}" href="{{ route('pengurusan.peperiksaan.kemaskini.sesi_pengajian.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
-                            <span class="menu-title">Senarai Sesi Pengajian</span>
+                            <span class="menu-title">Sesi Pengajian</span>
                         </a>
                     </div>
                 </div>
