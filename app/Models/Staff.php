@@ -21,6 +21,11 @@ class Staff extends Model
     {
         return $this->belongsTo(Jabatan::class,'jabatan_id','id');
     }
+
+    public function getNameIcAttribute()
+    {
+       return ucfirst($this->nama) . ' - ' . ucfirst($this->no_ic);
+    }
 }
 
 
