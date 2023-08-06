@@ -21,7 +21,7 @@ class RekodNotaKuliahController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
 
             $title = "Rekod Nota Kuliah";
@@ -42,6 +42,14 @@ class RekodNotaKuliahController extends Controller
 
             if (request()->ajax()) {
                 $data = IjazahNotaKuliah::query();
+                if($request->has('nama') && $request->nama != NULL)
+                {
+                    $data->where('name', 'LIKE', '%' . $request->nama . '%');
+                }
+                if($request->has('sesi') && $request->sesi != NULL)
+                {
+                    $data->where('sesi_id',  $request->sesi);
+                }
                 return DataTables::of($data)
                 ->addColumn('document_name', function($data) {
                     return '<a href="'. route('pengurusan.akademik.pengurusan_ijazah.nota_kuliah.download', $data->id) .'" target="_blank">'. $data->document_name.'</a>';
@@ -86,7 +94,9 @@ class RekodNotaKuliahController extends Controller
             ])
             ->minifiedAjax();
 
-            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
+            $sessions = Sesi::where('deleted_at', NULL)->pluck('nama', 'id');
+
+            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable', 'sessions'));
 
     }
 
