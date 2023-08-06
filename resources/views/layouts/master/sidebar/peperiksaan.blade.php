@@ -60,7 +60,7 @@
                 </div>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pelajar.permohonan.keluar_masuk.index') ? 'active' : '' }}" href="{{ route('pelajar.permohonan.keluar_masuk.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.peperiksaan.kemaskini.nama_pelajar.index') ? 'active' : '' }}" href="{{ route('pengurusan.peperiksaan.kemaskini.nama_pelajar.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
