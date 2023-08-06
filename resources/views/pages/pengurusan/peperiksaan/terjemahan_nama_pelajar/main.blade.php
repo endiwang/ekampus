@@ -7,7 +7,7 @@
              <!--begin::Row-->
              <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <form class="form" action="{{ route('pengurusan.peperiksaan.kemaskini.sesi_pengajian.index')}}" method="get">
+                    <form class="form" action="{{ route('pengurusan.peperiksaan.kemaskini.nama_pelajar.index')}}" method="get">
                         <div class="card">
                             <div class="card-body py-5">
                                 <div class="row fv-row mb-2" >
@@ -21,12 +21,52 @@
                                     </div>
                                 </div>
                                 <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('pusat_pengajian', 'Pusat Pengajian', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::select('pusat_pengajian', $campuses, Request::get('pusat_pengajian'), ['data-control'=>'select2', 'placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm','id'=>'pusat_pengajian' ]) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('sesi_kemasukan', 'Sesi Kemasukan', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::select('sesi_kemasukan', $intake_sessions, Request::get('sesi_kemasukan'), ['data-control'=>'select2', 'placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm','id'=>'sesi_kemasukan' ]) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('semester_pengajian', 'Semester Pengajian', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::select('semester_pengajian', $semesters, Request::get('semester_pengajian'), ['data-control'=>'select2', 'placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm','id'=>'semester_pengajian' ]) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('nama_pelajar', 'Nama Pelajar', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::text('nama_pelajar', Request::get('nama_pelajar') ,['class' => 'form-control form-control-sm', 'id' =>'nama_pelajar','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
                                     <div class="col-md-12">
                                         <div class="d-flex align-items-center justify-content-end">
                                             <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0 me-3">
                                                 <i class="fa fa-search" style="vertical-align: initial"></i>Cari
                                             </button>
-                                            <a href="{{ route('pengurusan.peperiksaan.kemaskini.sesi_pengajian.index') }}" class="btn btn-sm btn-light">Set Semula</a>
+                                            <a href="{{ route('pengurusan.peperiksaan.kemaskini.nama_pelajar.index') }}" class="btn btn-sm btn-light">Set Semula</a>
                                         </div>
                                     </div>
                                 </div>
