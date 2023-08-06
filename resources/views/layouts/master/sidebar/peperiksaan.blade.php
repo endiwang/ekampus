@@ -70,7 +70,7 @@
                 </div>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pelajar.permohonan.keluar_masuk.index') ? 'active' : '' }}" href="{{ route('pelajar.permohonan.keluar_masuk.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.peperiksaan.kemaskini.subjek_arab.index') ? 'active' : '' }}" href="{{ route('pengurusan.peperiksaan.kemaskini.subjek_arab.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
