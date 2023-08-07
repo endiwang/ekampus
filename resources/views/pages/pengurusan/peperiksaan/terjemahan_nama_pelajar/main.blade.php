@@ -4,30 +4,29 @@
 @section('content')
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
-            <!--begin::Row-->
-            <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
+             <!--begin::Row-->
+             <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <form class="form" action="{{ route('pengurusan.akademik.pengurusan_ijazah.pelajar.index')}}" method="get">
+                    <form class="form" action="{{ route('pengurusan.peperiksaan.kemaskini.nama_pelajar.index')}}" method="get">
                         <div class="card">
                             <div class="card-body py-5">
-                                
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('nama_pelajar', 'Nama Pelajar', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('program_pengajian', 'Program Pengajian', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('nama_pelajar', Request::get('nama_pelajar') ,['class' => 'form-control form-control-sm', 'id' =>'nama_pelajar','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                            {{ Form::select('program_pengajian', $courses, Request::get('program_pengajian'), ['data-control'=>'select2', 'placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm','id'=>'program_pengajian' ]) }}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('no_matrik', 'No Matrik', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('pusat_pengajian', 'Pusat Pengajian', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('no_matrik', Request::get('no_matrik') ,['class' => 'form-control form-control-sm', 'id' =>'no_matrik','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                            {{ Form::select('pusat_pengajian', $campuses, Request::get('pusat_pengajian'), ['data-control'=>'select2', 'placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm','id'=>'pusat_pengajian' ]) }}
                                         </div>
                                     </div>
                                 </div>
@@ -41,14 +40,33 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('semester_pengajian', 'Semester Pengajian', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::select('semester_pengajian', $semesters, Request::get('semester_pengajian'), ['data-control'=>'select2', 'placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm','id'=>'semester_pengajian' ]) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('nama_pelajar', 'Nama Pelajar', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::text('nama_pelajar', Request::get('nama_pelajar') ,['class' => 'form-control form-control-sm', 'id' =>'nama_pelajar','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-12">
                                         <div class="d-flex align-items-center justify-content-end">
                                             <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0 me-3">
                                                 <i class="fa fa-search" style="vertical-align: initial"></i>Cari
                                             </button>
-                                            <a href="{{ route('pengurusan.akademik.pengurusan_ijazah.pelajar.index') }}" class="btn btn-sm btn-light">Set Semula</a>
+                                            <a href="{{ route('pengurusan.peperiksaan.kemaskini.nama_pelajar.index') }}" class="btn btn-sm btn-light">Set Semula</a>
                                         </div>
                                     </div>
                                 </div>
@@ -74,61 +92,5 @@
 @endsection
 
 @push('scripts')
-    <script>
-        function remove(id){
-            Swal.fire({
-                title: 'Are you sure you want to delete this data?',
-                text: 'This action cannot be undone.',
-                showCancelButton: true,
-                cancelButtonText: 'Cancel',
-                confirmButtonText: 'Delete',
-                reverseButtons: true,
-                customClass: {
-                    title: 'swal-modal-delete-title',
-                    htmlContainer: 'swal-modal-delete-container',
-                    cancelButton: 'btn btn-light btn-sm mr-1',
-                    confirmButton: 'btn btn-primary btn-sm ml-1'
-                },
-                buttonsStyling: false
-            })
-                .then((result) => {
-                    if(result.isConfirmed){
-                        document.getElementById(`delete-${id}`).submit();
-                    }
-                })
-        }
-
-        const { createApp } = Vue
-
-        createApp({
-        data() {
-            return {
-                table: null,
-                keyword: {
-                    search:null,
-                }
-            }
-        },
-        methods: {
-                viewMore(){
-                    this.show_section_1 = false;
-                    this.show_section_2 = true;
-                },
-                hideMore(){
-                    this.show_section_1 = true;
-                    this.show_section_2 = false;
-                },
-                search() {
-                    console.log(this.search);
-                    this.search(this.keyword.search).draw();
-                },
-            },
-        mounted() {
-
-            },
-        }).mount('#advanceSearch')
-    </script>
-
     {!! $dataTable->scripts() !!}
-
 @endpush

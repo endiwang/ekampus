@@ -9,6 +9,8 @@ use App\Models\Pelajar;
 use Yajra\DataTables\Html\Builder;
 use Yajra\DataTables\DataTables;
 use App\Models\Negeri;
+use App\Models\PusatPengajian;
+use App\Models\Semester;
 use App\Models\Sesi;
 use Illuminate\Support\Carbon;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -21,7 +23,7 @@ class KemasukanPelajarIjazahController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
 
         $title = "Pelajar Ijazah";
@@ -41,7 +43,19 @@ class KemasukanPelajarIjazahController extends Controller
             ];
 
         if (request()->ajax()) {
-            $data = Pelajar::where('kursus_id',12)->get();
+            $data = Pelajar::where('kursus_id',12);
+            if($request->has('nama_pelajar') && $request->nama_pelajar != NULL)
+            {
+                $data->where('nama', 'LIKE', '%' . $request->nama_pelajar . '%');
+            }
+            if($request->has('no_matrik') && $request->no_matrik != NULL)
+            {
+                $data->where('no_matrik', 'LIKE', '%' . $request->no_matrik . '%');
+            }
+            if($request->has('sesi') && $request->sesi != NULL)
+            {
+                $data->where('sesi_id',  $request->sesi);
+            }
             return DataTables::of($data)
             ->addColumn('sesi_kemasukan', function($data) {
                 if($data->sesi == NULL)
@@ -96,7 +110,9 @@ class KemasukanPelajarIjazahController extends Controller
         ])
         ->minifiedAjax();
 
-        return view('pages.pengurusan.akademik.pengurusan_ijazah.pendaftaran_pelajar.main', compact('dataTable','buttons','title','breadcrumbs'));
+        $intake_sessions = Sesi::where('deleted_at', NULL)->pluck('nama', 'id');
+
+        return view('pages.pengurusan.akademik.pengurusan_ijazah.pendaftaran_pelajar.main', compact('dataTable','buttons','title','breadcrumbs', 'intake_sessions'));
     }
 
     /**
