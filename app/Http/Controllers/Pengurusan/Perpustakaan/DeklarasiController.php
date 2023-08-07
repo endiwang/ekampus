@@ -10,6 +10,8 @@ use Yajra\DataTables\Html\Builder;
 use App\Models\KeahlianPerpustakaan;
 use App\Models\PinjamanPerpustakaan;
 use App\Helpers\Utils;
+use App\Models\Konvo;
+use App\Models\KonvoPelajar;
 
 class DeklarasiController extends Controller
 {
@@ -110,15 +112,25 @@ class DeklarasiController extends Controller
     {
             $pelajar = Pelajar::find($request->pelajar_id);
             $model = KeahlianPerpustakaan::where('user_id',$pelajar->user_id)->first();
-            $title = 'Keahlian Perpustakaan';
+            $title = 'Deklarasi Pelajar';
             $page_title = 'Keahlian Perpustakaan';
             $breadcrumbs = [
                 "Perpustakaan" =>  false,
-                "Keahlian" =>  false,
+                "Deklarasi Pelajar" =>  false,
             ];
 
+            $pinjaman_denda = PinjamanPerpustakaan::where('keahlian_id',$model->id)
+                                                    ->where(function ($query) {
+                                                        $query->where('status_denda',1)
+                                                              ->orWhere('status',0);
+                                                    })
+                                                    ->first();
+
             if (request()->ajax()) {
-                $data = PinjamanPerpustakaan::where('keahlian_id',$model->id);
+                $data = PinjamanPerpustakaan::where('keahlian_id',$model->id)->where(function ($query) {
+                    $query->where('status_denda',1)
+                          ->orWhere('status',0);
+                });
                 return DataTables::of($data)
                 ->addColumn('nama_bahan', function($data) {
                     if($data->bahan)
@@ -141,7 +153,7 @@ class DeklarasiController extends Controller
                     switch($data->status)
                 {
                     case 0 :
-                        return '<span class="badge badge-primary">Dipinjam</span>';
+                        return '<span class="badge badge-primary">Belum Pulang</span>';
                     break;
 
                     case 1 :
@@ -149,30 +161,42 @@ class DeklarasiController extends Controller
                     break;
                 }
                 })
-                ->addColumn('denda', function($data) {
-                    return 'ok';
-                })
                 ->addColumn('status_denda', function($data) {
-                    return 'ok';
+                    switch($data->status)
+                {
+                    case 0 :
+                        return '<span class="badge badge-primary">Tiada</span>';
+                    break;
+
+                    case 1 :
+                        return '<span class="badge badge-danger">Didenda</span>';
+                    break;
+                    case 2 :
+                        return '<span class="badge badge-info">Selesai</span>';
+                    break;
+                }
+                })
+                ->addColumn('denda', function($data) {
+
+                    if($data->denda != null)
+                    {
+                        return 'RM '.number_format((float)$data->denda, 2, '.', '');
+
+                    }else{
+                        return 'N\A';
+                    }
                 })
                 ->addColumn('action', function($data){
                     return '
-                            <a href="'.route('pengurusan.akademik.kelas.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
-                                <i class="fa fa-pencil-alt"></i>
-                            </a>
-                            <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id .')" data-bs-toggle="tooltip" title="Hapus">
-                                <i class="fa fa-trash"></i>
-                            </a>
-                            <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.kelas.destroy', $data->id).'" method="POST">
-                                <input type="hidden" name="_token" value="'.csrf_token().'">
-                                <input type="hidden" name="_method" value="DELETE">
-                            </form>';
+                            <a href="'.route('pengurusan.perpustakaan.pinjaman.show',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Tindakan">
+                                <i class="fa fa-gear"></i>
+                            </a>';
                 })
                 ->addIndexColumn()
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['status_pinjaman','action'])
+                ->rawColumns(['status_pinjaman','action','status_denda'])
                 ->toJson();
             }
 
@@ -183,10 +207,33 @@ class DeklarasiController extends Controller
                 ['data' => 'tarikh_pinjam', 'name' => 'tarikh_pinjam', 'title' => 'Tarikh Pinjaman', 'orderable'=> false],
                 ['data' => 'tarikh_pulang', 'name' => 'tarikh_pulang', 'title' => 'Tarikh Pulang', 'orderable'=> false],
                 ['data' => 'status_pinjaman', 'name' => 'status_pinjaman', 'title' => 'Status Pinjaman', 'orderable'=> false],
+                ['data' => 'status_denda', 'name' => 'status_denda', 'title' => 'Status Denda', 'orderable'=> false],
+                ['data' => 'denda', 'name' => 'denda', 'title' => 'Denda', 'orderable'=> false],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
             ])
             ->minifiedAjax();
 
-            return view($this->baseView.'semak', compact('model', 'title', 'breadcrumbs', 'page_title', 'dataTable'));
+            return view($this->baseView.'semak', compact('model', 'title', 'breadcrumbs', 'page_title', 'dataTable','pelajar','pinjaman_denda'));
     }
+
+    public function sahkan_pelajar(Request $request)
+    {
+
+        $pelajar = KonvoPelajar::where('pelajar_id',$request->pelajar_id)->first();
+        if($pelajar != null)
+            {
+                $pelajar->deklarasi_perpustakaan = 1;
+                $pelajar->save();
+                return ['success' => true];
+            }
+        else{
+                return ['error' => true];
+
+        }
+
+
+
+    }
+
+
 }

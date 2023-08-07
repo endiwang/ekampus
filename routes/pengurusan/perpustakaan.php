@@ -16,6 +16,7 @@ Route::resource('pinjaman', PinjamanController::class);
 Route::post('pinjaman/pulang', [PinjamanController::class, 'pulang'])->name('pinjaman.pulang');
 Route::post('pinjaman/bayar_denda', [PinjamanController::class, 'bayar_denda'])->name('pinjaman.bayar_denda');
 Route::get('deklarasi/semakan', [DeklarasiController::class, 'semakan'])->name('deklarasi.semakan');
+Route::post('deklarasi/sahkan_pelajar', [DeklarasiController::class, 'sahkan_pelajar'])->name('deklarasi.sahkan_pelajar');
 Route::resource('deklarasi', DeklarasiController::class);
 
 

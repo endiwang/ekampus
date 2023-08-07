@@ -176,7 +176,7 @@
                                         </button>
                                         @endif
                                     @endif
-                                    <a href="{{ route('pengurusan.perpustakaan.pinjaman.index') }}" class="btn btn-sm btn-light">Kembali</a>
+                                    <a href="{{ URL::previous() }}" class="btn btn-sm btn-light">Kembali</a>
                                 </div>
                             </div>
                         </div>
