@@ -31,6 +31,20 @@ class AduanPenyelenggaraan extends Model
         return $this->belongsTo(Bilik::class, 'bilik_id', 'id');
     }
 
+    public function getUserNameAttribute()
+    {
+        $user = $this->user;
+        if(!empty($user->is_staff))
+        {
+            return @Staff::where('user_id', $user->id)->first()->nama;
+        }
+        else if(!empty($user->is_student))
+        {
+            return @Student::where('user_id', $user->id)->first()->nama;
+        }
+        return '';
+    }
+
     public function getKategoriNameAttribute()
     {        
         $kategori_aduan = [
@@ -46,6 +60,21 @@ class AduanPenyelenggaraan extends Model
         if(!empty($this->attributes['kategori']))
         {
             return @$kategori_aduan[$this->attributes['kategori']];
+        }
+    }
+
+    public function getStatusNameAttribute()
+    {        
+        $status = [
+            1 => 'Baru diterima', 
+            2 => 'Dalam Proses Vendor', 
+            3 => 'Dalam Proses Unit Penyelenggaraan', 
+            4 => 'Selesai',
+        ];
+
+        if(!empty($this->attributes['status']))
+        {
+            return @$status[$this->attributes['status']];
         }
     }
 

@@ -79,6 +79,8 @@
                             @include('layouts.master.sidebar.perpustakaan')
 						@elseif(Request::routeIs('pengurusan.peperiksaan.*'))
                             @include('layouts.master.sidebar.peperiksaan')
+						@elseif(Request::routeIs('pengurusan.pembangunan.*'))
+                            @include('layouts.master.sidebar.pembangunan')
                         @else
                             @include('layouts.master.sidebar.utama')
                         @endif
