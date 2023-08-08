@@ -23,10 +23,11 @@
                 </ul>
             </div>
             <div class="d-flex align-items-center gap-2 gap-lg-3">
-                <a href="{{ route('pengurusan.pentadbir_sistem.sesi.create') }}" class="btn btn-sm btn-primary fw-bold">
+                <!-- <a href="{{ route('pengurusan.pentadbir_sistem.sesi.create') }}" class="btn btn-sm btn-primary fw-bold"> -->
+                <a href="{{ route('pengurusan.kualiti.kualiti.create') }}" class="btn btn-sm btn-primary fw-bold">
                     <span class="svg-icon svg-icon-6 svg-icon-muted me-1">
                         <i class="fa fa-plus-circle"></i>
-                    </span>Tambah Sesi
+                    </span>Tambah Jaminan Kualiti
                 </a>
             </div>
         </div>
@@ -34,7 +35,7 @@
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
             <!--begin::Row-->
-            <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
+            <!-- <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                     <div class="card" id="advanceSearch">
                         <div class="card-body py-5">
@@ -55,9 +56,9 @@
                                 <div class="row mb-2" v-show="show_section_1">
                                     <div class="col-md-9 offset-md-3">
                                         <div class="d-flex">
-                                            <!--begin::Button-->
+                                            
                                             <button type="button" class="btn btn-light me-3 btn-sm" @click='viewMore'>Lebih Banyak Pilihan Tapisan</button>
-                                            <!--end::Button-->
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -71,25 +72,23 @@
                                 </div>
                                 <div class="row fv-row mb-2" v-show="show_section_2">
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('kursus', 'Kursus', ['class' => 'fs-6 fw-semibold form-label mt-2']) }}
+                                         Form::label('kursus', 'Kursus', ['class' => 'fs-6 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::select('kursus', $kursus, null, ['placeholder' => 'Sila Pilih','class' =>'form-select form-select-sm', 'data-control'=>'select2' ]) }}
+                                            Form::select('kursus', $kursus, null, ['placeholder' => 'Sila Pilih','class' =>'form-select form-select-sm', 'data-control'=>'select2' ]) }}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row" v-show="show_section_2">
                                     <div class="col-md-9 offset-md-3">
                                         <div class="d-flex">
-                                            <!--begin::Button-->
+                                            
                                             <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success me-3 btn-sm">
                                                 <i class="fa fa-search" style="vertical-align: initial"></i>Cari
                                             </button>
                                             <button type="button" @click='hideMore' class="btn btn-light btn-sm">Kurangkan Pilihan Tapisan</button>
-                                            <!--end::Button-->
-                                            <!--begin::Button-->
-                                            <!--end::Button-->
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -97,7 +96,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <!--end::Row-->
             <!--begin::Row-->
             <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
