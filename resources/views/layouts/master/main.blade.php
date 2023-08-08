@@ -75,6 +75,8 @@
                             @include('layouts.master.sidebar.pelajar')
                         @elseif(Request::routeIs('pengurusan.komunikasi_korporat.*'))
                             @include('layouts.master.sidebar.komunikasi_korporat')
+						@elseif(Request::routeIs('pengurusan.pengajian_sepanjang_hayat.*'))
+                            @include('layouts.master.sidebar.jabatan_pengajian_sepanjang_hayat')
                         @else
                             @include('layouts.master.sidebar.utama')
                         @endif

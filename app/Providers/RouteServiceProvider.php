@@ -85,6 +85,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('pengurusan/komunikasi_korporat')
                 ->as('pengurusan.komunikasi_korporat.')
                 ->group(base_path('routes/pengurusan/komunikasi_korporat.php'));
+
+            Route::middleware('web')
+                ->prefix('pengurusan/pengajian_sepanjang_hayat/')
+                ->as('pengurusan.pengajian_sepanjang_hayat.')
+                ->group(base_path('routes/pengurusan/pengajian_sepanjang_hayat.php'));
         });
     }
 
