@@ -39,16 +39,9 @@ class AduanPenyelenggaraanController extends Controller
             ->addColumn('lokasi', function($data) {
                 $html = '';
 
-                $lokasi = [
-                    'A' => 'Asrama', 
-                    'K' => 'Kuliah', 
-                    'P' => 'Pentadbiran', 
-                    'L' => 'Lain-lain',
-                ];
-
-                if(!empty($lokasi[$data->type]))
+                if(!empty($data->type))
                 {
-                    $html .= $lokasi[$data->type] . ' / ';
+                    $html .= $data->lokasi_name . ' / ';
                 }
 
                 if(!empty($data->blok))

@@ -2,23 +2,6 @@
 @section('css')
 @endsection
 @section('content')
-<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
-    <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
-        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-            <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Aduan Penyelenggaraan</h1>
-            <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                <li class="breadcrumb-item text-muted">
-                    <a href="../../demo1/dist/index.html" class="text-muted text-hover-primary">Utama</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <span class="bullet bg-gray-400 w-5px h-2px"></span>
-                </li>
-                <li class="breadcrumb-item text-muted">Aduan Penyelenggaraan</li>
-
-            </ul>
-        </div>
-    </div>
-</div>
 <div id="kt_app_content" class="app-content flex-column-fluid">
     <div id="kt_app_content_container" class="app-container container-xxl">
         <!--begin::Row-->
@@ -28,104 +11,70 @@
                     <div class="card-header">
                         <h3 class="card-title">{{ $page_title }}</h3>
                     </div>
-                    <div class="card-body py-5">
-                        <form class="form" action="{{ $action }}" method="post">
-                            @if($model->id) @method('PUT') @endif
-                            @csrf
-
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('kategori', 'Kategori', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        {{ Form::select('kategori', $kategori_aduan, null, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('kategori') ? 'is-invalid':''), 'required' => 'required' ]) }}
-                                        @error('kategori') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                    </div>
+                    <form class="form" action="{{ $action }}" method="post">
+                        @if($model->id) @method('PUT') @endif
+                        @csrf
+                        <div class="card-body py-5">
+                            <div class="row mb-2">                                
+                                {{ Form::label('kategori', 'Kategori', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}                                
+                                <div class="col-lg-8">                                    
+                                    {{ Form::select('kategori', $kategori_aduan, @$model->kategori, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('kategori') ? 'is-invalid' : ''), 'required' => 'required' ]) }}
+                                    @error('kategori') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('type', 'Lokasi', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        {{ Form::select('type', $lokasi, null, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('type') ? 'is-invalid':''), 'required' => 'required' ]) }}
-                                        @error('type') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                    </div>
+                            <div class="row mb-2">                                
+                                {{ Form::label('type', 'Lokasi', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}                                
+                                <div class="col-lg-8">                                    
+                                    {{ Form::select('type', $lokasi, @$model->type, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('type') ? 'is-invalid' : ''), 'required' => 'required' ]) }}
+                                    @error('type') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('blok_id', 'Bangunan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        {{ Form::select('blok_id', [], null, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('blok_id') ? 'is-invalid':''), 'required' => 'required' ]) }}
-                                        @error('blok_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                    </div>
+                            <div class="row mb-2">                                
+                                {{ Form::label('blok_id', 'Bangunan', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}                                
+                                <div class="col-lg-8">                                    
+                                    {{ Form::select('blok_id', [], @$model->blok_id, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('blok_id') ? 'is-invalid' : ''), 'required' => 'required' ]) }}
+                                    @error('blok_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('tingkat_id', 'Tingkat', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        {{ Form::select('tingkat_id', $tingkat, null, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('tingkat_id') ? 'is-invalid':''), 'required' => 'required' ]) }}
-                                        @error('tingkat_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                    </div>
+                            <div class="row mb-2">                                
+                                {{ Form::label('tingkat_id', 'Tingkat', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}                                
+                                <div class="col-lg-8">                                    
+                                    {{ Form::select('tingkat_id', $tingkat, @$model->tingkat_id, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('tingkat_id') ? 'is-invalid' : ''), 'required' => 'required' ]) }}
+                                    @error('tingkat_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('bilik_id', 'Bilik', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        {{ Form::select('bilik_id', [], null, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('bilik_id') ? 'is-invalid':''), 'required' => 'required' ]) }}
-                                        @error('bilik_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                    </div>
+                            <div class="row mb-2">                                
+                                {{ Form::label('bilik_id', 'Bilik', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}                                
+                                <div class="col-lg-8">                                    
+                                    {{ Form::select('bilik_id', [], @$model->bilik_id, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('bilik_id') ? 'is-invalid' : ''), 'required' => 'required' ]) }}
+                                    @error('bilik_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('jenis_kerosakan', 'Jenis Kerosakan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        {{ Form::text('jenis_kerosakan', $model->jenis_kerosakan ?? old('jenis_kerosakan'),['class' => 'form-control form-control-sm '.($errors->has('jenis_kerosakan') ? 'is-invalid':''), 'id' =>'jenis_kerosakan','onkeydown' =>'return true','autocomplete' => 'off', 'required' => 'required']) }}
-                                        @error('jenis_kerosakan') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                    </div>
+                            <div class="row mb-2">                                
+                                {{ Form::label('jenis_kerosakan', 'Jenis Kerosakan', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}                                
+                                <div class="col-lg-8">                                    
+                                    {{ Form::text('jenis_kerosakan', @$model->jenis_kerosakan ?? old('jenis_kerosakan'), ['class' => 'form-control form-control-sm ' . ($errors->has('jenis_kerosakan') ? 'is-invalid' : ''), 'id' =>'jenis_kerosakan', 'onkeydown' =>'return true', 'autocomplete' => 'off', 'required' => 'required']) }}
+                                    @error('jenis_kerosakan') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
 
-                            <div class="row fv-row mb-2">
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('butiran', 'Butiran', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                </div>
-
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        {{ Form::textarea('butiran','',['class' => 'form-control form-control-sm form-control', 'rows'=>'10', 'required' => 'required', 'id' =>'butiran']) }}
-
-                                        {{-- <textarea class="form-control" id="tinymce" name="sebab_mohon"></textarea> --}}
-                                        @error('butiran') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                    </div>
+                            <div class="row fv-row mb-2">                                
+                                {{ Form::label('butiran', 'Butiran', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}                                
+                                <div class="col-lg-8">                                    
+                                    {{ Form::textarea('butiran', @$model->butiran, ['class' => 'form-control form-control-sm ' . ($errors->has('jenis_kerosakan') ? 'is-invalid' : ''), 'rows'=>'10', 'required' => 'required', 'id' =>'butiran']) }}
+                                    @error('butiran') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-9 offset-md-3">
-                                    <div class="d-flex">
-                                        <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
-                                            <i class="fa fa-paper-plane" style="vertical-align: initial"></i>Hantar
-                                        </button>
-                                        <a href="{{ route('aduan_penyelenggaraan.index') }}" class="btn btn-sm btn-light">Batal</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+
+
+                        <div class="card-footer d-flex justify-content-end py-6 px-9">
+                            <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
+                                <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
+                            </button>
+                            <a href="{{ route('aduan_penyelenggaraan.index') }}" class="btn btn-sm btn-light">Batal</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

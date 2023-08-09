@@ -1,4 +1,4 @@
-<table border="0">
+<table class="table table-bordered table-striped">
     <tr>
         <th style="width:20%">Kategori</th>
         <th>&nbsp;:&nbsp;</th>

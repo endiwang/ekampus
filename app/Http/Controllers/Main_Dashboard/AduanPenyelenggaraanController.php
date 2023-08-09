@@ -17,6 +17,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 class AduanPenyelenggaraanController extends Controller
 {
     protected $baseView = 'pages.main_dashboard.aduan_penyelenggaraan.';
+    protected $baseRoute = 'aduan_penyelenggaraan.';
 
     /**
      * Display a listing of the resource.
@@ -35,16 +36,9 @@ class AduanPenyelenggaraanController extends Controller
             ->addColumn('lokasi', function($data) {
                 $html = '';
 
-                $lokasi = [
-                    'A' => 'Asrama', 
-                    'K' => 'Kuliah', 
-                    'P' => 'Pentadbiran', 
-                    'L' => 'Lain-lain',
-                ];
-
-                if(!empty($lokasi[$data->type]))
+                if(!empty($data->type))
                 {
-                    $html .= $lokasi[$data->type] . ' / ';
+                    $html .= $data->lokasi_name . ' / ';
                 }
 
                 if(!empty($data->blok))
@@ -65,33 +59,13 @@ class AduanPenyelenggaraanController extends Controller
                 return $html;
             })
             ->addColumn('kategori', function($data) {
-
-                $html = '';
-                $kategori_aduan = [
-                    1 => 'Sivil',
-                    2 => 'Mekanikal',
-                    3 => 'Elektrikal',
-                    4 => 'ICT',
-                    5 => 'Landskap',
-                    6 => 'Pembersihan',
-                    7 => 'Perkara/Alatan',
-                ];
-
-                if(!empty($kategori_aduan[$data->kategori]))
-                {
-                    $html .= $kategori_aduan[$data->kategori];
-                }
-
-                return $html;
+                return $data->kategori_name;
             })
             ->addColumn('action', function($data){ 
-                $html = '<button type="button" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1 btn-show-aduan" data-url="' . route('aduan_penyelenggaraan.show', $data->id) . '"><i class="fa fa-eye"></i></button>';
+                $html = '<button type="button" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1 btn-show-aduan" data-url="' . route($this->baseRoute . 'show', $data->id) . '"><i class="fa fa-eye"></i></button>';
                 return $html;
             })
             ->addIndexColumn()
-            ->order(function ($data) {
-                $data->orderBy('created_at', 'desc');
-            })
             ->rawColumns(['action'])
             ->toJson();
         }
@@ -110,16 +84,22 @@ class AduanPenyelenggaraanController extends Controller
         ])
         ->minifiedAjax();
 
-        $data = [
-            // 'title' => 'Aduan Penyelenggaraan',
-            'action' => route('aduan_penyelenggaraan.store'),
-            'page_title' => 'Aduan Penyelenggaraan',
-            'breadcrumbs' => [],
-            'model' => new AduanPenyelenggaraan(),
-            'dataTable' => $dataTable,
-        ];
+        $data['dataTable'] = $dataTable;
 
-        return view($this->baseView.'list')->with($data);
+        $data['title'] = "Aduan Penyelenggaraan";
+        $data['breadcrumbs'] = [
+            "Aduan Penyelenggaraan" =>  false,
+        ];
+        $data['buttons'] = [
+            [
+                'title' => "Tambah Aduan",
+                'route' => route($this->baseRoute . 'create'),
+                'button_class' => "btn btn-sm btn-primary fw-bold",
+                'icon_class' => "fa fa-plus-circle"
+            ],
+        ];
+        
+        return view($this->baseView.'list')->with($data);  
     }
 
     /**
@@ -129,30 +109,21 @@ class AduanPenyelenggaraanController extends Controller
      */
     public function create()
     {
-        $data = [
-            // 'title' => 'Aduan Penyelenggaraan',
-            'action' => route('aduan_penyelenggaraan.store'),
-            'page_title' => 'Tambah Aduan Penyelenggaraan',
-            'breadcrumbs' => [],
-            'model' => new AduanPenyelenggaraan(),
-            'kategori_aduan' => [
-                1 => 'Sivil',
-                2 => 'Mekanikal',
-                3 => 'Elektrikal',
-                4 => 'ICT',
-                5 => 'Landskap',
-                6 => 'Pembersihan',
-                7 => 'Perkara/Alatan',
-            ],
-            'lokasi' => [
-                'A' => 'Asrama', 
-                'K' => 'Kuliah', 
-                'P' => 'Pentadbiran', 
-                'L' => 'Lain-lain',
-            ],
+        $data['title'] = "Aduan Penyelenggaraan";
+        $data['page_title'] = "Tambah Aduan Penyelenggaraan";
+        $data['breadcrumbs'] = [
+            "Aduan Penyelenggaraan" =>  false,
+        ];
+        $data['action'] = route($this->baseRoute . 'store');
+        $data['model'] = new AduanPenyelenggaraan;
+
+        $data += [
+            'kategori_aduan' => AduanPenyelenggaraan::getKategoriSelection(),
+            'lokasi' => AduanPenyelenggaraan::getLokasiSelection(),
             'blok' => Blok::pluck('nama', 'id')->toArray(),
             'tingkat' => Tingkat::pluck('nama', 'id')->toArray(),
             'bilik' => Bilik::pluck('nama_bilik', 'id')->toArray(),
+            'status' => AduanPenyelenggaraan::getStatusSelection(),
         ];
 
         return view($this->baseView.'form')->with($data);
@@ -202,7 +173,7 @@ class AduanPenyelenggaraanController extends Controller
         }
 
         Alert::toast('Aduan berjaya dihantar!', 'success');
-        return redirect()->route('aduan_penyelenggaraan.index');
+        return redirect()->route($this->baseRoute . 'index');
     }
 
     /**
