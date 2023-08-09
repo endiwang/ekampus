@@ -33,9 +33,17 @@
                             <hr>
 
                             <div class="row mb-2">                                
-                                {{ Form::label('pengadu', 'Nama Pengadu', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}                                
+                                {{ Form::label('pengadu', 'Nama Pengadu', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}                                
                                 <div class="col-lg-8">                                    
                                     {{ Form::text('pengadu', @$model->user_name, ['class' => 'form-control form-control-sm ', 'id' =>'pengadu', 'onkeydown' =>'return true', 'autocomplete' => 'off', 'required' => 'required', 'disabled' => 'disabled']) }}
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">                                
+                                {{ Form::label('jenis_pengadu', 'Staff / Pelajar', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}                                
+                                <div class="col-lg-8">                                    
+                                    {{ Form::radio('jenis_pengadu', 'value', ((@$model->user->is_staff) ? true : false), ['disabled' => 'disabled']) }} Staff
+                                    <br>{{ Form::radio('jenis_pengadu', 'value', ((@$model->user->is_student) ? true : false), ['disabled' => 'disabled']) }} Pelajar
                                 </div>
                             </div>
 
@@ -85,7 +93,7 @@
                             <div class="row fv-row mb-2">                                
                                 {{ Form::label('butiran', 'Butiran', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}                                
                                 <div class="col-lg-8">                                    
-                                    {{ Form::textarea('butiran', @$model->butiran, ['class' => 'form-control form-control-sm form-control', 'rows'=>'10', 'required' => 'required', 'id' =>'butiran']) }}
+                                    {{ Form::textarea('butiran', @$model->butiran, ['class' => 'form-control form-control-sm ' . ($errors->has('jenis_kerosakan') ? 'is-invalid' : ''), 'rows'=>'10', 'required' => 'required', 'id' =>'butiran']) }}
                                     @error('butiran') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
@@ -103,7 +111,7 @@
                             <div class="row fv-row mb-2">                                
                                 {{ Form::label('butiran_vendor', 'Nota ke Vendor', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}                                
                                 <div class="col-lg-8">                                    
-                                    {{ Form::textarea('butiran_vendor', @$model->butiran_vendor, ['class' => 'form-control form-control-sm form-control', 'rows'=>'10', 'id' =>'butiran_vendor']) }}
+                                    {{ Form::textarea('butiran_vendor', @$model->butiran_vendor, ['class' => 'form-control form-control-sm ', 'rows'=>'10', 'id' =>'butiran_vendor']) }}
                                     @error('butiran_vendor') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>

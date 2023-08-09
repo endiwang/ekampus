@@ -29,7 +29,6 @@ class AduanPenyelenggaraanController extends Controller
     {
         if (request()->ajax()) {
 
-            info('aa');
             $data = AduanPenyelenggaraan::query();
 
             return DataTables::of($data)
@@ -213,6 +212,13 @@ class AduanPenyelenggaraanController extends Controller
             DB::transaction(function () use($request, $id) {
 
                 $aduan_penyelenggaraan = AduanPenyelenggaraan::find($id);
+                $aduan_penyelenggaraan->kategori = $request->kategori;
+                $aduan_penyelenggaraan->type = $request->type;
+                $aduan_penyelenggaraan->blok_id = $request->blok_id;
+                $aduan_penyelenggaraan->tingkat_id = $request->tingkat_id;
+                $aduan_penyelenggaraan->bilik_id = $request->bilik_id;
+                $aduan_penyelenggaraan->jenis_kerosakan = $request->jenis_kerosakan;
+                $aduan_penyelenggaraan->butiran = $request->butiran;
                 $aduan_penyelenggaraan->status = $request->status;
                 $aduan_penyelenggaraan->butiran_vendor = $request->butiran_vendor;
                 $aduan_penyelenggaraan->vendor_id = $request->vendor_id;
