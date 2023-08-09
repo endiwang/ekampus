@@ -17,6 +17,16 @@ use App\Http\Controllers\Pengurusan\Kualiti\KualitiController;
     Route::get('/kursus/download/{id}', [KualitiController::class, 'download'])->name('kursus.download');
     Route::post('/kursus/delete', [KualitiController::class, 'kursusDestroy'])->name('kursus.destroy');
 
+    Route::get('/maklumat/kursus/index', [KualitiController::class,'MaklumatKursusIndex'])->name('maklumat.kursus.index');
+    Route::get('/maklumat/kursus/{id}/list', [KualitiController::class,'MaklumatKursusList'])->name('maklumat.kursus.list');
+    Route::get('/maklumat/kursus/{id}/tambah', [KualitiController::class,'MaklumatKursusTambah'])->name('maklumat.kursus.tambah');
+    Route::post('/maklumat/kursus/store', [KualitiController::class,'MaklumatKursusStore'])->name('maklumat.kursus.store');
+    Route::get('/maklumat/kursus/edit/{id}', [KualitiController::class,'MaklumatKursusEdit'])->name('maklumat.kursus.show');
+    Route::post('/maklumat/kursus/update', [KualitiController::class,'MaklumatKursusUpdate'])->name('maklumat.kursus.update');
+    Route::post('/maklumat/kursus/delete', [KualitiController::class,'MaklumatKursusUpdate'])->name('maklumat.kursus.delete');
+
+
+
 
     
 

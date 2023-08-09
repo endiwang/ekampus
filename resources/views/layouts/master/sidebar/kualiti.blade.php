@@ -84,7 +84,7 @@
                         </div>
                         <div class="menu-sub menu-sub-accordion">
                             <div class="menu-item">
-                                <a class="menu-link {{ Request::routeIs('pengurusan.pentadbir_sistem.sesi.index') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbir_sistem.sesi.index') }}">
+                                <a class="menu-link {{ Request::routeIs('pengurusan.kualiti.maklumat.kursus.*') ? 'active' : '' }}" href="{{ route('pengurusan.kualiti.maklumat.kursus.index') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>

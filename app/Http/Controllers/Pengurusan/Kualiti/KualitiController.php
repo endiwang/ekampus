@@ -16,7 +16,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\Lookup\LookupKategoriMaklumat;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Kualiti\KursusDanLatihanPensyarah;
-
+use App\Models\Kualiti\MaklumatKursusDanLatihan;
 
 
 class KualitiController extends Controller
@@ -272,6 +272,21 @@ class KualitiController extends Controller
                 ->addColumn('document_name', function($data) {
                     return '<a href="'. url(data_get($data,'upload_document')) .'" target="_blank">'. $data->document_name.'</a>';
                 })
+                ->addColumn('item', function($data) {
+                    switch ($data->item) {
+                        case 1:
+                            return 'Kertas Cadangan dan Kelulusan';
+                          break;
+                        case 2:
+                            return 'Laporan Pelaksanaan Kursus';
+                          break;
+                        case 3:
+                                return 'Laporan Maklumbalas Kursus';
+                          break;
+                        default:
+                          return '';
+                    }
+                })
                 ->addColumn('status', function($data) {
                     switch ($data->status) {
                         case 1:
@@ -310,6 +325,8 @@ class KualitiController extends Controller
                 ['defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
                 ['data' => 'name', 'name' => 'name', 'title' => 'Nama', 'orderable'=> false, 'class'=>'text-bold'],
                 ['data' => 'document_name', 'name' => 'document_name', 'title' => 'Dokumen Kursus', 'orderable'=> false],
+                ['data' => 'item', 'name' => 'item', 'title' => 'Item', 'orderable'=> false],
+                ['data' => 'year', 'name' => 'year', 'title' => 'Tahun', 'orderable'=> false],
                 ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
     
@@ -514,6 +531,249 @@ class KualitiController extends Controller
             Alert::toast('Uh oh! Something went Wrong', 'error');
             return redirect()->back();
         }
+    }
+
+
+
+    public function MaklumatKursusIndex(Builder $builder)
+    {
+        try {
+
+                $title = "Kursus Dan Latihan Pensyarah";
+                $breadcrumbs = [
+                    "Kualiti" =>  false,
+                    "Maklumat Penyertaan Kursus Pensyarah" =>  false,
+                ];
+
+                // $buttons = [
+                //     [
+                //         'title' => "Tambah Kursus dan Latihan Pensyarah", 
+                //         'route' => route('pengurusan.kualiti.kursus.tambah'), 
+                //         'button_class' => "btn btn-sm btn-primary fw-bold",
+                //         'icon_class' => "fa fa-plus-circle"
+                //     ],
+                // ];
+            // dd('kursusindex');
+
+            if (request()->ajax()) {
+
+                $data = KursusDanLatihanPensyarah::query();
+                return DataTables::of($data)
+                // ->addColumn('document_name', function($data) {
+                //     return '<a href="'. url(data_get($data,'upload_document')) .'" target="_blank">'. $data->document_name.'</a>';
+                // })
+                
+                ->addColumn('status', function($data) {
+                    switch ($data->status) {
+                        case 1:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-success">Aktif</span>';
+                        break;
+                        case 0:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Aktif</span>';
+                        default:
+                        return '';
+                    }
+                })
+                ->addColumn('action', function($data){
+                    return '<a href="'.url('pengurusan/kualiti/maklumat/kursus/'.$data->id.'/list').'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Maklumat Peserta">
+                                <i class="fa fa-list"></i>
+                            </a>
+                            ';
+                })
+                ->addIndexColumn()
+                ->order(function ($data) {
+                    $data->orderBy('created_at', 'desc');
+                })
+                ->rawColumns(['document_name','status', 'action'])
+                ->toJson();
+
+            }
+
+            $dataTable = $builder
+            ->columns([
+                ['defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
+                ['data' => 'name', 'name' => 'name', 'title' => 'Nama', 'orderable'=> false, 'class'=>'text-bold'],
+                // ['data' => 'document_name', 'name' => 'document_name', 'title' => 'Dokumen Kursus', 'orderable'=> false],
+                // ['data' => 'item', 'name' => 'item', 'title' => 'Item', 'orderable'=> false],
+                ['data' => 'year', 'name' => 'year', 'title' => 'Tahun', 'orderable'=> false],
+                ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false],
+                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+
+            ])
+            ->minifiedAjax();
+
+            return view('pages.pengurusan.kualiti.kursus.index', compact('title', 'breadcrumbs', 'dataTable'));
+
+        }catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+    }
+
+    public function MaklumatKursusList(Builder $builder,Request $request)
+    {
+            // dd($request->id);
+        try {
+
+                $title = "Kursus Dan Latihan Pensyarah";
+                $breadcrumbs = [
+                    "Kualiti" =>  false,
+                    "Maklumat Penyertaan Kursus Pensyarah" =>  false,
+                ];
+
+                // $buttons = [
+                //     [
+                //         'title' => "Tambah Kursus dan Latihan Pensyarah", 
+                //         'route' => route('pengurusan.kualiti.kursus.tambah'), 
+                //         'button_class' => "btn btn-sm btn-primary fw-bold",
+                //         'icon_class' => "fa fa-plus-circle"
+                //     ],
+                // ];
+            // dd('kursusindex');
+
+                if (request()->ajax()) {
+
+                    $data = MaklumatKursusDanLatihan::where('fk_kursus_dan_latihan',$request->id)->get();
+                    // dd($data);
+                    return DataTables::of($data)
+                    // ->addColumn('document_name', function($data) {
+                    //     return '<a href="'. url(data_get($data,'upload_document')) .'" target="_blank">'. $data->document_name.'</a>';
+                    // })
+                    
+                    // ->addColumn('status', function($data) {
+                    //     switch ($data->status) {
+                    //         case 1:
+                    //             return '<span class="badge py-3 px-4 fs-7 badge-light-success">Aktif</span>';
+                    //         break;
+                    //         case 0:
+                    //             return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Aktif</span>';
+                    //         default:
+                    //         return '';
+                    //     }
+                    // })
+                    ->addColumn('action', function($data){
+                        return '<a href="'.url('pengurusan/kualiti/maklumat/kursus/edit/'.$data->id.'').'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                                    <i class="fa fa-list"></i>
+                                </a>
+                                ';
+                    })
+                    ->addIndexColumn()
+                    // ->order(function ($data) {
+                    //     $data->orderBy('created_at', 'desc');
+                    // })
+                    ->rawColumns(['document_name','status', 'action'])
+                    ->toJson();
+
+                }
+
+                $dataTable = $builder
+                ->columns([
+                    ['defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
+                    ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'orderable'=> false, 'class'=>'text-bold'],
+                    ['data' => 'noic', 'name' => 'noic', 'title' => 'No Kad Pengenalan', 'orderable'=> false, 'class'=>'text-bold'],
+                    ['data' => 'tahun', 'name' => 'tahun', 'title' => 'Tahun', 'orderable'=> false],
+                    ['data' => 'maklumat_kursus', 'name' => 'maklumat_kursus', 'title' => 'Maklumat Kursus', 'orderable'=> false],
+                    // ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false],
+                    ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+
+                ])
+                ->minifiedAjax();
+
+                $kursusid = $request->id;
+
+                return view('pages.pengurusan.kualiti.kursus.list', compact('title', 'breadcrumbs', 'dataTable','kursusid'));
+
+        }catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+
+
+    }
+
+    public function MaklumatKursusTambah(Request $request)
+    {
+        try {
+
+            $title = "Kursus Dan Latihan Pensyarah";                
+            $action = route('pengurusan.kualiti.maklumat.kursus.store');
+            $page_title = 'Tambah Peserta';
+            $breadcrumbs = [
+                "Kualiti" =>  false,
+                "Kursus Dan Latihan Pensyarah" =>  false,
+                "Maklumat Penyertaan Kursus Pensyarah" =>  false,
+            ];
+
+            $model = new MaklumatKursusDanLatihan();
+            
+
+            return view('pages.pengurusan.kualiti.kursus.maklumat.add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action'));
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+    }
+
+    public function MaklumatKursusStore(Request $request)
+    {
+        // dd($request);
+        $validation = $request->validate([
+            'name'              => 'required',
+            'noic'              => 'required',
+            'course'            => 'required',
+            'year'              => 'required',
+        ],[
+            'name.required'     => 'Sila masukkan maklumat nama',
+            'noic.required'     => 'Sila masukkan no IC',
+            'course.required'     => 'Sila masukkan maklumat kursus',
+            'year.required'     => 'Sila masukkan tahun',
+        ]);
+
+        try {
+            
+            
+
+            MaklumatKursusDanLatihan::create([
+                'fk_kursus_dan_latihan'     => $request->kursusid,
+                'nama'                      => $request->name,
+                'noic'                      => $request->noic,
+                'maklumat_kursus'           => $request->course,                
+                'tahun'                     => $request->year,
+                'status'                    => 1
+            ]);
+
+            Alert::toast('Maklumat peserta kursus berjaya ditambah!', 'success');
+            return redirect()->to('/pengurusan/kualiti/maklumat/kursus/{{$kursusid}}/tambah');
+
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+    }
+
+    public function MaklumatKursusEdit(Request $request)
+    {
+
+    }
+
+    public function MaklumatKursusUpdate(Request $request)
+    {
+        
+    }
+
+    public function MaklumatKursusDelete(Request $request)
+    {
+        
     }
 
 
