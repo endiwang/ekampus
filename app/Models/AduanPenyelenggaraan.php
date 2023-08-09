@@ -48,8 +48,8 @@ class AduanPenyelenggaraan extends Model
         return '';
     }
 
-    public function getKategoriNameAttribute()
-    {        
+    public static function getKategoriSelection()
+    {
         $kategori_aduan = [
             1 => 'Sivil',
             2 => 'Mekanikal',
@@ -60,29 +60,11 @@ class AduanPenyelenggaraan extends Model
             7 => 'Perkara/Alatan',
         ];
 
-        if(!empty($this->attributes['kategori']))
-        {
-            return @$kategori_aduan[$this->attributes['kategori']];
-        }
+        return $kategori_aduan;
     }
 
-    public function getStatusNameAttribute()
-    {        
-        $status = [
-            1 => 'Baru diterima', 
-            2 => 'Dalam Proses Vendor', 
-            3 => 'Dalam Proses Unit Penyelenggaraan', 
-            4 => 'Selesai',
-        ];
-
-        if(!empty($this->attributes['status']))
-        {
-            return @$status[$this->attributes['status']];
-        }
-    }
-
-    public function getLokasiNameAttribute()
-    {        
+    public static function getLokasiSelection()
+    {
         $lokasi = [
             'A' => 'Asrama', 
             'K' => 'Kuliah', 
@@ -90,9 +72,48 @@ class AduanPenyelenggaraan extends Model
             'L' => 'Lain-lain',
         ];
 
+        return $lokasi;
+    }
+
+    public static function getStatusSelection()
+    {
+        $status = [
+            1 => 'Baru diterima', 
+            2 => 'Dalam Proses Vendor', 
+            3 => 'Dalam Proses Unit Penyelenggaraan', 
+            4 => 'Selesai',
+        ];
+
+        return $status;
+    }
+
+    public function getKategoriNameAttribute()
+    {        
+        $kategori_aduan = $this->getKategoriSelection();
+
+        if(!empty($this->attributes['kategori']))
+        {
+            return @$kategori_aduan[$this->attributes['kategori']];
+        }
+    }
+
+    public function getLokasiNameAttribute()
+    {        
+        $lokasi = $this->getLokasiSelection();
+
         if(!empty($this->attributes['type']))
         {
             return @$lokasi[$this->attributes['type']];
+        }
+    }
+
+    public function getStatusNameAttribute()
+    {        
+        $status = $this->getStatusSelection();
+
+        if(!empty($this->attributes['status']))
+        {
+            return @$status[$this->attributes['status']];
         }
     }
 

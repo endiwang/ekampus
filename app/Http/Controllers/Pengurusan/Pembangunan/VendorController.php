@@ -159,10 +159,11 @@ class VendorController extends Controller
 
         if($result)
         {
-            Alert::toast('Maklumat Vendor Berjaya Ditambah', 'success');
+            Alert::toast('Maklumat vendor berjaya ditambah', 'success');
             return redirect(route($this->baseRoute . 'index'));
         }
         else {
+            Alert::toast('Uh oh! Sesuatu yang tidak diingini berlaku', 'error');
             return redirect()->back();
         }
     }
@@ -258,10 +259,11 @@ class VendorController extends Controller
 
         if($result)
         {
-            Alert::toast('Maklumat Vendor Berjaya Dipinda', 'success');
+            Alert::toast('Maklumat vendor berjaya dikemaskini', 'success');
             return redirect(route($this->baseRoute . 'index'));
         }
         else {
+            Alert::toast('Uh oh! Sesuatu yang tidak diingini berlaku', 'error');
             return redirect()->back();
         }
     }
