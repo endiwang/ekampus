@@ -91,7 +91,7 @@ class TetapanPeperiksaanSijilTahfizController extends Controller
         ])
         ->minifiedAjax();
 
-        return view('pages.pengurusan.pengajian_sepanjang_hayat.tetapan.main', compact('title','breadcrumbs', 'html', 'buttons'));
+        return view('pages.pengurusan.pengajian_sepanjang_hayat.tetapan.siri_peperiksaan_sijil_tahfiz.main', compact('title','breadcrumbs', 'html', 'buttons'));
     }
 
     public function create(){
@@ -111,7 +111,7 @@ class TetapanPeperiksaanSijilTahfizController extends Controller
             'lokasi_peperiksaan' => $lokasi_peperiksaan,
         ];
 
-        return view('pages.pengurusan.pengajian_sepanjang_hayat.tetapan.add_new', $data);
+        return view('pages.pengurusan.pengajian_sepanjang_hayat.tetapan.siri_peperiksaan_sijil_tahfiz.add_new', $data);
 
     } 
 
@@ -183,7 +183,7 @@ class TetapanPeperiksaanSijilTahfizController extends Controller
             'tetapan' => $tetapan
         ];
 
-        return view('pages.pengurusan.pengajian_sepanjang_hayat.tetapan.view', $data);
+        return view('pages.pengurusan.pengajian_sepanjang_hayat.tetapan.siri_peperiksaan_sijil_tahfiz.view', $data);
     }
 
     public function edit($id){
@@ -206,7 +206,7 @@ class TetapanPeperiksaanSijilTahfizController extends Controller
             'tetapan' => $tetapan
         ];
 
-        return view('pages.pengurusan.pengajian_sepanjang_hayat.tetapan.edit', $data);
+        return view('pages.pengurusan.pengajian_sepanjang_hayat.tetapan.siri_peperiksaan_sijil_tahfiz.edit', $data);
 
     }
 
