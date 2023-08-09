@@ -30,8 +30,15 @@
         <td>{{ $aduan_penyelenggaraan->jenis_kerosakan }}</td>
     </tr>
     <tr>
+        <th style="width:20%">Gambar</th>
+        <th>&nbsp;:&nbsp;</th>
+        <td>
+            
+        </td>
+    </tr>
+    <tr>
         <th style="width:20%">Butiran</th>
         <th>&nbsp;:&nbsp;</th>
-        <td>{{ nl2br($aduan_penyelenggaraan->butiran) }}</td>
+        <td>{!! nl2br($aduan_penyelenggaraan->butiran) !!}</td>
     </tr>
 </table>

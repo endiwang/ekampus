@@ -87,6 +87,17 @@ class AduanPenyelenggaraan extends Model
         return $status;
     }
 
+    public static function getStatusVendorSelection()
+    {
+        $status = [
+            1 => 'Baru diterima', 
+            2 => 'Dalam Proses', 
+            3 => 'Selesai',
+        ];
+
+        return $status;
+    }
+    
     public function getKategoriNameAttribute()
     {        
         $kategori_aduan = $this->getKategoriSelection();
@@ -114,6 +125,16 @@ class AduanPenyelenggaraan extends Model
         if(!empty($this->attributes['status']))
         {
             return @$status[$this->attributes['status']];
+        }
+    }
+
+    public function getStatusVendorNameAttribute()
+    {        
+        $status_vendor = $this->getStatusVendorSelection();
+
+        if(!empty($this->attributes['status_vendor']))
+        {
+            return @$status_vendor[$this->attributes['status_vendor']];
         }
     }
 

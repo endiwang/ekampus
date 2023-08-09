@@ -152,7 +152,7 @@ class AduanPenyelenggaraanController extends Controller
             "Aduan Penyelenggaraan" =>  false,
         ];
         $data['action'] = route($this->baseRoute . 'update', $id);
-        $data['model'] = AduanPenyelenggaraan::find($id);
+        $data['model'] = AduanPenyelenggaraan::find($id);        
 
         $data += [
             'kategori_aduan' => AduanPenyelenggaraan::getKategoriSelection(),
@@ -163,6 +163,11 @@ class AduanPenyelenggaraanController extends Controller
             'status' => AduanPenyelenggaraan::getStatusSelection(),
             'vendor' => Vendor::where('status', 1)->pluck('nama_syarikat', 'id')->toArray(),
         ];
+
+        $data['aduan_penyelenggaraan_details'] = AduanPenyelenggaraanDetail::where('aduan_penyelenggaraan_id', $id)
+        ->where('is_submit', 1)
+        ->get()
+        ;
 
         return view($this->baseView.'form')->with($data);
     }
@@ -176,6 +181,37 @@ class AduanPenyelenggaraanController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
+        if(!empty($request->is_approve))
+        {
+            $aduan_penyelenggaraan = AduanPenyelenggaraan::find($id);
+            $aduan_penyelenggaraan->status = 4;
+            $aduan_penyelenggaraan->status_vendor = 3;
+            $aduan_penyelenggaraan->save();
+
+            Alert::toast('Maklumat aduan berjaya dikemaskini', 'success');
+            return redirect(route($this->baseRoute . 'index'));
+        }
+        else if(!empty($request->is_reject))
+        {
+            $aduan_penyelenggaraan = AduanPenyelenggaraan::find($id);
+            $aduan_penyelenggaraan->status = 2;
+            $aduan_penyelenggaraan->status_vendor = 1;
+            $aduan_penyelenggaraan->save();
+
+            $aduan_penyelenggaraan_detail = AduanPenyelenggaraanDetail::where('aduan_penyelenggaraan_id', $id)->orderBy('created_at', 'desc')->first();
+
+            if(!empty($aduan_penyelenggaraan_detail))
+            {
+                $aduan_penyelenggaraan_detail->reject_reason = $request->reject_reason;
+                $aduan_penyelenggaraan_detail->save();
+            }
+
+            Alert::toast('Maklumat aduan berjaya dikemaskini', 'success');
+            return redirect(route($this->baseRoute . 'index'));
+        }
+
+
         $validation = $request->validate([
             'kategori' => 'required',
             'type'  => 'required',
@@ -184,7 +220,6 @@ class AduanPenyelenggaraanController extends Controller
             'bilik_id'   => 'required',
             'jenis_kerosakan'   => 'required',
             'butiran'   => 'required',
-            'status' => 'required',
             'vendor_id' => 'required',
         ],[
             'kategori.required'       => 'Sila pilih kategori aduan',
@@ -194,7 +229,6 @@ class AduanPenyelenggaraanController extends Controller
             'bilik_id.required'       => 'Sila pilih bilik',
             'jenis_kerosakan.required'  => 'Sila tulis jenis kerosakan',
             'butiran.required'            => 'Sila tulis butiran aduan anda',
-            'status.required'       => 'Sila pilih status aduan',
             'vendor_id.required'    => 'Sila pilih vendor',
         ]);
 
@@ -212,10 +246,13 @@ class AduanPenyelenggaraanController extends Controller
                 $aduan_penyelenggaraan->bilik_id = $request->bilik_id;
                 $aduan_penyelenggaraan->jenis_kerosakan = $request->jenis_kerosakan;
                 $aduan_penyelenggaraan->butiran = $request->butiran;
-                $aduan_penyelenggaraan->status = $request->status;
                 $aduan_penyelenggaraan->butiran_vendor = $request->butiran_vendor;
                 $aduan_penyelenggaraan->vendor_id = $request->vendor_id;
-                $aduan_penyelenggaraan->status_vendor = (!empty($request->status_vendor)) ? $request->status_vendor : 1;
+                if(!empty($request->is_submit))
+                {
+                    $aduan_penyelenggaraan->status = 2;
+                    $aduan_penyelenggaraan->status_vendor = 1;
+                }
                 $aduan_penyelenggaraan->save();
 
             });
@@ -223,7 +260,6 @@ class AduanPenyelenggaraanController extends Controller
         }
         catch (\Exception $e)
         {
-            dd($e);
             $result = false;                
         }
 
