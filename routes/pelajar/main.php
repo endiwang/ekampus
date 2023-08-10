@@ -6,6 +6,7 @@ use App\Http\Controllers\Pelajar\PenilaianPensyarahController;
 use App\Http\Controllers\Pelajar\Permohonan\KeluarMasukController;
 use App\Http\Controllers\Pelajar\Permohonan\PelepasanKuliahController;
 use App\Http\Controllers\Pelajar\Permohonan\PenangguhanPengajianController;
+use App\Http\Controllers\Pelajar\Permohonan\SijilTahfizController;
 use Illuminate\Support\Facades\Route;
 
 Route::resource('/', MainPelajarController::class)->only(['index',]);
@@ -18,6 +19,8 @@ Route::group(['prefix'=>'permohonan','as'=>'permohonan.'], function(){
     Route::get('penangguhan_pengajian/download/{id}', [PenangguhanPengajianController::class, 'downloadLetter'])->name('penangguhan_pengajian.download');
     Route::resource('penangguhan_pengajian', PenangguhanPengajianController::class);
     Route::resource('keluar_masuk', KeluarMasukController::class);
+
+    Route::resource('sijil_tahfiz', SijilTahfizController::class);
 });
 
 Route::resource('penilaian_pensyarah', PenilaianPensyarahController::class);
