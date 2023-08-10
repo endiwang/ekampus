@@ -193,6 +193,7 @@ class AduanPenyelenggaraanController extends Controller
                 $count_aduan = AduanPenyelenggaraan::count();
                 $request['no_siri'] = sprintf("%04d", $count_aduan + 1);
                 $request['user_id'] = Auth::id();
+                $request['status'] = 1;
 
                 $aduan = AduanPenyelenggaraan::create($request->except('gambar'));
 

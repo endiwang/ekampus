@@ -89,17 +89,6 @@
                                     @error('butiran') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
-                            <div class="row fv-row mb-2">
-                                {{ Form::label('gambar', '', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}
-                                <div class="col-lg-8">    
-                                    @php
-                                        $images = (array) json_decode($model->gambar);
-                                    @endphp
-                                    @foreach($images as $key => $image)
-                                    <a href="{{ asset('storage/' . $image) }}" target="_blank">Image {{ $key }}</a><br>
-                                    @endforeach 
-                                </di>
-                            </di>
 
                             <hr>
 
