@@ -89,6 +89,17 @@
                                     @error('butiran') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
+                            <div class="row fv-row mb-2">
+                                {{ Form::label('gambar', '', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}
+                                <div class="col-lg-8">    
+                                    @php
+                                        $images = (array) json_decode($model->gambar);
+                                    @endphp
+                                    @foreach($images as $key => $image)
+                                    <a href="{{ asset('storage/' . $image) }}" target="_blank">Image {{ $key }}</a><br>
+                                    @endforeach 
+                                </di>
+                            </di>
 
                             <hr>
 
@@ -146,7 +157,14 @@
                         <tr>
                             <td style="width:15% !important;">{{ $aduan_penyelenggaraan_detail->tarikh_kerja }}</td>
                             <td>
-                                {!! nl2br($aduan_penyelenggaraan_detail->butiran) !!}
+                                {!! nl2br($aduan_penyelenggaraan_detail->butiran) !!}       
+                                <br>
+                                @php
+                                    $images = (array) json_decode($aduan_penyelenggaraan_detail->gambar);
+                                @endphp
+                                @foreach($images as $key => $image)
+                                <a href="{{ asset('storage/' . $image) }}" target="_blank">Image {{ $key }}</a><br>
+                                @endforeach   
                                 @if(!empty($aduan_penyelenggaraan_detail->reject_reason))
                                 <br><br><span class="text-danger fw-bold">{!! nl2br($aduan_penyelenggaraan_detail->reject_reason) !!}</span>
                                 @endif
@@ -169,7 +187,7 @@
                             @method('PUT')
                             @csrf
                             <input type="hidden" name="is_reject" value="1">
-                            <input type="text" name="reject_reason">
+                            <input type="hidden" name="reject_reason">
                         </form>
                         <button id="btnReject" type="button" class="btn btn-danger btn-sm me-3">
                             <i class="fa fa-cancel" style="vertical-align: initial"></i>Baiki

@@ -11,7 +11,7 @@
                     <div class="card-header">
                         <h3 class="card-title">{{ $page_title }}</h3>
                     </div>
-                    <form class="form" action="{{ $action }}" method="post">
+                    <form class="form" action="{{ $action }}" method="post" enctype="multipart/form-data">
                         @if($model->id) @method('PUT') @endif
                         @csrf
                         <div class="card-body py-5">
@@ -63,6 +63,14 @@
                                 <div class="col-lg-8">                                    
                                     {{ Form::textarea('butiran', @$model->butiran, ['class' => 'form-control form-control-sm ' . ($errors->has('jenis_kerosakan') ? 'is-invalid' : ''), 'rows'=>'10', 'required' => 'required', 'id' =>'butiran']) }}
                                     @error('butiran') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+
+                            <div class="row fv-row mb-2">
+                                {{ Form::label('gambar', '', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}
+                                <div class="col-lg-8">                                    
+                                    {{ Form::file('gambar[]', ['class' => 'form-control form-control-sm ' . ($errors->has('gambar') ? 'is-invalid' : ''), 'rows'=>'4', 'id' =>'gambar', 'multiple']) }}
+                                    @error('gambar') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
                         </div>

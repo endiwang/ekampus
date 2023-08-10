@@ -41,4 +41,17 @@
         <th>&nbsp;:&nbsp;</th>
         <td>{!! nl2br($aduan_penyelenggaraan->butiran) !!}</td>
     </tr>
+    <tr>
+        <th style="width:20%">Gambar</th>
+        <th>&nbsp;:&nbsp;</th>
+        <td>
+            @php
+                $images = (array) json_decode($aduan_penyelenggaraan->gambar);
+            @endphp
+            @foreach($images as $key => $image)
+            <a href="{{ asset('storage/' . $image) }}" target="_blank">Image {{ $key }}</a><br>
+            @endforeach
+            
+        </td>
+    </tr>
 </table>

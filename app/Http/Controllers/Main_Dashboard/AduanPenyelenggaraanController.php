@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Html\Builder;
 use Yajra\DataTables\DataTables;
 use DB;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AduanPenyelenggaraanController extends Controller
@@ -193,7 +194,26 @@ class AduanPenyelenggaraanController extends Controller
                 $request['no_siri'] = sprintf("%04d", $count_aduan + 1);
                 $request['user_id'] = Auth::id();
 
-                $aduan = AduanPenyelenggaraan::create($request->all());
+                $aduan = AduanPenyelenggaraan::create($request->except('gambar'));
+
+                if(!empty($aduan))
+                {
+                    
+                    if (!empty($request->gambar)) {
+                        $images = [];
+                        $image_counter = 1;
+                        foreach ($request->gambar as $key => $file) {
+                            $file_name = $file->getClientOriginalName();
+                            $file_name = $aduan->id . '-' . $file_name;
+                            $file_path = 'aduan_penyelenggaaraan/' . $file_name;
+                            Storage::disk('local')->put('public/' . $file_path, fopen($file, 'r+'), 'public');                            
+                            $images[$image_counter] = $file_path;
+                            $image_counter++;
+                        }
+                        $aduan->gambar = json_encode($images);
+                        $aduan->save();
+                    }
+                }
             });
 
         }
@@ -333,6 +353,22 @@ class AduanPenyelenggaraanController extends Controller
                     }
                     if($aduan_penyelenggaraan_detail->save())
                     {
+
+                        if (!empty($request->gambar)) {
+                            $images = [];
+                            $image_counter = 1;
+                            foreach ($request->gambar as $key => $file) {
+                                $file_name = $file->getClientOriginalName();
+                                $file_name = $aduan_penyelenggaraan_detail->id . '-' . $file_name;
+                                $file_path = 'aduan_penyelenggaaraan/vendor/' . $file_name;
+                                Storage::disk('local')->put('public/' . $file_path, fopen($file, 'r+'), 'public');                            
+                                $images[$image_counter] = $file_path;
+                                $image_counter++;
+                            }
+                            $aduan_penyelenggaraan_detail->gambar = json_encode($images);
+                            $aduan_penyelenggaraan_detail->save();
+                        }
+
                         $aduan_penyelenggaraan = AduanPenyelenggaraan::find($id);
                         if($aduan_penyelenggaraan_detail->is_submit == 1)
                         {
@@ -350,6 +386,7 @@ class AduanPenyelenggaraanController extends Controller
             }
             catch (\Exception $e)
             {
+                dd($e);
                 $result = false;                
             }
 
