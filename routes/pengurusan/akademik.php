@@ -8,11 +8,13 @@ use App\Http\Controllers\Pengurusan\Akademik\KalendarAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\KelasController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\KemasukanPelajarIjazahController;
 use App\Http\Controllers\Pengurusan\Akademik\KursusController;
+use App\Http\Controllers\Pengurusan\Akademik\Laporan\LaporanAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\MainAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\KelasPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\SyukbahController;
 use App\Http\Controllers\Pengurusan\Akademik\Laporan\LaporanMesyuaratController;
 use App\Http\Controllers\Pengurusan\Akademik\Laporan\PelajarTangguhController;
+use App\Http\Controllers\Pengurusan\Akademik\Laporan\SenaraiPendaftaranPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\AktivitiPdpController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\HebahanAktivitiController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\MpkIsoController;
@@ -91,6 +93,11 @@ Route::group(['prefix'=>'laporan','as'=>'laporan.'], function(){
     Route::resource('laporan_mesyuarat', LaporanMesyuaratController::class);
 
     Route::resource('tangguh_pengajian', PelajarTangguhController::class);
+
+    Route::post('akademik/export/senarai_pelajar_mengulang', [LaporanAkademikController::class, 'exportPelajarMengulang'])->name('akademik.export_senarai_pelajar_mengulang');
+    Route::post('akademik/export/senarai_pelajar_gagal_dan_ulangan', [LaporanAkademikController::class, 'exportPelajarGagalDanUlangan'])->name('akademik.export_senarai_pelajar_gagal_dan_ulangan');
+    Route::post('akademik/export/senarai_pendaftaran_pelajar', [LaporanAkademikController::class, 'exportPendaftaranPelajar'])->name('akademik.export_senarai_pendaftaran_pelajar');
+    Route::resource('akademik', LaporanAkademikController::class);
 });
 
 Route::group(['prefix'=>'permohonan','as'=>'permohonan.'], function(){

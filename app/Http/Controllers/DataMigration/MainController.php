@@ -15,6 +15,7 @@ use App\Jobs\MigratePermohonanTanggunganPenjaga;
 use App\Jobs\MigrateTawaranPermohonan;
 use App\Jobs\MigratePelajarToUser;
 use App\Models\Bilik;
+use App\Models\Blok;
 use App\Models\Gred;
 //New DB
 use App\Models\User;
@@ -25,6 +26,8 @@ use App\Models\Keturunan;
 use App\Models\Konvo;
 use App\Models\KonvoPelajar;
 use App\Models\Negeri;
+use App\Models\OldDatabase\ref_asrama_blok;
+use App\Models\OldDatabase\ref_asrama_tingkat;
 use App\Models\OldDatabase\ref_gred;
 use App\Models\Pelajar;
 use App\Models\Permohonan;
@@ -75,6 +78,8 @@ use App\Models\SebabBerhenti;
 use App\Models\SemesterTerkini;
 use App\Models\Tawaran;
 use App\Models\TawaranPermohonan;
+use App\Models\Tingkat;
+use Dompdf\FrameDecorator\Block;
 
 class MainController extends Controller
 {
@@ -1155,6 +1160,42 @@ class MainController extends Controller
 
         dd('done');
     }
+
+    public function ref_asrama_blok_to_blok()
+    {
+        $data = ref_asrama_blok::all();
+
+        foreach($data as $datum)
+        {
+            Blok::create([
+                'id'                    => $datum->id,
+                'nama'                  => $datum->ref_blok,
+                'status'                => $datum->ref_blok_status,
+                'jantina'               => $datum->ref_jantina,
+                'is_deleted'            => $datum->is_deleted,
+                'type'                  => $datum->blok_type,
+            ]);
+        }
+
+        dd('done');
+    }
+
+    public function ref_asrama_tingkat_to_tingkat()
+    {
+        $data = ref_asrama_tingkat::all();
+
+        foreach($data as $datum)
+        {
+            Tingkat::create([
+                'id'                    => $datum->id,
+                'nama'                  => $datum->ref_tingkat,
+                'status'                => $datum->ref_tingkat_status,
+            ]);
+        }
+
+        dd('done');
+    }
+
 
     // public function ref_sebab_berhenti_to_sebab_berhenti()
     // {

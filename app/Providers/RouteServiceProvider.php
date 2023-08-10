@@ -80,7 +80,7 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->as('public.')
                 ->group(base_path('routes/public/main.php'));
-                
+
             Route::middleware('web')
                 ->prefix('pengurusan/komunikasi_korporat')
                 ->as('pengurusan.komunikasi_korporat.')
@@ -90,6 +90,16 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('pengurusan/pengajian_sepanjang_hayat/')
                 ->as('pengurusan.pengajian_sepanjang_hayat.')
                 ->group(base_path('routes/pengurusan/pengajian_sepanjang_hayat.php'));
+
+            Route::middleware('web')
+                ->prefix('pengurusan/perpustakaan')
+                ->as('pengurusan.perpustakaan.')
+                ->group(base_path('routes/pengurusan/perpustakaan.php'));
+
+            Route::middleware('web')
+                ->prefix('pengurusan/peperiksaan')
+                ->as('pengurusan.peperiksaan.')
+                ->group(base_path('routes/pengurusan/peperiksaan.php'));
         });
     }
 
