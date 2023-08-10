@@ -28,12 +28,12 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{-- <select name="lokasi[]" class="form-select" data-control="select2" data-placeholder="Sila Pilih" data-allow-clear="true" multiple="multiple" data-hide-search="false">
+                                            <select name="lokasi[]" class="form-select" data-control="select2" data-placeholder="Sila Pilih" data-allow-clear="true" multiple="multiple" data-hide-search="false">
                                                 @foreach ($lokasi_peperiksaan as $lokasi)
-                                                    <option value="{{ $lokasi->id }}">{{ $lokasi->nama }}</option>
+                                                    <option value="{{ $lokasi->id }}">{{ $lokasi->name }}</option>
                                                 @endforeach
-                                            </select> --}}
-                                            <div class="row">
+                                            </select>
+                                            {{-- <div class="row">
                                             @foreach ($lokasi_peperiksaan as $lokasi)
                                                 <div class="col-md-4 mb-2">
                                                     <input class="form-check-input lokasi-checkbox" name="lokasi[]" type="checkbox" value="{{$lokasi->id}}" id="lokasi"/>
@@ -41,7 +41,7 @@
                                                 </div>
                                             @endforeach
                                             
-                                            </div>
+                                            </div> --}}
                                             @error('lokasi') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>

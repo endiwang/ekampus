@@ -27,13 +27,11 @@
                                     <div class="col-md-9">
                                         <div class="w-100">
                                             <div class="row">
-                                            @foreach ($lokasi_peperiksaan as $lokasi)
-                                                <div class="col-md-4 mb-2">
-                                                    <input class="form-check-input lokasi-checkbox" name="lokasi[]" type="checkbox" disabled value="{{$lokasi->id}}" id="lokasi" @if ($tetapan->lokasi_peperiksaan != NULL && in_array($lokasi->id, json_decode($tetapan->lokasi_peperiksaan))) @checked(true) @endif/>
-                                                    <span class="fw-semibold p-2 fs-7 text-capitalize">{{ $lokasi->name }}</span>
-                                                </div>
-                                            @endforeach
-                                            
+                                                <select name="lokasi[]" class="form-select" data-control="select2" data-placeholder="Sila Pilih" data-allow-clear="true" multiple="multiple" data-hide-search="false" disabled="true">
+                                                    @foreach ($lokasi_peperiksaan as $lokasi)
+                                                        <option value="{{ $lokasi->id }}" @if ($tetapan->lokasi_peperiksaan != NULL && in_array($lokasi->id, json_decode($tetapan->lokasi_peperiksaan))) @selected(true) @endif>{{ $lokasi->name }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                     </div>

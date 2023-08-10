@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pengurusan\PengajianSepanjangHayat;
 
 use App\Http\Controllers\Controller;
+use App\Models\PusatPeperiksaan;
 use App\Models\PusatTemuduga;
 use App\Models\TetapanPeperiksaanSijilTahfiz;
 use App\Models\Zon;
@@ -103,7 +104,7 @@ class TetapanPeperiksaanSijilTahfizController extends Controller
             "Tambah Tetapan" =>  '#',
         ];
 
-        $lokasi_peperiksaan = Zon::all();
+        $lokasi_peperiksaan = PusatPeperiksaan::where('status', 1)->get();
 
         $data = [
             'title' => $title,
@@ -173,7 +174,7 @@ class TetapanPeperiksaanSijilTahfizController extends Controller
             "Lihat Tetapan" =>  '#',
         ];
 
-        $lokasi_peperiksaan = Zon::all();
+        $lokasi_peperiksaan = PusatPeperiksaan::where('status', 1)->get();
 
         $data = [
             'id' => $id,
@@ -195,7 +196,7 @@ class TetapanPeperiksaanSijilTahfizController extends Controller
             "Pinda Tetapan" =>  '#',
         ];
 
-        $lokasi_peperiksaan = Zon::all();
+        $lokasi_peperiksaan = PusatPeperiksaan::where('status', 1)->get();
 
         $tetapan = TetapanPeperiksaanSijilTahfiz::find($id);
         $data = [
