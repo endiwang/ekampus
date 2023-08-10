@@ -17,6 +17,7 @@ use App\Models\Lookup\LookupKategoriMaklumat;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Kualiti\KursusDanLatihanPensyarah;
 use App\Models\Kualiti\MaklumatKursusDanLatihan;
+use App\Models\Kualiti\Akreditasi;
 
 
 class KualitiController extends Controller
@@ -654,7 +655,7 @@ class KualitiController extends Controller
                     //     }
                     // })
                     ->addColumn('action', function($data){
-                        return '<a href="'.url('pengurusan/kualiti/maklumat/kursus/edit/'.$data->id.'').'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                        return '<a href="'.url('pengurusan/kualiti/maklumat/kursus/peserta/'.$data->id.'').'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                     <i class="fa fa-list"></i>
                                 </a>
                                 ';
@@ -763,17 +764,354 @@ class KualitiController extends Controller
 
     public function MaklumatKursusEdit(Request $request)
     {
+        try {
 
+            $title = "Kursus Dan Latihan Pensyarah";                
+            $action = url('pengurusan/kualiti/maklumat/kursus/peserta/update');
+            $page_title = 'Kemaskini Peserta';
+            $breadcrumbs = [
+                "Kualiti" =>  false,
+                "Kursus Dan Latihan Pensyarah" =>  false,
+                "Maklumat Penyertaan Kursus Pensyarah" =>  false,
+            ];
+
+            $model = MaklumatKursusDanLatihan::find($request->id);
+
+            return view('pages.pengurusan.kualiti.kursus.maklumat.add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action'));
+
+            
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
     }
 
     public function MaklumatKursusUpdate(Request $request)
     {
-        
+        // dd($request);
+        try {
+            
+            $data = MaklumatKursusDanLatihan::find($request->id);
+
+            
+
+            $data = $data->update([
+                
+                'nama'                      => $request->name,
+                'noic'                      => $request->noic,
+                'maklumat_kursus'           => $request->course,                
+                'tahun'                     => $request->year
+                
+            ]);
+
+            Alert::toast('Maklumat peserta berjaya dikemaskini!', 'success');
+            return redirect()->to('/pengurusan/kualiti/maklumat/kursus/'.$request->kursusid.'/list');
+            // return redirect()->route('pengurusan.akademik.peraturan_akademik.index');
+
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
     }
 
     public function MaklumatKursusDelete(Request $request)
     {
         
+    }
+
+    public function akreditasIndex(Builder $builder,Request $request)
+    {
+        try {
+
+            $title = "Akreditasi";
+            $breadcrumbs = [
+                "Kualiti" =>  false,
+                "Akreditasi" =>  false,
+            ];
+
+            $buttons = [
+                [
+                    'title' => "Tambah Akreditasi", 
+                    'route' => route('pengurusan.kualiti.akreditasi.tambah'), 
+                    'button_class' => "btn btn-sm btn-primary fw-bold",
+                    'icon_class' => "fa fa-plus-circle"
+                ],
+            ];
+        // dd('kursusindex');
+
+            if (request()->ajax()) {
+
+                $data = Akreditasi::get();
+                // dd($data);
+                return DataTables::of($data)
+                ->addColumn('document_name', function($data) {
+                    return '<a href="'. url(data_get($data,'upload_document')) .'" target="_blank">'. $data->upload_document.'</a>';
+                })
+                ->addColumn('jenis_dokumen', function($data) {
+                    switch ($data->jenis_dokumen) {
+                        case 1:
+                            return 'Dokumentasi Kod Amalan Akreditasi Pogram (COPPA) ';
+                        break;
+                        case 2:
+                            return 'Senarai Template Dokumen Audit';
+                        default:
+                        return '';
+                    }
+                })
+                
+                ->addColumn('pilihan_dokumen', function($data) {
+                    switch ($data->jenis_dokumen) {
+                        case 1:
+                            return 'Dokumen Baru';
+                        break;
+                        case 2:
+                            return 'Dokumen Tambahan';
+                        break;
+                        case 3:
+                            return 'Dokumen Ganti';
+                        break;
+                        case 4:
+                            return 'Dokumen Hapus';
+                        break;
+                        default:
+                        return '';
+                    }
+                })
+                
+                ->addColumn('status', function($data) {
+                    switch ($data->status) {
+                        case 1:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-success">Aktif</span>';
+                        break;
+                        case 0:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Aktif</span>';
+                        default:
+                        return '';
+                    }
+                })
+                ->addColumn('action', function($data){
+                    return '<a href="'.url('pengurusan/kualiti/akreditasi/edit/'.$data->id.'').'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                                <i class="fa fa-list"></i>
+                            </a>
+                            ';
+                })
+                ->addIndexColumn()
+                // ->order(function ($data) {
+                //     $data->orderBy('created_at', 'desc');
+                // })
+                ->rawColumns(['document_name','status', 'action'])
+                ->toJson();
+
+            }
+
+            $dataTable = $builder
+            ->columns([
+                ['defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
+                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'orderable'=> false, 'class'=>'text-bold'],
+                ['data' => 'document_name', 'name' => 'document_name', 'title' => 'Nama Fail', 'orderable'=> false, 'class'=>'text-bold'],
+                ['data' => 'jenis_dokumen', 'name' => 'jenis_dokumen', 'title' => 'Jenis Dokumen', 'orderable'=> false, 'class'=>'text-bold'],
+                ['data' => 'tarikh_upload', 'name' => 'tarikh_upload', 'title' => 'Tarikh', 'orderable'=> false],
+                ['data' => 'pilihan_dokumen', 'name' => 'pilihan_dokumen', 'title' => 'Dokumen', 'orderable'=> false],
+                ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false],
+                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+
+            ])
+            ->minifiedAjax();
+
+            $kursusid = $request->id;
+
+            return view('pages.pengurusan.kualiti.akreditasi.index', compact('title','buttons', 'breadcrumbs', 'dataTable','kursusid'));
+
+    }catch (Exception $e) {
+        report($e);
+
+        Alert::toast('Uh oh! Something went Wrong', 'error');
+        return redirect()->back();
+    }
+    }
+
+    public function akreditasiTambah(Request $request)
+    {
+        try {
+
+            $page_title = "Akreditasi";                
+            $action = route('pengurusan.kualiti.akreditasi.store');
+            $title = "Akreditasi";
+            $breadcrumbs = [
+                "Kualiti" =>  false,
+                "Akreditasi" =>  false,
+            ];
+
+            $model = new Akreditasi();
+
+            $jenisdoc = [
+                1 => 'Dokumentasi Kod Amalan Akreditasi Pogram (COPPA)',
+                2 => 'Senarai Template Dokumen Audit'                
+            ];
+            $statusdoc = [
+                1 => 'Dokumen Baru',
+                2 => 'Dokumen Tambahan',
+                3 => 'Dokumen Ganti (Versi Baru)',
+                4 => 'Dokumen Hapus (delete)'
+            ];
+            
+
+            return view('pages.pengurusan.kualiti.akreditasi.add_edit', compact('model','jenisdoc','statusdoc','title', 'breadcrumbs', 'page_title',  'action'));
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+        
+    }
+
+    public function akreditasiStore(Request $request)
+    {
+        // dd($request);
+        $validation = $request->validate([
+            'name'              => 'required',
+            'keterangan'        => 'required',
+            'file'              => 'required',
+        ],[
+            'name.required'     => 'Sila masukkan maklumat nama',
+            'file.required'     => 'Sila muat naik dokumen',
+            'keterangan.required'     => 'Sila masukkan keterangan',
+        ]);
+
+        try {
+            
+            $file_name = uniqid() . '.' . $request->file->getClientOriginalExtension();
+            $file_path = 'uploads/kualiti/akreditasi/';
+            $file = $request->file('file');
+            $file->move($file_path, $file_name);
+            $file = $file_path . '' .$file_name;
+
+            $original_filename = $request->file->getClientOriginalName();
+
+            Akreditasi::create([
+                'jenis_dokumen'            => $request->jenisdoc,
+                'nama'                      => $request->name,
+                'keterangan'                => $request->keterangan,
+                'document_name'             => $original_filename,
+                'upload_document'           => $file,
+                'pilihan_dokumen'           => $request->jenisdoc,
+                'tarikh_upload'             => date('Y-m-d H:i:s'),
+                'upload_by'                 => Auth::user()->id,
+                'status'                    => 1
+            ]);
+
+            Alert::toast('Maklumat akreditasi ditambah!', 'success');
+            return redirect()->route('pengurusan.kualiti.akreditasi.index');
+
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+    }
+
+    public function akreditasiEdit(Request $request)
+    {
+        try {
+
+            $title = "Akreditasi";                
+            $action = url('pengurusan/kualiti/akreditasi/update');
+            $page_title = 'Kemaskini Akreditasi';
+            $breadcrumbs = [
+                "Kualiti" =>  false,
+                "Akreditasi" =>  false,
+                "Kemaskini" =>  false,
+            ];
+
+            $model = Akreditasi::find($request->id);
+            $jenisdoc = [
+                1 => 'Dokumentasi Kod Amalan Akreditasi Pogram (COPPA)',
+                2 => 'Senarai Template Dokumen Audit'                
+            ];
+            $statusdoc = [
+                1 => 'Dokumen Baru',
+                2 => 'Dokumen Tambahan',
+                3 => 'Dokumen Ganti (Versi Baru)',
+                4 => 'Dokumen Hapus (delete)'
+            ];
+
+            return view('pages.pengurusan.kualiti.akreditasi.add_edit', compact('model','jenisdoc','statusdoc','title', 'breadcrumbs', 'page_title',  'action'));
+
+            
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+    }
+
+    public function akreditasiUpdate(Request $request)
+    {
+        // dd($request);
+        try {
+            
+            $data = Akreditasi::find($request->id);
+
+            $file = '';
+            $original_filename = '';
+            if(!empty($request->file))
+            {
+                // unlink(storage_path($rule->uploaded_document));
+                $file_name = uniqid() . '.' . $request->file->getClientOriginalExtension();
+                $file_path = 'uploads/kualiti/akreditasi/';
+                $file = $request->file('file');
+                $file->move($file_path, $file_name);
+                $file = $file_path . '' .$file_name;
+    
+                $original_filename = $request->file->getClientOriginalName();
+            }
+            else {
+                $original_filename = $data->document_name;
+                $file = $data->upload_document;
+            }
+
+            if(!empty($request->status)){
+                // dd('ada');
+                $status = 1;
+            }else{
+                $status = 0;
+                // dd('tiada');
+            }
+
+            $data = $data->update([
+                'jenis_dokumen'             => $request->jenisdoc,
+                'nama'                      => $request->name,
+                'keterangan'                => $request->keterangan,
+                'document_name'             => $original_filename,
+                'upload_document'           => $file,
+                'pilihan_dokumen'           => $request->jenisdoc,
+                'tarikh_upload'             => date('Y-m-d H:i:s'),
+                'upload_by'                 => Auth::user()->id,
+                'status'                    => $status
+            ]);
+
+            Alert::toast('Maklumat akreditasi berjaya dikemaskini!', 'success');
+            return redirect()->route('pengurusan.kualiti.akreditasi.index');
+
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
     }
 
 

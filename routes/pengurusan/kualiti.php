@@ -3,12 +3,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pengurusan\Pentadbir_Sistem\SesiController;
 use App\Http\Controllers\Pengurusan\Kualiti\KualitiController;
 
+    // Kualiti
     Route::get('/index', [KualitiController::class,'index'])->name('kualiti.index');
     Route::get('/tambah', [KualitiController::class,'create'])->name('kualiti.create');
     Route::post('/store', [KualitiController::class, 'store'])->name('kualiti.store');
     Route::get('/edit/{id}', [KualitiController::class,'edit'])->name('kualiti.show');
     Route::post('/update', [KualitiController::class, 'update'])->name('kualiti.update');
 
+    // Kursus
     Route::get('/kursus/index', [KualitiController::class,'kursusIndex'])->name('kursus.index');
     Route::get('/kursus/tambah', [KualitiController::class,'kursusTambah'])->name('kursus.tambah');
     Route::post('/kursus/store', [KualitiController::class, 'kursusStore'])->name('kursus.store');
@@ -17,13 +19,22 @@ use App\Http\Controllers\Pengurusan\Kualiti\KualitiController;
     Route::get('/kursus/download/{id}', [KualitiController::class, 'download'])->name('kursus.download');
     Route::post('/kursus/delete', [KualitiController::class, 'kursusDestroy'])->name('kursus.destroy');
 
+    // maklumat kursus dan latihan
     Route::get('/maklumat/kursus/index', [KualitiController::class,'MaklumatKursusIndex'])->name('maklumat.kursus.index');
     Route::get('/maklumat/kursus/{id}/list', [KualitiController::class,'MaklumatKursusList'])->name('maklumat.kursus.list');
     Route::get('/maklumat/kursus/{id}/tambah', [KualitiController::class,'MaklumatKursusTambah'])->name('maklumat.kursus.tambah');
     Route::post('/maklumat/kursus/store', [KualitiController::class,'MaklumatKursusStore'])->name('maklumat.kursus.store');
-    Route::get('/maklumat/kursus/edit/{id}', [KualitiController::class,'MaklumatKursusEdit'])->name('maklumat.kursus.show');
-    Route::post('/maklumat/kursus/update', [KualitiController::class,'MaklumatKursusUpdate'])->name('maklumat.kursus.update');
-    Route::post('/maklumat/kursus/delete', [KualitiController::class,'MaklumatKursusUpdate'])->name('maklumat.kursus.delete');
+    Route::get('/maklumat/kursus/peserta/{id}', [KualitiController::class,'MaklumatKursusEdit'])->name('maklumat.kursus.show');
+    Route::post('/maklumat/kursus/peserta/update', [KualitiController::class,'MaklumatKursusUpdate'])->name('maklumat.kursus.update');
+    Route::post('/maklumat/kursus/peserta/delete', [KualitiController::class,'MaklumatKursusUpdate'])->name('maklumat.kursus.delete');
+
+
+    // akreditasi
+    Route::get('/akreditasi/index', [KualitiController::class,'akreditasIndex'])->name('akreditasi.index');
+    Route::get('/akreditasi/tambah', [KualitiController::class,'akreditasiTambah'])->name('akreditasi.tambah');
+    Route::post('/akreditasi/store', [KualitiController::class,'akreditasiStore'])->name('akreditasi.store');
+    Route::get('/akreditasi/edit/{id}', [KualitiController::class,'akreditasiEdit'])->name('akreditasi.show');
+    Route::post('/akreditasi/update', [KualitiController::class,'akreditasiUpdate'])->name('akreditasi.update');
 
 
 

@@ -101,7 +101,7 @@
 
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.pentadbir_sistem.permohonan_pelajar.index') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbir_sistem.permohonan_pelajar.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.pentadbir_sistem.permohonan_pelajar.index') ? 'active' : '' }}" href="{{ url('pengurusan/kualiti/akreditasi/index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>

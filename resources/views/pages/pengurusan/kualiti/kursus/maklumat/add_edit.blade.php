@@ -13,8 +13,8 @@
                     </div>
                     <div class="card-body py-5">
                     @if($model->id)
-                        <form class="form" action="{{url('pengurusan/kualiti/kursus/update')}}" method="post" enctype="multipart/form-data">
-                        
+                        <form class="form" action="{{url('pengurusan/kualiti/maklumat/kursus/peserta/update')}}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="kursusid" value="{{data_get($model,'fk_kursus_dan_latihan')}}" />
                     @else
                         <form class="form" action="{{ $action }}" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="kursusid" value="{{Request::segment(5)}}" />
@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::text('name', $model->name ?? '' ,['class' => 'form-control form-control-sm', 'id' =>'peraturan_akademik','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                        {{ Form::text('name', $model->nama ?? '' ,['class' => 'form-control form-control-sm', 'id' =>'peraturan_akademik','onkeydown' =>'return true','autocomplete' => 'off']) }}
                                         @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::number('year', $model->year ?? '' ,['class' => 'form-control form-control-sm', 'id' =>'peraturan_akademik','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                        {{ Form::number('year', $model->tahun ?? '' ,['class' => 'form-control form-control-sm', 'id' =>'peraturan_akademik','onkeydown' =>'return true','autocomplete' => 'off']) }}
                                         @error('year') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
