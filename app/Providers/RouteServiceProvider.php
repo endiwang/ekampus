@@ -95,6 +95,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('pengurusan/peperiksaan')
                 ->as('pengurusan.peperiksaan.')
                 ->group(base_path('routes/pengurusan/peperiksaan.php'));
+
+            Route::middleware('web')
+                ->prefix('pengurusan/pembangunan')
+                ->as('pengurusan.pembangunan.')
+                ->group(base_path('routes/pengurusan/pembangunan.php'));
         });
     }
 

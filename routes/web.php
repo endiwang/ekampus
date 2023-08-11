@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Main_Dashboard\UtamaController;
 use App\Http\Controllers\DataMigration\MainController as MigrateMainController;
 use App\Http\Controllers\Main_Dashboard\AduanSalahlakuPelajarController;
+use App\Http\Controllers\Main_Dashboard\AduanPenyelenggaraanController;
 use App\Http\Controllers\Pengurusan\Kakitangan\Kehadiran\KehadiranPelajarController;
 use App\Http\Controllers\Pengurusan\Kakitangan\Kehadiran\KehadiranPensyarahController;
 
@@ -27,6 +28,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
     Route::get('/utama', [UtamaController::class, 'index'])->name('home');
     Route::resource('/utama/aduan_salahlaku_pelajar', AduanSalahlakuPelajarController::class);
+
+    // Penyelenggaraan
+    Route::get('/utama/aduan_penyelenggaraan/get_block', [AduanPenyelenggaraanController::class, 'getBlok'])->name('aduan_penyelenggaraan.get_block');
+    Route::get('/utama/aduan_penyelenggaraan/get_bilik', [AduanPenyelenggaraanController::class, 'getBilik'])->name('aduan_penyelenggaraan.get_bilik');
+    Route::resource('/utama/aduan_penyelenggaraan', AduanPenyelenggaraanController::class);
 });
 
 
