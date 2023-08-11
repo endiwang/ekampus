@@ -56,9 +56,9 @@ class PageMakeCommand extends Command
         ]);
         $controllerContent = file_get_contents($controllerPath);
         $controllerContent = str_replace([
-            '{MODULE}', '{NAME}'
+            '{MODULE}', '{NAME}',
         ], [
-            str($module)->kebab()->lower(), str($name)->kebab()->lower()
+            str($module)->kebab()->lower(), str($name)->kebab()->lower(),
         ], $controllerContent);
         file_put_contents($controllerPath, $controllerContent);
 
@@ -66,7 +66,7 @@ class PageMakeCommand extends Command
 
         // create index view
         if (! file_exists($indexViewPath)) {
-            if(! file_exists($viewPath)) {
+            if (! file_exists($viewPath)) {
                 mkdir($viewPath, 0755, true);
             }
             copy(base_path('stubs/page/index.blade.stub'), $indexViewPath);
@@ -82,17 +82,17 @@ class PageMakeCommand extends Command
 
         $headerContent = file_get_contents($headerPath);
 
-        if(! str_contains($headerContent, '{ROUTE_NAME}')) {
+        if (! str_contains($headerContent, '{ROUTE_NAME}')) {
             $headerStubContent = file_get_contents(base_path('stubs/page/header-menu.stub'));
             $headerStubContent = str_replace([
-                '{MODULE}', '{ROUTE_NAME}'
+                '{MODULE}', '{ROUTE_NAME}',
             ], [
                 str($module)->headline(), strtolower($module).'.'.$routeName,
             ], $headerStubContent);
             $headerContent = str_replace([
                 '<!-- header menu -->',
             ], [
-                $headerStubContent
+                $headerStubContent,
             ], $headerContent);
             file_put_contents($headerPath, $headerContent);
             $this->info('Updated header menu: '.$headerPath);
@@ -102,7 +102,7 @@ class PageMakeCommand extends Command
         if (! file_exists($routePath)) {
             $routeContent = file_get_contents(base_path('stubs/page/route.stub'));
             $routeContent = str_replace([
-                '{MODULE}', '{URI}', '{CONTROLLER}', '{CONTROLLER_NAMESPACE}', '{ROUTE_NAME}'
+                '{MODULE}', '{URI}', '{CONTROLLER}', '{CONTROLLER_NAMESPACE}', '{ROUTE_NAME}',
             ], [
                 strtolower($module), $uri, $controllerClass, $controllerNamespace, $routeName,
             ], $routeContent);
