@@ -1,0 +1,44 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+Route::middleware('web')
+    ->prefix('pengurusan')
+    ->as('pengurusan.')
+    ->group(base_path('routes/web/pengurusan/main.php'));
+Route::middleware('web')
+    ->prefix('pengurusan/kbg')
+    ->as('pengurusan.kbg.')
+    ->group(base_path('routes/web/pengurusan/kbg.php'));
+Route::middleware('web')
+    ->prefix('pengurusan/hep')
+    ->as('pengurusan.hep.')
+    ->group(base_path('routes/web/pengurusan/hep.php'));
+Route::middleware('web')
+    ->prefix('pengurusan/akademik')
+    ->as('pengurusan.akademik.')
+    ->group(base_path('routes/web/pengurusan/akademik.php'));
+Route::middleware('web')
+    ->prefix('pengurusan/pentadbir_sistem')
+    ->as('pengurusan.pentadbir_sistem.')
+    ->group(base_path('routes/web/pengurusan/pentadbir_sistem.php'));
+Route::middleware('web')
+    ->prefix('pengurusan/kakitangan')
+    ->as('pengurusan.kakitangan.')
+    ->group(base_path('routes/web/pengurusan/kakitangan.php'));
+Route::middleware('web')
+    ->prefix('pengurusan/komunikasi_korporat')
+    ->as('pengurusan.komunikasi_korporat.')
+    ->group(base_path('routes/web/pengurusan/komunikasi_korporat.php'));
+Route::middleware('web')
+    ->prefix('pengurusan/perpustakaan')
+    ->as('pengurusan.perpustakaan.')
+    ->group(base_path('routes/web/pengurusan/perpustakaan.php'));
+Route::middleware('web')
+    ->prefix('pengurusan/peperiksaan')
+    ->as('pengurusan.peperiksaan.')
+    ->group(base_path('routes/web/pengurusan/peperiksaan.php'));
+Route::middleware('web')
+    ->prefix('pengurusan/pembangunan')
+    ->as('pengurusan.pembangunan.')
+    ->group(base_path('routes/web/pengurusan/pembangunan.php'));
