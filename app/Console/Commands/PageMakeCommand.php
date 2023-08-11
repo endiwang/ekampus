@@ -62,7 +62,7 @@ class PageMakeCommand extends Command
         ], $controllerContent);
         file_put_contents($controllerPath, $controllerContent);
 
-        $this->info('Created controller: '.$controllerName);
+        $this->info('Created controller: '.str_replace(base_path(), '',$controllerPath));
 
         // create index view
         if (! file_exists($indexViewPath)) {
@@ -71,13 +71,13 @@ class PageMakeCommand extends Command
             }
             copy(base_path('stubs/page/index.blade.stub'), $indexViewPath);
 
-            $this->info('Created view: '.$indexViewPath);
+            $this->info('Created view: '.str_replace(base_path(), '',$indexViewPath));
         }
 
         // create sidebar
         if (! file_exists($sidebarPath)) {
             copy(base_path('stubs/page/sidebar.stub'), $sidebarPath);
-            $this->info('Created sidebar: '.$sidebarPath);
+            $this->info('Created sidebar: '.str_replace(base_path(), '',$sidebarPath));
         }
 
         $mainViewPath = resource_path('views/layouts/master/main.blade.php');
@@ -98,7 +98,7 @@ class PageMakeCommand extends Command
 
             file_put_contents($mainViewPath, $mainViewPathContent);
 
-            $this->info('Updated main view: '.$mainViewPath);
+            $this->info('Updated main view: '.str_replace(base_path(), '',$mainViewPath));
         }
 
         $headerContent = file_get_contents($headerPath);
@@ -116,7 +116,7 @@ class PageMakeCommand extends Command
                 $headerStubContent,
             ], $headerContent);
             file_put_contents($headerPath, $headerContent);
-            $this->info('Updated header menu: '.$headerPath);
+            $this->info('Updated header menu: '.str_replace(base_path(), '', $headerPath));
         }
 
         // create route
@@ -128,7 +128,7 @@ class PageMakeCommand extends Command
                 strtolower($module), $uri, $controllerClass, $controllerNamespace, $routeName,
             ], $routeContent);
             file_put_contents($routePath, $routeContent);
-            $this->info('Created route: '.$routePath);
+            $this->info('Created route: '.str_replace(base_path(), '',$routePath));
         }
 
         return Command::SUCCESS;
