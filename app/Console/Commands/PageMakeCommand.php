@@ -80,9 +80,30 @@ class PageMakeCommand extends Command
             $this->info('Created sidebar: '.$sidebarPath);
         }
 
+        $mainViewPath = resource_path('views/layouts/master/main.blade.php');
+        $mainViewPathContent = file_get_contents($mainViewPath);
+        if (! str_contains($mainViewPathContent, strtolower($module).'.'.$routeName)) {
+            $sidebarStubContentMenu = file_get_contents(base_path('stubs/page/sidebar-menu.stub'));
+            $sidebarStubContentMenu = str_replace([
+                '{MODULE}', '{ROUTE_NAME}',
+            ], [
+                str($module)->lower(), strtolower($module).'.'.$routeName,
+            ], $sidebarStubContentMenu);
+
+            $mainViewPathContent = str_replace([
+                '{{-- sidebar menu --}}',
+            ], [
+                $sidebarStubContentMenu,
+            ], $mainViewPathContent);
+
+            file_put_contents($mainViewPath, $mainViewPathContent);
+
+            $this->info('Updated main view: '.$mainViewPath);
+        }
+
         $headerContent = file_get_contents($headerPath);
 
-        if (! str_contains($headerContent, '{ROUTE_NAME}')) {
+        if (! str_contains($headerContent, $routeName)) {
             $headerStubContent = file_get_contents(base_path('stubs/page/header-menu.stub'));
             $headerStubContent = str_replace([
                 '{MODULE}', '{ROUTE_NAME}',
@@ -90,7 +111,7 @@ class PageMakeCommand extends Command
                 str($module)->headline(), strtolower($module).'.'.$routeName,
             ], $headerStubContent);
             $headerContent = str_replace([
-                '<!-- header menu -->',
+                '{{-- header menu --}}',
             ], [
                 $headerStubContent,
             ], $headerContent);
