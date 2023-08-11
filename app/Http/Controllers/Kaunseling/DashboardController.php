@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Kaunseling;
 
+use App\DataTables\KaunselingDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -12,10 +13,8 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, KaunselingDataTable $dataTable)
     {
-        // abort_if(!auth()->user()->hasRole('kaunseling'), 403);
-
-        return view('pages.kaunseling.dashboard.index');
+        return $dataTable->render('pages.kaunseling.dashboard.index');
     }
 }
