@@ -87,6 +87,6 @@
             </span>
         </a>
     </div>
-    <!-- header menu -->
+    {{-- header menu --}}
 
 </div>
