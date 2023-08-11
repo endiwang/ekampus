@@ -62,7 +62,7 @@ class PageMakeCommand extends Command
         ], $controllerContent);
         file_put_contents($controllerPath, $controllerContent);
 
-        $this->info('Created controller: '.str_replace(base_path(), '',$controllerPath));
+        $this->info('Created controller: '.str_replace(base_path(), '', $controllerPath));
 
         // create index view
         if (! file_exists($indexViewPath)) {
@@ -71,13 +71,13 @@ class PageMakeCommand extends Command
             }
             copy(base_path('stubs/page/index.blade.stub'), $indexViewPath);
 
-            $this->info('Created view: '.str_replace(base_path(), '',$indexViewPath));
+            $this->info('Created view: '.str_replace(base_path(), '', $indexViewPath));
         }
 
         // create sidebar
         if (! file_exists($sidebarPath)) {
             copy(base_path('stubs/page/sidebar.stub'), $sidebarPath);
-            $this->info('Created sidebar: '.str_replace(base_path(), '',$sidebarPath));
+            $this->info('Created sidebar: '.str_replace(base_path(), '', $sidebarPath));
         }
 
         $mainViewPath = resource_path('views/layouts/master/main.blade.php');
@@ -98,7 +98,7 @@ class PageMakeCommand extends Command
 
             file_put_contents($mainViewPath, $mainViewPathContent);
 
-            $this->info('Updated main view: '.str_replace(base_path(), '',$mainViewPath));
+            $this->info('Updated main view: '.str_replace(base_path(), '', $mainViewPath));
         }
 
         $headerContent = file_get_contents($headerPath);
@@ -128,7 +128,7 @@ class PageMakeCommand extends Command
                 strtolower($module), $uri, $controllerClass, $controllerNamespace, $routeName,
             ], $routeContent);
             file_put_contents($routePath, $routeContent);
-            $this->info('Created route: '.str_replace(base_path(), '',$routePath));
+            $this->info('Created route: '.str_replace(base_path(), '', $routePath));
         }
 
         return Command::SUCCESS;
