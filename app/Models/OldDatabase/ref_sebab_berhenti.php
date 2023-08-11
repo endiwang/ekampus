@@ -10,5 +10,6 @@ class ref_sebab_berhenti extends Model
     use HasFactory;
 
     protected $connection = 'mysql2';
+
     protected $table = 'ref_sebab_berhenti';
 }

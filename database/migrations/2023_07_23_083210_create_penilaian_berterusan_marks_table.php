@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('subjek_id');
             $table->integer('penilaian_berterusan_item_id')->nullable();
             $table->integer('penilaian_berterusan_component_id')->nullable();
-            $table->double('peratus_markah', 8,2)->nullable();
+            $table->double('peratus_markah', 8, 2)->nullable();
             $table->timestamps();
         });
     }

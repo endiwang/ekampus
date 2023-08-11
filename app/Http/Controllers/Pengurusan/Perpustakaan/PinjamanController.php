@@ -21,45 +21,46 @@ class PinjamanController extends Controller
      */
     public function index(Builder $builder)
     {
-            $title = "Rekod Pinjaman";
-            $breadcrumbs = [
-                "Perpustakaan" =>  false,
-                "Rekod Pinjaman" =>  false,
-            ];
+        $title = 'Rekod Pinjaman';
+        $breadcrumbs = [
+            'Perpustakaan' => false,
+            'Rekod Pinjaman' => false,
+        ];
 
-            $buttons = [
-                // [
-                //     'title' => "Tambah Buku/Bahan",
-                //     'route' => route('pengurusan.perpustakaan.bahan.create'),
-                //     'button_class' => "btn btn-sm btn-primary fw-bold",
-                //     'icon_class' => "fa fa-plus-circle"
-                // ],
-            ];
+        $buttons = [
+            // [
+            //     'title' => "Tambah Buku/Bahan",
+            //     'route' => route('pengurusan.perpustakaan.bahan.create'),
+            //     'button_class' => "btn btn-sm btn-primary fw-bold",
+            //     'icon_class' => "fa fa-plus-circle"
+            // ],
+        ];
 
-            if (request()->ajax()) {
-                $data = PinjamanPerpustakaan::with('bahan','ahli');
-                return DataTables::of($data)
-                ->addColumn('status', function($data) {
+        if (request()->ajax()) {
+            $data = PinjamanPerpustakaan::with('bahan', 'ahli');
+
+            return DataTables::of($data)
+                ->addColumn('status', function ($data) {
                     switch ($data->status) {
                         case 0:
                             return '<span class="badge badge-info">Dipinjam</span>';
-                          break;
+                            break;
                         case 1:
                             return '<span class="badge badge-success">Dipulangkan</span>';
                         default:
-                          return '';
+                            return '';
                     }
                 })
-                ->addColumn('action', function($data){
-                    return '<a href="'.route('pengurusan.perpustakaan.pinjaman.show',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Maklumat lanjut">
+                ->addColumn('action', function ($data) {
+                    return '<a href="'.route('pengurusan.perpustakaan.pinjaman.show', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Maklumat lanjut">
                                 <i class="fa fa-gear"></i>
                             </a>';
                 })
-                ->addColumn('denda', function($data) {
+                ->addColumn('denda', function ($data) {
                     switch ($data->status_denda) {
                         case 0:
                             return '<span class="badge badge-success">Tiada</span>';
-                          break;
+                            break;
                         case 1:
                             return '<span class="badge badge-danger">Didenda</span>';
                             break;
@@ -68,11 +69,11 @@ class PinjamanController extends Controller
                             break;
 
                         default:
-                          return '';
+                            return '';
                     }
                 })
-                ->addColumn('action', function($data){
-                    return '<a href="'.route('pengurusan.perpustakaan.pinjaman.show',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Maklumat lanjut">
+                ->addColumn('action', function ($data) {
+                    return '<a href="'.route('pengurusan.perpustakaan.pinjaman.show', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Maklumat lanjut">
                                 <i class="fa fa-gear"></i>
                             </a>';
                 })
@@ -80,26 +81,26 @@ class PinjamanController extends Controller
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['status', 'action','denda'])
+                ->rawColumns(['status', 'action', 'denda'])
                 ->toJson();
-            }
+        }
 
-            $dataTable = $builder
+        $dataTable = $builder
             ->columns([
-                [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
-                ['data' => 'ahli.nama', 'name' => 'ahli.nama', 'title' => 'Nama', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'ahli.ic_no', 'name' => 'ahli.ic_no', 'title' => 'Ic No', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'ahli.no_telefon', 'name' => 'ahli.no_telefon', 'title' => 'No Telefon', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'bahan.nama', 'name' => 'nama', 'title' => 'Nama Bahan', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'bahan.isbn', 'name' => 'isbn', 'title' => 'ISBN', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'status', 'name' => 'status', 'title' => 'Status Pinjaman', 'orderable'=> false],
-                ['data' => 'denda', 'name' => 'denda', 'title' => 'Status Denda', 'orderable'=> false],
-                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+                ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+                ['data' => 'ahli.nama', 'name' => 'ahli.nama', 'title' => 'Nama', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'ahli.ic_no', 'name' => 'ahli.ic_no', 'title' => 'Ic No', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'ahli.no_telefon', 'name' => 'ahli.no_telefon', 'title' => 'No Telefon', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'bahan.nama', 'name' => 'nama', 'title' => 'Nama Bahan', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'bahan.isbn', 'name' => 'isbn', 'title' => 'ISBN', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'status', 'name' => 'status', 'title' => 'Status Pinjaman', 'orderable' => false],
+                ['data' => 'denda', 'name' => 'denda', 'title' => 'Status Denda', 'orderable' => false],
+                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
 
             ])
             ->minifiedAjax();
 
-            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
+        return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
 
     }
 
@@ -116,7 +117,6 @@ class PinjamanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -136,14 +136,14 @@ class PinjamanController extends Controller
         // $action = route('pengurusan.perpustakaan.bahan.store');
         $page_title = 'Maklumat Pinjaman';
         $breadcrumbs = [
-            "Perpustakaan" =>  false,
-            "Rekod Pinjaman" =>  false,
-            "Maklumat Pinjaman" =>  false,
+            'Perpustakaan' => false,
+            'Rekod Pinjaman' => false,
+            'Maklumat Pinjaman' => false,
         ];
 
         $pinjaman = PinjamanPerpustakaan::find($id);
 
-        return view($this->baseView.'show', compact('title', 'breadcrumbs', 'page_title','pinjaman'));
+        return view($this->baseView.'show', compact('title', 'breadcrumbs', 'page_title', 'pinjaman'));
     }
 
     /**
@@ -160,7 +160,6 @@ class PinjamanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -186,26 +185,26 @@ class PinjamanController extends Controller
 
         $today = Carbon::now('Asia/Kuala_Lumpur');
 
-        $tarikh_pulang  = Carbon::parse($pulang->tarikh_pulang);
+        $tarikh_pulang = Carbon::parse($pulang->tarikh_pulang);
 
-        if($tarikh_pulang->isPast())
-        {
+        if ($tarikh_pulang->isPast()) {
             $pulang->status = 1;
             $pulang->status_denda = 1;
             $pulang->tarikh_pemulangan = Carbon::now('Asia/Kuala_Lumpur')->format('Y-m-d');
 
             $diff_day = $today->diffInDays($tarikh_pulang);
-            $pulang->denda = 0.10*$diff_day;
-            Alert::warning( 'Bahan Dipulangkan Lewat');
+            $pulang->denda = 0.10 * $diff_day;
+            Alert::warning('Bahan Dipulangkan Lewat');
 
-        }else{
+        } else {
             $pulang->status = 1;
             $pulang->status_denda = 0;
             $pulang->tarikh_pemulangan = Carbon::now('Asia/Kuala_Lumpur')->format('Y-m-d');
-            Alert::success( 'Bahan Telah Dipulangkan');
+            Alert::success('Bahan Telah Dipulangkan');
         }
 
         $pulang->save();
+
         return ['success' => true];
     }
 
@@ -215,6 +214,7 @@ class PinjamanController extends Controller
 
         $pulang->status_denda = 2;
         $pulang->save();
+
         return ['success' => true];
     }
 }

@@ -1,13 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Public\FrontPageController;
 use App\Http\Controllers\Public\KomunikasiKorporatController;
-use App\Http\Controllers\Public\PermohonanController;
+use Illuminate\Support\Facades\Route;
 
-
-Route::resource('/', FrontPageController::class)->only(['index',]);
+Route::resource('/', FrontPageController::class)->only(['index']);
 
 Route::get('/kaji_selidik/{id}', [KomunikasiKorporatController::class, 'index'])->name('kaji_selidik.index');
-
-

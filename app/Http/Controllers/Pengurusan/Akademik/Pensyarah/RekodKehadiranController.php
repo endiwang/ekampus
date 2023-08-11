@@ -14,6 +14,7 @@ use Yajra\DataTables\Html\Builder;
 class RekodKehadiranController extends Controller
 {
     protected $baseView = 'pages.pengurusan.akademik.pensyarah.rekod_kehadiran.';
+
     /**
      * Display a listing of the resource.
      *
@@ -23,53 +24,55 @@ class RekodKehadiranController extends Controller
     {
         try {
 
-            $title = "Rekod Kehadiran Pensyarah";
+            $title = 'Rekod Kehadiran Pensyarah';
             $breadcrumbs = [
-                "Akademik" =>  false,
-                "Pengurusan Pensyarah" =>  false,
-                "Rekod Kehadiran" =>  false,
+                'Akademik' => false,
+                'Pengurusan Pensyarah' => false,
+                'Rekod Kehadiran' => false,
             ];
 
             $buttons = [];
 
             if (request()->ajax()) {
                 $data = KehadiranPensyarah::with('staff')->orderBy('created_at', 'DESC');
+
                 return DataTables::of($data)
-                ->addColumn('nama', function($data) {
-                    return $data->staff->nama ?? null;
-                })
-                ->addColumn('no_kakitangan', function($data) {
-                    return $data->staff->staff_id ?? null;
-                })
-                ->addColumn('tarikh_masuk', function($data) {
-                    return !empty($data->tarikh_masuk) ? Utils::formatDate($data->tarikh_masuk) : null;
-                })
-                ->addColumn('masa_masuk', function($data) {
-                    return !empty($data->masa_masuk) ? Utils::formatTime($data->masa_masuk) : null;
-                })
-                ->addIndexColumn()
-                ->order(function ($data) {
-                    $data->orderBy('id', 'desc');
-                })
-                ->toJson();
+                    ->addColumn('nama', function ($data) {
+                        return $data->staff->nama ?? null;
+                    })
+                    ->addColumn('no_kakitangan', function ($data) {
+                        return $data->staff->staff_id ?? null;
+                    })
+                    ->addColumn('tarikh_masuk', function ($data) {
+                        return ! empty($data->tarikh_masuk) ? Utils::formatDate($data->tarikh_masuk) : null;
+                    })
+                    ->addColumn('masa_masuk', function ($data) {
+                        return ! empty($data->masa_masuk) ? Utils::formatTime($data->masa_masuk) : null;
+                    })
+                    ->addIndexColumn()
+                    ->order(function ($data) {
+                        $data->orderBy('id', 'desc');
+                    })
+                    ->toJson();
             }
-    
+
             $dataTable = $builder
-            ->columns([
-                [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
-                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'no_kakitangan', 'name' => 'no_kakitangan', 'title' => 'No. Kakitangan', 'orderable'=> false],
-                ['data' => 'tarikh_masuk', 'name' => 'tarikh_masuk', 'title' => 'Tarikh', 'orderable'=> false],
-                ['data' => 'masa_masuk', 'name' => 'masa_masuk', 'title' => 'Masa', 'orderable'=> false],
-            ])
-            ->minifiedAjax();
-    
+                ->columns([
+                    ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+                    ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'orderable' => false, 'class' => 'text-bold'],
+                    ['data' => 'no_kakitangan', 'name' => 'no_kakitangan', 'title' => 'No. Kakitangan', 'orderable' => false],
+                    ['data' => 'tarikh_masuk', 'name' => 'tarikh_masuk', 'title' => 'Tarikh', 'orderable' => false],
+                    ['data' => 'masa_masuk', 'name' => 'masa_masuk', 'title' => 'Masa', 'orderable' => false],
+                ])
+                ->minifiedAjax();
+
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
 
         } catch (Exception $e) {
             report($e);
 
             Alert::toast('Uh oh! Something went Wrong', 'error');
+
             return redirect()->back();
         }
     }
@@ -87,7 +90,6 @@ class RekodKehadiranController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -120,7 +122,6 @@ class RekodKehadiranController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

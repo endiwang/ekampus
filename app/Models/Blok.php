@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Blok extends Model
 {
     use HasFactory;
+
     protected $table = 'blok';
-    protected $fillable = ['id','nama','status','jantina','is_deleted','type'];
+
+    protected $fillable = ['id', 'nama', 'status', 'jantina', 'is_deleted', 'type'];
 }

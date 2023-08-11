@@ -12,5 +12,6 @@ class Vendor extends Model
     use SoftDeletes;
 
     protected $table = 'vendor';
+
     protected $guarded = ['id'];
 }

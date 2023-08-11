@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Hari;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class HariSeeder extends Seeder
@@ -16,20 +15,19 @@ class HariSeeder extends Seeder
     public function run()
     {
         $haris = [
-                'Ahad',
-                'Isnin',
-                'Selasa',
-                'Rabu',
-                'Khamis',
-                'Jumaat',
-                'Sabtu',
+            'Ahad',
+            'Isnin',
+            'Selasa',
+            'Rabu',
+            'Khamis',
+            'Jumaat',
+            'Sabtu',
         ];
 
         //insert into subjek table
-        foreach($haris as $hari)
-        {
+        foreach ($haris as $hari) {
             Hari::create([
-                'nama'      => $hari,
+                'nama' => $hari,
             ]);
 
         }

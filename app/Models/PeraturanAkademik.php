@@ -10,7 +10,7 @@ class PeraturanAkademik extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = "peraturan_akademik";
-    protected $guarded = ['id'];
+    protected $table = 'peraturan_akademik';
 
+    protected $guarded = ['id'];
 }

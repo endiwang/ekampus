@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\BorangKajiSelidik;
-use Illuminate\Http\Request;
 use Hashids\Hashids;
-
+use Illuminate\Http\Request;
 
 class KomunikasiKorporatController extends Controller
 {
@@ -22,10 +21,12 @@ class KomunikasiKorporatController extends Controller
         $form_value = null;
         if ($form) {
             $array = $form->getFormArray();
+
             return view('pages.public.kaji_selidik', compact('form', 'form_value', 'array'));
-        }else{
+        } else {
             return redirect()->route('public.index');
         }
+
         return view('pages.public.kaji_selidik');
     }
 
@@ -42,7 +43,6 @@ class KomunikasiKorporatController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -75,7 +75,6 @@ class KomunikasiKorporatController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

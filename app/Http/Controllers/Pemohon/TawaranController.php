@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Pemohon;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Permohonan;
 use App\Models\TawaranPermohonan;
+use Illuminate\Http\Request;
 
 class TawaranController extends Controller
 {
@@ -17,6 +17,7 @@ class TawaranController extends Controller
     public function index($id)
     {
         $permohonan = Permohonan::find($id);
+
         return view('pages.pemohon.tawaran.main', compact('permohonan'));
     }
 
@@ -33,12 +34,11 @@ class TawaranController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $tawaran_pemohon = TawaranPermohonan::where('permohonan_id',$request->id)->first();
+        $tawaran_pemohon = TawaranPermohonan::where('permohonan_id', $request->id)->first();
         $tawaran_pemohon->is_terima = $request->is_terima;
         $tawaran_pemohon->save();
 
@@ -70,7 +70,6 @@ class TawaranController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
