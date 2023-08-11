@@ -17,6 +17,12 @@ class RolesSeeder extends Seeder
 
         $roles = [
             [
+                'name' => 'kaunseling',
+                'display_name' => 'Kaunseling',
+                'type' => 'category',
+                'parent_category' => null,
+            ],
+            [
                 'name' => 'kakitangan',
                 'display_name' => 'Kakitangan',
                 'type' => 'category',

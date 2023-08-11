@@ -14,6 +14,8 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
+        // abort_if(!auth()->user()->hasRole('kaunseling'), 403);
+
         return view('pages.kaunseling.dashboard.index');
     }
 }
