@@ -45,6 +45,7 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
+            "support/helpers.php",
             "app/Overrides/SweetAlert/Toaster.php"
         ]
     },
