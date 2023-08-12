@@ -3,16 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
-use App\Http\Requests\LoginRequest;
 use App\Http\Requests\LoginPemohonRequest;
+use App\Http\Requests\LoginRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
+
 class LoginController extends Controller
 {
-
     public function __construct()
     {
         // $this->middleware('guest:pemohon')->except('logout');
@@ -27,10 +25,10 @@ class LoginController extends Controller
     {
         $credentials = $request->getCredentials();
 
-        if(!Auth::validate($credentials)):
+        if (! Auth::validate($credentials)) {
             return redirect()->to('login')
                 ->withErrors(trans('auth.failed'));
-        endif;
+        }
 
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
 
@@ -57,18 +55,19 @@ class LoginController extends Controller
         $credentials = $request->getCredentials();
 
         // dd($credentials);
-        if(!Auth::guard('pemohon')->validate($credentials)):
-            Alert::error('Ralat','Sila pastikan no kad pengenalan dan katalauan anda betul');
+        if (! Auth::guard('pemohon')->validate($credentials)) {
+            Alert::error('Ralat', 'Sila pastikan no kad pengenalan dan katalauan anda betul');
+
             return redirect()->to('login_pemohon')
                 ->withErrors(trans('auth.failed'));
-        endif;
+        }
 
         $user = Auth::guard('pemohon')->getProvider()->retrieveByCredentials($credentials);
         // dd($user);
-        if($user->email_verified_at == null)
-        {
+        if ($user->email_verified_at == null) {
             Auth::guard('pemohon')->logout();
-            Alert::error('Emel Belum Disahkan','Sila sahkan email untuk log masuk dan memohon');
+            Alert::error('Emel Belum Disahkan', 'Sila sahkan email untuk log masuk dan memohon');
+
             return redirect()->route('login_pemohon');
         }
 
@@ -82,5 +81,4 @@ class LoginController extends Controller
     {
         return redirect()->route('pemohon.utama.index');
     }
-
 }

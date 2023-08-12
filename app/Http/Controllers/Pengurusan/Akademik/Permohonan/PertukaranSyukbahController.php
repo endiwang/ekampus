@@ -14,6 +14,7 @@ use Yajra\DataTables\Html\Builder;
 class PertukaranSyukbahController extends Controller
 {
     protected $baseView = 'pages.pengurusan.akademik.permohonan.syukbah.';
+
     /**
      * Display a listing of the resource.
      *
@@ -23,69 +24,71 @@ class PertukaranSyukbahController extends Controller
     {
         try {
 
-            $title = "Pertukaran Syukbah Pelajar";
+            $title = 'Pertukaran Syukbah Pelajar';
             $breadcrumbs = [
-                "Akademik" =>  false,
-                "Permohonan" =>  false,
-                "Pertukaran Syukbah Pelajar" =>  false,
+                'Akademik' => false,
+                'Permohonan' => false,
+                'Pertukaran Syukbah Pelajar' => false,
             ];
 
             $buttons = [];
 
             if (request()->ajax()) {
                 $data = PermohonanPertukaranSyukbah::with('pelajar', 'pelajar.kursus', 'newSyukbah')->where('status', 'NEW');
+
                 return DataTables::of($data)
-                ->addColumn('nama', function($data) {
-                    return $data->pelajar->nama;
-                })
-                ->addColumn('no_ic', function($data) {
-                    $data = '<p style="text-align:center">' . $data->pelajar->no_ic . '</p>';
-                    
-                    return $data;
-                })
-                ->addColumn('no_matrik', function($data) {
-                    return $data->pelajar->no_matrik ?? null;
-                })
-                ->addColumn('kursus_id', function($data) {
-                    return $data->pelajar->kursus->nama ?? null;
-                })
-                ->addColumn('new_syukbah_id', function($data) {
-                    return $data->newSyukbah->nama ?? null;
-                })
-                ->addColumn('action', function($data){
-                    return '
-                            <a href="'.route('pengurusan.akademik.permohonan.pertukaran_syukbah.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                    ->addColumn('nama', function ($data) {
+                        return $data->pelajar->nama;
+                    })
+                    ->addColumn('no_ic', function ($data) {
+                        $data = '<p style="text-align:center">'.$data->pelajar->no_ic.'</p>';
+
+                        return $data;
+                    })
+                    ->addColumn('no_matrik', function ($data) {
+                        return $data->pelajar->no_matrik ?? null;
+                    })
+                    ->addColumn('kursus_id', function ($data) {
+                        return $data->pelajar->kursus->nama ?? null;
+                    })
+                    ->addColumn('new_syukbah_id', function ($data) {
+                        return $data->newSyukbah->nama ?? null;
+                    })
+                    ->addColumn('action', function ($data) {
+                        return '
+                            <a href="'.route('pengurusan.akademik.permohonan.pertukaran_syukbah.edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
                             ';
-                })
-                ->addIndexColumn()
-                ->order(function ($data) {
-                    $data->orderBy('id', 'desc');
-                })
-                ->rawColumns(['no_ic','status', 'action'])
-                ->toJson();
+                    })
+                    ->addIndexColumn()
+                    ->order(function ($data) {
+                        $data->orderBy('id', 'desc');
+                    })
+                    ->rawColumns(['no_ic', 'status', 'action'])
+                    ->toJson();
             }
-    
+
             $dataTable = $builder
-            ->columns([
-                ['defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
-                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Pelajar', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'no_ic', 'name' => 'no_ic', 'title' => 'No. Kad Pengenalan ', 'orderable'=> false],
-                ['data' => 'no_matrik', 'name' => 'no_matrik', 'title' => 'No. Matrik ', 'orderable'=> false],
-                ['data' => 'kursus_id', 'name' => 'kursus_id', 'title' => 'Program Pengajian', 'orderable'=> false],
-                ['data' => 'new_syukbah_id', 'name' => 'new_syukbah_id', 'title' => 'Syukbah Pilihan', 'orderable'=> false],
-                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
-    
-            ])
-            ->minifiedAjax();
-    
+                ->columns([
+                    ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+                    ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Pelajar', 'orderable' => false, 'class' => 'text-bold'],
+                    ['data' => 'no_ic', 'name' => 'no_ic', 'title' => 'No. Kad Pengenalan ', 'orderable' => false],
+                    ['data' => 'no_matrik', 'name' => 'no_matrik', 'title' => 'No. Matrik ', 'orderable' => false],
+                    ['data' => 'kursus_id', 'name' => 'kursus_id', 'title' => 'Program Pengajian', 'orderable' => false],
+                    ['data' => 'new_syukbah_id', 'name' => 'new_syukbah_id', 'title' => 'Syukbah Pilihan', 'orderable' => false],
+                    ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
+
+                ])
+                ->minifiedAjax();
+
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
 
         } catch (Exception $e) {
             report($e);
 
             Alert::toast('Uh oh! Something went Wrong', 'error');
+
             return redirect()->back();
         }
     }
@@ -103,7 +106,6 @@ class PertukaranSyukbahController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -136,10 +138,10 @@ class PertukaranSyukbahController extends Controller
             $action = route('pengurusan.akademik.permohonan.pertukaran_syukbah.update', $id);
             $page_title = 'Pertukaran Syukbah Pelajar';
             $breadcrumbs = [
-                "Akademik" =>  false,
-                "Permohonan" =>  false,
-                "Pertukaran Syukbah Pelajar" =>  route('pengurusan.akademik.permohonan.pertukaran_syukbah.index'),
-                "Maklumat Pertukaran Syukbah Pelajar" =>  false,
+                'Akademik' => false,
+                'Permohonan' => false,
+                'Pertukaran Syukbah Pelajar' => route('pengurusan.akademik.permohonan.pertukaran_syukbah.index'),
+                'Maklumat Pertukaran Syukbah Pelajar' => false,
             ];
 
             $model = PermohonanPertukaranSyukbah::with('pelajar', 'pelajar.kursus', 'semester', 'newSyukbah', 'oldSyukbah')->find($id);
@@ -150,12 +152,13 @@ class PertukaranSyukbahController extends Controller
                 'KO' => 'Tidak Diterima',
             ];
 
-            return view($this->baseView.'edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'results'));
+            return view($this->baseView.'edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 'results'));
 
         } catch (Exception $e) {
             report($e);
 
             Alert::toast('Uh oh! Something went Wrong', 'error');
+
             return redirect()->back();
         }
     }
@@ -163,15 +166,14 @@ class PertukaranSyukbahController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $validation = $request->validate([
-            'keputusan'          => 'required',
-        ],[
+            'keputusan' => 'required',
+        ], [
             'keputusan.required' => 'Sila pilih syukbah',
         ]);
 
@@ -179,25 +181,26 @@ class PertukaranSyukbahController extends Controller
 
             //update status
             PermohonanPertukaranSyukbah::find($id)->update([
-                'status' => $request->keputusan
+                'status' => $request->keputusan,
             ]);
 
             //update syukbah pelajar, set to status if OK
             $keputusan_permohonan = $request->keputusan;
-            if($keputusan_permohonan == 'OK')
-            {
+            if ($keputusan_permohonan == 'OK') {
                 Pelajar::find($request->pelajar_id)->update([
                     'syukbah_id' => $request->new_syukbah_id,
                 ]);
             }
 
             Alert::toast('Keputusan pertukaran syukbah pelajar berjaya disimpan!', 'success');
+
             return redirect()->route('pengurusan.akademik.permohonan.pertukaran_syukbah.index');
 
         } catch (Exception $e) {
             report($e);
 
             Alert::toast('Uh oh! Something went Wrong', 'error');
+
             return redirect()->back();
         }
     }

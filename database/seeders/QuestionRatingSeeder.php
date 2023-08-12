@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\SoalanPenilaianRating;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class QuestionRatingSeeder extends Seeder
@@ -23,11 +22,10 @@ class QuestionRatingSeeder extends Seeder
             ['description' => 'Sangat Tidak Memuaskan (STM)', 'score' => 1],
         ];
 
-        foreach($ratings as $rating)
-        {
+        foreach ($ratings as $rating) {
             SoalanPenilaianRating::create([
-                'description'   => $rating['description'],
-                'order'         => $rating['score']
+                'description' => $rating['description'],
+                'order' => $rating['score'],
             ]);
 
         }

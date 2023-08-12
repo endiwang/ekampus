@@ -2,21 +2,20 @@
 
 namespace App\Jobs;
 
+use App\Models\OldDatabase\sis_tblpelajar;
+use App\Models\Pelajar;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Pelajar;
-use App\Models\User;
-use App\Models\OldDatabase\sis_tblpelajar;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
 
 class MigrateMaklumatPelajar implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
     public $student_id;
 
     /**
@@ -36,32 +35,27 @@ class MigrateMaklumatPelajar implements ShouldQueue
      */
     public function handle()
     {
-        $datum = sis_tblpelajar::where('pelajar_id',$this->student_id)->first();
-
+        $datum = sis_tblpelajar::where('pelajar_id', $this->student_id)->first();
 
         $temp = User::where('username', $datum->p_nokp)->first();
-        if($temp != NULL)
-        {
-                    if(str_contains($datum->p_tkh_lahir, '0000'))
-                    {
-                        $tarikh_lahir = NULL;
-                    }else{
-                        $tarikh_lahir = Carbon::parse($datum->p_tkh_lahir)->toDateString();
-                    }
+        if ($temp != null) {
+            if (str_contains($datum->p_tkh_lahir, '0000')) {
+                $tarikh_lahir = null;
+            } else {
+                $tarikh_lahir = Carbon::parse($datum->p_tkh_lahir)->toDateString();
+            }
 
-                    if(str_contains($datum->tarikh_daftar, '0000'))
-                    {
-                        $tarikh_daftar = NULL;
-                    }else{
-                        $tarikh_daftar = Carbon::parse($datum->tarikh_daftar)->toDateString();
-                    }
+            if (str_contains($datum->tarikh_daftar, '0000')) {
+                $tarikh_daftar = null;
+            } else {
+                $tarikh_daftar = Carbon::parse($datum->tarikh_daftar)->toDateString();
+            }
 
-                    if(str_contains($datum->tarikh_berhenti ,'0000'))
-                    {
-                        $tarikh_berhenti = NULL;
-                    }else{
-                        $tarikh_berhenti = Carbon::parse($datum->tarikh_berhenti)->toDateString();
-                    }
+            if (str_contains($datum->tarikh_berhenti, '0000')) {
+                $tarikh_berhenti = null;
+            } else {
+                $tarikh_berhenti = Carbon::parse($datum->tarikh_berhenti)->toDateString();
+            }
 
             Pelajar::create([
                 'user_id' => $temp->id,

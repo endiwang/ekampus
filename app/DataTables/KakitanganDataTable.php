@@ -6,10 +6,7 @@ use App\Models\Staff;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class KakitanganDataTable extends DataTable
@@ -17,8 +14,7 @@ class KakitanganDataTable extends DataTable
     /**
      * Build DataTable class.
      *
-     * @param QueryBuilder $query Results from query() method.
-     * @return \Yajra\DataTables\EloquentDataTable
+     * @param  QueryBuilder  $query Results from query() method.
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
@@ -30,8 +26,7 @@ class KakitanganDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Kakitangan $model
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  \App\Models\Kakitangan  $model
      */
     public function query(Staff $model): QueryBuilder
     {
@@ -40,8 +35,6 @@ class KakitanganDataTable extends DataTable
 
     /**
      * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
      */
     public function html(): HtmlBuilder
     {
@@ -50,28 +43,26 @@ class KakitanganDataTable extends DataTable
         <'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>>";
 
         return $this->builder()
-                    ->setTableId('users-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->orderBy(1)
-                    ->addIndex()
-                    ->parameters([
-                        'language' => '{ "lengthMenu": "Show _MENU_", }',
-                        'dom' => $dom_setting,
-                    ])
-                    ->columns([
-                        ['data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => '#'],
-                        ['data' => 'id', 'name' => 'id', 'title' => 'Id'],
-                        ['data' => 'nama', 'name' => 'nama', 'title' => 'Name'],
-                        ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Created At'],
-                        ['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Updated At'],
-                    ]);
+            ->setTableId('users-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->orderBy(1)
+            ->addIndex()
+            ->parameters([
+                'language' => '{ "lengthMenu": "Show _MENU_", }',
+                'dom' => $dom_setting,
+            ])
+            ->columns([
+                ['data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => '#'],
+                ['data' => 'id', 'name' => 'id', 'title' => 'Id'],
+                ['data' => 'nama', 'name' => 'nama', 'title' => 'Name'],
+                ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Created At'],
+                ['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Updated At'],
+            ]);
     }
 
     /**
      * Get the dataTable columns definition.
-     *
-     * @return array
      */
     public function getColumns(): array
     {
@@ -85,11 +76,9 @@ class KakitanganDataTable extends DataTable
 
     /**
      * Get filename for export.
-     *
-     * @return string
      */
     protected function filename(): string
     {
-        return 'Kakitangan_' . date('YmdHis');
+        return 'Kakitangan_'.date('YmdHis');
     }
 }

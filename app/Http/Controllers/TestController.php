@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
-use Yajra\DataTables\DataTables;
 use App\DataTables\UsersDataTable;
-use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\OldDatabase\sis_tblpelajar;
-
-
+use App\Models\User;
+use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\DataTables;
 
 class TestController extends Controller
 {
@@ -37,10 +34,9 @@ class TestController extends Controller
         // Alert::toast('Toast Message', 'success');
         // Alert::html('Html Title', 'Html Code', 'Type');
 
-
-
         return view('test.testform');
     }
+
     public function testpemohon()
     {
         return view('test.testpemohon');
@@ -58,7 +54,7 @@ class TestController extends Controller
 
     public function getBasicData()
     {
-        $users = User::select(['id','name','username','created_at','updated_at']);
+        $users = User::select(['id', 'name', 'username', 'created_at', 'updated_at']);
 
         return Datatables::of($users)->make();
     }

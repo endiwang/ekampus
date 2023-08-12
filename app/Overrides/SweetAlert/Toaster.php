@@ -10,6 +10,7 @@ class Toaster
      * Session storage.
      *
      * @var RealRashid\SweetAlert\Storage\Session
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     protected $session;
@@ -18,6 +19,7 @@ class Toaster
      * Configuration options.
      *
      * @var array
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     protected $config;
@@ -25,7 +27,6 @@ class Toaster
     /**
      * Setting up the session
      *
-     * @param SessionStore $session
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function __construct(SessionStore $session)
@@ -38,6 +39,7 @@ class Toaster
      * The default configuration for alert
      *
      * @return void
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     protected function setDefaultConfig()
@@ -66,8 +68,8 @@ class Toaster
                 'actions' => config('sweetalert.customClass.actions'),
                 'confirmButton' => config('sweetalert.customClass.confirmButton'),
                 'cancelButton' => config('sweetalert.customClass.cancelButton'),
-                'footer' => config('sweetalert.customClass.footer')
-            ]
+                'footer' => config('sweetalert.customClass.footer'),
+            ],
         ];
     }
 
@@ -75,15 +77,16 @@ class Toaster
      * The default configuration for middleware alert.
      *
      * @return $config
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function middleware()
     {
         unset($this->config['position'], $this->config['heightAuto'], $this->config['width'], $this->config['padding'], $this->config['showCloseButton']);
 
-        if(!config('sweetalert.middleware.autoClose')){
+        if (! config('sweetalert.middleware.autoClose')) {
             $this->removeTimer();
-        }else{
+        } else {
             unset($this->config['timer']);
             $this->config['timer'] = config('sweetalert.middleware.timer');
         }
@@ -98,108 +101,121 @@ class Toaster
     /**
      * Flash an alert message.
      *
-     * @param  string $title
-     * @param  string $text
+     * @param  string  $title
+     * @param  string  $text
      * @param  array  $icon
      * @return void
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function alert($title = '', $text = '', $icon = null)
     {
         $this->config['title'] = $title;
         $this->config['text'] = $text;
-        if (!is_null($icon)) {
+        if (! is_null($icon)) {
             $this->config['icon'] = $icon;
         }
         $this->flash();
+
         return $this;
     }
 
     /**
      * Display a success typed alert message with a text and a title.
      *
-     * @param string $title
-     * @param string $text
+     * @param  string  $title
+     * @param  string  $text
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function success($title = '', $text = '')
     {
         $this->alert($title, $text, 'success');
+
         return $this;
     }
 
     /**
      * Display a info typed alert message with a text and a title.
      *
-     * @param string $title
-     * @param string $text
+     * @param  string  $title
+     * @param  string  $text
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function info($title = '', $text = '')
     {
         $this->alert($title, $text, 'info');
+
         return $this;
     }
 
     /**
      * Display a warning typed alert message with a text and a title.
      *
-     * @param string $title
-     * @param string $text
+     * @param  string  $title
+     * @param  string  $text
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function warning($title = '', $text = '')
     {
         $this->alert($title, $text, 'warning');
+
         return $this;
     }
 
     /**
      * Display a question typed alert message with a text and a title.
      *
-     * @param string $title
-     * @param string $text
+     * @param  string  $title
+     * @param  string  $text
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function question($title = '', $text = '')
     {
         $this->alert($title, $text, 'question');
         $this->showCancelButton();
+
         return $this;
     }
 
     /**
      * Display a error typed alert message with a text and a title.
      *
-     * @param string $title
-     * @param string $text
+     * @param  string  $title
+     * @param  string  $text
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function error($title = '', $text = '')
     {
         $this->alert($title, $text, 'error');
+
         return $this;
     }
 
     /**
      * Display a message with a custom image and CSS animation disabled.
      *
-     * @param string $title
-     * @param string $text
-     * @param string $imageUrl
-     * @param integer $imageWidth
-     * @param integer $imageHeight
-     * @param string $imageAlt
+     * @param  string  $title
+     * @param  string  $text
+     * @param  string  $imageUrl
+     * @param  int  $imageWidth
+     * @param  int  $imageHeight
+     * @param  string  $imageAlt
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
-    public function image($title, $text,$imageUrl, $imageWidth, $imageHeight, $imageAlt= null)
+    public function image($title, $text, $imageUrl, $imageWidth, $imageHeight, $imageAlt = null)
     {
         $this->config['title'] = $title;
         $this->config['text'] = $text;
         $this->config['imageUrl'] = $imageUrl;
         $this->config['imageWidth'] = $imageWidth;
         $this->config['imageHeight'] = $imageHeight;
-        if (!is_null($imageAlt)) {
+        if (! is_null($imageAlt)) {
             $this->config['imageAlt'] = $imageAlt;
         } else {
             $this->config['imageAlt'] = $title;
@@ -207,34 +223,38 @@ class Toaster
         $this->config['animation'] = false;
 
         $this->flash();
+
         return $this;
     }
 
     /**
      * Display a html typed alert message with html code.
      *
-     * @param string $title
-     * @param string $code
-     * @param string $icon
+     * @param  string  $title
+     * @param  string  $code
+     * @param  string  $icon
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function html($title = '', $code = '', $icon = '')
     {
         $this->config['title'] = $title;
         $this->config['html'] = $code;
-        if (!is_null($icon)) {
+        if (! is_null($icon)) {
             $this->config['icon'] = $icon;
         }
 
         $this->flash();
+
         return $this;
     }
 
     /**
      * Display a toast message
      *
-     * @param string $title
-     * @param string $icon
+     * @param  string  $title
+     * @param  string  $icon
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function toast($title = '', $icon = '')
@@ -248,20 +268,22 @@ class Toaster
 
         unset($this->config['heightAuto']);
         $this->flash();
+
         return $this;
     }
 
     /**
      * Convert any alert modal to Toast
      *
-     * @param string $position
+     * @param  string  $position
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function toToast($position = '')
     {
         $this->config['toast'] = true;
         $this->config['showCloseButton'] = true;
-        if (!empty($position)) {
+        if (! empty($position)) {
             $this->config['position'] = $position;
         } else {
             $this->config['position'] = config('sweetalert.toast_position');
@@ -270,6 +292,7 @@ class Toaster
         unset($this->config['width'], $this->config['padding']);
 
         $this->flash();
+
         return $this;
     }
 
@@ -284,13 +307,15 @@ class Toaster
         unset($this->config['text']);
 
         $this->flash();
+
         return $this;
     }
 
     /**
      * Add a custom image to alert
      *
-     * @param string $imageUrl
+     * @param  string  $imageUrl
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function addImage($imageUrl)
@@ -300,13 +325,15 @@ class Toaster
         unset($this->config['icon']);
 
         $this->flash();
+
         return $this;
     }
 
     /**
      * Add footer section to alert()
      *
-     * @param string $code
+     * @param  string  $code
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function footer($code)
@@ -314,13 +341,15 @@ class Toaster
         $this->config['footer'] = $code;
 
         $this->flash();
+
         return $this;
     }
 
     /**
      * positioned alert dialog
      *
-     * @param string $position
+     * @param  string  $position
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function position($position = 'top-end')
@@ -328,6 +357,7 @@ class Toaster
         $this->config['position'] = $position;
 
         $this->flash();
+
         return $this;
     }
 
@@ -337,7 +367,8 @@ class Toaster
      * (box-sizing: border-box).
      * Can be in px or %. The default width is 32rem
      *
-     * @param string $width
+     * @param  string  $width
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function width($width = '32rem')
@@ -345,6 +376,7 @@ class Toaster
         $this->config['width'] = $width;
 
         $this->flash();
+
         return $this;
     }
 
@@ -352,7 +384,8 @@ class Toaster
      * Modal window padding.
      * The default padding is 1.25rem.
      *
-     * @param string $padding
+     * @param  string  $padding
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function padding($padding = '1.25rem')
@@ -360,6 +393,7 @@ class Toaster
         $this->config['padding'] = $padding;
 
         $this->flash();
+
         return $this;
     }
 
@@ -368,7 +402,8 @@ class Toaster
      * (CSS background property).
      * The default background is '#fff'.
      *
-     * @param string $background
+     * @param  string  $background
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function background($background = '#fff')
@@ -376,6 +411,7 @@ class Toaster
         $this->config['background'] = $background;
 
         $this->flash();
+
         return $this;
     }
 
@@ -384,7 +420,8 @@ class Toaster
      * focus the first element in tab
      * order instead of "Confirm"-button by default.
      *
-     * @param boolean $focus
+     * @param  bool  $focus
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function focusConfirm($focus = true)
@@ -393,6 +430,7 @@ class Toaster
         unset($this->config['focusCancel']);
 
         $this->flash();
+
         return $this;
     }
 
@@ -400,7 +438,8 @@ class Toaster
      * Set to true if you want to focus the
      * "Cancel"-button by default.
      *
-     * @param boolean $focus
+     * @param  bool  $focus
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function focusCancel($focus = false)
@@ -409,6 +448,7 @@ class Toaster
         unset($this->config['focusConfirm']);
 
         $this->flash();
+
         return $this;
     }
 
@@ -417,27 +457,30 @@ class Toaster
      * CSS classes for animations when showing a popup (fade in):
      * CSS classes for animations when hiding a popup (fade out):
      *
-     * @param string $showAnimation
-     * @param string $hideAnimation
+     * @param  string  $showAnimation
+     * @param  string  $hideAnimation
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function animation($showAnimation, $hideAnimation)
     {
-        if (!config('sweetalert.animation.enable')) {
+        if (! config('sweetalert.animation.enable')) {
             config(['sweetalert.animation.enable' => true]);
         }
         $this->config['showClass'] = ['popup' => "animate__animated {$showAnimation}"];
         $this->config['hideClass'] = ['popup' => "animate__animated {$hideAnimation}"];
 
         $this->flash();
+
         return $this;
     }
 
     /**
      * Persistent the alert modal
      *
-     * @param boolean $showConfirmBtn
-     * @param boolean $showCloseBtn
+     * @param  bool  $showConfirmBtn
+     * @param  bool  $showCloseBtn
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function persistent($showConfirmBtn = true, $showCloseBtn = false)
@@ -453,6 +496,7 @@ class Toaster
         }
 
         $this->flash();
+
         return $this;
     }
 
@@ -460,7 +504,8 @@ class Toaster
      * auto close alert modal after
      * specifid time
      *
-     * @param integer $milliseconds
+     * @param  int  $milliseconds
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function autoClose($milliseconds = 5000)
@@ -468,14 +513,16 @@ class Toaster
         $this->config['timer'] = $milliseconds;
 
         $this->flash();
+
         return $this;
     }
 
     /**
      * Display confirm button
      *
-     * @param string $btnText
-     * @param string $btnColor
+     * @param  string  $btnText
+     * @param  string  $btnColor
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function showConfirmButton($btnText = 'Ok', $btnColor = '#3085d6')
@@ -487,14 +534,16 @@ class Toaster
         $this->removeTimer();
 
         $this->flash();
+
         return $this;
     }
 
     /**
      * Display cancel button
      *
-     * @param string $btnText
-     * @param string $btnColor
+     * @param  string  $btnText
+     * @param  string  $btnColor
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function showCancelButton($btnText = 'Cancel', $btnColor = '#aaa')
@@ -505,13 +554,15 @@ class Toaster
         $this->removeTimer();
 
         $this->flash();
+
         return $this;
     }
 
     /**
      * Display close button
      *
-     * @param string $closeButtonAriaLabel
+     * @param  string  $closeButtonAriaLabel
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function showCloseButton($closeButtonAriaLabel = 'aria-label')
@@ -520,6 +571,7 @@ class Toaster
         $this->config['closeButtonAriaLabel'] = $closeButtonAriaLabel;
 
         $this->flash();
+
         return $this;
     }
 
@@ -533,6 +585,7 @@ class Toaster
         $this->config['showCloseButton'] = false;
 
         $this->flash();
+
         return $this;
     }
 
@@ -541,7 +594,8 @@ class Toaster
      * If you want to use your own classes (e.g. Bootstrap classes)
      * set this parameter to false.
      *
-     * @param boolean $buttonsStyling
+     * @param  bool  $buttonsStyling
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function buttonsStyling($buttonsStyling)
@@ -549,13 +603,15 @@ class Toaster
         $this->config['buttonsStyling'] = $buttonsStyling;
 
         $this->flash();
+
         return $this;
     }
 
     /**
      * Use any HTML inside icons (e.g. Font Awesome)
      *
-     * @param string $iconHtml
+     * @param  string  $iconHtml
+     *
      * @author Rashid Ali <realrashid05@gmail.com>
      */
     public function iconHtml($iconHtml)
@@ -563,6 +619,7 @@ class Toaster
         $this->config['iconHtml'] = $iconHtml;
 
         $this->flash();
+
         return $this;
     }
 
@@ -577,6 +634,7 @@ class Toaster
         $this->config['timerProgressBar'] = true;
 
         $this->flash();
+
         return $this;
     }
 
@@ -590,6 +648,7 @@ class Toaster
         $this->config['reverseButtons'] = true;
 
         $this->flash();
+
         return $this;
     }
 
@@ -626,6 +685,7 @@ class Toaster
     public function buildConfig()
     {
         $config = $this->config;
+
         return json_encode($config);
     }
 }

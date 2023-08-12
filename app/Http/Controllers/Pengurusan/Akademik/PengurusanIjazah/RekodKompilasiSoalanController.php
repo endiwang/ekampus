@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah;
 
 use App\Http\Controllers\Controller;
+use App\Models\IjazahKompilasiSoalan;
+use App\Models\Sesi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use File;
-use Illuminate\Support\Facades\Storage;
-use App\Models\IjazahKompilasiSoalan;
-use App\Models\Sesi;
 
 class RekodKompilasiSoalanController extends Controller
 {
@@ -21,36 +20,43 @@ class RekodKompilasiSoalanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
 
-            $title = "Rekod Kompilasi Soalan";
-            $breadcrumbs = [
-                "Akademik" =>  false,
-                "Pengurusan Ijazah" =>  false,
-                "Rekod Kompilasi Soalan" =>  false,
-            ];
+        $title = 'Rekod Kompilasi Soalan';
+        $breadcrumbs = [
+            'Akademik' => false,
+            'Pengurusan Ijazah' => false,
+            'Rekod Kompilasi Soalan' => false,
+        ];
 
-            $buttons = [
-                [
-                    'title' => "Tambah Rekod Kompilasi Soalan",
-                    'route' => route('pengurusan.akademik.pengurusan_ijazah.kompilasi_soalan.create'),
-                    'button_class' => "btn btn-sm btn-primary fw-bold",
-                    'icon_class' => "fa fa-plus-circle"
-                ],
-            ];
+        $buttons = [
+            [
+                'title' => 'Tambah Rekod Kompilasi Soalan',
+                'route' => route('pengurusan.akademik.pengurusan_ijazah.kompilasi_soalan.create'),
+                'button_class' => 'btn btn-sm btn-primary fw-bold',
+                'icon_class' => 'fa fa-plus-circle',
+            ],
+        ];
 
-            if (request()->ajax()) {
-                $data = IjazahKompilasiSoalan::query();
-                return DataTables::of($data)
-                ->addColumn('document_name', function($data) {
-                    return '<a href="'. route('pengurusan.akademik.pengurusan_ijazah.kompilasi_soalan.download', $data->id) .'" target="_blank">'. $data->document_name.'</a>';
+        if (request()->ajax()) {
+            $data = IjazahKompilasiSoalan::query();
+            if ($request->has('nama') && $request->nama != null) {
+                $data->where('name', 'LIKE', '%'.$request->nama.'%');
+            }
+            if ($request->has('sesi') && $request->sesi != null) {
+                $data->where('sesi_id', $request->sesi);
+            }
+
+            return DataTables::of($data)
+                ->addColumn('document_name', function ($data) {
+                    return '<a href="'.route('pengurusan.akademik.pengurusan_ijazah.kompilasi_soalan.download', $data->id).'" target="_blank">'.$data->document_name.'</a>';
                 })
-                ->addColumn('action', function($data){
-                    return '<a href="'.route('pengurusan.akademik.pengurusan_ijazah.kompilasi_soalan.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                ->addColumn('action', function ($data) {
+                    return '<a href="'.route('pengurusan.akademik.pengurusan_ijazah.kompilasi_soalan.edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
-                            <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id .')" data-bs-toggle="tooltip" title="Hapus">
+                            <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
                                 <i class="fa fa-trash"></i>
                             </a>
                             <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.pengurusan_ijazah.kompilasi_soalan.destroy', $data->id).'" method="POST">
@@ -58,12 +64,10 @@ class RekodKompilasiSoalanController extends Controller
                                 <input type="hidden" name="_method" value="DELETE">
                             </form>';
                 })
-                ->addColumn('sesi', function($data) {
-                    if(!empty($data->sesi))
-                    {
+                ->addColumn('sesi', function ($data) {
+                    if (! empty($data->sesi)) {
                         return $data->sesi->nama;
-                    }
-                    else {
+                    } else {
                         return 'N\A';
                     }
                 })
@@ -71,22 +75,24 @@ class RekodKompilasiSoalanController extends Controller
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['document_name','sesi', 'action'])
+                ->rawColumns(['document_name', 'sesi', 'action'])
                 ->toJson();
-            }
+        }
 
-            $dataTable = $builder
+        $dataTable = $builder
             ->columns([
-                ['defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
-                ['data' => 'name', 'name' => 'name', 'title' => 'Nama', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'sesi', 'name' => 'sasi', 'title' => 'Sesi', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'document_name', 'name' => 'document_name', 'title' => 'Dokumen Kompilasi Soalan', 'orderable'=> false],
-                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+                ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+                ['data' => 'name', 'name' => 'name', 'title' => 'Nama', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'sesi', 'name' => 'sasi', 'title' => 'Sesi', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'document_name', 'name' => 'document_name', 'title' => 'Dokumen Kompilasi Soalan', 'orderable' => false],
+                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
 
             ])
             ->minifiedAjax();
 
-            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
+        $sessions = Sesi::where('deleted_at', null)->pluck('nama', 'id');
+
+        return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable', 'sessions'));
 
     }
 
@@ -101,54 +107,54 @@ class RekodKompilasiSoalanController extends Controller
         $action = route('pengurusan.akademik.pengurusan_ijazah.kompilasi_soalan.store');
         $page_title = 'Tambah Rekod Kompilasi Soalan';
         $breadcrumbs = [
-            "Akademik" =>  false,
-            "Pengurusan Ijazah" =>  false,
-            "Rekod Kompilasi Soalan" =>  false,
-            "Tambah Rekod" =>  false,
+            'Akademik' => false,
+            'Pengurusan Ijazah' => false,
+            'Rekod Kompilasi Soalan' => false,
+            'Tambah Rekod' => false,
         ];
 
         $model = new IjazahKompilasiSoalan();
-        $sesi =  Sesi::where('kursus_id', 12)->pluck('nama','id');
+        $sesi = Sesi::where('kursus_id', 12)->pluck('nama', 'id');
 
-        return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action','sesi'));
+        return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 'sesi'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $validation = $request->validate([
-            'sesi'=> 'required',
-            'nama_dokumen'=> 'required',
-            'file'              => 'required',
-        ],[
-            'nama.required'         => 'Sila pilih sesi pengajian',
+            'sesi' => 'required',
+            'nama_dokumen' => 'required',
+            'file' => 'required',
+        ], [
+            'nama.required' => 'Sila pilih sesi pengajian',
             'nama_dokumen.required' => 'Sila masukkan nama dokument',
-            'file.required'         => 'Sila muat naik rekod kompilasi soalan',
+            'file.required' => 'Sila muat naik rekod kompilasi soalan',
         ]);
 
-        $file_name = uniqid() . '.' . $request->file->getClientOriginalExtension();
+        $file_name = uniqid().'.'.$request->file->getClientOriginalExtension();
         $file_path = 'uploads/ijazah/kompilasi_soalan';
         $file = $request->file('file');
         $file->move($file_path, $file_name);
-        $file = $file_path . '/' .$file_name;
+        $file = $file_path.'/'.$file_name;
 
         $original_filename = $request->file->getClientOriginalName();
 
         IjazahKompilasiSoalan::create([
-            'name'                      => $request->nama_dokumen,
-            'document_name'             => $original_filename,
-            'uploaded_document'         => $file,
-            'sesi_id'                   => $request->sesi,
-            'status'                    => 1,
-            'kursus_id'                 => 12,
+            'name' => $request->nama_dokumen,
+            'document_name' => $original_filename,
+            'uploaded_document' => $file,
+            'sesi_id' => $request->sesi,
+            'status' => 1,
+            'kursus_id' => 12,
         ]);
 
         Alert::toast('Maklumat rekod kompilasi soalan berjaya ditambah!', 'success');
+
         return redirect()->route('pengurusan.akademik.pengurusan_ijazah.kompilasi_soalan.index');
     }
 
@@ -172,36 +178,35 @@ class RekodKompilasiSoalanController extends Controller
     public function edit($id)
     {
         $title = 'Rekod Kompilasi Soalan';
-        $action = route('pengurusan.akademik.pengurusan_ijazah.kompilasi_soalan.update',$id);
+        $action = route('pengurusan.akademik.pengurusan_ijazah.kompilasi_soalan.update', $id);
         $page_title = 'Pinda Rekod Kompilasi Soalan';
         $breadcrumbs = [
-            "Akademik" =>  false,
-            "Pengurusan Ijazah" =>  false,
-            "Rekod Kompilasi Soalan" =>  false,
-            "Tambah Rekod" =>  false,
+            'Akademik' => false,
+            'Pengurusan Ijazah' => false,
+            'Rekod Kompilasi Soalan' => false,
+            'Tambah Rekod' => false,
         ];
 
-        $sesi =  Sesi::where('kursus_id', 12)->pluck('nama','id');
+        $sesi = Sesi::where('kursus_id', 12)->pluck('nama', 'id');
 
         $model = IjazahKompilasiSoalan::find($id);
 
-        return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action','sesi'));
+        return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 'sesi'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $validation = $request->validate([
-            'sesi'=> 'required',
-            'nama_dokumen'=> 'required',
-        ],[
-            'nama.required'         => 'Sila pilih sesi pengajian',
+            'sesi' => 'required',
+            'nama_dokumen' => 'required',
+        ], [
+            'nama.required' => 'Sila pilih sesi pengajian',
             'nama_dokumen.required' => 'Sila masukkan nama dokument',
         ]);
 
@@ -209,32 +214,30 @@ class RekodKompilasiSoalanController extends Controller
 
         $file = '';
         $original_filename = '';
-        if(!empty($request->file))
-        {
+        if (! empty($request->file)) {
             unlink(storage_path($data->uploaded_document));
-            $file_name = uniqid() . '.' . $request->file->getClientOriginalExtension();
+            $file_name = uniqid().'.'.$request->file->getClientOriginalExtension();
             $file_path = 'uploads/ijazah/kompilasi_soalan';
             $file = $request->file('file');
             $file->move($file_path, $file_name);
-            $file = $file_path . '/' .$file_name;
+            $file = $file_path.'/'.$file_name;
 
             $original_filename = $request->file->getClientOriginalName();
-        }
-        else {
+        } else {
             $original_filename = $data->document_name;
             $file = $data->uploaded_document;
         }
 
-
-            $data->name                 = $request->nama_dokumen;
-            $data->document_name        = $original_filename;
-            $data->uploaded_document    = $file;
-            $data->sesi_id              = $request->sesi;
-            $data->status               = 1;
-            $data->kursus_id            = 12;
-            $data->save();
+        $data->name = $request->nama_dokumen;
+        $data->document_name = $original_filename;
+        $data->uploaded_document = $file;
+        $data->sesi_id = $request->sesi;
+        $data->status = 1;
+        $data->kursus_id = 12;
+        $data->save();
 
         Alert::toast('Maklumat rekod kompilasi soalan berjaya dipinda!', 'success');
+
         return redirect()->route('pengurusan.akademik.pengurusan_ijazah.kompilasi_soalan.index');
     }
 
@@ -247,12 +250,13 @@ class RekodKompilasiSoalanController extends Controller
     public function destroy($id)
     {
         $data = IjazahKompilasiSoalan::find($id);
-            $data->is_deleted = 1;
-            $data->deleted_by = auth()->user()->id;
-            $data->delete();
+        $data->is_deleted = 1;
+        $data->deleted_by = auth()->user()->id;
+        $data->delete();
 
-            Alert::toast('Maklumat rekod kompilasi soalan berjaya dihapus!', 'success');
-            return redirect()->back();
+        Alert::toast('Maklumat rekod kompilasi soalan berjaya dihapus!', 'success');
+
+        return redirect()->back();
     }
 
     public function download($id)

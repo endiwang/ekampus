@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('jadual_waktu_details')) {
+        if (! Schema::hasTable('jadual_waktu_details')) {
             Schema::create('jadual_waktu_details', function (Blueprint $table) {
                 $table->id();
                 $table->integer('jadual_waktu_id')->nullable();

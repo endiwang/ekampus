@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('page_end')->nullable();
             $table->longText('remarks')->nullable();
             $table->integer('page_remaining')->nullable();
-            $table->double('current_percentage', 8,2);
+            $table->double('current_percentage', 8, 2);
             $table->integer('created_by')->nullable();
             $table->timestamps();
         });

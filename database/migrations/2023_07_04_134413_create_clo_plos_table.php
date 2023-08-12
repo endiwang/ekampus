@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('clo_id')->nullable();
             $table->integer('plo_id')->nullable();
             $table->integer('jabatan_id')->nullable();
-            $table->double('marks', 8,2)->nullable();
+            $table->double('marks', 8, 2)->nullable();
             $table->integer('status')->nullable();
             $table->integer('created_by')->nullable();
             $table->integer('is_deleted')->default(0);

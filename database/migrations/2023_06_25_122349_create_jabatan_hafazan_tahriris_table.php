@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('current_page')->nullable();
             $table->integer('designated_page')->nullable();
             $table->integer('balance')->nullable();
-            $table->double('current_percentage', 8,2);
+            $table->double('current_percentage', 8, 2);
             $table->integer('created_by')->nullable();
             $table->timestamps();
         });

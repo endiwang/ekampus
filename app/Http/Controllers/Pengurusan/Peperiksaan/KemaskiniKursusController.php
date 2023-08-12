@@ -21,57 +21,56 @@ class KemaskiniKursusController extends Controller
      */
     public function index(Builder $builder, Request $request)
     {
-        try {    
-            $title = "Senarai Maklumat Pengajian";
+        try {
+            $title = 'Senarai Maklumat Pengajian';
             $breadcrumbs = [
-                "Peperiksaan" =>  false,
-                "Kemaskini" =>  false,
-                "Senarai Maklumat Pengajian" =>  false,
+                'Peperiksaan' => false,
+                'Kemaskini' => false,
+                'Senarai Maklumat Pengajian' => false,
             ];
 
             if (request()->ajax()) {
                 $data = Kursus::query();
-                if($request->has('program_pengajian') && $request->program_pengajian != NULL)
-                {
-                    $data->where('nama', 'LIKE', '%' . $request->program_pengajian . '%');
+                if ($request->has('program_pengajian') && $request->program_pengajian != null) {
+                    $data->where('nama', 'LIKE', '%'.$request->program_pengajian.'%');
                 }
-                
+
                 return DataTables::of($data)
-                ->addColumn('status', function($data) {
-                    switch ($data->status) {
-                        case 0:
-                            return '<span class="badge py-3 px-4 fs-7 badge-light-success">Aktif</span>';
-                          break;
-                        case 1:
-                            return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Aktif</span>';
-                        default:
-                          return '';
-                    }
-                })
-                ->addColumn('action', function($data){
-                    return '<a href="'.route('pengurusan.peperiksaan.kemaskini.senarai_kursus.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                    ->addColumn('status', function ($data) {
+                        switch ($data->status) {
+                            case 0:
+                                return '<span class="badge py-3 px-4 fs-7 badge-light-success">Aktif</span>';
+                                break;
+                            case 1:
+                                return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Aktif</span>';
+                            default:
+                                return '';
+                        }
+                    })
+                    ->addColumn('action', function ($data) {
+                        return '<a href="'.route('pengurusan.peperiksaan.kemaskini.senarai_kursus.edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
                             ';
-                })
-                ->addIndexColumn()
-                ->order(function ($data) {
-                    $data->orderBy('id', 'desc');
-                })
-                ->rawColumns(['status', 'action'])
-                ->toJson();
+                    })
+                    ->addIndexColumn()
+                    ->order(function ($data) {
+                        $data->orderBy('id', 'desc');
+                    })
+                    ->rawColumns(['status', 'action'])
+                    ->toJson();
             }
 
             $dataTable = $builder
-            ->columns([
-                ['defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
-                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Program Pengajian', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'bil_sem_keseluruhan', 'name' => 'bil_sem_keseluruhan', 'title' => 'Jumlah Semester', 'orderable'=> false],
-                ['data' => 'status', 'name' => 'kelas', 'title' => 'Status', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+                ->columns([
+                    ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+                    ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Program Pengajian', 'orderable' => false, 'class' => 'text-bold'],
+                    ['data' => 'bil_sem_keseluruhan', 'name' => 'bil_sem_keseluruhan', 'title' => 'Jumlah Semester', 'orderable' => false],
+                    ['data' => 'status', 'name' => 'kelas', 'title' => 'Status', 'orderable' => false, 'class' => 'text-bold'],
+                    ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
 
-            ])
-            ->minifiedAjax();
+                ])
+                ->minifiedAjax();
 
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable'));
 
@@ -79,6 +78,7 @@ class KemaskiniKursusController extends Controller
             report($e);
 
             Alert::toast('Uh oh! Something went Wrong', 'error');
+
             return redirect()->back();
         }
     }
@@ -96,7 +96,6 @@ class KemaskiniKursusController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -129,37 +128,38 @@ class KemaskiniKursusController extends Controller
             $action = route('pengurusan.peperiksaan.kemaskini.senarai_kursus.update', $id);
             $page_title = 'Kemaskini Kursus';
             $breadcrumbs = [
-                "Peperiksaan" =>  false,
-                "Kemaskini" =>  false,
-                "Senarai Maklumat Pengajian" =>  route('pengurusan.peperiksaan.kemaskini.senarai_kursus.index'),
-                "Kemaskini Kursus" =>  false,
+                'Peperiksaan' => false,
+                'Kemaskini' => false,
+                'Senarai Maklumat Pengajian' => route('pengurusan.peperiksaan.kemaskini.senarai_kursus.index'),
+                'Kemaskini Kursus' => false,
             ];
 
             $model = Kursus::find($id);
 
             $statuses = [
-                ['kod' => 'D' , 'nama' => 'Diploma'],
-                ['kod' => 'S' , 'nama' => 'Sijil'],
-                ['kod' => 'I' , 'nama' => 'Ijazah'],
-                ['kod' => 'ST' , 'nama' => 'Sijil Tahfiz'],
+                ['kod' => 'D', 'nama' => 'Diploma'],
+                ['kod' => 'S', 'nama' => 'Sijil'],
+                ['kod' => 'I', 'nama' => 'Ijazah'],
+                ['kod' => 'ST', 'nama' => 'Sijil Tahfiz'],
             ];
 
             $yearly_semesters = [
                 1 => '1 Semester',
                 2 => '2 Semester',
-                3 => '3 Semester'
+                3 => '3 Semester',
             ];
 
             $views = [
                 1 => 'Log Masuk',
             ];
 
-            return view($this->baseView.'edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action', 'statuses', 'yearly_semesters', 'views'));
+            return view($this->baseView.'edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 'statuses', 'yearly_semesters', 'views'));
 
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             report($e);
-    
+
             Alert::toast('Uh oh! Something went Wrong', 'error');
+
             return redirect()->back();
         }
     }
@@ -167,32 +167,32 @@ class KemaskiniKursusController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         try {
-            
+
             $update = Kursus::find($id);
-            $update->kod                    = $request->kod_kursus;
-            $update->nama                   = $request->nama_pengajian;
-            $update->maklumat_cetakan       = $request->maklumat_cetakan;
-            $update->bil_sem_keseluruhan    = $request->jumlah_semester;
-            $update->bil_sem_setahun        = $request->semester_setahun;
-            $update->status                 = $request->status;
-            $update->is_paparan_login       = $request->paparan_log_masuk;
+            $update->kod = $request->kod_kursus;
+            $update->nama = $request->nama_pengajian;
+            $update->maklumat_cetakan = $request->maklumat_cetakan;
+            $update->bil_sem_keseluruhan = $request->jumlah_semester;
+            $update->bil_sem_setahun = $request->semester_setahun;
+            $update->status = $request->status;
+            $update->is_paparan_login = $request->paparan_log_masuk;
             $update->save();
-            
+
             Alert::toast('Maklumat kursus berjaya dikemaskini!', 'success');
+
             return redirect()->route('pengurusan.peperiksaan.kemaskini.senarai_kursus.index');
 
-
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             report($e);
-    
+
             Alert::toast('Uh oh! Something went Wrong', 'error');
+
             return redirect()->back();
         }
     }
