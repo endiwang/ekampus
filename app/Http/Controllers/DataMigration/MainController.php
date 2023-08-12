@@ -62,6 +62,7 @@ use App\Models\OldDatabase\sis_tblkonvo;
 use App\Models\OldDatabase\sis_tblkonvo_mohon;
 use App\Models\OldDatabase\sis_jadbilik;
 use App\Models\OldDatabase\sis_tblpelajar_berhenti;
+use App\Models\OldDatabase\sis_tblpelajar_semester;
 use App\Models\OldDatabase\sis_tblpermohonan_pelajaran;
 use App\Models\OldDatabase\sis_tblpermohonan_penjaga;
 use App\Models\OldDatabase\sis_tblpermohonan_tanggung;
@@ -72,6 +73,7 @@ use App\Models\OldDatabase\sis_tblpelajar_tangguh;
 use App\Models\OldDatabase\sis_tbltawaran;
 use App\Models\OldDatabase\sis_tbltawaran_mohon;
 use App\Models\PelajarBerhenti;
+use App\Models\PelajarSemester;
 use App\Models\PenangguhanPengajian;
 use App\Models\PermohonanPertukaranSyukbah;
 use App\Models\SebabBerhenti;
@@ -1211,5 +1213,21 @@ class MainController extends Controller
 
     //     dd('done');
     // }
+
+    public function sis_tbl_pelajar_semester_to_pelajar_semester()
+    {
+        $data = sis_tblpelajar_semester::all();
+
+        foreach($data as $datum)
+        {
+            PelajarSemester::create([
+                'id'                    => $datum->id,
+                'nama'                  => $datum->ref_tingkat,
+                'status'                => $datum->ref_tingkat_status,
+            ]);
+        }
+
+        dd('done');
+    }
 
 }
