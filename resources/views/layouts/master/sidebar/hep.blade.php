@@ -39,7 +39,6 @@
                     <span class="menu-arrow"></span>
                 </span>
                 <div class="menu-sub menu-sub-accordion">
-
                     <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.hep.pengurusan.salahlaku_pelajar.index') ? 'active' : '' }}" href="{{ route('pengurusan.hep.pengurusan.salahlaku_pelajar.index') }}">
                             <span class="menu-bullet">
@@ -48,7 +47,16 @@
                             <span class="menu-title">Salahlaku Pelajar</span>
                         </a>
                     </div>
-
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.hep.pengurusan.keluar_masuk.index') ? 'active' : '' }}" href="{{ route('pengurusan.hep.pengurusan.keluar_masuk.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Keluar Masuk</span>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
