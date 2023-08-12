@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('penilaian_berterusan', function (Blueprint $table) {
             $table->id();
             $table->integer('subjek_id');
-            $table->double('peratus_aktiviti', 8,2)->nullable();
-            $table->double('peratus_peperiksaan', 8,2)->nullable();
+            $table->double('peratus_aktiviti', 8, 2)->nullable();
+            $table->double('peratus_peperiksaan', 8, 2)->nullable();
             $table->timestamps();
         });
     }

@@ -4,7 +4,6 @@ namespace App\Helpers;
 
 use App\Models\Notifikasi;
 use Carbon\Carbon;
-use PDF;
 use Illuminate\Support\Facades\App;
 
 class Utils
@@ -55,8 +54,8 @@ class Utils
     {
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView($view_file, compact('datas'))->setPaper('a4', $paper_orientation);
-    
-        return $pdf->stream($title. '.pdf', array('Attachment'=>0));
+
+        return $pdf->stream($title.'.pdf', ['Attachment' => 0]);
     }
 
     public static function days()

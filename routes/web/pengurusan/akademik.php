@@ -1,26 +1,24 @@
 <?php
 
 use App\Http\Controllers\Pengurusan\Akademik\eLearning\PengurusanKandunganController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pengurusan\Akademik\GuruTasmikController;
 use App\Http\Controllers\Pengurusan\Akademik\JadualWaktu\JadualKelasController;
 use App\Http\Controllers\Pengurusan\Akademik\KalendarAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\KelasController;
-use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\KemasukanPelajarIjazahController;
 use App\Http\Controllers\Pengurusan\Akademik\KursusController;
 use App\Http\Controllers\Pengurusan\Akademik\Laporan\LaporanAkademikController;
+use App\Http\Controllers\Pengurusan\Akademik\Laporan\LaporanMesyuaratController;
+use App\Http\Controllers\Pengurusan\Akademik\Laporan\PelajarTangguhController;
 use App\Http\Controllers\Pengurusan\Akademik\MainAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\KelasPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\Pendaftaran\SyukbahController;
-use App\Http\Controllers\Pengurusan\Akademik\Laporan\LaporanMesyuaratController;
-use App\Http\Controllers\Pengurusan\Akademik\Laporan\PelajarTangguhController;
-use App\Http\Controllers\Pengurusan\Akademik\Laporan\SenaraiPendaftaranPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\AktivitiPdpController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\HebahanAktivitiController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\MpkIsoController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenamatanPengajianController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenilaianBerterusanSettingController;
 use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenilaianPensyarahController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\KemasukanPelajarIjazahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodJadualPembelajaranController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodKompilasiSoalanController;
@@ -49,9 +47,9 @@ use App\Http\Controllers\Pengurusan\Akademik\Permohonan\RayuanPengajianControlle
 use App\Http\Controllers\Pengurusan\Akademik\RekodKehadiran\KehadiranPelajarController;
 use App\Http\Controllers\Pengurusan\Akademik\SemesterController;
 use App\Http\Controllers\Pengurusan\Akademik\SubjekController;
+use Illuminate\Support\Facades\Route;
 
-
-Route::resource('/', MainAkademikController::class)->only(['index',]);
+Route::resource('/', MainAkademikController::class)->only(['index']);
 Route::resource('kursus', KursusController::class);
 
 Route::post('kelas/export/by_class', [KelasController::class, 'exportStudentByClass'])->name('pengurusan_kelas.export_by_class');
@@ -85,7 +83,7 @@ Route::resource('pendaftaran/kelas_pelajar', KelasPelajarController::class);
 
 Route::resource('pendaftaran/syukbah_pelajar', SyukbahController::class);
 
-Route::group(['prefix'=>'laporan','as'=>'laporan.'], function(){
+Route::group(['prefix' => 'laporan', 'as' => 'laporan.'], function () {
     Route::get('laporan_mesyuarat/download/{id}', [LaporanMesyuaratController::class, 'download'])->name('laporan_mesyuarat.download');
     Route::post('laporan_mesyuarat/delete_file/{id}', [LaporanMesyuaratController::class, 'deleteFile'])->name('laporan_mesyuarat.delete_file');
     Route::post('laporan_mesyuarat/update/{id}', [LaporanMesyuaratController::class, 'update'])->name('laporan_mesyuarat.update_laporan');
@@ -100,7 +98,7 @@ Route::group(['prefix'=>'laporan','as'=>'laporan.'], function(){
     Route::resource('akademik', LaporanAkademikController::class);
 });
 
-Route::group(['prefix'=>'permohonan','as'=>'permohonan.'], function(){
+Route::group(['prefix' => 'permohonan', 'as' => 'permohonan.'], function () {
     Route::resource('pertukaran_syukbah', PertukaranSyukbahController::class);
 
     Route::get('pelepasan_kuliah/download/{id}', [PelepasanKuliahController::class, 'suratPelepasan'])->name('pelepasan_kuliah.download_surat_pelepasan');
@@ -113,18 +111,18 @@ Route::group(['prefix'=>'permohonan','as'=>'permohonan.'], function(){
     Route::resource('rayuan_pengajian', RayuanPengajianController::class);
 });
 
-Route::group(['prefix'=>'pensyarah','as'=>'pensyarah.'], function(){
+Route::group(['prefix' => 'pensyarah', 'as' => 'pensyarah.'], function () {
     Route::resource('senarai_pensyarah', SenaraiPensyarahController::class);
 });
 
-Route::group(['prefix'=>'rekod_kehadiran','as'=>'rekod_kehadiran.'], function(){
+Route::group(['prefix' => 'rekod_kehadiran', 'as' => 'rekod_kehadiran.'], function () {
     Route::post('rekod_pelajar/muat_turun', [KehadiranPelajarController::class, 'downloadAttendancePdf'])->name('rekod_pelajar.muat_turun');
     Route::resource('rekod_pelajar', KehadiranPelajarController::class);
 
     Route::resource('rekod_kehadiran', RekodKehadiranController::class);
 });
 
-Route::group(['prefix'=>'pengurusan','as'=>'pengurusan.'], function(){
+Route::group(['prefix' => 'pengurusan', 'as' => 'pengurusan.'], function () {
     Route::get('mpk_iso/download/{id}', [MpkIsoController::class, 'download'])->name('mpk_iso.download');
     Route::resource('mpk_iso', MpkIsoController::class);
 
@@ -147,21 +145,21 @@ Route::group(['prefix'=>'pengurusan','as'=>'pengurusan.'], function(){
     Route::resource('tetapan_penilaian_berterusan', PenilaianBerterusanSettingController::class);
 });
 
-Route::group(['prefix'=>'jadual','as'=>'jadual.'], function(){
+Route::group(['prefix' => 'jadual', 'as' => 'jadual.'], function () {
     Route::get('jadual_kelas/download_timetable/{id}', [JadualKelasController::class, 'downloadTimetable'])->name('jadual_kelas.download_timetable');
     Route::post('jadual_kelas/add_subject', [JadualKelasController::class, 'addSubject'])->name('jadual_kelas.add_subject');
     Route::post('jadual_kelas/update/{id}', [JadualKelasController::class, 'update'])->name('jadual_kelas.update_status');
     Route::resource('jadual_kelas', JadualKelasController::class);
 });
 
-Route::group(['prefix'=>'jadual','as'=>'jadual.'], function(){
+Route::group(['prefix' => 'jadual', 'as' => 'jadual.'], function () {
     Route::get('jadual_kelas/download_timetable/{id}', [JadualKelasController::class, 'downloadTimetable'])->name('jadual_kelas.download_timetable');
     Route::post('jadual_kelas/add_subject', [JadualKelasController::class, 'addSubject'])->name('jadual_kelas.add_subject');
     Route::post('jadual_kelas/update/{id}', [JadualKelasController::class, 'update'])->name('jadual_kelas.update_status');
     Route::resource('jadual_kelas', JadualKelasController::class);
 });
 
-Route::group(['prefix'=>'pengurusan_ijazah','as'=>'pengurusan_ijazah.'], function(){
+Route::group(['prefix' => 'pengurusan_ijazah', 'as' => 'pengurusan_ijazah.'], function () {
     Route::resource('pelajar', KemasukanPelajarIjazahController::class);
     Route::resource('penawaran_subjek', RekodPenawaranSubjekController::class);
     Route::get('penawaran_subjek/download/{id}', [RekodPenawaranSubjekController::class, 'download'])->name('penawaran_subjek.download');
@@ -188,14 +186,14 @@ Route::group(['prefix'=>'pengurusan_ijazah','as'=>'pengurusan_ijazah.'], functio
     Route::resource('rekod_tesis', RekodTesisController::class);
 });
 
-Route::group(['prefix'=>'peperiksaan','as'=>'peperiksaan.'], function(){
+Route::group(['prefix' => 'peperiksaan', 'as' => 'peperiksaan.'], function () {
     Route::resource('tetapan_peperiksaan', TetapanPeperiksaanController::class);
     Route::get('tetapan_peperiksaan/{id}/pilih_subjek', [TetapanPeperiksaanController::class, 'pilih_subjek'])->name('tetapan_peperiksaan.pilih_subjek');
     Route::post('tetapan_peperiksaan/{id}/store_pilihan_subjek', [TetapanPeperiksaanController::class, 'store_pilihan_subjek'])->name('tetapan_peperiksaan.store_pilihan_subjek');
 
 });
 
-Route::group(['prefix'=>'pengurusan_jabatan','as'=>'pengurusan_jabatan.'], function(){
+Route::group(['prefix' => 'pengurusan_jabatan', 'as' => 'pengurusan_jabatan.'], function () {
     Route::resource('rekod_hafazan_shafawi', RekodHafazanShafawiController::class);
 
     Route::resource('rekod_tahriri', RekodHafazanTahririController::class);
@@ -218,7 +216,7 @@ Route::group(['prefix'=>'pengurusan_jabatan','as'=>'pengurusan_jabatan.'], funct
     Route::resource('penilaian_berterusan', PenilaianBerterusanController::class);
 });
 
-Route::group(['prefix'=>'e_learning','as'=>'e_learning.'], function(){
+Route::group(['prefix' => 'e_learning', 'as' => 'e_learning.'], function () {
     Route::post('pengurusan_kandungan/upload_file/{id}', [PengurusanKandunganController::class, 'uploadFile'])->name('pengurusan_kandungan.upload_file');
     Route::get('pengurusan_kandungan/download/{id}', [PengurusanKandunganController::class, 'download'])->name('pengurusan_kandungan.download');
     Route::post('pengurusan_kandungan/delete_file/{id}', [PengurusanKandunganController::class, 'deleteFile'])->name('pengurusan_kandungan.delete_file');

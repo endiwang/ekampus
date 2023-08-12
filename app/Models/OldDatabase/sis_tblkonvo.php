@@ -10,5 +10,6 @@ class sis_tblkonvo extends Model
     use HasFactory;
 
     protected $connection = 'mysql2';
+
     protected $table = '_sis_tblkonvo';
 }

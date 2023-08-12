@@ -10,5 +10,6 @@ class Gred extends Model
     use HasFactory;
 
     protected $table = 'gred';
+
     protected $guarded = ['id'];
 }

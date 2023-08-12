@@ -1,14 +1,13 @@
 <?php
 
-use App\Http\Controllers\TestController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pemohon\MainPemohonController;
 use App\Http\Controllers\Pemohon\PermohonanController;
 use App\Http\Controllers\Pemohon\RayuanController;
 use App\Http\Controllers\Pemohon\SemakanController;
 use App\Http\Controllers\Pemohon\TawaranController;
+use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => ['auth_pemohon']], function() {
+Route::group(['middleware' => ['auth_pemohon']], function () {
     Route::get('/utama', [MainPemohonController::class, 'index'])->name('utama.index');
     Route::post('/permohonan', [PermohonanController::class, 'index'])->name('permohonan.index');
     Route::post('/permohonan', [PermohonanController::class, 'index'])->name('permohonan.index');
@@ -21,10 +20,7 @@ Route::group(['middleware' => ['auth_pemohon']], function() {
     Route::get('/tawaran/{id}', [TawaranController::class, 'index'])->name('tawaran.index');
     Route::post('/tawaran/keputusan', [TawaranController::class, 'store'])->name('tawaran.keputusan.store');
 
-
     Route::get('/rayuan/{id}', [RayuanController::class, 'index'])->name('rayuan.index');
     Route::post('/rayuan/store', [RayuanController::class, 'store'])->name('rayuan.store');
 
-
 });
-

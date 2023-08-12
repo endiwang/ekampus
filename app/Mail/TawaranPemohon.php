@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -12,7 +11,10 @@ use Illuminate\Queue\SerializesModels;
 class TawaranPemohon extends Mailable
 {
     use Queueable, SerializesModels;
-    public $data, $permohonan;
+
+    public $data;
+
+    public $permohonan;
 
     /**
      * Create a new message instance.

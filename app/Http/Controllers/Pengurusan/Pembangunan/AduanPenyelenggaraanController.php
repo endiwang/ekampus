@@ -9,17 +9,18 @@ use App\Models\Bilik;
 use App\Models\Blok;
 use App\Models\Tingkat;
 use App\Models\Vendor;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Yajra\DataTables\Html\Builder;
-use Yajra\DataTables\DataTables;
 use DB;
+use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Html\Builder;
 
 class AduanPenyelenggaraanController extends Controller
 {
     protected $baseView = 'pages.pengurusan.pembangunan.aduan_penyelenggaraan.';
+
     protected $baseRoute = 'pengurusan.pembangunan.aduan_penyelenggaraan.';
+
     /**
      * Display a listing of the resource.
      *
@@ -32,75 +33,72 @@ class AduanPenyelenggaraanController extends Controller
             $data = AduanPenyelenggaraan::query();
 
             return DataTables::of($data)
-            ->addColumn('no_siri', function($data) {
-                return $data->no_siri;
-            })
-            ->addColumn('pengadu', function($data) {})
-            ->addColumn('lokasi', function($data) {
-                $html = '';
+                ->addColumn('no_siri', function ($data) {
+                    return $data->no_siri;
+                })
+                ->addColumn('pengadu', function ($data) {
+                })
+                ->addColumn('lokasi', function ($data) {
+                    $html = '';
 
-                if(!empty($data->type))
-                {
-                    $html .= $data->lokasi_name . ' / ';
-                }
+                    if (! empty($data->type)) {
+                        $html .= $data->lokasi_name.' / ';
+                    }
 
-                if(!empty($data->blok))
-                {
-                    $html .= $data->blok->nama . ' / ';
-                }
+                    if (! empty($data->blok)) {
+                        $html .= $data->blok->nama.' / ';
+                    }
 
-                if(!empty($data->tingkat))
-                {
-                    $html .= $data->tingkat->nama . ' / ';
-                }
+                    if (! empty($data->tingkat)) {
+                        $html .= $data->tingkat->nama.' / ';
+                    }
 
-                if(!empty($data->bilik))
-                {
-                    $html .= $data->bilik->nama_bilik;
-                }
-                
-                return $html;
-            })
-            ->addColumn('kategori', function($data) {
-                return $data->kategori_name;
-            })
-            ->addColumn('status', function($data) {
-                return $data->status_name;
-            })
-            ->addColumn('action', function($data){ 
-                $html = '<button type="button" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1 btn-show-aduan" data-url="' . route($this->baseRoute . 'show', $data->id) . '"><i class="fa fa-eye"></i></button>' . ' ';
-                $html .= '<a href="' . route($this->baseRoute . 'edit', $data->id) . '" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Proses"><i class="fa fa-pencil-alt"></i></a>';
-                return $html;
-            })
-            ->addIndexColumn()
-            ->rawColumns(['action'])
-            ->toJson();
+                    if (! empty($data->bilik)) {
+                        $html .= $data->bilik->nama_bilik;
+                    }
+
+                    return $html;
+                })
+                ->addColumn('kategori', function ($data) {
+                    return $data->kategori_name;
+                })
+                ->addColumn('status', function ($data) {
+                    return $data->status_name;
+                })
+                ->addColumn('action', function ($data) {
+                    $html = '<button type="button" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1 btn-show-aduan" data-url="'.route($this->baseRoute.'show', $data->id).'"><i class="fa fa-eye"></i></button>'.' ';
+                    $html .= '<a href="'.route($this->baseRoute.'edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Proses"><i class="fa fa-pencil-alt"></i></a>';
+
+                    return $html;
+                })
+                ->addIndexColumn()
+                ->rawColumns(['action'])
+                ->toJson();
         }
-        
 
         $dataTable = $builder
-        ->parameters([])
-        ->columns([
-            [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false, 'width' => '7%'],
-            ['data' => 'no_siri', 'name' => 'no_siri', 'title' => 'No Siri Aduan', 'orderable'=> false, 'width' => '10%'],
-            ['data' => 'lokasi', 'name' => 'lokasi', 'title' => 'Lokasi', 'orderable'=> false, 'width' => '25%'],
-            ['data' => 'kategori', 'name' => 'kategori', 'title' => 'Kategori', 'orderable'=> false],
-            ['data' => 'jenis_kerosakan', 'name' => 'jenis_kerosakan', 'title' => 'Jenis Kerosakan', 'orderable'=> false],
-            ['data' => 'status', 'name' => 'status', 'title' => 'Status Aduan', 'orderable'=> false],
-            ['data' => 'action', 'name' => 'action', 'orderable' => false, 'searchable' => false],
+            ->parameters([])
+            ->columns([
+                ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false, 'width' => '7%'],
+                ['data' => 'no_siri', 'name' => 'no_siri', 'title' => 'No Siri Aduan', 'orderable' => false, 'width' => '10%'],
+                ['data' => 'lokasi', 'name' => 'lokasi', 'title' => 'Lokasi', 'orderable' => false, 'width' => '25%'],
+                ['data' => 'kategori', 'name' => 'kategori', 'title' => 'Kategori', 'orderable' => false],
+                ['data' => 'jenis_kerosakan', 'name' => 'jenis_kerosakan', 'title' => 'Jenis Kerosakan', 'orderable' => false],
+                ['data' => 'status', 'name' => 'status', 'title' => 'Status Aduan', 'orderable' => false],
+                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'searchable' => false],
 
-        ])
-        ->minifiedAjax();
+            ])
+            ->minifiedAjax();
 
         $data['dataTable'] = $dataTable;
 
-        $data['title'] = "Aduan Penyelenggaraan";
+        $data['title'] = 'Aduan Penyelenggaraan';
         $data['breadcrumbs'] = [
-            "Pembangunan" =>  false,
-            "Aduan Penyelenggaraan" =>  false,
+            'Pembangunan' => false,
+            'Aduan Penyelenggaraan' => false,
         ];
-        
-        return view($this->baseView.'list')->with($data);        
+
+        return view($this->baseView.'list')->with($data);
     }
 
     /**
@@ -116,7 +114,6 @@ class AduanPenyelenggaraanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -134,7 +131,8 @@ class AduanPenyelenggaraanController extends Controller
     {
         $aduan_penyelenggaraan = AduanPenyelenggaraan::find($id);
         $data['aduan_penyelenggaraan'] = $aduan_penyelenggaraan;
-        return view($this->baseView.'show')->with($data);        
+
+        return view($this->baseView.'show')->with($data);
     }
 
     /**
@@ -145,14 +143,14 @@ class AduanPenyelenggaraanController extends Controller
      */
     public function edit($id)
     {
-        $data['title'] = "Aduan Penyelenggaraan";
-        $data['page_title'] = "Proses Aduan Penyelenggaraan";
+        $data['title'] = 'Aduan Penyelenggaraan';
+        $data['page_title'] = 'Proses Aduan Penyelenggaraan';
         $data['breadcrumbs'] = [
-            "Pembangunan" =>  false,
-            "Aduan Penyelenggaraan" =>  false,
+            'Pembangunan' => false,
+            'Aduan Penyelenggaraan' => false,
         ];
-        $data['action'] = route($this->baseRoute . 'update', $id);
-        $data['model'] = AduanPenyelenggaraan::find($id);        
+        $data['action'] = route($this->baseRoute.'update', $id);
+        $data['model'] = AduanPenyelenggaraan::find($id);
 
         $data += [
             'kategori_aduan' => AduanPenyelenggaraan::getKategoriSelection(),
@@ -165,9 +163,8 @@ class AduanPenyelenggaraanController extends Controller
         ];
 
         $data['aduan_penyelenggaraan_details'] = AduanPenyelenggaraanDetail::where('aduan_penyelenggaraan_id', $id)
-        ->where('is_submit', 1)
-        ->get()
-        ;
+            ->where('is_submit', 1)
+            ->get();
 
         return view($this->baseView.'form')->with($data);
     }
@@ -175,25 +172,22 @@ class AduanPenyelenggaraanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         // dd($request->all());
-        if(!empty($request->is_approve))
-        {
+        if (! empty($request->is_approve)) {
             $aduan_penyelenggaraan = AduanPenyelenggaraan::find($id);
             $aduan_penyelenggaraan->status = 4;
             $aduan_penyelenggaraan->status_vendor = 3;
             $aduan_penyelenggaraan->save();
 
             Alert::toast('Maklumat aduan berjaya dikemaskini', 'success');
-            return redirect(route($this->baseRoute . 'index'));
-        }
-        else if(!empty($request->is_reject))
-        {
+
+            return redirect(route($this->baseRoute.'index'));
+        } elseif (! empty($request->is_reject)) {
             $aduan_penyelenggaraan = AduanPenyelenggaraan::find($id);
             $aduan_penyelenggaraan->status = 2;
             $aduan_penyelenggaraan->status_vendor = 1;
@@ -201,42 +195,40 @@ class AduanPenyelenggaraanController extends Controller
 
             $aduan_penyelenggaraan_detail = AduanPenyelenggaraanDetail::where('aduan_penyelenggaraan_id', $id)->orderBy('created_at', 'desc')->first();
 
-            if(!empty($aduan_penyelenggaraan_detail))
-            {
+            if (! empty($aduan_penyelenggaraan_detail)) {
                 $aduan_penyelenggaraan_detail->reject_reason = $request->reject_reason;
                 $aduan_penyelenggaraan_detail->save();
             }
 
             Alert::toast('Maklumat aduan berjaya dikemaskini', 'success');
-            return redirect(route($this->baseRoute . 'index'));
-        }
 
+            return redirect(route($this->baseRoute.'index'));
+        }
 
         $validation = $request->validate([
             'kategori' => 'required',
-            'type'  => 'required',
-            'blok_id'   => 'required',
-            'tingkat_id'   => 'required',
-            'bilik_id'   => 'required',
-            'jenis_kerosakan'   => 'required',
-            'butiran'   => 'required',
+            'type' => 'required',
+            'blok_id' => 'required',
+            'tingkat_id' => 'required',
+            'bilik_id' => 'required',
+            'jenis_kerosakan' => 'required',
+            'butiran' => 'required',
             'vendor_id' => 'required',
-        ],[
-            'kategori.required'       => 'Sila pilih kategori aduan',
-            'type.required'       => 'Sila pilih lokasi',
-            'blok_id.required'       => 'Sila pilih bangunan',
-            'tingkat_id.required'       => 'Sila pilih tingkat',
-            'bilik_id.required'       => 'Sila pilih bilik',
-            'jenis_kerosakan.required'  => 'Sila tulis jenis kerosakan',
-            'butiran.required'            => 'Sila tulis butiran aduan anda',
-            'vendor_id.required'    => 'Sila pilih vendor',
+        ], [
+            'kategori.required' => 'Sila pilih kategori aduan',
+            'type.required' => 'Sila pilih lokasi',
+            'blok_id.required' => 'Sila pilih bangunan',
+            'tingkat_id.required' => 'Sila pilih tingkat',
+            'bilik_id.required' => 'Sila pilih bilik',
+            'jenis_kerosakan.required' => 'Sila tulis jenis kerosakan',
+            'butiran.required' => 'Sila tulis butiran aduan anda',
+            'vendor_id.required' => 'Sila pilih vendor',
         ]);
 
         $result = true;
 
-        try
-        { 
-            DB::transaction(function () use($request, $id) {
+        try {
+            DB::transaction(function () use ($request, $id) {
 
                 $aduan_penyelenggaraan = AduanPenyelenggaraan::find($id);
                 $aduan_penyelenggaraan->kategori = $request->kategori;
@@ -248,8 +240,7 @@ class AduanPenyelenggaraanController extends Controller
                 $aduan_penyelenggaraan->butiran = $request->butiran;
                 $aduan_penyelenggaraan->butiran_vendor = $request->butiran_vendor;
                 $aduan_penyelenggaraan->vendor_id = $request->vendor_id;
-                if(!empty($request->is_submit))
-                {
+                if (! empty($request->is_submit)) {
                     $aduan_penyelenggaraan->status = 2;
                     $aduan_penyelenggaraan->status_vendor = 1;
                 }
@@ -257,20 +248,17 @@ class AduanPenyelenggaraanController extends Controller
 
             });
 
-        }
-        catch (\Exception $e)
-        {
-            $result = false;                
+        } catch (\Exception $e) {
+            $result = false;
         }
 
-
-        if($result)
-        {
+        if ($result) {
             Alert::toast('Maklumat aduan berjaya dikemaskini', 'success');
-            return redirect(route($this->baseRoute . 'index'));
-        }
-        else {
+
+            return redirect(route($this->baseRoute.'index'));
+        } else {
             Alert::toast('Uh oh! Sesuatu yang tidak diingini berlaku', 'error');
+
             return redirect()->back();
         }
 

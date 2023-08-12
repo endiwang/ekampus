@@ -11,6 +11,3 @@ Route::put('kaji_selidik/{id}/design_update', [KajiSelidikController::class, 'de
 Route::put('kaji_selidik/jawapan/{id}', [KajiSelidikController::class, 'fill_store'])->name('kaji_selidik.fill_store');
 Route::get('kaji_selidik/data_chart/{id}', [KajiSelidikController::class, 'data_chart'])->name('kaji_selidik.data_chart');
 Route::get('kaji_selidik/analisa/{id}', [KajiSelidikController::class, 'result_survey'])->name('kaji_selidik.analisa');
-
-
-

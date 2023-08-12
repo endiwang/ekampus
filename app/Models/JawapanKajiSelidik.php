@@ -10,6 +10,7 @@ class JawapanKajiSelidik extends Model
     use HasFactory;
 
     protected $table = 'jawapan_kaji_selidik';
+
     protected $guarded = ['id'];
 
     public function Form()

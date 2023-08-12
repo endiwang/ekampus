@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Pengurusan\KBG;
 use App\Http\Controllers\Controller;
 use App\Models\RayuanPermohonan;
 use Illuminate\Http\Request;
-use Yajra\DataTables\Html\Builder;
 use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Html\Builder;
 
 class SenaraiRayuanController extends Controller
 {
@@ -19,88 +19,79 @@ class SenaraiRayuanController extends Controller
     {
         // try {
 
-            $title = "Senarai Rayuan Permohonan";
-            $breadcrumbs = [
-                "Kemasukan Biasiswa Graduasi" =>  false,
-                "Senarai Rayuan	Permohonan" =>  false,
-            ];
+        $title = 'Senarai Rayuan Permohonan';
+        $breadcrumbs = [
+            'Kemasukan Biasiswa Graduasi' => false,
+            'Senarai Rayuan	Permohonan' => false,
+        ];
 
-            $buttons = [
-            ];
+        $buttons = [
+        ];
 
-            if (request()->ajax()) {
-                $data = RayuanPermohonan::orderBy('id', 'desc');
-                return DataTables::of($data->get())
+        if (request()->ajax()) {
+            $data = RayuanPermohonan::orderBy('id', 'desc');
 
-                ->addColumn('nama', function($data) {
+            return DataTables::of($data->get())
+                ->addColumn('nama', function ($data) {
 
-
-                    if($data->permohonan)
-                    {
-                        $data = '<p>' . $data->permohonan->nama . '<br/> <span style="font-weight:bold"> [' . $data->permohonan->no_ic . '] </span></p>';
-                    }else{
+                    if ($data->permohonan) {
+                        $data = '<p>'.$data->permohonan->nama.'<br/> <span style="font-weight:bold"> ['.$data->permohonan->no_ic.'] </span></p>';
+                    } else {
                         $data = 'N/A';
                     }
 
                     return $data;
                 })
-                ->addColumn('kursus', function($data) {
+                ->addColumn('kursus', function ($data) {
 
-                    if($data->permohonan)
-                    {
+                    if ($data->permohonan) {
                         return $data->permohonan->kursus->nama;
-                    }else{
+                    } else {
                         return 'N/A';
                     }
                 })
-                ->addColumn('sesi', function($data) {
+                ->addColumn('sesi', function ($data) {
 
-                    if($data->permohonan)
-                    {
+                    if ($data->permohonan) {
                         return $data->permohonan->sesi->nama;
-                    }else{
+                    } else {
                         return 'N/A';
                     }
                 })
-                ->addColumn('markah_temuduga', function($data) {
+                ->addColumn('markah_temuduga', function ($data) {
 
-                    if($data->permohonan)
-                    {
+                    if ($data->permohonan) {
                         return $data->permohonan->temuduga_markah->jumlah.' %';
-                    }else{
+                    } else {
                         return 'N/A';
                     }
                 })
-
-
-
-                ->addColumn('action', function($data){
+                ->addColumn('action', function ($data) {
 
                     $action = '<button class="edit btn btn-icon btn-success btn-sm hover-elevate-up" data-bs-toggle="Terima Ray">
                     <i class="fa fa-check"></i></button>';
 
                     return $action;
                 })
-
                 ->addIndexColumn()
-                ->rawColumns(['nama','kursus','sesi','action',])
+                ->rawColumns(['nama', 'kursus', 'sesi', 'action'])
                 ->toJson();
-            }
+        }
 
-            $dataTable = $builder
+        $dataTable = $builder
             ->columns([
-                [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false, 'class'=>'min-w-10px'],
-                ['data' => 'nama',      'name' => 'nama',           'title' => 'Nama Pemohon', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'kursus',      'name' => 'kursus',           'title' => 'Bidang Pengajian', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'sesi',     'name' => 'sesi',          'title' => 'Sesi Pengajian', 'orderable'=> false],
-                ['data' => 'rayuan',     'name' => 'rayuan',          'title' => 'Rayuan', 'orderable'=> false],
-                ['data' => 'markah_temuduga',     'name' => 'markah_temuduga',          'title' => 'Markah Temuduga', 'orderable'=> false],
-                ['data' => 'action',    'name' => 'action',         'title' => 'Tindakan','orderable' => false, 'searchable' => false, 'class'=>'max-w-10px'],
+                ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false, 'class' => 'min-w-10px'],
+                ['data' => 'nama',      'name' => 'nama',           'title' => 'Nama Pemohon', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'kursus',      'name' => 'kursus',           'title' => 'Bidang Pengajian', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'sesi',     'name' => 'sesi',          'title' => 'Sesi Pengajian', 'orderable' => false],
+                ['data' => 'rayuan',     'name' => 'rayuan',          'title' => 'Rayuan', 'orderable' => false],
+                ['data' => 'markah_temuduga',     'name' => 'markah_temuduga',          'title' => 'Markah Temuduga', 'orderable' => false],
+                ['data' => 'action',    'name' => 'action',         'title' => 'Tindakan', 'orderable' => false, 'searchable' => false, 'class' => 'max-w-10px'],
 
             ])
             ->minifiedAjax();
 
-            return view('pages.pengurusan.kbg.senarai_rayuan.main', compact('title', 'breadcrumbs', 'dataTable','buttons'));
+        return view('pages.pengurusan.kbg.senarai_rayuan.main', compact('title', 'breadcrumbs', 'dataTable', 'buttons'));
 
         // } catch (Exception $e) {
         //     report($e);
@@ -123,7 +114,6 @@ class SenaraiRayuanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -156,7 +146,6 @@ class SenaraiRayuanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

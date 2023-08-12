@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Bilik extends Model
 {
     use HasFactory;
-    protected $table = 'bilik';
-    protected $guarded = ['id'];
 
+    protected $table = 'bilik';
+
+    protected $guarded = ['id'];
 }

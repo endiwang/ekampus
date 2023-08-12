@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class AduanSalahlakuPelajar extends Model
 {
     use HasFactory;
+
     protected $table = 'aduan_salahlaku_pelajar';
+
     protected $guarded = ['id'];
 
     public function pengadu()

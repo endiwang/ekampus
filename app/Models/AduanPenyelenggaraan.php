@@ -10,8 +10,9 @@ class AduanPenyelenggaraan extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    
+
     protected $table = 'aduan_penyelenggaraan';
+
     protected $guarded = ['id'];
 
     public function user()
@@ -37,14 +38,12 @@ class AduanPenyelenggaraan extends Model
     public function getUserNameAttribute()
     {
         $user = $this->user;
-        if(!empty($user->is_staff))
-        {
+        if (! empty($user->is_staff)) {
             return @Staff::where('user_id', $user->id)->first()->nama;
-        }
-        else if(!empty($user->is_student))
-        {
+        } elseif (! empty($user->is_student)) {
             return @Student::where('user_id', $user->id)->first()->nama;
         }
+
         return '';
     }
 
@@ -66,9 +65,9 @@ class AduanPenyelenggaraan extends Model
     public static function getLokasiSelection()
     {
         $lokasi = [
-            'A' => 'Asrama', 
-            'K' => 'Kuliah', 
-            'P' => 'Pentadbiran', 
+            'A' => 'Asrama',
+            'K' => 'Kuliah',
+            'P' => 'Pentadbiran',
             'L' => 'Lain-lain',
         ];
 
@@ -78,9 +77,9 @@ class AduanPenyelenggaraan extends Model
     public static function getStatusSelection()
     {
         $status = [
-            1 => 'Baru diterima', 
-            2 => 'Dalam Proses Vendor', 
-            3 => 'Dalam Proses Unit Penyelenggaraan', 
+            1 => 'Baru diterima',
+            2 => 'Dalam Proses Vendor',
+            3 => 'Dalam Proses Unit Penyelenggaraan',
             4 => 'Selesai',
         ];
 
@@ -90,55 +89,47 @@ class AduanPenyelenggaraan extends Model
     public static function getStatusVendorSelection()
     {
         $status = [
-            1 => 'Baru diterima', 
-            2 => 'Dalam Proses', 
+            1 => 'Baru diterima',
+            2 => 'Dalam Proses',
             3 => 'Selesai',
         ];
 
         return $status;
     }
-    
+
     public function getKategoriNameAttribute()
-    {        
+    {
         $kategori_aduan = $this->getKategoriSelection();
 
-        if(!empty($this->attributes['kategori']))
-        {
+        if (! empty($this->attributes['kategori'])) {
             return @$kategori_aduan[$this->attributes['kategori']];
         }
     }
 
     public function getLokasiNameAttribute()
-    {        
+    {
         $lokasi = $this->getLokasiSelection();
 
-        if(!empty($this->attributes['type']))
-        {
+        if (! empty($this->attributes['type'])) {
             return @$lokasi[$this->attributes['type']];
         }
     }
 
     public function getStatusNameAttribute()
-    {        
+    {
         $status = $this->getStatusSelection();
 
-        if(!empty($this->attributes['status']))
-        {
+        if (! empty($this->attributes['status'])) {
             return @$status[$this->attributes['status']];
         }
     }
 
     public function getStatusVendorNameAttribute()
-    {        
+    {
         $status_vendor = $this->getStatusVendorSelection();
 
-        if(!empty($this->attributes['status_vendor']))
-        {
+        if (! empty($this->attributes['status_vendor'])) {
             return @$status_vendor[$this->attributes['status_vendor']];
         }
     }
-
-
-
-    
 }

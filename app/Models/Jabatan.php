@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Jabatan extends Model
 {
     use HasFactory, SoftDeletes;
+
     protected $table = 'jabatan';
-    protected $fillable = ['id','nama','status','is_deleted','deleted_by'];
+
+    protected $fillable = ['id', 'nama', 'status', 'is_deleted', 'deleted_by'];
 }

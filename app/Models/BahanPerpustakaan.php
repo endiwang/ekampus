@@ -10,5 +10,6 @@ class BahanPerpustakaan extends Model
     use HasFactory;
 
     protected $table = 'perpustakaan_bahan';
+
     protected $guarded = ['id'];
 }
