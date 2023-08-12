@@ -76,7 +76,8 @@
                                         <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
                                             <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
                                         </button>
-                                        <a href="/pengurusan/kualiti/maklumat/kursus/{{Request::segment(5)}}/list" class="btn btn-sm btn-light">Batal</a>
+                                        <!-- <a href="/pengurusan/kualiti/maklumat/kursus/{{Request::segment(5)}}/list" class="btn btn-sm btn-light">Batal</a> -->
+                                        <a class="btn btn-sm btn-light" onclick="history.back()">Batal</a>
                                     </div>
                                 </div>
                             </div>
