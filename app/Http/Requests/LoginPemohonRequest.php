@@ -15,7 +15,7 @@ class LoginPemohonRequest extends FormRequest
     {
         return [
             'username' => 'required',
-            'password' => 'required'
+            'password' => 'required',
         ];
     }
 
@@ -23,10 +23,10 @@ class LoginPemohonRequest extends FormRequest
     {
         $username = $this->get('username');
 
-            return [
-                'username' => $username,
-                'password' => $this->get('password')
-            ];
+        return [
+            'username' => $username,
+            'password' => $this->get('password'),
+        ];
 
         return $this->only('username', 'password');
     }

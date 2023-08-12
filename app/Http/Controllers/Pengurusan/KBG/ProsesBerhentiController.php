@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Pengurusan\KBG;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
-use Yajra\DataTables\Html\Builder;
 use App\Models\Pelajar;
 use App\Models\SebabBerhenti;
-use Illuminate\Support\Facades\URL;
 use Collective\Html\FormFacade;
-use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\URL;
+use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Html\Builder;
 
 class ProsesBerhentiController extends Controller
 {
@@ -24,52 +24,51 @@ class ProsesBerhentiController extends Controller
     {
         // try {
 
-            $title = "Proses Berhenti";
-            $breadcrumbs = [
-                "Kemasukan Biasiswa Graduasi" =>  false,
-                "Proses Berhenti" =>  false,
-            ];
+        $title = 'Proses Berhenti';
+        $breadcrumbs = [
+            'Kemasukan Biasiswa Graduasi' => false,
+            'Proses Berhenti' => false,
+        ];
 
-            $buttons = [
-                [
-                    'title' => "Pendaftaran Pelajar",
-                    'route' => route('pengurusan.akademik.semester.create'),
-                    'button_class' => "btn btn-sm btn-primary fw-bold",
-                    'icon_class' => "fa fa-plus-circle"
-                ],
-            ];
+        $buttons = [
+            [
+                'title' => 'Pendaftaran Pelajar',
+                'route' => route('pengurusan.akademik.semester.create'),
+                'button_class' => 'btn btn-sm btn-primary fw-bold',
+                'icon_class' => 'fa fa-plus-circle',
+            ],
+        ];
 
-            if (request()->ajax()) {
-                $data = Pelajar::with('kursus', 'kelas')->where('kelas_id', NULL)->where('is_register', 1)->where('is_berhenti', 0);
-                return DataTables::of($data)
-                ->addColumn('no_ic', function($data) {
-                    if(!empty($data->no_matrik)){
-                        $data = '<p style="text-align:center">' . $data->no_ic . '<br/> <span style="font-weight:bold"> [' . $data->no_matrik . '] </span></p>';
-                    }
-                    else {
-                        $data = '<p style="text-align:center">' . $data->no_ic . '</p>';
+        if (request()->ajax()) {
+            $data = Pelajar::with('kursus', 'kelas')->where('kelas_id', null)->where('is_register', 1)->where('is_berhenti', 0);
+
+            return DataTables::of($data)
+                ->addColumn('no_ic', function ($data) {
+                    if (! empty($data->no_matrik)) {
+                        $data = '<p style="text-align:center">'.$data->no_ic.'<br/> <span style="font-weight:bold"> ['.$data->no_matrik.'] </span></p>';
+                    } else {
+                        $data = '<p style="text-align:center">'.$data->no_ic.'</p>';
                     }
 
                     return $data;
                 })
-                ->addColumn('kursus_id', function($data) {
+                ->addColumn('kursus_id', function ($data) {
                     return $data->kursus->nama ?? null;
                 })
-                ->addColumn('sesi_id', function($data) {
-                    if($data->sesi)
-                    {
-                        return '<p style="text-align:center">' . $data->sesi->nama . '</p>';
-                    }else {
+                ->addColumn('sesi_id', function ($data) {
+                    if ($data->sesi) {
+                        return '<p style="text-align:center">'.$data->sesi->nama.'</p>';
+                    } else {
                         return '';
                     }
 
                 })
-                ->addColumn('action', function($data){
+                ->addColumn('action', function ($data) {
                     return '
                             <button type="button" data-id='.$data->id.' id="buttonMaklumatPelajar" onclick="getMaklumatPelajar(this);" class="edit btn btn-icon btn-success btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip">
                                 <i class="fa fa-user-check"></i>
                             </button>
-                            <a href="'.route('pengurusan.akademik.kelas_pelajar.edit',$data->id).'" class="edit btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip">
+                            <a href="'.route('pengurusan.akademik.kelas_pelajar.edit', $data->id).'" class="edit btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip">
                                 <i class="fa fa-close"></i>
                             </a>
                             ';
@@ -78,23 +77,23 @@ class ProsesBerhentiController extends Controller
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['no_ic','status', 'action','sesi_id'])
+                ->rawColumns(['no_ic', 'status', 'action', 'sesi_id'])
                 ->toJson();
-            }
+        }
 
-            $dataTable = $builder
+        $dataTable = $builder
             ->columns([
-                [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
-                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Pelajar', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'no_ic', 'name' => 'no_ic', 'title' => 'No. Kad Pengenalan', 'orderable'=> false],
-                ['data' => 'sesi_id', 'name' => 'sesi_id', 'title' => 'Sesi Pengajian', 'orderable'=> false],
-                ['data' => 'kursus_id', 'name' => 'kursus_id', 'title' => 'Jenis Permohonan', 'orderable'=> false],
-                ['data' => 'action', 'name' => 'action', 'title' => 'Tindakan', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+                ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Pelajar', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'no_ic', 'name' => 'no_ic', 'title' => 'No. Kad Pengenalan', 'orderable' => false],
+                ['data' => 'sesi_id', 'name' => 'sesi_id', 'title' => 'Sesi Pengajian', 'orderable' => false],
+                ['data' => 'kursus_id', 'name' => 'kursus_id', 'title' => 'Jenis Permohonan', 'orderable' => false],
+                ['data' => 'action', 'name' => 'action', 'title' => 'Tindakan', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
 
             ])
             ->minifiedAjax();
 
-            return view('pages.pengurusan.kbg.proses_berhenti.main', compact('title', 'breadcrumbs', 'buttons', 'dataTable','buttons'));
+        return view('pages.pengurusan.kbg.proses_berhenti.main', compact('title', 'breadcrumbs', 'buttons', 'dataTable', 'buttons'));
 
         // } catch (Exception $e) {
         //     report($e);
@@ -117,7 +116,6 @@ class ProsesBerhentiController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -158,7 +156,6 @@ class ProsesBerhentiController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -182,21 +179,19 @@ class ProsesBerhentiController extends Controller
     {
         $data = Pelajar::find($request->id_pelajar);
 
-        if($data->sesi)
-        {
+        if ($data->sesi) {
             $sesi = $data->sesi->nama;
-        }else {
+        } else {
             $sesi = '';
         }
 
-        if($data->negeri)
-        {
+        if ($data->negeri) {
             $negeri = $data->negeri->nama;
-        }else {
+        } else {
             $negeri = '';
         }
 
-        $sebab_berhenti = SebabBerhenti::where('berhenti_status',0)->get()->pluck('berhenti','id');
+        $sebab_berhenti = SebabBerhenti::where('berhenti_status', 0)->get()->pluck('berhenti', 'id');
 
         $response = "<div class='mb-10'>
                         <div class='fs-3 fw-bold text-gray-800 text-center mb-1'>
@@ -254,13 +249,13 @@ class ProsesBerhentiController extends Controller
                     <div class='row mb-2'>
                         <label class='col-lg-4 fw-semibold'>Tarikh Berhenti </label>
                         <div class='col-lg-8'>
-                            ".FormFacade::date('tarikh_berhenti','',['class' => 'form-control form-control-sm ', 'id' =>'tarikh_berhenti','onkeydown' =>'return false','autocomplete' => 'off'])."
+                            ".FormFacade::date('tarikh_berhenti', '', ['class' => 'form-control form-control-sm ', 'id' => 'tarikh_berhenti', 'onkeydown' => 'return false', 'autocomplete' => 'off'])."
                         </div>
                     </div>
                     <div class='row mb-2'>
                         <label class='col-lg-4 fw-semibold'>Sebab Berhenti </label>
                         <div class='col-lg-8'>
-                            ".FormFacade::select('kod_berhenti', $sebab_berhenti , NULL , ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '])."
+                            ".FormFacade::select('kod_berhenti', $sebab_berhenti, null, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm '])."
                         </div>
                     </div>
                     <div class='row mb-2'>

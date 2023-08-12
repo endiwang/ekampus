@@ -5,17 +5,14 @@ namespace App\Http\Controllers\Pengurusan\Komunikasi_Korporat;
 use App\Http\Controllers\Controller;
 use App\Models\BorangKajiSelidik;
 use App\Models\JawapanKajiSelidik;
-use App\Models\KajiSelidik;
-use Yajra\DataTables\DataTables;
-use Yajra\DataTables\Html\Builder;
+use Hashids\Hashids;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
-use Hashids\Hashids;
-
+use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Html\Builder;
 
 class KajiSelidikController extends Controller
 {
-
     protected $baseView = 'pages.pengurusan.komunikasi_korporat.';
 
     /**
@@ -26,54 +23,54 @@ class KajiSelidikController extends Controller
     public function index(Builder $builder)
     {
 
-            $title = "Komunikasi Korporat";
-            $breadcrumbs = [
-                "Utama" =>  false,
-                "Komunikasi Korporat" =>  false,
-                "Kaji Selidik" =>  false,
-            ];
+        $title = 'Komunikasi Korporat';
+        $breadcrumbs = [
+            'Utama' => false,
+            'Komunikasi Korporat' => false,
+            'Kaji Selidik' => false,
+        ];
 
-            $buttons = [
-                [
-                    'title' => "Tambah Kaji Selidik",
-                    'route' => route('pengurusan.komunikasi_korporat.kaji_selidik.create'),
-                    'button_class' => "btn btn-sm btn-primary fw-bold",
-                    'icon_class' => "fa fa-plus-circle"
-                ],
-            ];
+        $buttons = [
+            [
+                'title' => 'Tambah Kaji Selidik',
+                'route' => route('pengurusan.komunikasi_korporat.kaji_selidik.create'),
+                'button_class' => 'btn btn-sm btn-primary fw-bold',
+                'icon_class' => 'fa fa-plus-circle',
+            ],
+        ];
 
-            if (request()->ajax()) {
-                $data = BorangKajiSelidik::query();
-                return DataTables::of($data)
-                ->addColumn('status', function($data) {
-                    switch($data->is_active)
-                    {
-                        case 0 :
+        if (request()->ajax()) {
+            $data = BorangKajiSelidik::query();
+
+            return DataTables::of($data)
+                ->addColumn('status', function ($data) {
+                    switch ($data->is_active) {
+                        case 0:
                             return '<span class="badge badge-danger">Tidak Aktif</span>';
-                        break;
+                            break;
 
-                        case 1 :
-                            return '<span class="badge badge-success">Aktif</span>';;
-                        break;
+                        case 1:
+                            return '<span class="badge badge-success">Aktif</span>';
+                            break;
                     }
                 })
-                ->addColumn('action', function($data){
+                ->addColumn('action', function ($data) {
                     $hashids = new Hashids('', 20);
 
                     return '
-                            <a href="'.route('pengurusan.akademik.permohonan.pelepasan_kuliah.show',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                            <a href="'.route('pengurusan.akademik.permohonan.pelepasan_kuliah.show', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil"></i>
                             </a>
-                            <a href="'.route('pengurusan.komunikasi_korporat.kaji_selidik.design_form',$data->id).'" class="edit btn btn-icon btn-success btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Cipta Borang">
+                            <a href="'.route('pengurusan.komunikasi_korporat.kaji_selidik.design_form', $data->id).'" class="edit btn btn-icon btn-success btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Cipta Borang">
                                 <i class="fa fa-copy"></i>
                             </a>
-                            <a href="'.route('public.kaji_selidik.index',$hashids->encodeHex($data->id)).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" target="_blank" data-bs-toggle="tooltip" title="Lihat Borang">
+                            <a href="'.route('public.kaji_selidik.index', $hashids->encodeHex($data->id)).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" target="_blank" data-bs-toggle="tooltip" title="Lihat Borang">
                                 <i class="fa fa-eye"></i>
                             </a>
-                            <!--a href="'.route('pengurusan.komunikasi_korporat.kaji_selidik.data_chart',$data->id).'" class="edit btn btn-icon btn-success btn-sm hover-elevate-up mb-1" target="_blank" data-bs-toggle="tooltip" title="Data Borang">
+                            <!--a href="'.route('pengurusan.komunikasi_korporat.kaji_selidik.data_chart', $data->id).'" class="edit btn btn-icon btn-success btn-sm hover-elevate-up mb-1" target="_blank" data-bs-toggle="tooltip" title="Data Borang">
                                 <i class="fa fa-eye"></i>
                             <a-->
-                            <a href="'.route('pengurusan.komunikasi_korporat.kaji_selidik.analisa',$data->id).'" class="edit btn btn-icon btn-warning btn-sm hover-elevate-up mb-1" target="_blank" data-bs-toggle="tooltip" title="Data Borang">
+                            <a href="'.route('pengurusan.komunikasi_korporat.kaji_selidik.analisa', $data->id).'" class="edit btn btn-icon btn-warning btn-sm hover-elevate-up mb-1" target="_blank" data-bs-toggle="tooltip" title="Data Borang">
                                 <i class="fa fa-chart-pie"></i>
                             </a>
                             ';
@@ -84,19 +81,19 @@ class KajiSelidikController extends Controller
                 })
                 ->rawColumns(['status', 'action'])
                 ->toJson();
-            }
+        }
 
-            $dataTable = $builder
+        $dataTable = $builder
             ->columns([
-                [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
-                ['data' => 'title', 'name' => 'title', 'title' => 'Tajuk Kaji Selidik', 'orderable'=> false],
-                ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false],
-                ['data' => 'action', 'name' => 'action', 'title' => 'Tindakan', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+                ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+                ['data' => 'title', 'name' => 'title', 'title' => 'Tajuk Kaji Selidik', 'orderable' => false],
+                ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable' => false],
+                ['data' => 'action', 'name' => 'action', 'title' => 'Tindakan', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
 
             ])
             ->minifiedAjax();
 
-            return view($this->baseView.'kaji_selidik.main', compact('title', 'breadcrumbs', 'dataTable','buttons'));
+        return view($this->baseView.'kaji_selidik.main', compact('title', 'breadcrumbs', 'dataTable', 'buttons'));
     }
 
     /**
@@ -107,44 +104,43 @@ class KajiSelidikController extends Controller
     public function create()
     {
 
-        $title = "Komunikasi Korporat";
+        $title = 'Komunikasi Korporat';
         $action = route('pengurusan.komunikasi_korporat.kaji_selidik.store');
         $page_title = 'Tambah Borang Kaji Selidik';
         $breadcrumbs = [
-            "Utama" =>  false,
-            "Komunikasi Korporat" =>  false,
-            "Kaji Selidik" =>  false,
-            "Tambah Borang" =>  false,
+            'Utama' => false,
+            'Komunikasi Korporat' => false,
+            'Kaji Selidik' => false,
+            'Tambah Borang' => false,
         ];
 
         $model = new BorangKajiSelidik();
 
-
-        return view($this->baseView.'kaji_selidik.add_edit', compact('model', 'title', 'breadcrumbs', 'page_title',  'action'));
+        return view($this->baseView.'kaji_selidik.add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action'));
 
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
 
         $validation = $request->validate([
-            'nama_borang'   => 'required',
-        ],[
-            'nama_borang.required'  => 'Sila masukkan nama borang kaji selidik',
+            'nama_borang' => 'required',
+        ], [
+            'nama_borang.required' => 'Sila masukkan nama borang kaji selidik',
         ]);
 
         BorangKajiSelidik::create([
-            'title'              => $request->nama_borang,
-            'is_active'  => $request->status,
+            'title' => $request->nama_borang,
+            'is_active' => $request->status,
         ]);
 
         Alert::toast('Maklumat borang berjaya ditambah!', 'success');
+
         return redirect()->route('pengurusan.komunikasi_korporat.kaji_selidik.index');
     }
 
@@ -173,7 +169,6 @@ class KajiSelidikController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -196,27 +191,25 @@ class KajiSelidikController extends Controller
     public function design_form($id)
     {
 
-        $title = "Komunikasi Korporat";
+        $title = 'Komunikasi Korporat';
         $action = route('pengurusan.komunikasi_korporat.kaji_selidik.store');
         $page_title = 'Borang Kaji Selidik';
         $breadcrumbs = [
-            "Utama" =>  false,
-            "Komunikasi Korporat" =>  false,
-            "Kaji Selidik" =>  false,
-            "Reka Bentuk Borang" =>  false,
+            'Utama' => false,
+            'Komunikasi Korporat' => false,
+            'Kaji Selidik' => false,
+            'Reka Bentuk Borang' => false,
         ];
 
         $form = BorangKajiSelidik::find($id);
 
-        if($form->json != NULL)
-        {
+        if ($form->json != null) {
             $form_array = json_decode($form->json)[0];
-        }else {
+        } else {
             $form_array = [];
         }
 
-
-        return view($this->baseView.'kaji_selidik.design_form', compact( 'title', 'breadcrumbs', 'page_title',  'action', 'form','form_array'));
+        return view($this->baseView.'kaji_selidik.design_form', compact('title', 'breadcrumbs', 'page_title', 'action', 'form', 'form_array'));
 
     }
 
@@ -228,11 +221,10 @@ class KajiSelidikController extends Controller
         $form->save();
 
         Alert::toast('Borang berjaya ubahsuai!', 'success');
+
         return redirect()->route('pengurusan.komunikasi_korporat.kaji_selidik.index');
 
-
     }
-
 
     public function fill_store(Request $request, $id)
     {
@@ -265,7 +257,7 @@ class KajiSelidikController extends Controller
                             }
                         }
                     } elseif ($row->type == 'select') {
-                        if (isset($row->multiple) & !empty($row->multiple)) {
+                        if (isset($row->multiple) & ! empty($row->multiple)) {
                             foreach ($row->values as &$value) {
                                 if (is_array($request->{$row->name}) && in_array($value->value, $request->{$row->name})) {
                                     $value->selected = 1;
@@ -306,34 +298,31 @@ class KajiSelidikController extends Controller
             }
             $data = [];
             $data['borang_kaji_selidik_id'] = $form->id;
-            $data['json']    = json_encode($array);
-            $form_value      = JawapanKajiSelidik::create($data);
-
-
+            $data['json'] = json_encode($array);
+            $form_value = JawapanKajiSelidik::create($data);
 
             return response()->json(
                 [
                     'is_success' => true,
                     'message' => __('berjaya_1'),
-                    'redirect' => route('public.index')
+                    'redirect' => route('public.index'),
                 ], 200);
 
         } else {
-                return response()->json(
-                    ['is_success' => false,
-                    'message' => __('Form not found')
-                    ], 200);
+            return response()->json(
+                ['is_success' => false,
+                    'message' => __('Form not found'),
+                ], 200);
 
         }
     }
-
 
     public function data_chart($form_id)
     {
         $chartArray = [];
         $form_values = JawapanKajiSelidik::select('borang_kaji_selidik.json as form_json', 'jawapan_kaji_selidik.*')
-                                            ->where('borang_kaji_selidik_id', $form_id)
-                                            ->join('borang_kaji_selidik', 'borang_kaji_selidik.id', '=', 'jawapan_kaji_selidik.borang_kaji_selidik_id');
+            ->where('borang_kaji_selidik_id', $form_id)
+            ->join('borang_kaji_selidik', 'borang_kaji_selidik.id', '=', 'jawapan_kaji_selidik.borang_kaji_selidik_id');
         $form_values = $form_values->get();
         foreach ($form_values as $form_value) {
             $array1 = json_decode($form_value->form_json);
@@ -342,8 +331,7 @@ class KajiSelidikController extends Controller
                     foreach ($rows1 as $row_key1 => $row1) {
                         $options = [];
 
-                        if($row1->type != 'header' && $row1->type != 'paragraph' && $row1->type != 'date' && $row1->type != 'number' && $row1->type != 'text' && $row1->type != 'textarea')
-                        {
+                        if ($row1->type != 'header' && $row1->type != 'paragraph' && $row1->type != 'date' && $row1->type != 'number' && $row1->type != 'text' && $row1->type != 'textarea') {
 
                             if ($row1->type == 'radio-group' || $row1->type == 'select' || $row1->type == 'checkbox-group') {
                                 foreach ($row1->values as $value) {
@@ -375,7 +363,7 @@ class KajiSelidikController extends Controller
 
                 foreach ($rows as $row_key => $row) {
                     if ($row->type == 'radio-group' || $row->type == 'select' || $row->type == 'checkbox-group') {
-                        if (!isset($chartArray[$row->name])) {
+                        if (! isset($chartArray[$row->name])) {
                             $options = [];
                             if ($row->type == 'radio-group' || $row->type == 'select' || $row->type == 'checkbox-group') {
                                 foreach ($row->values as $value) {
@@ -403,7 +391,7 @@ class KajiSelidikController extends Controller
                                 }
                             }
                             if (isset($row->value)) {
-                                if (!isset($chartArray[$row->name]['options']['other'])) {
+                                if (! isset($chartArray[$row->name]['options']['other'])) {
                                     $chartArray[$row->name]['options']['other'] = 0;
                                 }
                                 $chartArray[$row->name]['options']['other']++;
@@ -413,6 +401,7 @@ class KajiSelidikController extends Controller
                 }
             }
         }
+
         return $chartArray;
     }
 
@@ -422,10 +411,8 @@ class KajiSelidikController extends Controller
         $forms = BorangKajiSelidik::all();
         $chartData = $this->data_chart($id);
         $forms_details = BorangKajiSelidik::find($id);
+
         return view($this->baseView.'jawapan_kaji_selidik.analisa', compact('forms', 'chartData', 'forms_details'));
 
     }
-
-
-
 }

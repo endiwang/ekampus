@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\KesalahanKolejKediaman;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class KesalahanKolejKediamanSeeder extends Seeder
@@ -16,18 +15,17 @@ class KesalahanKolejKediamanSeeder extends Seeder
     public function run()
     {
         $kesalahan = [
-                'Bilik Tidak Kemas',
-                'Bilik Bersepah & Kotor',
-                'Mengalihkan Aset / Perabot',
-                'Suis Lampu/Kipas/Plug 3 Pin Tidak Ditutup',
-                'Jemur Pakaian Di Tempat Larangan',
+            'Bilik Tidak Kemas',
+            'Bilik Bersepah & Kotor',
+            'Mengalihkan Aset / Perabot',
+            'Suis Lampu/Kipas/Plug 3 Pin Tidak Ditutup',
+            'Jemur Pakaian Di Tempat Larangan',
         ];
 
         //insert into subjek table
-        foreach($kesalahan as $data)
-        {
+        foreach ($kesalahan as $data) {
             KesalahanKolejKediaman::create([
-                'nama_kesalahan'      => $data,
+                'nama_kesalahan' => $data,
             ]);
 
         }

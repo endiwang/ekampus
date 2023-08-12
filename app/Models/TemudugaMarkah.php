@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class TemudugaMarkah extends Model
 {
     use HasFactory;
-    protected $table = 'temuduga_markah';
-    protected $guarded = ['id'];
 
+    protected $table = 'temuduga_markah';
+
+    protected $guarded = ['id'];
 
     public function pemohon()
     {
-        return $this->belongsTo(Permohonan::class,'permohonan_id');
+        return $this->belongsTo(Permohonan::class, 'permohonan_id');
     }
 }

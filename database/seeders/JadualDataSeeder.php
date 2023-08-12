@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Subjek;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class JadualDataSeeder extends Seeder
@@ -21,13 +20,12 @@ class JadualDataSeeder extends Seeder
         ];
 
         //insert into subjek table
-        foreach($subjects as $subject)
-        {
+        foreach ($subjects as $subject) {
             Subjek::create([
-                'nama'      => $subject['name'],
-                'status'    => 0,
-                'kredit'    => 0,
-                'is_alquran'=> 0
+                'nama' => $subject['name'],
+                'status' => 0,
+                'kredit' => 0,
+                'is_alquran' => 0,
             ]);
 
         }

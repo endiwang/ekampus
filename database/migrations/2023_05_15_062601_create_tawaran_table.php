@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('tawaran', function (Blueprint $table) {
             $table->id();
             $table->string('tawaran_id_old')->nullable()->comment('Dari table lama');
-            $table->char('type',2)->nullable();
+            $table->char('type', 2)->nullable();
             $table->integer('kursus_id')->nullable();
             $table->integer('pusat_id')->nullable();
             $table->integer('sesi_id')->nullable();
@@ -30,7 +30,7 @@ return new class extends Migration
             $table->mediumText('alamat_pendaftaran')->nullable();
             $table->tinyInteger('status')->nullable()->default(0);
             $table->tinyInteger('close_tawaran')->nullable()->default(0);
-            $table->char('tawaran_type',2)->nullable()->default('B');
+            $table->char('tawaran_type', 2)->nullable()->default('B');
             $table->string('create_by')->nullable();
             $table->string('update_by')->nullable();
             $table->timestamps();

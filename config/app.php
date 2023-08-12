@@ -196,6 +196,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
 
     ],
 
@@ -218,8 +219,8 @@ return [
     ])->toArray(),
 
     'calendar' => [
-        'start_time'    => '08:00',
-        'end_time'      => '17:00',
+        'start_time' => '08:00',
+        'end_time' => '17:00',
     ],
 
 ];

@@ -172,6 +172,15 @@
                             <span class="menu-title">Soalan Penilaian Pensyarah</span>
                         </a>
                     </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.tetapan_penilaian_berterusan.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.tetapan_penilaian_berterusan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Tetapan Penilaian Berterusan</span>
+                        </a>
+                    </div>
                     
                 </div>
             </div>
@@ -498,6 +507,16 @@
                         </a>
                     </div>
                 </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.penilaian_berterusan.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.penilaian_berterusan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Penilaian Berterusan</span>
+                        </a>
+                    </div>
+                </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
                 <span class="menu-link">
@@ -629,6 +648,14 @@
                             <span class="menu-title">Pelajar Gantung/Tangguh</span>
                         </a>
                     </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.laporan.akademik.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.laporan.akademik.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Akademik</span>
+                        </a>
+                    </div>
                     {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
                             <span class="menu-bullet">
@@ -661,6 +688,40 @@
                             <span class="menu-title">Laporan Tasmik (Guru)</span>
                         </a>
                     </div> --}}
+                </div>
+            </div>
+            <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
+                <span class="menu-link">
+                    <span class="menu-icon">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </span>
+                    <span class="menu-title">E-Learning</span>
+                    <span class="menu-arrow"></span>
+                </span>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.e_learning.pengurusan_kandungan.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.e_learning.pengurusan_kandungan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pengurusan Kandungan Pembelajaran</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.rekod_kehadiran.rekod_kehadiran.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.rekod_kehadiran.rekod_kehadiran.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pengurusan Jadual Pembelajaran</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

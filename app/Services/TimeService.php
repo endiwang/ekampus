@@ -11,13 +11,12 @@ class TimeService
         $time = Carbon::parse($from);
         $timeRange = [];
 
-        do 
-        {
+        do {
             array_push($timeRange, [
-                'start' => $time->format("H:i:s"),
-                'end' => $time->addMinutes(30)->format("H:i:s")
-            ]);    
-        } while ($time->format("H:i") !== $to);
+                'start' => $time->format('H:i:s'),
+                'end' => $time->addMinutes(30)->format('H:i:s'),
+            ]);
+        } while ($time->format('H:i') !== $to);
 
         return $timeRange;
     }

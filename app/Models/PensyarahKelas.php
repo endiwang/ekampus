@@ -10,10 +10,11 @@ class PensyarahKelas extends Model
     use HasFactory;
 
     protected $table = 'pensyarah_kelas';
+
     protected $guarded = ['id'];
 
     public function subjek()
     {
-        return $this->belongsTo(Subjek::class,'subjek_id','id');
+        return $this->belongsTo(Subjek::class, 'subjek_id', 'id');
     }
 }

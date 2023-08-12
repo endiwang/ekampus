@@ -9,6 +9,7 @@ class AktivitiKalendarAkademik extends Model
 {
     use HasFactory;
 
-    protected $table = "aktiviti_kalendar_akademik";
+    protected $table = 'aktiviti_kalendar_akademik';
+
     protected $guarded = ['id'];
 }

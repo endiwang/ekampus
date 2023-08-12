@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class PermohonanXHantarPenjaga extends Model
 {
     use HasFactory;
-    protected $table = "permohonan_x_hantar_penjaga";
+
+    protected $table = 'permohonan_x_hantar_penjaga';
+
     protected $guarded = ['id'];
 }

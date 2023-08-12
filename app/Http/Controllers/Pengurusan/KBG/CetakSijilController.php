@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Pengurusan\KBG;
 
 use App\Http\Controllers\Controller;
+use App\Models\Pelajar;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use App\Models\Pelajar;
-
 
 class CetakSijilController extends Controller
 {
@@ -20,75 +19,65 @@ class CetakSijilController extends Controller
     {
         // try {
 
-            $title = "Cetakkan Sijil-Sijil";
-            $breadcrumbs = [
-                "Kemasukan Biasiswa Graduasi" =>  false,
-                "Cetakkan Sijil-Sijil" =>  false,
-            ];
+        $title = 'Cetakkan Sijil-Sijil';
+        $breadcrumbs = [
+            'Kemasukan Biasiswa Graduasi' => false,
+            'Cetakkan Sijil-Sijil' => false,
+        ];
 
-            $buttons = [
-                
-            ];
+        $buttons = [
 
-            if (request()->ajax()) {
-                $data = Pelajar::with('kursus', 'kelas')->where('kelas_id', NULL)->where('is_register', 1)->where('no_matrik', '!=', NULL);
-                return DataTables::of($data)
-                ->addColumn('no_ic', function($data) {
-                    if(!empty($data->no_matrik)){
-                        $data = '<p style="text-align:center">' . $data->no_ic . '<br/> <span style="font-weight:bold"> [' . $data->no_matrik . '] </span></p>';
-                    }
-                    else {
-                        $data = '<p style="text-align:center">' . $data->no_ic . '</p>';
+        ];
+
+        if (request()->ajax()) {
+            $data = Pelajar::with('kursus', 'kelas')->where('kelas_id', null)->where('is_register', 1)->where('no_matrik', '!=', null);
+
+            return DataTables::of($data)
+                ->addColumn('no_ic', function ($data) {
+                    if (! empty($data->no_matrik)) {
+                        $data = '<p style="text-align:center">'.$data->no_ic.'<br/> <span style="font-weight:bold"> ['.$data->no_matrik.'] </span></p>';
+                    } else {
+                        $data = '<p style="text-align:center">'.$data->no_ic.'</p>';
                     }
 
                     return $data;
                 })
-                ->addColumn('kursus_id', function($data) {
+                ->addColumn('kursus_id', function ($data) {
                     return $data->kursus->nama ?? null;
                 })
-                ->addColumn('sesi_id', function($data) {
-                    if($data->sesi)
-                    {
-                        return '<p style="text-align:center">' . $data->sesi->nama . '</p>';
-                    }else {
+                ->addColumn('sesi_id', function ($data) {
+                    if ($data->sesi) {
+                        return '<p style="text-align:center">'.$data->sesi->nama.'</p>';
+                    } else {
                         return '';
                     }
 
                 })
-                ->addColumn('action', function($data){
+                ->addColumn('action', function ($data) {
                     $option = '';
-                    if($data->mata_akhir == NULL)
-                    {
+                    if ($data->mata_akhir == null) {
                         $cgpa = '0.00';
-                    }
-                    else{
+                    } else {
                         $cgpa = $data->mata_akhir;
                     }
 
-                    if($data->kursus->id == 1 || $data->kursus->id == 29)
-                    {
-                        $option .= "<option>Sijil Asas Tahfiz</option>";
-                    }elseif($data->kursus->id == 12)
-                    {
-                        $option .= "<option>Sijil Tahfiz</option>";
-                    }
-                    elseif($data->kursus->id == 25)
-                    {
-                        $option .= "<option>Sijil DKM</option>";
+                    if ($data->kursus->id == 1 || $data->kursus->id == 29) {
+                        $option .= '<option>Sijil Asas Tahfiz</option>';
+                    } elseif ($data->kursus->id == 12) {
+                        $option .= '<option>Sijil Tahfiz</option>';
+                    } elseif ($data->kursus->id == 25) {
+                        $option .= '<option>Sijil DKM</option>';
                     }
 
-                    if($data->kursus->kod == 'D')
-                    {
-                        $option .= "<option>Surat Tamat Pengajian</option>";
-                        $option .= "<option>Sijil Diploma</option>";
+                    if ($data->kursus->kod == 'D') {
+                        $option .= '<option>Surat Tamat Pengajian</option>';
+                        $option .= '<option>Sijil Diploma</option>';
                     }
 
-                    if($data->kursus->kod == 'S' && ($data->kursus->id == 23 || $data->kursus->id == 29))
-                    {
-                        $option .= "<option>Sijil Asas Al-Quran</option>";
-                    }elseif($data->kursus->kod == 'S' || $data->kursus->kod == 'ST')
-                    {
-                        $option .= "<option>Sijil Tahfiz Al-Quran</option>";
+                    if ($data->kursus->kod == 'S' && ($data->kursus->id == 23 || $data->kursus->id == 29)) {
+                        $option .= '<option>Sijil Asas Al-Quran</option>';
+                    } elseif ($data->kursus->kod == 'S' || $data->kursus->kod == 'ST') {
+                        $option .= '<option>Sijil Tahfiz Al-Quran</option>';
                     }
 
                     return '<p style="font-weight:bold; text-align:center; margin-bottom:unset !important">CGPA : '.$cgpa.'</p>
@@ -97,29 +86,28 @@ class CetakSijilController extends Controller
                                 '.$option.'
                             </select>';
                 })
-
                 ->addIndexColumn()
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['no_ic','status', 'action','sesi_id'])
+                ->rawColumns(['no_ic', 'status', 'action', 'sesi_id'])
                 ->toJson();
-            }
+        }
 
-            $dataTable = $builder
+        $dataTable = $builder
             ->columns([
-                [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
-                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Pelajar', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'no_ic', 'name' => 'no_ic', 'title' => 'No. Kad Pengenalan', 'orderable'=> false],
-                ['data' => 'sesi_id', 'name' => 'sesi_id', 'title' => 'Sesi Pengajian', 'orderable'=> false],
-                ['data' => 'kursus_id', 'name' => 'kursus_id', 'title' => 'Program Pengajian', 'orderable'=> false],
-                ['data' => 'kursus_id', 'name' => 'kursus_id', 'title' => 'Syukbah', 'orderable'=> false],
-                ['data' => 'action', 'name' => 'action', 'title' => 'Tindakan', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+                ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Pelajar', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'no_ic', 'name' => 'no_ic', 'title' => 'No. Kad Pengenalan', 'orderable' => false],
+                ['data' => 'sesi_id', 'name' => 'sesi_id', 'title' => 'Sesi Pengajian', 'orderable' => false],
+                ['data' => 'kursus_id', 'name' => 'kursus_id', 'title' => 'Program Pengajian', 'orderable' => false],
+                ['data' => 'kursus_id', 'name' => 'kursus_id', 'title' => 'Syukbah', 'orderable' => false],
+                ['data' => 'action', 'name' => 'action', 'title' => 'Tindakan', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
 
             ])
             ->minifiedAjax();
 
-            return view('pages.pengurusan.kbg.cetak_sijil.main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
+        return view('pages.pengurusan.kbg.cetak_sijil.main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
 
         // } catch (Exception $e) {
         //     report($e);
@@ -142,7 +130,6 @@ class CetakSijilController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -175,7 +162,6 @@ class CetakSijilController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

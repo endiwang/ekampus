@@ -56,6 +56,14 @@
         </a>
     </div>
     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+        <a href="{{ route('pengurusan.perpustakaan.index') }}" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold p-0 m-1">
+            <span class="menu-link">
+                <span class="menu-title">Perpustakaan</span>
+                <span class="menu-arrow d-lg-none"></span>
+            </span>
+        </a>
+    </div>
+    <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
         <a href="{{ route('pengurusan.pentadbir_sistem.sesi.index') }}" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold p-0 m-1">
             <span class="menu-link">
                 <span class="menu-title">Pentadbir Sistem</span>
@@ -64,12 +72,21 @@
         </a>
     </div>
     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
-        <a href="{{ route('pengurusan.kualiti.kualiti.index') }}" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold p-0 m-1">
+        <a href="{{ route('pengurusan.peperiksaan.index') }}" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold p-0 m-1">
             <span class="menu-link">
-                <span class="menu-title">Cawangan Kualiti</span>
+                <span class="menu-title">Peperiksaan</span>
                 <span class="menu-arrow d-lg-none"></span>
             </span>
         </a>
     </div>
+    <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+        <a href="{{ route('pengurusan.pembangunan.index') }}" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold p-0 m-1">
+            <span class="menu-link">
+                <span class="menu-title">Pembangunan</span>
+                <span class="menu-arrow d-lg-none"></span>
+            </span>
+        </a>
+    </div>
+    {{-- header menu --}}
 
 </div>
