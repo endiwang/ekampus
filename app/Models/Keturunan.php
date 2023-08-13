@@ -10,5 +10,6 @@ class Keturunan extends Model
     use HasFactory;
 
     protected $table = 'keturunan';
-    protected $fillable = ['id','kod','nama','status'];
+
+    protected $fillable = ['id', 'kod', 'nama', 'status'];
 }

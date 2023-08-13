@@ -20,7 +20,6 @@ return new class extends Migration
             $table->char('is_guru_tasmik')->nullable()->after('is_hep')->default('N');
             $table->char('is_guru_tasmik_jemputan')->nullable()->after('is_guru_tasmik')->default('N');
 
-
         });
     }
 

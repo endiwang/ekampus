@@ -10,5 +10,6 @@ class ref_syukbah extends Model
     use HasFactory;
 
     protected $connection = 'mysql2';
+
     protected $table = 'ref_syukbah';
 }

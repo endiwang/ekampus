@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Pelajar;
 
-use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
 use App\Models\JadualWaktu;
 use App\Models\JadualWaktuDetail;
@@ -21,6 +20,7 @@ use Yajra\DataTables\Html\Builder;
 class PenilaianPensyarahController extends Controller
 {
     protected $baseView = 'pages.pelajar.penilaian_pensyarah.';
+
     /**
      * Display a listing of the resource.
      *
@@ -30,64 +30,65 @@ class PenilaianPensyarahController extends Controller
     {
         try {
 
-            $title = "Penilaian Pensyarah";
+            $title = 'Penilaian Pensyarah';
             $breadcrumbs = [
-                "Pelajar" =>  false,
-                "Penilaian Pensyarah" =>  false,
+                'Pelajar' => false,
+                'Penilaian Pensyarah' => false,
             ];
 
             $getClassId = Pelajar::select('kelas_id')->where('user_id', auth()->user()->id)->first();
             $getJadualId = JadualWaktu::where('kelas_id', $getClassId->kelas_id)->where('status_pengajian', 1)->first();
 
             if (request()->ajax()) {
-                if(!empty($getJadualId))
-                {
+                if (! empty($getJadualId)) {
                     $data = JadualWaktuDetail::with('subjek')->where('jadual_waktu_id', $getJadualId->id);
                 } else {
                     $data = [];
                 }
+
                 return DataTables::of($data)
-                ->addColumn('kod_subjek', function($data) {
-                    return $data->subjek->kod_subjek ?? null;
-                })
-                ->addColumn('subjek', function($data) {
-                    return $data->subjek->nama ?? null;
-                })
-                ->addColumn('jam_kredit', function($data) {
-                    return $data->subjek->kredit ?? null;
-                })
-                ->addColumn('action', function($data){
-                    return '
-                            <a href="'.route('pelajar.penilaian_pensyarah.show',$data->subjek_id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                    ->addColumn('kod_subjek', function ($data) {
+                        return $data->subjek->kod_subjek ?? null;
+                    })
+                    ->addColumn('subjek', function ($data) {
+                        return $data->subjek->nama ?? null;
+                    })
+                    ->addColumn('jam_kredit', function ($data) {
+                        return $data->subjek->kredit ?? null;
+                    })
+                    ->addColumn('action', function ($data) {
+                        return '
+                            <a href="'.route('pelajar.penilaian_pensyarah.show', $data->subjek_id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-eye"></i>
                             </a>
                             ';
-                })
-                ->addIndexColumn()
-                ->order(function ($data) {
-                    $data->orderBy('id', 'desc');
-                })
-                ->rawColumns(['action'])
-                ->toJson();
+                    })
+                    ->addIndexColumn()
+                    ->order(function ($data) {
+                        $data->orderBy('id', 'desc');
+                    })
+                    ->rawColumns(['action'])
+                    ->toJson();
             }
-    
+
             $dataTable = $builder
-            ->columns([
-                [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
-                ['data' => 'kod_subjek', 'name' => 'kod_subjek', 'title' => 'Kod Subjek', 'orderable'=> false],
-                ['data' => 'subjek', 'name' => 'subjek', 'title' => 'Nama Subjek', 'orderable'=> false],
-                ['data' => 'jam_kredit', 'name' => 'jam_kredit', 'title' => 'Jam Kredit', 'orderable'=> false],
-                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
-    
-            ])
-            ->minifiedAjax();
-    
+                ->columns([
+                    ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+                    ['data' => 'kod_subjek', 'name' => 'kod_subjek', 'title' => 'Kod Subjek', 'orderable' => false],
+                    ['data' => 'subjek', 'name' => 'subjek', 'title' => 'Nama Subjek', 'orderable' => false],
+                    ['data' => 'jam_kredit', 'name' => 'jam_kredit', 'title' => 'Jam Kredit', 'orderable' => false],
+                    ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
+
+                ])
+                ->minifiedAjax();
+
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable'));
 
         } catch (Exception $e) {
             report($e);
 
             Alert::toast('Uh oh! Something went Wrong', 'error');
+
             return redirect()->back();
         }
     }
@@ -105,41 +106,40 @@ class PenilaianPensyarahController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         try {
 
-            foreach($request->rating as $key => $value)
-            {
+            foreach ($request->rating as $key => $value) {
                 SoalanPenilaianAnswer::updateOrCreate([
-                    'subjek_id'             => $request->subjek_id,
-                    'kelas_id'              => $request->kelas_id,
-                    'soalan_penilaian_id'   => $key,
-                    'submitted_by'          => $request->student_id
-                ],[
-                    'score'                 => $value,
+                    'subjek_id' => $request->subjek_id,
+                    'kelas_id' => $request->kelas_id,
+                    'soalan_penilaian_id' => $key,
+                    'submitted_by' => $request->student_id,
+                ], [
+                    'score' => $value,
                 ]);
             }
 
             //save into comment table
             SoalanPenilaianAnswerDetail::updateOrCreate([
-                'subjek_id'     => $request->subjek_id,
-                'submitted_by'  => $request->student_id
-            ],[
-                'comment'       => $request->comment
+                'subjek_id' => $request->subjek_id,
+                'submitted_by' => $request->student_id,
+            ], [
+                'comment' => $request->comment,
             ]);
 
             Alert::toast('Maklumat penilaian berjaya dihantar!', 'success');
+
             return redirect()->route('pelajar.penilaian_pensyarah.index');
-            
 
         } catch (Exception $e) {
             report($e);
 
             Alert::toast('Uh oh! Something went Wrong', 'error');
+
             return redirect()->back();
         }
     }
@@ -154,21 +154,20 @@ class PenilaianPensyarahController extends Controller
     {
         try {
 
-            $title = "Kemaskini Maklumat Penilaian Pengajaran dan Pembelajaran";
+            $title = 'Kemaskini Maklumat Penilaian Pengajaran dan Pembelajaran';
             $page_title = 'Penilaian Pensyarah';
             $action = route('pelajar.penilaian_pensyarah.store');
             $breadcrumbs = [
-                "Pelajar" =>  false,
-                "Penilaian" =>  false,
-                "Penilaian Pensyarah" =>  route('pelajar.penilaian_pensyarah.index'),
-                "Kemaskini Maklumat Penilaian Pengajaran dan Pembelajaran" =>  false,
+                'Pelajar' => false,
+                'Penilaian' => false,
+                'Penilaian Pensyarah' => route('pelajar.penilaian_pensyarah.index'),
+                'Kemaskini Maklumat Penilaian Pengajaran dan Pembelajaran' => false,
             ];
 
             $models = SoalanPenilaianAnswer::where('subjek_id', $id)->where('submitted_by', auth()->user()->id)->get();
 
             $answers = [];
-            foreach($models as $model)
-            {
+            foreach ($models as $model) {
                 $answers[$model->soalan_penilaian_id] = $model->score;
             }
 
@@ -183,16 +182,16 @@ class PenilaianPensyarahController extends Controller
             $subjek_detail = JadualWaktuDetail::with('staff')->where('subjek_id', $id)->first();
 
             $submitted_by = auth()->user()->id;
-    
+
             return view($this->baseView.'create-update', compact(
-                'title', 
-                'breadcrumbs', 
-                'page_title', 
+                'title',
+                'breadcrumbs',
+                'page_title',
                 'action',
                 'answers',
-                'datas', 
-                'ratings' , 
-                'id', 
+                'datas',
+                'ratings',
+                'id',
                 'subjek',
                 'student_detail',
                 'subjek_detail',
@@ -204,6 +203,7 @@ class PenilaianPensyarahController extends Controller
             report($e);
 
             Alert::toast('Uh oh! Something went Wrong', 'error');
+
             return redirect()->back();
         }
     }
@@ -222,7 +222,6 @@ class PenilaianPensyarahController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

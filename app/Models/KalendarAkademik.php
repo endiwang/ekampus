@@ -9,11 +9,12 @@ class KalendarAkademik extends Model
 {
     use HasFactory;
 
-    protected $table = "kalendar_akademik";
+    protected $table = 'kalendar_akademik';
+
     protected $guarded = ['id'];
 
     public function kursus()
     {
-        return $this->belongsTo(Kursus::class,'program_id','id');
+        return $this->belongsTo(Kursus::class, 'program_id', 'id');
     }
 }

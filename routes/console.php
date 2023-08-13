@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,11 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
+if (app()->environment('local')) {
+    Artisan::command('user:reset-all-password', function () {
+        User::query()->update([
+            'password' => Hash::make('123'),
+        ]);
+    })->purpose('Reset all user password to 123');
+}

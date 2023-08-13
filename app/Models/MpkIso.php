@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class MpkIso extends Model
 {
     use HasFactory;
-    protected $table = 'mpk_iso';
-    protected $guarded = ['id'];
 
+    protected $table = 'mpk_iso';
+
+    protected $guarded = ['id'];
 }

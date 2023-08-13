@@ -11,13 +11,14 @@ use App\Models\Subjek;
 use Exception;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class KehadiranPelajarController extends Controller
 {
     protected $baseView = 'pages.pengurusan.kakitangan.kehadiran.pelajar.';
+
     /**
      * Display a listing of the resource.
      *
@@ -27,24 +28,25 @@ class KehadiranPelajarController extends Controller
     {
         // try {
 
-            $title = "Rekod Kehadiran Pelajar";
-            $breadcrumbs = [
-                "Akademik" =>  false,
-                "Rekod Kehadiran Pelajar" =>  false,
-            ];
+        $title = 'Rekod Kehadiran Pelajar';
+        $breadcrumbs = [
+            'Akademik' => false,
+            'Rekod Kehadiran Pelajar' => false,
+        ];
 
-            if (request()->ajax()) {
-                $data = PensyarahKelas::with('subjek')->where('staff_id', auth()->user()->id);
-                return DataTables::of($data)
-                ->addColumn('kod_subjek', function($data){
+        if (request()->ajax()) {
+            $data = PensyarahKelas::with('subjek')->where('staff_id', auth()->user()->id);
+
+            return DataTables::of($data)
+                ->addColumn('kod_subjek', function ($data) {
                     return $data->subjek->kod_subjek ?? null;
                 })
-                ->addColumn('nama', function($data){
+                ->addColumn('nama', function ($data) {
                     return $data->subjek->nama ?? null;
                 })
-                ->addColumn('action', function($data){
+                ->addColumn('action', function ($data) {
                     return '
-                            <a href="'.route('pengurusan.kakitangan.kehadiran.pelajar.show',$data->subjek_id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                            <a href="'.route('pengurusan.kakitangan.kehadiran.pelajar.show', $data->subjek_id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-eye"></i>
                             </a>
                             ';
@@ -55,19 +57,19 @@ class KehadiranPelajarController extends Controller
                 })
                 ->rawColumns(['action'])
                 ->toJson();
-            }
-    
-            $dataTable = $builder
+        }
+
+        $dataTable = $builder
             ->columns([
-                [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
-                ['data' => 'kod_subjek', 'name' => 'nama', 'title' => 'Kod Subjek', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Subjek', 'orderable'=> false],
-                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
-    
+                ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+                ['data' => 'kod_subjek', 'name' => 'nama', 'title' => 'Kod Subjek', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Subjek', 'orderable' => false],
+                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
+
             ])
             ->minifiedAjax();
-    
-            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable'));
+
+        return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable'));
 
         // } catch (Exception $e) {
         //     report($e);
@@ -90,12 +92,11 @@ class KehadiranPelajarController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        
+
     }
 
     /**
@@ -108,12 +109,12 @@ class KehadiranPelajarController extends Controller
     {
         try {
 
-            $title = "Kehadiran Pelajar";
+            $title = 'Kehadiran Pelajar';
             $breadcrumbs = [
-                "Akademik" =>  false,
-                "Kehadiran Pelajar" =>  false,
+                'Akademik' => false,
+                'Kehadiran Pelajar' => false,
             ];
-           
+
             //to do generate URL to payment
             $date = Utils::formatDate2(now());
             $qr_code = QrCode::size(500)->generate(route('kehadiran.submit', [$id, $date]));
@@ -121,12 +122,13 @@ class KehadiranPelajarController extends Controller
             $subjek = Subjek::find($id);
             $generated_at = Utils::formatDateTime(now());
 
-            return view($this->baseView.'show', compact('title', 'breadcrumbs', 'qr_code','subjek', 'generated_at', 'id'));
+            return view($this->baseView.'show', compact('title', 'breadcrumbs', 'qr_code', 'subjek', 'generated_at', 'id'));
 
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             report($e);
-    
+
             Alert::toast('Uh oh! Something went Wrong', 'error');
+
             return redirect()->back();
         }
     }
@@ -145,7 +147,6 @@ class KehadiranPelajarController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -167,67 +168,70 @@ class KehadiranPelajarController extends Controller
 
     public function downloadQr($id)
     {
-        try{
+        try {
             $route = route('kehadiran.submit', [$id, now()]);
             $subjek = Subjek::find($id);
             $generated_at = Utils::formatDateTime(now());
 
             //generate PDF
             $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadView($this->baseView. '.generated_qr_pdf', compact('route', 'subjek', 'generated_at'));
+            $pdf->loadView($this->baseView.'.generated_qr_pdf', compact('route', 'subjek', 'generated_at'));
+
             return $pdf->stream();
 
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             report($e);
 
             Alert::toast('Uh oh! Something went Wrong', 'error');
+
             return redirect()->back();
         }
     }
 
     public function getKehadiranForm($subjek_id, $date)
     {
-        try{
+        try {
 
             $action = route('kehadiran.pelajar.submit');
             $subject = Subjek::find($subjek_id);
 
             return view($this->baseView.'attendance_form', compact('action', 'subjek_id', 'date', 'subject'));
 
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             report($e);
 
             Alert::toast('Uh oh! Something went Wrong', 'error');
+
             return redirect()->back();
         }
     }
 
     public function submitKehadiran(Request $request)
     {
-        try{
+        try {
             //check if no matrik exist
             $student_exist = Pelajar::where('no_matrik', $request->no_matrik)->first();
 
-            if(!empty($student_exist))
-            {
+            if (! empty($student_exist)) {
                 $attendance = new KehadiranPelajar();
                 $attendance->pelajar_id = $student_exist->id;
-                $attendance->subjek_id  = $request->subjek_id;
-                $attendance->tarikh     = now();
-                $attendance->waktu      = now();
+                $attendance->subjek_id = $request->subjek_id;
+                $attendance->tarikh = now();
+                $attendance->waktu = now();
                 $attendance->save();
 
                 return redirect()->route('kehadiran.pelajar.successful');
-            }
-            else {
+            } else {
                 Alert::toast('Maklumat no matrik tidak sah!', 'error');
+
                 return redirect()->back();
             }
 
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             report($e);
 
             Alert::toast('Uh oh! Something went Wrong', 'error');
+
             return redirect()->back();
         }
     }

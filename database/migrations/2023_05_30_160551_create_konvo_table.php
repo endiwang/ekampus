@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('konvo', function (Blueprint $table) {
             $table->id();
             $table->string('konvo_id_old')->nullable()->comment('Dari table lama');
-            $table->char('type',2)->nullable();
+            $table->char('type', 2)->nullable();
             $table->integer('kursus_id')->nullable();
             $table->string('tajuk_konvo')->nullable();
             $table->date('tarikh')->nullable();

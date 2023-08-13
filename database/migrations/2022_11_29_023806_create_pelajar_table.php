@@ -93,14 +93,13 @@ return new class extends Migration
             $table->tinyInteger('is_migrate')->default(0);
             $table->tinyInteger('is_gantung')->default(0);
             $table->tinyInteger('next_sem')->default(0);
-            $table->smallInteger('jam_kredit')->nullable()->default(0);;
+            $table->smallInteger('jam_kredit')->nullable()->default(0);
             $table->smallInteger('jumlah_jam_kredit')->nullable();
             $table->tinyInteger('is_tamat')->nullable()->default(0);
             $table->tinyInteger('is_alumni')->nullable()->default(0);
             $table->tinyInteger('is_tasmik')->nullable()->default(0);
             $table->text('nama_arab')->nullable();
             $table->string('hafazan')->nullable();
-
 
             $table->tinyInteger('is_deleted')->nullable()->default(0);
             $table->string('deleted_by')->nullable();

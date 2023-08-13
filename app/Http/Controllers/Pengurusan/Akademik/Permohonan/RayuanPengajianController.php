@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Pengurusan\Akademik\Permohonan;
 
-use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
 use App\Models\Pelajar;
 use App\Models\PelajarBerhenti;
@@ -16,6 +15,7 @@ use Yajra\DataTables\Html\Builder;
 class RayuanPengajianController extends Controller
 {
     protected $baseView = 'pages.pengurusan.akademik.permohonan.rayuan_pengajian.';
+
     /**
      * Display a listing of the resource.
      *
@@ -25,97 +25,91 @@ class RayuanPengajianController extends Controller
     {
         try {
 
-            $title = "Rayuan Pengajian";
+            $title = 'Rayuan Pengajian';
             $breadcrumbs = [
-                "Akademik" =>  false,
-                "Permohonan" =>  false,
-                "Rayuan Pengajian" =>  false,
+                'Akademik' => false,
+                'Permohonan' => false,
+                'Rayuan Pengajian' => false,
             ];
 
             if (request()->ajax()) {
-                $data = PelajarBerhenti::with('pelajarOld')->where('kod_berhenti', 4)->where('kod_berhenti', '!=', NULL);
-                return DataTables::of($data)
-                ->addColumn('nama_pelajar', function($data) {
-                    if(!empty($data->pelajar->name))
-                    {
-                        return $data->pelajar->nama;
-                    }
-                    else {
-                        return $data->pelajarOld->nama ?? null;
-                    }
-                })
-                ->addColumn('no_ic', function($data) {
-                    $student = '';
-                    if(!empty($data->pelajar->name))
-                    {
-                        $no_ic = $data->pelajar->no_ic;
-                        $no_matrik = $data->pelajar->no_matrik;
-                        $student = nl2br($no_ic . "\n" . ' [' . $no_matrik . ']');
-                    }
-                    else {
-                        $no_ic = $data->pelajarOld->no_ic;
-                        $no_matrik = $data->pelajarOld->no_matrik;
-                        $student = nl2br($no_ic . "\n" . ' [' . $no_matrik . ']');
-                    }
-                    
-                    return $student;
-                })
-                ->addColumn('sesi_kemasukan', function($data) {
-                    if(!empty($data->pelajar->name))
-                    {
-                        return $data->pelajar->sesi->nama;
-                    }
-                    else {
-                        return $data->pelajarOld->sesi->nama ?? null;
-                    }
-                })
-                ->addColumn('program_pengajian', function($data) {
-                    if(!empty($data->pelajar->name))
-                    {
-                        return $data->pelajar->kursus->nama;
-                    }
-                    else {
-                        return $data->pelajarOld->kursus->nama ?? null;
-                    }
-                })
-                ->addColumn('kod_berhenti', function($data) {
-                    $deskripsi_kod = SebabBerhenti::find($data->kod_berhenti);
+                $data = PelajarBerhenti::with('pelajarOld')->where('kod_berhenti', 4)->where('kod_berhenti', '!=', null);
 
-                    return $deskripsi_kod->berhenti ?? null;
-                })
-                ->addColumn('action', function($data){
-                    return '
-                            <a href="'.route('pengurusan.akademik.permohonan.rayuan_pengajian.update_status',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Klik untuk aktifkan pelajar">
+                return DataTables::of($data)
+                    ->addColumn('nama_pelajar', function ($data) {
+                        if (! empty($data->pelajar->name)) {
+                            return $data->pelajar->nama;
+                        } else {
+                            return $data->pelajarOld->nama ?? null;
+                        }
+                    })
+                    ->addColumn('no_ic', function ($data) {
+                        $student = '';
+                        if (! empty($data->pelajar->name)) {
+                            $no_ic = $data->pelajar->no_ic;
+                            $no_matrik = $data->pelajar->no_matrik;
+                            $student = nl2br($no_ic."\n".' ['.$no_matrik.']');
+                        } else {
+                            $no_ic = $data->pelajarOld->no_ic;
+                            $no_matrik = $data->pelajarOld->no_matrik;
+                            $student = nl2br($no_ic."\n".' ['.$no_matrik.']');
+                        }
+
+                        return $student;
+                    })
+                    ->addColumn('sesi_kemasukan', function ($data) {
+                        if (! empty($data->pelajar->name)) {
+                            return $data->pelajar->sesi->nama;
+                        } else {
+                            return $data->pelajarOld->sesi->nama ?? null;
+                        }
+                    })
+                    ->addColumn('program_pengajian', function ($data) {
+                        if (! empty($data->pelajar->name)) {
+                            return $data->pelajar->kursus->nama;
+                        } else {
+                            return $data->pelajarOld->kursus->nama ?? null;
+                        }
+                    })
+                    ->addColumn('kod_berhenti', function ($data) {
+                        $deskripsi_kod = SebabBerhenti::find($data->kod_berhenti);
+
+                        return $deskripsi_kod->berhenti ?? null;
+                    })
+                    ->addColumn('action', function ($data) {
+                        return '
+                            <a href="'.route('pengurusan.akademik.permohonan.rayuan_pengajian.update_status', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Klik untuk aktifkan pelajar">
                                 <i class="fa-solid fa-check"></i>
                             </a>
                             ';
-                })
-                ->addIndexColumn()
-                ->order(function ($data) {
-                    $data->orderBy('created_at', 'desc');
-                })
-                ->rawColumns(['no_ic','status', 'action'])
-                ->toJson();
+                    })
+                    ->addIndexColumn()
+                    ->order(function ($data) {
+                        $data->orderBy('created_at', 'desc');
+                    })
+                    ->rawColumns(['no_ic', 'status', 'action'])
+                    ->toJson();
             }
-    
+
             $dataTable = $builder
-            ->columns([
-                [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
-                ['data' => 'nama_pelajar', 'name' => 'nama_pelajar', 'title' => 'Nama Pelajar', 'orderable'=> false],
-                ['data' => 'no_ic', 'name' => 'no_ic', 'title' => 'No Kp / [No Matrik]', 'orderable'=> false],
-                ['data' => 'sesi_kemasukan', 'name' => 'sesi_kemasukan', 'title' => 'Sesi Kemasukan', 'orderable'=> false],
-                ['data' => 'program_pengajian', 'name' => 'program_pengajian', 'title' => 'Program Pengajian', 'orderable'=> false],
-                ['data' => 'kod_berhenti', 'name' => 'kod_berhenti', 'title' => 'Kod Berhenti', 'orderable'=> false],
-                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
-            ])
-            ->minifiedAjax();
-    
+                ->columns([
+                    ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+                    ['data' => 'nama_pelajar', 'name' => 'nama_pelajar', 'title' => 'Nama Pelajar', 'orderable' => false],
+                    ['data' => 'no_ic', 'name' => 'no_ic', 'title' => 'No Kp / [No Matrik]', 'orderable' => false],
+                    ['data' => 'sesi_kemasukan', 'name' => 'sesi_kemasukan', 'title' => 'Sesi Kemasukan', 'orderable' => false],
+                    ['data' => 'program_pengajian', 'name' => 'program_pengajian', 'title' => 'Program Pengajian', 'orderable' => false],
+                    ['data' => 'kod_berhenti', 'name' => 'kod_berhenti', 'title' => 'Kod Berhenti', 'orderable' => false],
+                    ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
+                ])
+                ->minifiedAjax();
+
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable'));
 
         } catch (Exception $e) {
             report($e);
 
             Alert::toast('Uh oh! Something went Wrong', 'error');
+
             return redirect()->back();
         }
     }
@@ -133,7 +127,6 @@ class RayuanPengajianController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -166,13 +159,12 @@ class RayuanPengajianController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        
+
     }
 
     /**
@@ -192,22 +184,24 @@ class RayuanPengajianController extends Controller
 
             //update status
             $update = PelajarBerhenti::find($id);
-            $update->kod_berhenti = NULL;
+            $update->kod_berhenti = null;
             $update->save();
 
             //to do to update status pengajian in table pelajar
             //to recconfirm which column to update
             Pelajar::where('id', $update->old_pelajar_berhenti_id)->update([
-                'is_gantung' => 0
+                'is_gantung' => 0,
             ]);
 
             Alert::toast('Status pelajar berjaya dipinda!', 'success');
+
             return redirect()->route('pengurusan.akademik.permohonan.rayuan_pengajian.index');
 
         } catch (Exception $e) {
             report($e);
 
             Alert::toast('Uh oh! Something went Wrong', 'error');
+
             return redirect()->back();
         }
     }

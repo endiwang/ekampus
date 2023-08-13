@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class JadualWaktuDetail extends Model
 {
     use HasFactory;
+
     protected $guarded = ['id'];
 
     public function subjek()
@@ -25,6 +26,4 @@ class JadualWaktuDetail extends Model
     {
         return Carbon::parse($this->masa_akhir)->diffInMinutes($this->masa_mula);
     }
-
-
 }

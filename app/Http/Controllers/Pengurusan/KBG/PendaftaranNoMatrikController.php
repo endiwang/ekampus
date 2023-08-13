@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Pengurusan\KBG;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
-use Yajra\DataTables\Html\Builder;
 use App\Models\Pelajar;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use RealRashid\SweetAlert\Facades\Alert;
-
-
+use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Html\Builder;
 
 class PendaftaranNoMatrikController extends Controller
 {
@@ -23,44 +21,44 @@ class PendaftaranNoMatrikController extends Controller
     {
         // try {
 
-            $title = "Pendaftaran No Matrik";
-            $breadcrumbs = [
-                "Kemasukan Biasiswa Graduasi" =>  false,
-                "Pendaftaran Pelajar" =>  false,
-            ];
+        $title = 'Pendaftaran No Matrik';
+        $breadcrumbs = [
+            'Kemasukan Biasiswa Graduasi' => false,
+            'Pendaftaran Pelajar' => false,
+        ];
 
-            $buttons = [
-                // [
-                //     'title' => "Pendaftaran Auto",
-                //     'route' => route('pengurusan.akademik.semester.create'),
-                //     'button_class' => "btn btn-sm btn-primary fw-bold",
-                //     'icon_class' => "fa fa-plus-circle"
-                // ],
-            ];
+        $buttons = [
+            // [
+            //     'title' => "Pendaftaran Auto",
+            //     'route' => route('pengurusan.akademik.semester.create'),
+            //     'button_class' => "btn btn-sm btn-primary fw-bold",
+            //     'icon_class' => "fa fa-plus-circle"
+            // ],
+        ];
 
-            if (request()->ajax()) {
-                $data = Pelajar::with('kursus', 'kelas')->where('kelas_id', NULL)->where('is_register', 1)->where('is_berhenti', 0);
-                return DataTables::of($data)
-                ->addColumn('no_ic', function($data) {
+        if (request()->ajax()) {
+            $data = Pelajar::with('kursus', 'kelas')->where('kelas_id', null)->where('is_register', 1)->where('is_berhenti', 0);
 
-                    if(!empty($data->sesi)){
-                        $data = '<p style="text-align:center">' . $data->no_ic . '<br/> <span style="font-weight:bold"> [' . $data->sesi->nama . '] </span></p>';
-                    }
-                    else {
-                        $data = '<p style="text-align:center">' . $data->no_ic . '</p>';
+            return DataTables::of($data)
+                ->addColumn('no_ic', function ($data) {
+
+                    if (! empty($data->sesi)) {
+                        $data = '<p style="text-align:center">'.$data->no_ic.'<br/> <span style="font-weight:bold"> ['.$data->sesi->nama.'] </span></p>';
+                    } else {
+                        $data = '<p style="text-align:center">'.$data->no_ic.'</p>';
                     }
 
                     return $data;
                 })
-                ->addColumn('kursus_id', function($data) {
+                ->addColumn('kursus_id', function ($data) {
                     return $data->kursus->nama ?? null;
                 })
-                ->addColumn('action', function($data){
+                ->addColumn('action', function ($data) {
                     return '
                             <button type="button" data-id='.$data->id.' id="buttonMaklumatPelajar" onclick="getMaklumatPelajar(this);" class="edit btn btn-icon btn-success btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Daftar No Matrik">
                                 <i class="fa fa-user-gear"></i>
                             </button>
-                            <a href="'.route('pengurusan.akademik.kelas_pelajar.edit',$data->id).'" class="edit btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Keluarkan nama pemohon dari senarai">
+                            <a href="'.route('pengurusan.akademik.kelas_pelajar.edit', $data->id).'" class="edit btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Keluarkan nama pemohon dari senarai">
                                 <i class="fa fa-close"></i>
                             </a>
                             ';
@@ -69,22 +67,22 @@ class PendaftaranNoMatrikController extends Controller
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['no_ic','status', 'action'])
+                ->rawColumns(['no_ic', 'status', 'action'])
                 ->toJson();
-            }
+        }
 
-            $dataTable = $builder
+        $dataTable = $builder
             ->columns([
-                [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
-                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Pelajar', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'no_ic', 'name' => 'no_ic', 'title' => 'No. Kad Pengenalan', 'orderable'=> false],
-                ['data' => 'kursus_id', 'name' => 'kursus_id', 'title' => 'Jenis Permohonan', 'orderable'=> false],
-                ['data' => 'action', 'name' => 'action', 'title' => 'Tindakan', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+                ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Pelajar', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'no_ic', 'name' => 'no_ic', 'title' => 'No. Kad Pengenalan', 'orderable' => false],
+                ['data' => 'kursus_id', 'name' => 'kursus_id', 'title' => 'Jenis Permohonan', 'orderable' => false],
+                ['data' => 'action', 'name' => 'action', 'title' => 'Tindakan', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
 
             ])
             ->minifiedAjax();
 
-            return view('pages.pengurusan.kbg.pendaftaran_no_matrik.main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
+        return view('pages.pengurusan.kbg.pendaftaran_no_matrik.main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
 
         // } catch (Exception $e) {
         //     report($e);
@@ -107,7 +105,6 @@ class PendaftaranNoMatrikController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -145,7 +142,6 @@ class PendaftaranNoMatrikController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -169,17 +165,15 @@ class PendaftaranNoMatrikController extends Controller
     {
         $data = Pelajar::find($request->id_pelajar);
 
-        if($data->sesi)
-        {
+        if ($data->sesi) {
             $sesi = $data->sesi->nama;
-        }else {
+        } else {
             $sesi = '';
         }
 
-        if($data->negeri)
-        {
+        if ($data->negeri) {
             $negeri = $data->negeri->nama;
-        }else {
+        } else {
             $negeri = '';
         }
 
