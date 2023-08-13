@@ -67,6 +67,24 @@ use App\Http\Controllers\Pengurusan\Kualiti\KualitiController;
     Route::get('/penyumbang/artikel/show/{id}', [KualitiController::class,'penyumbangShow'])->name('penyumbang.artikel.show');
     Route::post('/penyumbang/artikel/update', [KualitiController::class,'penyumbangUpdate'])->name('penyumbang.artikel.update');
 
+    // penerbitan editor artikel
+    Route::get('/editor/artikel/daftar', [KualitiController::class,'editorDaftar'])->name('editor.artikel.daftar');
+    Route::post('/editor/artikel/store', [KualitiController::class,'editorStore'])->name('editor.artikel.store');
+    // kelulusan permohonan editor artikel
+    Route::get('/editor/artikel/list', [KualitiController::class,'editorList'])->name('editor.artikel.list');
+    Route::get('/editor/artikel/show/{id}', [KualitiController::class,'editorShow'])->name('editor.artikel.show');
+    Route::post('/editor/artikel/update', [KualitiController::class,'editorUpdate'])->name('editor.artikel.update');
+
+    // hantar dan semak artikel
+    Route::get('/artikel/hantar', [KualitiController::class,'artikelHantar'])->name('artikel.hantar');
+    Route::post('/artikel/store', [KualitiController::class,'artikelStore'])->name('artikel.store');
+    // semak artikel
+    Route::get('/artikel/penyumbang/list', [KualitiController::class,'artikelPenyumbangList'])->name('artikel.penyumbang.list');
+    Route::get('/artikel/editor/list', [KualitiController::class,'artikelEditorList'])->name('artikel.editor.list');
+    Route::get('/artikel/editor/show/{id}', [KualitiController::class,'artikelEditorShow'])->name('artikel.editor.show');
+    Route::post('/artikel/editor/update', [KualitiController::class,'artikelEditorUpdate'])->name('artikel.editor.update');
+
+
 
 
 
