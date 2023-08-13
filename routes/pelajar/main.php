@@ -20,6 +20,10 @@ Route::group(['prefix'=>'permohonan','as'=>'permohonan.'], function(){
     Route::resource('penangguhan_pengajian', PenangguhanPengajianController::class);
     Route::resource('keluar_masuk', KeluarMasukController::class);
 
+    Route::group(['prefix'=>'sijil_tahfiz','as'=>'sijil_tahfiz.'], function(){
+        Route::get('fetchPusatPeperiksaan', [SijilTahfizController::class, 'fetchPusatPeperiksaan'])->name('fetchPusatPeperiksaan');
+        Route::get('fetchPusatPeperiksaanNegeri', [SijilTahfizController::class, 'fetchPusatPeperiksaanNegeri'])->name('fetchPusatPeperiksaan.negeri');
+    });
     Route::resource('sijil_tahfiz', SijilTahfizController::class);
 });
 

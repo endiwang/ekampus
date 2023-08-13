@@ -60,12 +60,23 @@
                                 </div>
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
+                                        {{ Form::label('tarikh_peperiksaan', 'Tarikh Peperiksaan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="w-100">
+                                            {{ Form::text('tarikh_peperiksaan',date('d/m/Y', strtotime($tetapan->tarikh_peperiksaan)),['class' => 'form-control form-control-sm '.($errors->has('tarikh_peperiksaan') ? 'is-invalid':''), 'id' =>'tarikh_peperiksaan','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            @error('tarikh_peperiksaan') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
                                         {{ Form::label('status', 'Status Permohonan Ujian', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
                                             <label class="form-check form-switch form-check-custom form-check-solid">
-                                                {{ Form::checkbox('status', $tetapan->status, ($tetapan->status == 0 ? false:true), ['class' => 'form-check-input h-25px w-60px mt-1']); }}
+                                                {{ Form::checkbox('status', 1, ($tetapan->status == 0 ? false:true), ['class' => 'form-check-input h-25px w-60px mt-1']); }}
                                                 <span class="form-check-label fs-7 fw-semibold mt-2">
                                                     Aktif
                                                 </span>
@@ -133,10 +144,20 @@ $("#tarikh_permohonan_ditutup").daterangepicker({
         var datePicked = moment(start).format('DD/MM/YYYY');
         $("#tarikh_permohonan_ditutup").val(datePicked);
 });
-
-function handleChange(t){
-    console.log($('.lokasi-checkbox:checked').val());
-}
+$("#tarikh_peperiksaan").daterangepicker({
+        autoApply : true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+    },function(start, end, label) {
+        var datePicked = moment(start).format('DD/MM/YYYY');
+        $("#tarikh_peperiksaan").val(datePicked);
+});
 </script>
 
 @endpush

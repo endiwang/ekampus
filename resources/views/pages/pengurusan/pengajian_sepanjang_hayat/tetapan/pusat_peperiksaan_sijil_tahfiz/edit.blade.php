@@ -50,7 +50,7 @@
                                     <div class="col-md-9">
                                         <div class="w-100">
                                             <label class="form-check form-switch form-check-custom form-check-solid">
-                                                {{ Form::checkbox('status', $pusatPeperiksaan->status, ($pusatPeperiksaan->status == 0 ? false:true), ['class' => 'form-check-input h-25px w-60px mt-1']); }}
+                                                {{ Form::checkbox('status', 1, ($pusatPeperiksaan->status == 0 ? false:true), ['class' => 'form-check-input h-25px w-60px mt-1']); }}
                                                 <span class="form-check-label fs-7 fw-semibold mt-2">
                                                     Aktif
                                                 </span>

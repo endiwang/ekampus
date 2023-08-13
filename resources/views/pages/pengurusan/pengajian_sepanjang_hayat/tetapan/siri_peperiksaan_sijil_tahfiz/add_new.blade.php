@@ -33,15 +33,6 @@
                                                     <option value="{{ $lokasi->id }}">{{ $lokasi->name }}</option>
                                                 @endforeach
                                             </select>
-                                            {{-- <div class="row">
-                                            @foreach ($lokasi_peperiksaan as $lokasi)
-                                                <div class="col-md-4 mb-2">
-                                                    <input class="form-check-input lokasi-checkbox" name="lokasi[]" type="checkbox" value="{{$lokasi->id}}" id="lokasi"/>
-                                                    <span class="fw-semibold p-2 fs-7 text-capitalize">{{ $lokasi->name }}</span>
-                                                </div>
-                                            @endforeach
-                                            
-                                            </div> --}}
                                             @error('lokasi') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -63,6 +54,17 @@
                                         <div class="w-100">
                                             {{ Form::text('tarikh_permohonan_ditutup',old('tarikh_permohonan_ditutup'),['class' => 'form-control form-control-sm '.($errors->has('tarikh_permohonan_ditutup') ? 'is-invalid':''), 'id' =>'tarikh_permohonan_ditutup','onkeydown' =>'return false','autocomplete' => 'off']) }}
                                             @error('tarikh_permohonan_ditutup') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('tarikh_peperiksaan', 'Tarikh Peperiksaan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="w-100">
+                                            {{ Form::text('tarikh_peperiksaan',old('tarikh_peperiksaan'),['class' => 'form-control form-control-sm '.($errors->has('tarikh_peperiksaan') ? 'is-invalid':''), 'id' =>'tarikh_peperiksaan','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            @error('tarikh_peperiksaan') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -142,9 +144,21 @@ $("#tarikh_permohonan_ditutup").daterangepicker({
         $("#tarikh_permohonan_ditutup").val(datePicked);
 });
 
-function handleChange(t){
-    console.log($('.lokasi-checkbox:checked').val());
-}
+$("#tarikh_peperiksaan").daterangepicker({
+        autoApply : true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+    },function(start, end, label) {
+        var datePicked = moment(start).format('DD/MM/YYYY');
+        $("#tarikh_peperiksaan").val(datePicked);
+});
+
 </script>
 
 @endpush

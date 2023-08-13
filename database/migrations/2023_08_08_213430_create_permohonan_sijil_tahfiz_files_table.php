@@ -13,16 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tetapan_peperiksaan_sijil_tahfizs', function (Blueprint $table) {
+        Schema::create('permohonan_sijil_tahfiz_files', function (Blueprint $table) {
             $table->id();
-            $table->string('siri')->nullable();
-            $table->string('tahun')->nullable();
-            $table->string('lokasi_peperiksaan')->nullable();
-            $table->date('tarikh_permohonan_dibuka')->nullable();
-            $table->date('tarikh_permohonan_ditutup')->nullable();
-            $table->integer('status')->default(0);
+            $table->integer('permohonan_sijil_tahfiz_id');
+            $table->text('file_upload_name')->nullable();
+            $table->text('file_upload_path')->nullable();
             $table->integer('created_by')->nullable();
-            $table->integer('is_deleted')->default(0);
             $table->integer('deleted_by')->nullable();
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
@@ -36,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tetapan_peperiksaan_sijil_tahfizs');
+        Schema::dropIfExists('permohonan_sijil_tahfiz_files');
     }
 };

@@ -126,11 +126,13 @@ class TetapanPeperiksaanSijilTahfizController extends Controller
             'tarikh_permohonan_dibuka'  => 'required',
             'tarikh_permohonan_ditutup' => 'required',
             'lokasi'                    => 'required',
+            'tarikh_peperiksaan'        => 'required',
         ],[
             'siri.required'                         => 'Sila masukkan siri peperiksaan.',
             'tarikh_permohonan_dibuka.required'     => 'Sila pilih tarikh mula permohonan.',
             'tarikh_permohonan_ditutup.required'    => 'Sila pilih tarikh tutup permohonan.',
             'lokasi.required'                       => 'Sila pilih pusat temuduga',
+            'tarikh_peperiksaan'                    => 'Sila pilih tarikh peperiksaan',
         ]);
 
         if($request->has('status')){
@@ -144,10 +146,11 @@ class TetapanPeperiksaanSijilTahfizController extends Controller
         try {
             TetapanPeperiksaanSijilTahfiz::create([
                 'siri' => $request->siri,
-                'tahun' => Carbon::createFromFormat('m/d/Y', $request->tarikh_permohonan_dibuka)->format('Y'),
+                'tahun' => Carbon::createFromFormat('d/m/Y', $request->tarikh_permohonan_dibuka)->format('Y'),
                 'status' => $status,
                 'tarikh_permohonan_dibuka'  => Carbon::createFromFormat('d/m/Y',$request->tarikh_permohonan_dibuka)->format('Y-m-d'),
                 'tarikh_permohonan_ditutup' => Carbon::createFromFormat('d/m/Y',$request->tarikh_permohonan_ditutup)->format('Y-m-d'),
+                'tarikh_peperiksaan'  => Carbon::createFromFormat('d/m/Y',$request->tarikh_peperiksaan)->format('Y-m-d'),
                 'lokasi_peperiksaan'        => json_encode($request->lokasi),
                 'created_by'    => Auth::id(),
             ]);
@@ -237,11 +240,12 @@ class TetapanPeperiksaanSijilTahfizController extends Controller
             $tetapan = TetapanPeperiksaanSijilTahfiz::find($id);
             $tetapan->update([
                 'siri' => $request->siri,
-                'tahun' => Carbon::createFromFormat('m/d/Y', $request->tarikh_permohonan_dibuka)->format('Y'),
+                'tahun' => Carbon::createFromFormat('d/m/Y', $request->tarikh_permohonan_dibuka)->format('Y'),
                 'status' => $status,
                 'tarikh_permohonan_dibuka'  => Carbon::createFromFormat('d/m/Y',$request->tarikh_permohonan_dibuka)->format('Y-m-d'),
                 'tarikh_permohonan_ditutup' => Carbon::createFromFormat('d/m/Y',$request->tarikh_permohonan_ditutup)->format('Y-m-d'),
                 'lokasi_peperiksaan'        => json_encode($request->lokasi),
+                'tarikh_peperiksaan'  => Carbon::createFromFormat('d/m/Y',$request->tarikh_peperiksaan)->format('Y-m-d'),
             ]);
 
             Alert::toast('Tetapan Baru Berjaya Dikemaskini', 'success');
