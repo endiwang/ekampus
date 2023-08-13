@@ -51,6 +51,13 @@ use App\Http\Controllers\Pengurusan\Kualiti\KualitiController;
     Route::get('/rekodkompetensi/edit/{id}', [KualitiController::class,'RekodKompetensiEdit'])->name('rekodkompetensi.show');
     Route::post('/rekodkompetensi/update', [KualitiController::class,'RekodKompetensiUpdate'])->name('rekodkompetensi.update');
 
+    // penyelidikan
+    Route::get('/penyelidikan/index', [KualitiController::class,'penyelidikanIndex'])->name('penyelidikan.index');
+    Route::get('/penyelidikan/tambah', [KualitiController::class,'penyelidikanTambah'])->name('penyelidikan.tambah');
+    Route::post('/penyelidikan/store', [KualitiController::class,'penyelidikanStore'])->name('penyelidikan.store');
+    Route::get('/penyelidikan/edit/{id}', [KualitiController::class,'penyelidikanEdit'])->name('penyelidikan.show');
+    Route::post('/penyelidikan/update', [KualitiController::class,'penyelidikanUpdate'])->name('penyelidikan.update');
+
 
 
 
