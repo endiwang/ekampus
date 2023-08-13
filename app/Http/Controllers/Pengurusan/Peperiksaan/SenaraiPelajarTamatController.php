@@ -17,6 +17,7 @@ use Yajra\DataTables\Html\Builder;
 class SenaraiPelajarTamatController extends Controller
 {
     protected $baseView = 'pages.pengurusan.peperiksaan.pelajar_tamat_berhenti.';
+    protected $baseRoute = 'pengurusan.peperiksaan.pelajar_tamat_berhenti.';
 
     /**
      * Display a listing of the resource.
@@ -76,7 +77,7 @@ class SenaraiPelajarTamatController extends Controller
                     return $data->syukbah->nama ?? null;
                 })
                 ->addColumn('action', function($data){
-                    return '<a href="'.route('pengurusan.peperiksaan.kemaskini.nama_pelajar.show',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                    return '<a href="'.route($this->baseRoute.'show',$data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Lihat Maklumat">
                                 <i class="fa fa-eye"></i>
                             </a>
                             ';
@@ -135,7 +136,7 @@ class SenaraiPelajarTamatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -146,7 +147,27 @@ class SenaraiPelajarTamatController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+
+            $title = 'Pelajar Tamat/Berhenti';
+            $page_title = 'Maklumat Pelajar';
+            $breadcrumbs = [
+                'Peperiksaan' => false,
+                'Senarai Pelajar (Tamat/Berhenti)' => route($this->baseRoute.'index'),
+                'Maklumat Pelajar' => false,
+            ];
+
+            $model = Pelajar::with('kursus', 'sesi', 'kelas')->find($id);
+
+            return view($this->baseView.'show', compact('model', 'title', 'breadcrumbs', 'page_title'));
+
+        } catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+
+            return redirect()->back();
+        }
     }
 
     /**

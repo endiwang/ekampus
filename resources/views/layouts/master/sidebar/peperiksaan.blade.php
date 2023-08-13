@@ -25,7 +25,7 @@
             </div>
             <div class="menu-item">
                 <!--begin:Menu link-->
-                <a class="menu-link {{ Request::routeIs('pengurusan.peperiksaan.pelajar_tamat_berhenti.index') ? 'active' : '' }}" href="{{ route('pengurusan.peperiksaan.pelajar_tamat_berhenti.index') }}" target="blank">
+                <a class="menu-link {{ Request::routeIs('pengurusan.peperiksaan.pelajar_tamat_berhenti.index') ? 'active' : '' }}" href="{{ route('pengurusan.peperiksaan.pelajar_tamat_berhenti.index') }}">
                     <span class="menu-icon">
                         <span class="svg-icon svg-icon-2">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
