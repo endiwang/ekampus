@@ -23,6 +23,9 @@ return new class extends Migration
             $table->integer('penyumbang')->nullable();
             $table->integer('editor')->nullable();
             $table->integer('status')->nullable();
+            $table->integer('status_penerbitan')->nullable();
+            $table->datetime('tarikh_penerbitan')->nullable();
+            $table->string('siri_penerbitan')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

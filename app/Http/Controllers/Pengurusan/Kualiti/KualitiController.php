@@ -2831,4 +2831,208 @@ class KualitiController extends Controller
         }
     }
 
+
+    public function artikelPenerbitanList(Builder $builder,Request $request)
+    {
+        // dd('sii');
+        try {
+
+            $title = "Penerbitan";                
+            $action = route('pengurusan.kualiti.artikel.hantar');
+            $page_title = 'Senarai Artikel Untuk Penerbitan';
+            $breadcrumbs = [
+                "Kualiti" =>  false,
+                "Artikel" =>  false,
+                "Senarai Artikel Untuk Penerbitan" =>  false,
+            ];
+        
+           
+
+            // $buttons = [
+            //     [
+            //         'title' => "Tambah Artikel ", 
+            //         'route' => route('pengurusan.kualiti.artikel.hantar'), 
+            //         'button_class' => "btn btn-sm btn-primary fw-bold",
+            //         'icon_class' => "fa fa-plus-circle"
+            //     ],
+            // ];
+            // dd('kursusindex');
+
+            if (request()->ajax()) {
+
+                $data = Artikel::whereIn('status',[4])->get();
+                // dd($data);
+                return DataTables::of($data)
+                ->addColumn('document_name', function($data) {
+                    return '<a href="'. url(data_get($data,'upload_document')) .'" target="_blank">'. $data->upload_document.'</a>';
+                })
+                ->addColumn('editor', function($data) {
+                    return data_get($data,'editor.staff.nama');
+                })
+                // ->addColumn('penyumbang', function($data) {
+                //     return $data->penyumbang;
+                // })
+                // ->addColumn('jenis_dokumen', function($data) {
+                //     switch ($data->jenis_dokumen) {
+                //         case 1:
+                //             return 'Dokumentasi Kod Amalan Akreditasi Pogram (COPPA) ';
+                //         break;
+                //         case 2:
+                //             return 'Senarai Template Dokumen Audit';
+                //         default:
+                //         return '';
+                //     }
+                // })
+                
+                // ->addColumn('pilihan_dokumen', function($data) {
+                //     switch ($data->jenis_dokumen) {
+                //         case 1:
+                //             return 'Dokumen Baru';
+                //         break;
+                //         case 2:
+                //             return 'Dokumen Tambahan';
+                //         break;
+                //         case 3:
+                //             return 'Dokumen Ganti';
+                //         break;
+                //         case 4:
+                //             return 'Dokumen Hapus';
+                //         break;
+                //         default:
+                //         return '';
+                //     }
+                // })
+                
+                ->addColumn('status', function($data) {
+                    switch ($data->status) {
+                        case 1:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-success">Dihantar</span>';
+                        break;
+                        case 2:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Perlu Ubahsuai</span>';
+                        break;
+                        case 3:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Ditolak</span>';
+                        break;
+                        case 4:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-success">Diterima</span>';
+                        default:
+                        return '';
+                    }
+                })
+                ->addColumn('status_penerbitan', function($data) {
+                    switch ($data->status_penerbitan) {
+                        case 1:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-success">Diterbitkan</span>';
+                        break;
+                        case 2:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-warning">Belum Diterbitkan</span>';
+                        break;
+                        default:
+                        return '<span class="badge py-3 px-4 fs-7 badge-light-warning">Belum Diterbitkan</span>';
+                    }
+                })
+                ->addColumn('action', function($data){
+                    return '<a href="'.url('pengurusan/kualiti/artikel/penerbitan/show/'.$data->id.'').'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Semak">
+                                <i class="fa fa-list"></i>
+                            </a>
+                            ';
+                })
+                ->addIndexColumn()
+                // ->order(function ($data) {
+                //     $data->orderBy('created_at', 'desc');
+                // })
+                ->rawColumns(['status_penerbitan','penyumbang','editor','document_name','status', 'action'])
+                ->toJson();
+
+            }
+
+            $dataTable = $builder
+            ->columns([
+                ['defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
+                ['data' => 'nama_artikel', 'name' => 'nama_artikel', 'title' => 'Nama Artikel', 'orderable'=> false, 'class'=>'text-bold'],
+                ['data' => 'document_name', 'name' => 'document_name', 'title' => 'Dokumen', 'orderable'=> false, 'class'=>'text-bold'],
+                ['data' => 'tarikh_dihantar', 'name' => 'tarikh_dihantar', 'title' => 'Tarikh Dihantar', 'orderable'=> false, 'class'=>'text-bold'],
+                ['data' => 'editor', 'name' => 'editor', 'title' => 'Editor', 'orderable'=> false],
+                ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false],
+                ['data' => 'status_penerbitan', 'name' => 'status_penerbitan', 'title' => 'Status Penerbitan', 'orderable'=> false],
+                
+                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+
+            ])
+            ->minifiedAjax();
+
+            // $kursusid = $request->id;
+
+            return view('pages.pengurusan.kualiti.artikel.penerbitanlist', compact('title', 'breadcrumbs', 'dataTable'));
+
+        }catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+    }   
+
+    public function artikelPenerbitanShow(Request $request)
+    {
+        $title = "Penerbitan";                
+        $action = route('pengurusan.kualiti.artikel.penerbitan.update');
+        $page_title = 'Penerbitan Artikel';
+        $breadcrumbs = [
+            "Penerbitan" =>  false,
+            "Pengurusan Penerbitan Artikel" =>  false,
+        ];
+
+        $statuspenerbitan = [
+            1 => 'Diterbitkan',
+            2 => 'Belum Diterbitkan',
+           
+        ];
+
+       
+
+        $model = Artikel::find($request->id);
+
+
+        return view('pages.pengurusan.kualiti.artikel.penerbitanshow', compact('model','title', 'breadcrumbs', 'page_title','action','statuspenerbitan'));
+    }
+
+    public function artikelPenerbitanUpdate(Request $request)
+    {
+        // dd($request);
+
+        try {
+
+            $model = Artikel::find($request->id);
+            if($request->status_penerbitan == 1)
+            {
+                $model = $model->update([
+                    'status_penerbitan' => $request->status_penerbitan,
+                    'tarikh_penerbitan' => $request->tarikh_penerbitan,
+                    'siri_penerbitan'   => $request->siri_penerbitan
+                ]);
+                
+                
+            }
+
+            Alert::toast('Maklumat Artikel diterbitkan !', 'success');
+            return redirect()->route('pengurusan.kualiti.artikel.penerbitan.list');
+
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+
+        
+
+
+
+
+
+
+    }
 }

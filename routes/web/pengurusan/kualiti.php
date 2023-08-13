@@ -84,6 +84,10 @@ use App\Http\Controllers\Pengurusan\Kualiti\KualitiController;
     Route::get('/artikel/editor/show/{id}', [KualitiController::class,'artikelEditorShow'])->name('artikel.editor.show');
     Route::post('/artikel/editor/update', [KualitiController::class,'artikelEditorUpdate'])->name('artikel.editor.update');
 
+    // penerbitan artikel utk dipublish
+    Route::get('/artikel/penerbitan/list', [KualitiController::class,'artikelPenerbitanList'])->name('artikel.penerbitan.list');
+    Route::get('/artikel/penerbitan/show/{id}', [KualitiController::class,'artikelPenerbitanShow'])->name('artikel.penerbitan.show');
+    Route::post('/artikel/penerbitan/update', [KualitiController::class,'artikelPenerbitanUpdate'])->name('artikel.penerbitan.update');
 
 
 
