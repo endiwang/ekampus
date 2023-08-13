@@ -5,6 +5,7 @@ use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniNamaPelajarController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSesiPengajianController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSubjekArabController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\MainPeperiksaanController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\SenaraiPelajarTamatController;
 use Illuminate\Support\Facades\Route;
 
 Route::resource('/', MainPeperiksaanController::class)->only(['index']);
@@ -18,3 +19,5 @@ Route::group(['prefix' => 'kemaskini', 'as' => 'kemaskini.'], function () {
 
     Route::resource('subjek_arab', KemaskiniSubjekArabController::class);
 });
+
+Route::resource('pelajar_tamat_berhenti', SenaraiPelajarTamatController::class);
