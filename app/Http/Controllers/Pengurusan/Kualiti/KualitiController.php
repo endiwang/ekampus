@@ -21,6 +21,7 @@ use App\Models\Kualiti\Akreditasi;
 use App\Models\Kualiti\Muadalah;
 use App\Models\Kualiti\RekodKompetensiPensyarah;
 use App\Models\Kualiti\Penyelidikan;
+use App\Models\Kualiti\PenyumbangArtikel;
 
 
 class KualitiController extends Controller
@@ -1713,115 +1714,115 @@ class KualitiController extends Controller
     {
         try {
 
-            $title = "Penyelidikan";                
-            $action = route('pengurusan.kualiti.penyelidikan.tambah');
-            $page_title = 'Penyelidikan';
-            $breadcrumbs = [
-                "Kualiti" =>  false,
-                "Penyelidikan" =>  false,
-                
-            ];
-        
-           
+                $title = "Penyelidikan";                
+                $action = route('pengurusan.kualiti.penyelidikan.tambah');
+                $page_title = 'Penyelidikan';
+                $breadcrumbs = [
+                    "Kualiti" =>  false,
+                    "Penyelidikan" =>  false,
+                    
+                ];
+            
+            
 
-            $buttons = [
-                [
-                    'title' => "Tambah ", 
-                    'route' => route('pengurusan.kualiti.penyelidikan.tambah'), 
-                    'button_class' => "btn btn-sm btn-primary fw-bold",
-                    'icon_class' => "fa fa-plus-circle"
-                ],
-            ];
-            // dd('kursusindex');
+                $buttons = [
+                    [
+                        'title' => "Tambah ", 
+                        'route' => route('pengurusan.kualiti.penyelidikan.tambah'), 
+                        'button_class' => "btn btn-sm btn-primary fw-bold",
+                        'icon_class' => "fa fa-plus-circle"
+                    ],
+                ];
+                // dd('kursusindex');
 
-            if (request()->ajax()) {
+                if (request()->ajax()) {
 
-                $data = Penyelidikan::get();
-                // dd($data);
-                return DataTables::of($data)
-                ->addColumn('document_name', function($data) {
-                    return '<a href="'. url(data_get($data,'upload_document')) .'" target="_blank">'. $data->upload_document.'</a>';
-                })
-                ->addColumn('jenis_dokumen', function($data) {
-                    switch ($data->jenis_dokumen) {
-                        case 1:
-                            return 'Laporan Kajian';
-                        break;
-                        case 2:
-                            return 'Infografik';
-                        default:
-                        return '';
-                    }
-                })
-                
-                ->addColumn('pilihan_dokumen', function($data) {
-                    switch ($data->jenis_dokumen) {
-                        case 1:
-                            return 'Dokumen Baru';
-                        break;
-                        case 2:
-                            return 'Dokumen Tambahan';
-                        break;
-                        case 3:
-                            return 'Dokumen Ganti';
-                        break;
-                        case 4:
-                            return 'Dokumen Hapus';
-                        break;
-                        default:
-                        return '';
-                    }
-                })
-                
-                ->addColumn('status', function($data) {
-                    switch ($data->status) {
-                        case 1:
-                            return '<span class="badge py-3 px-4 fs-7 badge-light-success">Aktif</span>';
-                        break;
-                        case 0:
-                            return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Aktif</span>';
-                        default:
-                        return '';
-                    }
-                })
-                ->addColumn('action', function($data){
-                    return '<a href="'.url('pengurusan/kualiti/penyelidikan/edit/'.$data->id.'').'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
-                                <i class="fa fa-list"></i>
-                            </a>
-                            ';
-                })
-                ->addIndexColumn()
-                // ->order(function ($data) {
-                //     $data->orderBy('created_at', 'desc');
-                // })
-                ->rawColumns(['document_name','status', 'action'])
-                ->toJson();
+                    $data = Penyelidikan::get();
+                    // dd($data);
+                    return DataTables::of($data)
+                    ->addColumn('document_name', function($data) {
+                        return '<a href="'. url(data_get($data,'upload_document')) .'" target="_blank">'. $data->upload_document.'</a>';
+                    })
+                    ->addColumn('jenis_dokumen', function($data) {
+                        switch ($data->jenis_dokumen) {
+                            case 1:
+                                return 'Laporan Kajian';
+                            break;
+                            case 2:
+                                return 'Infografik';
+                            default:
+                            return '';
+                        }
+                    })
+                    
+                    ->addColumn('pilihan_dokumen', function($data) {
+                        switch ($data->jenis_dokumen) {
+                            case 1:
+                                return 'Dokumen Baru';
+                            break;
+                            case 2:
+                                return 'Dokumen Tambahan';
+                            break;
+                            case 3:
+                                return 'Dokumen Ganti';
+                            break;
+                            case 4:
+                                return 'Dokumen Hapus';
+                            break;
+                            default:
+                            return '';
+                        }
+                    })
+                    
+                    ->addColumn('status', function($data) {
+                        switch ($data->status) {
+                            case 1:
+                                return '<span class="badge py-3 px-4 fs-7 badge-light-success">Aktif</span>';
+                            break;
+                            case 0:
+                                return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Aktif</span>';
+                            default:
+                            return '';
+                        }
+                    })
+                    ->addColumn('action', function($data){
+                        return '<a href="'.url('pengurusan/kualiti/penyelidikan/edit/'.$data->id.'').'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                                    <i class="fa fa-list"></i>
+                                </a>
+                                ';
+                    })
+                    ->addIndexColumn()
+                    // ->order(function ($data) {
+                    //     $data->orderBy('created_at', 'desc');
+                    // })
+                    ->rawColumns(['document_name','status', 'action'])
+                    ->toJson();
 
-            }
+                }
 
-            $dataTable = $builder
-            ->columns([
-                ['defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
-                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'orderable'=> false, 'class'=>'text-bold'],
-                ['data' => 'document_name', 'name' => 'document_name', 'title' => 'Dokumen ', 'orderable'=> false],
-                ['data' => 'jenis_dokumen', 'name' => 'jenis_dokumen', 'title' => 'Jenis Dokumen', 'orderable'=> false],
-                ['data' => 'keterangan', 'name' => 'keterangan', 'title' => 'Keterangan', 'orderable'=> false],
-                ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false],                
-                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+                $dataTable = $builder
+                ->columns([
+                    ['defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
+                    ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'orderable'=> false, 'class'=>'text-bold'],
+                    ['data' => 'document_name', 'name' => 'document_name', 'title' => 'Dokumen ', 'orderable'=> false],
+                    ['data' => 'jenis_dokumen', 'name' => 'jenis_dokumen', 'title' => 'Jenis Dokumen', 'orderable'=> false],
+                    ['data' => 'keterangan', 'name' => 'keterangan', 'title' => 'Keterangan', 'orderable'=> false],
+                    ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false],                
+                    ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
 
-            ])
-            ->minifiedAjax();
+                ])
+                ->minifiedAjax();
 
-            // $kursusid = $request->id;
+                // $kursusid = $request->id;
 
-            return view('pages.pengurusan.kualiti.penyelidikan.index', compact('title','buttons', 'breadcrumbs', 'dataTable'));
+                return view('pages.pengurusan.kualiti.penyelidikan.index', compact('title','buttons', 'breadcrumbs', 'dataTable'));
 
-    }catch (Exception $e) {
-        report($e);
+        }catch (Exception $e) {
+            report($e);
 
-        Alert::toast('Uh oh! Something went Wrong', 'error');
-        return redirect()->back();
-    }
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
     }
 
     public function penyelidikanTambah(Request $request)
@@ -1999,6 +2000,229 @@ class KualitiController extends Controller
 
             Alert::toast('Maklumat Penyelidikan berjaya dikemaskini!', 'success');
             return redirect()->route('pengurusan.kualiti.penyelidikan.index');
+
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+    }
+
+
+
+
+    // penyumbang artikel daftar
+    public function penyumbangDaftar(Request $request)
+    {
+        $title = "Penerbitan";                
+        $action = route('pengurusan.kualiti.penyumbang.artikel.store');
+        $page_title = 'Pendaftaran Penyumbang';
+        $breadcrumbs = [
+            "Penerbitan" =>  false,
+            "Daftar Penyumbang Artikel" =>  false,
+        ];
+
+        $jenisic = [
+            1 => 'MYKAD',
+            2 => 'No Paspot',
+            
+        ];
+
+        $model = new PenyumbangArtikel;
+
+
+        return view('pages.pengurusan.kualiti.penyumbang.artikel.daftar', compact('model','title', 'breadcrumbs', 'page_title','action','jenisic'));
+
+    }
+
+    public function penyumbangStore(Request $request)
+    {
+        // dd($request);
+
+        try {
+        
+            PenyumbangArtikel::create([
+                
+                'nama_penuh'                => $request->nama_penuh,
+                'email'                     => $request->email,
+                'alamat_dihubungi'          => $request->alamat,
+                'jenis_pengenalan'          => $request->jenis_pengenalan,
+                'butiran_pengenalan'        => $request->butiran_pengenalan,
+                'status'                    => 1
+            ]);
+
+            Alert::toast('Maklumat permohonan penyumbang artikel dihantar untuk proses kelulusan!', 'success');
+            return redirect()->route('pengurusan.kualiti.penyumbang.artikel.list');
+
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+    }
+
+
+    public function penyumbangList(Builder $builder,Request $request)
+    {
+        try {
+
+            $title = "Penyumbang Artikel";                
+            // $action = route('pengurusan.kualiti.penyumbang.tambah');
+            $page_title = 'Senarai Permohonan Penyumbang Artikel';
+            $breadcrumbs = [
+                "Kualiti" =>  false,
+                "Permohonan Penyumbang Artikel" =>  false,
+                
+            ];
+    
+            $buttons = [
+                [
+                    'title' => "Permohonan ", 
+                    'route' => route('pengurusan.kualiti.penyumbang.artikel.daftar'), 
+                    'button_class' => "btn btn-sm btn-primary fw-bold",
+                    'icon_class' => "fa fa-plus-circle"
+                ],
+            ];
+            // dd('kursusindex');
+
+            if (request()->ajax()) {
+
+                $data = PenyumbangArtikel::get();
+                // dd($data);
+                return DataTables::of($data)
+                // ->addColumn('document_name', function($data) {
+                //     return '<a href="'. url(data_get($data,'upload_document')) .'" target="_blank">'. $data->upload_document.'</a>';
+                // })
+                // ->addColumn('jenis_dokumen', function($data) {
+                //     switch ($data->jenis_dokumen) {
+                //         case 1:
+                //             return 'Laporan Kajian';
+                //         break;
+                //         case 2:
+                //             return 'Infografik';
+                //         default:
+                //         return '';
+                //     }
+                // })
+                
+                // ->addColumn('pilihan_dokumen', function($data) {
+                //     switch ($data->jenis_dokumen) {
+                //         case 1:
+                //             return 'Dokumen Baru';
+                //         break;
+                //         case 2:
+                //             return 'Dokumen Tambahan';
+                //         break;
+                //         case 3:
+                //             return 'Dokumen Ganti';
+                //         break;
+                //         case 4:
+                //             return 'Dokumen Hapus';
+                //         break;
+                //         default:
+                //         return '';
+                //     }
+                // })
+                
+                ->addColumn('status', function($data) {
+                    switch ($data->status) {
+                        case 1:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-success">Pendaftaran</span>';
+                        break;
+                        case 2:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Disahkan</span>';
+                        break;
+                        case 3:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Disahkan</span>';
+                        break;
+                        default:
+                        return '';
+                    }
+                })
+                ->addColumn('action', function($data){
+                    return '<a href="'.url('pengurusan/kualiti/penyumbang/artikel/show/'.$data->id.'').'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Kelulusan">
+                                <i class="fa fa-list"></i>
+                            </a>
+                            ';
+                })
+                ->addIndexColumn()
+                // ->order(function ($data) {
+                //     $data->orderBy('created_at', 'desc');
+                // })
+                ->rawColumns(['status', 'action'])
+                ->toJson();
+
+            }
+
+            $dataTable = $builder
+            ->columns([
+                ['defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
+                ['data' => 'nama_penuh', 'name' => 'nama_penuh', 'title' => 'Nama Penuh', 'orderable'=> false, 'class'=>'text-bold'],
+                ['data' => 'email', 'name' => 'email', 'title' => 'Emel ', 'orderable'=> false],
+                ['data' => 'butiran_pengenalan', 'name' => 'butiran_pengenalan', 'title' => 'Butiran Pengenalan', 'orderable'=> false],
+                // ['data' => 'keterangan', 'name' => 'keterangan', 'title' => 'Keterangan', 'orderable'=> false],
+                ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false],                
+                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+
+            ])
+            ->minifiedAjax();
+
+            // $kursusid = $request->id;
+
+            return view('pages.pengurusan.kualiti.penyumbang.artikel.index', compact('title','buttons', 'breadcrumbs', 'dataTable'));
+
+        }catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+    }
+
+    public function penyumbangShow(Request $request)
+    {
+        // dd($request);
+        $title = "Penerbitan";                
+        $action = route('pengurusan.kualiti.penyumbang.artikel.update');
+        $page_title = 'Kelulusan Penyumbang Artikel';
+        $breadcrumbs = [
+            "Penerbitan" =>  false,
+            "Kelulusan Penyumbang Artikel" =>  false,
+        ];
+
+        $jenisic = [
+            1 => 'MYKAD',
+            2 => 'No Paspot',            
+        ];
+
+        $kelulusan = [
+            2 => 'Disahkan',
+            3 => 'Tidak Disahkan' 
+        ];
+
+        $model = PenyumbangArtikel::find($request->id);
+
+
+        return view('pages.pengurusan.kualiti.penyumbang.artikel.show', compact('kelulusan','model','title', 'breadcrumbs', 'page_title','action','jenisic'));
+    }
+
+    public function penyumbangUpdate(Request $request)
+    {
+        // dd($request);
+        try {
+
+            $model = PenyumbangArtikel::find($request->id);
+        
+            $model = $model->update([               
+                'status' => $request->status
+            ]);
+
+            Alert::toast('Maklumat permohonan penyumbang artikel dikemaskini!', 'success');
+            return redirect()->route('pengurusan.kualiti.penyumbang.artikel.list');
 
 
         }catch (Exception $e) {

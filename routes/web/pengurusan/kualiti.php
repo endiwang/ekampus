@@ -58,6 +58,15 @@ use App\Http\Controllers\Pengurusan\Kualiti\KualitiController;
     Route::get('/penyelidikan/edit/{id}', [KualitiController::class,'penyelidikanEdit'])->name('penyelidikan.show');
     Route::post('/penyelidikan/update', [KualitiController::class,'penyelidikanUpdate'])->name('penyelidikan.update');
 
+    // Penerbitan 
+    // permohonan dan penyediaan akses penyumbang artikel
+    Route::get('/penyumbang/artikel/daftar', [KualitiController::class,'penyumbangDaftar'])->name('penyumbang.artikel.daftar');
+    Route::post('/penyumbang/artikel/store', [KualitiController::class,'penyumbangStore'])->name('penyumbang.artikel.store');
+    // kelulusan permohonan penyumbang artikel
+    Route::get('/penyumbang/artikel/list', [KualitiController::class,'penyumbangList'])->name('penyumbang.artikel.list');
+    Route::get('/penyumbang/artikel/show/{id}', [KualitiController::class,'penyumbangShow'])->name('penyumbang.artikel.show');
+    Route::post('/penyumbang/artikel/update', [KualitiController::class,'penyumbangUpdate'])->name('penyumbang.artikel.update');
+
 
 
 
