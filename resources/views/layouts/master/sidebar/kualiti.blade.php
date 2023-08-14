@@ -134,7 +134,7 @@
 
                         <div class="menu-sub menu-sub-accordion">
                             <div class="menu-item">
-                                <a class="menu-link {{ Request::routeIs('pengurusan.pentadbir_sistem.sesi.index') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbir_sistem.sesi.index') }}">
+                                <a class="menu-link {{ Request::routeIs('pengurusan.kualiti.muadalah.index') ? 'active' : '' }}" href="{{ route('pengurusan.kualiti.muadalah.index') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -144,7 +144,7 @@
                         </div>
                         <div class="menu-sub menu-sub-accordion">
                             <div class="menu-item">
-                                <a class="menu-link {{ Request::routeIs('pengurusan.pentadbir_sistem.sesi.index') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbir_sistem.sesi.index') }}">
+                                <a class="menu-link {{ Request::routeIs('pengurusan.kualiti.rekodkompetensi.index') ? 'active' : '' }}" href="{{ route('pengurusan.kualiti.rekodkompetensi.index') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -159,7 +159,7 @@
 
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.pentadbir_sistem.pusat_temuduga.index') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbir_sistem.pusat_temuduga.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kualiti.penyelidikan.index') ? 'active' : '' }}" href="{{ route('pengurusan.kualiti.penyelidikan.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
@@ -191,7 +191,7 @@
 
                         <div class="menu-sub menu-sub-accordion">
                             <div class="menu-item">
-                                <a class="menu-link {{ Request::routeIs('pengurusan.pentadbir_sistem.sesi.index') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbir_sistem.sesi.index') }}">
+                                <a class="menu-link {{ Request::routeIs('pengurusan.kualiti.penyumbang.artikel.list') ? 'active' : '' }}" href="{{ route('pengurusan.kualiti.penyumbang.artikel.list') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -201,7 +201,7 @@
                         </div>
                         <div class="menu-sub menu-sub-accordion">
                             <div class="menu-item">
-                                <a class="menu-link {{ Request::routeIs('pengurusan.pentadbir_sistem.sesi.index') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbir_sistem.sesi.index') }}">
+                                <a class="menu-link {{ Request::routeIs('pengurusan.kualiti.editor.artikel.list') ? 'active' : '' }}" href="{{ route('pengurusan.kualiti.editor.artikel.list') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -211,17 +211,27 @@
                         </div>
                         <div class="menu-sub menu-sub-accordion">
                             <div class="menu-item">
-                                <a class="menu-link {{ Request::routeIs('pengurusan.pentadbir_sistem.sesi.index') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbir_sistem.sesi.index') }}">
+                                <a class="menu-link {{ Request::routeIs('pengurusan.kualiti.artikel.hantar') ? 'active' : '' }}" href="{{ route('pengurusan.kualiti.artikel.hantar') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Penghantaran & Semakan Artikel </span>
+                                    <span class="menu-title">Penghantaran Artikel </span>
                                 </a>
                             </div>
                         </div>
                         <div class="menu-sub menu-sub-accordion">
                             <div class="menu-item">
-                                <a class="menu-link {{ Request::routeIs('pengurusan.pentadbir_sistem.sesi.index') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbir_sistem.sesi.index') }}">
+                                <a class="menu-link {{ Request::routeIs('pengurusan.kualiti.artikel.editor.list') ? 'active' : '' }}" href="{{ route('pengurusan.kualiti.artikel.editor.list') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Semakan Artikel </span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="menu-sub menu-sub-accordion">
+                            <div class="menu-item">
+                                <a class="menu-link {{ Request::routeIs('pengurusan.kualiti.artikel.penerbitan.list') ? 'active' : '' }}" href="{{ route('pengurusan.kualiti.artikel.penerbitan.list') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
