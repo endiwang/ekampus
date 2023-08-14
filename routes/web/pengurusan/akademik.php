@@ -119,7 +119,8 @@ Route::group(['prefix' => 'rekod_kehadiran', 'as' => 'rekod_kehadiran.'], functi
     Route::post('rekod_pelajar/muat_turun', [KehadiranPelajarController::class, 'downloadAttendancePdf'])->name('rekod_pelajar.muat_turun');
     Route::resource('rekod_pelajar', KehadiranPelajarController::class);
 
-    Route::resource('rekod_kehadiran', RekodKehadiranController::class);
+    Route::post('rekod_pensyarah/muat_turun', [RekodKehadiranController::class, 'exportLecturerAttendancePdf'])->name('rekod_pensyarah.muat_turun');
+    Route::resource('rekod_pensyarah', RekodKehadiranController::class);
 });
 
 Route::group(['prefix' => 'pengurusan', 'as' => 'pengurusan.'], function () {
