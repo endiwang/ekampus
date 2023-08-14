@@ -9,13 +9,13 @@
     </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="https://source.unsplash.com/collection/190726/3000x900" class="d-block w-100" alt="image">
+            <img src="{{ asset('assets/media/darulquran/banner1.jpg') }}" class="d-block w-100" alt="image">
         </div>
         <div class="carousel-item">
-            <img src="https://source.unsplash.com/collection/190727/3000x900" class="d-block w-100" alt="image">
+            <img src="{{ asset('assets/media/darulquran/banner2.jpg') }}" class="d-block w-100" alt="image">
         </div>
         <div class="carousel-item">
-            <img src="https://source.unsplash.com/collection/190728/3000x900" class="d-block w-100" alt="image">
+            <img src="{{ asset('assets/media/darulquran/banner3.jpg') }}" class="d-block w-100" alt="image">
         </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"

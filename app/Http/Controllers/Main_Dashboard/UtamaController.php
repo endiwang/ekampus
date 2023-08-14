@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Main_Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Aktiviti;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UtamaController extends Controller
 {
@@ -14,7 +16,10 @@ class UtamaController extends Controller
      */
     public function index()
     {
-        return view('pages.main_dashboard.utama');
+        $user = Auth::user();
+        $hebahan_aktiviti = Aktiviti::where('status_kelulusan', 2)->get();
+
+        return view('pages.main_dashboard.utama', compact('hebahan_aktiviti', 'user'));
     }
 
     /**
@@ -30,7 +35,6 @@ class UtamaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -63,7 +67,6 @@ class UtamaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

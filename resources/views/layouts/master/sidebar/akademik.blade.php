@@ -56,14 +56,34 @@
                     <span class="menu-arrow"></span>
                 </span>
                 <div class="menu-sub menu-sub-accordion">
+                    
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('base2') ? 'active' : '' }}" href="{{ route('base2') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.kalendar_akademik.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.kalendar_akademik.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
-                            <span class="menu-title">Pusat Pengajian</span>
+                            <span class="menu-title">Kalendar Akademik</span>
                         </a>
                     </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.peraturan_akademik.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.peraturan_akademik.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Peraturan Akademik</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.semester.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.semester.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Semester</span>
+                        </a>
+                    </div>
+
                     <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.akademik.kursus.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.kursus.index') }}">
                             <span class="menu-bullet">
@@ -72,15 +92,26 @@
                             <span class="menu-title">Kursus</span>
                         </a>
                     </div>
+
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.kelas.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.kelas.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Kelas</span>
                         </a>
                     </div>
-                    <div class="menu-item">
+                    
+                    {{-- <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.subjek.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.subjek.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Subjek</span>
+                        </a>
+                    </div> --}}
+
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('base2') ? 'active' : '' }}" href="{{ route('base2') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
@@ -88,6 +119,69 @@
                             <span class="menu-title">Syukbah</span>
                         </a>
                     </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('base2') ? 'active' : '' }}" href="{{ route('base2') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pusat Pengajian</span>
+                        </a>
+                    </div> --}}
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.penamatan_pengajian.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.penamatan_pengajian.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Arahan Berhenti Belajar</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.mpk_iso.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.mpk_iso.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">MPK & ISO</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.hebahan_aktiviti.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.hebahan_aktiviti.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Hebahan Aktiviti</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.aktiviti_pdp.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.aktiviti_pdp.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Aktiviti PDP</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.penilaian_pensyarah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.penilaian_pensyarah.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Soalan Penilaian Pensyarah</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan.tetapan_penilaian_berterusan.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan.tetapan_penilaian_berterusan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Tetapan Penilaian Berterusan</span>
+                        </a>
+                    </div>
+                    
                 </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
@@ -107,7 +201,7 @@
                 </span>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.permohonan.pertukaran_syukbah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.permohonan.pertukaran_syukbah.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
@@ -115,11 +209,27 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('base2') ? 'active' : '' }}" href="{{ route('base2') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.permohonan.pelepasan_kuliah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.permohonan.pelepasan_kuliah.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Pelepasan Kuliah</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.permohonan.penangguhan_pengajian.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.permohonan.penangguhan_pengajian.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Penangguhan Pengajian</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.permohonan.rayuan_pengajian.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.permohonan.rayuan_pengajian.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rayuan Pengajian</span>
                         </a>
                     </div>
                 </div>
@@ -140,8 +250,16 @@
                     <span class="menu-arrow"></span>
                 </span>
                 <div class="menu-sub menu-sub-accordion">
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Akademik Pelajar</span>
+                        </a>
+                    </div> --}}
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.kelas_pelajar.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.kelas_pelajar.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
@@ -149,13 +267,461 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('base2') ? 'active' : '' }}" href="{{ route('base2') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.syukbah_pelajar.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.syukbah_pelajar.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Syukbah Pelajar</span>
                         </a>
                     </div>
+                </div>
+            </div>
+            <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
+                <span class="menu-link">
+                    <span class="menu-icon">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </span>
+                    <span class="menu-title">Pensyarah</span>
+                    <span class="menu-arrow"></span>
+                </span>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pensyarah.senarai_pensyarah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pensyarah.senarai_pensyarah.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Senarai Pensyarah</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.guru_tasmik.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.guru_tasmik.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Guru Tasmik</span>
+                        </a>
+                    </div>
+                    {{-- <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Kehadiran</span>
+                        </a>
+                    </div>
+                </div>--}}
+            </div>
+            <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
+                <span class="menu-link">
+                    <span class="menu-icon">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </span>
+                    <span class="menu-title">Jadual Waktu</span>
+                    <span class="menu-arrow"></span>
+                </span>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.jadual.jadual_kelas.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.jadual.jadual_kelas.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Kelas</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('#') ? 'active' : '' }}" href="#">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pensyarah</span>
+                        </a>
+                    </div>
+                </div>
+                    
+                </div>
+            </div>
+            {{-- <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
+                <span class="menu-link">
+                    <span class="menu-icon">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </span>
+                    <span class="menu-title">Peperiksaan</span>
+                    <span class="menu-arrow"></span>
+                </span>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.guru_tasmik.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.guru_tasmik.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Jadual Peperiksaan</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Calon Peperiksaan</span>
+                        </a>
+                    </div>
+                </div>
+            </div> --}}
+            <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
+                <span class="menu-link">
+                    <span class="menu-icon">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </span>
+                    <span class="menu-title">Rekod Kehadiran</span>
+                    <span class="menu-arrow"></span>
+                </span>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.rekod_kehadiran.rekod_pelajar.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.rekod_kehadiran.rekod_pelajar.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pelajar</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.rekod_kehadiran.rekod_pensyarah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.rekod_kehadiran.rekod_pensyarah.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pensyarah</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
+                <span class="menu-link">
+                    <span class="menu-icon">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </span>
+                    <span class="menu-title">Jabatan</span>
+                    <span class="menu-arrow"></span>
+                </span>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.rekod_hafazan_shafawi.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.rekod_hafazan_shafawi.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Hafazan Lisan (Shafawi)</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.rekod_tahriri.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.rekod_tahriri.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Bertulis (Tahriri)</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.rekod_murajaah_harian.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.rekod_murajaah_harian.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Murajaah Harian</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.pengurusan_clo.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.pengurusan_clo.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pengurusan CLO</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.pengurusan_plo.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.pengurusan_plo.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pengurusan PLO</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.pemetaan_clo_plo.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.pemetaan_clo_plo.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pemetaan CLO & PLO</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.daftar_markah_clo_plo.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.daftar_markah_clo_plo.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pendaftaran Markah CLO & PLO</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.penilaian_berterusan.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.penilaian_berterusan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Penilaian Berterusan</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
+                <span class="menu-link">
+                    <span class="menu-icon">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </span>
+                    <span class="menu-title">Ijazah</span>
+                    <span class="menu-arrow"></span>
+                </span>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.pelajar.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.pelajar.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Kemasukan Pelajar Ijazah</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.penawaran_subjek.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.penawaran_subjek.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Penawaran Subjek</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.akademik.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.akademik.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Akademik</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.jadual_pembelajaran.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.jadual_pembelajaran.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Jadual Pembelajaran</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.nota_kuliah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.nota_kuliah.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Nota Kuliah</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.profil_pensyarah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.profil_pensyarah.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Profil Pensyarah</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.kompilasi_soalan.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.kompilasi_soalan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Kompilasi Soalan</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.rekod_tesis.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.rekod_tesis.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Tesis/Projek Ilmiah</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.latihan_industri.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.latihan_industri.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Latihan Industri</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Rekod Maklumat Graduasi</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
+                <span class="menu-link">
+                    <span class="menu-icon">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </span>
+                    <span class="menu-title">Laporan</span>
+                    <span class="menu-arrow"></span>
+                </span>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.laporan.laporan_mesyuarat.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.laporan.laporan_mesyuarat.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Laporan Mesyuarat</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.laporan.tangguh_pengajian.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.laporan.tangguh_pengajian.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pelajar Gantung/Tangguh</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.laporan.akademik.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.laporan.akademik.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Akademik</span>
+                        </a>
+                    </div>
+                    {{-- <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Laporan Akademik</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Laporan Pensyarah</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Laporan Tasmik (Pelajar)</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('base2') ? 'active' : '' }}" href="{{ route('base2') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Laporan Tasmik (Guru)</span>
+                        </a>
+                    </div> --}}
+                </div>
+            </div>
+            <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
+                <span class="menu-link">
+                    <span class="menu-icon">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </span>
+                    <span class="menu-title">E-Learning</span>
+                    <span class="menu-arrow"></span>
+                </span>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.e_learning.pengurusan_kandungan.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.e_learning.pengurusan_kandungan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pengurusan Kandungan Pembelajaran</span>
+                        </a>
+                    </div>
+                    {{-- <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.rekod_kehadiran.rekod_pensyarah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.rekod_kehadiran.rekod_kehadiran.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pengurusan Jadual Pembelajaran</span>
+                        </a>
+                    </div> --}}
                 </div>
             </div>
         </div>

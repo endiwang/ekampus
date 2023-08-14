@@ -19,6 +19,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/utama';
 
+    public const HOME_PEMOHON = '/pemohon/utama';
+
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
      *
@@ -35,35 +37,6 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
-
-            Route::middleware('web')
-                ->prefix('pengurusan')
-                ->as('pengurusan.')
-                ->group(base_path('routes/pengurusan/main.php'));
-
-            Route::middleware('web')
-                ->prefix('pengurusan/kbg')
-                ->as('pengurusan.kbg.')
-                ->group(base_path('routes/pengurusan/kbg.php'));
-
-            Route::middleware('web')
-                ->prefix('pengurusan/akademik')
-                ->as('pengurusan.akademik.')
-                ->group(base_path('routes/pengurusan/akademik.php'));
-
-            Route::middleware('web')
-                ->prefix('pengurusan/kakitangan')
-                ->as('pengurusan.kakitangan.')
-                ->group(base_path('routes/pengurusan/kakitangan.php'));
-
-            Route::middleware('web')
-                ->prefix('pelajar')
-                ->as('pelajar.')
-                ->group(base_path('routes/pelajar/main.php'));
-
-            Route::middleware('web')
-                ->as('public.')
-                ->group(base_path('routes/public/main.php'));
         });
     }
 

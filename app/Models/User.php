@@ -9,7 +9,6 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
@@ -26,6 +25,7 @@ class User extends Authenticatable
         'is_staff',
         'is_alumni',
         'is_student',
+        'is_berhenti',
         'is_suspended',
     ];
 
@@ -53,9 +53,13 @@ class User extends Authenticatable
     //     $this->attributes['password'] = bcrypt($value);
     // }
 
-
     public function pelajar()
     {
-        return $this->hasMany(Pelajar::class)->where('is_deleted','!=', 1);
+        return $this->hasMany(Pelajar::class)->where('is_deleted', '!=', 1);
+    }
+
+    public function staff()
+    {
+        return $this->hasOne(Staff::class);
     }
 }

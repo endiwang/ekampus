@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Semester extends Model
 {
     use HasFactory, SoftDeletes;
+
     protected $table = 'semester';
-    protected $fillable = ['id','nama','status','deleted_by','is_deleted'];
+
+    protected $fillable = ['id', 'nama', 'status', 'deleted_by', 'is_deleted'];
 }

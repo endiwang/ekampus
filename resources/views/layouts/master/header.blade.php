@@ -5,7 +5,7 @@
     <div class="app-navbar flex-shrink-0">
         <div class="app-navbar-item ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
             <div class="cursor-pointer symbol symbol-35px symbol-md-40px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-                <img src="assets/media/avatars/300-1.jpg" alt="user" />
+                <img src="{{URL::asset('assets/media/avatars/300-1.jpg')}}" alt="user" />
             </div>
             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px" data-kt-menu="true">
                 <div class="menu-item px-5 my-2">

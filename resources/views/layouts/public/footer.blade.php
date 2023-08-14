@@ -2,7 +2,7 @@
     <!--begin::Wrapper-->
     <div class="landing-dark-bg pt-20">
         <!--begin::Container-->
-        <div class="container">
+        {{-- <div class="container">
             <!--begin::Row-->
             <div class="row py-10 py-lg-20">
                 <!--begin::Col-->
@@ -75,34 +75,34 @@
                             <!--end::Subtitle-->
                             <!--begin::Link-->
                             <a href="https://www.facebook.com/keenthemes" class="mb-6">
-                                <img src="assets/media/svg/brand-logos/facebook-4.svg" class="h-20px me-2"
+                                <img src="{{URL::asset('assets/media/svg/brand-logos/facebook-4.svg')}}" class="h-20px me-2"
                                     alt="" />
                                 <span class="text-white opacity-50 text-hover-primary fs-5 mb-6">Facebook</span>
                             </a>
                             <!--end::Link-->
                             <!--begin::Link-->
                             <a href="https://github.com/KeenthemesHub" class="mb-6">
-                                <img src="assets/media/svg/brand-logos/github.svg" class="h-20px me-2" alt="" />
+                                <img src="{{URL::asset('assets/media/svg/brand-logos/github.svg')}}" class="h-20px me-2" alt="" />
                                 <span class="text-white opacity-50 text-hover-primary fs-5 mb-6">Github</span>
                             </a>
                             <!--end::Link-->
                             <!--begin::Link-->
                             <a href="https://twitter.com/keenthemes" class="mb-6">
-                                <img src="assets/media/svg/brand-logos/twitter.svg" class="h-20px me-2"
+                                <img src="{{URL::asset('assets/media/svg/brand-logos/twitter.svg')}}" class="h-20px me-2"
                                     alt="" />
                                 <span class="text-white opacity-50 text-hover-primary fs-5 mb-6">Twitter</span>
                             </a>
                             <!--end::Link-->
                             <!--begin::Link-->
                             <a href="https://dribbble.com/keenthemes" class="mb-6">
-                                <img src="assets/media/svg/brand-logos/dribbble-icon-1.svg" class="h-20px me-2"
+                                <img src="{{URL::asset('assets/media/svg/brand-logos/dribbble-icon-1.svg')}}" class="h-20px me-2"
                                     alt="" />
                                 <span class="text-white opacity-50 text-hover-primary fs-5 mb-6">Dribbble</span>
                             </a>
                             <!--end::Link-->
                             <!--begin::Link-->
                             <a href="https://www.instagram.com/keenthemes" class="mb-6">
-                                <img src="assets/media/svg/brand-logos/instagram-2-1.svg" class="h-20px me-2"
+                                <img src="{{URL::asset('assets/media/svg/brand-logos/instagram-2-1.svg')}}" class="h-20px me-2"
                                     alt="" />
                                 <span class="text-white opacity-50 text-hover-primary fs-5 mb-6">Instagram</span>
                             </a>
@@ -115,7 +115,7 @@
                 <!--end::Col-->
             </div>
             <!--end::Row-->
-        </div>
+        </div> --}}
         <!--end::Container-->
         <!--begin::Separator-->
         <div class="landing-dark-separator"></div>
@@ -128,18 +128,18 @@
                 <div class="d-flex align-items-center order-2 order-md-1">
                     <!--begin::Logo-->
                     <a href="../../demo1/dist/landing.html">
-                        <img alt="Logo" src="assets/media/logos/landing.svg" class="h-15px h-md-20px" />
+                        <img alt="Logo" src="{{URL::asset('assets/media/logos/logo-dq.png')}}" class="h-15px h-md-20px" />
                     </a>
                     <!--end::Logo image-->
                     <!--begin::Logo image-->
-                    <span class="mx-5 fs-6 fw-semibold text-gray-600 pt-1" href="https://keenthemes.com">&copy; 2022
-                        Keenthemes Inc.</span>
+                    <span class="mx-5 fs-6 fw-semibold text-gray-600 pt-1" href="https://keenthemes.com">&copy; 2023
+                        Darul Quran.</span>
                     <!--end::Logo image-->
                 </div>
                 <!--end::Copyright-->
                 <!--begin::Menu-->
                 <ul class="menu menu-gray-600 menu-hover-primary fw-semibold fs-6 fs-md-5 order-1 mb-5 mb-md-0">
-                    <li class="menu-item">
+                    {{-- <li class="menu-item">
                         <a href="https://keenthemes.com" target="_blank" class="menu-link px-2">About</a>
                     </li>
                     <li class="menu-item mx-5">
@@ -147,7 +147,7 @@
                     </li>
                     <li class="menu-item">
                         <a href="" target="_blank" class="menu-link px-2">Purchase</a>
-                    </li>
+                    </li> --}}
                 </ul>
                 <!--end::Menu-->
             </div>

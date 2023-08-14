@@ -20,6 +20,7 @@ return new class extends Migration
             $table->tinyInteger('status')->default(0);
             $table->date('tarikh_akhir_exam')->nullable();
             $table->date('tarikh_transkrip')->nullable();
+            $table->integer('order')->nullable()->default(0);
             $table->tinyInteger('is_deleted')->nullable()->default(0);
             $table->string('deleted_by')->nullable();
             $table->softDeletes();

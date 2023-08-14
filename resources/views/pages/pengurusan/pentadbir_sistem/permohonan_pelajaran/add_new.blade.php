@@ -1,0 +1,490 @@
+@extends('layouts.master.main')
+@section('css')
+@endsection
+@section('content')
+    <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+        <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
+            <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Tetapan Permohonan Pelajar</h1>
+                <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+                    <li class="breadcrumb-item text-muted">
+                        <a href="../../demo1/dist/index.html" class="text-muted text-hover-primary">Utama</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-400 w-5px h-2px"></span>
+                    </li>
+                    <li class="breadcrumb-item text-muted">Pentadbir Sistem</li>
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-400 w-5px h-2px"></span>
+                    </li>
+                    <li class="breadcrumb-item text-muted">Tetapan Permohonan Pelajar</li>
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-400 w-5px h-2px"></span>
+                    </li>
+                    <li class="breadcrumb-item text-muted">Buka Permohonan Baru</li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+        <div id="kt_app_content_container" class="app-container container-xxl">
+            <!--begin::Row-->
+            <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
+                <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <form class="form" action="{{ route('pengurusan.pentadbir_sistem.permohonan_pelajar.store')}}" method="post">
+                        @csrf
+                        <div class="card">
+                            <div class="card-body py-5">
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('kursus', 'Program Pengajian', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::select('kursus', $kursus, old('kursus'), ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('kursus') ? 'is-invalid':''), 'data-control'=>'select2' ]) }}
+                                            @error('kursus') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('sesi', 'Sesi Pengajian', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::select('sesi', $sesi, old('sesi'), ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('sesi') ? 'is-invalid':''),'id'=>'sesi' ]) }}
+                                            @error('sesi') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('status_ujian', 'Status Permohonan Ujian', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            <label class="form-check form-switch form-check-custom form-check-solid">
+                                                {{ Form::checkbox('status_ujian', '1', false, ['class' => 'form-check-input h-25px w-60px mt-1']); }}
+                                                <span class="form-check-label fs-7 fw-semibold mt-2">
+                                                    Dibuka Untuk Ujian Dalaman
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-2">
+                            <div class="card-body py-5">
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('status', 'Status Permohonan', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            <label class="form-check form-switch form-check-custom form-check-solid">
+                                                {{ Form::checkbox('status', '1', false, ['class' => 'form-check-input h-25px w-60px mt-1']); }}
+                                                <span class="form-check-label fs-7 fw-semibold mt-2">
+                                                    Dibuka Untuk Permohonan
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('mula_permohonan', 'Tarikh Mula Permohonan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::text('mula_permohonan',old('mula_permohonan'),['class' => 'form-control form-control-sm '.($errors->has('mula_permohonan') ? 'is-invalid':''), 'id' =>'mula_permohonan','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            @error('mula_permohonan') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('tutup_permohonan', 'Tarikh Tutup Permohonan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::text('tutup_permohonan',old('tutup_permohonan'),['class' => 'form-control form-control-sm '.($errors->has('tutup_permohonan') ? 'is-invalid':''), 'id' =>'tutup_permohonan','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            @error('tutup_permohonan') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-2">
+                            <div class="card-body py-5">
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('tutup_pendaftaran', 'Tarikh Tutup Pendaftaran', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::text('tutup_pendaftaran',old('tutup_pendaftaran'),['class' => 'form-control form-control-sm '.($errors->has('tutup_pendaftaran') ? 'is-invalid':''), 'id' =>'tutup_pendaftaran','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            @error('tutup_pendaftaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('mula_semakan_temuduga', 'Tarikh Semakan Temuduga', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="w-100">
+                                            {{ Form::text('mula_semakan_temuduga',old('mula_semakan_temuduga'),['class' => 'form-control form-control-sm '.($errors->has('mula_semakan_temuduga') ? 'is-invalid':''), 'id' =>'mula_semakan_temuduga','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            @error('mula_semakan_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1 text-md-center">
+                                        {{ Form::label('tutup_semakan_temuduga', 'Hingga', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="w-100">
+                                            {{ Form::text('tutup_semakan_temuduga',old('tutup_semakan_temuduga'),['class' => 'form-control form-control-sm '.($errors->has('tutup_semakan_temuduga') ? 'is-invalid':''), 'id' =>'tutup_semakan_temuduga','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            @error('tutup_semakan_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('tajuk_temuduga', 'Tajuk Semakan Temuduga', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::text('tajuk_temuduga',old('tajuk_temuduga'),['class' => 'form-control form-control-sm '.($errors->has('tajuk_temuduga') ? 'is-invalid':''), 'id' =>'tajuk_temuduga','autocomplete' => 'off']) }}
+                                            @error('tajuk_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('maklumat_temuduga', 'Maklumat Semakan Temuduga', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::textarea('maklumat_temuduga',old('maklumat_temuduga'),['class' => 'form-control form-control-sm '.($errors->has('maklumat_temuduga') ? 'is-invalid':''), 'id' =>'maklumat_temuduga', 'rows'=>'3']) }}
+                                            @error('maklumat_temuduga') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('mula_semakan_tawaran', 'Tarikh Semakan Tawaran Kemasukan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="w-100">
+                                            {{ Form::text('mula_semakan_tawaran',old('mula_semakan_tawaran'),['class' => 'form-control form-control-sm '.($errors->has('mula_semakan_tawaran') ? 'is-invalid':''), 'id' =>'mula_semakan_tawaran','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            @error('mula_semakan_tawaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1 text-md-center">
+                                        {{ Form::label('tutup_semakan_tawaran', 'Hingga', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="w-100">
+                                            {{ Form::text('tutup_semakan_tawaran',old('tutup_semakan_tawaran'),['class' => 'form-control form-control-sm '.($errors->has('tutup_semakan_tawaran') ? 'is-invalid':''), 'id' =>'tutup_semakan_tawaran','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            @error('tutup_semakan_tawaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('tutup_rayuan', 'Tarikh Akhir Rayuan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::text('tutup_rayuan',old('tutup_rayuan'),['class' => 'form-control form-control-sm '.($errors->has('tutup_rayuan') ? 'is-invalid':''), 'id' =>'tutup_rayuan','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            @error('tutup_rayuan') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('tajuk_rayuan', 'Tajuk Semakan Rayuan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::text('tajuk_rayuan',old('tajuk_rayuan'),['class' => 'form-control form-control-sm '.($errors->has('tajuk_rayuan') ? 'is-invalid':''), 'id' =>'tajuk_rayuan' ,'autocomplete' => 'off']) }}
+                                            @error('tajuk_rayuan') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('mula_semakan_rayuan', 'Tarikh Semakan Rayuan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="w-100">
+                                            {{ Form::text('mula_semakan_rayuan',old('mula_semakan_rayuan'),['class' => 'form-control form-control-sm '.($errors->has('mula_semakan_rayuan') ? 'is-invalid':''), 'id' =>'mula_semakan_rayuan','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            @error('mula_semakan_rayuan') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1 text-md-center">
+                                        {{ Form::label('tutup_semakan_rayuan', 'Hingga', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="w-100">
+                                            {{ Form::text('tutup_semakan_rayuan',old('tutup_semakan_rayuan'),['class' => 'form-control form-control-sm '.($errors->has('tutup_semakan_rayuan') ? 'is-invalid':''), 'id' =>'tutup_semakan_rayuan','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            @error('tutup_semakan_rayuan') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('tajuk_semakan_tawaran', 'Tajuk Semakan Tawaran', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::text('tajuk_semakan_tawaran',old('tajuk_semakan_tawaran'),['class' => 'form-control form-control-sm '.($errors->has('tajuk_semakan_tawaran') ? 'is-invalid':''), 'id' =>'tajuk_semakan_tawaran','autocomplete' => 'off']) }}
+                                            @error('tajuk_semakan_tawaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('maklumat_semakan_tawaran', 'Maklumat Semakan Tawaran', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::textarea('maklumat_semakan_tawaran',old('maklumat_semakan_tawaran'),['class' => 'form-control form-control-sm '.($errors->has('maklumat_semakan_tawaran') ? 'is-invalid':''), 'id' =>'maklumat_semakan_tawaran', 'rows'=>'3']) }}
+                                            @error('maklumat_semakan_tawaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('pusat_temuduga', 'Pusat Temuduga', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{-- <label class="form-check form-check-custom form-check-inline"> --}}
+                                                <div class="row">
+                                                @foreach ($pusat_temuduga as $pusat_temuduga_data)
+                                                    <div class="col-md-4 mb-2">
+                                                        <input class="form-check-input" name="pusat_temuduga[]" type="checkbox" value="{{$pusat_temuduga_data->id}}"/>
+                                                        <span class="fw-semibold p-2 fs-7 text-capitalize">{{ $pusat_temuduga_data->nama }}</span>
+                                                    </div>
+                                                @endforeach
+                                                </div>
+                                            {{-- </label> --}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-9 offset-md-3">
+                                        <div class="d-flex">
+                                            <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
+                                                <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
+                                            </button>
+                                            <a href="{{ route('pengurusan.pentadbir_sistem.permohonan_pelajar.index') }}" class="btn btn-light btn-sm">Batal</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <!--end::Row-->
+        </div>
+    </div>
+
+@endsection
+
+@push('scripts')
+<script>
+$(document).ready(function () {
+    if($("#kursus").val() != null || $("#kursus").val() != '')
+    {
+        $("#sesi").select2({
+            ajax: {
+                url: "{{route('pengurusan.pentadbir_sistem.permohonan_pelajar.fetchSesi')}}",
+                type: "POST",
+                data: {
+                            kursus_id: $("#kursus").val(),
+                            _token: '{{csrf_token()}}'
+                        },
+                dataType: 'json',
+                processResults: function (data) {
+                // Transforms the top-level key of the response object from 'items' to 'results'
+                return {
+                    results: data
+                };
+                }
+            }
+        })
+    }
+
+    $("#kursus").on('change', function(){
+        var kursus_id = this.value;
+
+        $("#sesi").val('');
+        $("#sesi").select2({
+            ajax: {
+                url: "{{route('pengurusan.pentadbir_sistem.permohonan_pelajar.fetchSesi')}}",
+                type: "POST",
+                data: {
+                            kursus_id: kursus_id,
+                            _token: '{{csrf_token()}}'
+                        },
+                dataType: 'json',
+                processResults: function (data) {
+                // Transforms the top-level key of the response object from 'items' to 'results'
+                return {
+                    results: data
+                };
+                }
+            }
+        })
+    })
+});
+
+
+$("#mula_permohonan").daterangepicker({
+        autoApply : true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+    },function(start, end, label) {
+        var datePicked = moment(start).format('DD/MM/YYYY');
+        $("#mula_permohonan").val(datePicked);
+});
+$("#tutup_permohonan").daterangepicker({
+        autoApply : true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+    },function(start, end, label) {
+        var datePicked = moment(start).format('DD/MM/YYYY');
+        $("#tutup_permohonan").val(datePicked);
+});
+$("#tutup_pendaftaran").daterangepicker({
+        autoApply : true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+    },function(start, end, label) {
+        var datePicked = moment(start).format('DD/MM/YYYY');
+        $("#tutup_pendaftaran").val(datePicked);
+});
+$("#mula_semakan_temuduga").daterangepicker({
+        autoApply : true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+    },function(start, end, label) {
+        var datePicked = moment(start).format('DD/MM/YYYY');
+        $("#mula_semakan_temuduga").val(datePicked);
+});
+$("#tutup_semakan_temuduga").daterangepicker({
+        autoApply : true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+    },function(start, end, label) {
+        var datePicked = moment(start).format('DD/MM/YYYY');
+        $("#tutup_semakan_temuduga").val(datePicked);
+});
+$("#mula_semakan_tawaran").daterangepicker({
+        autoApply : true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+    },function(start, end, label) {
+        var datePicked = moment(start).format('DD/MM/YYYY');
+        $("#mula_semakan_tawaran").val(datePicked);
+});
+$("#tutup_semakan_tawaran").daterangepicker({
+        autoApply : true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+    },function(start, end, label) {
+        var datePicked = moment(start).format('DD/MM/YYYY');
+        $("#tutup_semakan_tawaran").val(datePicked);
+});
+$("#tutup_rayuan").daterangepicker({
+        autoApply : true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+    },function(start, end, label) {
+        var datePicked = moment(start).format('DD/MM/YYYY');
+        $("#tutup_rayuan").val(datePicked);
+});
+$("#mula_semakan_rayuan").daterangepicker({
+        autoApply : true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+    },function(start, end, label) {
+        var datePicked = moment(start).format('DD/MM/YYYY');
+        $("#mula_semakan_rayuan").val(datePicked);
+});
+$("#tutup_semakan_rayuan").daterangepicker({
+        autoApply : true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+    },function(start, end, label) {
+        var datePicked = moment(start).format('DD/MM/YYYY');
+        $("#tutup_semakan_rayuan").val(datePicked);
+});
+</script>
+
+@endpush

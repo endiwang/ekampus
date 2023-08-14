@@ -48,6 +48,14 @@
             .swal2-html-container {
             color: white !important;
             }
+
+			.swal-modal-delete-title {
+    		color: black !important;
+			}
+
+			.swal-modal-delete-container {
+			color: gray !important;
+			}
         </style>
 	</head>
 	<body id="kt_body" data-bs-spy="scroll" data-bs-target="#kt_landing_menu" class="bg-white position-relative app-blank" style="background-color: #eaedf7 !important">
@@ -67,8 +75,8 @@
 										</span>
 									</button>
 									<a href="../../demo1/dist/landing.html">
-										<img alt="Logo" src="assets/media/logos/landing.svg" class="logo-default h-25px h-lg-30px" />
-										<img alt="Logo" src="assets/media/logos/landing-dark.svg" class="logo-sticky h-20px h-lg-25px" />
+										<img alt="Logo" src="{{URL::asset('assets/media/logos/logo-dq.png')}}" class="logo-default h-25px h-lg-30px" />
+										<img alt="Logo" src="{{URL::asset('assets/media/logos/logo-dq.png')}}" class="logo-sticky h-20px h-lg-25px" />
 									</a>
 								</div>
 								@include('layouts.public.navigation')
