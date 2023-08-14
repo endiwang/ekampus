@@ -38,4 +38,8 @@ class PermohonanSijilTahfiz extends Model
     public function tetapanSiriPeperiksaan(){
         return $this->belongsTo(TetapanPeperiksaanSijilTahfiz::class, 'siri_id', 'id');
     }
+
+    public function pelajar(){
+        return $this->belongsTo(Pelajar::class);
+    }
 }

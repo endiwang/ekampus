@@ -276,38 +276,19 @@
                                         </div>
                                     </div>
                                 </div>
+                                <h3>Status Kelayakan</h3>
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('mykad', 'MyKad', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                        {{ Form::label('status', 'Status Kelayakan', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            <input type="file" name="mykad" class="{{ 'form-control form-control-sm '.($errors->has('mykad') ? 'is-invalid':'') }}">
-                                            @error('mykad') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row fv-row mb-2" >
-                                    <div class="col-md-3 text-md-end">
-                                        {{ Form::label('dokumen_sokongan', 'Dokumen Sokongan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="w-100">
-                                            <input type="file" name="dokumen_sokongan" class="{{ 'form-control form-control-sm '.($errors->has('dokumen_sokongan') ? 'is-invalid':'') }}">
-                                            <span class="fs-8 text-muted">Sijil Tamat Hafazan 30 Juzuk / Surat Pengesahan Hafazan 30 juzuk / Rekod Hafazan 30 Juzuk yang disahkan oleh pegawai kerajaan</span>
-                                            @error('mykad') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row fv-row mb-2" >
-                                    <div class="col-md-3 text-md-end">
-                                        {{ Form::label('resit_bayaran', 'Resit Bayaran', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="w-100">
-                                            <input type="file" name="resit_bayaran" class="{{ 'form-control form-control-sm '.($errors->has('resit_bayaran') ? 'is-invalid':'') }}">
-                                            <span class="fs-8 text-muted">Money Order tidak boleh melebihi 6 bulan dari Tarikh peperiksaan</span>
-                                            @error('resit_bayaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            <label class="form-check form-switch form-check-custom form-check-solid">
+                                                {{ Form::checkbox('status', 1, ($permohonan->status == 1 ? true:false), ['class' => 'form-check-input h-25px w-60px mt-1', 'disabled'=>true]); }}
+                                                <span class="form-check-label fs-7 fw-semibold mt-2">
+                                                    Layak
+                                                </span>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>

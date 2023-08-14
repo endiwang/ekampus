@@ -206,7 +206,8 @@ class SijilTahfizController extends Controller
                 PermohonanSijilTahfizFile::create([
                     'permohonan_sijil_tahfiz_id' => $permohonan->id,
                     'file_upload_name' => $request->mykad->getClientOriginalName(),
-                    'file_upload_path' => $file_path.'/'.$file_name
+                    'file_upload_path' => $file_path.'/'.$file_name,
+                    'document_type' => 'mykad',
                 ]);
             }
 
@@ -220,7 +221,8 @@ class SijilTahfizController extends Controller
                 PermohonanSijilTahfizFile::create([
                     'permohonan_sijil_tahfiz_id' => $permohonan->id,
                     'file_upload_name' => $request->dokumen_sokongan->getClientOriginalName(),
-                    'file_upload_path' => $file_path.'/'.$file_name
+                    'file_upload_path' => $file_path.'/'.$file_name,
+                    'document_type' => 'dokumen',
                 ]);
             }
 
@@ -234,7 +236,8 @@ class SijilTahfizController extends Controller
                 PermohonanSijilTahfizFile::create([
                     'permohonan_sijil_tahfiz_id' => $permohonan->id,
                     'file_upload_name' => $request->resit_bayaran->getClientOriginalName(),
-                    'file_upload_path' => $file_path.'/'.$file_name
+                    'file_upload_path' => $file_path.'/'.$file_name,
+                    'document_type' => 'resit',
                 ]);
             }
             
