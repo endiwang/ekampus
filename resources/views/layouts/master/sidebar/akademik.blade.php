@@ -439,6 +439,16 @@
                 </span>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.pensyarah_cadangan.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.pensyarah_cadangan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pensyarah Cadangan</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.rekod_hafazan_shafawi.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.rekod_hafazan_shafawi.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>

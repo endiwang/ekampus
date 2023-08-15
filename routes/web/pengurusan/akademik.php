@@ -33,6 +33,7 @@ use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\DaftarMarkahCloPl
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanCloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanPloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PenilaianBerterusanController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PensyarahCadanganController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanShafawiController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanTahririController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodMurajaahHarianController;
@@ -215,6 +216,9 @@ Route::group(['prefix' => 'pengurusan_jabatan', 'as' => 'pengurusan_jabatan.'], 
 
     Route::get('penilaian_berterusan/kemaskini_markah/{id}/{student_id}/{class_id}', [PenilaianBerterusanController::class, 'edit'])->name('penilaian_berterusan.markah');
     Route::resource('penilaian_berterusan', PenilaianBerterusanController::class);
+
+    Route::get('pensyarah_cadangan/download', [PensyarahCadanganController::class, 'download'])->name('pensyarah_cadangan.download');
+    Route::resource('pensyarah_cadangan', PensyarahCadanganController::class);
 });
 
 Route::group(['prefix' => 'e_learning', 'as' => 'e_learning.'], function () {
