@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('kursus', function (Blueprint $table) {
             $table->id();
-            $table->char('kod',2)->nullable();
+            $table->char('kod', 2)->nullable();
             $table->string('nama');
             $table->string('nama_arab')->nullable();
             $table->tinyInteger('status')->default(0);

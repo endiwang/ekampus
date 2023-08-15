@@ -10,5 +10,6 @@ class Hari extends Model
     use HasFactory;
 
     protected $table = 'hari';
+
     protected $guarded = ['id'];
 }

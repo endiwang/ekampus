@@ -9,7 +9,8 @@ class PermohonanPertukaranSyukbah extends Model
 {
     use HasFactory;
 
-    protected $table = "permohonan_pertukaran_syukbah";
+    protected $table = 'permohonan_pertukaran_syukbah';
+
     protected $guarded = ['id'];
 
     public function pelajar()

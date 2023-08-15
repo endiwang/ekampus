@@ -1,0 +1,3 @@
+@elseif(Request::routeIs('{ROUTE_NAME}.*'))
+                            @include('layouts.master.sidebar.{MODULE}')
+					{{-- sidebar menu --}}

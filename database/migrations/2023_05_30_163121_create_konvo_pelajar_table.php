@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('konvo_id')->nullable();
             $table->integer('kursus_id')->nullable();
             $table->integer('pelajar_id')->nullable();
-            $table->char('type',2)->nullable()->default('B');
+            $table->char('type', 2)->nullable()->default('B');
             $table->mediumText('catatan')->nullable();
             $table->integer('kehadiran')->nullable();
             $table->string('saiz_kopiah')->nullable();

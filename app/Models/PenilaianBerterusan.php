@@ -9,11 +9,12 @@ class PenilaianBerterusan extends Model
 {
     use HasFactory;
 
-    protected $table = "penilaian_berterusan";
+    protected $table = 'penilaian_berterusan';
+
     protected $guarded = ['id'];
 
     public function subjek()
     {
-        return $this->belongsTo(Subjek::class, 'subjek_id','id');
+        return $this->belongsTo(Subjek::class, 'subjek_id', 'id');
     }
 }

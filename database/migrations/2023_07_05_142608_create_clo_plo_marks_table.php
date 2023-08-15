@@ -19,8 +19,8 @@ return new class extends Migration
             $table->integer('pelajar_id')->nullable();
             $table->integer('kursus_id')->nullable();
             $table->integer('semester_terkini_id')->nullable();
-            $table->double('clo_marks', 8,2)->nullable();
-            $table->double('plo_marks', 8,2)->nullable();
+            $table->double('clo_marks', 8, 2)->nullable();
+            $table->double('plo_marks', 8, 2)->nullable();
             $table->integer('created_by')->nullable();
             $table->timestamps();
         });

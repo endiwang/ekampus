@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Pemohon;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Permohonan;
 use App\Models\RayuanPermohonan;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
 class RayuanController extends Controller
@@ -18,6 +18,7 @@ class RayuanController extends Controller
     public function index($id)
     {
         $permohonan = Permohonan::find($id);
+
         return view('pages.pemohon.rayuan.main', compact('permohonan'));
     }
 
@@ -34,7 +35,6 @@ class RayuanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -77,7 +77,6 @@ class RayuanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

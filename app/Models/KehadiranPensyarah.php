@@ -9,11 +9,12 @@ class KehadiranPensyarah extends Model
 {
     use HasFactory;
 
-    protected $table = "kehadiran_pensyarah";
+    protected $table = 'kehadiran_pensyarah';
+
     protected $guarded = ['id'];
 
     public function staff()
     {
-        return $this->belongsTo(Staff::class,'staff_id','id');
-    } 
+        return $this->belongsTo(Staff::class, 'staff_id', 'id');
+    }
 }

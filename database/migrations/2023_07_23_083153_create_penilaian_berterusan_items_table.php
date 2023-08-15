@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('subjek_id');
             $table->string('item')->nullable();
-            $table->double('peratus_markah', 8,2)->nullable();
+            $table->double('peratus_markah', 8, 2)->nullable();
             $table->timestamps();
         });
     }

@@ -9,6 +9,7 @@ class KeahlianPerpustakaan extends Model
 {
     use HasFactory;
 
-    protected $table = "perpustakaan_keahlian";
+    protected $table = 'perpustakaan_keahlian';
+
     protected $guarded = ['id'];
 }
