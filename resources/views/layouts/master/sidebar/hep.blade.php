@@ -40,7 +40,7 @@
                 </span>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.hep.pengurusan.salahlaku_pelajar.index') ? 'active' : '' }}" href="{{ route('pengurusan.hep.pengurusan.salahlaku_pelajar.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.hep.pengurusan.salahlaku_pelajar.*') ? 'active' : '' }}" href="{{ route('pengurusan.hep.pengurusan.salahlaku_pelajar.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.hep.pengurusan.keluar_masuk.index') ? 'active' : '' }}" href="{{ route('pengurusan.hep.pengurusan.keluar_masuk.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.hep.pengurusan.keluar_masuk.*') ? 'active' : '' }}" href="{{ route('pengurusan.hep.pengurusan.keluar_masuk.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>

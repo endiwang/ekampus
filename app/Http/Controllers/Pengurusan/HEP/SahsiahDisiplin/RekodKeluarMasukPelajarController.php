@@ -68,16 +68,16 @@ class RekodKeluarMasukPelajarController extends Controller
                 return !empty($data->tarikh_masuk) ? Utils::formatDate($data->tarikh_masuk) : null;
             })
 
-            ->addColumn('masa_masuk', function($data) {
-                return !empty($data->waktu_masuk) ? Utils::formatTime($data->waktu_masuk) : null;
+            ->addColumn('waktu_masuk', function($data) {
+                return !empty($data->waktu_masuk) ? Utils::formatTime2($data->waktu_masuk) : null;
             })
 
             ->addColumn('tarikh_keluar', function($data) {
                 return !empty($data->tarikh_keluar) ? Utils::formatDate($data->tarikh_keluar) : null;
             })
 
-            ->addColumn('masa_keluar', function($data) {
-                return !empty($data->waktu_masuk) ? Utils::formatTime($data->waktu_masuk) : null;
+            ->addColumn('waktu_keluar', function($data) {
+                return !empty($data->waktu_keluar) ? Utils::formatTime2($data->waktu_keluar) : null;
             })
             ->addColumn('status', function($data) {
                 switch ($data->status) {
@@ -98,13 +98,13 @@ class RekodKeluarMasukPelajarController extends Controller
             })
             ->addColumn('action', function($data){
                 return '
-                        <a href="'.route('pengurusan.hep.tetapan.keluar_masuk.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                        <a href="'.route('pengurusan.hep.pengurusan.keluar_masuk.edit',$data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                             <i class="fa fa-pencil-alt"></i>
                         </a>
                         <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id .')" data-bs-toggle="tooltip" title="Hapus">
                             <i class="fa fa-trash"></i>
                         </a>
-                        <form id="delete-'.$data->id.'" action="'.route('pengurusan.hep.tetapan.keluar_masuk.destroy', $data->id).'" method="POST">
+                        <form id="delete-'.$data->id.'" action="'.route('pengurusan.hep.pengurusan.keluar_masuk.destroy', $data->id).'" method="POST">
                             <input type="hidden" name="_token" value="'.csrf_token().'">
                             <input type="hidden" name="_method" value="DELETE">
                         </form>';
@@ -113,7 +113,7 @@ class RekodKeluarMasukPelajarController extends Controller
             ->order(function ($data) {
                 $data->orderBy('id', 'desc');
             })
-            ->rawColumns(['status','no_ic', 'tarikh_masuk','masa_masuk','tarikh_keluar','masa_keluar','status','action'])
+            ->rawColumns(['status','no_ic', 'tarikh_masuk','waktu_masuk','tarikh_keluar','waktu_keluar','status','action'])
             ->toJson();
         }
 
@@ -123,9 +123,9 @@ class RekodKeluarMasukPelajarController extends Controller
             ['data' => 'nama_pelajar', 'name' => 'nama_pelajar', 'title' => 'Nama Pelajar', 'orderable'=> false, 'class'=>'text-bold'],
             ['data' => 'no_ic', 'name' => 'no_ic', 'title' => 'No MyKad/Passport<br>[No Matrik]', 'orderable'=> false],
             ['data' => 'tarikh_keluar', 'name' => 'tarikh_keluar', 'title' => 'Tarikh Keluar', 'orderable'=> false, 'class'=>'text-bold'],
-            ['data' => 'masa_keluar', 'name' => 'masa_keluar', 'title' => 'Masa Keluar', 'orderable'=> false, 'class'=>'text-bold'],
+            ['data' => 'waktu_keluar', 'name' => 'waktu_keluar', 'title' => 'Masa Keluar', 'orderable'=> false, 'class'=>'text-bold'],
             ['data' => 'tarikh_masuk', 'name' => 'tarikh_masuk', 'title' => 'Tarikh Masuk', 'orderable'=> false, 'class'=>'text-bold'],
-            ['data' => 'masa_masuk', 'name' => 'masa_masuk', 'title' => 'Masa Masuk', 'orderable'=> false, 'class'=>'text-bold'],
+            ['data' => 'waktu_masuk', 'name' => 'waktu_masuk', 'title' => 'Masa Masuk', 'orderable'=> false, 'class'=>'text-bold'],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false, 'class'=>'text-bold'],
             ['data' => 'action', 'name' => 'action','title' => 'Tindakan', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
 
@@ -173,12 +173,12 @@ class RekodKeluarMasukPelajarController extends Controller
         $validation = $request->validate([
             'pelajar_id'=> 'required',
             'tarikh_keluar'=> 'required',
-            'masa_keluar'=> 'required',
+            'waktu_keluar'=> 'required',
             'status'=> 'required',
         ],[
             'pelajar_id.required'       => 'Sila pilih pelejar',
             'tarikh_keluar.required'    => 'Sila tarikh keluar',
-            'masa_keluar.required'      => 'Sila masa keluar',
+            'waktu_keluar.required'      => 'Sila masa keluar',
             'status.required'           => 'Sila status',
         ]);
 
@@ -187,10 +187,10 @@ class RekodKeluarMasukPelajarController extends Controller
         KeluarMasuk::create([
             'pelajar_id'    => $request->pelajar_id,
             'user_id'       => $pelajar->user_id,
-            'tarikh_keluar' => $request->tarikh_keluar,
-            'masa_keluar'   => $request->masa_keluar,
-            'tarikh_masuk'  => $request->tarikh_masuk,
-            'masa_masuk'    => $request->masa_masuk,
+            'tarikh_keluar' => Carbon::createFromFormat('d/m/Y', $request->tarikh_keluar)->format('Y-m-d'),
+            'waktu_keluar'   => $request->waktu_keluar,
+            'tarikh_masuk'  => $request->tarikh_masuk ? Carbon::createFromFormat('d/m/Y', $request->tarikh_masuk)->format('Y-m-d') : NULL,
+            'waktu_masuk'    => $request->waktu_masuk,
             'status'        => $request->status,
         ]);
 
@@ -219,7 +219,21 @@ class RekodKeluarMasukPelajarController extends Controller
      */
     public function edit($id)
     {
-        //
+        $action = route('pengurusan.hep.pengurusan.keluar_masuk.update', $id);
+        $page_title = 'Pinda Maklumat Keluar Masuk';
+
+        $title = 'Maklumat Keluar Masuk';
+        $breadcrumbs = [
+            'Hal Ehwal Pelajar' => false,
+            'Pengurusan' => false,
+            'Keluar Masuk' => false,
+        ];
+
+        $model = KeluarMasuk::find($id);
+
+        $pelajar = Pelajar::where('is_berhenti',0)->get()->pluck('name_ic','id');
+
+        return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action','pelajar'));
     }
 
     /**
@@ -231,7 +245,29 @@ class RekodKeluarMasukPelajarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validation = $request->validate([
+            'tarikh_keluar'=> 'required',
+            'waktu_keluar'=> 'required',
+            'status'=> 'required',
+        ],[
+            'tarikh_keluar.required'    => 'Sila tarikh keluar',
+            'waktu_keluar.required'      => 'Sila masa keluar',
+            'status.required'           => 'Sila status',
+        ]);
+
+        $keluar_masuk = KeluarMasuk::find($id);
+
+        $keluar_masuk->tarikh_keluar    = Carbon::createFromFormat('d/m/Y', $request->tarikh_keluar)->format('Y-m-d');
+        $keluar_masuk->waktu_keluar     = $request->waktu_keluar;
+        $keluar_masuk->tarikh_masuk     = $request->tarikh_masuk ? Carbon::createFromFormat('d/m/Y', $request->tarikh_masuk)->format('Y-m-d') : NULL;
+        $keluar_masuk->waktu_masuk      = $request->waktu_masuk;
+        $keluar_masuk->status           = $request->status;
+        $keluar_masuk->save();
+
+
+
+        Alert::toast('Maklumat keluar masuk berjaya dikemaskini!', 'success');
+        return redirect()->route('pengurusan.hep.pengurusan.keluar_masuk.index');
     }
 
     /**
@@ -242,6 +278,13 @@ class RekodKeluarMasukPelajarController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $keluar_masuk = KeluarMasuk::find($id);
+
+        $keluar_masuk = $keluar_masuk->delete();
+
+        Alert::toast('Maklumat keluar masuk berjaya dihapus!', 'success');
+
+        return redirect()->back();
+
     }
 }
