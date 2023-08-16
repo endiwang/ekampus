@@ -160,12 +160,12 @@ class TetapanPusatPeperiksaanController extends Controller
     }
 
     public function show($id){
-        $title = "Tambah Pusat Peperiksaan";
+        $title = "Lihat Tetapan";
         $breadcrumbs = [
             "Jabatan Pengajian Sepanjang Hayat" =>  '#',
             "Pengurusan Sijil Tahfiz" =>  '#',
             "Tetapan Pusat Peperiksaan Sijil Tahfiz" =>  '#',
-            "Tambah Pusat Peperiksaan" =>  '#',
+            "Lihat Tetapan" =>  '#',
         ];
 
         $pusatPeperiksaan = PusatPeperiksaan::with('pusatPeperiksaanNegeri')->where('id',$id)->first();
