@@ -51,21 +51,6 @@
                                     <div class="col-md-9 offset-md-3">
                                         <div class="d-flex">
                                             <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
-                                                <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
-                                            </button>
-                                            <a href="{{ route('pengurusan.pengajian_sepanjang_hayat.tetapan.penemuduga_sijil_tahfiz.index') }}" class="btn btn-light btn-sm">Batal</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card mt-2">
-                            <div class="card-body py-5">
-                                
-                                <div class="row">
-                                    <div class="col-md-9 offset-md-3">
-                                        <div class="d-flex">
-                                            <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
                                                 <i class="fa fa-save" style="vertical-align: initial"></i>Pinda
                                             </button>
                                             <a href="{{ route('pengurusan.pengajian_sepanjang_hayat.tetapan.penemuduga_sijil_tahfiz.index') }}" class="btn btn-light btn-sm">Batal</a>

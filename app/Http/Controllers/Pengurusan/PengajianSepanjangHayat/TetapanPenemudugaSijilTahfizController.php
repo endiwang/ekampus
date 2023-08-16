@@ -35,7 +35,8 @@ class TetapanPenemudugaSijilTahfizController extends Controller
             $data = TetapanPenemudugaSijilTahfiz::all();
             return DataTables::of($data)
             ->addColumn('name', function($data) {
-                return $data->staff->nama;
+                $staff = Staff::where('id', $data->staff_id)->pluck('nama')->first();
+                return $staff;
 
             })
             ->addColumn('status_edit', function($data) {
@@ -78,7 +79,7 @@ class TetapanPenemudugaSijilTahfizController extends Controller
         ])
         ->columns([
             [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false, 'orderable'=> false],
-            ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Penemuduga', 'orderable'=> true],
+            ['data' => 'name', 'name' => 'name', 'title' => 'Nama Penemuduga', 'orderable'=> true],
             ['data' => 'status_edit', 'name' => 'status_edit', 'title' => 'Status', 'orderable'=> false],
             ['data' => 'action', 'name' => 'action','title' => 'Tindakan', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
 
@@ -124,10 +125,10 @@ class TetapanPenemudugaSijilTahfizController extends Controller
         DB::beginTransaction();
 
         try {
-            $pusatPeperiksaan = TetapanPenemudugaSijilTahfiz::create([
+            TetapanPenemudugaSijilTahfiz::create([
                 'staff_id' => $request->staff_id,
                 'status' => $status,
-                'created_by'    => Auth::id(),
+                'created_by' => Auth::id(),
             ]);
     
             Alert::toast('Tetapan Baru Berjaya Ditambah', 'success');
@@ -204,7 +205,7 @@ class TetapanPenemudugaSijilTahfizController extends Controller
 
         try {
             TetapanPenemudugaSijilTahfiz::where('id', $id)->update([
-                'name' => $request->staff_id,
+                'staff_id' => $request->staff_id,
                 'status' => $status,
                 'created_by' => Auth::id(),
             ]);
@@ -218,7 +219,7 @@ class TetapanPenemudugaSijilTahfizController extends Controller
             Alert::toast('Tetapan Tidak Berjaya Dipinda', 'error');
         }
         
-        return redirect()->route('pengurusan.pengajian_sepanjang_hayat.tetapan.penemudga_sijil_tahfiz.index');
+        return redirect()->route('pengurusan.pengajian_sepanjang_hayat.tetapan.penemuduga_sijil_tahfiz.index');
     }
 
     public function destroy($id){
@@ -226,6 +227,6 @@ class TetapanPenemudugaSijilTahfizController extends Controller
 
         Alert::toast('Tetapan telah berjaya dibuang', 'success');
 
-        return redirect()->route('pengurusan.pengajian_sepanjang_hayat.tetapan.penemudga_sijil_tahfiz.index');
+        return redirect()->route('pengurusan.pengajian_sepanjang_hayat.tetapan.penemuduga_sijil_tahfiz.index');
     }
 }
