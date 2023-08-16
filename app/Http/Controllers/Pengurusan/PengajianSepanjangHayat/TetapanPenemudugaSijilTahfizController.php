@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Pengurusan\PengajianSepanjangHayat;
 
 use App\Http\Controllers\Controller;
+use App\Models\PusatPeperiksaan;
+use App\Models\PusatPeperiksaanNegeri;
 use App\Models\Staff;
 use App\Models\TetapanPenemuduga;
 use App\Models\TetapanPenemudugaSijilTahfiz;
+use App\Models\TetapanPeperiksaanSijilTahfiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -99,11 +102,13 @@ class TetapanPenemudugaSijilTahfizController extends Controller
         ];
 
         $staffSelection = Staff::all();
+        $tetapanpeperiksaansijiltahfizs = TetapanPeperiksaanSijilTahfiz::where('status',1)->get();
 
         $data = [
             'title' => $title,
             'breadcrumbs' => $breadcrumbs,
             'staffSelection' => $staffSelection,
+            'tetapanpeperiksaansijiltahfizs' => $tetapanpeperiksaansijiltahfizs,
         ];
 
         return view('pages.pengurusan.pengajian_sepanjang_hayat.tetapan.penemuduga_sijil_tahfiz.add_new', $data);
@@ -112,24 +117,21 @@ class TetapanPenemudugaSijilTahfizController extends Controller
     public function store(Request $request){
         $validated = $request->validate([
             'staff_id'  => 'required',
+            'tetapan_peperiksaan_sijil_tahfiz_id' => 'required',
+            'pusat_peperiksaan_id' => 'required',
+            'pusat_peperiksaan_negeri_id' => 'required',
         ],[
             'staff_id.required' => 'Sila pilih penemudga.',
+            'tetapan_peperiksaan_sijil_tahfiz_id.required' => 'Sila pilih siri peperiksaan.',
+            'pusat_peperiksaan_id.required' => 'Sila pilih pusat peperiksaan.',
+            'pusat_peperiksaan_negeri_id.required' => 'Sila pilih negeri pusat peperiksaan.',
         ]);
 
-        if($request->has('status')){
-            $status = $request->status;
-        }else{
-            $status = 0;
-        }
-
+        $request['created_by'] = Auth::id();
         DB::beginTransaction();
 
         try {
-            TetapanPenemudugaSijilTahfiz::create([
-                'staff_id' => $request->staff_id,
-                'status' => $status,
-                'created_by' => Auth::id(),
-            ]);
+            TetapanPenemudugaSijilTahfiz::create($request->except('_token'));
     
             Alert::toast('Tetapan Baru Berjaya Ditambah', 'success');
             DB::commit();
@@ -154,12 +156,14 @@ class TetapanPenemudugaSijilTahfizController extends Controller
 
         $penemuduga = TetapanPenemudugaSijilTahfiz::where('id',$id)->first();
         $staffSelection = Staff::all();
+        $tetapanpeperiksaansijiltahfizs = TetapanPeperiksaanSijilTahfiz::where('status',1)->get();
 
         $data = [
             'title' => $title,
             'breadcrumbs' => $breadcrumbs,
             'penemuduga' => $penemuduga,
             'staffSelection' => $staffSelection,
+            'tetapanpeperiksaansijiltahfizs' => $tetapanpeperiksaansijiltahfizs,
         ];
 
         return view('pages.pengurusan.pengajian_sepanjang_hayat.tetapan.penemuduga_sijil_tahfiz.view', $data);
@@ -176,6 +180,12 @@ class TetapanPenemudugaSijilTahfizController extends Controller
 
         $penemuduga = TetapanPenemudugaSijilTahfiz::where('id',$id)->first();
         $staffSelection = Staff::all();
+        $tetapanpeperiksaansijiltahfizs = TetapanPeperiksaanSijilTahfiz::where('status',1)->get();
+        $pusatPeperiksaans = PusatPeperiksaan::whereIn('id', json_decode($penemuduga->tetapanSiriPeperiksaan->lokasi_peperiksaan))
+            ->pluck('name', 'id');
+        $pusatPeperiksaanNegeris = PusatPeperiksaanNegeri::join('negeri', 'negeri.id', '=', 'pusat_peperiksaan_negeris.state_id')
+            ->where('pusat_peperiksaan_negeris.pusat_peperiksaan_id', $penemuduga->pusat_peperiksaan_id)
+            ->pluck('negeri.nama', 'pusat_peperiksaan_negeris.id');
 
         $data = [
             'title' => $title,
@@ -183,6 +193,9 @@ class TetapanPenemudugaSijilTahfizController extends Controller
             'penemuduga' => $penemuduga,
             'staffSelection' => $staffSelection,
             'id' => $id,
+            'tetapanpeperiksaansijiltahfizs' => $tetapanpeperiksaansijiltahfizs,
+            'pusatPeperiksaans' => $pusatPeperiksaans,
+            'pusatPeperiksaanNegeris' => $pusatPeperiksaanNegeris,
         ];
 
         return view('pages.pengurusan.pengajian_sepanjang_hayat.tetapan.penemuduga_sijil_tahfiz.edit', $data);
@@ -191,24 +204,25 @@ class TetapanPenemudugaSijilTahfizController extends Controller
     public function update(Request $request, $id){
         $validated = $request->validate([
             'staff_id'  => 'required',
+            'tetapan_peperiksaan_sijil_tahfiz_id' => 'required',
+            'pusat_peperiksaan_id' => 'required',
+            'pusat_peperiksaan_negeri_id' => 'required',
         ],[
             'staff_id.required' => 'Sila pilih penemudga.',
+            'tetapan_peperiksaan_sijil_tahfiz_id.required' => 'Sila pilih siri peperiksaan.',
+            'pusat_peperiksaan_id.required' => 'Sila pilih pusat peperiksaan.',
+            'pusat_peperiksaan_negeri_id.required' => 'Sila pilih negeri pusat peperiksaan.',
         ]);
 
-        if($request->has('status')){
-            $status = $request->status;
-        }else{
-            $status = 0;
+        $request['created_by'] = Auth::id();
+        if(!$request->has('status')){
+            $request['status'] = 0;
         }
 
         DB::beginTransaction();
 
         try {
-            TetapanPenemudugaSijilTahfiz::where('id', $id)->update([
-                'staff_id' => $request->staff_id,
-                'status' => $status,
-                'created_by' => Auth::id(),
-            ]);
+            TetapanPenemudugaSijilTahfiz::where('id', $id)->update($request->except('_token','_method'));
     
             Alert::toast('Tetapan Berjaya Dipinda', 'success');
             DB::commit();
@@ -228,5 +242,19 @@ class TetapanPenemudugaSijilTahfizController extends Controller
         Alert::toast('Tetapan telah berjaya dibuang', 'success');
 
         return redirect()->route('pengurusan.pengajian_sepanjang_hayat.tetapan.penemuduga_sijil_tahfiz.index');
+    }
+
+    public function fetchPusatPeperiksaan(Request $request){
+        $tetapan = TetapanPeperiksaanSijilTahfiz::where('id', $request->siri_id)->first();
+        $ppeperiksaan = PusatPeperiksaan::whereIn('id', json_decode($tetapan->lokasi_peperiksaan))
+            ->get(['id','name as text']);
+        return $ppeperiksaan;
+    }
+
+    public function fetchPusatPeperiksaanNegeri(Request $request){
+        $ppnegeri = PusatPeperiksaanNegeri::join('negeri', 'negeri.id', '=', 'pusat_peperiksaan_negeris.state_id')
+            ->where('pusat_peperiksaan_negeris.pusat_peperiksaan_id', $request->pusat_peperiksaan_id)
+            ->get(['pusat_peperiksaan_negeris.id','negeri.nama as text']);
+        return $ppnegeri;
     }
 }

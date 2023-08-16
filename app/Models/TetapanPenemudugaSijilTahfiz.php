@@ -16,4 +16,8 @@ class TetapanPenemudugaSijilTahfiz extends Model
     public function staff(){
         return $this->belongsTo(Staff::class);
     }
+
+    public function tetapanSiriPeperiksaan(){
+        return $this->belongsTo(TetapanPeperiksaanSijilTahfiz::class, 'tetapan_peperiksaan_sijil_tahfiz_id', 'id');
+    }
 }
