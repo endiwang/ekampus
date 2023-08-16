@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Pengurusan\Akademik\JadualWaktu;
 use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
 use App\Models\Bilik;
+use App\Models\JadualPensyarah;
+use App\Models\JadualPensyarahDetail;
 use App\Models\JadualWaktu;
 use App\Models\JadualWaktuDetail;
 use App\Models\Kelas;
@@ -38,11 +40,17 @@ class JadualKelasController extends Controller
             ];
 
             if (request()->ajax()) {
-                $data = Kelas::with('jadualKelas', 'pusatPengajian')->where('deleted_at', null)->where('status', 0);
+                $data = Kelas::with('jadualKelas', 'pusatPengajian', 'currentSemester')->where('deleted_at', null)->where('status', 0);
 
                 return DataTables::of($data)
                     ->addColumn('pusat_pengajian_id', function ($data) {
                         return $data->pusatPengajian->nama ?? null;
+                    })
+                    ->addColumn('sesi', function ($data) {
+                        return $data->sesi ?? null;
+                    })
+                    ->addColumn('semasa_semester_id', function ($data) {
+                        return $data->currentSemester->nama ?? null;
                     })
                     ->addColumn('status', function ($data) {
                         if (! empty($data->jadualKelas->status)) {
@@ -64,7 +72,7 @@ class JadualKelasController extends Controller
                     })
                     ->addIndexColumn()
                     ->order(function ($data) {
-                        $data->orderBy('id', 'desc');
+                        $data->orderBy('nama', 'asc');
                     })
                     ->rawColumns(['action'])
                     ->toJson();
@@ -75,6 +83,7 @@ class JadualKelasController extends Controller
                     ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
                     ['data' => 'nama', 'name' => 'nama', 'title' => 'Kelas', 'orderable' => false],
                     ['data' => 'sesi', 'name' => 'sesi', 'title' => 'Sesi', 'orderable' => false],
+                    ['data' => 'semasa_semester_id', 'name' => 'semasa_semester_id', 'title' => 'Semester', 'orderable' => false],
                     ['data' => 'pusat_pengajian_id', 'name' => 'pusat_pengajian_id', 'title' => 'Pusat Pengajian', 'orderable' => false],
                     ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable' => false],
                     ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
@@ -124,9 +133,12 @@ class JadualKelasController extends Controller
         // ]);
 
         // try {
+        $kelas = Kelas::find($request->kelas_id);
+
         $jadual_waktu = JadualWaktu::updateOrCreate([
             'kelas_id' => $request->kelas_id,
             'pengajian_id' => $request->pusat_pengajian_id,
+            'semester_id' => $kelas->semasa_semester_id,
         ]);
 
         $subjek = Subjek::select('kredit')->find($request->subjek);
@@ -148,6 +160,26 @@ class JadualKelasController extends Controller
         $pensyarah_kelas->subjek_id = $request->subjek;
         $pensyarah_kelas->kelas_id = $request->kelas_id;
         $pensyarah_kelas->save();
+
+        //save into pensyarah table
+        $pensyarah = JadualPensyarah::updateOrCreate([
+            'jadual_waktu_id'   => $jadual_waktu->id,
+            'staff_id'          => $request->pensyarah,
+            'semester_id'       => $kelas->semasa_semester_id,
+            'sesi_id'           => $kelas->sesi 
+        ]);
+
+        $jadual_pensyarah_detail = new JadualPensyarahDetail();
+        $jadual_pensyarah_detail->jadual_pensyarah_id = $pensyarah->id;
+        $jadual_pensyarah_detail->jadual_waktu_detail_id  = $jadual_detail->id;
+        $jadual_pensyarah_detail->staff_id = $request->pensyarah;
+        $jadual_pensyarah_detail->subjek_id = $request->subjek;
+        $jadual_pensyarah_detail->kelas_id = $request->kelas_id;
+        $jadual_pensyarah_detail->hari = $request->hari;
+        $jadual_pensyarah_detail->masa_mula = $request->masa_mula;
+        $jadual_pensyarah_detail->masa_akhir = $request->masa_tamat;
+        $jadual_pensyarah_detail->lokasi = $request->lokasi;
+        $jadual_pensyarah_detail->save();
 
         Alert::toast('Maklumat Subjek berjaya disimpan!', 'success');
 
@@ -181,7 +213,7 @@ class JadualKelasController extends Controller
     public function edit(Builder $builder, $id)
     {
         try {
-            $timetable = JadualWaktu::with('kelas')->where('kelas_id', $id)->first();
+            $timetable = JadualWaktu::with('kelas')->where('kelas_id', $id)->where('status_pengajian', 1)->first();
 
             $class = Kelas::find($id);
             $title = 'Jadual Waktu Bagi '.$class->nama;
@@ -342,6 +374,9 @@ class JadualKelasController extends Controller
 
             $pensyarah = PensyarahKelas::where('staff_id', $jadual_detail->staff_id)->where('subjek_id', $jadual_detail->subjek_id)->first();
             $pensyarah = $pensyarah->delete();
+
+            $jadual_pensyarah = JadualPensyarahDetail::where('jadual_waktu_detail_id', $id)->first();
+            $jadual_pensyarah = $jadual_pensyarah->delete();
 
             $jadual_detail = $jadual_detail->delete();
 
