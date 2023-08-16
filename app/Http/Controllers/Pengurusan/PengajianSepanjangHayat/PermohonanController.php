@@ -37,18 +37,22 @@ class PermohonanController extends Controller
 
             })
             ->addColumn('status', function($data) {
-                switch ($data->status) {
-                    case 1:
-                        return '<span class="badge py-3 px-4 fs-7 badge-light-success">Layak</span>';
-                        break;
-                    case 2:
-                        return '<span class="badge py-3 px-4 fs-7 badge-light-info">Dihantar</span>';
-                        break;
-                    case 0:
-                        return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Layak</span>';
-                    default:
-                      return '<span class="badge py-3 px-4 fs-7 badge-light-info">Dihantar</span>';
-                  }
+                if($data->status_tawaran){
+                    return '<span class="badge py-3 px-4 fs-7 badge-light-success">Terima Tawaran</span>';
+                } else {
+                    switch ($data->status) {
+                        case 1:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-success">Layak</span>';
+                            break;
+                        case 2:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-info">Dihantar</span>';
+                            break;
+                        case 0:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Layak</span>';
+                        default:
+                          return '<span class="badge py-3 px-4 fs-7 badge-light-info">Dihantar</span>';
+                    }
+                }
             })
             ->addColumn('action', function($data){
                 $btn = '<a href="'.route('pengurusan.pengajian_sepanjang_hayat.proses_permohonan.permohonan.show',$data->id).'" class="btn btn-icon btn-info btn-sm" data-bs-toggle="tooltip" title="Lihat"><i class="fa fa-eye"></i></a>';
