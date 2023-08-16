@@ -228,7 +228,7 @@ class JadualPensyarahController extends Controller
 
     public function downloadTimetable(CalendarService $calendarService, $id, $staff_id)
     {
-        // try {
+        try {
             $detail = JadualPensyarah::with('semester', 'sesi')->find($id);
             $nama = Staff::select('nama')->find($staff_id);
 
@@ -240,12 +240,12 @@ class JadualPensyarahController extends Controller
 
             return $pdf->stream();
 
-        // } catch (Exception $e) {
-        //     report($e);
+        } catch (Exception $e) {
+            report($e);
 
-        //     Alert::toast('Uh oh! Something went Wrong', 'error');
+            Alert::toast('Uh oh! Something went Wrong', 'error');
 
-        //     return redirect()->back();
-        // }
+            return redirect()->back();
+        }
     }
 }
