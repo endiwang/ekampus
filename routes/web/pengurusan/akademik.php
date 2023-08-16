@@ -3,6 +3,7 @@
 use App\Http\Controllers\Pengurusan\Akademik\eLearning\PengurusanKandunganController;
 use App\Http\Controllers\Pengurusan\Akademik\GuruTasmikController;
 use App\Http\Controllers\Pengurusan\Akademik\JadualWaktu\JadualKelasController;
+use App\Http\Controllers\Pengurusan\Akademik\JadualWaktu\JadualPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\KalendarAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\KelasController;
 use App\Http\Controllers\Pengurusan\Akademik\KursusController;
@@ -159,6 +160,9 @@ Route::group(['prefix' => 'jadual', 'as' => 'jadual.'], function () {
     Route::post('jadual_kelas/add_subject', [JadualKelasController::class, 'addSubject'])->name('jadual_kelas.add_subject');
     Route::post('jadual_kelas/update/{id}', [JadualKelasController::class, 'update'])->name('jadual_kelas.update_status');
     Route::resource('jadual_kelas', JadualKelasController::class);
+
+    Route::get('jadual_pensyarah/download_timetable/{id}/{staff_id}', [JadualPensyarahController::class, 'downloadTimetable'])->name('jadual_pensyarah.lecturer_timetable');
+    Route::resource('jadual_pensyarah', JadualPensyarahController::class);
 });
 
 Route::group(['prefix' => 'pengurusan_ijazah', 'as' => 'pengurusan_ijazah.'], function () {

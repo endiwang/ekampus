@@ -343,7 +343,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('#') ? 'active' : '' }}" href="#">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.jadual.jadual_pensyarah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.jadual.jadual_pensyarah.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
