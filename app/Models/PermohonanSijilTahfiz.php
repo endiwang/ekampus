@@ -25,6 +25,7 @@ class PermohonanSijilTahfiz extends Model
         'tahun_tamat',
         'tahap_pencapaian_hafazan',
         'status',
+        'status_tawaran',
         'created_by',
         'is_deleted',
         'deleted_by',
@@ -41,5 +42,9 @@ class PermohonanSijilTahfiz extends Model
 
     public function pelajar(){
         return $this->belongsTo(Pelajar::class);
+    }
+
+    public function pusatPeperiksaan(){
+        return $this->belongsTo(PusatPeperiksaan::class);
     }
 }

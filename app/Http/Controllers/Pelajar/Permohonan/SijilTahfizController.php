@@ -53,7 +53,8 @@ class SijilTahfizController extends Controller
         // }
 
         if (request()->ajax()) {
-            $data = PermohonanSijilTahfiz::all();
+            $pelajar = Pelajar::where('user_id', Auth::id())->first();
+            $data = PermohonanSijilTahfiz::where('pelajar_id', $pelajar->id)->get();
             return DataTables::of($data)
             ->addColumn('permohonan', function($data) {
                 return 'Permohonan';
@@ -64,18 +65,23 @@ class SijilTahfizController extends Controller
 
             })
             ->addColumn('status', function($data) {
-                switch ($data->status) {
-                    case 1:
-                        return '<span class="badge py-3 px-4 fs-7 badge-light-success">Layak</span>';
-                        break;
-                    case 2:
-                        return '<span class="badge py-3 px-4 fs-7 badge-light-info">Dihantar</span>';
-                        break;
-                    case 0:
-                        return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Layak</span>';
-                    default:
-                      return '<span class="badge py-3 px-4 fs-7 badge-light-info">Dihantar</span>';
-                  }
+                if($data->status_tawaran){
+                    return '<span class="badge py-3 px-4 fs-7 badge-light-success">Terima Tawaran</span>';
+                } else {
+                    switch ($data->status) {
+                        case 1:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-success">Layak</span>';
+                            break;
+                        case 2:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-info">Dihantar</span>';
+                            break;
+                        case 0:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Layak</span>';
+                        default:
+                          return '<span class="badge py-3 px-4 fs-7 badge-light-info">Dihantar</span>';
+                    }
+                }
+                
             })
             ->addColumn('action', function($data){
                 $btn = '<a href="'.route('pelajar.permohonan.sijil_tahfiz.show',$data->id).'" class="btn btn-icon btn-info btn-sm" data-bs-toggle="tooltip" title="Lihat"><i class="fa fa-eye"></i></a>';
@@ -89,9 +95,13 @@ class SijilTahfizController extends Controller
                             <input type="hidden" name="_token" value="'.csrf_token().'">
                             <input type="hidden" name="_method" value="DELETE">
                         </form>';
+                } elseif ($data->status == 1){
+                    if(!$data->status_tawaran){
+                        $btn .=' <a href="'.route('pelajar.permohonan.sijil_tahfiz.setujuTerima.tawaran',$data->id).'" class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip" title="Setuju terima tawaran"><i class="fa fa-check-double"></i></a>';
+                    }
                 }
 
-                 return $btn;
+                return $btn;
             })
             ->addIndexColumn()
             ->order(function ($data) {
@@ -163,7 +173,7 @@ class SijilTahfizController extends Controller
             'tahap_pencapaian_hafazan' => 'required',
             'mykad' => 'required',
             'dokumen_sokongan' => 'required',
-            'resit_bayaran' => 'required',
+            // 'resit_bayaran' => 'required',
         ],[
             'masalah_penglihatan.required' => 'Ruangan ini perlu diisi.',
             'siri_id.required' => 'Sila pilih siri peperiksaan sijil tahfiz yang ingin dipohon.',
@@ -182,7 +192,7 @@ class SijilTahfizController extends Controller
             'tahap_pencapaian_hafazan.required' => 'Ruangan ini perlu diisi.',
             'mykad.required'    => 'Sila lampirkan salinan MyKad anda.',
             'dokumen_sokongan.required' => 'Sila lampirkan dokumen sokongan yang telah disahkan.',
-            'resit_bayaran.required'    => 'Sila lampirkan resit/bukti pembayaran.',
+            // 'resit_bayaran.required'    => 'Sila lampirkan resit/bukti pembayaran.',
         ]);
 
         $pelajar = Pelajar::where('user_id', Auth::id())->first();
@@ -226,20 +236,20 @@ class SijilTahfizController extends Controller
                 ]);
             }
 
-            if($request->resit_bayaran)
-            {
-                $file_name = uniqid() . '.' . $request->resit_bayaran->getClientOriginalExtension();
-                $file_path = 'uploads/permohonan/sijil_tahfiz/'.$pelajar->id;
-                $file = $request->file('resit_bayaran');
-                $file->move($file_path, $file_name);
+            // if($request->resit_bayaran)
+            // {
+            //     $file_name = uniqid() . '.' . $request->resit_bayaran->getClientOriginalExtension();
+            //     $file_path = 'uploads/permohonan/sijil_tahfiz/'.$pelajar->id;
+            //     $file = $request->file('resit_bayaran');
+            //     $file->move($file_path, $file_name);
 
-                PermohonanSijilTahfizFile::create([
-                    'permohonan_sijil_tahfiz_id' => $permohonan->id,
-                    'file_upload_name' => $request->resit_bayaran->getClientOriginalName(),
-                    'file_upload_path' => $file_path.'/'.$file_name,
-                    'document_type' => 'resit',
-                ]);
-            }
+            //     PermohonanSijilTahfizFile::create([
+            //         'permohonan_sijil_tahfiz_id' => $permohonan->id,
+            //         'file_upload_name' => $request->resit_bayaran->getClientOriginalName(),
+            //         'file_upload_path' => $file_path.'/'.$file_name,
+            //         'document_type' => 'resit',
+            //     ]);
+            // }
             
             DB::commit();
             Alert::toast('Maklumat permohonan berjaya dihantar!', 'success');
@@ -438,5 +448,71 @@ class SijilTahfizController extends Controller
             ->where('pusat_peperiksaan_negeris.pusat_peperiksaan_id', $request->pusat_peperiksaan_id)
             ->get(['pusat_peperiksaan_negeris.id','negeri.nama as text']);
         return $ppnegeri;
+    }
+
+    public function setujuTerimaTawaran($id){
+        $title = "Setuju Terima Tawaran";
+        $breadcrumbs = [
+            "Pelajar" =>  '#',
+            "Permohonan" =>  '#',
+            "Sijil Tahfiz" =>  '#',
+            "Setuju Terima Tawaran" => '#',
+        ];
+
+        $permohonan = PermohonanSijilTahfiz::with('permohonanSijilTahfizFile')->where('id',$id)->first();
+        $siri_peperiksaan = TetapanPeperiksaanSijilTahfiz::where('id', $permohonan->siri_id)->first();
+
+        $data = [
+            'title' => $title,
+            'breadcrumbs' => $breadcrumbs,
+            'permohonan'    => $permohonan,
+            'siri_peperiksaan' => $siri_peperiksaan,
+        ];
+
+        return view('pages.pelajar.permohonan.sijil_tahfiz.setuju_terima', $data);
+    }
+
+    public function setujuTerimaTawaranJawapan(Request $request, $id){
+        $validated = $request->validate([
+            'resit_bayaran' => 'required_if:status_tawaran,1',
+        ],[
+            'resit_bayaran.required_if'    => 'Sila lampirkan resit/bukti pembayaran.',
+        ]);
+
+        $permohonan = PermohonanSijilTahfiz::where('id',$id)->first();
+
+        DB::beginTransaction();
+
+        try {
+
+            if($request->status_tawaran){
+                $permohonan->update($request->except('_token','_method', 'resit_bayaran'));
+            }
+
+            if($request->resit_bayaran)
+            {
+                PermohonanSijilTahfizFile::where('permohonan_sijil_tahfiz_id',$id)->where('document_type','resit')->delete();
+                $file_name = uniqid() . '.' . $request->resit_bayaran->getClientOriginalExtension();
+                $file_path = 'uploads/permohonan/sijil_tahfiz/'.$permohonan->pelajar_id;
+                $file = $request->file('resit_bayaran');
+                $file->move($file_path, $file_name);
+
+                PermohonanSijilTahfizFile::create([
+                    'permohonan_sijil_tahfiz_id' => $permohonan->id,
+                    'file_upload_name' => $request->resit_bayaran->getClientOriginalName(),
+                    'file_upload_path' => $file_path.'/'.$file_name,
+                    'document_type' => 'resit',
+                ]);
+            }
+            
+            DB::commit();
+            Alert::toast('Permohonan berjaya dikemaskini!', 'success');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            report($e);
+            Alert::toast('Permohonan tidak berjaya dikemaskini!', 'error');
+        }
+
+        return redirect()->route('pelajar.permohonan.sijil_tahfiz.index');
     }
 }

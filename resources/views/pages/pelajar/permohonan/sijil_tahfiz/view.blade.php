@@ -270,7 +270,7 @@
                                         <div class="w-100">
                                             <ul>
                                             @foreach ($permohonan->permohonanSijilTahfizFile as $dokumen)
-                                                <li><a href="{{ asset($dokumen->file_upload_path) }}">{{ $dokumen->file_upload_name }}</li>
+                                                <li>{{ strtoupper($dokumen->document_type).' :' }}<a href="{{ asset($dokumen->file_upload_path) }}">{{ $dokumen->file_upload_name }}</a></li>
                                             @endforeach
                                             </ul>
                                         </div>

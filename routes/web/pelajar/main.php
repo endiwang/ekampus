@@ -23,6 +23,8 @@ Route::group(['prefix' => 'permohonan', 'as' => 'permohonan.'], function () {
     Route::group(['prefix'=>'sijil_tahfiz','as'=>'sijil_tahfiz.'], function(){
         Route::get('fetchPusatPeperiksaan', [SijilTahfizController::class, 'fetchPusatPeperiksaan'])->name('fetchPusatPeperiksaan');
         Route::get('fetchPusatPeperiksaanNegeri', [SijilTahfizController::class, 'fetchPusatPeperiksaanNegeri'])->name('fetchPusatPeperiksaan.negeri');
+        Route::get('setujuTerimaTawaran/{id}', [SijilTahfizController::class, 'setujuTerimaTawaran'])->name('setujuTerima.tawaran');
+        Route::patch('setujuTerimaTawaran/update/{id}', [SijilTahfizController::class, 'setujuTerimaTawaranJawapan'])->name('setujuTerima.tawaran.jawapan');
     });
     Route::resource('sijil_tahfiz', SijilTahfizController::class);
 });

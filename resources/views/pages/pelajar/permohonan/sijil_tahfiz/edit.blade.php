@@ -303,7 +303,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row fv-row mb-2" >
+                                {{-- <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
                                         {{ Form::label('resit_bayaran', 'Resit Bayaran', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                     </div>
@@ -314,7 +314,7 @@
                                             @error('resit_bayaran') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="card mt-2">
