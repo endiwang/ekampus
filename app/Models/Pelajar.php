@@ -53,4 +53,9 @@ class Pelajar extends Model
     {
         return ucfirst($this->nama).' - '.ucfirst($this->no_ic);
     }
+
+    public function getNameIcNoMatrikAttribute()
+    {
+        return ucfirst($this->nama).' - '.ucfirst($this->no_matrik).' - '.ucfirst($this->no_ic);
+    }
 }

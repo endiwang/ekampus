@@ -12,7 +12,7 @@
                         <h3 class="card-title">{{ $page_title }}</h3>
                     </div>
                     <div class="card-body py-5">
-                        <form class="form" action="{{ $action }}" method="post">
+                        <form class="form" action="{{ $action }}" method="post" enctype="multipart/form-data">
                             @if($model->id) @method('PUT') @endif
                             @csrf
 
@@ -127,9 +127,40 @@
                                 <div class="col-md-9">
                                     <div class="w-100">
                                         {{ Form::textarea('aduan','',['class' => 'form-control form-control-sm form-control', 'rows'=>'10', 'required' => 'required', 'id' =>'aduan']) }}
-
-                                        {{-- <textarea class="form-control" id="tinymce" name="sebab_mohon"></textarea> --}}
                                         @error('aduan') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
+                                    {{ Form::label('bukti_1', 'Bukti 1', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        <input type="file" class="form-control form-control-sm" name="bukti_1" id="bukti_1"  required>
+                                        @error('bukti_1') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
+                                    {{ Form::label('bukti_2', 'Bukti 2', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        <input type="file" class="form-control form-control-sm" name="bukti_2" id="bukti_2">
+                                        @error('bukti_2') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
+                                    {{ Form::label('bukti_3', 'Bukti 3', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        <input type="file" class="form-control form-control-sm" name="bukti_3" id="bukti_3">
+                                        @error('bukti_3') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
