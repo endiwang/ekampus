@@ -18,6 +18,8 @@ Route::group(['prefix' => 'tetapan', 'as' => 'tetapan.'], function () {
 });
 
 Route::group(['prefix' => 'pengurusan', 'as' => 'pengurusan.'], function () {
+    Route::get('salahlaku_pelajar/{id}/siasatan', [PengurusanSalahlakuPelajarController::class,'siasatan'])->name('salahlaku_pelajar.siasatan');
+    Route::put('salahlaku_pelajar/{id}/siasatan', [PengurusanSalahlakuPelajarController::class,'update_siasatan'])->name('salahlaku_pelajar.update_siasatan');
     Route::resource('salahlaku_pelajar', PengurusanSalahlakuPelajarController::class);
     Route::resource('keluar_masuk', RekodKeluarMasukPelajarController::class);
 });

@@ -9,7 +9,10 @@ use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
 use App\Models\KesalahanKolejKediaman;
 use App\Models\Pelajar;
+use App\Models\SiasatanAduanSalahlakuPelajar;
 use RealRashid\SweetAlert\Facades\Alert;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class PengurusanSalahlakuPelajarController extends Controller
 {
@@ -72,16 +75,27 @@ class PengurusanSalahlakuPelajarController extends Controller
                     }
                 })
                 ->addColumn('action', function ($data) {
-                    return '<a href="'.route('pengurusan.hep.pengurusan.salahlaku_pelajar.edit', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Maklumat Lanjut">
-                            <i class="fa fa-eye"></i>
-                        </a>
-                        <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
-                            <i class="fa fa-trash"></i>
-                        </a>
-                        <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.kelas.destroy', $data->id).'" method="POST">
-                            <input type="hidden" name="_token" value="'.csrf_token().'">
-                            <input type="hidden" name="_method" value="DELETE">
-                        </form>';
+                    $button_siasatan = ' <a href="'.route('pengurusan.hep.pengurusan.salahlaku_pelajar.siasatan', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Maklumat Siastan">
+                    <i class="fa fa-file"></i></a>';
+                    $button_maklumat = '<a href="'.route('pengurusan.hep.pengurusan.salahlaku_pelajar.edit', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Maklumat Aduan">
+                    <i class="fa fa-eye"></i></a>';
+                    $button_delete = '
+                    <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                    <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.kelas.destroy', $data->id).'" method="POST">
+                        <input type="hidden" name="_token" value="'.csrf_token().'">
+                        <input type="hidden" name="_method" value="DELETE">
+                    </form>';
+
+                    if($data->status != 0)
+                    {
+                        $button = $button_maklumat.$button_siasatan.$button_delete;
+                    }else{
+                        $button= $button_maklumat.$button_delete;
+                    }
+
+                    return $button;
                 })
                 ->addIndexColumn()
                 ->order(function ($data) {
@@ -181,7 +195,101 @@ class PengurusanSalahlakuPelajarController extends Controller
         $aduan->status = $request->status;
         $aduan->save();
 
+        $siasatan = SiasatanAduanSalahlakuPelajar::where('aduan_salahlaku_pelajar_id', $id)->first();
+        if(empty($siasatan) && $request->status == 1)
+        {
+            SiasatanAduanSalahlakuPelajar::create([
+                'aduan_salahlaku_pelajar_id' => $id,
+            ]);
+        }
+
+        //Email pelaku utk notifikasi
+
         Alert::toast('Maklumat Aduan Salahlaku Pelajar Berjaya Dikemaskini', 'success');
+
+        return redirect()->route('pengurusan.hep.pengurusan.salahlaku_pelajar.index');
+
+    }
+
+
+    public function siasatan($id)
+    {
+        $action = route('pengurusan.hep.pengurusan.salahlaku_pelajar.update_siasatan', $id);
+        $page_title = 'Siasatan Aduan Salahlaku Pelajar';
+
+        $title = 'Siasatan Aduan Salahlaku Pelajar';
+        $breadcrumbs = [
+            'Hal Ehwal Pelajar' => false,
+            'Pengurusan' => false,
+            'Salahlaku Pelajar' => false,
+        ];
+
+        $model = SiasatanAduanSalahlakuPelajar::where('aduan_salahlaku_pelajar_id', $id)->first();
+
+        $jenis_kesalahan = [
+            'U' => 'Kesalahan Umum',
+            'KK' => 'Kesalahan Hal-ehwal Kolej Kediaman',
+        ];
+
+        // $kesalahan_kolej_kediaman = KesalahanKolejKediaman::pluck('nama_kesalahan', 'id');
+
+        // $pelajar = Pelajar::where('is_berhenti', 0)->get()->pluck('name_ic_no_matrik', 'id');
+
+        return view($this->baseView.'siasatan', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 'jenis_kesalahan'));
+
+    }
+
+    public function update_siasatan(Request $request, $id)
+    {
+        $aduan = AduanSalahlakuPelajar::find($id);
+
+        $siasatan = SiasatanAduanSalahlakuPelajar::where('aduan_salahlaku_pelajar_id', $id)->first();
+
+        if($request->has('dokumen_siasatan_1'))
+        {
+            $dokumen_siasatan_1 = uniqid().'.'.$request->dokumen_siasatan_1->getClientOriginalExtension();
+            $dokumen_siasatan_1_path = 'uploads/aduan_salahlaku/dokumen_siasatan';
+            $file_dokumen_siasatan_1 = $request->file('dokumen_siasatan_1')->storeAs($dokumen_siasatan_1_path, $dokumen_siasatan_1, 'public');
+            $siasatan->dokument_siasatan = $file_dokumen_siasatan_1;
+        }
+
+        if($request->has('dokumen_siasatan_2'))
+        {
+            $dokumen_siasatan_2 = uniqid().'.'.$request->dokumen_siasatan_2->getClientOriginalExtension();
+            $dokumen_siasatan_2_path = 'uploads/aduan_salahlaku/dokumen_siasatan';
+            $file_dokumen_siasatan_2 = $request->file('dokumen_siasatan_2')->storeAs($dokumen_siasatan_2_path, $dokumen_siasatan_2, 'public');
+            $siasatan->dokument_siasatan_2 = $file_dokumen_siasatan_2;
+        }
+
+        if($request->has('dokumen_siasatan_3'))
+        {
+            $dokumen_siasatan_3 = uniqid().'.'.$request->dokumen_siasatan_3->getClientOriginalExtension();
+            $dokumen_siasatan_3_path = 'uploads/aduan_salahlaku/dokumen_siasatan';
+            $file_dokumen_siasatan_3 = $request->file('dokumen_siasatan_3')->storeAs($dokumen_siasatan_3_path, $dokumen_siasatan_3, 'public');
+            $siasatan->dokument_siasatan_3 = $file_dokumen_siasatan_3;
+        }
+
+        $siasatan->tarikh_mula_siasatan = Carbon::createFromFormat('d/m/Y', $request->tarikh_mula_siasatan)->format('Y-m-d');
+        $siasatan->tarikh_akhir_siasatan = Carbon::createFromFormat('d/m/Y', $request->tarikh_akhir_siasatan)->format('Y-m-d');
+        $siasatan->masa_akhir_siasatan = $request->masa_akhir_siasatan;
+        $siasatan->masa_mula_siasatan = $request->masa_mula_siasatan;
+        $siasatan->tempat_siasatan = $request->tempat_siasatan;
+        $siasatan->kategori_kesalahan = $request->kategori_kesalahan;
+        $siasatan->jenis_kesalahan = $request->jenis_kesalahan;
+        $siasatan->keterangan_tertuduh = $request->keterangan_tertuduh;
+        $siasatan->keputusan_siasatan = $request->keputusan_siasatan;
+        $aduan->update_by = Auth::user()->id;
+        $siasatan->save();
+
+        if($aduan->status != $request->status_aduan)
+        {
+            $aduan->status = $request->status_aduan;
+            $aduan->update_by = Auth::user()->id;
+            $aduan->save();
+        }
+
+
+        Alert::toast('Maklumat Siasatan Aduan Salahlaku Pelajar Berjaya Dikemaskini', 'success');
 
         return redirect()->route('pengurusan.hep.pengurusan.salahlaku_pelajar.index');
 

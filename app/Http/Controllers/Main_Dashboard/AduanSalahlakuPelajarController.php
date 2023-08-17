@@ -93,9 +93,7 @@ class AduanSalahlakuPelajarController extends Controller
         {
             $bukti_2 = uniqid().'.'.$request->bukti_2->getClientOriginalExtension();
             $bukti_2_path = 'uploads/aduan_salahlaku/bukti';
-            $file_bukti_2 = $request->file('bukti_2');
-            $file_bukti_2->move($bukti_2_path, $bukti_2);
-            $file_bukti_2 = $bukti_2_path.'/'.$bukti_2;
+            $file_bukti_2 = $request->file('bukti_2')->storeAs($bukti_1_path, $bukti_2, 'public');
             $request->request->add([
                 'bukti_2' => $file_bukti_2,
             ]);
@@ -105,9 +103,7 @@ class AduanSalahlakuPelajarController extends Controller
         {
             $bukti_3 = uniqid().'.'.$request->bukti_3->getClientOriginalExtension();
             $bukti_3_path = 'uploads/aduan_salahlaku/bukti';
-            $file_bukti_3 = $request->file('bukti_3');
-            $file_bukti_3->move($bukti_3_path, $bukti_3);
-            $file_bukti_3 = $bukti_3_path.'/'.$bukti_3;
+            $file_bukti_3 = $request->file('bukti_3')->storeAs($bukti_3_path, $bukti_3, 'public');
             $request->request->add([
                 'bukti_3' => $file_bukti_3,
             ]);
