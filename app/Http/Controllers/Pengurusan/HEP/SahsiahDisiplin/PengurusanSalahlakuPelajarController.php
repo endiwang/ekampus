@@ -231,11 +231,19 @@ class PengurusanSalahlakuPelajarController extends Controller
             'KK' => 'Kesalahan Hal-ehwal Kolej Kediaman',
         ];
 
+        if($model->keputusan_siasatan == 'S')
+        {
+            $keputusan_siasatan = $model->kategori_kesalahan;
+        }else
+        {
+            $keputusan_siasatan = $model->keputusan_siasatan;
+        }
+
         // $kesalahan_kolej_kediaman = KesalahanKolejKediaman::pluck('nama_kesalahan', 'id');
 
         // $pelajar = Pelajar::where('is_berhenti', 0)->get()->pluck('name_ic_no_matrik', 'id');
 
-        return view($this->baseView.'siasatan', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 'jenis_kesalahan'));
+        return view($this->baseView.'siasatan', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 'jenis_kesalahan','keputusan_siasatan'));
 
     }
 
@@ -274,10 +282,18 @@ class PengurusanSalahlakuPelajarController extends Controller
         $siasatan->masa_akhir_siasatan = $request->masa_akhir_siasatan;
         $siasatan->masa_mula_siasatan = $request->masa_mula_siasatan;
         $siasatan->tempat_siasatan = $request->tempat_siasatan;
-        $siasatan->kategori_kesalahan = $request->kategori_kesalahan;
         $siasatan->jenis_kesalahan = $request->jenis_kesalahan;
         $siasatan->keterangan_tertuduh = $request->keterangan_tertuduh;
-        $siasatan->keputusan_siasatan = $request->keputusan_siasatan;
+        if($request->keputusan_siasatan != 'TS')
+        {
+            $siasatan->keputusan_siasatan = 'S';
+            $siasatan->kategori_kesalahan = $request->keputusan_siasatan;
+        }else{
+            $siasatan->keputusan_siasatan = $request->keputusan_siasatan;
+            $siasatan->kategori_kesalahan = NULL;
+
+
+        }
         $aduan->update_by = Auth::user()->id;
         $siasatan->save();
 

@@ -76,17 +76,6 @@
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('kategori_kesalahan', 'Kategori Kesalahan', ['class' => 'fs-7 fw-semibold required form-label mt-2 required']) }}
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        {{ Form::select('kategori_kesalahan', ['R' => 'Ringan', 'B' => 'Berat' ] , $model->kategori_kesalahan ?? old('kategori_kesalahan'), ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm ', 'data-control'=>'select2', 'required' => 'required' ]) }}
-                                        @error('kategori_kesalahan') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
                                     {{ Form::label('jenis_kesalahan', 'Jenis Kesalahan', ['class' => 'fs-7 fw-semibold required form-label mt-2 required']) }}
                                 </div>
                                 <div class="col-md-9">
@@ -116,7 +105,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::select('keputusan_siasatan', ['S' => 'Bersalah', 'TS' => 'Tidak Bersalah' ] , $model->keputusan_siasatan ?? old('keputusan_siasatan'), ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm ', 'data-control'=>'select2', 'required' => 'required' ]) }}
+                                        {{ Form::select('keputusan_siasatan', ['TS' => 'Tidak Bersalah','R' => 'Kesalahan Ringan', 'B' => 'Kesalahan Berat' ] , $keputusan_siasatan ?? old('keputusan_siasatan'), ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm ', 'data-control'=>'select2', 'required' => 'required' ]) }}
                                         @error('keputusan_siasatan') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
@@ -204,7 +193,7 @@
                                         <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
                                             <i class="fa fa-paper-plane" style="vertical-align: initial"></i>Hantar
                                         </button>
-                                        <a href="{{ route('home') }}" class="btn btn-sm btn-light">Batal</a>
+                                        <a href="{{ route('pengurusan.hep.pengurusan.salahlaku_pelajar.index') }}" class="btn btn-sm btn-light">Kembali</a>
                                     </div>
                                 </div>
                             </div>
