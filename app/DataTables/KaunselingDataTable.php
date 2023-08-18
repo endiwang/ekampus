@@ -31,7 +31,7 @@ class KaunselingDataTable extends DataTable
         return $model
             ->newQuery()
             ->when(
-                auth()->user()->role('pelajar'),
+                auth()->user()->hasRole('pelajar'),
                 fn ($query) => $query->where('user_id', auth()->user()->id)
             );
     }
