@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\StatusKaunseling;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,9 +16,9 @@ class KaunselingFactory extends Factory
      */
     public function definition()
     {
-        $date = now()->addDays(rand(1,30));
+        $date = now()->addDays(rand(1, 30));
 
-        $status = $this->faker->randomElement(['baru','diTerima','diTolak']);
+        $status = $this->faker->randomElement(['baru', 'diTerima', 'diTolak']);
 
         return [
             'no_permohonan' => 'K-'.$date->format('Ymd').'-'.$this->faker->unique()->numberBetween(1000, 9999),

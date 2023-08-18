@@ -19,7 +19,18 @@ class KaunselingDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'kaunseling.action')
+            ->addColumn('tarikh_permohonan', function ($data) {
+                return view('partials.date', ['date' => $data->tarikh_permohonan])->render();
+            })
+            ->addColumn('created_at', function ($data) {
+                return view('partials.date', ['date' => $data->created_at, 'format' => 'Y-m-d H:i:s'])->render();
+            })
+            ->addColumn('status', function ($data) {
+                return view('pages.kaunseling.partials.datatable-status', compact('data'))->render();
+            })
+            ->addColumn('action', function ($data) {
+                return view('pages.kaunseling.partials.datatable-action', compact('data'))->render();
+            })
             ->setRowId('id');
     }
 
@@ -61,6 +72,10 @@ class KaunselingDataTable extends DataTable
             Column::make('jenis_fasiliti'),
             Column::make('status')->addClass('text-center'),
             Column::make('created_at'),
+            Column::make('action')
+                ->addClass('text-center')
+                ->orderable(false)
+                ->searchable(false),
         ];
     }
 

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Kaunseling;
 
-use App\Enums\StatusKaunseling;
 use App\Http\Controllers\Controller;
 use App\Models\Kaunseling;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+
 class KaunselingController extends Controller
 {
     /**
@@ -46,7 +46,7 @@ class KaunselingController extends Controller
         $kaunseling = Kaunseling::create([
             'jenis_fasiliti' => $request->jenis_fasiliti,
             'tarikh_permohonan' => $request->tarikh_permohonan,
-            'status' => StatusKaunseling::baru()->value,
+            'status' => Kaunseling::STATUS_BARU,
             'user_id' => auth()->id(),
             'no_permohonan' => 'K-'.date('Ymd').'-'.rand(1000, 9999),
         ]);

@@ -34,8 +34,9 @@ class AssignRoleCommand extends Command
 
         $role = $this->choice('What is the role?', Role::get()->pluck('name')->toArray());
 
-        if($user->hasRole($role)) {
+        if ($user->hasRole($role)) {
             $this->info('Role '.$role.' has already been assigned to '.$username);
+
             return Command::SUCCESS;
         }
 
