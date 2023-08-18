@@ -2,11 +2,11 @@
 
 namespace App\DataTables;
 
+use App\Enums\StatusKaunseling;
 use App\Models\Kaunseling;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -46,17 +46,9 @@ class KaunselingDataTable extends DataTable
             ->setTableId('kaunseling-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-                    //->dom('Bfrtip')
             ->orderBy(1)
             ->selectStyleSingle()
-            ->buttons([
-                // Button::make('excel'),
-                // Button::make('csv'),
-                // Button::make('pdf'),
-                // Button::make('print'),
-                // Button::make('reset'),
-                // Button::make('reload'),
-            ]);
+            ->buttons([]);
     }
 
     /**
@@ -65,19 +57,11 @@ class KaunselingDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            // Column::computed('action')
-            //     ->exportable(false)
-            //     ->printable(false)
-            //     ->width(60)
-            //     ->addClass('text-center'),
-            // Column::make('id'),
             Column::make('no_permohonan'),
             Column::make('tarikh_permohonan'),
             Column::make('jenis_fasiliti'),
-            Column::make('status'),
-            // Column::make('add your columns'),
+            Column::make('status')->addClass('text-center'),
             Column::make('created_at'),
-            // Column::make('updated_at'),
         ];
     }
 
