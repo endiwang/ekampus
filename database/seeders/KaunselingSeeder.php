@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Seeder;
@@ -25,7 +26,7 @@ class KaunselingSeeder extends Seeder
         ], [
             'display_name' => 'Kaunseling',
             'type' => 'category',
-            'parent_category' => null,
+            // 'parent_category' => null,
         ]);
 
         $pelajar = Role::updateOrCreate([
@@ -33,7 +34,7 @@ class KaunselingSeeder extends Seeder
         ], [
             'display_name' => 'Pelajar',
             'type' => 'category',
-            'parent_category' => null,
+            // 'parent_category' => null,
         ]);
 
         $permissions = [
@@ -56,5 +57,17 @@ class KaunselingSeeder extends Seeder
                 $pelajar->givePermissionTo($permission);
             }
         }
+
+        User::query()
+            ->where('is_student', true)
+            ->where('is_staff', false)
+            ->where('is_berhenti', false)
+            ->where('is_alumni', false)
+            ->get()
+            ->each(function ($user) {
+                if(! $user->hasRole('pelajar')) {
+                    $user->assignRole('pelajar');
+                }
+            });
     }
 }

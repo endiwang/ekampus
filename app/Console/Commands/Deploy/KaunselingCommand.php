@@ -27,8 +27,12 @@ class KaunselingCommand extends Command
      */
     public function handle()
     {
-        $this->call('migrate --path=database/migrations/2023_08_11_184151_create_kaunselings_table.php');
-        $this->call('db:seed --class=KaunselingSeeder');
+        $this->call('migrate', [
+            '--path' => 'database/migrations/2023_08_11_184151_create_kaunselings_table.php',
+        ]);
+        $this->call('db:seed', [
+            '--class' => 'KaunselingSeeder'
+        ]);
 
         $this->info('Kaunseling module deployed successfully.');
 
