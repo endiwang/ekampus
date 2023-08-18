@@ -29,7 +29,12 @@ class KaunselingDataTable extends DataTable
      */
     public function query(Kaunseling $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model
+            ->newQuery()
+            ->when(
+                auth()->user()->role('pelajar'),
+                fn($query) => $query->where('user_id', auth()->user()->id)
+            );
     }
 
     /**
@@ -45,12 +50,12 @@ class KaunselingDataTable extends DataTable
             ->orderBy(1)
             ->selectStyleSingle()
             ->buttons([
-                Button::make('excel'),
-                Button::make('csv'),
-                Button::make('pdf'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload'),
+                // Button::make('excel'),
+                // Button::make('csv'),
+                // Button::make('pdf'),
+                // Button::make('print'),
+                // Button::make('reset'),
+                // Button::make('reload'),
             ]);
     }
 
@@ -60,11 +65,11 @@ class KaunselingDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
+            // Column::computed('action')
+            //     ->exportable(false)
+            //     ->printable(false)
+            //     ->width(60)
+            //     ->addClass('text-center'),
             // Column::make('id'),
             Column::make('no_permohonan'),
             Column::make('tarikh_permohonan'),
@@ -72,7 +77,7 @@ class KaunselingDataTable extends DataTable
             Column::make('status'),
             // Column::make('add your columns'),
             Column::make('created_at'),
-            Column::make('updated_at'),
+            // Column::make('updated_at'),
         ];
     }
 
