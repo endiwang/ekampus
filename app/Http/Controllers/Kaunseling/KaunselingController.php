@@ -26,7 +26,7 @@ class KaunselingController extends Controller
      */
     public function create()
     {
-        return view('pages.kaunseling.create');
+        return view('pages.kaunseling.form');
     }
 
     /**
@@ -66,7 +66,7 @@ class KaunselingController extends Controller
      */
     public function show(Kaunseling $kaunseling)
     {
-        // $this->authorize('view', $kaunseling);
+        $this->authorize('view', $kaunseling);
 
         return view('pages.kaunseling.show', compact('kaunseling'));
     }
@@ -80,7 +80,7 @@ class KaunselingController extends Controller
     {
         $this->authorize('update', $kaunseling);
 
-        return view('pages.kaunseling.show', compact('kaunseling'));
+        return view('pages.kaunseling.form', compact('kaunseling'));
     }
 
     /**
