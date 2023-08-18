@@ -12,4 +12,8 @@ class Kaunseling extends Model
     protected $table = 'kaunseling';
 
     protected $guarded = ['id'];
+
+    protected $casts = [
+        'tarikh_permohonan' => 'date',
+    ];
 }
