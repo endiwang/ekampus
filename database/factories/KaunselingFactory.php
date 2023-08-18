@@ -18,7 +18,7 @@ class KaunselingFactory extends Factory
     public function definition()
     {
         return [
-            'no_permohonan' => 'KNSL' . $this->faker->unique()->numberBetween(1000, 9999),
+            'no_permohonan' => 'KNSL'.$this->faker->unique()->numberBetween(1000, 9999),
             'tarikh_permohonan' => $this->faker->date(),
             'jenis_fasiliti' => $this->faker->randomElement(['Asrama', 'Kolej', 'Kediaman']),
             'status' => $this->faker->randomElement(StatusKaunseling::toValues()),

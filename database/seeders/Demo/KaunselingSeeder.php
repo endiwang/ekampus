@@ -4,8 +4,6 @@ namespace Database\Seeders\Demo;
 
 use App\Models\Kaunseling;
 use App\Models\User;
-use Database\Factories\KaunselingFactory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class KaunselingSeeder extends Seeder

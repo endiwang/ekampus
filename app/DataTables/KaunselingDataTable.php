@@ -2,7 +2,6 @@
 
 namespace App\DataTables;
 
-use App\Enums\StatusKaunseling;
 use App\Models\Kaunseling;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -33,7 +32,7 @@ class KaunselingDataTable extends DataTable
             ->newQuery()
             ->when(
                 auth()->user()->role('pelajar'),
-                fn($query) => $query->where('user_id', auth()->user()->id)
+                fn ($query) => $query->where('user_id', auth()->user()->id)
             );
     }
 

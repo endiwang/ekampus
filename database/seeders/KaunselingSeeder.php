@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class KaunselingSeeder extends Seeder
 {
@@ -22,7 +22,7 @@ class KaunselingSeeder extends Seeder
     private function seedAccessControl()
     {
         $role = Role::updateOrCreate([
-            'name' => 'Kaunseling'
+            'name' => 'Kaunseling',
         ], [
             'display_name' => 'Kaunseling',
             'type' => 'category',
@@ -49,11 +49,11 @@ class KaunselingSeeder extends Seeder
                 'name' => $value,
             ]);
 
-            if(! $role->hasPermissionTo($permission)) {
+            if (! $role->hasPermissionTo($permission)) {
                 $role->givePermissionTo($permission);
             }
 
-            if(! $pelajar->hasPermissionTo($permission)) {
+            if (! $pelajar->hasPermissionTo($permission)) {
                 $pelajar->givePermissionTo($permission);
             }
         }
@@ -65,7 +65,7 @@ class KaunselingSeeder extends Seeder
             ->where('is_alumni', false)
             ->get()
             ->each(function ($user) {
-                if(! $user->hasRole('pelajar')) {
+                if (! $user->hasRole('pelajar')) {
                     $user->assignRole('pelajar');
                 }
             });

@@ -32,7 +32,6 @@ class KaunselingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -49,12 +48,12 @@ class KaunselingController extends Controller
             'tarikh_permohonan' => $request->tarikh_permohonan,
             'status' => StatusKaunseling::baru()->value,
             'user_id' => auth()->id(),
-            'no_permohonan' => 'K' . date('YmdHi') . rand(1000, 9999),
+            'no_permohonan' => 'K'.date('YmdHi').rand(1000, 9999),
         ]);
 
         session()->flash('alert', [
             'type' => 'success',
-            'message' => 'Berjaya! Permohonan kaunseling anda telah berjaya dihantar.'
+            'message' => 'Berjaya! Permohonan kaunseling anda telah berjaya dihantar.',
         ]);
 
         return redirect()->route('kaunseling.dashboard.show', $kaunseling->id);
@@ -63,7 +62,6 @@ class KaunselingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Kaunseling  $kaunseling
      * @return \Illuminate\Http\Response
      */
     public function show(Kaunseling $kaunseling)
@@ -76,7 +74,6 @@ class KaunselingController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Kaunseling  $kaunseling
      * @return \Illuminate\Http\Response
      */
     public function edit(Kaunseling $kaunseling)
@@ -89,8 +86,6 @@ class KaunselingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Kaunseling  $kaunseling
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Kaunseling $kaunseling)
@@ -109,7 +104,7 @@ class KaunselingController extends Controller
 
         session()->flash('alert', [
             'type' => 'success',
-            'message' => 'Berjaya! Permohonan kaunseling anda telah berjaya dikemaskini.'
+            'message' => 'Berjaya! Permohonan kaunseling anda telah berjaya dikemaskini.',
         ]);
 
         return redirect()->route('kaunseling.dashboard.show', $kaunseling->id);
@@ -118,7 +113,6 @@ class KaunselingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Kaunseling  $kaunseling
      * @return \Illuminate\Http\Response
      */
     public function destroy(Kaunseling $kaunseling)
@@ -129,7 +123,7 @@ class KaunselingController extends Controller
 
         session()->flash('alert', [
             'type' => 'success',
-            'message' => 'Berjaya! Permohonan kaunseling anda telah berjaya dipadam.'
+            'message' => 'Berjaya! Permohonan kaunseling anda telah berjaya dipadam.',
         ]);
 
         return redirect()->route('kaunseling.dashboard.index');

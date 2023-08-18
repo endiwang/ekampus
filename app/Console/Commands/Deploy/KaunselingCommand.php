@@ -31,7 +31,7 @@ class KaunselingCommand extends Command
             '--path' => 'database/migrations/2023_08_11_184151_create_kaunselings_table.php',
         ]);
         $this->call('db:seed', [
-            '--class' => 'KaunselingSeeder'
+            '--class' => 'KaunselingSeeder',
         ]);
 
         $this->info('Kaunseling module deployed successfully.');
