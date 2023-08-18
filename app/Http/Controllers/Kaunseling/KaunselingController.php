@@ -6,7 +6,7 @@ use App\Enums\StatusKaunseling;
 use App\Http\Controllers\Controller;
 use App\Models\Kaunseling;
 use Illuminate\Http\Request;
-
+use RealRashid\SweetAlert\Facades\Alert;
 class KaunselingController extends Controller
 {
     /**
@@ -48,13 +48,10 @@ class KaunselingController extends Controller
             'tarikh_permohonan' => $request->tarikh_permohonan,
             'status' => StatusKaunseling::baru()->value,
             'user_id' => auth()->id(),
-            'no_permohonan' => 'K'.date('YmdHi').rand(1000, 9999),
+            'no_permohonan' => 'K-'.date('Ymd').'-'.rand(1000, 9999),
         ]);
 
-        session()->flash('alert', [
-            'type' => 'success',
-            'message' => 'Berjaya! Permohonan kaunseling anda telah berjaya dihantar.',
-        ]);
+        Alert::success('Berjaya! Permohonan kaunseling anda telah berjaya dihantar.');
 
         return redirect()->route('kaunseling.show', $kaunseling->id);
     }
@@ -102,10 +99,7 @@ class KaunselingController extends Controller
             'tarikh_permohonan' => $request->tarikh_permohonan,
         ]);
 
-        session()->flash('alert', [
-            'type' => 'success',
-            'message' => 'Berjaya! Permohonan kaunseling anda telah berjaya dikemaskini.',
-        ]);
+        Alert::success('Berjaya! Permohonan kaunseling anda telah berjaya dikemaskini.');
 
         return redirect()->route('kaunseling.dashboard.show', $kaunseling->id);
     }
