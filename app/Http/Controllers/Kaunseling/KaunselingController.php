@@ -36,7 +36,7 @@ class KaunselingController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('store', Kaunseling::class);
+        $this->authorize('create', Kaunseling::class);
 
         $this->validate($request, [
             'jenis_fasiliti' => 'required',
@@ -56,7 +56,7 @@ class KaunselingController extends Controller
             'message' => 'Berjaya! Permohonan kaunseling anda telah berjaya dihantar.',
         ]);
 
-        return redirect()->route('kaunseling.dashboard.show', $kaunseling->id);
+        return redirect()->route('kaunseling.show', $kaunseling->id);
     }
 
     /**
@@ -66,7 +66,7 @@ class KaunselingController extends Controller
      */
     public function show(Kaunseling $kaunseling)
     {
-        $this->authorize('view', $kaunseling);
+        // $this->authorize('view', $kaunseling);
 
         return view('pages.kaunseling.show', compact('kaunseling'));
     }

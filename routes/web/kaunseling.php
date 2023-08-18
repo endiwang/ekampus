@@ -5,11 +5,9 @@ use App\Http\Controllers\Kaunseling\KaunselingController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web', 'auth'])
-    ->prefix('kaunseling')
-    ->as('kaunseling.')
     ->group(function () {
-        Route::get('/dashboard', DashboardController::class)
-            ->name('dashboard.index');
+        Route::get('/kaunseling/dashboard', DashboardController::class)
+            ->name('kaunseling.dashboard.index');
 
-        Route::resource('/', KaunselingController::class);
+        Route::resource('/kaunseling', KaunselingController::class);
     });
