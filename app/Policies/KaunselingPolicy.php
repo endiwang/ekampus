@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\StatusKaunseling;
 use App\Models\Kaunseling;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -53,7 +54,12 @@ class KaunselingPolicy
      */
     public function update(User $user, Kaunseling $kaunseling)
     {
-        return $user->can('update-kaunseling');
+        return $user->can('update-kaunseling')
+            && in_array($kaunseling->status, [
+                StatusKaunseling::baru()->value,
+                StatusKaunseling::diTerima()->value,
+                StatusKaunseling::dalamProcess()->value,
+            ]);
     }
 
     /**
@@ -65,7 +71,8 @@ class KaunselingPolicy
      */
     public function delete(User $user, Kaunseling $kaunseling)
     {
-        return $user->can('delete-kaunseling');
+        return $user->can('delete-kaunseling')
+            && $kaunseling->status == StatusKaunseling::belumDihantar()->value;
     }
 
     /**
