@@ -343,7 +343,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('#') ? 'active' : '' }}" href="#">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.jadual.jadual_pensyarah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.jadual.jadual_pensyarah.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
@@ -413,7 +413,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.rekod_kehadiran.rekod_kehadiran.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.rekod_kehadiran.rekod_kehadiran.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.rekod_kehadiran.rekod_pensyarah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.rekod_kehadiran.rekod_pensyarah.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
@@ -437,6 +437,16 @@
                     <span class="menu-title">Jabatan</span>
                     <span class="menu-arrow"></span>
                 </span>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.pensyarah_cadangan.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.pensyarah_cadangan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pensyarah Cadangan</span>
+                        </a>
+                    </div>
+                </div>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.rekod_hafazan_shafawi.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.rekod_hafazan_shafawi.index') }}">
@@ -714,14 +724,14 @@
                             <span class="menu-title">Pengurusan Kandungan Pembelajaran</span>
                         </a>
                     </div>
-                    <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.rekod_kehadiran.rekod_kehadiran.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.rekod_kehadiran.rekod_kehadiran.index') }}">
+                    {{-- <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.rekod_kehadiran.rekod_pensyarah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.rekod_kehadiran.rekod_kehadiran.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Pengurusan Jadual Pembelajaran</span>
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
