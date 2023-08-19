@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class LookupKategoriMaklumat extends Model
 {
     use HasFactory;
-    protected $table = 'lookup_kategori_maklumat';
-    protected $guarded = ['id'];
 
+    protected $table = 'lookup_kategori_maklumat';
+
+    protected $guarded = ['id'];
 }

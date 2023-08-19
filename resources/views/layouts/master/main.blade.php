@@ -112,7 +112,10 @@
                         @include('layouts.master.sidebar.peperiksaan')
                     @elseif(Request::routeIs('pengurusan.pembangunan.*'))
                         @include('layouts.master.sidebar.pembangunan')
-                    {{-- sidebar menu --}}
+                    @elseif(Request::routeIs('kaunseling.dashboard.*'))
+                            @include('layouts.master.sidebar.kaunseling')
+					{{-- sidebar menu --}}
+
                     @else
                         @include('layouts.master.sidebar.utama')
                     @endif

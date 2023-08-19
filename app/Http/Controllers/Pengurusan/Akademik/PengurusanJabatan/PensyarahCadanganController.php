@@ -12,16 +12,18 @@ use App\Models\Staff;
 use App\Models\Subjek;
 use Carbon\Carbon;
 use Exception;
-use Validator;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use Validator;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
 
 class PensyarahCadanganController extends Controller
 {
     protected $baseView = 'pages.pengurusan.akademik.pengurusan_jabatan.pensyarah_cadangan.';
+
     protected $baseRoute = 'pengurusan.akademik.pengurusan_jabatan.pensyarah_cadangan.';
+
     /**
      * Display a listing of the resource.
      *
@@ -52,14 +54,14 @@ class PensyarahCadanganController extends Controller
                     $data->where('kursus_id', $request->kursus);
                 }
                 if ($request->has('subjek') && $request->subjek != null) {
-                    $data->where('nama', 'LIKE', '%' . $request->subjek . '%');
+                    $data->where('nama', 'LIKE', '%'.$request->subjek.'%');
                 }
                 if ($request->has('kod_subjek') && $request->kod_subjek != null) {
-                    $data->where('kod_subjek', 'LIKE', '%' . $request->kod_subjek . '%');
+                    $data->where('kod_subjek', 'LIKE', '%'.$request->kod_subjek.'%');
                 }
 
                 return DataTables::of($data)
-                    ->addColumn('kursus', function($data) {
+                    ->addColumn('kursus', function ($data) {
                         return $data->kursus->nama ?? null;
                     })
                     ->addColumn('action', function ($data) {
@@ -81,16 +83,16 @@ class PensyarahCadanganController extends Controller
                     ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
                     ['data' => 'kod_subjek', 'name' => 'kod_subjek', 'title' => 'Kod Subjek', 'orderable' => false, 'class' => 'text-bold'],
                     ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Subjek', 'orderable' => false],
-                    ['data' => 'kredit', 'name' => 'kredit', 'title' => 'Jam Kredit', 'orderable'=> false, 'class'=>'text-bold'],
-                    ['data' => 'kursus', 'name' => 'kursus', 'title' => 'Program Pengajian', 'orderable'=> false, 'class'=>'text-bold'],
+                    ['data' => 'kredit', 'name' => 'kredit', 'title' => 'Jam Kredit', 'orderable' => false, 'class' => 'text-bold'],
+                    ['data' => 'kursus', 'name' => 'kursus', 'title' => 'Program Pengajian', 'orderable' => false, 'class' => 'text-bold'],
                     ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
 
                 ])
                 ->minifiedAjax();
 
             $courses = Kursus::where('is_deleted', 0)->get()->pluck('nama', 'id');
-            $semesters = Semester::where('deleted_at', NULL)->pluck('nama', 'id');
-            $sessions = Sesi::where('deleted_at', NULL)->pluck('nama', 'id');
+            $semesters = Semester::where('deleted_at', null)->pluck('nama', 'id');
+            $sessions = Sesi::where('deleted_at', null)->pluck('nama', 'id');
 
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'modals', 'dataTable', 'courses', 'semesters', 'sessions'));
 
@@ -116,7 +118,6 @@ class PensyarahCadanganController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -138,14 +139,14 @@ class PensyarahCadanganController extends Controller
 
         try {
             $kursus = Subjek::select('kursus_id')->find($request->subjek_id);
-            
+
             $data = new PensyarahCadangan();
-            $data->kursus_id    = $kursus->kursus_id;
-            $data->subjek_id    = $request->subjek_id;
-            $data->kelas_id     = $request->kelas;
-            $data->semester_id  = $request->semester;
-            $data->staff_id      = $request->staff;
-            $data->sesi_id      = $request->sesi;
+            $data->kursus_id = $kursus->kursus_id;
+            $data->subjek_id = $request->subjek_id;
+            $data->kelas_id = $request->kelas;
+            $data->semester_id = $request->semester;
+            $data->staff_id = $request->staff;
+            $data->sesi_id = $request->sesi;
             $data->save();
 
             Alert::toast('Maklumat pensyarah cadangan berjaya ditambah!', 'success');
@@ -187,7 +188,7 @@ class PensyarahCadanganController extends Controller
                     'icon_class' => 'fa fa-plus-circle',
                 ],
             ];
-    
+
             if (request()->ajax()) {
                 $data = PensyarahCadangan::with('semester', 'kelas', 'staff', 'subjek', 'kursus', 'sesi')->where('subjek_id', $id);
                 if ($request->has('filter_semester') && $request->filter_semester != null) {
@@ -199,7 +200,7 @@ class PensyarahCadanganController extends Controller
                 if ($request->has('filter_sesi') && $request->filter_sesi != null) {
                     $data->where('sesi_id', $request->filter_sesi);
                 }
-    
+
                 return DataTables::of($data)
                     ->addColumn('semester_id', function ($data) {
                         return $data->semester->nama ?? null;
@@ -219,7 +220,7 @@ class PensyarahCadanganController extends Controller
                     ->addColumn('sesi_id', function ($data) {
                         return $data->sesi->nama ?? null;
                     })
-                    ->addColumn('action', function ($data) use ($id) {
+                    ->addColumn('action', function ($data) {
                         return '
                                 <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
                                 <i class="fa fa-trash"></i>
@@ -236,7 +237,7 @@ class PensyarahCadanganController extends Controller
                     ->rawColumns(['action'])
                     ->toJson();
             }
-    
+
             $dataTable = $builder
                 ->columns([
                     ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
@@ -247,21 +248,22 @@ class PensyarahCadanganController extends Controller
                     ['data' => 'subjek_id', 'name' => 'subjek_id', 'title' => 'Subjek', 'orderable' => false],
                     ['data' => 'staff_id', 'name' => 'staff_id', 'title' => 'Pensyarah', 'orderable' => false],
                     ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
-    
+
                 ])
                 ->minifiedAjax();
 
-            $semesters = Semester::where('deleted_at', NULL)->pluck('nama', 'id');
-            $classes = Kelas::where('deleted_at', NULL)->pluck('nama', 'id');
-            $staffs = Staff::where('deleted_at', NULL)->pluck('nama', 'id');
-            $sessions = Sesi::where('deleted_at', NULL)->pluck('nama', 'id');
-    
+            $semesters = Semester::where('deleted_at', null)->pluck('nama', 'id');
+            $classes = Kelas::where('deleted_at', null)->pluck('nama', 'id');
+            $staffs = Staff::where('deleted_at', null)->pluck('nama', 'id');
+            $sessions = Sesi::where('deleted_at', null)->pluck('nama', 'id');
+
             return view($this->baseView.'show', compact('title', 'breadcrumbs', 'dataTable', 'id', 'semesters', 'classes', 'modals', 'staffs', 'sessions'));
-    
+
         } catch (Exception $e) {
             report($e);
-    
+
             Alert::toast('Uh oh! Something went Wrong', 'error');
+
             return redirect()->back();
         }
     }
@@ -280,7 +282,6 @@ class PensyarahCadanganController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -332,14 +333,13 @@ class PensyarahCadanganController extends Controller
             $datas = $datas->get();
 
             $extracted_datas = [];
-            foreach($datas as $data)
-            {
+            foreach ($datas as $data) {
                 $extracted_datas[$data->subjek_id][] = [
                     'subjek' => $data->subjek->nama,
                     'jam_kredit' => $data->subjek->kredit,
                     'kelas' => $data->kelas->nama ?? null,
                     'pensyarah' => $data->staff->nama ?? null,
-                    'semester' => $data->semester->nama ?? null
+                    'semester' => $data->semester->nama ?? null,
                 ];
             }
 
