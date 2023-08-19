@@ -31,8 +31,12 @@ class SijilTahfizController extends Controller
         ];
 
         $pelajar = Pelajar::where('user_id', Auth::id())->first();
-        $age = Carbon::parse($pelajar->tarikh_lahir)->age;
-
+        if(empty($pelajar->tarikh_lahir)){
+            $age = 0;
+        } else {
+            $age = Carbon::parse($pelajar->tarikh_lahir)->age;
+        }
+        
         $now = Carbon::now()->toDateString();
 
         //check tetapan peperiksaan sijil tahfiz
@@ -63,6 +67,7 @@ class SijilTahfizController extends Controller
         if (request()->ajax()) {
             
             $data = PermohonanSijilTahfiz::where('pelajar_id', $pelajar->id)->get();
+
             return DataTables::of($data)
             ->addColumn('permohonan', function($data) {
                 return 'Permohonan';
@@ -73,23 +78,26 @@ class SijilTahfizController extends Controller
 
             })
             ->addColumn('status', function($data) {
-                if($data->status_tawaran){
-                    return '<span class="badge py-3 px-4 fs-7 badge-light-success">Terima Tawaran</span>';
+                if($data->status_hadir_peperiksaan){
+                    return '<span class="badge py-3 px-4 fs-7 badge-light-info">Sudah Ditemuduga</span>';
                 } else {
-                    switch ($data->status) {
-                        case 1:
-                            return '<span class="badge py-3 px-4 fs-7 badge-light-success">Layak</span>';
-                            break;
-                        case 2:
-                            return '<span class="badge py-3 px-4 fs-7 badge-light-info">Dihantar</span>';
-                            break;
-                        case 0:
-                            return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Layak</span>';
-                        default:
-                          return '<span class="badge py-3 px-4 fs-7 badge-light-info">Dihantar</span>';
+                    if($data->status_tawaran){
+                        return '<span class="badge py-3 px-4 fs-7 badge-light-success">Terima Tawaran</span>';
+                    } else {
+                        switch ($data->status) {
+                            case 1:
+                                return '<span class="badge py-3 px-4 fs-7 badge-light-success">Layak</span>';
+                                break;
+                            case 2:
+                                return '<span class="badge py-3 px-4 fs-7 badge-light-info">Dihantar</span>';
+                                break;
+                            case 0:
+                                return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Layak</span>';
+                            default:
+                              return '<span class="badge py-3 px-4 fs-7 badge-light-info">Dihantar</span>';
+                        }
                     }
                 }
-                
             })
             ->addColumn('action', function($data){
                 $btn = '<a href="'.route('pelajar.permohonan.sijil_tahfiz.show',$data->id).'" class="btn btn-icon btn-info btn-sm" data-bs-toggle="tooltip" title="Lihat"><i class="fa fa-eye"></i></a>';
