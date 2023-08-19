@@ -30,5 +30,9 @@ Route::group(['prefix'=>'proses_permohonan','as'=>'proses_permohonan.'], functio
 });
 
 Route::group(['prefix'=>'pemarkahan','as'=>'pemarkahan.'], function(){
+    Route::group(['prefix'=>'calon_peperiksaan_sijil_tahfiz','as'=>'calon_peperiksaan_sijil_tahfiz.'], function(){
+        Route::get('temuduga_syafawi/{id}', [PeperiksaanPemarkahanCalonSijilTahfizController::class, 'temuduga_syafawi'])->name('temuduga.syafawi');
+        Route::get('tahriri_pengetahuan_islam/{id}', [PeperiksaanPemarkahanCalonSijilTahfizController::class, 'tahriri_pengetahuan_islam'])->name('tahriri.pengetahuan_islam');
+    });
     Route::resource('calon_peperiksaan_sijil_tahfiz', PeperiksaanPemarkahanCalonSijilTahfizController::class);
 });

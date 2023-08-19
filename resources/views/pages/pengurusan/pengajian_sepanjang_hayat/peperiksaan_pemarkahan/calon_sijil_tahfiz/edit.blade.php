@@ -61,6 +61,8 @@
                             <div class="card-body py-5">
                                 <h3>Ruangan Pemarkahan</h3>
                                 <h5>Al-Quran</h5>
+                                @if ($syafawi)
+                                <input type="hidden" name="syafawi" value='{{ $syafawi }}'>
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
                                         {{ Form::label('al_quran_syafawi', 'Al-Quran Syafawi', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
@@ -73,6 +75,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @else
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
                                         {{ Form::label('al_quran_tahriri', 'Al-Quran Tahriri', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
@@ -122,6 +125,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endif
                             </div>
                         </div>
                         
