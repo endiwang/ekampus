@@ -31,6 +31,7 @@ use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodProfilPensyar
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodTesisController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\CloPloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\DaftarMarkahCloPloController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\JadualPenggantianPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanCloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanPloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PenilaianBerterusanController;
@@ -223,6 +224,11 @@ Route::group(['prefix' => 'pengurusan_jabatan', 'as' => 'pengurusan_jabatan.'], 
 
     Route::get('pensyarah_cadangan/download', [PensyarahCadanganController::class, 'download'])->name('pensyarah_cadangan.download');
     Route::resource('pensyarah_cadangan', PensyarahCadanganController::class);
+
+    Route::post('jadual_penggantian_pensyarah/update', [JadualPenggantianPensyarahController::class, 'update'])->name('jadual_penggantian_pensyarah.update');
+    Route::get('jadual_penggantian_pensyarah/download/{staff_id}', [JadualPenggantianPensyarahController::class, 'downloadJadual'])->name('jadual_penggantian_pensyarah.download');
+    Route::get('jadual_penggantian_pensyarah/create/{staff_id}', [JadualPenggantianPensyarahController::class, 'createJadual'])->name('jadual_penggantian_pensyarah.create_jadual');
+    Route::resource('jadual_penggantian_pensyarah', JadualPenggantianPensyarahController::class);
 });
 
 Route::group(['prefix' => 'e_learning', 'as' => 'e_learning.'], function () {
