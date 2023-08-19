@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+
+use App\Models\Base as Model;
 
 class PelepasanKuliahDetail extends Model
 {
-    use HasFactory;
+
 }

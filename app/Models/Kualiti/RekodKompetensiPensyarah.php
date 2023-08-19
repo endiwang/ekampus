@@ -2,12 +2,12 @@
 
 namespace App\Models\Kualiti;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+
+use App\Models\Base as Model;
 
 class RekodKompetensiPensyarah extends Model
 {
-    use HasFactory;
+
 
     protected $table = 'rekod_kompetensi_pensyarah';
 
