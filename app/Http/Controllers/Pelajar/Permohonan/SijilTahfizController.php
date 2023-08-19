@@ -30,6 +30,9 @@ class SijilTahfizController extends Controller
             "Sijil Tahfiz" =>  '#',
         ];
 
+        $pelajar = Pelajar::where('user_id', Auth::id())->first();
+        $age = Carbon::parse($pelajar->tarikh_lahir)->age;
+
         $now = Carbon::now()->toDateString();
 
         //check tetapan peperiksaan sijil tahfiz
@@ -37,23 +40,28 @@ class SijilTahfizController extends Controller
             ->whereDate('tarikh_permohonan_ditutup', '<=', date($now))
             ->first();
 
+        $buttons = [
+            [
+                'title' => "Permohonan Baru",
+                'route' => route('pelajar.permohonan.sijil_tahfiz.create'),
+                'button_class' => "btn btn-sm btn-primary fw-bold",
+                'icon_class' => "fa fa-plus-circle"
+            ],
+        ];
+
+        if($age < 17){
+            $buttons = [];
+        }
         // $sql_with_bindings = Str::replaceArray('?', $availableSiri->getBindings(), $availableSiri->toSql());
         // dd($sql_with_bindings);
         // if(!empty($availableSiri)){
-            $buttons = [
-                [
-                    'title' => "Permohonan Baru",
-                    'route' => route('pelajar.permohonan.sijil_tahfiz.create'),
-                    'button_class' => "btn btn-sm btn-primary fw-bold",
-                    'icon_class' => "fa fa-plus-circle"
-                ],
-            ];
+            
         // } else {
         //     $buttons = [];
         // }
 
         if (request()->ajax()) {
-            $pelajar = Pelajar::where('user_id', Auth::id())->first();
+            
             $data = PermohonanSijilTahfiz::where('pelajar_id', $pelajar->id)->get();
             return DataTables::of($data)
             ->addColumn('permohonan', function($data) {
