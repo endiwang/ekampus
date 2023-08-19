@@ -225,6 +225,9 @@ Route::group(['prefix' => 'pengurusan_jabatan', 'as' => 'pengurusan_jabatan.'], 
     Route::get('pensyarah_cadangan/download', [PensyarahCadanganController::class, 'download'])->name('pensyarah_cadangan.download');
     Route::resource('pensyarah_cadangan', PensyarahCadanganController::class);
 
+    Route::post('jadual_penggantian_pensyarah/update', [JadualPenggantianPensyarahController::class, 'update'])->name('jadual_penggantian_pensyarah.update');
+    Route::get('jadual_penggantian_pensyarah/download/{staff_id}', [JadualPenggantianPensyarahController::class, 'downloadJadual'])->name('jadual_penggantian_pensyarah.download');
+    Route::get('jadual_penggantian_pensyarah/create/{staff_id}', [JadualPenggantianPensyarahController::class, 'createJadual'])->name('jadual_penggantian_pensyarah.create_jadual');
     Route::resource('jadual_penggantian_pensyarah', JadualPenggantianPensyarahController::class);
 });
 

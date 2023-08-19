@@ -5,6 +5,47 @@
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
             <!--begin::Row-->
+            <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+                <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Senarai Pensyarah Tidak Hadir Bagi Tempoh 7 Hari</h3>
+                        </div>
+                        <div class="card-body py-5">
+                            <table class="table table-striped table-row-bordered gy-5 gs-7 border rounded" width="100%">
+                                <thead class="thead-light text-center">
+                                    <tr>
+                                        <th>Nama </th> 
+                                        <th>Tarikh</th>
+                                        <th>Subjek</th>   
+                                        <th>Kelas</th>                    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($absent_datas as $data)
+                                    <tr>
+                                        <td class="text-center">
+                                            {{ $data->staff->nama ?? null }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ \App\Helpers\Utils::formatDate($data->tarikh) }}
+                                        </td>
+                                        <td class="text-center"> 
+                                            {{ $data->subjek->nama ?? null }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ $data->kelas->nama ?? null }}
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Row-->
+            <!--begin::Row-->
             <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                     <form class="form" action="{{ route('pengurusan.akademik.pengurusan_jabatan.jadual_penggantian_pensyarah.show', $id)}}" method="get">
@@ -67,106 +108,35 @@
                 </div>
             </div>
             <!--end::Row-->
-
-            <div class="modal fade" id="tambahFail" role="dialog">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 class="modal-title">Tambah Subjek</h3>
-                            <button type="button" class="close btn btn-sm btn-default" data-bs-dismiss="modal">&times;</button>
-                        </div>
-                        <form class="form-horizontal" action="{{ route('pengurusan.akademik.jadual.jadual_kelas.store') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                                <div class="modal-body">
-                                    <div class="row fv-row mb-2" >
-                                        <div class="col-md-3 text-md-end">
-                                            {{ Form::label('subjek', 'Subjek', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="w-100">
-                                                {{ Form::select('subjek', $subjects, null, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('subjek') ? 'is-invalid':''), 'data-control'=>'select2' ]) }}
-                                                @error('subjek') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row fv-row mb-2" >
-                                        <div class="col-md-3 text-md-end">
-                                            {{ Form::label('hari', 'Hari', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="w-100">
-                                                {{ Form::select('hari', $days, null, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('hari') ? 'is-invalid':''), 'data-control'=>'select2' ]) }}
-                                                @error('hari') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row fv-row mb-2" >
-                                        <div class="col-md-3 text-md-end">
-                                            {{ Form::label('masa_mula', 'Masa Mula', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="w-100">
-                                                <input type="time" id="masa_mula" name="masa_mula" class="form-control form-control-sm">
-                                                @error('masa_mula') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row fv-row mb-2" >
-                                        <div class="col-md-3 text-md-end">
-                                            {{ Form::label('masa_tamat', 'Masa Tamat', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="w-100">
-                                                <input type="time" id="masa_tamat" name="masa_tamat" class="form-control form-control-sm">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row fv-row mb-2" >
-                                        <div class="col-md-3 text-md-end">
-                                            {{ Form::label('pensyarah', 'Pensyarah', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="w-100">
-                                                {{ Form::select('pensyarah', $lecturers, null, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('pensyarah') ? 'is-invalid':''), 'data-control'=>'select2' ]) }}
-                                                @error('pensyarah') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row fv-row mb-2" >
-                                        <div class="col-md-3 text-md-end">
-                                            {{ Form::label('lokasi', 'Lokasi', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="w-100">
-                                                <select class="form-control form-select form-select-sm" data-control="select2" name="lokasi" id="status">
-                                                    <option value="">Pilih Lokasi</option>
-                                                    @foreach($locations as $key => $value)
-                                                    <option value="{{ $value }}">{{ $value }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" name="kelas_id" value="{{ $id ?? null}}">
-                                    <input type="hidden" name="pusat_pengajian_id" value="{{ $class->pusat_pengajian_id ?? null}}">
-                                </div>
-                                <div class="modal-footer">
-                                    <div class="d-flex">
-                                        <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
-                                            Simpan
-                                        </button>
-                                        <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Batal</button>
-                                    </div>
-                                </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!--end::Row-->
         </div>
     </div>
 @endsection
 
 @push('scripts')
+    <script>
+        function remove(id){
+            Swal.fire({
+                title: 'Are you sure you want to delete this data?',
+                text: 'This action cannot be undone.',
+                showCancelButton: true,
+                cancelButtonText: 'Cancel',
+                confirmButtonText: 'Delete',
+                reverseButtons: true,
+                customClass: {
+                    title: 'swal-modal-delete-title',
+                    htmlContainer: 'swal-modal-delete-container',
+                    cancelButton: 'btn btn-light btn-sm mr-1',
+                    confirmButton: 'btn btn-primary btn-sm ml-1'
+                },
+                buttonsStyling: false
+            })
+                .then((result) => {
+                    if(result.isConfirmed){
+                        document.getElementById(`delete-${id}`).submit();
+                    }
+                })
+        }
+    </script>
+
     {!! $dataTable->scripts() !!}
 @endpush

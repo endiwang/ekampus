@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan;
 
 use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
+use App\Models\Bilik;
 use App\Models\Jabatan;
 use App\Models\JadualPenggantianPensyarah;
 use App\Models\Kelas;
 use App\Models\PusatPengajian;
 use App\Models\Staff;
 use App\Models\Subjek;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -106,7 +108,6 @@ class JadualPenggantianPensyarahController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -117,7 +118,31 @@ class JadualPenggantianPensyarahController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+
+            $data = new JadualPenggantianPensyarah();
+            $data->jenis        = $request->jenis;
+            $data->staff_id = $request->staff_id;
+            $data->kelas_id     = $request->kelas;
+            $data->subjek_id    = $request->subjek;
+            $data->tarikh       = !empty($request->tarikh) ? Carbon::createFromFormat('d/m/Y', $request->tarikh)->format('Y-m-d') : null ;
+            $data->masa_mula    = $request->masa_mula;
+            $data->masa_akhir   = $request->masa_tamat;
+            $data->catatan      = $request->catatan;
+            $data->status       = $request->status;
+            $data->save();
+            
+            Alert::toast('Maklumat jadual penggantian pensyarah berjaya ditambah!', 'success');
+
+            return redirect()->route($this->baseRoute .'show', $request->staff_id);
+
+        } catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+
+            return redirect()->back();
+        }
     }
 
     /**
@@ -138,12 +163,18 @@ class JadualPenggantianPensyarahController extends Controller
                 'Maklumat Jadual Penggantian Pensyarah' => false,
             ];
 
-            $modals = [
+            $buttons = [
                 [
-                    'title' => 'Tambah Maklumat Jadual Penggantian',
-                    'id' => '#addJadualPenggantian',
+                    'title' => 'Tambah Jadual',
+                    'route' => route($this->baseRoute . 'create_jadual', $id),
                     'button_class' => 'btn btn-sm btn-primary fw-bold',
                     'icon_class' => 'fa fa-plus-circle',
+                ],
+                [
+                    'title' => 'Muat Turun Jadual Ganti',
+                    'route' => route($this->baseRoute . 'download', $id),
+                    'button_class' => 'btn btn-sm btn-primary fw-bold',
+                    'icon_class' => 'fa-solid fa-circle-down',
                 ],
             ];
 
@@ -162,6 +193,19 @@ class JadualPenggantianPensyarahController extends Controller
                 }
 
                 return DataTables::of($data)
+                    ->addColumn('jenis', function ($data) {
+                        $jenis = $data->jenis;
+
+                        switch ($jenis) {
+                            case 'ganti':
+                                return 'Ganti Pensyarah';
+                            break;
+
+                            case 'tidak_hadir':
+                                return 'Tidak Hadir';
+                            break;
+                        }
+                    })
                     ->addColumn('kelas_id', function ($data) {
                         return $data->kelas->nama ?? null;
                     })
@@ -198,9 +242,16 @@ class JadualPenggantianPensyarahController extends Controller
                     })
                     ->addColumn('action', function ($data) use ($id) {
                         return '
-                            <a href="'.route('pengurusan.akademik.jadual.jadual_pensyarah.lecturer_timetable', [$data->id, $id]).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Muat Turun Jadual">
-                                <i class="fa-solid fa-circle-down"></i>
+                            <a href="'.route('pengurusan.akademik.pengurusan_jabatan.jadual_penggantian_pensyarah.edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                                <i class="fa fa-pencil-alt"></i>
                             </a>
+                            <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
+                            <i class="fa fa-trash"></i>
+                            </a>
+                            <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.pengurusan_jabatan.jadual_penggantian_pensyarah.destroy', $data->id).'" method="POST">
+                                <input type="hidden" name="_token" value="'.csrf_token().'">
+                                <input type="hidden" name="_method" value="DELETE">
+                            </form>
                             ';
                     })
                     ->addIndexColumn()
@@ -231,12 +282,15 @@ class JadualPenggantianPensyarahController extends Controller
                 'ganti' => 'Ganti',
                 'tidak_hadir' => 'Tidak hadir'
             ];
-            $subjects = Subjek::all();
+        
+            $subjects = Subjek::where('deleted_at', null)->get()->pluck('nama', 'id');
 
-            $absent_data = JadualPenggantianPensyarah::where('jenis', 'tidak_hadir')->whereDate('tarikh', '>=', date(now()))->get();
+            $startDate = Carbon::today();
+            $endDate = Carbon::today()->addDays(7);
+            $absent_datas = JadualPenggantianPensyarah::where('jenis', 'tidak_hadir')->whereBetween('tarikh', [$startDate, $endDate])->get();
             
-            return view($this->baseView.'show', compact('title', 'breadcrumbs', 'dataTable', 'kelas', 'jenis', 'id', 'absent_data', 'modals', 'subjects'));
-
+            return view($this->baseView.'show', compact('title', 'breadcrumbs', 'buttons', 
+                    'dataTable', 'kelas', 'jenis', 'id','absent_datas', 'subjects', 'id'));
         } catch (Exception $e) {
             report($e);
 
@@ -254,7 +308,42 @@ class JadualPenggantianPensyarahController extends Controller
      */
     public function edit($id)
     {
-        //
+        try {
+
+            $title = 'Kemaskini Maklumat Jadual Penggantian Pensyarah';
+            $action = route($this->baseRoute . 'update', $id);
+            $page_title = 'Maklumat Jadual Penggantian Pensyarah';
+            $breadcrumbs = [
+                'Akademik' => false,
+                'Pengurusan Jabatan' => false,
+                'Jadual Penggantian Pensyarah' => route($this->baseRoute . 'index'),
+                'Maklumat Jadual Penggantian Pensyarah' => route($this->baseRoute . 'show', $id),
+                'Kemaskini Maklumat Jadual Penggantian Pensyarah' => false,
+            ];
+
+            $model = JadualPenggantianPensyarah::find($id);
+
+            $kelas = Kelas::where('deleted_at', NULL)->pluck('nama', 'id');
+            $jenis = [
+                'ganti' => 'Ganti',
+                'tidak_hadir' => 'Tidak hadir'
+            ];
+        
+            $subjects = Subjek::where('deleted_at', null)->get()->pluck('nama', 'id');
+            $days = Utils::days();
+            $times = Utils::times();
+            $lecturers = Staff::all()->pluck('nama', 'id');
+
+            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 
+            'subjects', 'days', 'times', 'kelas', 'lecturers', 'jenis', 'id'));
+
+        } catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+
+            return redirect()->back();
+        }
     }
 
     /**
@@ -266,7 +355,32 @@ class JadualPenggantianPensyarahController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            
+            $data = JadualPenggantianPensyarah::find($id);
+            $data->jenis        = $request->jenis;
+            if($request->jenis == 'tidak_hadir')
+            {
+                $data->staff_id = $request->staff_id;
+            }
+            $data->kelas_id     = $request->kelas;
+            $data->subjek_id    = $request->subjek;
+            $data->tarikh       = $request->tarikh;
+            $data->masa_mula    = $request->masa_mula;
+            $data->masa_akhir   = $request->masa_tamat;
+            $data->catatan      = $request->catatan;
+            $data->status       = $request->status;
+            $data->save();
+            
+            return redirect()->back();
+
+        } catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+
+            return redirect()->back();
+        }
     }
 
     /**
@@ -277,6 +391,87 @@ class JadualPenggantianPensyarahController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            
+            $data = JadualPenggantianPensyarah::find($id)->delete();
+            
+            Alert::toast('Maklumat jadual penggantian pensyarah berjaya dihapus!', 'success');
+
+            return redirect()->back();
+
+        } catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+
+            return redirect()->back();
+        }
+    }
+
+    public function createJadual($id)
+    {
+        try {
+
+            $title = 'Tambah Maklumat Jadual Penggantian Pensyarah';
+            $action = route($this->baseRoute . 'store');
+            $page_title = 'Maklumat Jadual Penggantian Pensyarah';
+            $breadcrumbs = [
+                'Akademik' => false,
+                'Pengurusan Jabatan' => false,
+                'Jadual Penggantian Pensyarah' => route($this->baseRoute . 'index'),
+                'Maklumat Jadual Penggantian Pensyarah' => route($this->baseRoute . 'show', $id),
+                'Tambah Maklumat Jadual Penggantian Pensyarah' => false,
+            ];
+
+            $model = new JadualPenggantianPensyarah();
+
+            $kelas = Kelas::where('deleted_at', NULL)->pluck('nama', 'id');
+            $jenis = [
+                'ganti' => 'Ganti',
+                'tidak_hadir' => 'Tidak hadir'
+            ];
+        
+            $subjects = Subjek::where('deleted_at', null)->get()->pluck('nama', 'id');
+            $days = Utils::days();
+            $times = Utils::times();
+            $lecturers = Staff::all()->pluck('nama', 'id');
+
+            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 
+            'subjects', 'days', 'times', 'kelas', 'lecturers', 'jenis', 'id'));
+
+        } catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+
+            return redirect()->back();
+        }
+    }
+
+    public function downloadJadual($staff_id)
+    {
+        try {
+            $generated_at = Carbon::now()->format('d/m/Y H:i A');
+
+            $lecturer = Staff::select('nama')->find($staff_id);
+
+            $startDate = Carbon::today();
+            $endDate = Carbon::today()->addDays(7);
+            $datas = JadualPenggantianPensyarah::where('staff_id', $staff_id)
+                    ->whereBetween('tarikh', [$startDate, $endDate])
+                    ->where('jenis', 'ganti')->get();
+
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadView($this->baseView.'.export_pdf', compact('datas', 'generated_at', 'lecturer'))->setPaper('a4', 'landscape');
+
+            return $pdf->stream();
+
+        } catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+
+            return redirect()->back();
+        }
     }
 }
