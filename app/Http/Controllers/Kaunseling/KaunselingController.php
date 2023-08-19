@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Kaunseling;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\Kaunseling\PermohonBaruJob;
 use App\Models\Kaunseling;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -52,6 +53,8 @@ class KaunselingController extends Controller
         ]);
 
         Alert::success('Berjaya! Permohonan kaunseling anda telah berjaya dihantar.');
+
+        PermohonBaruJob::dispatch($kaunseling);
 
         return redirect()->route('kaunseling.show', $kaunseling->id);
     }

@@ -27,6 +27,11 @@ class Kaunseling extends Model
         'tarikh_permohonan' => 'date',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public static function getStatuses(): array
     {
         return [
