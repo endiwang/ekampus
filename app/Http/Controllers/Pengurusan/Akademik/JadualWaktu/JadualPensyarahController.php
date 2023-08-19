@@ -20,6 +20,7 @@ use Yajra\DataTables\Html\Builder;
 class JadualPensyarahController extends Controller
 {
     protected $baseView = 'pages.pengurusan.akademik.jadual.jadual_pensyarah.';
+
     protected $baseRoute = 'pengurusan.akademik.jadual.jadual_pensyarah.';
 
     /**
@@ -41,10 +42,10 @@ class JadualPensyarahController extends Controller
             if (request()->ajax()) {
                 $data = Staff::with('pusatPengajian', 'jabatan')->where('deleted_at', null);
                 if ($request->has('nama') && $request->nama != null) {
-                    $data->where('nama', 'LIKE', '%' . $request->nama . '%');
+                    $data->where('nama', 'LIKE', '%'.$request->nama.'%');
                 }
                 if ($request->has('staff_id') && $request->staff_id != null) {
-                    $data->where('staff_id', 'LIKE', '%' . $request->staff_id . '%');
+                    $data->where('staff_id', 'LIKE', '%'.$request->staff_id.'%');
                 }
                 if ($request->has('pusat_pengajian') && $request->pusat_pengajian != null) {
                     $data->where('pusat_pengajian_id', $request->pusat_pengajian);
@@ -62,7 +63,7 @@ class JadualPensyarahController extends Controller
                     })
                     ->addColumn('action', function ($data) {
                         return '
-                            <a href="'.route($this->baseRoute . 'show', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Lihat Maklumat">
+                            <a href="'.route($this->baseRoute.'show', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Lihat Maklumat">
                                 <i class="fa fa-eye"></i>
                             </a>
                             ';
@@ -87,9 +88,9 @@ class JadualPensyarahController extends Controller
                 ])
                 ->minifiedAjax();
 
-            $pusat_pengajian = PusatPengajian::where('deleted_at', NULL)->pluck('nama', 'id');
-            $jabatan = Jabatan::where('deleted_at', NULL)->pluck('nama', 'id');
-            
+            $pusat_pengajian = PusatPengajian::where('deleted_at', null)->pluck('nama', 'id');
+            $jabatan = Jabatan::where('deleted_at', null)->pluck('nama', 'id');
+
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable', 'pusat_pengajian', 'jabatan'));
 
         } catch (Exception $e) {
@@ -114,7 +115,6 @@ class JadualPensyarahController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -136,7 +136,7 @@ class JadualPensyarahController extends Controller
             $breadcrumbs = [
                 'Akademik' => false,
                 'Jadual' => false,
-                'Jadual Pensyarah' => route($this->baseRoute . 'index'),
+                'Jadual Pensyarah' => route($this->baseRoute.'index'),
                 'Maklumat Jadual Pensyarah' => false,
             ];
 
@@ -178,9 +178,9 @@ class JadualPensyarahController extends Controller
                 ])
                 ->minifiedAjax();
 
-            $sesi = Sesi::where('deleted_at', NULL)->pluck('nama', 'id');
-            $semester = Semester::where('deleted_at', NULL)->pluck('nama', 'id');
-            
+            $sesi = Sesi::where('deleted_at', null)->pluck('nama', 'id');
+            $semester = Semester::where('deleted_at', null)->pluck('nama', 'id');
+
             return view($this->baseView.'show', compact('title', 'breadcrumbs', 'dataTable', 'sesi', 'semester', 'id'));
 
         } catch (Exception $e) {
@@ -206,7 +206,6 @@ class JadualPensyarahController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
