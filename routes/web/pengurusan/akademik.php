@@ -3,6 +3,7 @@
 use App\Http\Controllers\Pengurusan\Akademik\eLearning\PengurusanKandunganController;
 use App\Http\Controllers\Pengurusan\Akademik\GuruTasmikController;
 use App\Http\Controllers\Pengurusan\Akademik\JadualWaktu\JadualKelasController;
+use App\Http\Controllers\Pengurusan\Akademik\JadualWaktu\JadualPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\KalendarAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\KelasController;
 use App\Http\Controllers\Pengurusan\Akademik\KursusController;
@@ -33,6 +34,7 @@ use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\DaftarMarkahCloPl
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanCloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanPloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PenilaianBerterusanController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PensyarahCadanganController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanShafawiController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanTahririController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodMurajaahHarianController;
@@ -158,6 +160,9 @@ Route::group(['prefix' => 'jadual', 'as' => 'jadual.'], function () {
     Route::post('jadual_kelas/add_subject', [JadualKelasController::class, 'addSubject'])->name('jadual_kelas.add_subject');
     Route::post('jadual_kelas/update/{id}', [JadualKelasController::class, 'update'])->name('jadual_kelas.update_status');
     Route::resource('jadual_kelas', JadualKelasController::class);
+
+    Route::get('jadual_pensyarah/download_timetable/{id}/{staff_id}', [JadualPensyarahController::class, 'downloadTimetable'])->name('jadual_pensyarah.lecturer_timetable');
+    Route::resource('jadual_pensyarah', JadualPensyarahController::class);
 });
 
 Route::group(['prefix' => 'pengurusan_ijazah', 'as' => 'pengurusan_ijazah.'], function () {
@@ -215,6 +220,9 @@ Route::group(['prefix' => 'pengurusan_jabatan', 'as' => 'pengurusan_jabatan.'], 
 
     Route::get('penilaian_berterusan/kemaskini_markah/{id}/{student_id}/{class_id}', [PenilaianBerterusanController::class, 'edit'])->name('penilaian_berterusan.markah');
     Route::resource('penilaian_berterusan', PenilaianBerterusanController::class);
+
+    Route::get('pensyarah_cadangan/download', [PensyarahCadanganController::class, 'download'])->name('pensyarah_cadangan.download');
+    Route::resource('pensyarah_cadangan', PensyarahCadanganController::class);
 });
 
 Route::group(['prefix' => 'e_learning', 'as' => 'e_learning.'], function () {

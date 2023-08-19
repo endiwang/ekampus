@@ -10,5 +10,6 @@ class sis_tblpelajar_semester_det extends Model
     use HasFactory;
 
     protected $connection = 'mysql2';
+
     protected $table = '_sis_tblpelajar_semester_det';
 }

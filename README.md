@@ -33,6 +33,15 @@ Reload all caches:
 php artisan reload:cache
 ```
 
+Create new page:
+
+```bash
+php artisan make:page ModuleNmae PageName
+```
+
+This `make:page` will create a new controller, menu, sidebar, routes automatically. This might not work well if there's
+a new page created in the same module. The bottom line - streamline the way we generate a new page.
+
 ## Contributing
 
 Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
