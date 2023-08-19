@@ -4,8 +4,6 @@ use {CONTROLLER_NAMESPACE};
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web', 'auth'])
-    ->prefix('{MODULE}')
-    ->as('{MODULE}.')
     ->group(function() {
         Route::get('/{URI}', {CONTROLLER}::class)
             ->name('{ROUTE_NAME}.index');
