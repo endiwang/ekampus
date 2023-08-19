@@ -31,7 +31,7 @@
         </table>
         @can('update-kaunseling')
             <div class="d-flex justify-content-end mb-4">
-                <a class="btn btn-sm btn-primary" href="{{ route('kaunseling.edit', $kaunseling->id) }}">Kemaskini</a>
+                <a class="btn btn-sm btn-primary" href="{{ route('pengurusan.hep.kaunseling.edit', $kaunseling->id) }}">Kemaskini</a>
             </div>
         @endcan
     </x-container>
