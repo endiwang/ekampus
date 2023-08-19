@@ -26,10 +26,10 @@ class KaunselingDataTable extends DataTable
                 return view('partials.date', ['date' => $data->created_at, 'format' => 'Y-m-d H:i:s'])->render();
             })
             ->addColumn('status', function ($data) {
-                return view('pages.kaunseling.partials.datatable-status', compact('data'))->render();
+                return view('pages.pengurusan.hep.kaunseling.partials.datatable-status', compact('data'))->render();
             })
             ->addColumn('action', function ($data) {
-                return view('pages.kaunseling.partials.datatable-action', compact('data'))->render();
+                return view('pages.pengurusan.hep.kaunseling.partials.datatable-action', compact('data'))->render();
             })
             ->setRowId('id');
     }

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Kaunseling;
+namespace App\Http\Controllers\Pengurusan\HEP\PusatIslam;
 
-use App\DataTables\KaunselingDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -13,8 +12,8 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, KaunselingDataTable $dataTable)
+    public function __invoke(Request $request)
     {
-        return $dataTable->render('pages.kaunseling.dashboard.index');
+        return view('pages.pengurusan.hep.pusat-islam.dashboard.index');
     }
 }

@@ -527,6 +527,16 @@
                         </a>
                     </div>
                 </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.jadual_penggantian_pensyarah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.jadual_penggantian_pensyarah.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Jadual Penggantian Pensyarah</span>
+                        </a>
+                    </div>
+                </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">
                 <span class="menu-link">
