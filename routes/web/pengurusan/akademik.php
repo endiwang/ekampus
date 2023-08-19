@@ -119,6 +119,7 @@ Route::group(['prefix' => 'pensyarah', 'as' => 'pensyarah.'], function () {
 });
 
 Route::group(['prefix' => 'rekod_kehadiran', 'as' => 'rekod_kehadiran.'], function () {
+    Route::get('/rekod_pelajar/download/{id}', [KehadiranPelajarController::class, 'download'])->name('rekod_pelajar.download');
     Route::post('rekod_pelajar/muat_turun', [KehadiranPelajarController::class, 'downloadAttendancePdf'])->name('rekod_pelajar.muat_turun');
     Route::resource('rekod_pelajar', KehadiranPelajarController::class);
 

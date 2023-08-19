@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::table('kehadiran_pelajar', function (Blueprint $table) {
             $table->string('status')->after('waktu')->nullable();
             $table->string('remark')->after('status')->nullable();
+            $table->string('attachment')->after('remark')->nullable();
+            $table->integer('created_by')->after('attachment')->nullable();
         });
     }
 
@@ -29,6 +31,8 @@ return new class extends Migration
         Schema::table('kehadiran_pelajar', function (Blueprint $table) {
             $table->dropColumn('status');
             $table->dropColumn('remark');
+            $table->dropColumn('attachment');
+            $table->dropColumn('created_by');
         });
     }
 };
