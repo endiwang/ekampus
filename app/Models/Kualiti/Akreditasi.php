@@ -2,12 +2,12 @@
 
 namespace App\Models\Kualiti;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+
+use App\Models\Base as Model;
 
 class Akreditasi extends Model
 {
-    use HasFactory;
+
 
     protected $table = 'akreditasi';
 
