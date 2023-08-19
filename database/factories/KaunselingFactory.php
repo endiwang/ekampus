@@ -23,7 +23,6 @@ class KaunselingFactory extends Factory
         return [
             'no_permohonan' => 'K-'.$date->format('Ymd').'-'.$this->faker->unique()->numberBetween(1000, 9999),
             'tarikh_permohonan' => $date,
-            'jenis_fasiliti' => $this->faker->randomElement(['Asrama', 'Kolej', 'Kediaman']),
             'status' => $status,
         ];
     }

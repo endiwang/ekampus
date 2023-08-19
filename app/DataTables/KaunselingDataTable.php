@@ -69,7 +69,6 @@ class KaunselingDataTable extends DataTable
         return [
             Column::make('no_permohonan'),
             Column::make('tarikh_permohonan'),
-            Column::make('jenis_fasiliti'),
             Column::make('status')->addClass('text-center'),
             Column::make('created_at'),
             Column::make('action')
