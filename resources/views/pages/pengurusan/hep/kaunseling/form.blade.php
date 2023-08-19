@@ -3,7 +3,7 @@
         $kaunseling = new \App\Models\Kaunseling();
     }
 
-    $action = $kaunseling->id ? route('kaunseling.update', $kaunseling->id) : route('kaunseling.store');
+    $action = $kaunseling->id ? route('pengurusan.hep.kaunseling.update', $kaunseling->id) : route('pengurusan.hep.kaunseling.store');
 @endphp
 
 @extends('layouts.master.main')
@@ -101,7 +101,7 @@
                             @endif
                         </button>
 
-                        <a href="{{ route('kaunseling.index') }}" class="btn btn-sm btn-light">Batal</a>
+                        <a href="{{ route('pengurusan.hep.kaunseling.index') }}" class="btn btn-sm btn-light">Batal</a>
                     </div>
                 </div>
             </div>

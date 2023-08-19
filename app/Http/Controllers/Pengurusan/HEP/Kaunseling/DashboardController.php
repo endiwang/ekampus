@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Kaunseling;
+namespace App\Http\Controllers\Pengurusan\HEP\Kaunseling;
 
 use App\DataTables\KaunselingDataTable;
 use App\Http\Controllers\Controller;
@@ -15,6 +15,6 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request, KaunselingDataTable $dataTable)
     {
-        return $dataTable->render('pages.kaunseling.dashboard.index');
+        return $dataTable->render('pages.pengurusan.hep.kaunseling.dashboard.index');
     }
 }

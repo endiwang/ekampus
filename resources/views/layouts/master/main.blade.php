@@ -112,7 +112,7 @@
                         @include('layouts.master.sidebar.peperiksaan')
                     @elseif(Request::routeIs('pengurusan.pembangunan.*'))
                         @include('layouts.master.sidebar.pembangunan')
-                    @elseif(Request::routeIs('kaunseling.dashboard.*'))
+                    @elseif(Request::routeIs('pengurusan.hep.kaunseling.dashboard.*'))
                             @include('layouts.master.sidebar.kaunseling')
 					@elseif(Request::routeIs('pusat-islam.dashboard.*'))
                             @include('layouts.master.sidebar.pusat-islam')

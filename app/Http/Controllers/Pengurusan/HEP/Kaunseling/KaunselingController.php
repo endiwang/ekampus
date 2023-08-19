@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Kaunseling;
+namespace App\Http\Controllers\Pengurusan\HEP\Kaunseling;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\Kaunseling\PermohonBaruJob;
@@ -18,7 +18,7 @@ class KaunselingController extends Controller
      */
     public function index()
     {
-        return redirect()->route('kaunseling.dashboard.index');
+        return redirect()->route('pengurusan.hep.kaunseling.dashboard.index');
     }
 
     /**
@@ -28,7 +28,7 @@ class KaunselingController extends Controller
      */
     public function create()
     {
-        return view('pages.kaunseling.form');
+        return view('pages.pengurusan.hep.kaunseling.form');
     }
 
     /**
@@ -57,7 +57,7 @@ class KaunselingController extends Controller
 
         PermohonBaruJob::dispatch($kaunseling);
 
-        return redirect()->route('kaunseling.show', $kaunseling->id);
+        return redirect()->route('pengurusan.hep.kaunseling.show', $kaunseling->id);
     }
 
     /**
@@ -69,7 +69,7 @@ class KaunselingController extends Controller
     {
         $this->authorize('view', $kaunseling);
 
-        return view('pages.kaunseling.show', compact('kaunseling'));
+        return view('pages.pengurusan.hep.kaunseling.show', compact('kaunseling'));
     }
 
     /**
@@ -81,7 +81,7 @@ class KaunselingController extends Controller
     {
         $this->authorize('update', $kaunseling);
 
-        return view('pages.kaunseling.form', compact('kaunseling'));
+        return view('pages.pengurusan.hep.kaunseling.form', compact('kaunseling'));
     }
 
     /**
@@ -117,7 +117,7 @@ class KaunselingController extends Controller
             $kaunseling->user->notify(new PermohonanDikemaskini($kaunseling));
         }
 
-        return redirect()->route('kaunseling.show', $kaunseling->id);
+        return redirect()->route('pengurusan.hep.kaunseling.show', $kaunseling->id);
     }
 
     /**
@@ -136,6 +136,6 @@ class KaunselingController extends Controller
             'message' => 'Berjaya! Permohonan kaunseling anda telah berjaya dipadam.',
         ]);
 
-        return redirect()->route('kaunseling.dashboard.index');
+        return redirect()->route('pengurusan.hep.kaunseling.dashboard.index');
     }
 }
