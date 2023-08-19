@@ -38,7 +38,7 @@ class Kaunseling extends Model
             self::STATUS_BARU => 'Baru',
             self::STATUS_DITERIMA => 'Diterima',
             self::STATUS_DITOLAK => 'Ditolak',
-            self::STATUS_DITERIMA => 'Selesai',
+            self::STATUS_SELESAI => 'Selesai',
         ];
     }
 

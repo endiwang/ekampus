@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Kaunseling;
 use App\Http\Controllers\Controller;
 use App\Jobs\Kaunseling\PermohonBaruJob;
 use App\Models\Kaunseling;
+use App\Notifications\Kaunseling\PermohonanDikemaskini;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -90,21 +91,33 @@ class KaunselingController extends Controller
      */
     public function update(Request $request, Kaunseling $kaunseling)
     {
-        $this->authorize('store', Kaunseling::class);
+        $this->authorize('update', $kaunseling);
 
         $this->validate($request, [
             'jenis_fasiliti' => 'required',
             'tarikh_permohonan' => 'required|date',
         ]);
-
-        $kaunseling->update([
+        $data = [
             'jenis_fasiliti' => $request->jenis_fasiliti,
             'tarikh_permohonan' => $request->tarikh_permohonan,
-        ]);
+        ];
+        $hasStatus = $request->has('status');
+        $newStatus = $oldStatus = $kaunseling->status;
+        if ($hasStatus && auth()->user()->hasRole('kaunseling')) {
+            $newStatus = $request->status;
+            $data['status'] = $request->status;
+        }
+
+        $kaunseling->update($data);
 
         Alert::success('Berjaya! Permohonan kaunseling anda telah berjaya dikemaskini.');
 
-        return redirect()->route('kaunseling.dashboard.show', $kaunseling->id);
+        if ($hasStatus && $newStatus !== $oldStatus) {
+            // notify to user if status is updated
+            $kaunseling->user->notify(new PermohonanDikemaskini($kaunseling));
+        }
+
+        return redirect()->route('kaunseling.show', $kaunseling->id);
     }
 
     /**

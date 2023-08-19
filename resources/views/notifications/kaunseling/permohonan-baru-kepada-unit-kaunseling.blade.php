@@ -15,9 +15,12 @@ Berikut adalah butiran permohonan yang kami terima:
 
 Sila klik butang di bawah untuk melihat maklumat permohonan.
 
+Sila klik butang di bawah untuk melihat maklumat permohonan anda.
+
 <x-mail::button :url="route('kaunseling.show', $kaunseling->id)">
 Lihat Permohonan
 </x-mail::button>
-Thanks,<br>
+
+Terima kasih,<br>
 {{ config('app.name') }}
 </x-mail::message>
