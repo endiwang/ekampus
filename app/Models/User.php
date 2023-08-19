@@ -98,12 +98,10 @@ class User extends Authenticatable
         if (method_exists($this, $method = 'routeNotificationFor'.Str::studly($driver))) {
             return $this->{$method}($notification);
         }
-        $email = $this->getEmailAddress();
-        logger()->debug('routeNotificationFor', compact('driver', 'email'));
 
         return match ($driver) {
             'database' => $this->notifications(),
-            'mail' => $email,
+            'mail' => $this->getEmailAddress(),
             default => null,
         };
     }
