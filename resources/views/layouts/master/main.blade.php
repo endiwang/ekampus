@@ -112,7 +112,21 @@
                         @include('layouts.master.sidebar.peperiksaan')
                     @elseif(Request::routeIs('pengurusan.pembangunan.*'))
                         @include('layouts.master.sidebar.pembangunan')
-                    {{-- sidebar menu --}}
+                    @elseif(Request::routeIs('kaunseling.dashboard.*'))
+                            @include('layouts.master.sidebar.kaunseling')
+					@elseif(Request::routeIs('pusat-islam.dashboard.*'))
+                            @include('layouts.master.sidebar.pusat-islam')
+					@elseif(Request::routeIs('pusat-islam.aktiviti.*'))
+                            @include('layouts.master.sidebar.pusat-islam')
+					@elseif(Request::routeIs('pusat-islam.jadual-tugasan.*'))
+                            @include('layouts.master.sidebar.pusat-islam')
+					@elseif(Request::routeIs('pusat-islam.orang-awam.*'))
+                            @include('layouts.master.sidebar.pusat-islam')
+					@elseif(Request::routeIs('pusat-islam.rekod-kehadiran.*'))
+                            @include('layouts.master.sidebar.pusat-islam')
+                    @elseif(Request::routeIs('pusat-islam.surat-rasmi.*'))
+                            @include('layouts.master.sidebar.pusat-islam')
+					{{-- sidebar menu --}}
                     @else
                         @include('layouts.master.sidebar.utama')
                     @endif
