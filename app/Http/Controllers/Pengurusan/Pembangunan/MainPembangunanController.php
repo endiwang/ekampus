@@ -14,7 +14,11 @@ class MainPembangunanController extends Controller
      */
     public function index()
     {
-        return view('pages.pengurusan.pembangunan.dashboard.main');
+        $data['title'] = 'Pembangunan';
+        $data['breadcrumbs'] = [
+            'Pembangunan' => false,
+        ];
+        return view('pages.pengurusan.pembangunan.dashboard.main')->with($data);
     }
 
     /**
