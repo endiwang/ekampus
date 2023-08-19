@@ -86,7 +86,7 @@ class PageMakeCommand extends Command
             $sidebarStubContentMenu = str_replace([
                 '{MODULE}', '{ROUTE_NAME}',
             ], [
-                str($module)->lower(), strtolower($module).'.'.$routeName,
+                str($module)->kebab()->lower(), strtolower($module).'.'.$routeName,
             ], $sidebarStubContentMenu);
 
             $mainViewPathContent = str_replace([
