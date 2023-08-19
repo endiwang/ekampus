@@ -2,27 +2,27 @@
     $menus = [
         [
             'title' => 'Dashboard',
-            'route' => 'pusat-islam.dashboard.index',
+            'route' => 'pengurusan.hep.pusat-islam.dashboard.index',
         ],
         [
             'title' => 'Aktiviti',
-            'route' => 'pusat-islam.aktiviti.index',
+            'route' => 'pengurusan.hep.pusat-islam.aktiviti.index',
         ],
         [
             'title' => 'Jadual Tugasan',
-            'route' => 'pusat-islam.jadual-tugasan.index',
+            'route' => 'pengurusan.hep.pusat-islam.jadual-tugasan.index',
         ],
         [
             'title' => 'Orang Awam',
-            'route' => 'pusat-islam.orang-awam.index',
+            'route' => 'pengurusan.hep.pusat-islam.orang-awam.index',
         ],
         [
             'title' => 'Rekod Kehadiran',
-            'route' => 'pusat-islam.rekod-kehadiran.index',
+            'route' => 'pengurusan.hep.pusat-islam.rekod-kehadiran.index',
         ],
         [
             'title' => 'Surat Rasmi',
-            'route' => 'pusat-islam.surat-rasmi.index',
+            'route' => 'pengurusan.hep.pusat-islam.surat-rasmi.index',
         ],
     ];
 @endphp

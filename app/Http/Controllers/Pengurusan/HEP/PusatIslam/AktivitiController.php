@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\PusatIslam;
+namespace App\Http\Controllers\Pengurusan\HEP\PusatIslam;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class RekodKehadiranController extends Controller
+class AktivitiController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -14,6 +14,6 @@ class RekodKehadiranController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('pages.pusat-islam.rekod-kehadiran.index');
+        return view('pages.pengurusan.hep.pusat-islam.aktiviti.index');
     }
 }

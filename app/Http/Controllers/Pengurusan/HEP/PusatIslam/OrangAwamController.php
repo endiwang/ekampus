@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\PusatIslam;
+namespace App\Http\Controllers\Pengurusan\HEP\PusatIslam;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class JadualTugasanController extends Controller
+class OrangAwamController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -14,6 +14,6 @@ class JadualTugasanController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('pages.pusat-islam.jadual-tugasan.index');
+        return view('pages.pengurusan.hep.pusat-islam.orang-awam.index');
     }
 }

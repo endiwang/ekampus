@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\PusatIslam;
+namespace App\Http\Controllers\Pengurusan\HEP\PusatIslam;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,6 +14,6 @@ class SuratRasmiController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('pages.pusat-islam.surat-rasmi.index');
+        return view('pages.pengurusan.hep.pusat-islam.surat-rasmi.index');
     }
 }
