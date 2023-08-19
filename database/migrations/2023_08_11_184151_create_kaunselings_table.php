@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\StatusKaunseling;
+use App\Models\Kaunseling;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('no_permohonan')->nullable()->index();
             $table->date('tarikh_permohonan')->nullable();
             $table->string('jenis_fasiliti')->nullable();
-            $table->string('status')->nullable()->default(StatusKaunseling::belumDihantar()->value);
+            $table->string('status')->nullable()->default(Kaunseling::STATUS_BARU);
             $table->timestamps();
         });
     }
