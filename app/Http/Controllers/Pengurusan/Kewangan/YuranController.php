@@ -277,6 +277,13 @@ class YuranController extends Controller
 
         if ($result) {
 
+            $bil = Bil::find($bil_id);
+            $bayaran = Bayaran::where('bil_id', $bil_id)->first();
+            if($bil->status == 2 && !empty($bayaran))
+            {
+                event(new BayaranYuranEvent($bil, $bayaran));
+            }
+
             Alert::toast('Maklumat bil & bayaran berjaya dikemaskini', 'success');
 
             return redirect(route($this->baseRoute.'edit', [$id, $bil_id]));
