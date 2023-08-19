@@ -29,6 +29,7 @@ class PermohonanSijilTahfiz extends Model
         'created_by',
         'is_deleted',
         'deleted_by',
+        'status_hadir_peperiksaan',
     ];
     protected $guarded = ['id'];
 

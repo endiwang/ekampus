@@ -30,6 +30,13 @@ class SijilTahfizController extends Controller
             "Sijil Tahfiz" =>  '#',
         ];
 
+        $pelajar = Pelajar::where('user_id', Auth::id())->first();
+        if(empty($pelajar->tarikh_lahir)){
+            $age = 0;
+        } else {
+            $age = Carbon::parse($pelajar->tarikh_lahir)->age;
+        }
+        
         $now = Carbon::now()->toDateString();
 
         //check tetapan peperiksaan sijil tahfiz
@@ -37,24 +44,30 @@ class SijilTahfizController extends Controller
             ->whereDate('tarikh_permohonan_ditutup', '<=', date($now))
             ->first();
 
+        $buttons = [
+            [
+                'title' => "Permohonan Baru",
+                'route' => route('pelajar.permohonan.sijil_tahfiz.create'),
+                'button_class' => "btn btn-sm btn-primary fw-bold",
+                'icon_class' => "fa fa-plus-circle"
+            ],
+        ];
+
+        if($age < 17){
+            $buttons = [];
+        }
         // $sql_with_bindings = Str::replaceArray('?', $availableSiri->getBindings(), $availableSiri->toSql());
         // dd($sql_with_bindings);
         // if(!empty($availableSiri)){
-            $buttons = [
-                [
-                    'title' => "Permohonan Baru",
-                    'route' => route('pelajar.permohonan.sijil_tahfiz.create'),
-                    'button_class' => "btn btn-sm btn-primary fw-bold",
-                    'icon_class' => "fa fa-plus-circle"
-                ],
-            ];
+            
         // } else {
         //     $buttons = [];
         // }
 
         if (request()->ajax()) {
-            $pelajar = Pelajar::where('user_id', Auth::id())->first();
+            
             $data = PermohonanSijilTahfiz::where('pelajar_id', $pelajar->id)->get();
+
             return DataTables::of($data)
             ->addColumn('permohonan', function($data) {
                 return 'Permohonan';
@@ -65,23 +78,26 @@ class SijilTahfizController extends Controller
 
             })
             ->addColumn('status', function($data) {
-                if($data->status_tawaran){
-                    return '<span class="badge py-3 px-4 fs-7 badge-light-success">Terima Tawaran</span>';
+                if($data->status_hadir_peperiksaan){
+                    return '<span class="badge py-3 px-4 fs-7 badge-light-info">Sudah Ditemuduga</span>';
                 } else {
-                    switch ($data->status) {
-                        case 1:
-                            return '<span class="badge py-3 px-4 fs-7 badge-light-success">Layak</span>';
-                            break;
-                        case 2:
-                            return '<span class="badge py-3 px-4 fs-7 badge-light-info">Dihantar</span>';
-                            break;
-                        case 0:
-                            return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Layak</span>';
-                        default:
-                          return '<span class="badge py-3 px-4 fs-7 badge-light-info">Dihantar</span>';
+                    if($data->status_tawaran){
+                        return '<span class="badge py-3 px-4 fs-7 badge-light-success">Terima Tawaran</span>';
+                    } else {
+                        switch ($data->status) {
+                            case 1:
+                                return '<span class="badge py-3 px-4 fs-7 badge-light-success">Layak</span>';
+                                break;
+                            case 2:
+                                return '<span class="badge py-3 px-4 fs-7 badge-light-info">Dihantar</span>';
+                                break;
+                            case 0:
+                                return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tidak Layak</span>';
+                            default:
+                              return '<span class="badge py-3 px-4 fs-7 badge-light-info">Dihantar</span>';
+                        }
                     }
                 }
-                
             })
             ->addColumn('action', function($data){
                 $btn = '<a href="'.route('pelajar.permohonan.sijil_tahfiz.show',$data->id).'" class="btn btn-icon btn-info btn-sm" data-bs-toggle="tooltip" title="Lihat"><i class="fa fa-eye"></i></a>';

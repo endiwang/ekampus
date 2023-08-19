@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PeperiksaanPemarkahanCalonSijilTahfizController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PermohonanController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanPenemudugaSijilTahfizController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanPeperiksaanSijilTahfizController;
@@ -28,4 +29,8 @@ Route::group(['prefix'=>'proses_permohonan','as'=>'proses_permohonan.'], functio
     // });
     
     Route::resource('permohonan', PermohonanController::class);
+});
+
+Route::group(['prefix'=>'pemarkahan','as'=>'pemarkahan.'], function(){
+    Route::resource('calon_peperiksaan_sijil_tahfiz', PeperiksaanPemarkahanCalonSijilTahfizController::class);
 });
