@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-
 use App\Models\Base as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Subjek extends Model
 {
-
     use SoftDeletes;
 
     protected $table = 'subjek';

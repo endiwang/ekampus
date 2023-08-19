@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-
 use App\Models\Base as Model;
 
 class SoalanPenilaian extends Model
 {
-
-
     protected $table = 'soalan_penilaian';
 
     protected $guarded = ['id'];

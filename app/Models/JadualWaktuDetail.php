@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-
 use App\Models\Base as Model;
+use Carbon\Carbon;
 
 class JadualWaktuDetail extends Model
 {
-
-
     protected $guarded = ['id'];
 
     public function subjek()

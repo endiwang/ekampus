@@ -2,13 +2,10 @@
 
 namespace App\Models\Kualiti;
 
-
 use App\Models\Base as Model;
 
 class KomenArtikel extends Model
 {
-
-
     protected $table = 'komen_artikel';
 
     protected $guarded = ['id'];

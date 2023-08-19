@@ -2,7 +2,6 @@
 
 namespace App\Models\Kualiti;
 
-
 use App\Models\Base as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
