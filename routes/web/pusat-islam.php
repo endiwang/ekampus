@@ -3,9 +3,9 @@
 use App\Http\Controllers\PusatIslam\AktivitiController;
 use App\Http\Controllers\PusatIslam\DashboardController;
 use App\Http\Controllers\PusatIslam\JadualTugasanController;
-use App\Http\Controllers\PusatIslam\SuratRasmiController;
 use App\Http\Controllers\PusatIslam\OrangAwamController;
 use App\Http\Controllers\PusatIslam\RekodKehadiranController;
+use App\Http\Controllers\PusatIslam\SuratRasmiController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web', 'auth'])
