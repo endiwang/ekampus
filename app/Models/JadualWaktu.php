@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-
 use App\Models\Base as Model;
 
 class JadualWaktu extends Model
 {
-
-
     protected $table = 'jadual_waktu';
 
     protected $guarded = ['id'];

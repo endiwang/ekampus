@@ -2,13 +2,10 @@
 
 namespace App\Models\Kualiti;
 
-
 use App\Models\Base as Model;
 
 class Artikel extends Model
 {
-
-
     protected $table = 'artikel';
 
     protected $guarded = ['id'];

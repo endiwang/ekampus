@@ -2,13 +2,10 @@
 
 namespace App\Models\Kualiti;
 
-
 use App\Models\Base as Model;
 
 class JaminanKualiti extends Model
 {
-
-
     protected $table = 'jaminan_kualiti';
 
     protected $guarded = ['id'];
