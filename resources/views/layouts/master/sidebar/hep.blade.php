@@ -50,6 +50,16 @@
                 </div>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.hep.pengurusan.disiplin_pelajar.*') ? 'active' : '' }}" href="{{ route('pengurusan.hep.pengurusan.disiplin_pelajar.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Disiplin Pelajar</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.hep.pengurusan.keluar_masuk.*') ? 'active' : '' }}" href="{{ route('pengurusan.hep.pengurusan.keluar_masuk.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>

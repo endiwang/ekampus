@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AduanSalahlakuPelajar;
+use App\Models\DisiplinPelajar;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
@@ -303,6 +304,26 @@ class PengurusanSalahlakuPelajarController extends Controller
             $aduan->update_by = Auth::user()->id;
             $aduan->save();
         }
+
+        if($request->status_aduan == 2)
+        {
+            if($request->keputusan_siasatan =='R')
+            {
+                DisiplinPelajar::updateOrCreate([
+                    'aduan_salahlaku_pelajar_id' => $id,
+                    'siasatan_aduan_salahlaku_pelajar_id' => $siasatan->id,
+                ]);
+
+            }elseif($request->keputusan_siasatan =='B')
+            {
+
+                //Kesalahan berat tindakan tatatertib
+
+            }
+
+        }
+
+
 
 
         Alert::toast('Maklumat Siasatan Aduan Salahlaku Pelajar Berjaya Dikemaskini', 'success');

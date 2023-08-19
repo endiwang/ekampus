@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Pengurusan\HEP\MainHEPController;
+use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\DisiplinPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\KeluarMasukPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\PengurusanSalahlakuPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\RekodKeluarMasukPelajarController;
@@ -22,4 +23,5 @@ Route::group(['prefix' => 'pengurusan', 'as' => 'pengurusan.'], function () {
     Route::put('salahlaku_pelajar/{id}/siasatan', [PengurusanSalahlakuPelajarController::class,'update_siasatan'])->name('salahlaku_pelajar.update_siasatan');
     Route::resource('salahlaku_pelajar', PengurusanSalahlakuPelajarController::class);
     Route::resource('keluar_masuk', RekodKeluarMasukPelajarController::class);
+    Route::resource('disiplin_pelajar', DisiplinPelajarController::class);
 });
