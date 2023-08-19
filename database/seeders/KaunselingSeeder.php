@@ -46,7 +46,7 @@ class KaunselingSeeder extends Seeder
                     'Pengujian Psikologi',
                     'Pengujian Psikometrik dan Psikologi',
                 ],
-            ]
+            ],
         ];
 
         foreach ($data as $key => $value) {
