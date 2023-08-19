@@ -3,6 +3,7 @@
 use App\Http\Controllers\PusatIslam\AktivitiController;
 use App\Http\Controllers\PusatIslam\DashboardController;
 use App\Http\Controllers\PusatIslam\JadualTugasanController;
+use App\Http\Controllers\PusatIslam\SuratRasmiController;
 use App\Http\Controllers\PusatIslam\OrangAwamController;
 use App\Http\Controllers\PusatIslam\RekodKehadiranController;
 use Illuminate\Support\Facades\Route;
@@ -23,4 +24,7 @@ Route::middleware(['web', 'auth'])
 
         Route::get('pusat-islam/rekod-kehadiran', RekodKehadiranController::class)
             ->name('pusat-islam.rekod-kehadiran.index');
+
+        Route::get('pusat-islam/surat-rasmi', SuratRasmiController::class)
+            ->name('pusat-islam.surat-rasmi.index');
     });

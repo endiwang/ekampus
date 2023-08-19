@@ -124,6 +124,8 @@
                             @include('layouts.master.sidebar.pusat-islam')
 					@elseif(Request::routeIs('pusat-islam.rekod-kehadiran.*'))
                             @include('layouts.master.sidebar.pusat-islam')
+                    @elseif(Request::routeIs('pusat-islam.surat-rasmi.*'))
+                            @include('layouts.master.sidebar.pusat-islam')
 					{{-- sidebar menu --}}
                     @else
                         @include('layouts.master.sidebar.utama')
