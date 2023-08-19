@@ -1,3 +1,11 @@
+@php
+    $title = __('Senarai Kaunseling');
+    $breadcrumbs = [
+        'Kaunseling' => route('pengurusan.hep.kaunseling.dashboard.index'),
+        'Senarai Kaunseling' => route('pengurusan.hep.kaunseling.index'),
+        'Maklumat Kaunseling' => false,
+    ];
+@endphp
 @extends('layouts.master.main')
 @section('content')
     <x-container>

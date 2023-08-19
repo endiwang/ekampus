@@ -1,3 +1,10 @@
+@php
+    $title = __('Senarai Kaunseling');
+    $breadcrumbs = [
+        'Kaunseling' => false,
+        'Senarai Kaunseling' => false,
+    ];
+@endphp
 @extends('layouts.master.main')
 @section('content')
     <x-container>

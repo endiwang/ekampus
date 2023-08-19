@@ -4,6 +4,19 @@
     }
 
     $action = $kaunseling->id ? route('pengurusan.hep.kaunseling.update', $kaunseling->id) : route('pengurusan.hep.kaunseling.store');
+
+    $title = __('Senarai Kaunseling');
+    $breadcrumbs = [
+        'Kaunseling' => route('pengurusan.hep.kaunseling.dashboard.index'),
+        'Senarai Kaunseling' => route('pengurusan.hep.kaunseling.index'),
+    ];
+
+    if($kaunseling->id) {
+        $breadcrumbs['Maklumat Kaunseling'] = route('pengurusan.hep.kaunseling.show', $kaunseling->id);
+        $breadcrumbs['Kemaskini Kaunseling'] = false;
+    } else {
+        $breadcrumbs['Permohonan Kaunseling Baru'] = false;
+    }
 @endphp
 
 @extends('layouts.master.main')
