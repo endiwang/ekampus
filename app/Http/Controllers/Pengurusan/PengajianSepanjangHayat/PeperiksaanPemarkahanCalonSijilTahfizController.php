@@ -186,7 +186,7 @@ class PeperiksaanPemarkahanCalonSijilTahfizController extends Controller
                 $final['total_mark'] = floor($total_mark * 100) / 100;
 
                 $final['status_kelulusan'] = 0;
-                if ($final_markah->al_quran_syafawi <=54 || $final_markah->al_quran_tahriri <=54 || $pengetahuan_islam_mark <=54) {
+                if ($final_markah->al_quran_syafawi<=54 || $final_markah->al_quran_tahriri<=54 || $pengetahuan_islam_mark<=39) {
                     $final['keputusan_peperiksaan'] = 'Rasib';
                 } else {
                     if($total_mark >=90){
