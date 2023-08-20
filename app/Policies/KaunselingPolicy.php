@@ -47,6 +47,10 @@ class KaunselingPolicy
      */
     public function update(User $user, Kaunseling $kaunseling)
     {
+        if($kaunseling->status === Kaunseling::STATUS_SELESAI) {
+            return false;
+        }
+
         return $user->can('update-kaunseling');
     }
 
