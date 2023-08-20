@@ -32,6 +32,10 @@ class YuranSeeder extends Seeder
                 'Yuran Sijil Tahfiz Malaysia',
                 100,
             ],
+            [
+                'Kutipan Bayaran Balik',
+                100,
+            ]
         ];
 
         foreach($yuran_array as $data)
