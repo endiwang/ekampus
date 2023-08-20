@@ -75,7 +75,7 @@
                                         @endforeach
                                         <br>
                                     @endif
-                                    {{ Form::file('gambar[]', ['class' => 'form-control form-control-sm ' . ($errors->has('gambar') ? 'is-invalid' : ''), $check_required, 'id' =>'gambar', 'multiple']) }}
+                                    {{ Form::file('gambar[]', ['class' => 'form-control form-control-sm ' . ($errors->has('gambar') ? 'is-invalid' : ''), $check_required, 'id' =>'gambar', 'multiple', 'accept' => 'image/*']) }}
                                     @error('gambar') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
