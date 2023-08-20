@@ -10,23 +10,23 @@ use App\Http\Controllers\Pengurusan\Pentadbiran\PentadbiranController;
     Route::get('/fasiliti/edit/{id}', [PentadbiranController::class,'fasilitiEdit'])->name('fasiliti.show');
     Route::post('/fasiliti/update', [PentadbiranController::class, 'fasilitiUpdate'])->name('fasiliti.update');
 
-    // // Kursus
-    // Route::get('/kursus/index', [KualitiController::class,'kursusIndex'])->name('kursus.index');
-    // Route::get('/kursus/tambah', [KualitiController::class,'kursusTambah'])->name('kursus.tambah');
-    // Route::post('/kursus/store', [KualitiController::class, 'kursusStore'])->name('kursus.store');
-    // Route::get('/kursus/edit/{id}', [KualitiController::class,'kursusEdit'])->name('kursus.show');
-    // Route::post('/kursus/update', [KualitiController::class, 'kursusUpdate'])->name('kursus.update');
-    // Route::get('/kursus/download/{id}', [KualitiController::class, 'download'])->name('kursus.download');
-    // Route::post('/kursus/delete', [KualitiController::class, 'kursusDestroy'])->name('kursus.destroy');
+    // Permohonan Fasiliti
+    Route::get('/fasiliti/permohonan/index', [PentadbiranController::class,'permohonanFasilitiIndex'])->name('fasiliti.permohonan.index');
+    Route::get('/fasiliti/permohonan/tambah', [PentadbiranController::class,'permohonanFasilitiTambah'])->name('fasiliti.permohonan.tambah');
+    Route::post('/fasiliti/permohonan/store', [PentadbiranController::class, 'permohonanFasilitiStore'])->name('fasiliti.permohonan.store');
+    Route::get('/fasiliti/permohonan/action/{id}', [PentadbiranController::class,'permohonanFasilitiShow'])->name('fasiliti.permohonan.show');
+    Route::post('/fasiliti/permohonan/update', [PentadbiranController::class, 'permohonanFasilitiUpdate'])->name('fasiliti.permohonan.update');
+    Route::get('/fasiliti/permohonan/show/{id}', [PentadbiranController::class,'permohonanFasilitiShowOnly'])->name('fasiliti.permohonan.show');
+    // Route::post('/fasiliti/delete', [PentadbiranController::class, 'kursusDestroy'])->name('kursus.destroy');
 
-    // // maklumat kursus dan latihan
-    // Route::get('/maklumat/kursus/index', [KualitiController::class,'MaklumatKursusIndex'])->name('maklumat.kursus.index');
-    // Route::get('/maklumat/kursus/{id}/list', [KualitiController::class,'MaklumatKursusList'])->name('maklumat.kursus.list');
-    // Route::get('/maklumat/kursus/{id}/tambah', [KualitiController::class,'MaklumatKursusTambah'])->name('maklumat.kursus.tambah');
-    // Route::post('/maklumat/kursus/store', [KualitiController::class,'MaklumatKursusStore'])->name('maklumat.kursus.store');
-    // Route::get('/maklumat/kursus/peserta/{id}', [KualitiController::class,'MaklumatKursusEdit'])->name('maklumat.kursus.show');
-    // Route::post('/maklumat/kursus/peserta/update', [KualitiController::class,'MaklumatKursusUpdate'])->name('maklumat.kursus.update');
-    // Route::post('/maklumat/kursus/peserta/delete', [KualitiController::class,'MaklumatKursusUpdate'])->name('maklumat.kursus.delete');
+    // // permohonan Penginapan
+    Route::get('/penginapan/permohonan/index', [PentadbiranController::class,'permohonanPenginapanIndex'])->name('penginapan.permohonan.index');
+    Route::get('/penginapan/permohonan/tambah', [PentadbiranController::class,'permohonanPenginapanTambah'])->name('penginapan.permohonan.tambah');
+    Route::post('/penginapan/permohonan/store', [PentadbiranController::class,'permohonanPenginapanStore'])->name('penginapan.permohonan.store');
+    Route::get('/penginapan/permohonan/action/{id}', [PentadbiranController::class,'permohonanPenginapanShow'])->name('penginapan.permohonan.show');
+    Route::post('/penginapan/permohonan/update', [PentadbiranController::class,'permohonanPenginapanUpdate'])->name('penginapan.permohonan.update');
+    Route::get('/penginapan/permohonan/show/{id}', [PentadbiranController::class,'permohonanPenginapanShowOnly'])->name('penginapan.permohonan.showonly');
+    // Route::post('/maklumat/kursus/peserta/delete', [PentadbiranController::class,'MaklumatKursusUpdate'])->name('maklumat.kursus.delete');
 
 
     // // akreditasi

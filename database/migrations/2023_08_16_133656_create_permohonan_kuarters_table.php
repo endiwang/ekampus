@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('permohonan_kuarters', function (Blueprint $table) {
             $table->id();
             $table->string('no_permohonan')->nullable();
+            $table->integer('user_id')->nullable();
             $table->string('nama')->nullable();
             $table->string('no_pengenalan')->nullable();
             $table->integer('warganegara')->nullable()->comment('1-warga 2-xwarga');

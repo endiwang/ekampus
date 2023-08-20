@@ -23,5 +23,15 @@ class PermohonanFasiliti extends Model
         return $this->belongsTo('App\Models\User','approved_by','id');
     }
 
+    public function peralatan()
+    {
+        return $this->hasMany('App\Models\Pentadbiran\PermohonanPeralatan','permohonan_fasiliti_id','id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User','user_id','id');
+    }
+
     
 }

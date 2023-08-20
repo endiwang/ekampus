@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('permohonan_penginapan', function (Blueprint $table) {
             $table->id();
             $table->string('no_permohonan')->nullable();
+            $table->integer('user_id')->nullable();
             $table->integer('bilik')->nullable()->comment('1- bilikrehat1 2-bilikrehat2 3-ruangtamu1 4-ruangtamu2 5-ruangtamu3');
             $table->date('tarikh_masuk')->nullable();
             $table->integer('tempoh_hari')->nullable();

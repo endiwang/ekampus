@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('permohonan_pelekat_kenderaan', function (Blueprint $table) {
             $table->id();
             $table->string('no_permohonan')->nullable();
+            $table->integer('user_id')->nullable();
             $table->integer('jenis_pemohon')->nullable()->comment('1-pelajar 2-kakitangan 3-vendor');
             $table->string('document_name')->nullable();
             $table->string('upload_document')->nullable();

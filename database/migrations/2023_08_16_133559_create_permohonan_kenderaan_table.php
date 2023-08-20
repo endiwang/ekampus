@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('permohonan_kenderaan', function (Blueprint $table) {
             $table->id();
             $table->string('no_permohonan')->nullable();
+            $table->integer('user_id')->nullable();
             $table->date('tarikh_penggunaan')->nullable();
             $table->time('masa')->nullable();
             $table->string('tempat')->nullable();
