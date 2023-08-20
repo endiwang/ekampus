@@ -199,21 +199,21 @@
                 </span>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pelajar.sijil_tahfiz.semakan_permohonan_sijil_tahfiz.index') ? 'active' : '' }}" href="{{ route('pelajar.sijil_tahfiz.semakan_permohonan_sijil_tahfiz.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Semakan Permohonan</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pelajar.sijil_tahfiz.semakan_keputusan_sijil_tahfiz.index') ? 'active' : '' }}" href="{{ route('pelajar.sijil_tahfiz.semakan_keputusan_sijil_tahfiz.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
-                            <span class="menu-title">Semakan keputusan Peperiksaan</span>
+                            <span class="menu-title">Semakan Keputusan Peperiksaan</span>
                         </a>
                     </div>
-                    {{-- <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('base2') ? 'active' : '' }}" href="{{ route('base2') }}">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                            <span class="menu-title">Syukbah Pelajar</span>
-                        </a>
-                    </div> --}}
                 </div>
             </div>
         </div>

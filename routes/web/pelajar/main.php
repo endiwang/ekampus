@@ -7,6 +7,7 @@ use App\Http\Controllers\Pelajar\Permohonan\KeluarMasukController;
 use App\Http\Controllers\Pelajar\Permohonan\PelepasanKuliahController;
 use App\Http\Controllers\Pelajar\Permohonan\PenangguhanPengajianController;
 use App\Http\Controllers\Pelajar\Permohonan\SijilTahfizController;
+use App\Http\Controllers\Pelajar\Sijil_Tahfiz\SemakanKelayakanSijilTahfizController;
 use App\Http\Controllers\Pelajar\Sijil_Tahfiz\SemakanKeputusanPeperiksaanSijilTahfizController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,6 @@ Route::group(['prefix' => 'pengurusan_ijazah', 'as' => 'pengurusan_ijazah.'], fu
 });
 
 Route::group(['prefix' => 'sijil_tahfiz', 'as' => 'sijil_tahfiz.'], function () {
-    // Route::resource('semakan_permohonan_sijil_tahfiz', RekodTesisController::class);
+    Route::resource('semakan_permohonan_sijil_tahfiz', SemakanKelayakanSijilTahfizController::class);
     Route::resource('semakan_keputusan_sijil_tahfiz', SemakanKeputusanPeperiksaanSijilTahfizController::class);
 });
