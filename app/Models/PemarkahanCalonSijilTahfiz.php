@@ -12,4 +12,12 @@ class PemarkahanCalonSijilTahfiz extends Model
 
     protected $table = 'pemarkahan_calon_sijil_tahfizs';
     protected $guarded = ['id'];
+
+    public function permohonanSijilTahfiz(){
+        return $this->belongsTo(PermohonanSijilTahfiz::class, 'permohonan_id', 'id');
+    }
+
+    public function pelajar(){
+        return $this->belongsTo(Pelajar::class);
+    }
 }

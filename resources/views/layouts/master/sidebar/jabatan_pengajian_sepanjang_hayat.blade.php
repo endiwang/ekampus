@@ -125,6 +125,14 @@
                             <span class="menu-title">Calon Peperiksaan Sijil Tahfiz</span>
                         </a>
                     </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.pengajian_sepanjang_hayat.pengesahan_markah_sijil_tahfiz.*') ? 'active' : '' }}" href="{{ route('pengurusan.pengajian_sepanjang_hayat.pemarkahan.pengesahan_markah_sijil_tahfiz.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pengesahan Markah Sijil Tahfiz</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
