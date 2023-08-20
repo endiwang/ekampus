@@ -41,12 +41,10 @@ class KaunselingController extends Controller
         $this->authorize('create', Kaunseling::class);
 
         $this->validate($request, [
-            'jenis_fasiliti' => 'required',
             'tarikh_permohonan' => 'required|date',
         ]);
 
         $kaunseling = Kaunseling::create([
-            'jenis_fasiliti' => $request->jenis_fasiliti,
             'tarikh_permohonan' => $request->tarikh_permohonan,
             'status' => Kaunseling::STATUS_BARU,
             'user_id' => auth()->id(),
@@ -94,7 +92,6 @@ class KaunselingController extends Controller
         $this->authorize('update', $kaunseling);
 
         $this->validate($request, [
-            'jenis_fasiliti' => 'required',
             'tarikh_permohonan' => 'required|date',
         ]);
         $data = [
