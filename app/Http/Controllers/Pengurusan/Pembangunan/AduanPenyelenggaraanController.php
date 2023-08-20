@@ -30,11 +30,21 @@ class AduanPenyelenggaraanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Request $request, Builder $builder)
     {
         if (request()->ajax()) {
 
             $data = AduanPenyelenggaraan::query();
+
+            if(!empty($request->carian))
+            {
+                $data->where('aduan_penyelenggaraan.no_siri', $request->carian);                
+            }
+
+            if(!empty($request->status))
+            {
+                $data->where('aduan_penyelenggaraan.status', $request->status);                
+            }
 
             return DataTables::of($data)
                 ->addColumn('no_siri', function ($data) {
@@ -92,7 +102,10 @@ class AduanPenyelenggaraanController extends Controller
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'searchable' => false],
 
             ])
-            ->minifiedAjax();
+            ->minifiedAjax('', null, [
+                'carian' => '$("#maklumat_carian").val()',
+                'status' => '$("#status").val()',
+            ]);
 
         $data['dataTable'] = $dataTable;
 

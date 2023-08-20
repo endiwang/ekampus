@@ -42,10 +42,9 @@
 
 @push('scripts')
 <script>
-    
-    $('#btnFilter').on('click', function(){
-        $('#dataTableBuilder').DataTable().ajax.reload();
-    })
+$('#btnFilter').on('click', function(){
+    $('#dataTableBuilder').DataTable().ajax.reload();
+})
 </script>
 {!! $dataTable->scripts() !!}
 @endpush
