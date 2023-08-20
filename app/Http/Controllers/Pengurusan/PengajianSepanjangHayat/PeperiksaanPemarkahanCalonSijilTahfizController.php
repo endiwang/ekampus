@@ -230,7 +230,7 @@ class PeperiksaanPemarkahanCalonSijilTahfizController extends Controller
         ];
 
         $permohonan = PermohonanSijilTahfiz::find($id);
-        $pelajar = $permohonan->pelajar->first();
+        $pelajar = $permohonan->pelajar;
 
         $data = [
             'title' => $title,
@@ -253,7 +253,7 @@ class PeperiksaanPemarkahanCalonSijilTahfizController extends Controller
         ];
 
         $permohonan = PermohonanSijilTahfiz::find($id);
-        $pelajar = $permohonan->pelajar->first();
+        $pelajar = $permohonan->pelajar;
 
         $data = [
             'title' => $title,

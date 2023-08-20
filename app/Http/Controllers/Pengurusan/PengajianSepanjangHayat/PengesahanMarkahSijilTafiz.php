@@ -25,22 +25,22 @@ class PengesahanMarkahSijilTafiz extends Controller
             $data = PemarkahanCalonSijilTahfiz::where('status_hadir_ujian_shafawi', 1)
             ->where('status_hadir_ujian_tahriri', 1)
             ->where('status_hadir_ujian_pengetahuan_islam', 1)
-            ->where('approval',0)
             ->get();
 
             return DataTables::of($data)
             ->addColumn('nama_pemohon', function($data) {
                 return $data->pelajar->nama;
-
             })
             ->addColumn('no_id', function($data) {
                 return $data->pelajar->no_ic;
-
             })
             ->addColumn('action', function($data){
-                $btn = '<span class="badge py-3 px-4 fs-7 badge-light-success">Sudah Ditemuduga</span>';
-                $btn =' <a href="'.route('pengurusan.pengajian_sepanjang_hayat.pemarkahan.pengesahan_markah_sijil_tahfiz.edit',$data->id).'" class="btn btn-icon-primary btn-text-primary btn-sm" data-bs-toggle="tooltip" title="Kelayakan"><i class="fa fa-marker"></i>Temuduga Syafawi</a>';
-                   
+                $btn = '<a href="'.route('pengurusan.pengajian_sepanjang_hayat.pemarkahan.pengesahan_markah_sijil_tahfiz.show',$data->id).'" class="btn btn-icon btn-info btn-sm" data-bs-toggle="tooltip" title="Lihat"><i class="fa fa-eye"></i></a>';
+                if($data->approval){
+                    $btn .=' <a href="javascript:void(0)" class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip" title="Pengesahan Keputusan"><i class="fa fa-file-signature"></a>';
+                } else {
+                    $btn .=' <a href="'.route('pengurusan.pengajian_sepanjang_hayat.pemarkahan.pengesahan_markah_sijil_tahfiz.edit',$data->id).'" class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip" title="Pengesahan Keputusan"><i class="fa fa-signature"></a>';
+                }
 
                 return $btn;
             })
@@ -69,12 +69,34 @@ class PengesahanMarkahSijilTafiz extends Controller
         return view('pages.pengurusan.pengajian_sepanjang_hayat.peperiksaan_pemarkahan.pengesahan_markah_sijil_tahfiz.main', compact('title','breadcrumbs', 'html'));
     }
 
-    public function edit($id){
-        $title = "Pemarkahan Sijil Tahfiz";
+    public function show($id){
+        $title = "Lihat Keputusan";
         $breadcrumbs = [
             "Jabatan Pengajian Sepanjang Hayat" =>  false,
             "Peperiksaan & Pemarkahan" =>  false,
-            "Pemarkahan Sijil Tahfiz" => false,
+            "Lihat Keputusan" => false,
+        ];
+
+        $pemarkahan = PemarkahanCalonSijilTahfiz::find($id);
+        $pelajar = $pemarkahan->pelajar;
+
+        $data = [
+            'title' => $title,
+            'breadcrumbs' => $breadcrumbs,
+            'pemarkahan' => $pemarkahan,
+            'pelajar' => $pelajar,
+            'id' => $id,
+        ];
+
+        return view('pages.pengurusan.pengajian_sepanjang_hayat.peperiksaan_pemarkahan.pengesahan_markah_sijil_tahfiz.view', $data);
+    }
+
+    public function edit($id){
+        $title = "Pengesahan Keputusan";
+        $breadcrumbs = [
+            "Jabatan Pengajian Sepanjang Hayat" =>  false,
+            "Peperiksaan & Pemarkahan" =>  false,
+            "Pengesahan Keputusan" => false,
         ];
 
         $pemarkahan = PemarkahanCalonSijilTahfiz::find($id);
