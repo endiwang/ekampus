@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PengesahanMarkahSijilTafiz;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PeperiksaanPemarkahanCalonSijilTahfizController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PermohonanController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanPenemudugaSijilTahfizController;
@@ -35,4 +36,6 @@ Route::group(['prefix'=>'pemarkahan','as'=>'pemarkahan.'], function(){
         Route::get('tahriri_pengetahuan_islam/{id}', [PeperiksaanPemarkahanCalonSijilTahfizController::class, 'tahriri_pengetahuan_islam'])->name('tahriri.pengetahuan_islam');
     });
     Route::resource('calon_peperiksaan_sijil_tahfiz', PeperiksaanPemarkahanCalonSijilTahfizController::class);
+
+    Route::resource('pengesahan_markah_sijil_tahfiz', PengesahanMarkahSijilTafiz::class);
 });
