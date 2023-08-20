@@ -30,7 +30,7 @@
                                     @if($model->id)
                                     {{ Form::label('pelajar_id', $model->pelajar->nama, ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}
                                     @else
-                                    {{ Form::select('pelajar_id', $pelajar, $model->pelajar_id, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('pelajar_id') ? 'is-invalid' : ''), 'id' => 'pelajar_id', 'required' => 'required']) }}
+                                    {{ Form::select('pelajar_id', [], $model->pelajar_id, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('pelajar_id') ? 'is-invalid' : ''), 'id' => 'pelajar_id', 'required' => 'required']) }}
                                     @error('pelajar_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     @endif
                                 </div>
@@ -199,12 +199,26 @@ $('#btnReject').on('click', function(){
         }
     })
 })
-// $('#pelajar_id').select2({
-//     ajax: {
-//         url: 'https://api.github.com/orgs/select2/repos',
-//         dataType: 'json'
-//         // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
-//     }
-// });
+$('#pelajar_id').select2({
+    ajax: {
+        url: "{{ route('public.pelajar.find') }}",
+        data: function (params) {
+            var query = {
+                search: params.term,
+            }
+            return query;
+        },
+        processResults: function (data) {
+            return {
+                results: $.map(data, function (value, key) {
+                    return {
+                        text: value,
+                        id: key
+                    }
+                })
+            };
+        }
+    }
+});
 </script>
 @endpush
