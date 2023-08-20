@@ -27,8 +27,8 @@
     <div class="menu-sub menu-sub-accordion">
 
         <div class="menu-item">
-            @foreach ($children as $menu)
-                <x-menu-link :title="$menu['title']" :route="$menu['route']" />
+            @foreach ($children as $child)
+                <x-menu-link :title="$child['title']" :route="$child['route']" :parameters="$child['parameters'] ?? []" />
             @endforeach
         </div>
 

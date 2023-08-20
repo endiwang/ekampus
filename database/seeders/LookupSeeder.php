@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Lookup;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
 
 class LookupSeeder extends Seeder
 {
@@ -13,6 +14,28 @@ class LookupSeeder extends Seeder
      * @return void
      */
     public function run()
+    {
+        $this->seedPermissions();
+        $this->seedData();
+    }
+
+    private function seedPermissions()
+    {
+        $permissions = [
+            'view-lookup',
+            'create-lookup',
+            'update-lookup',
+            'delete-lookup',
+        ];
+
+        foreach ($permissions as $key => $value) {
+            Permission::updateOrCreate([
+                'name' => $value,
+            ]);
+        }
+    }
+
+    private function seedData()
     {
         foreach ($this->data() as $key => $value) {
             Lookup::updateOrCreate([

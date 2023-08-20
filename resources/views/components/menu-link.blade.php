@@ -3,9 +3,10 @@
     'title' => null,
     'target' => '_self',
     'route' => null,
+    'parameters' => [],
 ])
 
-<a class="menu-link {{ Request::routeIs($route) ? 'active' : '' }}" href="{{ route($route) }}"
+<a class="menu-link {{ Request::routeIs($route) ? 'active' : '' }}" href="{{ route($route, $parameters) }}"
     target="{{ $target }}">
     <span class="menu-icon">
         @if ($icon)

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('key')->index()->comment('Lookup key');
             $table->string('value')->nullable()->comment('Lookup value');
             $table->json('values')->nullable()->comment('Lookup values');
+            $table->boolean('is_enabled')->default(true)->comment('Lookup is enabled');
             $table->timestamps();
         });
     }
