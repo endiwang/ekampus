@@ -28,7 +28,7 @@
                                         $images = (array) json_decode($aduan_penyelenggaraan_detail->gambar);
                                     @endphp
                                     @foreach($images as $key => $image)
-                                    <a href="{{ asset('storage/' . $image) }}" target="_blank">Image {{ $key }}</a><br>
+                                    <a href="{{ asset('storage/' . $image) }}" target="_blank">Gambar {{ $key }}</a><br>
                                     @endforeach                         
                                     @if(!empty($aduan_penyelenggaraan_detail->reject_reason))
                                     <br><br><span class="text-danger fw-bold">{!! nl2br($aduan_penyelenggaraan_detail->reject_reason) !!}</span>
@@ -60,9 +60,22 @@
                                 </div>
                             </div>
                             <div class="row fv-row mb-2">
-                                {{ Form::label('gambar', '', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}
-                                <div class="col-lg-8">                                    
-                                    {{ Form::file('gambar[]', ['class' => 'form-control form-control-sm ' . ($errors->has('gambar') ? 'is-invalid' : ''), 'rows'=>'4', 'id' =>'gambar', 'multiple']) }}
+                                {{ Form::label('gambar', '', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}
+                                <div class="col-lg-8">
+                                    @php
+                                        $check_required = 'required';
+                                    @endphp
+                                    @if(!empty($model->gambar))
+                                        @php
+                                            $images = (array) json_decode($model->gambar);
+                                            $check_required = '';
+                                        @endphp
+                                        @foreach($images as $key => $image)
+                                        <a href="{{ asset('storage/' . $image) }}" target="_blank">Gambar {{ $key }}</a><br>
+                                        @endforeach
+                                        <br>
+                                    @endif
+                                    {{ Form::file('gambar[]', ['class' => 'form-control form-control-sm ' . ($errors->has('gambar') ? 'is-invalid' : ''), $check_required, 'id' =>'gambar', 'multiple']) }}
                                     @error('gambar') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>

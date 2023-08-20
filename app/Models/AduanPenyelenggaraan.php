@@ -35,13 +35,18 @@ class AduanPenyelenggaraan extends Model
         return $this->belongsTo(Bilik::class, 'bilik_id', 'id');
     }
 
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class, 'vendor_id', 'id');
+    }
+
     public function getUserNameAttribute()
     {
         $user = $this->user;
         if (! empty($user->is_staff)) {
             return @Staff::where('user_id', $user->id)->first()->nama;
         } elseif (! empty($user->is_student)) {
-            return @Student::where('user_id', $user->id)->first()->nama;
+            return @Pelajar::where('user_id', $user->id)->first()->nama;
         }
 
         return '';
