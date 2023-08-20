@@ -58,7 +58,7 @@
         </table>
         @can('update-lookup')
             <div class="d-flex justify-content-end mb-4">
-                <a class="btn btn-sm btn-primary" href="{{ route('lookup.edit', $lookup->id) }}">Kemaskini</a>
+                <a class="btn btn-sm btn-primary" href="{{ route($edit_route, $lookup->id) }}">Kemaskini</a>
             </div>
         @endcan
     </x-container>
