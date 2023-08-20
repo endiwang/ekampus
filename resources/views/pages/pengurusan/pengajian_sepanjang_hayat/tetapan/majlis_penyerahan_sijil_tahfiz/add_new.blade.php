@@ -7,7 +7,7 @@
             <!--begin::Row-->
             <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <form class="form" action="{{ route('pengurusan.pengajian_sepanjang_hayat.tetapan.penemuduga_sijil_tahfiz.store')}}" method="post">
+                    <form class="form" action="{{ route('pengurusan.pengajian_sepanjang_hayat.tetapan.majlis_penyerahan_sijil_tahfiz.store')}}" method="post">
                         @csrf
                         <div class="card">
                             <div class="card-body py-5">
@@ -139,7 +139,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="w-100">
-                                            {{ Form::text('tarikh_matarikh_cetakanjlis_mula',old('tarikh_cetakan'),['class' => 'form-control form-control-sm '.($errors->has('tarikh_cetakan') ? 'is-invalid':''), 'id' =>'tarikh_cetakan','onkeydown' =>'return false','autocomplete' => 'off']) }}
+                                            {{ Form::text('tarikh_cetakan',old('tarikh_cetakan'),['class' => 'form-control form-control-sm '.($errors->has('tarikh_cetakan') ? 'is-invalid':''), 'id' =>'tarikh_cetakan','onkeydown' =>'return false','autocomplete' => 'off']) }}
                                             @error('tarikh_cetakan') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
@@ -264,7 +264,7 @@
     },function(start, end, label) {
         var datePicked = moment(start).format('DD/MM/YYYY');
         $("#tarikh_cetakan").val(datePicked);
-    });   
+}); 
     //Tarikh Cetakan Picker End
 
 </script>

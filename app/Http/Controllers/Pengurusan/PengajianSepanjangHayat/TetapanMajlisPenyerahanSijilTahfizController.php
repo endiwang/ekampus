@@ -110,7 +110,7 @@ class TetapanMajlisPenyerahanSijilTahfizController extends Controller
         ];
 
         $lokasi_pusat_pengajian = PusatPengajian::where('status', 1)->get();
-        $staffs = Staff::where('status', 1)->get();
+        $staffs = Staff::where('is_deleted', 0)->get()->pluck('nama', 'id');
 
         $data = [
             'title' => $title,
@@ -130,7 +130,78 @@ class TetapanMajlisPenyerahanSijilTahfizController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       
+        if(!$request->has('pusat_pengajian_id')){
+            $request['pusat_pengajian_id'] = null;
+        }
+        if(!$request->has('staff_id')){
+            $request['staff_id'] = null;
+        }
+
+        $validated = $request->validate([
+            'nama'                      => 'required',
+            'siri'                      => 'required',
+            'tahun'                     => 'required',
+            'no_fail_surat'             => 'required',
+            'pusat_pengajian_id'        => 'required',
+            'tarikh_surat_mula'         => 'required',
+            'tarikh_surat_akhir'        => 'required',
+            'tarikh_majlis_mula'        => 'required',
+            'tarikh_majlis_akhir'       => 'required',
+            'masa_majlis'               => 'required',
+            'staff_id'                  =>'required',
+            'tarikh_cetakan'            => 'required',
+        ],[
+            'nama.required'                         => 'Sila masukkan nama majlis.',
+            'siri.required'                         => 'Sila masukkan siri majlis.',
+            'tahun.required'                        => 'Sila masukkan tahun majlis.',
+            'no_fail_surat.required'                => 'Sila masukkan no fail surat.',
+            'pusat_pengajian_id.required'           => 'Sila pilh lokasi majlis.',
+            'tarikh_surat_mula.required'            => 'Sila pilih tarikh mula surat.',
+            'tarikh_surat_akhir.required'           => 'Sila pilih tarikh tutup surat.',
+            'tarikh_majlis_mula.required'           => 'Sila pilih tarikh mula majlis.',
+            'tarikh_majlis_akhir.required'          => 'Sila pilih tarikh tutup majlis.',
+            'masa_majlis.required'                  => 'Sila pilih masa majlis.',
+            'staff_id.required'                     => 'Sila pilih pegawai untuk dihubungi.',
+            'tarikh_cetakan'                        => 'Sila pilih tarikh cetakan.',
+        ]);
+
+        if($request->has('status')){
+            $status = $request->status;
+        }else{
+            $status = 0;
+        }
+
+        DB::beginTransaction();
+
+        try {
+            TetapanMajlisPenyerahanSijilTahfiz::create([
+                'nama' => $request->nama,
+                'siri' => $request->siri,
+                'tahun' => $request->tahun,
+                'no_fail_surat' => $request->no_fail_surat,
+                'status' => $status,
+                'pusat_pengajian_id' => $request->pusat_pengajian_id,
+                'tarikh_surat_mula'  => Carbon::createFromFormat('d/m/Y',$request->tarikh_surat_mula)->format('Y-m-d'),
+                'tarikh_surat_akhir' => Carbon::createFromFormat('d/m/Y',$request->tarikh_surat_akhir)->format('Y-m-d'),
+                'tarikh_majlis_mula'  => Carbon::createFromFormat('d/m/Y',$request->tarikh_majlis_mula)->format('Y-m-d'),
+                'tarikh_majlis_akhir' => Carbon::createFromFormat('d/m/Y',$request->tarikh_majlis_akhir)->format('Y-m-d'),
+                'tarikh_cetakan' => Carbon::createFromFormat('d/m/Y',$request->tarikh_cetakan)->format('Y-m-d'),
+                'masa_majlis'  => $request->masa_majlis,
+                'staff_id'        => $request->staff_id,
+                'created_by'    => Auth::id(),
+            ]);
+    
+            Alert::toast('Tetapan Baru Berjaya Ditambah', 'success');
+            DB::commit();
+        } catch (\Exception $e) {
+            //throw $th;
+            DB::rollBack();
+            report($e);
+            Alert::toast('Tetapan Baru Tidak Berjaya Ditambah', 'error');
+        }
+        
+        return redirect()->route('pengurusan.pengajian_sepanjang_hayat.tetapan.majlis_penyerahan_sijil_tahfiz.index');
     }
 
     /**
