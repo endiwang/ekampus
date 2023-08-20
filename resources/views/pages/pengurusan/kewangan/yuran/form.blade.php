@@ -158,7 +158,7 @@
                     <div class="row mb-2">
                         {{ Form::label('bayaran_gambar', 'Resit / Gambar Bayaran', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}
                         <div class="col-lg-6">
-                            {{ Form::file('bayaran_gambar', ['class' => 'form-control form-control-sm ' . ($errors->has('bayaran_gambar') ? 'is-invalid' : ''), 'rows'=>'4', 'id' =>'bayaran_gambar']) }}
+                            {{ Form::file('bayaran_gambar', ['class' => 'form-control form-control-sm ' . ($errors->has('bayaran_gambar') ? 'is-invalid' : ''), 'rows'=>'4', 'id' =>'bayaran_gambar', 'accept' => 'image/*']) }}
                         </div>
                     </div>
                 </div>

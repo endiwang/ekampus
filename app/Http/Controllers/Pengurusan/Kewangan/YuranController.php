@@ -277,8 +277,10 @@ class YuranController extends Controller
                         $image = [];
 
                         $file = $request->bayaran_gambar;
-                        $file_name = $file->getClientOriginalName();
-                        $file_name = $bil->id . '_' . $file_name . '_' . $datetime_now;
+                        $original_name = $file->getClientOriginalName();                            
+                        $file_name = pathinfo($original_name, PATHINFO_FILENAME);
+                        $extension = pathinfo($original_name, PATHINFO_EXTENSION);
+                        $file_name = $aduan->id . '_' . $file_name . '_' . $datetime_now . '.' . $extension;
                         $file_path = 'bayaran/' . $file_name;
                         Storage::disk('local')->put('public/' . $file_path, fopen($file, 'r+'), 'public');
                         
