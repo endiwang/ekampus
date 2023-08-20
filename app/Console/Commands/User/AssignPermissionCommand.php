@@ -38,7 +38,7 @@ class AssignPermissionCommand extends Command
 
         $selected_permission = $this->choice('What is the permission?', $permissions);
 
-        if($selected_permission === 'All') {
+        if ($selected_permission === 'All') {
             unset($permissions[0]);
             $selected_permission = $permissions;
         } else {

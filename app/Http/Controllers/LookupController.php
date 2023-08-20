@@ -18,7 +18,7 @@ class LookupController extends Controller
     {
         $this->authorize('viewAny', Lookup::class);
 
-        abort_if($request->category && !in_array($request->category, Lookup::categories()), 404);
+        abort_if($request->category && ! in_array($request->category, Lookup::categories()), 404);
 
         return $dataTable->render('lookup.index', ['category' => $request->category]);
     }

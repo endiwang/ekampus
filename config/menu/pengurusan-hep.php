@@ -61,7 +61,7 @@ return [
                     'route' => 'pengurusan.hep.tetapan.lookup.index',
                     'parameters' => [
                         'category' => Lookup::CATEGORY_KAUNSELING,
-                    ]
+                    ],
                 ],
             ],
         ],

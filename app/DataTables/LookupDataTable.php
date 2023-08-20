@@ -21,7 +21,7 @@ class LookupDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($data) {
                 $view_route = str_replace('.lookup.index', '.lookup.show', request()->route()->getName());
-                
+
                 return view('lookup.partials.datatable-action', compact('data', 'view_route'))->render();
             })
             ->addColumn('status', function ($data) {
