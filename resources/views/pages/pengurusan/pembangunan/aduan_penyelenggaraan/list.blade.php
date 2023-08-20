@@ -23,7 +23,7 @@
                                 {{ Form::label('status', 'Status Aduan', ['class' => 'col-lg-4 fs-6 fw-semibold form-label mt-2']) }}                                
                                 <div class="col-lg-8">
                                     <div class="d-flex">
-                                    {{ Form::select('status',  \App\Models\AduanPenyelenggaraan::getStatusSelection(), '', ['placeholder' => 'Semua', 'class' => 'form-contorl form-select form-select-sm ', 'data-control'=>'select2' ]) }}
+                                    {{ Form::select('status',  \App\Models\AduanPenyelenggaraan::getStatusSelection(), (!empty(\Request()->st)) ? \Request()->st : '', ['placeholder' => 'Semua', 'class' => 'form-contorl form-select form-select-sm ', 'data-control'=>'select2' ]) }}
                                     </div>
                                 </div>
                             </div>
