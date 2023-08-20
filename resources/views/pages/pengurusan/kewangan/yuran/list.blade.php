@@ -15,6 +15,21 @@
                                 <div class="col-lg-8">
                                     <div class="d-flex">
                                         {{ Form::text('maklumat_carian','',['class' => 'form-control me-3 form-control-sm', 'id' => 'maklumat_carian']) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                {{ Form::label('status', 'Status Aduan', ['class' => 'col-lg-4 fs-6 fw-semibold form-label mt-2']) }}                                
+                                <div class="col-lg-8">
+                                    <div class="d-flex">
+                                    {{ Form::select('status',  \App\Models\Bil::getStatusSelection(), (!empty(\Request()->st)) ? \Request()->st : '', ['placeholder' => 'Semua', 'class' => 'form-contorl form-select form-select-sm ', 'data-control'=>'select2' ]) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                {{ Form::label('', '&nbsp;', ['class' => 'col-lg-4 fs-6 fw-semibold form-label mt-2']) }}                                
+                                <div class="col-lg-8">
+                                    <div class="d-flex">                                
                                         <button type="button" id="btnFilter" class="btn btn-success btn-sm fw-bold flex-shrink-0"><i class="fa fa-search" style="vertical-align: initial"></i>Cari</button>
                                     </div>
                                 </div>

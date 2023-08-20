@@ -46,6 +46,11 @@ class YuranController extends Controller
                 });
             }
 
+            if(!empty($request->status))
+            {
+                $data->where('bil.status', $request->status);                
+            }
+
             $data = $data->select(['bil.*']);
 
             return DataTables::of($data)
@@ -87,6 +92,7 @@ class YuranController extends Controller
             ])
             ->minifiedAjax('', null, [
                 'carian' => '$("#maklumat_carian").val()',
+                'status' => '$("#status").val()',
             ]);
 
         $data['dataTable'] = $dataTable;
