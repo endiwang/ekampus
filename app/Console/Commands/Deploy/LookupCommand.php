@@ -4,7 +4,7 @@ namespace App\Console\Commands\Deploy;
 
 use Illuminate\Console\Command;
 
-class KaunselingCommand extends Command
+class LookupCommand extends Command
 {
     /**
      * The name and signature of the console command.
