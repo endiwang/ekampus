@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-
 use App\Models\Base as Model;
 
 class TetapanPenilaianBerterusan extends Model
 {
-
 }

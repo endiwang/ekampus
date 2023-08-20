@@ -10,6 +10,7 @@ class JadualPenggantianPensyarah extends Model
     use HasFactory;
 
     protected $table = 'jadual_penggantian_pensyarah';
+
     protected $guarded = ['id'];
 
     public function subjek()

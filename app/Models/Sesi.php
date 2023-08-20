@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-
 use App\Models\Base as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Sesi extends Model
 {
-
     use SoftDeletes;
 
     protected $table = 'sesi';

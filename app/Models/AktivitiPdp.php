@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-
 use App\Models\Base as Model;
 
 class AktivitiPdp extends Model
 {
-
-
     protected $table = 'aktiviti_pdp';
 
     protected $guarded = ['id'];

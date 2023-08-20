@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-
 use App\Models\Base as Model;
 
 class ELearningSyllabus extends Model
 {
-
-
     protected $guarded = ['id'];
 
     public function kursus()
