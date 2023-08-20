@@ -28,7 +28,7 @@ class YuranController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder, $id)
+    public function index(Request $request, Builder $builder, $id)
     {
         $yuran = Yuran::find($id);
 
@@ -36,9 +36,21 @@ class YuranController extends Controller
 
             $data = Bil::where('yuran_id', $id);
 
+            if(!empty($request->carian))
+            {
+                $data->join('pelajar', 'pelajar.id', 'bil.pelajar_id')
+                ->where(function($where) use($request) {
+                    $where->where('bil.doc_no', 'LIKE', '%' . $request->carian . '%');
+                    $where->orWhere('pelajar.nama', 'LIKE', '%' . $request->carian . '%');
+                    $where->orWhere('pelajar.no_ic', 'LIKE', '%' . $request->carian . '%');
+                });
+            }
+
+            $data = $data->select(['bil.*']);
+
             return DataTables::of($data)
                 ->addColumn('pelajar', function ($data) use($id){
-                    return @$data->pelajar->nama;
+                    return @$data->pelajar->nama . '<br>' . @$data->pelajar->no_ic;
                 })
                 ->addColumn('action', function ($data) use($id){
                     $html = '';
@@ -57,7 +69,7 @@ class YuranController extends Controller
                     return $data->status_name;
                 })
                 ->addIndexColumn()
-                ->rawColumns(['action', 'bayaran'])
+                ->rawColumns(['action', 'bayaran', 'pelajar'])
                 ->toJson();
         }
 
@@ -73,7 +85,9 @@ class YuranController extends Controller
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'searchable' => false],
 
             ])
-            ->minifiedAjax();
+            ->minifiedAjax('', null, [
+                'carian' => '$("#maklumat_carian").val()',
+            ]);
 
         $data['dataTable'] = $dataTable;
 
@@ -167,6 +181,12 @@ class YuranController extends Controller
         {
             $id = Crypt::decryptString($data_id);
             $bayaran = Bayaran::where('id', $id)->first();
+
+            if(empty($bayaran))
+            {
+                abort(404);
+            }
+            
             $data['bayaran'] = $bayaran;
             return view($this->baseView . 'resit')->with($data);
         }            
