@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('lookups', function (Blueprint $table) {
             $table->id();
+            $table->string('category')->nullable()->comment('Lookup category');
+            $table->string('name')->nullable()->comment('Lookup name');
+            $table->string('description')->nullable()->comment('Lookup description');
             $table->string('key')->index()->comment('Lookup key');
             $table->string('value')->nullable()->comment('Lookup value');
             $table->json('values')->nullable()->comment('Lookup values');

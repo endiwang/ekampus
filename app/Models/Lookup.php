@@ -9,4 +9,6 @@ class Lookup extends Model
     protected $casts = [
         'values' => 'array',
     ];
+
+    public const CATEGORY_KAUNSELING = 'Kaunseling';
 }

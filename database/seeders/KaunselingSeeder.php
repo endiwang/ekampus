@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Lookup;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -18,44 +17,6 @@ class KaunselingSeeder extends Seeder
     public function run()
     {
         $this->seedAccessControl();
-
-        $this->seedLookups();
-    }
-
-    private function seedLookups()
-    {
-        $data = [
-            [
-                'key' => 'kaunseling.jenis-kes',
-                'values' => [
-                    'Kes Keluarga',
-                    'Kes Kecurian',
-                ],
-            ],
-            [
-                'key' => 'kaunseling.jenis-kaunseling',
-                'values' => [
-                    'Kaunseling Individu',
-                    'Kaunseling Kumpulan',
-                ],
-            ],
-            [
-                'key' => 'kaunseling.jenis-pengujian',
-                'values' => [
-                    'Pengujian Psikometrik',
-                    'Pengujian Psikologi',
-                    'Pengujian Psikometrik dan Psikologi',
-                ],
-            ],
-        ];
-
-        foreach ($data as $key => $value) {
-            Lookup::updateOrCreate([
-                'key' => $value['key'],
-            ], [
-                'values' => $value['values'],
-            ]);
-        }
     }
 
     private function seedAccessControl()
