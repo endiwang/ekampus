@@ -11,7 +11,7 @@
             'route' => route($create_route, ['category' => $category]),
             'button_class' => 'btn btn-sm btn-primary fw-bold',
             'icon_class' => 'fa fa-plus-circle',
-            'is_show' => auth()->user()->can('create-lookup') && auth()->user()->can('create-'.$category)
+            'is_show' => auth()->user()->can('create-lookup') && auth()->user()->can('create-'.strtolower($category))
         ],
     ];
 @endphp

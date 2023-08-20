@@ -28,8 +28,12 @@ class LookupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $this->authorize('create', Lookup::class);
+
+        abort_if($request->category && ! in_array($request->category, Lookup::categories()), 404);
+
         return view('lookup.form');
     }
 
@@ -41,6 +45,8 @@ class LookupController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create', Lookup::class);
+
+        abort_if($request->category && ! in_array($request->category, Lookup::categories()), 404);
 
         $this->validate($request, [
             'name' => 'required|min:3|max:255',
@@ -79,9 +85,13 @@ class LookupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Lookup $lookup)
+    public function edit(Request $request, Lookup $lookup)
     {
-        return view('lookup.form', $lookup);
+        $this->authorize('update', $lookup);
+
+        abort_if($request->category && ! in_array($request->category, Lookup::categories()), 404);
+
+        return view('lookup.form', compact('lookup'));
     }
 
     /**
@@ -91,7 +101,9 @@ class LookupController extends Controller
      */
     public function update(Request $request, Lookup $lookup)
     {
-        $this->authorize('create', $lookup);
+        $this->authorize('update', $lookup);
+
+        abort_if($request->category && ! in_array($request->category, Lookup::categories()), 404);
 
         $this->validate($request, [
             'name' => 'required|min:3|max:255',
@@ -122,6 +134,6 @@ class LookupController extends Controller
      */
     public function destroy(Lookup $lookup)
     {
-        //
+        abort(401, 'Unauthorized.');
     }
 }
