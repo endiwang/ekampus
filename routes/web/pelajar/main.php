@@ -7,6 +7,7 @@ use App\Http\Controllers\Pelajar\Permohonan\KeluarMasukController;
 use App\Http\Controllers\Pelajar\Permohonan\PelepasanKuliahController;
 use App\Http\Controllers\Pelajar\Permohonan\PenangguhanPengajianController;
 use App\Http\Controllers\Pelajar\Permohonan\SijilTahfizController;
+use App\Http\Controllers\Pelajar\Sijil_Tahfiz\SemakanKeputusanPeperiksaanSijilTahfizController;
 use Illuminate\Support\Facades\Route;
 
 Route::resource('/', MainPelajarController::class)->only(['index']);
@@ -34,4 +35,9 @@ Route::resource('penilaian_pensyarah', PenilaianPensyarahController::class);
 Route::group(['prefix' => 'pengurusan_ijazah', 'as' => 'pengurusan_ijazah.'], function () {
     Route::get('rekod_tesis/download/{id}', [RekodTesisController::class, 'download'])->name('rekod_tesis.download');
     Route::resource('rekod_tesis', RekodTesisController::class);
+});
+
+Route::group(['prefix' => 'sijil_tahfiz', 'as' => 'sijil_tahfiz.'], function () {
+    // Route::resource('semakan_permohonan_sijil_tahfiz', RekodTesisController::class);
+    Route::resource('semakan_keputusan_sijil_tahfiz', SemakanKeputusanPeperiksaanSijilTahfizController::class);
 });
