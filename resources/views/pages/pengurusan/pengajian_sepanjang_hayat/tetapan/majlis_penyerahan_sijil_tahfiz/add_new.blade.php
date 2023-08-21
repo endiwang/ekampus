@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('tahun',old('tahun'),['class' => 'form-control form-control-sm '.($errors->has('tahun') ? 'is-invalid':''), 'id' =>'tahun','autocomplete' => 'off']) }}
+                                            {{ Form::number('tahun',old('tahun'),['class' => 'form-control form-control-sm no-spin '.($errors->has('tahun') ? 'is-invalid':''), 'id' =>'tahun','autocomplete' => 'off']) }}
                                             @error('tahun') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>

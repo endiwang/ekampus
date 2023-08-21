@@ -75,38 +75,24 @@
         createApp({
         data() {
             return {
-                filter_option: false,
-                show_filter:true,
-                hide_filter: false,
-                show_section_1: true,
-                show_section_2: false,
-                view_more_button: true,
-                less_more_button: false
+                table: null,
+                keyword: {
+                    search:null,
+                }
             }
         },
         methods: {
-                viewFilterOption(){
-                    this.filter_option = true;
-                    this.hide_filter = true;
-                    this.show_filter = false;
-                    this.hideMore();
-                },
                 viewMore(){
-                    this.show_section_1 = true;
+                    this.show_section_1 = false;
                     this.show_section_2 = true;
-                    this.view_more_button = false;
-                    this.less_more_button = true;
                 },
                 hideMore(){
                     this.show_section_1 = true;
                     this.show_section_2 = false;
-                    this.view_more_button = true;
-                    this.less_more_button = false;
                 },
-                closeFilterOption(){
-                    this.filter_option = false;
-                    this.hide_filter = false;
-                    this.show_filter = true;
+                search() {
+                    console.log(this.search);
+                    this.search(this.keyword.search).draw();
                 },
             },
         mounted() {
