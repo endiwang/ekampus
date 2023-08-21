@@ -8,9 +8,11 @@
         @endif
     </div>
     <div class="col-lg-8 fv-row">
-        {{ Form::date($key, $value, ['class' => 'form-control']) }}
+        {{ Form::date($key, $value, $attributes->merge(['class' => 'form-control'])->getAttributes()) }}
         @if($info)
             <div class="form-text">{{ $info }}</div>
         @endif
+        @error($key) <span class="text-danger">{{ $message }}</span> @enderror
     </div>
 </div>
+

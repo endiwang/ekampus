@@ -8,6 +8,7 @@
         @endif
     </div>
     <div class="col-lg-8 fv-row">
-        {{ Form::select($key, $options, $value, ['placeholder' => $placeholder, 'class' => 'form-control']) }}
+        {{ Form::select($key, $options, $value, $attributes->merge(['placeholder' => $placeholder, 'class' => 'form-control'])->getAttributes()) }}
+        @error($key) <span class="text-danger">{{ $message }}</span> @enderror
     </div>
 </div>
