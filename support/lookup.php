@@ -17,3 +17,10 @@ if (! function_exists('lookup')) {
         );
     }
 }
+
+if (! function_exists('lookup_kaunseling')) {
+    function lookup_kaunseling(string $key)
+    {
+        return lookup(Lookup::CATEGORY_KAUNSELING, $key);
+    }
+}

@@ -3,6 +3,8 @@
 use App\Http\Controllers\LookupController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\DashboardController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\KaunselingController;
+use App\Http\Controllers\Pengurusan\HEP\Kaunseling\LaporanKaunselingController;
+use App\Http\Controllers\Pengurusan\HEP\Kaunseling\RekodKaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\MainHEPController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\KeluarMasukPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\PengurusanSalahlakuPelajarController;
@@ -27,11 +29,15 @@ Route::group(['prefix' => 'pengurusan', 'as' => 'pengurusan.'], function () {
 
 /** Kaunseling */
 Route::middleware(['web', 'auth'])
+    ->as('kaunseling.')
+    ->prefix('kaunseling')
     ->group(function () {
-        Route::get('/kaunseling/dashboard', DashboardController::class)
-            ->name('kaunseling.dashboard.index');
+        Route::get('/dashboard', DashboardController::class)
+            ->name('dashboard.index');
 
-        Route::resource('/kaunseling', KaunselingController::class);
+        Route::resource('/', KaunselingController::class);
+        Route::resource('/rekod-kaunseling', RekodKaunselingController::class)->only('index', 'edit', 'update', 'show');
+        Route::resource('/laporan-kaunseling', LaporanKaunselingController::class)->only('index', 'edit', 'update', 'show');
     });
 
 /** Pusat Islam */

@@ -42,7 +42,17 @@ return [
             'children' => [
                 [
                     'title' => 'Senarai',
-                    'route' => 'pengurusan.hep.kaunseling.dashboard.index',
+                    'route' => 'pengurusan.hep.kaunseling.index',
+                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Rekod Kaunseling',
+                    'route' => 'pengurusan.hep.kaunseling.rekod-kaunseling.index',
+                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Laporan',
+                    'route' => 'pengurusan.hep.kaunseling.laporan-kaunseling.index',
                     'parameters' => [],
                 ],
             ],
