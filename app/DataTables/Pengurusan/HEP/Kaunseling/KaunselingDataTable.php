@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataTables;
+namespace App\DataTables\Pengurusan\HEP\Kaunseling;
 
 use App\Models\Kaunseling;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
@@ -44,7 +44,9 @@ class KaunselingDataTable extends DataTable
             ->when(
                 auth()->user()->hasRole('pelajar'),
                 fn ($query) => $query->where('user_id', auth()->user()->id)
-            );
+            )
+            ->when($this->request()->get('status'), fn ($query) => $query->where('status', $this->request()->get('status')))
+            ->when($this->request()->get('keyword'), fn ($query) => $query->search($this->request()->get('keyword')));
     }
 
     /**
