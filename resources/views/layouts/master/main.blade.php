@@ -149,6 +149,17 @@
     @stack('scripts')
 
     @livewireScripts
+
+    <script>
+        Livewire.on('saved', postId => {
+            Swal.fire({
+                icon: 'info',
+                title: 'Maklumat telah disimpan',
+                showCancelButton: false,
+                confirmButtonText: 'OK',
+            });
+        })
+    </script>
 </body>
 
 </html>

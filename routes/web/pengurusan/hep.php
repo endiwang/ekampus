@@ -36,8 +36,8 @@ Route::middleware(['web', 'auth'])
             ->name('dashboard.index');
 
         Route::resource('/', KaunselingController::class);
-        Route::resource('/rekod-kaunseling', RekodKaunselingController::class);
-        Route::resource('/laporan-kaunseling', LaporanKaunselingController::class);
+        Route::resource('/rekod-kaunseling', RekodKaunselingController::class)->only('index', 'edit', 'update', 'show');
+        Route::resource('/laporan-kaunseling', LaporanKaunselingController::class)->only('index', 'edit', 'update', 'show');
     });
 
 /** Pusat Islam */

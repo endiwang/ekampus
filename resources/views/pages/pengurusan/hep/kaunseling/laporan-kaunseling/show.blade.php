@@ -19,4 +19,5 @@
             </div>
         @endcan
     </x-container>
+
 @endsection

@@ -54,9 +54,11 @@ class RekodKaunselingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Kaunseling $kaunseling)
+    public function edit($id)
     {
-        //
+        $kaunseling = Kaunseling::whereId($id)->firstOrFail();
+
+        return view('pages.pengurusan.hep.kaunseling.rekod-kaunseling.form', compact('kaunseling'));
     }
 
     /**

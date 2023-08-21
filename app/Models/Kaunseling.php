@@ -24,6 +24,8 @@ class Kaunseling extends Model
 
     protected $casts = [
         'tarikh_permohonan' => 'date',
+        'started_at' => 'datetime',
+        'ended_at' => 'datetime',
     ];
 
     public function user()
