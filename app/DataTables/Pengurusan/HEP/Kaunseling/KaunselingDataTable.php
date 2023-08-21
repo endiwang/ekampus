@@ -11,6 +11,15 @@ use Yajra\DataTables\Services\DataTable;
 
 class KaunselingDataTable extends DataTable
 {
+    protected function getActionView(): string
+    {
+        if(property_exists($this, 'actionView')) {
+            return $this->actionView;
+        }
+        
+        return 'pages.pengurusan.hep.kaunseling.partials.datatable-action';
+    }
+
     /**
      * Build DataTable class.
      *
@@ -29,7 +38,7 @@ class KaunselingDataTable extends DataTable
                 return view('pages.pengurusan.hep.kaunseling.partials.datatable-status', compact('data'))->render();
             })
             ->addColumn('action', function ($data) {
-                return view('pages.pengurusan.hep.kaunseling.partials.datatable-action', compact('data'))->render();
+                return view($this->getActionView(), compact('data'))->render();
             })
             ->setRowId('id');
     }

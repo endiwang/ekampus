@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pengurusan\HEP\Kaunseling;
 
+use App\DataTables\Pengurusan\HEP\Kaunseling\KaunselingDataTable;
 use App\Http\Controllers\Controller;
 use App\Jobs\Kaunseling\PermohonBaruJob;
 use App\Models\Kaunseling;
@@ -16,9 +17,9 @@ class KaunselingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, KaunselingDataTable $dataTable)
     {
-        return redirect()->route('pengurusan.hep.kaunseling.dashboard.index');
+        return $dataTable->render('pages.pengurusan.hep.kaunseling.dashboard.index');
     }
 
     /**
