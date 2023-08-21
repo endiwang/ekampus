@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LookupController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\DashboardController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\KaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\MainHEPController;
@@ -18,6 +19,8 @@ Route::group(['prefix' => 'permohonan', 'as' => 'permohonan.'], function () {
 
 Route::group(['prefix' => 'tetapan', 'as' => 'tetapan.'], function () {
     Route::resource('keluar_masuk', TetapanKeluarMasukController::class);
+
+    Route::resource('lookup', LookupController::class)->middleware(['web', 'auth']);
 });
 
 Route::group(['prefix' => 'pengurusan', 'as' => 'pengurusan.'], function () {

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan;
 
 use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
-use App\Models\Bilik;
 use App\Models\Jabatan;
 use App\Models\JadualPenggantianPensyarah;
 use App\Models\Kelas;
@@ -21,7 +20,9 @@ use Yajra\DataTables\Html\Builder;
 class JadualPenggantianPensyarahController extends Controller
 {
     protected $baseView = 'pages.pengurusan.akademik.pengurusan_jabatan.jadual_penggantian_pensyarah.';
+
     protected $baseRoute = 'pengurusan.akademik.pengurusan_jabatan.jadual_penggantian_pensyarah.';
+
     /**
      * Display a listing of the resource.
      *
@@ -41,10 +42,10 @@ class JadualPenggantianPensyarahController extends Controller
             if (request()->ajax()) {
                 $data = Staff::with('pusatPengajian', 'jabatan')->where('deleted_at', null);
                 if ($request->has('nama') && $request->nama != null) {
-                    $data->where('nama', 'LIKE', '%' . $request->nama . '%');
+                    $data->where('nama', 'LIKE', '%'.$request->nama.'%');
                 }
                 if ($request->has('staff_id') && $request->staff_id != null) {
-                    $data->where('staff_id', 'LIKE', '%' . $request->staff_id . '%');
+                    $data->where('staff_id', 'LIKE', '%'.$request->staff_id.'%');
                 }
                 if ($request->has('pusat_pengajian') && $request->pusat_pengajian != null) {
                     $data->where('pusat_pengajian_id', $request->pusat_pengajian);
@@ -62,7 +63,7 @@ class JadualPenggantianPensyarahController extends Controller
                     })
                     ->addColumn('action', function ($data) {
                         return '
-                            <a href="'.route($this->baseRoute . 'show', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Lihat Maklumat">
+                            <a href="'.route($this->baseRoute.'show', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Lihat Maklumat">
                                 <i class="fa fa-eye"></i>
                             </a>
                             ';
@@ -87,9 +88,9 @@ class JadualPenggantianPensyarahController extends Controller
                 ])
                 ->minifiedAjax();
 
-            $pusat_pengajian = PusatPengajian::where('deleted_at', NULL)->pluck('nama', 'id');
-            $jabatan = Jabatan::where('deleted_at', NULL)->pluck('nama', 'id');
-            
+            $pusat_pengajian = PusatPengajian::where('deleted_at', null)->pluck('nama', 'id');
+            $jabatan = Jabatan::where('deleted_at', null)->pluck('nama', 'id');
+
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable', 'pusat_pengajian', 'jabatan'));
 
         } catch (Exception $e) {
@@ -113,7 +114,6 @@ class JadualPenggantianPensyarahController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -121,20 +121,20 @@ class JadualPenggantianPensyarahController extends Controller
         try {
 
             $data = new JadualPenggantianPensyarah();
-            $data->jenis        = $request->jenis;
+            $data->jenis = $request->jenis;
             $data->staff_id = $request->staff_id;
-            $data->kelas_id     = $request->kelas;
-            $data->subjek_id    = $request->subjek;
-            $data->tarikh       = !empty($request->tarikh) ? Carbon::createFromFormat('d/m/Y', $request->tarikh)->format('Y-m-d') : null ;
-            $data->masa_mula    = $request->masa_mula;
-            $data->masa_akhir   = $request->masa_tamat;
-            $data->catatan      = $request->catatan;
-            $data->status       = $request->status;
+            $data->kelas_id = $request->kelas;
+            $data->subjek_id = $request->subjek;
+            $data->tarikh = ! empty($request->tarikh) ? Carbon::createFromFormat('d/m/Y', $request->tarikh)->format('Y-m-d') : null;
+            $data->masa_mula = $request->masa_mula;
+            $data->masa_akhir = $request->masa_tamat;
+            $data->catatan = $request->catatan;
+            $data->status = $request->status;
             $data->save();
-            
+
             Alert::toast('Maklumat jadual penggantian pensyarah berjaya ditambah!', 'success');
 
-            return redirect()->route($this->baseRoute .'show', $request->staff_id);
+            return redirect()->route($this->baseRoute.'show', $request->staff_id);
 
         } catch (Exception $e) {
             report($e);
@@ -151,7 +151,7 @@ class JadualPenggantianPensyarahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, Builder $builder,Request $request)
+    public function show($id, Builder $builder, Request $request)
     {
         try {
 
@@ -159,20 +159,20 @@ class JadualPenggantianPensyarahController extends Controller
             $breadcrumbs = [
                 'Akademik' => false,
                 'Jadual' => false,
-                'Jadual Penggantian Pensyarah' => route($this->baseRoute . 'index'),
+                'Jadual Penggantian Pensyarah' => route($this->baseRoute.'index'),
                 'Maklumat Jadual Penggantian Pensyarah' => false,
             ];
 
             $buttons = [
                 [
                     'title' => 'Tambah Jadual',
-                    'route' => route($this->baseRoute . 'create_jadual', $id),
+                    'route' => route($this->baseRoute.'create_jadual', $id),
                     'button_class' => 'btn btn-sm btn-primary fw-bold',
                     'icon_class' => 'fa fa-plus-circle',
                 ],
                 [
                     'title' => 'Muat Turun Jadual Ganti',
-                    'route' => route($this->baseRoute . 'download', $id),
+                    'route' => route($this->baseRoute.'download', $id),
                     'button_class' => 'btn btn-sm btn-primary fw-bold',
                     'icon_class' => 'fa-solid fa-circle-down',
                 ],
@@ -199,11 +199,11 @@ class JadualPenggantianPensyarahController extends Controller
                         switch ($jenis) {
                             case 'ganti':
                                 return 'Ganti Pensyarah';
-                            break;
+                                break;
 
                             case 'tidak_hadir':
                                 return 'Tidak Hadir';
-                            break;
+                                break;
                         }
                     })
                     ->addColumn('kelas_id', function ($data) {
@@ -214,6 +214,7 @@ class JadualPenggantianPensyarahController extends Controller
                     })
                     ->addColumn('tarikh', function ($data) {
                         $tarikh = Utils::formatDate($data->tarikh);
+
                         return $tarikh;
                     })
                     ->addColumn('masa_mula', function ($data) {
@@ -240,7 +241,7 @@ class JadualPenggantianPensyarahController extends Controller
                                 break;
                         }
                     })
-                    ->addColumn('action', function ($data) use ($id) {
+                    ->addColumn('action', function ($data) {
                         return '
                             <a href="'.route('pengurusan.akademik.pengurusan_jabatan.jadual_penggantian_pensyarah.edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
@@ -277,20 +278,20 @@ class JadualPenggantianPensyarahController extends Controller
                 ])
                 ->minifiedAjax();
 
-            $kelas = Kelas::where('deleted_at', NULL)->pluck('nama', 'id');
+            $kelas = Kelas::where('deleted_at', null)->pluck('nama', 'id');
             $jenis = [
                 'ganti' => 'Ganti',
-                'tidak_hadir' => 'Tidak hadir'
+                'tidak_hadir' => 'Tidak hadir',
             ];
-        
+
             $subjects = Subjek::where('deleted_at', null)->get()->pluck('nama', 'id');
 
             $startDate = Carbon::today();
             $endDate = Carbon::today()->addDays(7);
             $absent_datas = JadualPenggantianPensyarah::where('jenis', 'tidak_hadir')->whereBetween('tarikh', [$startDate, $endDate])->get();
-            
-            return view($this->baseView.'show', compact('title', 'breadcrumbs', 'buttons', 
-                    'dataTable', 'kelas', 'jenis', 'id','absent_datas', 'subjects', 'id'));
+
+            return view($this->baseView.'show', compact('title', 'breadcrumbs', 'buttons',
+                'dataTable', 'kelas', 'jenis', 'id', 'absent_datas', 'subjects', 'id'));
         } catch (Exception $e) {
             report($e);
 
@@ -311,31 +312,31 @@ class JadualPenggantianPensyarahController extends Controller
         try {
 
             $title = 'Kemaskini Maklumat Jadual Penggantian Pensyarah';
-            $action = route($this->baseRoute . 'update', $id);
+            $action = route($this->baseRoute.'update', $id);
             $page_title = 'Maklumat Jadual Penggantian Pensyarah';
             $breadcrumbs = [
                 'Akademik' => false,
                 'Pengurusan Jabatan' => false,
-                'Jadual Penggantian Pensyarah' => route($this->baseRoute . 'index'),
-                'Maklumat Jadual Penggantian Pensyarah' => route($this->baseRoute . 'show', $id),
+                'Jadual Penggantian Pensyarah' => route($this->baseRoute.'index'),
+                'Maklumat Jadual Penggantian Pensyarah' => route($this->baseRoute.'show', $id),
                 'Kemaskini Maklumat Jadual Penggantian Pensyarah' => false,
             ];
 
             $model = JadualPenggantianPensyarah::find($id);
 
-            $kelas = Kelas::where('deleted_at', NULL)->pluck('nama', 'id');
+            $kelas = Kelas::where('deleted_at', null)->pluck('nama', 'id');
             $jenis = [
                 'ganti' => 'Ganti',
-                'tidak_hadir' => 'Tidak hadir'
+                'tidak_hadir' => 'Tidak hadir',
             ];
-        
+
             $subjects = Subjek::where('deleted_at', null)->get()->pluck('nama', 'id');
             $days = Utils::days();
             $times = Utils::times();
             $lecturers = Staff::all()->pluck('nama', 'id');
 
-            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 
-            'subjects', 'days', 'times', 'kelas', 'lecturers', 'jenis', 'id'));
+            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action',
+                'subjects', 'days', 'times', 'kelas', 'lecturers', 'jenis', 'id'));
 
         } catch (Exception $e) {
             report($e);
@@ -349,29 +350,27 @@ class JadualPenggantianPensyarahController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         try {
-            
+
             $data = JadualPenggantianPensyarah::find($id);
-            $data->jenis        = $request->jenis;
-            if($request->jenis == 'tidak_hadir')
-            {
+            $data->jenis = $request->jenis;
+            if ($request->jenis == 'tidak_hadir') {
                 $data->staff_id = $request->staff_id;
             }
-            $data->kelas_id     = $request->kelas;
-            $data->subjek_id    = $request->subjek;
-            $data->tarikh       = $request->tarikh;
-            $data->masa_mula    = $request->masa_mula;
-            $data->masa_akhir   = $request->masa_tamat;
-            $data->catatan      = $request->catatan;
-            $data->status       = $request->status;
+            $data->kelas_id = $request->kelas;
+            $data->subjek_id = $request->subjek;
+            $data->tarikh = $request->tarikh;
+            $data->masa_mula = $request->masa_mula;
+            $data->masa_akhir = $request->masa_tamat;
+            $data->catatan = $request->catatan;
+            $data->status = $request->status;
             $data->save();
-            
+
             return redirect()->back();
 
         } catch (Exception $e) {
@@ -392,9 +391,9 @@ class JadualPenggantianPensyarahController extends Controller
     public function destroy($id)
     {
         try {
-            
+
             $data = JadualPenggantianPensyarah::find($id)->delete();
-            
+
             Alert::toast('Maklumat jadual penggantian pensyarah berjaya dihapus!', 'success');
 
             return redirect()->back();
@@ -413,31 +412,31 @@ class JadualPenggantianPensyarahController extends Controller
         try {
 
             $title = 'Tambah Maklumat Jadual Penggantian Pensyarah';
-            $action = route($this->baseRoute . 'store');
+            $action = route($this->baseRoute.'store');
             $page_title = 'Maklumat Jadual Penggantian Pensyarah';
             $breadcrumbs = [
                 'Akademik' => false,
                 'Pengurusan Jabatan' => false,
-                'Jadual Penggantian Pensyarah' => route($this->baseRoute . 'index'),
-                'Maklumat Jadual Penggantian Pensyarah' => route($this->baseRoute . 'show', $id),
+                'Jadual Penggantian Pensyarah' => route($this->baseRoute.'index'),
+                'Maklumat Jadual Penggantian Pensyarah' => route($this->baseRoute.'show', $id),
                 'Tambah Maklumat Jadual Penggantian Pensyarah' => false,
             ];
 
             $model = new JadualPenggantianPensyarah();
 
-            $kelas = Kelas::where('deleted_at', NULL)->pluck('nama', 'id');
+            $kelas = Kelas::where('deleted_at', null)->pluck('nama', 'id');
             $jenis = [
                 'ganti' => 'Ganti',
-                'tidak_hadir' => 'Tidak hadir'
+                'tidak_hadir' => 'Tidak hadir',
             ];
-        
+
             $subjects = Subjek::where('deleted_at', null)->get()->pluck('nama', 'id');
             $days = Utils::days();
             $times = Utils::times();
             $lecturers = Staff::all()->pluck('nama', 'id');
 
-            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 
-            'subjects', 'days', 'times', 'kelas', 'lecturers', 'jenis', 'id'));
+            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action',
+                'subjects', 'days', 'times', 'kelas', 'lecturers', 'jenis', 'id'));
 
         } catch (Exception $e) {
             report($e);
@@ -458,8 +457,8 @@ class JadualPenggantianPensyarahController extends Controller
             $startDate = Carbon::today();
             $endDate = Carbon::today()->addDays(7);
             $datas = JadualPenggantianPensyarah::where('staff_id', $staff_id)
-                    ->whereBetween('tarikh', [$startDate, $endDate])
-                    ->where('jenis', 'ganti')->get();
+                ->whereBetween('tarikh', [$startDate, $endDate])
+                ->where('jenis', 'ganti')->get();
 
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadView($this->baseView.'.export_pdf', compact('datas', 'generated_at', 'lecturer'))->setPaper('a4', 'landscape');

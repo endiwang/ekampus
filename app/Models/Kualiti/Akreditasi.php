@@ -2,13 +2,10 @@
 
 namespace App\Models\Kualiti;
 
-
 use App\Models\Base as Model;
 
 class Akreditasi extends Model
 {
-
-
     protected $table = 'akreditasi';
 
     protected $guarded = ['id'];

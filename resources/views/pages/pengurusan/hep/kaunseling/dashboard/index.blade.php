@@ -1,12 +1,23 @@
+@php
+    $title = __('Senarai Kaunseling');
+    $breadcrumbs = [
+        'Kaunseling' => false,
+        'Senarai Kaunseling' => false,
+    ];
+    $buttons = [
+        [
+            'title' => 'Permohonan Baru',
+            'route' => route('pengurusan.hep.kaunseling.create'),
+            'button_class' => 'btn btn-sm btn-primary fw-bold',
+            'icon_class' => 'fa fa-plus-circle',
+            'is_show' => auth()->user()->can('create-kaunseling')
+        ],
+    ];
+@endphp
 @extends('layouts.master.main')
 @section('content')
     <x-container>
-        @can('create-kaunseling')
-            <div class="d-flex justify-content-end mb-4">
-                <a class="btn btn-sm btn-primary" href="{{ route('pengurusan.hep.kaunseling.create') }}">Mohon Sesi Kaunseling</a>
-            </div>
-        @endcan
-        <div>{{ $dataTable->table() }}</div>
+        {{ $dataTable->table() }}
     </x-container>
 @endsection
 

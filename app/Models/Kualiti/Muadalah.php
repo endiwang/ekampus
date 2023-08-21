@@ -2,13 +2,10 @@
 
 namespace App\Models\Kualiti;
 
-
 use App\Models\Base as Model;
 
 class Muadalah extends Model
 {
-
-
     protected $table = 'muadalah';
 
     protected $guarded = ['id'];

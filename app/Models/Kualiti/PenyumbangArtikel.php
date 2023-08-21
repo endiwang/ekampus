@@ -2,13 +2,10 @@
 
 namespace App\Models\Kualiti;
 
-
 use App\Models\Base as Model;
 
 class PenyumbangArtikel extends Model
 {
-
-
     protected $table = 'penyumbang_artikel';
 
     protected $guarded = ['id'];

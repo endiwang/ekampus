@@ -1,3 +1,11 @@
+@php
+    $title = __('Senarai Kaunseling');
+    $breadcrumbs = [
+        'Kaunseling' => route('pengurusan.hep.kaunseling.dashboard.index'),
+        'Senarai Kaunseling' => route('pengurusan.hep.kaunseling.index'),
+        'Maklumat Kaunseling' => false,
+    ];
+@endphp
 @extends('layouts.master.main')
 @section('content')
     <x-container>
@@ -8,12 +16,6 @@
                 <td style="width:15% !important;">@lang('No. Permohonan')</td>
                 <td>
                     {{ $kaunseling->no_permohonan }}
-                </td>
-            </tr>
-            <tr>
-                <td style="width:15% !important;">@lang('Jenis Fasiliti')</td>
-                <td>
-                    {{ $kaunseling->jenis_fasiliti }}
                 </td>
             </tr>
             <tr>

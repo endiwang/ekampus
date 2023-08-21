@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Lookup;
+
 return [
     'sidebar' => [
         [
@@ -9,6 +11,7 @@ return [
                 [
                     'title' => 'Salah Laku Pelajar',
                     'route' => 'pengurusan.hep.pengurusan.salahlaku_pelajar.index',
+                    'parameters' => [],
                 ],
             ],
         ],
@@ -29,6 +32,7 @@ return [
                 [
                     'title' => 'Senarai',
                     'route' => 'pengurusan.hep.pusat-islam.dashboard.index',
+                    'parameters' => [],
                 ],
             ],
         ],
@@ -39,6 +43,7 @@ return [
                 [
                     'title' => 'Senarai',
                     'route' => 'pengurusan.hep.kaunseling.dashboard.index',
+                    'parameters' => [],
                 ],
             ],
         ],
@@ -49,6 +54,14 @@ return [
                 [
                     'title' => 'Keluar Masuk',
                     'route' => 'pengurusan.hep.tetapan.keluar_masuk.index',
+                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Kaunseling',
+                    'route' => 'pengurusan.hep.tetapan.lookup.index',
+                    'parameters' => [
+                        'category' => Lookup::CATEGORY_KAUNSELING,
+                    ],
                 ],
             ],
         ],

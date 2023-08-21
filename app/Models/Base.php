@@ -30,4 +30,17 @@ class Base extends Model implements AuditableContract, HasMedia
             ->width(130)
             ->height(130);
     }
+
+    public function scopeSearch($query, $keyword, $fields = [])
+    {
+        if (empty($fields) && property_exists($this, 'searchable')) {
+            $fields = $this->searchable;
+        }
+
+        foreach ($fields as $key => $value) {
+            $query->orWhere($value, 'LIKE', "%{$keyword}%");
+        }
+
+        return $query;
+    }
 }

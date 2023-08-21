@@ -42,6 +42,10 @@ class KaunselingSeeder extends Seeder
             'create-kaunseling',
             'update-kaunseling',
             'delete-kaunseling',
+            'view-rekod-kaunseling',
+            'create-rekod-kaunseling',
+            'update-rekod-kaunseling',
+            'delete-rekod-kaunseling',
         ];
 
         foreach ($permissions as $key => $value) {
