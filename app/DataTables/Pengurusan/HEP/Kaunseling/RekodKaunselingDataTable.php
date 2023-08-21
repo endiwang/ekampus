@@ -25,11 +25,9 @@ class RekodKaunselingDataTable extends KaunselingDataTable
 
     /**
      * Get filename for export.
-     *
-     * @return string
      */
     protected function filename(): string
     {
-        return 'RekodKaunseling_' . date('YmdHis');
+        return 'RekodKaunseling_'.date('YmdHis');
     }
 }

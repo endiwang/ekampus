@@ -61,7 +61,7 @@ class KaunselingPolicy
      */
     public function delete(User $user, Kaunseling $kaunseling)
     {
-        if(Kaunseling::STATUS_DITERIMA === $kaunseling->status) {
+        if (Kaunseling::STATUS_DITERIMA === $kaunseling->status) {
             return false;
         }
 

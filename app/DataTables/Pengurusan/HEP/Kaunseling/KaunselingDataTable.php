@@ -13,10 +13,10 @@ class KaunselingDataTable extends DataTable
 {
     protected function getActionView(): string
     {
-        if(property_exists($this, 'actionView')) {
+        if (property_exists($this, 'actionView')) {
             return $this->actionView;
         }
-        
+
         return 'pages.pengurusan.hep.kaunseling.partials.datatable-action';
     }
 
