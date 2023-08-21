@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Pengurusan\HEP\Kaunseling;
 
-use App\DataTables\KaunselingDataTable;
+use App\DataTables\Pengurusan\HEP\Kaunseling\KaunselingDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 

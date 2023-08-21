@@ -19,12 +19,6 @@
                 </td>
             </tr>
             <tr>
-                <td style="width:15% !important;">@lang('Jenis Fasiliti')</td>
-                <td>
-                    {{ $kaunseling->jenis_fasiliti }}
-                </td>
-            </tr>
-            <tr>
                 <td style="width:15% !important;">@lang('Tarikh Permohonan')</td>
                 <td>
                     {{ $kaunseling->tarikh_permohonan->format('d/m/Y') }}

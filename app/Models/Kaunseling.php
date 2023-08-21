@@ -12,6 +12,8 @@ class Kaunseling extends Model
 
     protected $appends = ['status_label'];
 
+    protected $searchable = ['no_permohonan', 'status'];
+
     public const STATUS_BARU = 'baru';
 
     public const STATUS_DITERIMA = 'diTerima';

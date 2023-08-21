@@ -50,31 +50,6 @@
                 </div>
             </div>
 
-            <div class="row fv-row mb-2">
-                <div class="col-md-3 text-md-end">
-                    {{ Form::label('jenis_fasiliti', 'Jenis Fasiliti', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                </div>
-                <div class="col-md-9">
-                    <div class="w-100">
-                        {{ Form::select(
-                            'jenis_fasiliti',
-                            ['L' => 'Large', 'S' => 'Small'],
-                            data_get($kaunseling, 'jenis_fasiliti', old('jenis_fasiliti')),
-                            [
-                                'placeholder' => 'Pilih Fasiliti...',
-                                'class' => 'form-control form-control-sm ' . ($errors->has('jenis_fasiliti') ? 'is-invalid' : ''),
-                                'id' => 'jenis_fasiliti',
-                                'onkeydown' => 'return true',
-                                'autocomplete' => 'off',
-                            ],
-                        ) }}
-                        @error('jenis_fasiliti')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-            </div>
-
             @role('kaunseling')
                 <div class="row fv-row mb-2">
                     <div class="col-md-3 text-md-end">
