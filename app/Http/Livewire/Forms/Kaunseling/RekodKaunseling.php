@@ -15,12 +15,14 @@ class RekodKaunseling extends Component
     {
         return [
             'state.id' => 'required',
+            'state.started_at' => 'required',
+            'state.ended_at' => 'required',
             'state.jenis_kes' => 'required',
-            'state.tarikh' => 'required',
-            'state.masalah' => 'required',
-            'state.tindakan' => 'required',
-            'state.hasil' => 'required',
-            'state.catatan' => 'required',
+            'state.latar_belakang' => 'required',
+            'state.situasi_semasa' => 'required',
+            'state.sejarah_kesihatan' => 'required',
+            'state.harapan_hasil' => 'required',
+            'state.cadangan_tindakan' => 'required',
         ];
     }
 
@@ -28,12 +30,14 @@ class RekodKaunseling extends Component
     {
         $this->state = $kaunseling->toArray();
         $this->state['id'] = $kaunseling->id;
-        $this->jenis_kes = data_get(lookup_kaunseling('kaunseling.jenis-kes')->first(), 'values');
+        $this->jenis_kes = array_combine(
+            array_values(data_get(lookup_kaunseling('kaunseling.jenis-kes')->first(), 'values')),
+            array_values(data_get(lookup_kaunseling('kaunseling.jenis-kes')->first(), 'values'))
+        );
     }
 
     public function save()
     {
-        // need to bind model and display error message
         $this->validate();
 
         $kaunseling = Kaunseling::whereId($this->state['id'])->firstOrFail();
