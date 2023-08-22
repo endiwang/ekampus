@@ -950,5 +950,752 @@ class PentadbiranController extends Controller
     }
 
 
+    public function permohonanKenderaanIndex(Builder $builder,Request $request)
+    {
+        $user = Auth::user();
+        
+        $kakitangan = User::with('staff.jabatan')->where('id',$user->id)->first();
+        // dump($staff);
+       
+        $page_title = "Senarai Menggunakan Kenderaan";
+        $breadcrumbs = [
+            "Pentadbiran" =>  false,
+            "Senarai Permohonan Menggunakan Kenderaan" =>  false,
+        ];
+
+        $buttons = [
+            [
+                'title' => "Mohon Kenderaan", 
+                'route' => route('pengurusan.pentadbiran.kenderaan.permohonan.tambah'), 
+                'button_class' => "btn btn-sm btn-primary fw-bold",
+                'icon_class' => "fa fa-plus-circle"
+            ],
+        ];
+
+        if (request()->ajax()) {
+            
+            if(data_get($kakitangan,'staff.jabatan.id') == 14){ //unit pentadbiraan
+                $data = PermohonanKenderaan::with('approvedby','user')->get(); 
+            }else{
+                $data = PermohonanKenderaan::with('approvedby','user')->where('user_id',$user->id)->get(); 
+            }
+            // dd($data);
+                  
+            return DataTables::of($data)
+            ->addColumn('jenis_kenderaan', function($data) {
+                if($data->jenis_kenderaan == 1){
+                    return 'Bas';
+                }elseif($data->jenis_kenderaan == 2){
+                    return 'Van';
+                }elseif($data->jenis_kenderaan == 3){
+                    return 'Serena';
+                }elseif($data->jenis_kenderaan == 4){
+                    return 'Persona';
+                }elseif($data->jenis_kenderaan == 5){
+                    return 'Persona-Premium';
+                }elseif($data->jenis_kenderaan == 6){
+                    return 'Pajero';
+                }else{
+                    return 'tiada kenderaan';
+                }
+
+                
+            })           
+            ->addColumn('status', function($data) {
+                if($data->status == 1)
+                {
+                    return 'Baru Diterima';
+                }elseif($data->status == 2){
+                    return 'Proses';
+                }elseif($data->status == 3){
+                    return 'Lulus';
+                }elseif($data->status == 4){
+                    return 'Tolak';
+                }else{
+                    return 'Tiada Status';
+                }
+
+            })
+            // ->addColumn('tarikh_penggunaan', function($data) {
+            //     return date('d-m-Y',$data->tarikh_penggunaan);
+
+            // })
+            // ->addColumn('masa', function($data) {
+            //     return date('H:s:i',$data->masa);
+
+            // })
+                      
+            ->addColumn('action', function($data){  
+                if(Auth::user()->is_student == 1){          
+                    // $btn = '<a href="'.url('/pengurusan/pentadbiran/fasiliti/permohonan/show/'.$data->id).'" class="edit btn btn-primary btn-sm hover-elevate-up me-2 mb-1">Lihat</a>';
+                }elseif(Auth::user()->is_staff == 1){
+                    
+                    if($data->status != 3){
+                        $btn = '<a href="'.url('/pengurusan/pentadbiran/kenderaan/permohonan/action/'.$data->id).'" class="edit btn btn-primary btn-sm hover-elevate-up me-2 mb-1">Tindakan</a>';
+                    }else{
+                        $btn = '<a href="'.url('/pengurusan/pentadbiran/kenderaan/permohonan/show/'.$data->id).'" class="edit btn btn-primary btn-sm hover-elevate-up me-2 mb-1">Lihat</a>';
+                    }
+                    
+                }else{
+                    $btn = '<a href="'.url('/pengurusan/pentadbiran/kenderaan/permohonan/show/'.$data->id).'" class="edit btn btn-primary btn-sm hover-elevate-up me-2 mb-1">Lihat</a>';
+                }
+                return $btn;    
+            })
+            ->addIndexColumn()            
+            ->rawColumns(['jenis_kenderaan','tarikh_penggunaan','masa','action','status'])
+            ->toJson();
+        }
+
+        
+
+        $dataTable = $builder
+        ->columns([
+            [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
+            ['data' => 'no_permohonan', 'name' => 'no_permohonan', 'title' => 'No Permohonan', 'orderable'=> false, 'class'=>'text-bold'],
+            // ['data' => 'bilik', 'name' => 'bilik', 'title' => 'Bilik', 'orderable'=> false, 'class'=>'text-bold'],            
+            ['data' => 'tarikh_penggunaan', 'name' => 'tarikh_penggunaan', 'title' => 'Tarikh Penggunaan', 'orderable'=> false, 'class'=>'text-bold'],            
+            ['data' => 'masa', 'name' => 'masa', 'title' => 'Masa', 'orderable'=> false, 'class'=>'text-bold'],            
+            ['data' => 'bil_penumpang', 'name' => 'bil_penumpang', 'title' => 'Bilangan Penumpang', 'orderable'=> false, 'class'=>'text-bold'],            
+            ['data' => 'jenis_kenderaan', 'name' => 'jenis_kenderaan', 'title' => 'Jenis Kenderaan', 'orderable'=> false, 'class'=>'text-bold'],            
+            ['data' => 'tempat', 'name' => 'tempat', 'title' => 'Tempat', 'orderable'=> false, 'class'=>'text-bold'],            
+            ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false],            
+            ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+
+        ])
+        ->minifiedAjax();
+
+        
+        return view('pages.pengurusan.pentadbiran.permohonan.kenderaan.list', compact('dataTable','buttons','page_title','breadcrumbs'));
+    }
+
+    public function permohonanKenderaanTambah(Request $request)
+    {
+        $title = "Permohonan Menggunakan Kenderaan";
+        $action = route('pengurusan.pentadbiran.kenderaan.permohonan.store');
+        $breadcrumbs = [
+            "Pentadbiran" =>  false,
+            "Permohonan Menggunakan Kenderaan" =>  false,
+        ];
+        $page_title = 'Permohonan Menggunakan Kenderaan';
+        
+        
+        $selectkenderaan = [
+            1 => 'Bas',
+            2 => 'Van',
+            3 => 'Serena',
+            4 => 'Persona',
+            5 => 'Persona-Premium',
+            6 => 'Pajero'
+        ];
+        $status = [
+            1 => 'Baru diterima',
+            2 => 'Proses',
+            3 => 'Lulus',
+            4 => 'Tolak'
+        ];
+        // $peserta = [
+        //     1 => 'VIP',
+        //     2 => 'Biasa'
+        // ];
+
+        
+        $model = new PermohonanKenderaan();
+        $user = Auth::user();
+        return view('pages.pengurusan.pentadbiran.permohonan.kenderaan.add_new', compact(
+            'title','action','page_title',
+            'breadcrumbs','selectkenderaan','status',
+            'model','user',
+            
+            ));
+    }
+    public function permohonanKenderaanStore(Request $request)
+    {
+        // dd($request);
+
+        $user = auth()->user();
+
+        try{
+            
+            // $startDate = Carbon::createFromFormat('Y-m-d', $request->tarikh);
+            // $endDate = Carbon::createFromFormat('Y-m-d', $request->tarikh_keluar);
+        
+            // $interval = $startDate->diff($endDate);
+            // $days = $interval->days + 1;
+
+            $runningno = $this->runningMan('kenderaan');
+            $appno = "KENDERAAN".str_pad($runningno, 4, "0", STR_PAD_LEFT).date('Y');
+
+            $insert = PermohonanKenderaan::create([
+                'no_permohonan'             => $appno,
+                'user_id'                   => $user->id,                                
+                'jenis_kenderaan'           => $request->jenis_kenderaan,
+                'tarikh_penggunaan'         => $request->tarikh_penggunaan,
+                'masa'                      => $request->masa,                
+                'tempat'                    => $request->tempat,     
+                'bil_penumpang'             => $request->bil_penumpang,  
+                'tujuan'                    => $request->tujuan,        
+                'status'                    => 1 // baru terima
+            ]);
+
+            
+
+
+            Alert::toast('Maklumat permohonan menggunakan kenderaan berjaya dihantar!', 'success');
+            return redirect()->route('pengurusan.pentadbiran.kenderaan.permohonan.index');
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+    }
+
+    public function permohonanKenderaanEdit(Request $request)
+    {
+        $title = "Kelulusan Permohonan Menggunakan Kenderaan";
+        $action = route('pengurusan.pentadbiran.kenderaan.permohonan.store');
+        $breadcrumbs = [
+            "Pentadbiran" =>  false,
+            "Kelulusan Permohonan Menggunakan Kenderaan" =>  false,
+        ];
+        $page_title = 'Kelulusan Permohonan Menggunakan Kenderaan';
+        
+        
+        $selectkenderaan = [
+            1 => 'Bas',
+            2 => 'Van',
+            3 => 'Serena',
+            4 => 'Persona',
+            5 => 'Persona-Premium',
+            6 => 'Pajero'
+        ];
+        $status = [
+            1 => 'Baru diterima',
+            2 => 'Proses',
+            3 => 'Lulus',
+            4 => 'Tolak'
+        ];
+        // $peserta = [
+        //     1 => 'VIP',
+        //     2 => 'Biasa'
+        // ];
+
+        
+        $model = PermohonanKenderaan::with('approvedby','user.staff')->find($request->id);
+        $user = Auth::user();
+        $kakitangan = User::with('staff.jabatan')->where('id',$user->id)->first();
+        return view('pages.pengurusan.pentadbiran.permohonan.kenderaan.action', compact(
+            'title','action','page_title',
+            'breadcrumbs','selectkenderaan','status',
+            'model','user','kakitangan'
+            
+            ));
+    }
+    public function permohonanKenderaanUpdate(Request $request)
+    {
+        // dd($request);
+        $user = auth()->user();
+
+        try{
+            
+            $model = PermohonanKenderaan::find($request->id);
+
+            $model = $model->update([
+                   
+                'approved_by'               => $user->id,  
+                'tarikh_approved'           => date('Y-m-d'),        
+                'status'                    => $request->status // baru terima
+            ]);
+
+            
+
+
+            Alert::toast('Maklumat permohonan menggunakan kenderaan berjaya dikemaskini!', 'success');
+            return redirect()->route('pengurusan.pentadbiran.kenderaan.permohonan.index');
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+
+    }
+    public function permohonanKenderaanShowonly(Request $request)
+    {
+        $title = " Permohonan Menggunakan Kenderaan";
+        $action = route('pengurusan.pentadbiran.kenderaan.permohonan.store');
+        $breadcrumbs = [
+            "Pentadbiran" =>  false,
+            " Permohonan Menggunakan Kenderaan" =>  false,
+        ];
+        $page_title = ' Permohonan Menggunakan Kenderaan';
+        
+        
+        $selectkenderaan = [
+            1 => 'Bas',
+            2 => 'Van',
+            3 => 'Serena',
+            4 => 'Persona',
+            5 => 'Persona-Premium',
+            6 => 'Pajero'
+        ];
+        $status = [
+            1 => 'Baru diterima',
+            2 => 'Proses',
+            3 => 'Lulus',
+            4 => 'Tolak'
+        ];
+        // $peserta = [
+        //     1 => 'VIP',
+        //     2 => 'Biasa'
+        // ];
+
+        
+        $model = PermohonanKenderaan::with('approvedby','user.staff')->find($request->id);
+        $user = Auth::user();
+        $kakitangan = User::with('staff.jabatan')->where('id',$user->id)->first();
+        return view('pages.pengurusan.pentadbiran.permohonan.kenderaan.show', compact(
+            'title','action','page_title',
+            'breadcrumbs','selectkenderaan','status',
+            'model','user','kakitangan'
+            
+            ));
+    }
+
+
+    // permohonan pelekat kenderaan
+    public function pelekatIndex(Builder $builder,Request $request)
+    {
+        $user = Auth::user();
+        
+        $kakitangan = User::with('staff.jabatan','vendor')->where('id',$user->id)->first();
+        // dump($staff);
+       
+        $page_title = "Senarai Pelekat Kenderaan";
+        $breadcrumbs = [
+            "Pentadbiran" =>  false,
+            "Senarai Pelekat Kenderaan" =>  false,
+        ];
+
+        $buttons = [
+            [
+                'title' => "Mohon Pelekat", 
+                'route' => route('pengurusan.pentadbiran.pelekat.permohonan.tambah'), 
+                'button_class' => "btn btn-sm btn-primary fw-bold",
+                'icon_class' => "fa fa-plus-circle"
+            ],
+        ];
+
+        if(request()->ajax()) {
+            
+            if(data_get($kakitangan,'staff.jabatan.id') == 14){ //unit pentadbiraan
+                $data = PermohonanPelekatKenderaan::with('approvedby','user')->get(); 
+            }else{
+                $data = PermohonanPelekatKenderaan::with('approvedby','user')->where('user_id',$user->id)->get(); 
+            }
+            // dd($data);
+                  
+            return DataTables::of($data)
+            ->addColumn('jenis_kenderaan', function($data) {
+                if($data->jenis_kenderaan == 1){
+                    return 'Motokar';
+                }elseif($data->jenis_kenderaan == 2){
+                    return 'Motorsikal';                
+                }else{
+                    return 'tiada jenis kenderaan';
+                }
+
+                
+            })           
+            ->addColumn('status', function($data) {
+                if($data->status == 1)
+                {
+                    return 'Baru Diterima';
+                }elseif($data->status == 2){
+                    return 'Proses';
+                }elseif($data->status == 3){
+                    return 'Lulus';
+                }elseif($data->status == 4){
+                    return 'Tolak';
+                }else{
+                    return 'Tiada Status';
+                }
+
+            })
+            
+                      
+            ->addColumn('action', function($data){  
+                if(Auth::user()->is_student == 1){          
+                    $btn = '<a href="'.url('/pengurusan/pentadbiran/pelekat/permohonan/show/'.$data->id).'" class="edit btn btn-primary btn-sm hover-elevate-up me-2 mb-1">Lihat</a>';
+                }elseif(Auth::user()->is_staff == 1){
+                    
+                    if($data->status != 3){
+                        $btn = '<a href="'.url('/pengurusan/pentadbiran/pelekat/permohonan/action/'.$data->id).'" class="edit btn btn-primary btn-sm hover-elevate-up me-2 mb-1">Tindakan</a>';
+                    }else{
+                        $btn = '<a href="'.url('/pengurusan/pentadbiran/pelekat/permohonan/show/'.$data->id).'" class="edit btn btn-primary btn-sm hover-elevate-up me-2 mb-1">Lihat</a>';
+                    }
+                    
+                }else{
+                    $btn = '<a href="'.url('/pengurusan/pentadbiran/pelekat/permohonan/show/'.$data->id).'" class="edit btn btn-primary btn-sm hover-elevate-up me-2 mb-1">Lihat</a>';
+                }
+                return $btn;    
+            })
+            ->addIndexColumn()            
+            ->rawColumns(['jenis_kenderaan','action','status'])
+            ->toJson();
+        }
+
+        
+
+        $dataTable = $builder
+        ->columns([
+            [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
+            ['data' => 'no_permohonan', 'name' => 'no_permohonan', 'title' => 'No Permohonan', 'orderable'=> false, 'class'=>'text-bold'],
+            // ['data' => 'bilik', 'name' => 'bilik', 'title' => 'Bilik', 'orderable'=> false, 'class'=>'text-bold'],            
+            ['data' => 'jenis_kenderaan', 'name' => 'jenis_kenderaan', 'title' => 'Jenis Kenderaan', 'orderable'=> false, 'class'=>'text-bold'],            
+            ['data' => 'jenama', 'name' => 'jenama', 'title' => 'Jenama', 'orderable'=> false, 'class'=>'text-bold'],            
+            ['data' => 'no_plate', 'name' => 'no_plate', 'title' => 'No Kenderaan', 'orderable'=> false, 'class'=>'text-bold'],            
+            ['data' => 'tarikh_tamat_cukai', 'name' => 'tarikh_tamat_cukai', 'title' => 'Tarikh Tamat Cukai', 'orderable'=> false, 'class'=>'text-bold'],                    
+            // ['data' => 'tempat', 'name' => 'tempat', 'title' => 'Tempat', 'orderable'=> false, 'class'=>'text-bold'],            
+            ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false],            
+            ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+
+        ])
+        ->minifiedAjax();
+
+        
+        return view('pages.pengurusan.pentadbiran.permohonan.pelekat.list', compact('dataTable','buttons','page_title','breadcrumbs'));
+    }
+
+    public function pelekatTambah(Request $request)
+    {
+        $title = "Permohonan Pelekat Kenderaan";
+        $action = route('pengurusan.pentadbiran.pelekat.permohonan.store');
+        $breadcrumbs = [
+            "Pentadbiran" =>  false,
+            "Permohonan Pelekat Kenderaan" =>  false,
+        ];
+        $page_title = 'Permohonan Pelekat Kenderaan';
+        
+        
+        $selectkenderaan = [
+            1 => 'Motorkar',
+            2 => 'Motorsikal',
+            
+        ];
+        $status = [
+            1 => 'Baru diterima',
+            2 => 'Proses',
+            3 => 'Lulus',
+            4 => 'Tolak'
+        ];
+        // $peserta = [
+        //     1 => 'VIP',
+        //     2 => 'Biasa'
+        // ];
+
+        
+        $model = new PermohonanPelekatKenderaan();
+        $user = Auth::user();
+        return view('pages.pengurusan.pentadbiran.permohonan.pelekat.add_new', compact(
+            'title','action','page_title',
+            'breadcrumbs','selectkenderaan','status',
+            'model','user',
+            
+            ));
+    }
+    public function pelekatStore(Request $request)
+    {
+        // dump($request);
+        // dd($request->salinan_geran);
+        $user = auth()->user();
+        $typeuser = User::with('staff.jabatan','vendor')->find($user->id);
+
+        if($user->is_student){
+            $jenis_pemohon = 1;//pelajar
+        }elseif($user->is_staff){
+            $jenis_pemohon = 2;// staff
+        }else{
+            $jenis_pemohon = 3; // vendor
+        }
+
+        $motorkar = 0;
+        $motorsikal = 0;
+        $checkPelekat = PermohonanPelekatKenderaan::where('user_id',$user->id)->where('status',3)->get();
+        
+        foreach($checkPelekat as $chek)
+        {
+            if($chek->jenis_kenderaan == 1){ //motorkar
+                $motorkar = $motorkar + 1;
+            }elseif($chek->jenis_kenderaan == 2){ //motorsikal
+                $motorsikal = $motorsikal + 1;
+            }else{
+
+            }
+        }
+
+        if($jenis_pemohon == 1){ //pelajar
+            if(($motorkar + $motorsikal) >= 1){
+                $flag = 0;
+            }else{
+                $flag = 1;
+            }
+        }elseif($jenis_pemohon == 2){//staff
+            if(($motorkar >= 2 )&&( $motorsikal >= 1)){
+                $flag = 0;
+            }else{
+                $flag = 1;
+            }
+        }else{
+            if(($motorkar + $motorsikal) >= 1){
+                $flag = 0;
+            }else{
+                $flag = 1;
+            }
+        }
+
+        // dump($motorkar);
+        // dd($flag);
+
+        if($flag == 1){
+
+            $validation = $request->validate([
+                'jenis_kenderaan'       => 'required',
+                'jenama'                => 'required',
+                'no_plate'              => 'required',
+                'tarikh_tamat_cukai'    => 'required',
+                'tarikh_tamat_lesen'    => 'required',
+    
+            ],[
+                'jenis_kenderaan.required'      => 'Sila masukkan jenis kenderaan',
+                'jenama.required'               => 'Sila masukkan jenama kenderaan',
+                'no_plate.required'             => 'Sila masukkan no kenderaan/plate',
+                'tarikh_tamat_cukai.required'   => 'Sila masukkan tarikh tamat cukai',
+                'tarikh_tamat_lesen.required'   => 'Sila masukkan tarikh tamat lesen',
+            ]);
+    
+            try{
+            
+                $runningno = $this->runningMan('pelekat');
+                $appno = "PELEKAT".str_pad($runningno, 4, "0", STR_PAD_LEFT).date('Y');
+    
+                if(!empty($request->file))
+                {
+                    // unlink(storage_path($rule->uploaded_document));
+                    $file_name = uniqid() . '.' . $request->file->getClientOriginalExtension();
+                    $file_path = 'uploads/permohonan/pelekat/';
+                    $file = $request->file('file');
+                    $file->move($file_path, $file_name);
+                    $file = $file_path . '' .$file_name;
+        
+                    $original_filename = $request->file->getClientOriginalName();
+                }else{
+                    $original_filename = '';
+                    $file = '';
+                }
+    
+                if(!empty($request->salinan_geran))
+                {
+                    // unlink(storage_path($rule->uploaded_document));
+                    $file_name_geran = uniqid() . '.' . $request->salinan_geran->getClientOriginalExtension();
+                    $file_path_geran = 'uploads/permohonan/pelekat/';
+                    $file_geran = $request->file('salinan_geran');
+                    $file_geran->move($file_path_geran, $file_name_geran);
+                    $file_geran = $file_path_geran . '' .$file_name_geran;
+        
+                    $original_filename_geran = $request->salinan_geran->getClientOriginalName();
+                }else{
+                    $original_filename_geran = '';
+                    $file_geran = '';
+                }
+    
+                if(!empty($request->salinan_surat_kuasa))
+                {
+                    // unlink(storage_path($rule->uploaded_document));
+                    $file_name_surat_kuasa = uniqid() . '.' . $request->salinan_surat_kuasa->getClientOriginalExtension();
+                    $file_path_surat_kuasa = 'uploads/permohonan/pelekat/';
+                    $file_surat_kuasa = $request->file('salinan_surat_kuasa');
+                    $file_surat_kuasa->move($file_path_surat_kuasa, $file_name_surat_kuasa);
+                    $file_surat_kuasa = $file_path_surat_kuasa . '' .$file_name_surat_kuasa;
+        
+                    $original_filename_surat_kuasa = $request->salinan_surat_kuasa->getClientOriginalName();
+                }else{
+                    $original_filename_surat_kuasa = '';
+                    $file_surat_kuasa = '';
+                }
+    
+                if(!empty($request->salinan_lesen))
+                {
+                    // unlink(storage_path($rule->uploaded_document));
+                    $file_name_salinan_lesen = uniqid() . '.' . $request->salinan_lesen->getClientOriginalExtension();
+                    $file_path_salinan_lesen = 'uploads/permohonan/pelekat/';
+                    $file_salinan_lesen = $request->file('salinan_lesen');
+                    $file_salinan_lesen->move($file_path_salinan_lesen, $file_name_salinan_lesen);
+                    $file_salinan_lesen = $file_path_salinan_lesen . '' .$file_name_salinan_lesen;
+        
+                    $original_filename_salinan_lesen = $request->salinan_lesen->getClientOriginalName();
+                }else{
+                    $original_filename_salinan_lesen = '';
+                    $file_salinan_lesen = '';
+                }
+    
+                $insert = PermohonanPelekatKenderaan::create([
+                    'no_permohonan'             => $appno,
+                    'user_id'                   => $user->id,   
+                    'jenis_pemohon'             => $jenis_pemohon,                             
+                    'jenis_kenderaan'           => $request->jenis_kenderaan,
+                    'jenama'                    => $request->jenama,
+                    'document_name'             => $original_filename,
+                    'upload_document'           => $file,
+                    'document_name_geran'       => $original_filename_geran,
+                    'upload_document_geran'     => $file_geran,
+                    'document_name_surat_kuasa'     => $original_filename_surat_kuasa,
+                    'upload_document_surat_kuasa'   => $file_surat_kuasa,
+                    'document_name_lesen'           => $original_filename_salinan_lesen,
+                    'upload_document_lesen'         => $file_salinan_lesen,
+                    'no_plate'                  => $request->no_plate,                
+                    'tarikh_tamat_cukai'        => $request->tarikh_tamat_cukai,     
+                    'tarikh_tamat_lesen'        => $request->tarikh_tamat_lesen,                         
+                    'status'                    => 1 // baru terima
+                ]);
+    
+                
+    
+    
+                Alert::toast('Maklumat permohonan pelekat kenderaan berjaya dihantar!', 'success');
+                return redirect()->route('pengurusan.pentadbiran.pelekat.permohonan.index');
+    
+            }catch (Exception $e) {
+                report($e);
+        
+                Alert::toast('Uh oh! Something went Wrong', 'error');
+                return redirect()->back();
+            }
+
+        }else{
+            Alert::toast('Anda sudah melebih kouta untuk pelekat kenderaan! Pelajar = 1, Staf = 2 Motokar,1 Motorsikal, Vendor = 1', 'error');
+            return redirect()->route('pengurusan.pentadbiran.pelekat.permohonan.index');
+        }
+        
+    }
+
+    public function pelekatEdit(Request $request)
+    {
+        $title = "Kelulusan Permohonan Pelekat Kenderaan";
+        $action = route('pengurusan.pentadbiran.pelekat.permohonan.update');
+        $breadcrumbs = [
+            "Pentadbiran" =>  false,
+            "Kelulusan Permohonan Pelekat Kenderaan" =>  false,
+        ];
+        $page_title = 'Kelulusan Permohonan Pelekat Kenderaan';
+        
+        
+        $selectkenderaan = [
+            1 => 'Motokar',
+            2 => 'Motorsikal',
+            
+        ];
+        $status = [
+            1 => 'Baru diterima',
+            2 => 'Proses',
+            3 => 'Lulus',
+            4 => 'Tolak'
+        ];
+        // $peserta = [
+        //     1 => 'VIP',
+        //     2 => 'Biasa'
+        // ];
+
+        
+        $model = PermohonanPelekatKenderaan::with('approvedby','user.staff.jabatan','user.vendor')->find($request->id);
+        $user = Auth::user();
+        $kakitangan = User::with('staff.jabatan')->where('id',$user->id)->first();
+        return view('pages.pengurusan.pentadbiran.permohonan.pelekat.action', compact(
+            'title','action','page_title',
+            'breadcrumbs','selectkenderaan','status',
+            'model','user','kakitangan'
+            
+            ));
+    }
+    public function pelekatUpdate(Request $request)
+    {
+        // dd($request);
+        $user = auth()->user();
+
+        try{
+            
+            $model = PermohonanPelekatKenderaan::find($request->id);
+
+            $model = $model->update([
+                   
+                'approved_by'               => $user->id,  
+                'tarikh_approved'           => date('Y-m-d'),        
+                'status'                    => $request->status // baru terima
+            ]);
+
+            
+
+
+            Alert::toast('Maklumat permohonan pelekat kenderaan berjaya dikemaskini!', 'success');
+            return redirect()->route('pengurusan.pentadbiran.pelekat.permohonan.index');
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+
+    }
+    public function pelekatShowOnly(Request $request)
+    {
+        $title = "Kelulusan Permohonan Pelekat Kenderaan";
+        $action = route('pengurusan.pentadbiran.pelekat.permohonan.store');
+        $breadcrumbs = [
+            "Pentadbiran" =>  false,
+            "Kelulusan Permohonan Pelekat Kenderaan" =>  false,
+        ];
+        $page_title = 'Kelulusan Permohonan Pelekat Kenderaan';
+        
+        
+        $selectkenderaan = [
+            1 => 'Motokar',
+            2 => 'Motorsikal',
+            
+        ];
+        $status = [
+            1 => 'Baru diterima',
+            2 => 'Proses',
+            3 => 'Lulus',
+            4 => 'Tolak'
+        ];
+        $jenispemohon = [
+            1 => 'Pelajar',
+            2 => 'Kakitangan',
+            3 => 'Vendor'
+        ];
+
+        
+        $model = PermohonanPelekatKenderaan::with('approvedby.staff','user.staff.jabatan','user.vendor')->find($request->id);
+        // dd($model);
+        $user = Auth::user();
+        $kakitangan = User::with('staff.jabatan')->where('id',$user->id)->first();        
+        return view('pages.pengurusan.pentadbiran.permohonan.pelekat.show', compact(
+            'title','action','page_title',
+            'breadcrumbs','selectkenderaan','status',
+            'model','user','kakitangan','jenispemohon'
+            
+            ));
+    }
+
+    
+
+
+  
+
+
+
     
 }

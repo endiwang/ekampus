@@ -29,21 +29,23 @@ use App\Http\Controllers\Pengurusan\Pentadbiran\PentadbiranController;
     // Route::post('/maklumat/kursus/peserta/delete', [PentadbiranController::class,'MaklumatKursusUpdate'])->name('maklumat.kursus.delete');
 
 
-    // // akreditasi
-    // Route::get('/akreditasi/index', [KualitiController::class,'akreditasIndex'])->name('akreditasi.index');
-    // Route::get('/akreditasi/tambah', [KualitiController::class,'akreditasiTambah'])->name('akreditasi.tambah');
-    // Route::post('/akreditasi/store', [KualitiController::class,'akreditasiStore'])->name('akreditasi.store');
-    // Route::get('/akreditasi/edit/{id}', [KualitiController::class,'akreditasiEdit'])->name('akreditasi.show');
-    // Route::post('/akreditasi/update', [KualitiController::class,'akreditasiUpdate'])->name('akreditasi.update');
+    // Permohonan Menggunakan Kenderaan
+    Route::get('/kenderaan/permohonan/index', [PentadbiranController::class,'permohonanKenderaanIndex'])->name('kenderaan.permohonan.index');
+    Route::get('/kenderaan/permohonan/tambah', [PentadbiranController::class,'permohonanKenderaanTambah'])->name('kenderaan.permohonan.tambah');
+    Route::post('/kenderaan/permohonan/store', [PentadbiranController::class,'permohonanKenderaanStore'])->name('kenderaan.permohonan.store');
+    Route::get('/kenderaan/permohonan/action/{id}', [PentadbiranController::class,'permohonanKenderaanEdit'])->name('kenderaan.permohonan.show');
+    Route::post('/kenderaan/permohonan/update', [PentadbiranController::class,'permohonanKenderaanUpdate'])->name('kenderaan.permohonan.update');
+    Route::get('/kenderaan/permohonan/show/{id}',[PentadbiranController::class,'permohonanKenderaanShowonly'])->name('kenderaan.permohonan.showonly');
 
-    // // muadalah
-    // Route::get('/muadalah/index', [KualitiController::class,'muadalahIndex'])->name('muadalah.index');
-    // Route::get('/muadalah/tambah', [KualitiController::class,'muadalahTambah'])->name('muadalah.tambah');
-    // Route::post('/muadalah/store', [KualitiController::class,'muadalahStore'])->name('muadalah.store');
-    // Route::get('/muadalah/edit/{id}', [KualitiController::class,'muadalahEdit'])->name('muadalah.show');
-    // Route::post('/muadalah/update', [KualitiController::class,'muadalahUpdate'])->name('muadalah.update');
+    // Permohonan Pelekat Kenderaan
+    Route::get('/pelekat/permohonan/index', [PentadbiranController::class,'pelekatIndex'])->name('pelekat.permohonan.index');
+    Route::get('/pelekat/permohonan/tambah', [PentadbiranController::class,'pelekatTambah'])->name('pelekat.permohonan.tambah');
+    Route::post('/pelekat/permohonan/store', [PentadbiranController::class,'pelekatStore'])->name('pelekat.permohonan.store');
+    Route::get('/pelekat/permohonan/action/{id}', [PentadbiranController::class,'pelekatEdit'])->name('pelekat.permohonan.show');
+    Route::post('/pelekat/permohonan/update', [PentadbiranController::class,'pelekatUpdate'])->name('pelekat.permohonan.update');
+    Route::get('/pelekat/permohonan/show/{id}', [PentadbiranController::class,'pelekatShowOnly'])->name('pelekat.permohonan.show');
 
-    // // Rekod kompetensi Pensyarah
+    // // Permohonan Kuarters
     
     // Route::get('/rekodkompetensi/index', [KualitiController::class,'RekodKompetensiIndex'])->name('rekodkompetensi.index');
     // Route::get('/rekodkompetensi/tambah', [KualitiController::class,'RekodKompetensiTambah'])->name('rekodkompetensi.tambah');
@@ -51,45 +53,7 @@ use App\Http\Controllers\Pengurusan\Pentadbiran\PentadbiranController;
     // Route::get('/rekodkompetensi/edit/{id}', [KualitiController::class,'RekodKompetensiEdit'])->name('rekodkompetensi.show');
     // Route::post('/rekodkompetensi/update', [KualitiController::class,'RekodKompetensiUpdate'])->name('rekodkompetensi.update');
 
-    // // penyelidikan
-    // Route::get('/penyelidikan/index', [KualitiController::class,'penyelidikanIndex'])->name('penyelidikan.index');
-    // Route::get('/penyelidikan/tambah', [KualitiController::class,'penyelidikanTambah'])->name('penyelidikan.tambah');
-    // Route::post('/penyelidikan/store', [KualitiController::class,'penyelidikanStore'])->name('penyelidikan.store');
-    // Route::get('/penyelidikan/edit/{id}', [KualitiController::class,'penyelidikanEdit'])->name('penyelidikan.show');
-    // Route::post('/penyelidikan/update', [KualitiController::class,'penyelidikanUpdate'])->name('penyelidikan.update');
-
-    // // Penerbitan 
-    // // permohonan dan penyediaan akses penyumbang artikel
-    // Route::get('/penyumbang/artikel/daftar', [KualitiController::class,'penyumbangDaftar'])->name('penyumbang.artikel.daftar');
-    // Route::post('/penyumbang/artikel/store', [KualitiController::class,'penyumbangStore'])->name('penyumbang.artikel.store');
-    // // kelulusan permohonan penyumbang artikel
-    // Route::get('/penyumbang/artikel/list', [KualitiController::class,'penyumbangList'])->name('penyumbang.artikel.list');
-    // Route::get('/penyumbang/artikel/show/{id}', [KualitiController::class,'penyumbangShow'])->name('penyumbang.artikel.show');
-    // Route::post('/penyumbang/artikel/update', [KualitiController::class,'penyumbangUpdate'])->name('penyumbang.artikel.update');
-
-    // // penerbitan editor artikel
-    // Route::get('/editor/artikel/daftar', [KualitiController::class,'editorDaftar'])->name('editor.artikel.daftar');
-    // Route::post('/editor/artikel/store', [KualitiController::class,'editorStore'])->name('editor.artikel.store');
-    // // kelulusan permohonan editor artikel
-    // Route::get('/editor/artikel/list', [KualitiController::class,'editorList'])->name('editor.artikel.list');
-    // Route::get('/editor/artikel/show/{id}', [KualitiController::class,'editorShow'])->name('editor.artikel.show');
-    // Route::post('/editor/artikel/update', [KualitiController::class,'editorUpdate'])->name('editor.artikel.update');
-
-    // // hantar dan semak artikel
-    // Route::get('/artikel/hantar', [KualitiController::class,'artikelHantar'])->name('artikel.hantar');
-    // Route::post('/artikel/store', [KualitiController::class,'artikelStore'])->name('artikel.store');
-    // // semak artikel
-    // Route::get('/artikel/penyumbang/list', [KualitiController::class,'artikelPenyumbangList'])->name('artikel.penyumbang.list');
-    // Route::get('/artikel/editor/list', [KualitiController::class,'artikelEditorList'])->name('artikel.editor.list');
-    // Route::get('/artikel/editor/show/{id}', [KualitiController::class,'artikelEditorShow'])->name('artikel.editor.show');
-    // Route::post('/artikel/editor/update', [KualitiController::class,'artikelEditorUpdate'])->name('artikel.editor.update');
-
-    // // penerbitan artikel utk dipublish
-    // Route::get('/artikel/penerbitan/list', [KualitiController::class,'artikelPenerbitanList'])->name('artikel.penerbitan.list');
-    // Route::get('/artikel/penerbitan/show/{id}', [KualitiController::class,'artikelPenerbitanShow'])->name('artikel.penerbitan.show');
-    // Route::post('/artikel/penerbitan/update', [KualitiController::class,'artikelPenerbitanUpdate'])->name('artikel.penerbitan.update');
-
-
+   
 
 
     

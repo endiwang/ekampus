@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('tempat')->nullable();
             $table->integer('bil_penumpang')->nullable();
             $table->integer('jenis_kenderaan')->nullable()->comment('1-bas 2-van 3-serena 4-persona 5-persona-premium 6-pajero');
+            $table->string('tujuan')->nullable();
             $table->integer('status')->nullable()->comment('1-lulus 0-gagal');
             $table->integer('approved_by')->nullable();
             $table->datetime('tarikh_approved')->nullable();
