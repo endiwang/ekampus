@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Pengurusan\Akademik\eLearning\JadualPembelajaranController;
 use App\Http\Controllers\Pengurusan\Akademik\eLearning\PengurusanKandunganController;
 use App\Http\Controllers\Pengurusan\Akademik\GuruTasmikController;
 use App\Http\Controllers\Pengurusan\Akademik\JadualWaktu\JadualKelasController;
@@ -237,4 +238,7 @@ Route::group(['prefix' => 'e_learning', 'as' => 'e_learning.'], function () {
     Route::post('pengurusan_kandungan/delete_file/{id}', [PengurusanKandunganController::class, 'deleteFile'])->name('pengurusan_kandungan.delete_file');
     Route::post('pengurusan_kandungan/update/{id}', [PengurusanKandunganController::class, 'update'])->name('pengurusan_kandungan.update_kandungan_pemebelajaran');
     Route::resource('pengurusan_kandungan', PengurusanKandunganController::class);
+
+    Route::post('jadual_pembelajaran/fetchContent', [JadualPembelajaranController::class, 'fetchContent'])->name('jadual_pembelajaran.fetchContent');
+    Route::resource('jadual_pembelajaran', JadualPembelajaranController::class);
 });
