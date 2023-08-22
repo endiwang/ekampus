@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin;
 use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
 use App\Models\DisiplinPelajar;
+use App\Models\HukumanDisiplin;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
+use App\Models\Pelajar;
 
 class DisiplinPelajarController extends Controller
 {
@@ -29,8 +31,13 @@ class DisiplinPelajarController extends Controller
             'Permohonan' => false,
             'Disiplin Pelajar' => false,
         ];
-
         $buttons = [
+            [
+                'title' => "Tambah Rekod Disiplin Pelajar",
+                'route' => route('pengurusan.hep.pengurusan.disiplin_pelajar.create'),
+                'button_class' => "btn btn-sm btn-primary fw-bold",
+                'icon_class' => "fa fa-plus-circle"
+            ],
         ];
 
         if (request()->ajax()) {
@@ -38,11 +45,11 @@ class DisiplinPelajarController extends Controller
 
             return DataTables::of($data)
             ->addColumn('nama_pelaku', function ($data) {
-                return $data->aduan->pelaku->nama;
+                return $data->pelaku->nama;
             })
             ->addColumn('no_ic_matrik', function ($data) {
-                if (! empty($data->aduan->pelaku)) {
-                    $data = '<p style="text-align:center">'.$data->aduan->pelaku->no_ic.'<br/> <span style="font-weight:bold"> ['.$data->aduan->pelaku->no_matrik.'] </span></p>';
+                if (! empty($data->pelaku)) {
+                    $data = '<p style="text-align:center">'.$data->pelaku->no_ic.'<br/> <span style="font-weight:bold"> ['.$data->pelaku->no_matrik.'] </span></p>';
                 } else {
                     $data = '';
                 }
@@ -66,14 +73,16 @@ class DisiplinPelajarController extends Controller
                 })
                 ->addColumn('action', function ($data) {
                     return '
-                        <a href="'.route('pengurusan.hep.permohonan.keluar_masuk.show', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                        <a href="'.route('pengurusan.hep.pengurusan.disiplin_pelajar.edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                             <i class="fa fa-pencil"></i>
                         </a>
-                        <form id="delete-'.$data->id.'" action="'.route('pelajar.permohonan.keluar_masuk.destroy', $data->id).'" method="POST">
+                        <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                        <form id="delete-'.$data->id.'" action="'.route('pengurusan.hep.pengurusan.disiplin_pelajar.destroy', $data->id).'" method="POST">
                             <input type="hidden" name="_token" value="'.csrf_token().'">
                             <input type="hidden" name="_method" value="DELETE">
-                        </form>
-                        ';
+                        </form>';
                 })
                 ->addIndexColumn()
                 ->order(function ($data) {
@@ -104,7 +113,22 @@ class DisiplinPelajarController extends Controller
      */
     public function create()
     {
-        //
+        $title = 'Disiplin Pelajar';
+        $action = route('pengurusan.hep.pengurusan.disiplin_pelajar.store');
+        $page_title = 'Tambah Rekod Disiplin Pelajar';
+        $breadcrumbs = [
+            'Hal Ehwal Pelajar' => false,
+            'Permohonan' => false,
+            'Disiplin Pelajar' => false,
+            'Tambah Rekod' => false,
+        ];
+
+        $model = new DisiplinPelajar();
+
+        $pelajar = Pelajar::where('is_berhenti',0)->get()->pluck('name_ic_no_matrik','id');
+        $hukuman = HukumanDisiplin::where('status',0)->get()->pluck('hukuman','id');
+
+        return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action','pelajar','hukuman'));
     }
 
     /**
@@ -115,7 +139,21 @@ class DisiplinPelajarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'pelajar_id' => 'required',
+            'keterangan' => 'required',
+            'hukuman_disiplin_id' => 'required',
+        ], [
+            'pelajar_id.required' => 'Sila pilih pelajar',
+            'keterangan.required' => 'Sila masukkan keterangan',
+            'hukuman_disiplin_id.required' => 'Sila pilih hukuman',
+        ]);
+
+        $data = DisiplinPelajar::create($request->all());
+
+        Alert::toast('Maklumat disiplin pelajar berjaya disimpan!', 'success');
+
+        return redirect()->route('pengurusan.hep.pengurusan.disiplin_pelajar.index');
     }
 
     /**
@@ -137,7 +175,24 @@ class DisiplinPelajarController extends Controller
      */
     public function edit($id)
     {
-        //
+        $action = route('pengurusan.hep.pengurusan.disiplin_pelajar.update', $id);
+        $title = 'Disiplin Pelajar';
+        $page_title = 'Tambah Rekod Disiplin Pelajar';
+        $breadcrumbs = [
+            'Hal Ehwal Pelajar' => false,
+            'Permohonan' => false,
+            'Disiplin Pelajar' => false,
+            'Tambah Rekod' => false,
+        ];
+
+
+        $model = DisiplinPelajar::find($id);
+
+        $pelajar = Pelajar::where('is_berhenti',0)->get()->pluck('name_ic_no_matrik','id');
+
+        $hukuman = HukumanDisiplin::where('status',0)->get()->pluck('hukuman','id');
+
+        return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 'pelajar', 'hukuman'));
     }
 
     /**
@@ -149,7 +204,24 @@ class DisiplinPelajarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'keterangan' => 'required',
+            'hukuman_disiplin_id' => 'required',
+        ], [
+            'keterangan.required' => 'Sila masukkan keterangan',
+            'hukuman_disiplin_id.required' => 'Sila pilih hukuman',
+        ]);
+
+
+        $model = DisiplinPelajar::find($id);
+        $model->pelajar_id = $request->pelajar_id;
+        $model->keterangan = $request->keterangan;
+        $model->hukuman_disiplin_id	 = $request->hukuman_disiplin_id;
+        $model->save();
+
+        Alert::toast('Maklumat disiplin pelajar berjaya dikemaskini!', 'success');
+
+        return redirect()->route('pengurusan.hep.pengurusan.disiplin_pelajar.index');
     }
 
     /**
@@ -160,6 +232,12 @@ class DisiplinPelajarController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $model = DisiplinPelajar::find($id);
+
+        $model = $model->delete();
+
+        Alert::toast('Maklumat disiplin pelajar berjaya dihapuskan!', 'success');
+
+        return redirect()->back();
     }
 }

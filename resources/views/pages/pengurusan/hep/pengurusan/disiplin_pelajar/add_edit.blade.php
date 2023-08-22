@@ -9,7 +9,7 @@
             <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                 <div class="card" id="advanceSearch">
                     <div class="card-header">
-                        <h3 class="card-title">{{ $page_title }}</h3>
+                        <h3 class="card-title">Maklumat Disiplin Pelajar</h3>
                     </div>
                     <div class="card-body py-5">
                         <form class="form" action="{{ $action }}" method="post">
@@ -29,71 +29,72 @@
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('tarikh_keluar', 'Tarikh Keluar', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    {{ Form::label('keterangan', 'Keterangan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::text('tarikh_keluar', $model->tarikh_keluar ? Carbon\Carbon::parse($model->tarikh_keluar)->format('d/m/Y') : '',['class' => 'form-control form-control-sm '.($errors->has('tarikh_keluar') ? 'is-invalid':''), 'id' =>'tarikh_keluar','onkeydown' =>'return false','autocomplete' => 'off','required' => 'required']) }}
-                                        @error('tarikh_keluar') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        {{ Form::textarea('keterangan',$model->keterangan ?? old('keterangan'),['class' => 'form-control form-control-sm '.($errors->has('keterangan') ? 'is-invalid':''), 'id' =>'keterangan', 'rows'=>'3']) }}
+                                        @error('keterangan') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('waktu_keluar', 'Masa Keluar', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    {{ Form::label('hukuman_disiplin_id', 'Hukuman', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{-- <input type="time" id="waktu_masuk" name="waktu_masuk" class="form-control form-control-sm"  value="@if ($model->waktu_masuk) {{$model->waktu_masuk}} @else {{old('waktu_masuk')}} @endif"> --}}
-                                        {{ Form::time('waktu_keluar', $model->waktu_keluar ?? old('waktu_keluar'),['class' => 'form-control form-control-sm '.($errors->has('waktu_keluar') ? 'is-invalid':''), 'id' =>'waktu_keluar','onkeydown' =>'return true','autocomplete' => 'off','required' => 'required']) }}
-
-                                        @error('waktu_keluar') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        {{ Form::select('hukuman_disiplin_id', $hukuman, $model->hukuman_disiplin_id ?? old('hukhukuman_disiplin_iduman_id'), ['placeholder' => 'Sila Pilih','class' =>'form-select form-select-sm ', 'data-control'=>'select2', 'required' => 'required' ]) }}
+                                        @error('hukuman_disiplin_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('tarikh_masuk', 'Tarikh Masuk', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    {{ Form::label('status_hukuman', 'Status Hukuman', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::text('tarikh_masuk',$model->tarikh_masuk ? Carbon\Carbon::parse($model->tarikh_masuk)->format('d/m/Y') : '',['class' => 'form-control form-control-sm '.($errors->has('tarikh_masuk') ? 'is-invalid':''), 'id' =>'tarikh_masuk','onkeydown' =>'return false','autocomplete' => 'off']) }}
-                                        @error('tarikh_masuk') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        {{ Form::select('status_hukuman', ['0' => 'Belum Berjalan', '1' => 'Sedang Berjalan', '2' => 'Selesai'], $model->status_hukuman ?? old('status_hukuman'), ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm ', 'data-control'=>'select2', 'required' => 'required' ]) }}
+                                        @error('status_hukuman') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
+                            {{-- @if($model->aduan_salahlaku_pelajar_id)
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('masa_masuk', 'Masa Masuk', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    {{ Form::label('aduan', 'Aduan (jika ada)', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{-- <input type="time" id="waktu_masuk" name="waktu_masuk" class="form-control form-control-sm"  value="@if ($model->waktu_masuk) {{$model->waktu_masuk}} @else {{old('waktu_masuk')}} @endif"> --}}
-                                        {{ Form::time('waktu_masuk', $model->waktu_masuk ?? old('waktu_masuk'),['class' => 'form-control form-control-sm '.($errors->has('waktu_masuk') ? 'is-invalid':''), 'id' =>'waktu_masuk','onkeydown' =>'return true','autocomplete' => 'off']) }}
-
-                                        @error('waktu_masuk') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        <a href="{{ route('pengurusan.hep.pengurusan.salahlaku_pelajar.edit', $model->aduan_salahlaku_pelajar_id) }}" target="_blank" id="kt_share_earn_link_copy_button" class="btn btn-info btn-sm fw-bold flex-shrink-0">
+                                            <i class="fa fa-file" style="vertical-align: initial"></i>Aduan
+                                        </a>
                                     </div>
                                 </div>
                             </div>
+                            @endif
+                            @if($model->siasatan_aduan_salahlaku_pelajar_id)
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('status', 'Status', ['class' => 'fs-7 fw-semibold form-label mt-2 required']) }}
+                                    {{ Form::label('siasatan', 'Siasatan (jika ada)', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <label class="form-check form-switch form-check-custom form-check-solid">
-                                            {{ Form::select('status', ['0' => 'Keluar', '1' => 'Masuk', '2' => 'Masuk Lewat', '3' => 'Masuk Lewat Dengan Alasan'], $model->status ?? old('status'), ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ', 'required' => 'required']) }}
-                                        </label>
+                                        <a href="{{ route('pengurusan.hep.pengurusan.salahlaku_pelajar.siasatan', $model->siasatan_aduan_salahlaku_pelajar_id) }}" target="_blank" id="kt_share_earn_link_copy_button" class="btn btn-info btn-sm fw-bold flex-shrink-0">
+                                            <i class="fa fa-file" style="vertical-align: initial"></i>Siasatan
+                                        </a>
                                     </div>
                                 </div>
                             </div>
+                            @endif --}}
                             <div class="row">
                                 <div class="col-md-9 offset-md-3">
                                     <div class="d-flex">
                                         <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
                                             <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
                                         </button>
-                                        <a href="{{ route('pengurusan.hep.pengurusan.keluar_masuk.index') }}" class="btn btn-sm btn-light">Batal</a>
+                                        <a href="{{ route('pengurusan.hep.pengurusan.disiplin_pelajar.index') }}" class="btn btn-sm btn-light">Batal</a>
                                     </div>
                                 </div>
                             </div>

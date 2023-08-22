@@ -27,4 +27,9 @@ class DisiplinPelajar extends Model
         return $this->hasOne(HukumanDisiplin::class,'id','hukuman_disiplin_id');
     }
 
+    public function pelaku()
+    {
+        return $this->belongsTo(Pelajar::class, 'pelajar_id', 'id');
+    }
+
 }
