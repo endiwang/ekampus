@@ -14,4 +14,9 @@ class AduanSalahlakuPelajar extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function pelaku()
+    {
+        return $this->belongsTo(Pelajar::class, 'pelaku_pelajar_id', 'id');
+    }
 }

@@ -11,7 +11,14 @@ return [
                 [
                     'title' => 'Salah Laku Pelajar',
                     'route' => 'pengurusan.hep.pengurusan.salahlaku_pelajar.index',
-                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Disiplin Pelajar',
+                    'route' => 'pengurusan.hep.pengurusan.disiplin_pelajar.index',
+                ],
+                [
+                    'title' => 'Keluar Masuk',
+                    'route' => 'pengurusan.hep.pengurusan.keluar_masuk.index',
                 ],
             ],
         ],
