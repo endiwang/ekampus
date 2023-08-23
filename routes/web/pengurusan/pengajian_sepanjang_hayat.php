@@ -8,7 +8,7 @@ use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanPenemudugaSij
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanPeperiksaanSijilTahfizController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanPusatPeperiksaanController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanMajlisPenyerahanSijilTahfizController;
-use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TemplateJemputanSijilController;
+use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanTemplateJemputanSijilController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\JemputanMajlisPenyerahanSijilController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanTemplateSijilTahfiz;
 
@@ -25,7 +25,7 @@ Route::group(['prefix'=>'tetapan','as'=>'tetapan.'], function(){
     });
     Route::resource('penemuduga_sijil_tahfiz', TetapanPenemudugaSijilTahfizController::class);
     Route::resource('majlis_penyerahan_sijil_tahfiz', TetapanMajlisPenyerahanSijilTahfizController::class);
-    Route::resource('template_jemputan_sijil', TemplateJemputanSijilController::class);
+    Route::resource('template_jemputan_sijil', TetapanTemplateJemputanSijilController::class);
 
     Route::resource('template_sijil_tahfiz', TetapanTemplateSijilTahfiz::class);
 });
