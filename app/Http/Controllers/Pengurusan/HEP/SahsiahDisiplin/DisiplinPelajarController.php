@@ -28,7 +28,7 @@ class DisiplinPelajarController extends Controller
         $title = 'Disiplin Pelajar';
         $breadcrumbs = [
             'Hal Ehwal Pelajar' => false,
-            'Permohonan' => false,
+            'Pengurusan' => false,
             'Disiplin Pelajar' => false,
         ];
         $buttons = [
@@ -118,7 +118,7 @@ class DisiplinPelajarController extends Controller
         $page_title = 'Tambah Rekod Disiplin Pelajar';
         $breadcrumbs = [
             'Hal Ehwal Pelajar' => false,
-            'Permohonan' => false,
+            'Pengurusan' => false,
             'Disiplin Pelajar' => false,
             'Tambah Rekod' => false,
         ];
@@ -180,7 +180,7 @@ class DisiplinPelajarController extends Controller
         $page_title = 'Tambah Rekod Disiplin Pelajar';
         $breadcrumbs = [
             'Hal Ehwal Pelajar' => false,
-            'Permohonan' => false,
+            'Pengurusan' => false,
             'Disiplin Pelajar' => false,
             'Tambah Rekod' => false,
         ];

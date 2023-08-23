@@ -10,6 +10,7 @@ use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\DisiplinPelajarControlle
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\KeluarMasukPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\PengurusanSalahlakuPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\RekodKeluarMasukPelajarController;
+use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\TatatertibRayuanPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\TetapanKeluarMasukController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +22,6 @@ Route::group(['prefix' => 'permohonan', 'as' => 'permohonan.'], function () {
 
 Route::group(['prefix' => 'tetapan', 'as' => 'tetapan.'], function () {
     Route::resource('keluar_masuk', TetapanKeluarMasukController::class);
-
     Route::resource('lookup', LookupController::class)->middleware(['web', 'auth']);
 });
 
@@ -31,6 +31,7 @@ Route::group(['prefix' => 'pengurusan', 'as' => 'pengurusan.'], function () {
     Route::resource('salahlaku_pelajar', PengurusanSalahlakuPelajarController::class);
     Route::resource('keluar_masuk', RekodKeluarMasukPelajarController::class);
     Route::resource('disiplin_pelajar', DisiplinPelajarController::class);
+    Route::resource('tatatertib_pelajar', TatatertibRayuanPelajarController::class);
 });
 
 /** Kaunseling */

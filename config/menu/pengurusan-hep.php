@@ -17,6 +17,10 @@ return [
                     'route' => 'pengurusan.hep.pengurusan.disiplin_pelajar.index',
                 ],
                 [
+                    'title' => 'Tatatertib Pelajar',
+                    'route' => 'pengurusan.hep.pengurusan.tatatertib_pelajar.index',
+                ],
+                [
                     'title' => 'Keluar Masuk',
                     'route' => 'pengurusan.hep.pengurusan.keluar_masuk.index',
                 ],
