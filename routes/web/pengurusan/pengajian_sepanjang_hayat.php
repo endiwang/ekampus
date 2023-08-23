@@ -7,6 +7,8 @@ use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanPenemudugaSij
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanPeperiksaanSijilTahfizController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanPusatPeperiksaanController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanMajlisPenyerahanSijilTahfizController;
+use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TemplateJemputanSijilController;
+use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\JemputanMajlisPenyerahanSijilController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix'=>'tetapan','as'=>'tetapan.'], function(){
@@ -20,6 +22,7 @@ Route::group(['prefix'=>'tetapan','as'=>'tetapan.'], function(){
     });
     Route::resource('penemuduga_sijil_tahfiz', TetapanPenemudugaSijilTahfizController::class);
     Route::resource('majlis_penyerahan_sijil_tahfiz', TetapanMajlisPenyerahanSijilTahfizController::class);
+    Route::resource('template_jemputan_sijil', TemplateJemputanSijilController::class);
 });
 
 Route::group(['prefix'=>'proses_permohonan','as'=>'proses_permohonan.'], function(){
@@ -40,4 +43,8 @@ Route::group(['prefix'=>'pemarkahan','as'=>'pemarkahan.'], function(){
     Route::resource('calon_peperiksaan_sijil_tahfiz', PeperiksaanPemarkahanCalonSijilTahfizController::class);
 
     Route::resource('pengesahan_markah_sijil_tahfiz', PengesahanMarkahSijilTafiz::class);
+});
+
+Route::group(['prefix'=>'jemputan','as'=>'jemputan.'], function(){
+    Route::resource('jemputan_majlis', JemputanMajlisPenyerahanSijilController::class);
 });
