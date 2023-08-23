@@ -157,10 +157,11 @@
                                     <div class="col-md-9">
                                         <div class="w-100">
                                             <label class="form-check form-switch form-check-custom form-check-solid">
-                                                {{ Form::checkbox('approval', 1, ($pemarkahan->approval == 0 ? 0:1), ['class' => 'form-check-input h-25px w-60px mt-1']); }}
-                                                <span class="form-check-label fs-7 fw-semibold mt-2">
-                                                    Ya
-                                                </span>
+                                                @if ($pemarkahan->approval == 0 )
+                                                <span class="badge py-3 px-4 fs-7 badge-light-info">Menunggu Pengesahan</span>
+                                                @else
+                                                <span class="badge py-3 px-4 fs-7 badge-light-success">Telah Disahkan</span>
+                                                @endif
                                             </label>
                                         </div>
                                     </div>
@@ -174,10 +175,7 @@
                                 <div class="row">
                                     <div class="col-md-9 offset-md-3">
                                         <div class="d-flex">
-                                            <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
-                                                <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
-                                            </button>
-                                            <a href="{{ route('pengurusan.pengajian_sepanjang_hayat.pemarkahan.pengesahan_markah_sijil_tahfiz.index') }}" class="btn btn-light btn-sm">Batal</a>
+                                            <a href="{{ route('pelajar.sijil_tahfiz.semakan_keputusan_sijil_tahfiz.index') }}" class="btn btn-light btn-sm">Kembali</a>
                                         </div>
                                     </div>
                                 </div>

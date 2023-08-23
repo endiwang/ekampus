@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PenerimaSijilTahfizController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PengesahanMarkahSijilTafiz;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PeperiksaanPemarkahanCalonSijilTahfizController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PermohonanController;
@@ -9,6 +10,8 @@ use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanPusatPeperiks
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanMajlisPenyerahanSijilTahfizController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TemplateJemputanSijilController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\JemputanMajlisPenyerahanSijilController;
+use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanTemplateSijilTahfiz;
+
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix'=>'tetapan','as'=>'tetapan.'], function(){
@@ -23,6 +26,8 @@ Route::group(['prefix'=>'tetapan','as'=>'tetapan.'], function(){
     Route::resource('penemuduga_sijil_tahfiz', TetapanPenemudugaSijilTahfizController::class);
     Route::resource('majlis_penyerahan_sijil_tahfiz', TetapanMajlisPenyerahanSijilTahfizController::class);
     Route::resource('template_jemputan_sijil', TemplateJemputanSijilController::class);
+
+    Route::resource('template_sijil_tahfiz', TetapanTemplateSijilTahfiz::class);
 });
 
 Route::group(['prefix'=>'proses_permohonan','as'=>'proses_permohonan.'], function(){
@@ -43,6 +48,12 @@ Route::group(['prefix'=>'pemarkahan','as'=>'pemarkahan.'], function(){
     Route::resource('calon_peperiksaan_sijil_tahfiz', PeperiksaanPemarkahanCalonSijilTahfizController::class);
 
     Route::resource('pengesahan_markah_sijil_tahfiz', PengesahanMarkahSijilTafiz::class);
+});
+
+Route::group(['prefix'=>'pengurusan_sijil_tahfiz','as'=>'pengurusan_sijil_tahfiz.'], function(){
+    
+    Route::resource('penerima_sijil_tahfiz', PenerimaSijilTahfizController::class);
+
 });
 
 Route::group(['prefix'=>'jemputan','as'=>'jemputan.'], function(){
