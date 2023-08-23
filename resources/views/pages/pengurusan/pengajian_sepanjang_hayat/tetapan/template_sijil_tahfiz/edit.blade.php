@@ -80,8 +80,9 @@
 <script>
     tinymce.init({
         selector: "#kt_docs_tinymce_basic", height : "300",
-        plugins: "a11ychecker advcode advlist advtable anchor autocorrect autolink autoresize casechange charmap checklist code directionality editimage export footnotes formatpainter fullscreen help image importcss inlinecss insertdatetime link linkchecker lists media mediaembed mergetags nonbreaking pagebreak pageembed permanentpen powerpaste preview quickbars save searchreplace table tinycomments tinydrive tinymcespellchecker typography visualblocks visualchars wordcount",
-        toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright alignjustify | indent outdent | image',
+        plugins: "advlist anchor autolink autoresize code directionality fullscreen help image importcss insertdatetime link lists media nonbreaking pagebreak preview quickbars save searchreplace table visualblocks visualchars wordcount",
+        toolbar: "undo redo | blocks fontfamily fontsize | bold italic underline forecolor backcolor | link image | align lineheight checklist bullist numlist | indent outdent | removeformat",
+        font_size_formats: '8pt 10pt 12pt 14pt 16pt 18pt 24pt 36pt 48pt',
     });
 </script>
 
