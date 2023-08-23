@@ -29,48 +29,92 @@
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('laporan_kes_upload', 'Laporan Kes', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    {{ Form::label('laporan_kes_upload', 'Laporan Kes', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <input type="file" class="form-control form-control-sm" name="laporan_kes_upload" id="laporan_kes_upload" required>
+                                        <input type="file" class="form-control form-control-sm" name="laporan_kes_upload" id="laporan_kes_upload" >
                                         @error('laporan_kes_upload') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
+                            @if(!empty($model->laporan_kes))
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('nota_hadir_upload', 'Nota Hadir', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <input type="file" class="form-control form-control-sm" name="nota_hadir_upload" id="nota_hadir_upload" required>
+                                        <a class="btn btn-info btn-sm me-3" href="{{ url('storage/'.$model->laporan_kes) }}"  target='_blank'>Lihat Dokument Laporan Kes</a>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
+                                    {{ Form::label('nota_hadir_upload', 'Nota Hadir', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        <input type="file" class="form-control form-control-sm" name="nota_hadir_upload" id="nota_hadir_upload" >
                                         @error('nota_hadir_upload') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
+                            @if(!empty($model->nota_hadir))
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('fakta_kes_upload', 'Fakta Kes', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <input type="file" class="form-control form-control-sm" name="fakta_kes_upload" id="fakta_kes_upload" required>
+                                        <a class="btn btn-info btn-sm me-3" href="{{ url('storage/'.$model->nota_hadir) }}"  target='_blank'>Lihat Dokument Nota Hadir</a>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
+                                    {{ Form::label('fakta_kes_upload', 'Fakta Kes', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        <input type="file" class="form-control form-control-sm" name="fakta_kes_upload" id="fakta_kes_upload" >
                                         @error('fakta_kes_upload') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
+                            @if(!empty($model->fakta_kes))
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('kertas_pertuduhan_upload', 'Kertas Pertuduhan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <input type="file" class="form-control form-control-sm" name="kertas_pertuduhan_upload" id="kertas_pertuduhan_upload" required>
+                                        <a class="btn btn-info btn-sm me-3" href="{{ url('storage/'.$model->fakta_kes) }}"  target='_blank'>Lihat Dokument Fakta Kes</a>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
+                                    {{ Form::label('kertas_pertuduhan_upload', 'Kertas Pertuduhan', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        <input type="file" class="form-control form-control-sm" name="kertas_pertuduhan_upload" id="kertas_pertuduhan_upload" >
                                         @error('kertas_pertuduhan_upload') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
+                            @if(!empty($model->kertas_pertuduhan))
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        <a class="btn btn-info btn-sm me-3" href="{{ url('storage/'.$model->kertas_pertuduhan) }}"  target='_blank'>Lihat Dokument Kertas Pertuduhan</a>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
                                     {{ Form::label('keputusan_kes_hukuman', 'Keputusan Kes', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}

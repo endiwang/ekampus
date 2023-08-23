@@ -77,7 +77,7 @@ class TatatertibRayuanPelajarController extends Controller
                          <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
                              <i class="fa fa-trash"></i>
                          </a>
-                         <form id="delete-'.$data->id.'" action="'.route('pengurusan.hep.pengurusan.disiplin_pelajar.destroy', $data->id).'" method="POST">
+                         <form id="delete-'.$data->id.'" action="'.route('pengurusan.hep.pengurusan.tatatertib_pelajar.destroy', $data->id).'" method="POST">
                              <input type="hidden" name="_token" value="'.csrf_token().'">
                              <input type="hidden" name="_method" value="DELETE">
                          </form>';
@@ -160,7 +160,7 @@ class TatatertibRayuanPelajarController extends Controller
         if($request->has('fakta_kes_upload'))
         {
             $fakta_kes = uniqid().'.'.$request->laporan_kes_upload->getClientOriginalExtension();
-            $fakta_kes_path = 'uploads/tatatertib/laporan_kes';
+            $fakta_kes_path = 'uploads/tatatertib/fakta_kes';
             $file_fakta_kes = $request->file('fakta_kes_upload')->storeAs($fakta_kes_path, $fakta_kes, 'public');
             $request->request->add(['fakta_kes' => $file_fakta_kes]);
         }
@@ -199,7 +199,21 @@ class TatatertibRayuanPelajarController extends Controller
      */
     public function edit($id)
     {
-        //
+        $action = route('pengurusan.hep.pengurusan.tatatertib_pelajar.update', $id);
+        $page_title = 'Pinda Rekod Tatatertib Pelajar';
+
+        $title = 'Maklumat Aduan Tatatertib Pelajar';
+        $breadcrumbs = [
+            'Hal Ehwal Pelajar' => false,
+            'Pengurusan' => false,
+            'Tatatertib Pelajar' => false,
+        ];
+
+        $model = TatatertibPelajar::find($id);
+
+        $pelajar = Pelajar::where('is_berhenti',0)->get()->pluck('name_ic_no_matrik','id');
+
+        return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 'pelajar'));
     }
 
     /**
@@ -211,7 +225,51 @@ class TatatertibRayuanPelajarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $tatatertib = TatatertibPelajar::find($id);
+        $tatatertib->keputusan_kes_hukuman = $request->keputusan_kes_hukuman;
+        $tatatertib->nota_prosiding = $request->nota_prosiding;
+        $tatatertib->status_hukuman = $request->status_hukuman;
+
+        if($request->has('laporan_kes_upload'))
+        {
+            $laporan_kes = uniqid().'.'.$request->laporan_kes_upload->getClientOriginalExtension();
+            $laporan_kes_path = 'uploads/tatatertib/laporan_kes';
+            $file_laporan_kes = $request->file('laporan_kes_upload')->storeAs($laporan_kes_path, $laporan_kes, 'public');
+            $tatatertib->laporan_kes = $file_laporan_kes;
+        }
+
+        if($request->has('nota_hadir_upload'))
+        {
+            $nota_hadir = uniqid().'.'.$request->nota_hadir_upload->getClientOriginalExtension();
+            $nota_hadir_path = 'uploads/tatatertib/nota_hadir';
+            $file_nota_hadir = $request->file('laporan_kes_upload')->storeAs($nota_hadir_path, $nota_hadir, 'public');
+            $tatatertib->nota_hadir = $file_nota_hadir;
+        }
+
+        if($request->has('fakta_kes_upload'))
+        {
+            $fakta_kes = uniqid().'.'.$request->fakta_kes_upload->getClientOriginalExtension();
+            $fakta_kes_path = 'uploads/tatatertib/fakta_kes';
+            $file_fakta_kes = $request->file('fakta_kes_upload')->storeAs($fakta_kes_path, $fakta_kes, 'public');
+            $tatatertib->fakta_kes = $file_fakta_kes;
+        }
+
+        if($request->has('kertas_pertuduhan_upload'))
+        {
+            $kertas_pertuduhan = uniqid().'.'.$request->kertas_pertuduhan_upload->getClientOriginalExtension();
+            $kertas_pertuduhan_path = 'uploads/tatatertib/kertas_pertuduhan';
+            $file_kertas_pertuduhan= $request->file('kertas_pertuduhan_upload')->storeAs($kertas_pertuduhan_path, $kertas_pertuduhan, 'public');
+            $tatatertib->kertas_pertuduhan = $file_kertas_pertuduhan;
+        }
+
+
+        $tatatertib->save();
+
+        //Email pelaku utk notifikasi
+
+        Alert::toast('Maklumat Aduan Salahlaku Pelajar Berjaya Dikemaskini', 'success');
+
+        return redirect()->route('pengurusan.hep.pengurusan.tatertib_pelajar.index');
     }
 
     /**
@@ -222,7 +280,13 @@ class TatatertibRayuanPelajarController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $model = TatatertibPelajar::find($id);
+
+        $model = $model->delete();
+
+        Alert::toast('Maklumat tatatertib pelajar berjaya dihapuskan!', 'success');
+
+        return redirect()->back();
     }
 
     public function rayuan($id)
