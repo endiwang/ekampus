@@ -670,7 +670,7 @@ class PentadbiranController extends Controller
             if($user->is_staff == 1){
                 $data = PermohonanPenginapan::with('approvedby')->get(); 
             }else{
-                $data = PermohonanPenginapan::with('approvedby')->get(); 
+                $data = PermohonanPenginapan::with('approvedby')->where('user_id',$user->id)->get(); 
             }
                   
             return DataTables::of($data)
@@ -717,6 +717,7 @@ class PentadbiranController extends Controller
             ->addColumn('action', function($data){  
                 if(Auth::user()->is_student == 1){          
                     // $btn = '<a href="'.url('/pengurusan/pentadbiran/fasiliti/permohonan/show/'.$data->id).'" class="edit btn btn-primary btn-sm hover-elevate-up me-2 mb-1">Lihat</a>';
+                    $btn = '';
                 }elseif(Auth::user()->is_staff == 1){
                     
                     if($data->status != 3){
@@ -1686,6 +1687,348 @@ class PentadbiranController extends Controller
             'title','action','page_title',
             'breadcrumbs','selectkenderaan','status',
             'model','user','kakitangan','jenispemohon'
+            
+            ));
+    }
+
+
+    // Permohonan Kuarters
+    public function kuartersIndex(Builder $builder,Request $request)
+    {
+        $user = Auth::user();
+        
+        $kakitangan = User::with('staff.jabatan','vendor')->where('id',$user->id)->first();
+        // dump($staff);
+       
+        $page_title = "Senarai Permohonan Kuarters";
+        $breadcrumbs = [
+            "Pentadbiran" =>  false,
+            "Senarai Permohonan Kuarters" =>  false,
+        ];
+
+        $buttons = [
+            [
+                'title' => "Mohon Kuarters", 
+                'route' => route('pengurusan.pentadbiran.kuarters.permohonan.tambah'), 
+                'button_class' => "btn btn-sm btn-primary fw-bold",
+                'icon_class' => "fa fa-plus-circle"
+            ],
+        ];
+
+        if(request()->ajax()) {
+            
+            if(data_get($kakitangan,'staff.jabatan.id') == 14){ //unit pentadbiraan
+                $data = PermohonanKuarters::with('approvedby','user')->get(); 
+            }else{
+                $data = PermohonanKuarters::with('approvedby','user')->where('user_id',$user->id)->get(); 
+            }
+            // dd($data);
+                  
+            return DataTables::of($data)
+                      
+            ->addColumn('status', function($data) {
+                if($data->status == 1)
+                {
+                    return 'Baru Diterima';
+                }elseif($data->status == 2){
+                    return 'Proses';
+                }elseif($data->status == 3){
+                    return 'Lulus';
+                }elseif($data->status == 4){
+                    return 'Tolak';
+                }else{
+                    return 'Tiada Status';
+                }
+
+            })
+            
+                      
+            ->addColumn('action', function($data) use ($kakitangan){  
+                if(Auth::user()->is_student == 1){          
+                    $btn = '<a href="'.url('/pengurusan/pentadbiran/kuarters/permohonan/show/'.$data->id).'" class="edit btn btn-primary btn-sm hover-elevate-up me-2 mb-1">Lihat</a>';
+                }elseif(Auth::user()->is_staff == 1){
+                    
+                    if((data_get($kakitangan,'staff.jabatan.id') == 14)&&($data->status != 3) ){
+                        $btn = '<a href="'.url('/pengurusan/pentadbiran/kuarters/permohonan/action/'.$data->id).'" class="edit btn btn-primary btn-sm hover-elevate-up me-2 mb-1">Tindakan</a>';
+                    }else{
+                        $btn = '<a href="'.url('/pengurusan/pentadbiran/kuarters/permohonan/show/'.$data->id).'" class="edit btn btn-primary btn-sm hover-elevate-up me-2 mb-1">Lihat</a>';
+                    }
+                    
+                }else{
+                    $btn = '<a href="'.url('/pengurusan/pentadbiran/kuarters/permohonan/show/'.$data->id).'" class="edit btn btn-primary btn-sm hover-elevate-up me-2 mb-1">Lihat</a>';
+                }
+                return $btn;    
+            })
+            ->addIndexColumn()            
+            ->rawColumns(['action','status'])
+            ->toJson();
+        }
+
+        
+
+        $dataTable = $builder
+        ->columns([
+            [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false],
+            ['data' => 'no_permohonan', 'name' => 'no_permohonan', 'title' => 'No Permohonan', 'orderable'=> false, 'class'=>'text-bold'],
+            ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'orderable'=> false, 'class'=>'text-bold'],            
+            ['data' => 'no_pengenalan', 'name' => 'no_pengenalan', 'title' => 'No Pengenalan', 'orderable'=> false, 'class'=>'text-bold'],            
+            ['data' => 'jawatan_gred', 'name' => 'jawatan_gred', 'title' => 'Jawatan Gred', 'orderable'=> false, 'class'=>'text-bold'],                        
+            ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false],            
+            ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+
+        ])
+        ->minifiedAjax();
+
+        
+        return view('pages.pengurusan.pentadbiran.permohonan.kuarters.list', compact('dataTable','buttons','page_title','breadcrumbs'));
+    }
+
+    public function kuartersTambah(Request $request)
+    {
+        $title = "Permohonan Kuarters";
+        $action = route('pengurusan.pentadbiran.kuarters.permohonan.store');
+        $breadcrumbs = [
+            "Pentadbiran" =>  false,
+            "Permohonan Kuarters" =>  false,
+        ];
+        $page_title = 'Permohonan Kuarters';
+        
+        
+        $statuskahwin = [
+            1 => 'Bujang',
+            2 => 'Berkahwin',
+            3 => 'Janda',
+            4 => 'Duda'
+            
+        ];
+        $status = [
+            1 => 'Baru diterima',
+            2 => 'Proses',
+            3 => 'Lulus',
+            4 => 'Tolak'
+        ];
+        $warganegara = [
+            1 => 'Malaysia',
+            2 => 'Bukan Warganegara'
+        ];
+
+        $carabelirumah = [
+            1 => 'Tunai',
+            2 => 'Pinjaman Kerajaan',
+            3 => 'Bank'
+        ];
+        
+        $model = new PermohonanKuarters();
+        $user = Auth::user();
+        $kakitangan = User::with('staff.jabatan')->where('id',$user->id)->first(); 
+        return view('pages.pengurusan.pentadbiran.permohonan.kuarters.add_new', compact(
+            'title','action','page_title',
+            'breadcrumbs','statuskahwin','status',
+            'model','user','warganegara','kakitangan','carabelirumah'
+            
+            ));
+    }
+    public function kuartersStore(Request $request)
+    {
+        // dd($request);
+        // dd($request->salinan_geran);
+        $user = auth()->user();
+        $typeuser = User::with('staff.jabatan','vendor')->find($user->id);
+        // dump($motorkar);
+        // dd($flag);
+
+        
+
+        $validation = $request->validate([
+            'nama'                         => 'required',
+            'no_pengenalan'                => 'required',
+            'warganegara'                  => 'required',
+            'status_perkahwinan'           => 'required',
+            'jawatan_gred'                 => 'required',
+            'gaji_pokok'                   => 'required',
+            'tarikh_khidmat_kerajaan'      => 'required',
+            'tarikh_khidmat_dq'            => 'required',
+            // 'alamat_sekarang'              => 'required', 
+            'alasan_mohon'                 => 'required'
+
+        ],[
+            'nama.required'                 => 'Sila masukkan nam',
+            'no_pengenalan.required'        => 'Sila masukkan No Pengenalan',
+            'warganegara.required'          => 'Sila masukkan warganegara',
+            'status_perkahwinan.required'   => 'Sila masukkan status perkahwinan',
+            'jawatan_gred.required'         => 'Sila masukkan jawatan /gred',
+            'gaji_pokok.required'         => 'Sila masukkan gaji pokok',
+            'tarikh_khidmat_kerajaan.required'         => 'Sila masukkan tarikh berkhidmat dengan kerajaan',
+            'tarikh_khidmat_dq.required'         => 'Sila masukkan tarikh berkhidmat dengan DQ',
+            'alamat_sekarang.required'         => 'Sila masukkan alamat sekarang',
+            'alasan_mohon.required'         => 'Sila masukkan alasan memohon'
+        ]);
+    
+        try{
+        
+            $runningno = $this->runningMan('kuarters');
+            $appno = "KUARTERS".str_pad($runningno, 4, "0", STR_PAD_LEFT).date('Y');
+
+            
+
+            $insert = PermohonanKuarters::create([
+                'no_permohonan'             => $appno,
+                'user_id'                   => $user->id,   
+                'nama'                      => data_get($request,'nama'),                             
+                'no_pengenalan'             => data_get($request,'no_pengenalan'),
+                'warganegara'               => data_get($request,'warganegara'),
+                'status_perkahwinan'        => data_get($request,'status_perkahwinan'),
+                'nama_pasangan'             => data_get($request,'nama_pasangan'),
+                'bil_anak'                  => data_get($request,'bil_anak'),
+                'bil_oku'                   => data_get($request,'bil_oku'),
+                'jawatan_gred'              => data_get($request,'jawatan_gred'),
+                'gaji_pokok'                => data_get($request,'gaji_pokok'),
+                'tarikh_khidmat_kerajaan'   => data_get($request,'tarikh_khidmat_kerajaan'),
+                'tarikh_khidmat_dq'         => data_get($request,'tarikh_khidmat_dq'),
+                'alamat_sekarang'           => data_get($request,'alamat_sekarang'),
+                'alamat_rumah'              => data_get($request,'alamat_rumah'),
+                'cara_beli_rumah'           => data_get($request,'cara_beli_rumah'),
+                'jarak_rumah_dq'            => data_get($request,'jarak_rumah_dq'),
+                'loan_pasangan'             => data_get($request,'loan_pasangan'),
+                'alamat_rumah2'             => data_get($request,'alamat_rumah2'), 
+                'alasan_mohon'              => data_get($request,'alasan_mohon'),
+                'status'                    => 1 // baru terima
+            ]);
+
+            
+
+
+            Alert::toast('Maklumat permohonan kuarters berjaya dihantar!', 'success');
+            return redirect()->route('pengurusan.pentadbiran.kuarters.permohonan.index');
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+
+        
+        
+    }
+
+    public function kuartersEdit(Request $request)
+    {
+        $title = "Permohonan Kuarters";
+        $action = route('pengurusan.pentadbiran.kuarters.permohonan.store');
+        $breadcrumbs = [
+            "Pentadbiran" =>  false,
+            "Permohonan Kuarters" =>  false,
+        ];
+        $page_title = 'Permohonan Kuarters';
+        
+        
+        $statuskahwin = [
+            1 => 'Bujang',
+            2 => 'Berkahwin',
+            3 => 'Janda',
+            4 => 'Duda'
+            
+        ];
+        $status = [
+            1 => 'Baru diterima',
+            2 => 'Proses',
+            3 => 'Lulus',
+            4 => 'Tolak'
+        ];
+        $warganegara = [
+            1 => 'Malaysia',
+            2 => 'Bukan Warganegara'
+        ];
+
+        $carabelirumah = [
+            1 => 'Tunai',
+            2 => 'Pinjaman Kerajaan',
+            3 => 'Bank'
+        ];
+        
+        $model = PermohonanKuarters::with('approvedby','user')->find($request->id);
+        $user = Auth::user();
+        $kakitangan = User::with('staff.jabatan')->where('id',$user->id)->first(); 
+        return view('pages.pengurusan.pentadbiran.permohonan.kuarters.action', compact(
+            'title','action','page_title',
+            'breadcrumbs','statuskahwin','status',
+            'model','user','warganegara','kakitangan','carabelirumah'
+            
+            ));
+    }
+    public function kuartersUpdate(Request $request)
+    {
+        // dd($request);
+        $user = auth()->user();
+
+        try{
+            
+            $model = PermohonanKuarters::find($request->id);
+
+            $model = $model->update([
+                   
+                'approved_by'               => $user->id,  
+                'tarikh_approved'           => date('Y-m-d'),        
+                'status'                    => $request->status 
+            ]);
+
+            
+
+
+            Alert::toast('Maklumat permohonan kuarters berjaya dikemaskini!', 'success');
+            return redirect()->route('pengurusan.pentadbiran.kuarters.permohonan.index');
+
+        }catch (Exception $e) {
+            report($e);
+    
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+            return redirect()->back();
+        }
+
+    }
+    public function kuartersShowOnly(Request $request)
+    {
+        $title = "Permohonan Kuarters";
+        $action = route('pengurusan.pentadbiran.kuarters.permohonan.store');
+        $breadcrumbs = [
+            "Pentadbiran" =>  false,
+            "Permohonan Kuarters" =>  false,
+        ];
+        $page_title = 'Permohonan Kuarters';
+        
+        
+        $statuskahwin = [
+            1 => 'Bujang',
+            2 => 'Berkahwin',
+            3 => 'Janda',
+            4 => 'Duda'
+            
+        ];
+        $status = [
+            1 => 'Baru diterima',
+            2 => 'Proses',
+            3 => 'Lulus',
+            4 => 'Tolak'
+        ];
+        $warganegara = [
+            1 => 'Malaysia',
+            2 => 'Bukan Warganegara'
+        ];
+
+        $carabelirumah = [
+            1 => 'Tunai',
+            2 => 'Pinjaman Kerajaan',
+            3 => 'Bank'
+        ];
+        
+        $model = PermohonanKuarters::with('approvedby','user')->find($request->id);
+        $user = Auth::user();
+        $kakitangan = User::with('staff.jabatan')->where('id',$user->id)->first(); 
+        return view('pages.pengurusan.pentadbiran.permohonan.kuarters.show', compact(
+            'title','action','page_title',
+            'breadcrumbs','statuskahwin','status',
+            'model','user','warganegara','kakitangan','carabelirumah'
             
             ));
     }

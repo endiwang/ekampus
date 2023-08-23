@@ -43,15 +43,16 @@ use App\Http\Controllers\Pengurusan\Pentadbiran\PentadbiranController;
     Route::post('/pelekat/permohonan/store', [PentadbiranController::class,'pelekatStore'])->name('pelekat.permohonan.store');
     Route::get('/pelekat/permohonan/action/{id}', [PentadbiranController::class,'pelekatEdit'])->name('pelekat.permohonan.show');
     Route::post('/pelekat/permohonan/update', [PentadbiranController::class,'pelekatUpdate'])->name('pelekat.permohonan.update');
-    Route::get('/pelekat/permohonan/show/{id}', [PentadbiranController::class,'pelekatShowOnly'])->name('pelekat.permohonan.show');
+    Route::get('/pelekat/permohonan/show/{id}', [PentadbiranController::class,'pelekatShowOnly'])->name('pelekat.permohonan.showonly');
 
     // // Permohonan Kuarters
     
-    // Route::get('/rekodkompetensi/index', [KualitiController::class,'RekodKompetensiIndex'])->name('rekodkompetensi.index');
-    // Route::get('/rekodkompetensi/tambah', [KualitiController::class,'RekodKompetensiTambah'])->name('rekodkompetensi.tambah');
-    // Route::post('/rekodkompetensi/store', [KualitiController::class,'RekodKompetensiStore'])->name('rekodkompetensi.store');
-    // Route::get('/rekodkompetensi/edit/{id}', [KualitiController::class,'RekodKompetensiEdit'])->name('rekodkompetensi.show');
-    // Route::post('/rekodkompetensi/update', [KualitiController::class,'RekodKompetensiUpdate'])->name('rekodkompetensi.update');
+    Route::get('/kuarters/permohonan/index', [PentadbiranController::class,'kuartersIndex'])->name('kuarters.permohonan.index');
+    Route::get('/kuarters/permohonan/tambah', [PentadbiranController::class,'kuartersTambah'])->name('kuarters.permohonan.tambah');
+    Route::post('/kuarters/permohonan/store', [PentadbiranController::class,'kuartersStore'])->name('kuarters.permohonan.store');
+    Route::get('/kuarters/permohonan/action/{id}', [PentadbiranController::class,'kuartersEdit'])->name('kuarters.permohonan.show');
+    Route::post('/kuarters/permohonan/update', [PentadbiranController::class,'kuartersUpdate'])->name('kuarters.permohonan.update');
+    Route::get('/kuarters/permohonan/show/{id}', [PentadbiranController::class,'kuartersShowOnly'])->name('kuarters.permohonan.showonly');
 
    
 
