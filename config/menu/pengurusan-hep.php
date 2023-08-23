@@ -34,6 +34,10 @@ return [
                     'title' => 'Keluar Masuk',
                     'route' => 'pengurusan.hep.permohonan.keluar_masuk.index',
                 ],
+                [
+                    'title' => 'Bawa Barang',
+                    'route' => 'pengurusan.hep.permohonan.bawa_barang.index',
+                ],
             ],
         ],
         [

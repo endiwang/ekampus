@@ -85,6 +85,16 @@
                         </a>
                     </div>
                 </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pelajar.permohonan.bawa_barang.*') ? 'active' : '' }}" href="{{ route('pelajar.permohonan.bawa_barang.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Bawa Barang</span>
+                        </a>
+                    </div>
+                </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ Request::routeIs('pelajar.*') ? 'here show' : '' }} menu-accordion">
                 <span class="menu-link">
