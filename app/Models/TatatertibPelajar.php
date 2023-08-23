@@ -23,4 +23,9 @@ class TatatertibPelajar extends Model
     {
         return $this->belongsTo(Pelajar::class, 'pelajar_id', 'id');
     }
+
+    public function rayuan()
+    {
+        return $this->hasOne(RayuanTatatertibPelajar::class, 'id', 'tatatertib_pelajar_id');
+    }
 }

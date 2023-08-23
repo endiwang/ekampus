@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
+use App\Models\RayuanTatatertibPelajar;
 
 class TatatertibRayuanPelajarController extends Controller
 {
@@ -71,8 +72,11 @@ class TatatertibRayuanPelajarController extends Controller
                  })
                  ->addColumn('action', function ($data) {
                      return '
-                         <a href="'.route('pengurusan.hep.pengurusan.tatatertib_pelajar.edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
-                             <i class="fa fa-pencil"></i>
+                         <a href="'.route('pengurusan.hep.pengurusan.tatatertib_pelajar.edit', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda Tatatertib Pelajar">
+                             <i class="fa fa-eye"></i>
+                         </a>
+                         <a href="'.route('pengurusan.hep.pengurusan.tatatertib_pelajar.rayuan', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Rayuan">
+                             <i class="fa fa-file"></i>
                          </a>
                          <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
                              <i class="fa fa-trash"></i>
@@ -291,11 +295,88 @@ class TatatertibRayuanPelajarController extends Controller
 
     public function rayuan($id)
     {
-        //
+        $title = 'Rayuan Tatatertib Pelajar';
+        $action = route('pengurusan.hep.pengurusan.tatatertib_pelajar.rayuan_store', $id);
+        $page_title = 'Tambah Rekod Tatatertib Pelajar';
+        $breadcrumbs = [
+            'Hal Ehwal Pelajar' => false,
+            'Pengurusan' => false,
+            'Tatatertib Pelajar' => false,
+            'Rayuan' => false,
+        ];
+
+        $model = RayuanTatatertibPelajar::where('tatatertib_pelajar_id',$id)->get()->first();
+
+        return view($this->baseView.'rayuan', compact('model', 'title', 'breadcrumbs', 'page_title', 'action'));
+
     }
 
-    public function rayuan_store($id)
+    public function rayuan_store(Request $request, $id)
     {
-        //
+        $model = RayuanTatatertibPelajar::where('tatatertib_pelajar_id',$id)->get()->first();
+
+        if($model)
+        {
+            if($request->has('surat_rayuan_upload'))
+            {
+                $surat_rayuan = uniqid().'.'.$request->surat_rayuan_upload->getClientOriginalExtension();
+                $surat_rayuan_path = 'uploads/tatatertib/surat_rayuan';
+                $file_surat_rayuan = $request->file('surat_rayuan_upload')->storeAs($surat_rayuan_path, $surat_rayuan, 'public');
+                $model->surat_rayuan = $file_surat_rayuan;
+            }
+
+            if($request->has('keputusan_rayuan_upload'))
+            {
+                $keputusan_rayuan = uniqid().'.'.$request->keputusan_rayuan_upload->getClientOriginalExtension();
+                $keputusan_rayuan_path = 'uploads/tatatertib/keputusan_rayuan';
+                $file_keputusan_rayuan = $request->file('keputusan_rayuan_upload')->storeAs($keputusan_rayuan_path, $keputusan_rayuan, 'public');
+                $model->keputusan_rayuan = $file_keputusan_rayuan;
+            }
+
+            if($request->has('laporan_rayuan_upload'))
+            {
+                $laporan_rayuan = uniqid().'.'.$request->laporan_rayuan_upload->getClientOriginalExtension();
+                $laporan_rayuan_path = 'uploads/tatatertib/laporan_rayuan';
+                $file_laporan_rayuan = $request->file('laporan_rayuan_upload')->storeAs($laporan_rayuan_path, $laporan_rayuan, 'public');
+                $model->laporan_rayuan = $file_laporan_rayuan;
+            }
+
+            $model->save();
+
+            Alert::toast('Maklumat rayuan tatatertib pelajar berjaya dikemaskini!', 'success');
+
+        }else{
+            $request->request->add(['tatatertib_pelajar_id' => $id]);
+
+            if($request->has('surat_rayuan_upload'))
+            {
+                $surat_rayuan = uniqid().'.'.$request->surat_rayuan_upload->getClientOriginalExtension();
+                $surat_rayuan_path = 'uploads/tatatertib/surat_rayuan';
+                $file_surat_rayuan = $request->file('surat_rayuan_upload')->storeAs($surat_rayuan_path, $surat_rayuan, 'public');
+                $request->request->add(['surat_rayuan' => $file_surat_rayuan]);
+            }
+
+            if($request->has('keputusan_rayuan_upload'))
+            {
+                $keputusan_rayuan = uniqid().'.'.$request->keputusan_rayuan_upload->getClientOriginalExtension();
+                $keputusan_rayuan_path = 'uploads/tatatertib/keputusan_rayuan';
+                $file_keputusan_rayuan = $request->file('keputusan_rayuan_upload')->storeAs($keputusan_rayuan_path, $keputusan_rayuan, 'public');
+                $request->request->add(['keputusan_rayuan' => $file_keputusan_rayuan]);
+            }
+
+            if($request->has('laporan_rayuan_upload'))
+            {
+                $laporan_rayuan = uniqid().'.'.$request->laporan_rayuan_upload->getClientOriginalExtension();
+                $laporan_rayuan_path = 'uploads/tatatertib/laporan_rayuan';
+                $file_laporan_rayuan = $request->file('laporan_rayuan_upload')->storeAs($laporan_rayuan_path, $laporan_rayuan, 'public');
+                $request->request->add(['laporan_rayuan' => $file_laporan_rayuan]);
+            }
+
+            $data = RayuanTatatertibPelajar::create($request->all());
+
+            Alert::toast('Maklumat rayuan tatatertib pelajar berjaya disimpan!', 'success');
+        }
+
+        return redirect()->route('pengurusan.hep.pengurusan.tatatertib_pelajar.index');
     }
 }

@@ -31,6 +31,8 @@ Route::group(['prefix' => 'pengurusan', 'as' => 'pengurusan.'], function () {
     Route::resource('salahlaku_pelajar', PengurusanSalahlakuPelajarController::class);
     Route::resource('keluar_masuk', RekodKeluarMasukPelajarController::class);
     Route::resource('disiplin_pelajar', DisiplinPelajarController::class);
+    Route::get('tatatertib_pelajar/{id}/rayuan', [TatatertibRayuanPelajarController::class,'rayuan'])->name('tatatertib_pelajar.rayuan');
+    Route::post('tatatertib_pelajar/{id}/rayuan_store', [TatatertibRayuanPelajarController::class,'rayuan_store'])->name('tatatertib_pelajar.rayuan_store');
     Route::resource('tatatertib_pelajar', TatatertibRayuanPelajarController::class);
 });
 

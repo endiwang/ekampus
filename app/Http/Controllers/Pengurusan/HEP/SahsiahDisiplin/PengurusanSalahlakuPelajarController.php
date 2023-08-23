@@ -325,10 +325,6 @@ class PengurusanSalahlakuPelajarController extends Controller
                     'siasatan_aduan_salahlaku_pelajar_id' => $siasatan->id,
                 ],[]);
 
-                RayuanTatatertibPelajar::updateOrCreate([
-                    'tatatertib_pelajar_id' => $tatatertib->id,
-                ],[]);
-
                 //Kesalahan berat tindakan tatatertib
 
             }

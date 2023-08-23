@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('keputusan_kes_hukuman')->nullable();
             $table->integer('status_hukuman')->default(0)->comment('0 belum berjalan, 1 sedang berjalan, 2 selesai');
             $table->string('nota_prosiding')->nullable();
+            $table->integer('status_rayuan')->default(0)->comment('0 tiada rayuan, 1 ada rayuan');
             $table->string('update_by')->nullable();
             $table->timestamps();
         });

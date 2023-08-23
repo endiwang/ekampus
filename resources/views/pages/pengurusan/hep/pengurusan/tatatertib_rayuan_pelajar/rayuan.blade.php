@@ -12,42 +12,74 @@
                         <h3 class="card-title">Dokumentasi Rayuan Pelajar:</h3>
                     </div>
                     <div class="card-body py-5">
-                        <form class="form" action="{{ $action }}" method="post">
-                            @if($model->id) @method('PUT') @endif
+                        <form class="form" action="{{ $action }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('surat_rayuan', 'Surat Rayuan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    {{ Form::label('surat_rayuan_upload', 'Surat Rayuan', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <input type="file" class="form-control form-control-sm" name="surat_rayuan" id="surat_rayuan" required>
-                                        @error('surat_rayuan') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        <input type="file" class="form-control form-control-sm" name="surat_rayuan_upload" id="surat_rayuan_upload">
+                                        @error('surat_rayuan_upload') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
+                            @if($model && !empty($model->surat_rayuan))
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('keputusan_rayuan', 'Keputusan Rayuan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <input type="file" class="form-control form-control-sm" name="keputusan_rayuan" id="keputusan_rayuan" required>
-                                        @error('keputusan_rayuan') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        <a class="btn btn-info btn-sm me-3" href="{{ url('storage/'.$model->surat_rayuan) }}"  target='_blank'>Lihat Dokument Surat Rayuan</a>
                                     </div>
                                 </div>
                             </div>
+                            @endif
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('laporan_rayuan', 'Laporan Rayuan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    {{ Form::label('keputusan_rayuan_upload', 'Keputusan Rayuan', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <input type="file" class="form-control form-control-sm" name="laporan_rayuan" id="laporan_rayuan" required>
-                                        @error('laporan_rayuan') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        <input type="file" class="form-control form-control-sm" name="keputusan_rayuan_upload" id="keputusan_rayuan_upload">
+                                        @error('keputusan_rayuan_upload') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
+                            @if($model && !empty($model->keputusan_rayuan))
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        <a class="btn btn-info btn-sm me-3" href="{{ url('storage/'.$model->keputusan_rayuan) }}"  target='_blank'>Lihat Dokument Keputusan Rayuan</a>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
+                                    {{ Form::label('laporan_rayuan_upload', 'Laporan Rayuan', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        <input type="file" class="form-control form-control-sm" name="laporan_rayuan_upload" id="laporan_rayuan_upload">
+                                        @error('laporan_rayuan_upload') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            @if($model && !empty($model->laporan_rayuan))
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        <a class="btn btn-info btn-sm me-3" href="{{ url('storage/'.$model->laporan_rayuan) }}"  target='_blank'>Lihat Dokument Laporan Rayuan</a>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
                             <div class="row">
                                 <div class="col-md-9 offset-md-3">
                                     <div class="d-flex">
