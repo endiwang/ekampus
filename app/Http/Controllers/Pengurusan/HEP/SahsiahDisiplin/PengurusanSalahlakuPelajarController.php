@@ -10,7 +10,9 @@ use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
 use App\Models\KesalahanKolejKediaman;
 use App\Models\Pelajar;
+use App\Models\RayuanTatatertibPelajar;
 use App\Models\SiasatanAduanSalahlakuPelajar;
+use App\Models\TatatertibPelajar;
 use RealRashid\SweetAlert\Facades\Alert;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -317,6 +319,11 @@ class PengurusanSalahlakuPelajarController extends Controller
 
             }elseif($request->keputusan_siasatan =='B')
             {
+                $tatatertib = TatatertibPelajar::updateOrCreate([
+                    'pelajar_id' => $aduan->pelaku_pelajar_id,
+                    'aduan_salahlaku_pelajar_id' => $id,
+                    'siasatan_aduan_salahlaku_pelajar_id' => $siasatan->id,
+                ],[]);
 
                 //Kesalahan berat tindakan tatatertib
 
