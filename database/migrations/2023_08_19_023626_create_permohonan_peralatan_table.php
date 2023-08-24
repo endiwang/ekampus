@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('kursus_dan_latihan_pensyarah', function (Blueprint $table) {
-            $table->integer('status')->after('year')->default(0);
+        Schema::create('permohonan_peralatan', function (Blueprint $table) {
+            $table->id();
+            $table->integer('permohonan_fasiliti_id')->nullable();
+            $table->integer('peralatan_id')->nullable()->comment('fk_fasiliti');
+            $table->integer('status')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -25,9 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('kursus_dan_latihan_pensyarah', function (Blueprint $table) {
-            $table->dropColumn('status');
-        });
-
+        Schema::dropIfExists('permohonan_peralatan');
     }
 };
