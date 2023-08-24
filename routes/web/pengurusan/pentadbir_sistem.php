@@ -20,6 +20,9 @@ Route::patch('/permohonan_pelajar/pinda/{id}', [PermohonanPelajarController::cla
 Route::post('/permohonan_pelajar/fetchSesi', [PermohonanPelajarController::class, 'fetchSesi'])->name('permohonan_pelajar.fetchSesi');
 
 Route::get('/kakitangan', [KakitanganController::class, 'index'])->name('kakitangan.index');
+Route::post('/kakitangan', [KakitanganController::class, 'store'])->name('kakitangan.store');
+Route::put('/kakitangan/{id}', [KakitanganController::class, 'update'])->name('kakitangan.update');
+Route::get('/kakitangan/create', [KakitanganController::class, 'create'])->name('kakitangan.create');
 Route::get('/kakitangan/{id}/profil', [KakitanganController::class, 'show'])->name('kakitangan.show');
 Route::get('/kakitangan/{id}/pinda', [KakitanganController::class, 'edit'])->name('kakitangan.edit');
 
