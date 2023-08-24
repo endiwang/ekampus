@@ -28,6 +28,25 @@
                                         {{ Form::label('template', 'Template Sijil Tahfiz', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
+                                        <!--begin::Alert-->
+                                        <div class="alert alert-dismissible bg-light-primary border border-primary d-flex flex-column flex-sm-row p-5 mb-10">
+                                            <!--begin::Icon-->
+                                            <i class="fa fa-exclamation fs-2hx text-danger me-4 mb-5 mb-sm-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                            <!--end::Icon-->
+
+                                            <!--begin::Wrapper-->
+                                            <div class="d-flex flex-column pe-0 pe-sm-10">
+                                                <!--begin::Title-->
+                                                <h5 class="mb-1">Notis Penggunaan</h5>
+                                                <!--end::Title-->
+
+                                                <!--begin::Content-->
+                                                <span>Gunakan tag <b class="info">{nama}</b> atau <b class="info">{kadpengenalan}</b> bagi menggantikan nama dan kad pengenalan pada template sijil</span>
+                                                <!--end::Content-->
+                                            </div>
+                                            <!--end::Wrapper-->
+                                        </div>
+                                        <!--end::Alert-->
                                         <div class="w-100">
                                             <textarea class="{{ ($errors->has('template') ? 'is-invalid':'') }}" id="kt_docs_tinymce_basic" name="template">{{ $template->template }}</textarea>
                                             @error('template') <div class="invalid-feedback">{{ $message }}</div> @enderror
@@ -80,8 +99,9 @@
 <script>
     tinymce.init({
         selector: "#kt_docs_tinymce_basic", height : "300",
-        plugins: "a11ychecker advcode advlist advtable anchor autocorrect autolink autoresize casechange charmap checklist code directionality editimage export footnotes formatpainter fullscreen help image importcss inlinecss insertdatetime link linkchecker lists media mediaembed mergetags nonbreaking pagebreak pageembed permanentpen powerpaste preview quickbars save searchreplace table tinycomments tinydrive tinymcespellchecker typography visualblocks visualchars wordcount",
-        toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright alignjustify | indent outdent | image',
+        plugins: "advlist anchor autolink autoresize code directionality fullscreen help image importcss insertdatetime link lists media nonbreaking pagebreak preview quickbars save searchreplace table visualblocks visualchars wordcount",
+        toolbar: "undo redo | blocks fontfamily fontsize | bold italic underline forecolor backcolor | link image | align lineheight checklist bullist numlist | indent outdent | removeformat",
+        font_size_formats: '8pt 10pt 12pt 14pt 16pt 18pt 24pt 36pt 48pt',
     });
 </script>
 

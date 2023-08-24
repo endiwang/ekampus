@@ -125,7 +125,7 @@ class TetapanTemplateSijilTahfiz extends Controller
         } catch (\Exception $e) {
             //throw $th;
             DB::rollBack();
-            dd($e);
+            report($e);
             Alert::toast('Tetapan Baru Tidak Berjaya Ditambah', 'error');
         }
 
@@ -170,7 +170,7 @@ class TetapanTemplateSijilTahfiz extends Controller
         } catch (\Exception $e) {
             //throw $th;
             DB::rollBack();
-            dd($e);
+            report($e);
             Alert::toast('Tetapan Tidak Berjaya Dikemaskini', 'error');
         }
 
