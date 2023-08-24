@@ -83,13 +83,13 @@ class PermohonanBawaKenderaanController extends Controller
                 })
                 ->addColumn('action', function ($data) {
                     return '
-                        <a href="'.route('pelajar.permohonan.bawa_barang.show', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Lihat">
+                        <a href="'.route('pelajar.permohonan.bawa_kenderaan.show', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Lihat">
                             <i class="fa fa-eye"></i>
                         </a>
                         <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
                             <i class="fa fa-trash"></i>
                         </a>
-                        <form id="delete-'.$data->id.'" action="'.route('pelajar.permohonan.bawa_barang.destroy', $data->id).'" method="POST">
+                        <form id="delete-'.$data->id.'" action="'.route('pelajar.permohonan.bawa_kenderaan.destroy', $data->id).'" method="POST">
                             <input type="hidden" name="_token" value="'.csrf_token().'">
                             <input type="hidden" name="_method" value="DELETE">
                         </form>';
@@ -249,7 +249,17 @@ class PermohonanBawaKenderaanController extends Controller
      */
     public function show($id)
     {
-        //
+        $title = 'Permohonan Bawa Kenderaan';
+        $page_title = 'Permohonan Bawa Kenderaan';
+        $breadcrumbs = [
+            'Pelajar' => false,
+            'Permohonan' => false,
+            'Bawa Kenderaan' => false,
+            'Maklumat Permohonan' => false,
+        ];
+
+        $data = PermohonanBawaKenderaan::find($id);
+        return view($this->baseView.'show', compact('title', 'breadcrumbs', 'data', 'page_title'));
     }
 
     /**
@@ -283,6 +293,12 @@ class PermohonanBawaKenderaanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $model = PermohonanBawaKenderaan::find($id);
+
+        $model = $model->delete();
+
+        Alert::toast('Maklumat permohonan berjaya dihapuskan!', 'success');
+
+        return redirect()->back();
     }
 }
