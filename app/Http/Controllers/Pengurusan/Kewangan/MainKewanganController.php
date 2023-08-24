@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Pelajar;
+namespace App\Http\Controllers\Pengurusan\Kewangan;
 
 use App\Http\Controllers\Controller;
-use App\Models\Pelajar;
+use App\Models\Bil;
 use Illuminate\Http\Request;
 
-class MainPelajarController extends Controller
+class MainKewanganController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,33 @@ class MainPelajarController extends Controller
      */
     public function index()
     {
-        return view('pages.pelajar.dashboard.main');
+        $data['title'] = 'Kewangan';
+        $data['breadcrumbs'] = [
+            'Kewangan' => false,
+        ];
+
+        $yuran_cached = \Cache::rememberForever('yuran_cached', function () {
+            return \App\Models\Yuran::get();
+        });
+        
+        $yuran_ids = [];
+        if(!empty($yuran_cached))
+        {
+            $yuran_ids = $yuran_cached->pluck('id')->toArray();
+        }
+
+        $yuran_bil = Bil::where('status', 1)->whereIn('yuran_id', $yuran_ids)->groupBy('yuran_id')->get([
+            'yuran_id',
+            \DB::raw('COUNT(*) AS total')
+        ])
+        ->pluck('total', 'yuran_id')
+        ->toArray()
+        ;
+
+        $data['yuran_cached'] = $yuran_cached;
+        $data['yuran_bil'] = $yuran_bil;
+
+        return view('pages.pengurusan.kewangan.dashboard.main')->with($data);
     }
 
     /**
@@ -31,6 +57,7 @@ class MainPelajarController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -63,6 +90,7 @@ class MainPelajarController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -80,14 +108,5 @@ class MainPelajarController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function find(Request $request)
-    {
-        if(!empty($request->search))
-        {
-            return Pelajar::where('nama', 'LIKE', '%' . $request->search . '%')->limit(10)->pluck('nama', 'id')->toArray();
-            return $data;
-        }
     }
 }
