@@ -104,10 +104,13 @@ class User extends Authenticatable
             'mail' => $this->getEmailAddress(),
             default => null,
         };
+    }
 
     public function vendor()
     {
         return $this->hasOne(Vendor::class);
 
     }
+
+    
 }
