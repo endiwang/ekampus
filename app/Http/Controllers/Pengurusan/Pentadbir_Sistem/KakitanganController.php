@@ -8,10 +8,13 @@ use App\Models\PusatPengajian;
 use App\Models\Staff;
 use App\Models\User;
 use Exception;
+use Image;
+use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
+use Illuminate\Http\Request;
 
 class KakitanganController extends Controller
 {
@@ -28,7 +31,7 @@ class KakitanganController extends Controller
             $buttons = [
                 [
                     'title' => 'Tambah Kakitangn',
-                    'route' => route('pengurusan.akademik.kelas.create'),
+                    'route' => route('pengurusan.pentadbir_sistem.kakitangan.create'),
                     'button_class' => 'btn btn-sm btn-primary fw-bold',
                     'icon_class' => 'fa fa-plus-circle',
                 ],
@@ -155,14 +158,16 @@ class KakitanganController extends Controller
                 'Pinda' => false,
             ];
 
+
             $staff = Staff::find($id);
+            $action = route('pengurusan.pentadbir_sistem.kakitangan.update', $staff->id);
             $user_staff = User::find($staff->user_id);
             $pusat_pengajian = PusatPengajian::where('is_deleted', 0)->pluck('nama', 'id');
             $jabatan = Jabatan::where('is_deleted', 0)->pluck('nama', 'id');
             $role_kakitangan = Role::where('name', 'kakitangan')->first();
             $role_child_kakitangan = Role::where('parent_category_id', $role_kakitangan->id)->get();
 
-            return view('pages.pengurusan.pentadbir_sistem.kakitangan.edit', compact('title', 'breadcrumbs', 'staff', 'pusat_pengajian', 'jabatan', 'role_child_kakitangan', 'user_staff'));
+            return view('pages.pengurusan.pentadbir_sistem.kakitangan.edit', compact('title','action', 'breadcrumbs', 'staff', 'pusat_pengajian', 'jabatan', 'role_child_kakitangan', 'user_staff'));
 
         } catch (Exception $e) {
             report($e);
@@ -173,8 +178,268 @@ class KakitanganController extends Controller
         }
     }
 
-    public function update()
+    public function update(Request $request, $id)
     {
 
+        $staff = Staff::find($id);
+
+
+        $file_image_path = $staff->img_staff;
+        if($request->has('avatar'))
+        {
+            $image_name = uniqid().'.'.$request->avatar->getClientOriginalExtension();
+            $image_path = 'uploads/kakitangan/gambar_kakitangan';
+            $file_image_path = $request->file('avatar')->storeAs($image_path, $image_name, 'public');
+        }
+
+        if($request->has('jawatan'))
+        {
+            $user = User::find($staff->user_id);
+            $user->removeRole('pensyarah');
+            $user->removeRole('pensyarah_jemputan');
+            $user->removeRole('pensyarah_tasmik');
+            $user->removeRole('pensyarah_tasmik_jemputan');
+            $user->removeRole('warden');
+            $user->removeRole('tutor');
+
+            $pensyarah = 'N';
+            $pensyarah_jemputan = 'N';
+            $guru_tasmik = 'N';
+            $guru_tasmik_jemputan = 'N';
+            $tutor = 'N';
+            $warden = 'N';
+
+            foreach ($request->jawatan as $jwtn) {
+                $role = Role::find($jwtn);
+                if($role)
+                {
+                    switch ($role->name) {
+                        case 'pensyarah':
+                            $pensyarah = 'Y';
+                            $user->assignRole('pensyarah');
+
+                            break;
+                        case 'pensyarah_jemputan':
+                            $pensyarah_jemputan = 'Y';
+                            $user->assignRole('pensyarah_jemputan');
+
+                            break;
+                        case 'pensyarah_tasmik':
+                            $guru_tasmik = 'Y';
+                            $user->assignRole('pensyarah_tasmik');
+
+                            break;
+                        case 'pensyarah_tasmik_jemputan';
+                            $guru_tasmik_jemputan = 'Y';
+                            $user->assignRole('pensyarah_tasmik_jemputan');
+
+                            break;
+                        case 'warden';
+                            $warden = 'Y';
+                            $user->assignRole('warden');
+
+                            break;
+                        case 'tutor';
+                            $tutor = 'Y';
+                            $user->assignRole('tutor');
+                            break;
+                    }
+                }
+
+            }
+        }else{
+            $pensyarah = $staff->is_pensyarah;
+            $pensyarah_jemputan = $staff->is_pensyarah_jemputan;
+            $guru_tasmik = $staff->is_guru_tasmik;
+            $guru_tasmik_jemputan = $staff->is_guru_tasmik_jemputan;
+            $tutor = $staff->is_tutor;
+            $warden = $staff->is_warden;
+        }
+
+
+        $staff->nama = $request->nama;
+        $staff->no_ic = $request->no_ic;
+        $staff->alamat = $request->alamat;
+        $staff->no_tel = $request->no_tel;
+        $staff->jantina = $request->jantina;
+        $staff->email = $request->email;
+        $staff->pusat_pengajian_id = $request->pusat_pengajian;
+        $staff->jabatan_id = $request->jabatan;
+        $staff->jawatan = $request->nama_jawatan;
+        $staff->img_staff = $file_image_path;
+        $staff->is_pensyarah = $pensyarah;
+        $staff->is_pensyarah_jemputan = $pensyarah_jemputan;
+        $staff->is_guru_tasmik = $guru_tasmik;
+        $staff->is_guru_tasmik_jemputan = $guru_tasmik_jemputan;
+        $staff->is_tutor = $tutor;
+        $staff->is_warden = $warden;
+        $staff->gred = $request->gred;
+        $staff->save();
+
+        Alert::toast('Maklumat kakitangan berjaya dipinda!', 'success');
+
+        return redirect()->route('pengurusan.pentadbir_sistem.kakitangan.index');
+
     }
+
+    public function create()
+    {
+
+            $title = 'Cipta Profil Kakitangan';
+            $breadcrumbs = [
+                'Pentadbir Sistem' => false,
+                'Kakitangan' => false,
+                'Profil' => false,
+                'Cipta' => false,
+            ];
+
+            $request->validate([
+                'nama' => 'required',
+                'no_ic' => 'required',
+                'alamat' => 'required',
+                'no_tel' => 'required',
+                'email' => 'required',
+                'pusat_pengajian' => 'required',
+                'jabatan' => 'required',
+            ], [
+                'nama.required' => 'Sila masukkan nama',
+                'no_ic.required' => 'Sila masukkan no ic',
+                // 'no_ic.unique' => 'No ic ini telah didaftarkan',
+                'alamat.required' => 'Sila masukkan alamat',
+                'no_tel.required' => 'Sila masukkan no telefon',
+                'email.required' => 'Sila masukkan email',
+                'pusat_pengajian.required' => 'Sila pilih pusat pengajian',
+                'jabatan.required' => 'Sila pilih jabatan',
+            ]);
+
+            $action = route('pengurusan.pentadbir_sistem.kakitangan.store');
+
+            $staff = new Staff;
+            $user_staff = User::find($staff->user_id);
+            $pusat_pengajian = PusatPengajian::where('is_deleted', 0)->pluck('nama', 'id');
+            $jabatan = Jabatan::where('is_deleted', 0)->pluck('nama', 'id');
+            $role_kakitangan = Role::where('name', 'kakitangan')->first();
+            $role_child_kakitangan = Role::where('parent_category_id', $role_kakitangan->id)->get();
+
+            return view('pages.pengurusan.pentadbir_sistem.kakitangan.edit', compact('title', 'breadcrumbs', 'staff', 'pusat_pengajian', 'jabatan', 'role_child_kakitangan', 'user_staff','action'));
+    }
+
+    public function store(Request $request)
+    {
+        $pensyarah = 'N';
+        $pensyarah_jemputan = 'N';
+        $guru_tasmik = 'N';
+        $guru_tasmik_jemputan = 'N';
+        $tutor = 'N';
+        $warden = 'N';
+
+
+
+        $request->validate([
+            'nama' => 'required',
+            'no_ic' => 'required',
+            'alamat' => 'required',
+            'no_tel' => 'required',
+            'email' => 'required',
+            'pusat_pengajian' => 'required',
+            'jabatan' => 'required',
+        ], [
+            'nama.required' => 'Sila masukkan nama',
+            'no_ic.required' => 'Sila masukkan no ic',
+            // 'no_ic.unique' => 'No ic ini telah didaftarkan',
+            'alamat.required' => 'Sila masukkan alamat',
+            'no_tel.required' => 'Sila masukkan no telefon',
+            'email.required' => 'Sila masukkan email',
+            'pusat_pengajian.required' => 'Sila pilih pusat pengajian',
+            'jabatan.required' => 'Sila pilih jabatan',
+        ]);
+
+        $user = User::create([
+            'username' => $request->no_ic,
+            'password' => Hash::make($request->no_ic),
+            'is_staff' => 1,
+        ]);
+
+        foreach ($request->jawatan as $jwtn) {
+            $role = Role::find($jwtn);
+            if($role)
+            {
+                switch ($role->name) {
+                    case 'pensyarah':
+                        $pensyarah = 'Y';
+                        $user->assignRole('pensyarah');
+
+                        break;
+                    case 'pensyarah_jemputan':
+                        $pensyarah_jemputan = 'Y';
+                        $user->assignRole('pensyarah_jemputan');
+
+                        break;
+                    case 'pensyarah_tasmik':
+                        $guru_tasmik = 'Y';
+                        $user->assignRole('pensyarah_tasmik');
+
+                        break;
+                    case 'pensyarah_tasmik_jemputan';
+                        $guru_tasmik_jemputan = 'Y';
+                        $user->assignRole('pensyarah_tasmik_jemputan');
+
+                        break;
+                    case 'warden';
+                        $warden = 'Y';
+                        $user->assignRole('warden');
+
+                        break;
+                    case 'tutor';
+                        $tutor = 'Y';
+                        $user->assignRole('tutor');
+
+                        break;
+                  }
+            }
+        }
+
+        // $path = 'uploads/kakitangan/gambar_kakitangan';
+
+        // $image_name = uniqid().'.'.$request->avatar->getClientOriginalExtension();
+        // $image_path = $path.$image_name;
+        // $image = Image::make($request->avatar)->resize(320, 240)->save($image_path);
+
+        $file_image_path = '';
+        if($request->has('avatar'))
+        {
+            $image_name = uniqid().'.'.$request->avatar->getClientOriginalExtension();
+            $image_path = 'uploads/kakitangan/gambar_kakitangan';
+            $file_image_path = $request->file('avatar')->storeAs($image_path, $image_name, 'public');
+        }
+
+        Staff::create([
+            'user_id' => $user->id,
+            'nama' => $request->nama,
+            'no_ic' => $request->no_ic,
+            'alamat' => $request->alamat,
+            'no_tel' => $request->no_tel,
+            'jantina' => $request->jantina,
+            'email' => $request->email,
+            'pusat_pengajian_id' => $request->pusat_pengajian,
+            'jabatan_id' => $request->jabatan,
+            'jawatan' => $request->nama_jawatan,
+            'img_staff' => $file_image_path,
+            'is_pensyarah' => $pensyarah,
+            'is_pensyarah_jemputan' => $pensyarah_jemputan,
+            'is_guru_tasmik' => $guru_tasmik,
+            'is_guru_tasmik_jemputan' => $guru_tasmik_jemputan,
+            'is_tutor' => $tutor,
+            'is_warden' => $warden,
+            'gred' => $request->gred,
+        ]);
+
+        Alert::toast('Maklumat kakitangan berjaya ditambah!', 'success');
+
+        return redirect()->route('pengurusan.pentadbir_sistem.kakitangan.index');
+
+
+    }
+
+
 }

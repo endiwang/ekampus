@@ -9,7 +9,7 @@
                 <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
                     <div class="me-7 mb-4">
                         <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-                            <img src="{{URL::asset('assets/media/avatars/300-1.jpg')}}" alt="image" />
+                            <img src="{{ url('storage/'.$staff->img_staff) }}" alt="image" />
                         </div>
                     </div>
                     <div class="flex-grow-1">
