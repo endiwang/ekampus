@@ -9,7 +9,7 @@
            
             <div class="menu-item">
                 <!--begin:Menu link-->
-                <a class="menu-link {{ Request::routeIs('pengurusan.akademik.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.index') }}" target="blank">
+                <a class="menu-link {{ Request::routeIs('pengurusan.akademik.index') ? 'active' : '' }}" href="{{ url('/utama') }}" target="blank">
                     <span class="menu-icon">
                         <!--begin::Svg Icon | path: icons/duotune/abstract/abs027.svg-->
                         <span class="svg-icon svg-icon-2">
@@ -41,7 +41,7 @@
                 </span>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.pentadbiran.fasiliti.*') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbiran.fasiliti.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.pentadbiran.fasiliti.index') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbiran.fasiliti.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
@@ -53,7 +53,7 @@
                 
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.pentadbiran.fasiliti.*') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbiran.fasiliti.permohonan.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.pentadbiran.fasiliti.permohonan.index') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbiran.fasiliti.permohonan.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
@@ -78,7 +78,7 @@
                 
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.pentadbiran.penginapan.permohonan.index') ? 'active' : '' }}" href="{{ url('pengurusan/pentadbiran/penginapan/permohonan/index') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.pentadbiran.kenderaan.permohonan.index') ? 'active' : '' }}" href="{{ url('pengurusan/pentadbiran/kenderaan/permohonan/index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
@@ -89,7 +89,7 @@
 
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.kualiti.penyelidikan.index') ? 'active' : '' }}" href="{{ route('pengurusan.kualiti.penyelidikan.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.pentadbiran.pelekat.permohonan.index') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbiran.pelekat.permohonan.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
@@ -97,73 +97,20 @@
                         </a>
                     </div>
                 </div>
-                
+
+
                 <div class="menu-sub menu-sub-accordion">
-                    <div data-kt-menu-trigger="click" class="menu-item here menu-accordion hover">
-                        <span class="menu-link">
-                            <span class="menu-icon">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
+                    <div class="menu-item">
+                    <a class="menu-link {{ Request::routeIs('pengurusan.pentadbiran.kuarters.permohonan.index') ? 'active' : '' }}" href="{{ route('pengurusan.pentadbiran.kuarters.permohonan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
                             </span>
-                            <span class="menu-title">Permohonan Menduduki Kuarters</span>
-                            <span class="menu-arrow"></span>                            
-                        </span>
-
-                        <div class="menu-sub menu-sub-accordion">
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::routeIs('pengurusan.kualiti.penyumbang.artikel.list') ? 'active' : '' }}" href="{{ route('pengurusan.kualiti.penyumbang.artikel.list') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Permohonan dan Penyediaan Akses Penyumbang Artikel</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="menu-sub menu-sub-accordion">
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::routeIs('pengurusan.kualiti.editor.artikel.list') ? 'active' : '' }}" href="{{ route('pengurusan.kualiti.editor.artikel.list') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Penyediaan Akses Editor Artikel </span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="menu-sub menu-sub-accordion">
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::routeIs('pengurusan.kualiti.artikel.hantar') ? 'active' : '' }}" href="{{ route('pengurusan.kualiti.artikel.hantar') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Penghantaran Artikel </span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="menu-sub menu-sub-accordion">
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::routeIs('pengurusan.kualiti.artikel.editor.list') ? 'active' : '' }}" href="{{ route('pengurusan.kualiti.artikel.editor.list') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Semakan Artikel </span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="menu-sub menu-sub-accordion">
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::routeIs('pengurusan.kualiti.artikel.penerbitan.list') ? 'active' : '' }}" href="{{ route('pengurusan.kualiti.artikel.penerbitan.list') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Pengurusan Penerbitan Artikel </span>
-                                </a>
-                            </div>
-                        </div>
-
-                        
+                            <span class="menu-title">Permohonan Kuarters </span>
+                        </a>
                     </div>
                 </div>
+                
+                
             </div>
             
         </div>
