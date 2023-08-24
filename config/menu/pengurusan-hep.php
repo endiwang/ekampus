@@ -38,6 +38,10 @@ return [
                     'title' => 'Bawa Barang',
                     'route' => 'pengurusan.hep.permohonan.bawa_barang.index',
                 ],
+                [
+                    'title' => 'Bawa Kenderaan',
+                    'route' => 'pengurusan.hep.permohonan.bawa_kenderaan.index',
+                ],
             ],
         ],
         [
