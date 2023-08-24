@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Pengurusan\Akademik\eLearning\JadualPembelajaranController;
 use App\Http\Controllers\Pengurusan\Akademik\eLearning\PengurusanKandunganController;
 use App\Http\Controllers\Pengurusan\Akademik\GuruTasmikController;
 use App\Http\Controllers\Pengurusan\Akademik\JadualWaktu\JadualKelasController;
+use App\Http\Controllers\Pengurusan\Akademik\JadualWaktu\JadualPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\KalendarAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\KelasController;
 use App\Http\Controllers\Pengurusan\Akademik\KursusController;
@@ -30,9 +32,11 @@ use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodProfilPensyar
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodTesisController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\CloPloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\DaftarMarkahCloPloController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\JadualPenggantianPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanCloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanPloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PenilaianBerterusanController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PensyarahCadanganController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanShafawiController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodHafazanTahririController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\RekodMurajaahHarianController;
@@ -158,6 +162,9 @@ Route::group(['prefix' => 'jadual', 'as' => 'jadual.'], function () {
     Route::post('jadual_kelas/add_subject', [JadualKelasController::class, 'addSubject'])->name('jadual_kelas.add_subject');
     Route::post('jadual_kelas/update/{id}', [JadualKelasController::class, 'update'])->name('jadual_kelas.update_status');
     Route::resource('jadual_kelas', JadualKelasController::class);
+
+    Route::get('jadual_pensyarah/download_timetable/{id}/{staff_id}', [JadualPensyarahController::class, 'downloadTimetable'])->name('jadual_pensyarah.lecturer_timetable');
+    Route::resource('jadual_pensyarah', JadualPensyarahController::class);
 });
 
 Route::group(['prefix' => 'pengurusan_ijazah', 'as' => 'pengurusan_ijazah.'], function () {
@@ -215,6 +222,14 @@ Route::group(['prefix' => 'pengurusan_jabatan', 'as' => 'pengurusan_jabatan.'], 
 
     Route::get('penilaian_berterusan/kemaskini_markah/{id}/{student_id}/{class_id}', [PenilaianBerterusanController::class, 'edit'])->name('penilaian_berterusan.markah');
     Route::resource('penilaian_berterusan', PenilaianBerterusanController::class);
+
+    Route::get('pensyarah_cadangan/download', [PensyarahCadanganController::class, 'download'])->name('pensyarah_cadangan.download');
+    Route::resource('pensyarah_cadangan', PensyarahCadanganController::class);
+
+    Route::post('jadual_penggantian_pensyarah/update', [JadualPenggantianPensyarahController::class, 'update'])->name('jadual_penggantian_pensyarah.update');
+    Route::get('jadual_penggantian_pensyarah/download/{staff_id}', [JadualPenggantianPensyarahController::class, 'downloadJadual'])->name('jadual_penggantian_pensyarah.download');
+    Route::get('jadual_penggantian_pensyarah/create/{staff_id}', [JadualPenggantianPensyarahController::class, 'createJadual'])->name('jadual_penggantian_pensyarah.create_jadual');
+    Route::resource('jadual_penggantian_pensyarah', JadualPenggantianPensyarahController::class);
 });
 
 Route::group(['prefix' => 'e_learning', 'as' => 'e_learning.'], function () {
@@ -223,4 +238,7 @@ Route::group(['prefix' => 'e_learning', 'as' => 'e_learning.'], function () {
     Route::post('pengurusan_kandungan/delete_file/{id}', [PengurusanKandunganController::class, 'deleteFile'])->name('pengurusan_kandungan.delete_file');
     Route::post('pengurusan_kandungan/update/{id}', [PengurusanKandunganController::class, 'update'])->name('pengurusan_kandungan.update_kandungan_pemebelajaran');
     Route::resource('pengurusan_kandungan', PengurusanKandunganController::class);
+
+    Route::post('jadual_pembelajaran/fetchContent', [JadualPembelajaranController::class, 'fetchContent'])->name('jadual_pembelajaran.fetchContent');
+    Route::resource('jadual_pembelajaran', JadualPembelajaranController::class);
 });

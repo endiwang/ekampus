@@ -2,20 +2,16 @@
 
 namespace App\Models\Kualiti;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Base as Model;
 
 class EditorArtikel extends Model
 {
-    use HasFactory;
     protected $table = 'editor_artikel';
-    protected $guarded = ['id'];
 
+    protected $guarded = ['id'];
 
     public function approvedby()
     {
-        return $this->belongsTo('App\Models\User','approved_by','id');
+        return $this->belongsTo('App\Models\User', 'approved_by', 'id');
     }
-
 }

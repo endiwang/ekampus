@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('item')->nullable()->comment('1=Kertas Cadangan dan Kelulusan, 2=Laporan Pelaksanaan Kursus 3=Laporan Maklumbalas kursus');
             $table->integer('year')->nullable()->comment('tahuan item');
             $table->integer('is_deleted')->nullable()->comment('isdeleted?');
-            $table->integer('deleted_by')->nullable()->comment('fk_user');    
+            $table->integer('deleted_by')->nullable()->comment('fk_user');
             $table->timestamps();
             $table->softDeletes();
         });

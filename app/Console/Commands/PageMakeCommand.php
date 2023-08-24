@@ -44,8 +44,7 @@ class PageMakeCommand extends Command
         $sidebarPath = $sidebarDirectory.'/'.str($module)->kebab()->lower().'.blade.php';
 
         $routePath = base_path('routes/web/'.str($module)->kebab()->lower().'.php');
-        $routeName = str($name)->kebab()->lower();
-        $uri = str($name)->kebab()->lower();
+        $uri = $routeName = str($module)->kebab()->lower().'.'.str($name)->kebab()->lower();
 
         // create controller
         $this->call('make:controller', [
@@ -87,7 +86,7 @@ class PageMakeCommand extends Command
             $sidebarStubContentMenu = str_replace([
                 '{MODULE}', '{ROUTE_NAME}',
             ], [
-                str($module)->lower(), strtolower($module).'.'.$routeName,
+                str($module)->kebab()->lower(), strtolower($module).'.'.$routeName,
             ], $sidebarStubContentMenu);
 
             $mainViewPathContent = str_replace([
