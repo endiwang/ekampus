@@ -24,6 +24,17 @@
                                 </div>
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
+                                        {{ Form::label('majlis_id', 'Majlis', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::select('majlis_id', $majlis_selection, old('majlis_id'), ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('majlis_id') ? 'is-invalid':''),'id'=>'majlis_id' ]) }}
+                                            @error('majlis_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
                                         {{ Form::label('template', 'Kandungan Template', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">

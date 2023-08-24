@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pengurusan\PengajianSepanjangHayat;
 
 use App\Http\Controllers\Controller;
 use App\Models\TemplateJemputanMajlisPensijilan;
+use App\Models\TetapanMajlisPenyerahanSijilTahfiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -96,9 +97,12 @@ class TetapanTemplateJemputanSijilController extends Controller
             "Tambah Template Jemputan Majlis Pensijilan" =>  false,
         ];
 
+        $majlis = TetapanMajlisPenyerahanSijilTahfiz::where('status', 1)->whereNull('deleted_at')->get()->pluck('nama', 'id');
+        
         $data = [
             'title' => $title,
             'breadcrumbs' => $breadcrumbs,
+            'majlis_selection' => $majlis,
         ];
 
         return view('pages.pengurusan.pengajian_sepanjang_hayat.tetapan.template_jemputan_sijil.add_new', $data);
@@ -114,9 +118,11 @@ class TetapanTemplateJemputanSijilController extends Controller
     {
         $validated = $request->validate([
             'name'  => 'required',
+            'majlis_id' => 'required',
             'template'  => 'required',
         ],[
             'name.required' => 'Sila masukkan nama sijil.',
+            'majlis_id.required' => 'Sila pilih Majlis',
             'template.required' => 'Ruangan ini perlu diisi.',
         ]);
 
@@ -165,10 +171,12 @@ class TetapanTemplateJemputanSijilController extends Controller
         ];
 
         $template = TemplateJemputanMajlisPensijilan::find($id);
+        $majlis = TetapanMajlisPenyerahanSijilTahfiz::where('status', 1)->whereNull('deleted_at')->get()->pluck('nama', 'id');
         $data = [
             'title' => $title,
             'breadcrumbs' => $breadcrumbs,
             'template' => $template,
+            'majlis_selection' => $majlis,
         ];
 
         return view('pages.pengurusan.pengajian_sepanjang_hayat.tetapan.template_jemputan_sijil.edit', $data);
@@ -183,11 +191,13 @@ class TetapanTemplateJemputanSijilController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $validated = $request->validate([
+        $validated = $request->validate([
             'name'  => 'required',
+            'majlis_id' => 'required',
             'template'  => 'required',
         ],[
             'name.required' => 'Sila masukkan nama sijil.',
+            'majlis_id.required' => 'Sila pilih Majlis',
             'template.required' => 'Ruangan ini perlu diisi.',
         ]);
 
