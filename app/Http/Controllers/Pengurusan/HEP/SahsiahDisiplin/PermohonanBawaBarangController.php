@@ -9,7 +9,7 @@ use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
 use App\Models\PermohonanBawaBarang;
 use App\Helpers\Utils;
-
+use Illuminate\Support\Facades\Auth;
 
 class PermohonanBawaBarangController extends Controller
 {
@@ -34,7 +34,7 @@ class PermohonanBawaBarangController extends Controller
         ];
 
         if (request()->ajax()) {
-            $data = PermohonanBawaBarang::query();
+            $data = PermohonanBawaBarang::where('pelajar_id',Auth::user()->pelajar->last()->id);
 
             return DataTables::of($data)
                 ->addColumn('nama_pelajar', function($data) {
@@ -172,6 +172,7 @@ class PermohonanBawaBarangController extends Controller
     {
         $data = PermohonanBawaBarang::find($id);
         $data->status = $request->status;
+        $data->update_by = Auth::user()->id;
         $data->save();
          return redirect()->route('pengurusan.hep.permohonan.bawa_barang.index');
     }

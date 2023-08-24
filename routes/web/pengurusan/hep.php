@@ -10,6 +10,7 @@ use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\DisiplinPelajarControlle
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\KeluarMasukPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\PengurusanSalahlakuPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\PermohonanBawaBarangController;
+use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\PermohonanBawaKenderaanController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\RekodKeluarMasukPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\TatatertibRayuanPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\TetapanKeluarMasukController;
@@ -20,6 +21,7 @@ Route::resource('/', MainHEPController::class)->only(['index']);
 Route::group(['prefix' => 'permohonan', 'as' => 'permohonan.'], function () {
     Route::resource('keluar_masuk', KeluarMasukPelajarController::class);
     Route::resource('bawa_barang', PermohonanBawaBarangController::class);
+    Route::resource('bawa_kenderaan', PermohonanBawaKenderaanController::class);
 });
 
 Route::group(['prefix' => 'tetapan', 'as' => 'tetapan.'], function () {
