@@ -62,17 +62,13 @@ class PermohonanBawaKenderaanController extends Controller
                     }
                 })
                 ->addColumn('jenis', function ($data) {
-                    switch ($data->jenis_barang) {
-                        case 'E':
-                            return '<span class="badge badge-success">Elektrik</span>';
+                    switch ($data->jenis_kenderaan) {
+                        case 'K':
+                            return '<span class="badge badge-success">Kereta</span>';
                             break;
 
-                        case 'EN':
-                            return '<span class="badge badge-success">Elektronik</span>';
-                            break;
-
-                        case 'NE':
-                            return '<span class="badge badge-success">Bukan Elektrik/Elektronik</span>';
+                        case 'M':
+                            return '<span class="badge badge-success">Motorsikal</span>';
                             break;
                     }
                 })
