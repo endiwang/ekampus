@@ -26,7 +26,6 @@ class PermohonanBawaKenderaanController extends Controller
     public function index(Builder $builder)
     {
 
-
         $title = 'Permohonan Bawa Kenderaan';
         $breadcrumbs = [
             'Pelajar' => false,
@@ -43,11 +42,11 @@ class PermohonanBawaKenderaanController extends Controller
         ];
 
         if (request()->ajax()) {
-            $data = PermohonanBawaKenderaan::query();
+            $data = PermohonanBawaKenderaan::where('pelajar_id',Auth::user()->pelajar->last()->id);
 
             return DataTables::of($data)
                 ->addColumn('status', function ($data) {
-                    switch ($data->status_hukuman) {
+                    switch ($data->status) {
                         case 0:
                             return '<span class="badge badge-primary">Permohonan Baru</span>';
                             break;
