@@ -112,6 +112,8 @@
                         @include('layouts.master.sidebar.peperiksaan')
                     @elseif(Request::routeIs('pengurusan.pembangunan.*'))
                         @include('layouts.master.sidebar.pembangunan')
+                    @elseif(Request::routeIs('pengurusan.pentadbiran.*'))
+                        @include('layouts.master.sidebar.pentadbiran')
                     {{-- sidebar menu --}}
                     @else
                         @include('layouts.master.sidebar.utama')
