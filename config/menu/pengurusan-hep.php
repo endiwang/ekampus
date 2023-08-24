@@ -11,7 +11,18 @@ return [
                 [
                     'title' => 'Salah Laku Pelajar',
                     'route' => 'pengurusan.hep.pengurusan.salahlaku_pelajar.index',
-                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Disiplin Pelajar',
+                    'route' => 'pengurusan.hep.pengurusan.disiplin_pelajar.index',
+                ],
+                [
+                    'title' => 'Tatatertib Pelajar',
+                    'route' => 'pengurusan.hep.pengurusan.tatatertib_pelajar.index',
+                ],
+                [
+                    'title' => 'Keluar Masuk',
+                    'route' => 'pengurusan.hep.pengurusan.keluar_masuk.index',
                 ],
             ],
         ],
@@ -22,6 +33,14 @@ return [
                 [
                     'title' => 'Keluar Masuk',
                     'route' => 'pengurusan.hep.permohonan.keluar_masuk.index',
+                ],
+                [
+                    'title' => 'Bawa Barang',
+                    'route' => 'pengurusan.hep.permohonan.bawa_barang.index',
+                ],
+                [
+                    'title' => 'Bawa Kenderaan',
+                    'route' => 'pengurusan.hep.permohonan.bawa_kenderaan.index',
                 ],
             ],
         ],
