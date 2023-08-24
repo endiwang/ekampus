@@ -181,6 +181,25 @@ class KakitanganController extends Controller
     public function update(Request $request, $id)
     {
 
+        $request->validate([
+            'nama' => 'required',
+            'no_ic' => 'required',
+            'alamat' => 'required',
+            'no_tel' => 'required',
+            'email' => 'required',
+            'pusat_pengajian' => 'required',
+            'jabatan' => 'required',
+        ], [
+            'nama.required' => 'Sila masukkan nama',
+            'no_ic.required' => 'Sila masukkan no ic',
+            // 'no_ic.unique' => 'No ic ini telah didaftarkan',
+            'alamat.required' => 'Sila masukkan alamat',
+            'no_tel.required' => 'Sila masukkan no telefon',
+            'email.required' => 'Sila masukkan email',
+            'pusat_pengajian.required' => 'Sila pilih pusat pengajian',
+            'jabatan.required' => 'Sila pilih jabatan',
+        ]);
+
         $staff = Staff::find($id);
 
 
@@ -292,25 +311,6 @@ class KakitanganController extends Controller
                 'Profil' => false,
                 'Cipta' => false,
             ];
-
-            $request->validate([
-                'nama' => 'required',
-                'no_ic' => 'required',
-                'alamat' => 'required',
-                'no_tel' => 'required',
-                'email' => 'required',
-                'pusat_pengajian' => 'required',
-                'jabatan' => 'required',
-            ], [
-                'nama.required' => 'Sila masukkan nama',
-                'no_ic.required' => 'Sila masukkan no ic',
-                // 'no_ic.unique' => 'No ic ini telah didaftarkan',
-                'alamat.required' => 'Sila masukkan alamat',
-                'no_tel.required' => 'Sila masukkan no telefon',
-                'email.required' => 'Sila masukkan email',
-                'pusat_pengajian.required' => 'Sila pilih pusat pengajian',
-                'jabatan.required' => 'Sila pilih jabatan',
-            ]);
 
             $action = route('pengurusan.pentadbir_sistem.kakitangan.store');
 
