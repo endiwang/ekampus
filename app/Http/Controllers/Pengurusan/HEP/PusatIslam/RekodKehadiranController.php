@@ -23,7 +23,7 @@ class RekodKehadiranController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, RekodKehadiranDataTable $dataTable)
+    public function index(Request $request, RekodKehadiranDataTable $dataTable)
     {
         $this->authorize('viewAny', $this->model);
 

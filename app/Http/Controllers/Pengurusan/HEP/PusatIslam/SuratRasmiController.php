@@ -23,7 +23,7 @@ class SuratRasmiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, SuratRasmiDataTable $dataTable)
+    public function index(Request $request, SuratRasmiDataTable $dataTable)
     {
         $this->authorize('viewAny', $this->model);
 

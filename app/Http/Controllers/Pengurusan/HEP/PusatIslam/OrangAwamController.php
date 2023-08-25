@@ -23,7 +23,7 @@ class OrangAwamController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, KelasOrangAwamDataTable $dataTable)
+    public function index(Request $request, KelasOrangAwamDataTable $dataTable)
     {
         $this->authorize('viewAny', $this->model);
 

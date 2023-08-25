@@ -64,20 +64,46 @@ Route::middleware(['web', 'auth'])
 
         Route::get('pusat-islam/aktiviti', [AktivitiController::class, 'index'])
             ->name('pusat-islam.aktiviti.index');
+        Route::get('pusat-islam/aktiviti/create', [AktivitiController::class, 'create'])
+            ->name('pusat-islam.aktiviti.create');
         Route::get('pusat-islam/aktiviti/{id}/edit', [AktivitiController::class, 'edit'])
             ->name('pusat-islam.aktiviti.edit');
-        Route::get('pusat-islam/aktiviti/{id}', [AktivitiController::class, 'show'])
+        Route::get('pusat-islam/aktiviti/{id}/show', [AktivitiController::class, 'show'])
             ->name('pusat-islam.aktiviti.show');
 
-        Route::get('pusat-islam/jadual-tugasan', JadualTugasanController::class)
+        Route::get('pusat-islam/jadual-tugasan', [JadualTugasanController::class, 'index'])
             ->name('pusat-islam.jadual-tugasan.index');
+        Route::get('pusat-islam/jadual-tugasan/create', [JadualTugasanController::class, 'create'])
+            ->name('pusat-islam.jadual-tugasan.create');
+        Route::get('pusat-islam/jadual-tugasan/{id}/edit', [JadualTugasanController::class, 'edit'])
+            ->name('pusat-islam.jadual-tugasan.edit');
+        Route::get('pusat-islam/jadual-tugasan/{id}/show', [JadualTugasanController::class, 'show'])
+            ->name('pusat-islam.jadual-tugasan.show');
 
-        Route::get('pusat-islam/orang-awam', OrangAwamController::class)
+        Route::get('pusat-islam/orang-awam', [OrangAwamController::class, 'index'])
             ->name('pusat-islam.orang-awam.index');
+        Route::get('pusat-islam/orang-awam/create', [OrangAwamController::class, 'create'])
+            ->name('pusat-islam.orang-awam.create');
+        Route::get('pusat-islam/orang-awam/{id}/edit', [OrangAwamController::class, 'edit'])
+            ->name('pusat-islam.orang-awam.edit');
+        Route::get('pusat-islam/orang-awam/{id}/show', [OrangAwamController::class, 'show'])
+            ->name('pusat-islam.orang-awam.show');
 
-        Route::get('pusat-islam/rekod-kehadiran', RekodKehadiranController::class)
+        Route::get('pusat-islam/rekod-kehadiran', [RekodKehadiranController::class, 'index'])
             ->name('pusat-islam.rekod-kehadiran.index');
+        Route::get('pusat-islam/rekod-kehadiran/create', [RekodKehadiranController::class, 'create'])
+            ->name('pusat-islam.rekod-kehadiran.create');
+        Route::get('pusat-islam/rekod-kehadiran/{id}/edit', [RekodKehadiranController::class, 'edit'])
+            ->name('pusat-islam.rekod-kehadiran.edit');
+        Route::get('pusat-islam/rekod-kehadiran/{id}/show', [RekodKehadiranController::class, 'show'])
+            ->name('pusat-islam.rekod-kehadiran.show');
 
-        Route::get('pusat-islam/surat-rasmi', SuratRasmiController::class)
+        Route::get('pusat-islam/surat-rasmi', [SuratRasmiController::class, 'index'])
             ->name('pusat-islam.surat-rasmi.index');
+        Route::get('pusat-islam/surat-rasmi/create', [SuratRasmiController::class, 'create'])
+            ->name('pusat-islam.surat-rasmi.create');
+        Route::get('pusat-islam/surat-rasmi/{id}/edit', [SuratRasmiController::class, 'edit'])
+            ->name('pusat-islam.surat-rasmi.edit');
+        Route::get('pusat-islam/surat-rasmi/{id}/show', [SuratRasmiController::class, 'show'])
+            ->name('pusat-islam.surat-rasmi.show');
     });

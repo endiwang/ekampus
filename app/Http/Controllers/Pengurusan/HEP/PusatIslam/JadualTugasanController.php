@@ -23,7 +23,7 @@ class JadualTugasanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, JadualTugasanDataTable $dataTable)
+    public function index(Request $request, JadualTugasanDataTable $dataTable)
     {
         $this->authorize('viewAny', $this->model);
 

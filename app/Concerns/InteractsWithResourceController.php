@@ -30,9 +30,21 @@ trait InteractsWithResourceController
         return $this->compactName;
     }
 
+    protected function getModelClassname()
+    {
+        return $this->model;
+    }
+
     protected function getModel()
     {
-        return $this->model::query();
+        return $this->getModelClassname()::query();
+    }
+
+    public function create()
+    {
+        $this->authorize('create', $this->getModelClassname());
+
+        return view($this->getModuleView().'.form');
     }
 
     public function show($id)
