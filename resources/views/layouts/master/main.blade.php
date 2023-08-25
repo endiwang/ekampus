@@ -114,6 +114,8 @@
                         @include('layouts.master.sidebar.pembangunan')
                     @elseif(Request::routeIs('pengurusan.pengajian_sepanjang_hayat.*'))
                         @include('layouts.master.sidebar.jabatan_pengajian_sepanjang_hayat')
+                    @elseif(Request::routeIs('pengurusan.kewangan.*'))
+                        @include('layouts.master.sidebar.kewangan')
                     {{-- sidebar menu --}}
                     @else
                         @include('layouts.master.sidebar.utama')
