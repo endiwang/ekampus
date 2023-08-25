@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Pengurusan\Peperiksaan\CetakanKeputusanController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\CetakanTranskripController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniKursusController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniNamaPelajarController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSesiPengajianController;
@@ -32,3 +33,6 @@ Route::resource('persiapan_peperiksaan', PersiapanPeperiksaanController::class);
 Route::post('cetakan_keputusan_peperiksaan/download_keputusan', [CetakanKeputusanController::class, 'downloadKeputusan'])->name('cetakan_keputusan_peperiksaan.download_keputusan');
 Route::post('cetakan_keputusan_peperiksaan/getCourses', [CetakanKeputusanController::class, 'getCourses'])->name('cetakan_keputusan_peperiksaan.getCourses');
 Route::resource('cetakan_keputusan_peperiksaan', CetakanKeputusanController::class);
+
+Route::get('cetakan_transkrip_peperiksaan/muatturun_transkrip/{id}', [CetakanTranskripController::class, 'downloadTranskrip'])->name('cetakan_transkrip_peperiksaan.download_transkrip');
+Route::resource('cetakan_transkrip_peperiksaan', CetakanTranskripController::class);

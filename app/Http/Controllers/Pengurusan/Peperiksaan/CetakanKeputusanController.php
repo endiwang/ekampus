@@ -129,21 +129,6 @@ class CetakanKeputusanController extends Controller
         return response()->json($course);
     }
 
-    public function getSession(Request $request)
-    {
-
-    }
-
-    public function getSyukbah(Request $request)
-    {
-
-    }
-
-    public function getClasses(Request $request)
-    {
-
-    }
-
     public function downloadKeputusan(Request $request)
     {
         $validator = Validator::make($request->all(), [
