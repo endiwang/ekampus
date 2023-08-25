@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pengurusan\HEP\PusatIslam;
 
+use App\DataTables\Pengurusan\HEP\PusatIslam\KelasOrangAwamDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -12,8 +13,8 @@ class OrangAwamController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, KelasOrangAwamDataTable $dataTable)
     {
-        return view('pages.pengurusan.hep.pusat-islam.orang-awam.index');
+        return $dataTable->render('pages.pengurusan.hep.pusat-islam.orang-awam.index');
     }
 }
