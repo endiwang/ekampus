@@ -18,7 +18,7 @@ class PelajarSemester extends Model
         return $this->hasMany(PelajarSemesterDetail::class, 'pelajar_semester_id', 'id');
     }
 
-    public function semester()
+    public function semesterDetail()
     {
         return $this->belongsTo(Semester::class, 'semester', 'id');
     }
