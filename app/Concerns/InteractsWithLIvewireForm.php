@@ -52,7 +52,7 @@ trait InteractsWithLivewireForm
         $this->record = $this->getModel()::query()
             ->when(
                 isset($this->state['id']),
-                fn($query) => $query->whereId($this->state['id'])
+                fn ($query) => $query->whereId($this->state['id'])
             )->updateOrCreate($this->state);
 
         $this->callMethodIfExists('afterSave');
