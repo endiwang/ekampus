@@ -14,7 +14,7 @@ class Laporan extends Component
         return [
             'state.id' => 'required',
             'state.latar_belakang' => 'required',
-            'state.ringkasan_kes' => 'required',
+            'state.ringkasan' => 'required',
             'state.hasil_konsultasi' => 'required',
         ];
     }
