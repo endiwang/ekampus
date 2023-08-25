@@ -14,7 +14,7 @@
         <div class="cursor-pointer mx-2 btn btn-danger btn-sm"
             onclick="
             event.preventDefault();
-            if(config('Anda pasti untuk hapuskan rekod ini?') {
+            if(confirm('Anda pasti untuk hapuskan rekod ini?')) {
                 document.getElementById('delete-kaunseling-{{ $data->id }}').submit();
             }">
             @lang('Delete')

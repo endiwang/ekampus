@@ -48,6 +48,11 @@ class Pelajar extends Model
         return $this->belongsTo(Semester::class, 'semester', 'id');
     }
 
+    public function pelajarSemesters()
+    {
+        return $this->hasMany(PelajarSemester::class, 'pelajar_id', 'pelajar_old_id');
+    }
+
     public function getNameIcAttribute()
     {
         return ucfirst($this->nama).' - '.ucfirst($this->no_ic);

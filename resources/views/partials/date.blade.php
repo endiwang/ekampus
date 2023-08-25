@@ -2,6 +2,10 @@
     if(!isset($format)) {
         $format = 'd/m/Y';
     }
+
+    if(! $date instanceof \Carbon\Carbon) {
+        $date = \Carbon\Carbon::parse($date);
+    }
 @endphp
 
-{{ \Carbon\Carbon::parse($date)->format($format) }}
+{{ $date->format($format) }}
