@@ -30,7 +30,7 @@ class RekodKehadiranDataTable extends DataTable
      */
     public function query(RekodKehadiran $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(['peserta', 'kelas']);
     }
 
     /**
@@ -54,15 +54,13 @@ class RekodKehadiranDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('Kelas', 'kelas.nama')->searchable()->orderable(),
+            Column::make('Peserta', 'peserta.nama')->searchable()->orderable(),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 

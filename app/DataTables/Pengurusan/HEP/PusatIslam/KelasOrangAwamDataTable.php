@@ -54,15 +54,21 @@ class KelasOrangAwamDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('Name')->searchable()->orderable(),
+            Column::make('Tarikh')->searchable()->orderable(),
+            Column::make('Status')->searchable()->orderable(),
+            Column::make('Guru')
+                ->render('pages.pengurusan.hep.pusat-islam.partials.guru')
+                ->searchable()->orderable(),
+            Column::make('Pendaftaran Dibuka?')
+                ->render('pages.pengurusan.hep.pusat-islam.partials.status-pendaftaran')
+                ->searchable()->orderable(),
+            Column::make('Had Pelajar', 'had_jumlah_pelajar')->searchable()->orderable(),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 

@@ -54,15 +54,17 @@ class JadualTugasanDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('Tarikh')->searchable()->orderable(),
+            Column::make('Waktu Solat', 'waktu_solat')->searchable()->orderable(),
+            Column::make('Imam')
+                ->render('pages.pengurusan.hep.pusat-islam.partials.imam'),
+            Column::make('Bilal')
+                ->render('pages.pengurusan.hep.pusat-islam.partials.bilal'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 
