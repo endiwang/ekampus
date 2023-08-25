@@ -11,7 +11,7 @@ Kami ingin mendengar pandangan anda mengenai sesi kaunseling yang baru-baru ini 
 Borang Kepuasan Pelanggan
 </x-mail::button>
 
-Kami menghargai masa dan maklum balas anda. Maklum balas anda akan membantu kami menyediakan perkhidmatan yang lebih baik dan lebih relevan kepada semua pelajar. Jika anda ingin berbincang lebih lanjut tentang pengalaman anda atau memerlukan kaunseling lanjutan, jangan ragu untuk menghubungi kami di [e-mel kaunselor] atau [nombor telefon kaunselor].
+Kami menghargai masa dan maklum balas anda. Maklum balas anda akan membantu kami menyediakan perkhidmatan yang lebih baik dan lebih relevan kepada semua pelajar. Jika anda ingin berbincang lebih lanjut tentang pengalaman anda atau memerlukan kaunseling lanjutan, jangan ragu untuk menghubungi kami di Unit Kaunseling.
 
 Terima kasih kerana menjadi sebahagian daripada komuniti kami. Kami berharap anda terus berjaya dalam usaha akademik dan perkembangan diri.
 
