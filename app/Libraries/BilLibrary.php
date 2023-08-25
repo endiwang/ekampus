@@ -18,7 +18,7 @@ class BilLibrary {
             $bil->pelajar_id = $data['pelajar_id'];
             $bil->yuran_id = $data['yuran']->id;
             $bil->description = $data['yuran']->nama;
-            $bil->amaun = $data['amaun'];
+            $bil->amaun = (!empty($data['amaun'])) ? $data['amaun'] :  $data['yuran']->amaun;
             $bil->status = 1;
             $bil->save();
         }
