@@ -20,7 +20,8 @@ class RekodKaunselingDataTable extends KaunselingDataTable
                 auth()->user()->hasRole('pelajar'),
                 fn ($query) => $query->where('user_id', auth()->user()->id)
             )
-            ->where('status', Kaunseling::STATUS_DITERIMA);
+            ->where('status', Kaunseling::STATUS_DITERIMA)
+            ->orderBy('updated_at', 'desc');
     }
 
     /**

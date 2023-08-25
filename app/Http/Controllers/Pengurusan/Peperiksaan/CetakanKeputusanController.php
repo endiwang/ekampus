@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Kelas;
 use App\Models\Kursus;
 use App\Models\PelajarSemester;
-use App\Models\PelajarSemesterDetail;
 use App\Models\PusatPengajian;
 use App\Models\Semester;
 use App\Models\Sesi;
@@ -20,13 +19,14 @@ use RealRashid\SweetAlert\Facades\Alert;
 class CetakanKeputusanController extends Controller
 {
     protected $baseView = 'pages.pengurusan.peperiksaan.cetakan_keputusan_peperiksaan.';
+
     protected $baseRoute = 'pengurusan.peperiksaan.cetakan_keputusan_peperiksaan.';
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-    */
+     */
     public function index(Request $request)
     {
         try {
@@ -36,15 +36,15 @@ class CetakanKeputusanController extends Controller
                 'Cetak Keputusan Peperiksaan' => false,
             ];
 
-            $courses    = Kursus::where('deleted_at', NULL)->pluck('nama', 'id');
-            $semesters  = Semester::where('deleted_at', NULL)->pluck('nama', 'id');
-            $campuses   = PusatPengajian::where('deleted_at', NULL)->pluck('nama', 'id');
-            $syukbah    = Syukbah::where('deleted_at', NULL)->pluck('nama', 'id');
-            $sessions   = Sesi::where('deleted_at', NULL)->pluck('nama', 'id');
-            $classes    = Kelas::where('deleted_at', NULL)->pluck('nama', 'id');
+            $courses = Kursus::where('deleted_at', null)->pluck('nama', 'id');
+            $semesters = Semester::where('deleted_at', null)->pluck('nama', 'id');
+            $campuses = PusatPengajian::where('deleted_at', null)->pluck('nama', 'id');
+            $syukbah = Syukbah::where('deleted_at', null)->pluck('nama', 'id');
+            $sessions = Sesi::where('deleted_at', null)->pluck('nama', 'id');
+            $classes = Kelas::where('deleted_at', null)->pluck('nama', 'id');
 
             $data = $request->all();
-            
+
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'courses', 'semesters', 'campuses', 'syukbah', 'sessions', 'classes'));
 
         } catch (Exception $e) {
@@ -69,7 +69,6 @@ class CetakanKeputusanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -102,7 +101,6 @@ class CetakanKeputusanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -124,8 +122,8 @@ class CetakanKeputusanController extends Controller
 
     public function getCourses()
     {
-        $course = Kursus::where('deleted_at', NULL)->get();
-   
+        $course = Kursus::where('deleted_at', null)->get();
+
         return response()->json($course);
     }
 
@@ -163,15 +161,13 @@ class CetakanKeputusanController extends Controller
         }
 
         try {
-        $data = PelajarSemester::with('pelajarSemesterDetails', 'pelajarSemesterDetails.subjek', 'pelajar', 'pelajar.sesi', 'pelajar.kursus', 'pelajar.syukbah', 'semester', 'sesi');
-            if ($request->has('program_pengajian') && $request->program_pengajian != null) 
-            {
+            $data = PelajarSemester::with('pelajarSemesterDetails', 'pelajarSemesterDetails.subjek', 'pelajar', 'pelajar.sesi', 'pelajar.kursus', 'pelajar.syukbah', 'semester', 'sesi');
+            if ($request->has('program_pengajian') && $request->program_pengajian != null) {
                 $data = $data->whereHas('pelajar', function ($data) use ($request) {
                     $data->where('kursus_id', $request->program_pengajian);
                 });
             }
-            if ($request->has('pusat_pengajian') && $request->pusat_pengajian != null)
-            {
+            if ($request->has('pusat_pengajian') && $request->pusat_pengajian != null) {
                 $data = $data->whereHas('pelajar', function ($data) use ($request) {
                     $data->where('pusat_pengajian_id', $request->pusat_pengajian);
                 });
@@ -179,8 +175,7 @@ class CetakanKeputusanController extends Controller
             if ($request->has('semester_pengajian') && $request->semester_pengajian != null) {
                 $data->where('semester', $request->semester_pengajian);
             }
-            if ($request->has('kelas') && $request->kelas != null)
-            {
+            if ($request->has('kelas') && $request->kelas != null) {
                 $data = $data->whereHas('pelajar', function ($data) use ($request) {
                     $data->where('kelas_id', $request->kelas);
                 });
@@ -188,19 +183,16 @@ class CetakanKeputusanController extends Controller
             if ($request->has('sesi') && $request->sesi != null) {
                 $data->where('sesi_id', $request->sesi);
             }
-            if ($request->has('syukbah') && $request->syukbah != null)
-            {
+            if ($request->has('syukbah') && $request->syukbah != null) {
                 $data = $data->whereHas('pelajar', function ($data) use ($request) {
                     $data->where('syukbah_id', $request->syukbah);
                 });
             }
             $data = $data->get();
 
-            if(!empty($request->tarikh_keputusan))
-            {
+            if (! empty($request->tarikh_keputusan)) {
                 $date = Utils::formatDate($request->tarikh_keputusan);
-            }
-            else {
+            } else {
                 $date = Utils::formatDate(now());
             }
 

@@ -6,7 +6,7 @@ use App\Models\Base as Model;
 
 class PersiapanPeperiksaanDetail extends Model
 {
-    protected $guarded  = ['id'];
+    protected $guarded = ['id'];
 
     public function persiapanPeperiksaan()
     {

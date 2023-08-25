@@ -16,7 +16,9 @@ use Yajra\DataTables\Html\Builder;
 class PersiapanPeperiksaanController extends Controller
 {
     protected $baseView = 'pages.pengurusan.peperiksaan.persiapan_peperiksaan.';
+
     protected $baseRoute = 'pengurusan.peperiksaan.persiapan_peperiksaan.';
+
     /**
      * Display a listing of the resource.
      *
@@ -34,7 +36,7 @@ class PersiapanPeperiksaanController extends Controller
             $buttons = [
                 [
                     'title' => 'Tambah',
-                    'route' => route($this->baseRoute . 'create'),
+                    'route' => route($this->baseRoute.'create'),
                     'button_class' => 'btn btn-sm btn-primary fw-bold',
                     'icon_class' => 'fa fa-plus-circle',
                 ],
@@ -65,13 +67,13 @@ class PersiapanPeperiksaanController extends Controller
                         }
                     })
                     ->addColumn('action', function ($data) {
-                        return '<a href="'.route($this->baseRoute . 'edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                        return '<a href="'.route($this->baseRoute.'edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                     <i class="fa fa-pencil-alt"></i>
                                 </a>
                                 <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
                                 <i class="fa fa-trash"></i>
                                 </a>
-                                <form id="delete-'.$data->id.'" action="'.route($this->baseRoute . 'destroy', $data->id).'" method="POST">
+                                <form id="delete-'.$data->id.'" action="'.route($this->baseRoute.'destroy', $data->id).'" method="POST">
                                     <input type="hidden" name="_token" value="'.csrf_token().'">
                                     <input type="hidden" name="_method" value="DELETE">
                                 </form>
@@ -118,11 +120,11 @@ class PersiapanPeperiksaanController extends Controller
         try {
 
             $title = 'Tambah Persiapan Peperiksaan';
-            $action = route($this->baseRoute . 'store');
+            $action = route($this->baseRoute.'store');
             $page_title = 'Maklumat Persiapan Peperiksaan';
             $breadcrumbs = [
                 'Peperiksaan' => false,
-                'Persiapan Peperiksaan' => route($this->baseRoute . 'index'),
+                'Persiapan Peperiksaan' => route($this->baseRoute.'index'),
                 'Tambah Maklumat' => false,
             ];
 
@@ -143,7 +145,6 @@ class PersiapanPeperiksaanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -200,11 +201,11 @@ class PersiapanPeperiksaanController extends Controller
         try {
 
             $title = 'Persiapan Peperiksaan';
-            $action = route($this->baseRoute . 'update', $id);
+            $action = route($this->baseRoute.'update', $id);
             $page_title = 'Kemaskini Maklumat Persiapan Peperiksaan';
             $breadcrumbs = [
                 'Peperiksaan' => false,
-                'Persiapan Peperiksaan' => route($this->baseRoute . 'index'),
+                'Persiapan Peperiksaan' => route($this->baseRoute.'index'),
                 'Kemaskini Maklumat Persiapan Peperiksaan' => false,
             ];
 
@@ -222,7 +223,7 @@ class PersiapanPeperiksaanController extends Controller
                             <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
                                 <i class="fa fa-trash"></i>
                             </a>
-                            <form id="delete-'.$data->id.'" action="'.route($this->baseRoute . 'delete_item', $data->id).'" method="POST">
+                            <form id="delete-'.$data->id.'" action="'.route($this->baseRoute.'delete_item', $data->id).'" method="POST">
                                 <input type="hidden" name="_token" value="'.csrf_token().'">
                                 <input type="hidden" name="_method" value="POST">
                             </form>';
@@ -259,7 +260,6 @@ class PersiapanPeperiksaanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

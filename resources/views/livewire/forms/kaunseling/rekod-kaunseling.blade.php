@@ -15,9 +15,14 @@
     <x-forms.textarea key="state.cadangan_tindakan" label="Cadangan Tindakan"
         wire:model.defer="state.cadangan_tindakan" />
 
-    <div class="d-flex justify-content-end">
-        <div class="btn btn-sm btn-primary" wire:click="save">
-            Simpan
+    <x-forms.checkbox key="state.is_completed" label="Sesi Kaunseling Selesai?"
+        wire:model.defer="state.is_completed" :checked="data_get($state, 'is_completed')" />
+
+    @if(data_get($state, 'status') == \App\Models\Kaunseling::STATUS_DITERIMA)
+        <div class="d-flex justify-content-end">
+            <div class="btn btn-sm btn-primary" wire:click="save">
+                Simpan
+            </div>
         </div>
-    </div>
+    @endif
 </div>

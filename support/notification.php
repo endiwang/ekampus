@@ -27,7 +27,7 @@ if (! function_exists('notify')) {
     {
         $user->notify(
             (new DefaultNotification($subject, $message, $url))
-                ->onQueue('notification')
+                ->onQueue('notifications')
         );
     }
 }

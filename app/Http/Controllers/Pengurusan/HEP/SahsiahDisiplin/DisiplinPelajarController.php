@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin;
 
-use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
 use App\Models\DisiplinPelajar;
 use App\Models\HukumanDisiplin;
+use App\Models\Pelajar;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use App\Models\Pelajar;
 
 class DisiplinPelajarController extends Controller
 {
@@ -19,8 +18,7 @@ class DisiplinPelajarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-     protected $baseView = 'pages.pengurusan.hep.pengurusan.disiplin_pelajar.';
+    protected $baseView = 'pages.pengurusan.hep.pengurusan.disiplin_pelajar.';
 
     public function index(Builder $builder)
     {
@@ -33,10 +31,10 @@ class DisiplinPelajarController extends Controller
         ];
         $buttons = [
             [
-                'title' => "Tambah Rekod Disiplin Pelajar",
+                'title' => 'Tambah Rekod Disiplin Pelajar',
                 'route' => route('pengurusan.hep.pengurusan.disiplin_pelajar.create'),
-                'button_class' => "btn btn-sm btn-primary fw-bold",
-                'icon_class' => "fa fa-plus-circle"
+                'button_class' => 'btn btn-sm btn-primary fw-bold',
+                'icon_class' => 'fa fa-plus-circle',
             ],
         ];
 
@@ -44,18 +42,18 @@ class DisiplinPelajarController extends Controller
             $data = DisiplinPelajar::query();
 
             return DataTables::of($data)
-            ->addColumn('nama_pelaku', function ($data) {
-                return $data->pelaku->nama;
-            })
-            ->addColumn('no_ic_matrik', function ($data) {
-                if (! empty($data->pelaku)) {
-                    $data = '<p style="text-align:center">'.$data->pelaku->no_ic.'<br/> <span style="font-weight:bold"> ['.$data->pelaku->no_matrik.'] </span></p>';
-                } else {
-                    $data = '';
-                }
+                ->addColumn('nama_pelaku', function ($data) {
+                    return $data->pelaku->nama;
+                })
+                ->addColumn('no_ic_matrik', function ($data) {
+                    if (! empty($data->pelaku)) {
+                        $data = '<p style="text-align:center">'.$data->pelaku->no_ic.'<br/> <span style="font-weight:bold"> ['.$data->pelaku->no_matrik.'] </span></p>';
+                    } else {
+                        $data = '';
+                    }
 
-                return $data;
-            })
+                    return $data;
+                })
                 ->addColumn('status', function ($data) {
                     switch ($data->status_hukuman) {
                         case 0:
@@ -88,7 +86,7 @@ class DisiplinPelajarController extends Controller
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['status', 'action','no_ic_matrik'])
+                ->rawColumns(['status', 'action', 'no_ic_matrik'])
                 ->toJson();
         }
 
@@ -125,16 +123,15 @@ class DisiplinPelajarController extends Controller
 
         $model = new DisiplinPelajar();
 
-        $pelajar = Pelajar::where('is_berhenti',0)->get()->pluck('name_ic_no_matrik','id');
-        $hukuman = HukumanDisiplin::where('status',0)->get()->pluck('hukuman','id');
+        $pelajar = Pelajar::where('is_berhenti', 0)->get()->pluck('name_ic_no_matrik', 'id');
+        $hukuman = HukumanDisiplin::where('status', 0)->get()->pluck('hukuman', 'id');
 
-        return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action','pelajar','hukuman'));
+        return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 'pelajar', 'hukuman'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -185,12 +182,11 @@ class DisiplinPelajarController extends Controller
             'Tambah Rekod' => false,
         ];
 
-
         $model = DisiplinPelajar::find($id);
 
-        $pelajar = Pelajar::where('is_berhenti',0)->get()->pluck('name_ic_no_matrik','id');
+        $pelajar = Pelajar::where('is_berhenti', 0)->get()->pluck('name_ic_no_matrik', 'id');
 
-        $hukuman = HukumanDisiplin::where('status',0)->get()->pluck('hukuman','id');
+        $hukuman = HukumanDisiplin::where('status', 0)->get()->pluck('hukuman', 'id');
 
         return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 'pelajar', 'hukuman'));
     }
@@ -198,7 +194,6 @@ class DisiplinPelajarController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -212,11 +207,10 @@ class DisiplinPelajarController extends Controller
             'hukuman_disiplin_id.required' => 'Sila pilih hukuman',
         ]);
 
-
         $model = DisiplinPelajar::find($id);
         $model->pelajar_id = $request->pelajar_id;
         $model->keterangan = $request->keterangan;
-        $model->hukuman_disiplin_id	 = $request->hukuman_disiplin_id;
+        $model->hukuman_disiplin_id = $request->hukuman_disiplin_id;
         $model->save();
 
         Alert::toast('Maklumat disiplin pelajar berjaya dikemaskini!', 'success');

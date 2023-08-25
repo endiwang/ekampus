@@ -44,9 +44,11 @@ class LaporanKaunselingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Kaunseling $kaunseling)
+    public function show($id)
     {
-        //
+        $kaunseling = Kaunseling::whereId($id)->firstOrFail();
+
+        return view('pages.pengurusan.hep.kaunseling.laporan-kaunseling.show', compact('kaunseling'));
     }
 
     /**
@@ -54,9 +56,11 @@ class LaporanKaunselingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Kaunseling $kaunseling)
+    public function edit($id)
     {
-        //
+        $kaunseling = Kaunseling::whereId($id)->firstOrFail();
+
+        return view('pages.pengurusan.hep.kaunseling.laporan-kaunseling.form', compact('kaunseling'));
     }
 
     /**
@@ -64,7 +68,7 @@ class LaporanKaunselingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kaunseling $kaunseling)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -74,7 +78,7 @@ class LaporanKaunselingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kaunseling $kaunseling)
+    public function destroy($id)
     {
         //
     }

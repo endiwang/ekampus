@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\HukumanDisiplin;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class HukumanDisiplinSeeder extends Seeder

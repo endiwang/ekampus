@@ -1,11 +1,17 @@
 <?php
 
 use App\Http\Controllers\LookupController;
-use App\Http\Controllers\Pengurusan\HEP\Kaunseling\DashboardController;
+use App\Http\Controllers\Pengurusan\HEP\Kaunseling\BorangKepuasanPelangganController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\KaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\LaporanKaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\RekodKaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\MainHEPController;
+use App\Http\Controllers\Pengurusan\HEP\PusatIslam\AktivitiController;
+use App\Http\Controllers\Pengurusan\HEP\PusatIslam\DashboardController as PusatIslamDashboardController;
+use App\Http\Controllers\Pengurusan\HEP\PusatIslam\JadualTugasanController;
+use App\Http\Controllers\Pengurusan\HEP\PusatIslam\OrangAwamController;
+use App\Http\Controllers\Pengurusan\HEP\PusatIslam\RekodKehadiranController;
+use App\Http\Controllers\Pengurusan\HEP\PusatIslam\SuratRasmiController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\DisiplinPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\KeluarMasukPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\PengurusanSalahlakuPelajarController;
@@ -30,37 +36,27 @@ Route::group(['prefix' => 'tetapan', 'as' => 'tetapan.'], function () {
 });
 
 Route::group(['prefix' => 'pengurusan', 'as' => 'pengurusan.'], function () {
-    Route::get('salahlaku_pelajar/{id}/siasatan', [PengurusanSalahlakuPelajarController::class,'siasatan'])->name('salahlaku_pelajar.siasatan');
-    Route::put('salahlaku_pelajar/{id}/siasatan', [PengurusanSalahlakuPelajarController::class,'update_siasatan'])->name('salahlaku_pelajar.update_siasatan');
+    Route::get('salahlaku_pelajar/{id}/siasatan', [PengurusanSalahlakuPelajarController::class, 'siasatan'])->name('salahlaku_pelajar.siasatan');
+    Route::put('salahlaku_pelajar/{id}/siasatan', [PengurusanSalahlakuPelajarController::class, 'update_siasatan'])->name('salahlaku_pelajar.update_siasatan');
     Route::resource('salahlaku_pelajar', PengurusanSalahlakuPelajarController::class);
     Route::resource('keluar_masuk', RekodKeluarMasukPelajarController::class);
     Route::resource('disiplin_pelajar', DisiplinPelajarController::class);
-    Route::get('tatatertib_pelajar/{id}/rayuan', [TatatertibRayuanPelajarController::class,'rayuan'])->name('tatatertib_pelajar.rayuan');
-    Route::post('tatatertib_pelajar/{id}/rayuan_store', [TatatertibRayuanPelajarController::class,'rayuan_store'])->name('tatatertib_pelajar.rayuan_store');
+    Route::get('tatatertib_pelajar/{id}/rayuan', [TatatertibRayuanPelajarController::class, 'rayuan'])->name('tatatertib_pelajar.rayuan');
+    Route::post('tatatertib_pelajar/{id}/rayuan_store', [TatatertibRayuanPelajarController::class, 'rayuan_store'])->name('tatatertib_pelajar.rayuan_store');
     Route::resource('tatatertib_pelajar', TatatertibRayuanPelajarController::class);
 });
 
 /** Kaunseling */
 Route::middleware(['web', 'auth'])
-    ->as('kaunseling.')
-    ->prefix('kaunseling')
     ->group(function () {
-        Route::get('/dashboard', DashboardController::class)
-            ->name('dashboard.index');
+        Route::resource('/kaunseling', KaunselingController::class);
 
-        Route::resource('/', KaunselingController::class);
         Route::resource('/rekod-kaunseling', RekodKaunselingController::class)->only('index', 'edit', 'update', 'show');
         Route::resource('/laporan-kaunseling', LaporanKaunselingController::class)->only('index', 'edit', 'update', 'show');
+        Route::resource('/brg-kpsn-plngn-knslng', BorangKepuasanPelangganController::class)->only('edit', 'show');
     });
 
 /** Pusat Islam */
-use App\Http\Controllers\Pengurusan\HEP\PusatIslam\AktivitiController;
-use App\Http\Controllers\Pengurusan\HEP\PusatIslam\DashboardController as PusatIslamDashboardController;
-use App\Http\Controllers\Pengurusan\HEP\PusatIslam\JadualTugasanController;
-use App\Http\Controllers\Pengurusan\HEP\PusatIslam\OrangAwamController;
-use App\Http\Controllers\Pengurusan\HEP\PusatIslam\RekodKehadiranController;
-use App\Http\Controllers\Pengurusan\HEP\PusatIslam\SuratRasmiController;
-
 Route::middleware(['web', 'auth'])
     ->group(function () {
         Route::get('pusat-islam/dashboard', PusatIslamDashboardController::class)

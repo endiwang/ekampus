@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Pelajar\Permohonan;
 
+use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
+use App\Models\PermohonanBawaKenderaan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use App\Helpers\Utils;
-use App\Models\PermohonanBawaKenderaan;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 
 class PermohonanBawaKenderaanController extends Controller
 {
@@ -19,9 +19,7 @@ class PermohonanBawaKenderaanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
     protected $baseView = 'pages.pelajar.permohonan.bawa_kenderaan.';
-
 
     public function index(Builder $builder)
     {
@@ -34,15 +32,15 @@ class PermohonanBawaKenderaanController extends Controller
         ];
         $buttons = [
             [
-                'title' => "Permohonan Baru",
+                'title' => 'Permohonan Baru',
                 'route' => route('pelajar.permohonan.bawa_kenderaan.create'),
-                'button_class' => "btn btn-sm btn-primary fw-bold",
-                'icon_class' => "fa fa-plus-circle"
+                'button_class' => 'btn btn-sm btn-primary fw-bold',
+                'icon_class' => 'fa fa-plus-circle',
             ],
         ];
 
         if (request()->ajax()) {
-            $data = PermohonanBawaKenderaan::where('pelajar_id',Auth::user()->pelajar->last()->id);
+            $data = PermohonanBawaKenderaan::where('pelajar_id', Auth::user()->pelajar->last()->id);
 
             return DataTables::of($data)
                 ->addColumn('status', function ($data) {
@@ -93,7 +91,7 @@ class PermohonanBawaKenderaanController extends Controller
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['status', 'action','jenis','tarikh_permohonan'])
+                ->rawColumns(['status', 'action', 'jenis', 'tarikh_permohonan'])
                 ->toJson();
         }
 
@@ -119,25 +117,24 @@ class PermohonanBawaKenderaanController extends Controller
      */
     public function create()
     {
-        {
-            $title = 'Permohonan Bawa Kenderaan';
-            $action = route('pelajar.permohonan.bawa_kenderaan.store');
-            $page_title = 'Permohonan Bawa Kenderaan';
-            $breadcrumbs = [
-                'Pelajar' => false,
-                'Permohonan' => false,
-                'Bawa Barang' => false,
-                'Permohonan Kenderaan' => false,
-            ];
 
-            return view($this->baseView.'create', compact('title', 'breadcrumbs', 'action', 'page_title'));
-        }
+        $title = 'Permohonan Bawa Kenderaan';
+        $action = route('pelajar.permohonan.bawa_kenderaan.store');
+        $page_title = 'Permohonan Bawa Kenderaan';
+        $breadcrumbs = [
+            'Pelajar' => false,
+            'Permohonan' => false,
+            'Bawa Barang' => false,
+            'Permohonan Kenderaan' => false,
+        ];
+
+        return view($this->baseView.'create', compact('title', 'breadcrumbs', 'action', 'page_title'));
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -172,54 +169,47 @@ class PermohonanBawaKenderaanController extends Controller
             'salinan_geran_upload.required' => 'Sila muatnaik geran kenderaan',
         ]);
 
-        if($request->has('gambar_depan_upload'))
-        {
+        if ($request->has('gambar_depan_upload')) {
             $gambar_depan = uniqid().'.'.$request->gambar_depan_upload->getClientOriginalExtension();
             $gambar_depan_path = 'uploads/pelajar/permohonan/bawa_kenderaan';
             $file_gambar_depan = $request->file('gambar_depan_upload')->storeAs($gambar_depan_path, $gambar_depan, 'public');
             $request->request->add(['gambar_hadapan' => $file_gambar_depan]);
         }
 
-        if($request->has('gambar_belakang_upload'))
-        {
+        if ($request->has('gambar_belakang_upload')) {
             $gambar_belakang = uniqid().'.'.$request->gambar_belakang_upload->getClientOriginalExtension();
             $gambar_belakang_path = 'uploads/pelajar/permohonan/bawa_kenderaan';
-            $file_gambar_belakang= $request->file('gambar_belakang_upload')->storeAs($gambar_belakang_path, $gambar_belakang, 'public');
+            $file_gambar_belakang = $request->file('gambar_belakang_upload')->storeAs($gambar_belakang_path, $gambar_belakang, 'public');
             $request->request->add(['gambar_belakang' => $file_gambar_belakang]);
         }
 
-        if($request->has('salinan_kad_matrik_upload'))
-        {
+        if ($request->has('salinan_kad_matrik_upload')) {
             $salinan_kad_matrik = uniqid().'.'.$request->salinan_kad_matrik_upload->getClientOriginalExtension();
             $salinan_kad_matrik_path = 'uploads/pelajar/permohonan/bawa_kenderaan';
-            $file_salinan_kad_matrik= $request->file('salinan_kad_matrik_upload')->storeAs($salinan_kad_matrik_path, $salinan_kad_matrik, 'public');
+            $file_salinan_kad_matrik = $request->file('salinan_kad_matrik_upload')->storeAs($salinan_kad_matrik_path, $salinan_kad_matrik, 'public');
             $request->request->add(['salinan_kad_matrik' => $file_salinan_kad_matrik]);
         }
 
-        if($request->has('salinan_lesen_upload'))
-        {
+        if ($request->has('salinan_lesen_upload')) {
             $salinan_lesen = uniqid().'.'.$request->salinan_lesen_upload->getClientOriginalExtension();
             $salinan_lesen_path = 'uploads/pelajar/permohonan/bawa_kenderaan';
             $file_salinan_lesen = $request->file('salinan_lesen_upload')->storeAs($salinan_lesen_path, $salinan_lesen, 'public');
             $request->request->add(['salinan_lesen' => $file_salinan_lesen]);
         }
 
-        if($request->has('salinan_geran_upload'))
-        {
+        if ($request->has('salinan_geran_upload')) {
             $salinan_geran = uniqid().'.'.$request->salinan_geran_upload->getClientOriginalExtension();
             $salinan_geran_path = 'uploads/pelajar/permohonan/bawa_kenderaan';
             $file_salinan_geran = $request->file('salinan_lesen_upload')->storeAs($salinan_geran_path, $salinan_geran, 'public');
             $request->request->add(['salinan_geran' => $file_salinan_geran]);
         }
 
-        if($request->has('salinan_surat_kebenaran_pemilik_upload'))
-        {
+        if ($request->has('salinan_surat_kebenaran_pemilik_upload')) {
             $salinan_surat_kebenaran_pemilik = uniqid().'.'.$request->salinan_surat_kebenaran_pemilik_upload->getClientOriginalExtension();
             $salinan_surat_kebenaran_pemilik_path = 'uploads/pelajar/permohonan/bawa_kenderaan';
             $file_salinan_surat_kebenaran_pemilik = $request->file('salinan_surat_kebenaran_pemilik_upload')->storeAs($salinan_surat_kebenaran_pemilik_path, $salinan_surat_kebenaran_pemilik, 'public');
             $request->request->add(['salinan_surat_kebenaran_pemilik' => $file_salinan_surat_kebenaran_pemilik]);
         }
-
 
         $request->request->add([
             'no_rujukan' => 'BK-'.date('Ymd').'-'.rand(1000, 9999),
@@ -254,6 +244,7 @@ class PermohonanBawaKenderaanController extends Controller
         ];
 
         $data = PermohonanBawaKenderaan::find($id);
+
         return view($this->baseView.'show', compact('title', 'breadcrumbs', 'data', 'page_title'));
     }
 
@@ -271,7 +262,6 @@ class PermohonanBawaKenderaanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

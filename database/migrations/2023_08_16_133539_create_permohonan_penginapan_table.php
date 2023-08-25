@@ -28,7 +28,7 @@ return new class extends Migration
             $table->integer('vendor_id')->nullable();
             $table->date('tarikh_status_kerja')->nullable();
             $table->timestamps();
-        }); 
+        });
     }
 
     /**
