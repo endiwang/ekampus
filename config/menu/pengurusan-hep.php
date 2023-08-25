@@ -24,6 +24,14 @@ return [
                     'title' => 'Keluar Masuk',
                     'route' => 'pengurusan.hep.pengurusan.keluar_masuk.index',
                 ],
+                [
+                    'title' => 'Barang Rampasan',
+                    'route' => 'pengurusan.hep.pengurusan.barang_rampasan.index',
+                ],
+                [
+                    'title' => 'Kenderaan Sitaan',
+                    'route' => 'pengurusan.hep.pengurusan.kenderaan_sitaan.index',
+                ],
             ],
         ],
         [

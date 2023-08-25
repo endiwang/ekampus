@@ -2,100 +2,102 @@
 
 namespace App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin;
 
-use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
-use App\Models\PermohonanBawaBarang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
+use App\Models\BarangRampasan;
+use App\Helpers\Utils;
 
-class PermohonanBawaBarangController extends Controller
+class BarangRampasanController extends Controller
 {
-    protected $baseView = 'pages.pengurusan.hep.permohonan.bawa_barang.';
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    protected $baseView = 'pages.pengurusan.hep.pengurusan.barang_rampasan.';
+
     public function index(Builder $builder)
     {
 
-        $title = 'Permohonan Bawa Barang';
+        $title = 'Rekod Barang Rampasan';
         $breadcrumbs = [
             'Hal Ehwal Pelajar' => false,
-            'Permohonan' => false,
-            'Bawa Barang' => false,
+            'Pengurusan' => false,
+            'Barang Rampasan' => false,
         ];
         $buttons = [
-
+            [
+                'title' => 'Tambah Rekod Barang Rampasan',
+                'route' => route('pengurusan.hep.pengurusan.barang_rampasan.create'),
+                'button_class' => 'btn btn-sm btn-primary fw-bold',
+                'icon_class' => 'fa fa-plus-circle',
+            ],
         ];
 
         if (request()->ajax()) {
-            $data = PermohonanBawaBarang::query();
+            $data = BarangRampasan::query();
 
             return DataTables::of($data)
-                ->addColumn('nama_pelajar', function ($data) {
-                    if (! empty($data->pelajar)) {
-                        $data = $data->pelajar->nama;
-                    } else {
-                        $data = '';
-                    }
-
-                    return $data;
-                })
                 ->addColumn('no_ic', function ($data) {
-                    if (! empty($data->pelajar)) {
-                        $data = '<p style="text-align:center">'.$data->pelajar->no_ic.'<br/> <span style="font-weight:bold"> ['.$data->pelajar->no_matrik.'] </span></p>';
-                    } else {
-                        $data = '';
-                    }
-
+                    $data = '<p style="text-align:center">'.$data->no_ic_pemilik.'<br/> <span style="font-weight:bold"> ['.$data->no_matrik_pemilik.'] </span></p>';
                     return $data;
                 })
                 ->addColumn('status', function ($data) {
                     switch ($data->status) {
                         case 0:
-                            return '<span class="badge badge-primary">Permohonan Baru</span>';
+                            return '<span class="badge badge-primary">Tidak Dituntut</span>';
                             break;
 
                         case 1:
-                            return '<span class="badge badge-success">Lulus</span>';
-                            break;
-
-                        case 2:
-                            return '<span class="badge badge-danger">Tidak Lulus</span>';
+                            return '<span class="badge badge-success">Dituntut</span>';
                             break;
                     }
                 })
-                ->addColumn('tarikh_permohonan', function ($data) {
-                    $tarikh = Utils::formatDate($data->created_at);
+                ->addColumn('jenis', function ($data) {
+                    switch ($data->jenis_barang) {
+                        case 'E':
+                            return '<span class="badge badge-success">Electrik</span>';
+                            break;
+
+                        case 'EN':
+                            return '<span class="badge badge-success">Electronik</span>';
+                            break;
+                        case 'NE':
+                            return '<span class="badge badge-success">Bukan Electrik/Electronik</span>';
+                            break;
+                    }
+                })
+                ->addColumn('tarikh_rampasan', function ($data) {
+                    $tarikh = Utils::formatDate($data->tarik_rampasan);
 
                     return $tarikh;
                 })
                 ->addColumn('action', function ($data) {
                     return '
-                        <a href="'.route('pengurusan.hep.permohonan.bawa_barang.edit', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Lihat">
-                            <i class="fa fa-eye"></i>
-                        </a>';
+                         <a href="'.route('pengurusan.hep.permohonan.bawa_kenderaan.edit', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Lihat">
+                             <i class="fa fa-eye"></i>
+                         </a>';
                 })
                 ->addIndexColumn()
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['status', 'action', 'tarikh_permohonan', 'nama_pelajar', 'no_ic'])
+                ->rawColumns(['status', 'action', 'jenis', 'tarikh_permohonan', 'nama_pelajar', 'no_ic'])
                 ->toJson();
         }
 
         $dataTable = $builder
             ->columns([
                 ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
-                ['data' => 'nama_pelajar', 'name' => 'nama_pelajar', 'title' => 'Nama Pelajar', 'orderable' => false],
+                ['data' => 'nama_pemilik', 'name' => 'nama_pemilik', 'title' => 'Nama Pemilik', 'orderable' => false],
                 ['data' => 'no_ic', 'name' => 'no_ic', 'title' => 'No MyKad/Passport<br>[No Matrik]', 'orderable' => false],
-                ['data' => 'no_rujukan', 'name' => 'no_rujukan', 'title' => 'No Rujukan', 'orderable' => false],
-                ['data' => 'tarikh_permohonan', 'name' => 'tarikh_permohonan', 'title' => 'Tarikh Permohonan', 'orderable' => false],
-                ['data' => 'status', 'name' => 'status', 'title' => 'Status Permohonan', 'orderable' => false],
+                ['data' => 'no_pelekat', 'name' => 'no_pelekat', 'title' => 'No Pelekat', 'orderable' => false],
+                ['data' => 'tarikh_rampasan', 'name' => 'tarikh_rampasan', 'title' => 'Tarikh Rampasan', 'orderable' => false],
+                ['data' => 'jenis', 'name' => 'jenis', 'title' => 'Jenis', 'orderable' => false],
+                ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable' => false],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
 
             ])
@@ -117,6 +119,7 @@ class PermohonanBawaBarangController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -143,35 +146,19 @@ class PermohonanBawaBarangController extends Controller
      */
     public function edit($id)
     {
-        $title = 'Permohonan Bawa Barang';
-        $page_title = 'Permohonan Bawa Barang';
-        $action = route('pengurusan.hep.permohonan.bawa_barang.update', $id);
-        $breadcrumbs = [
-            'Hal Ehwal Pelajar' => false,
-            'Permohonan' => false,
-            'Bawa Barang' => false,
-            'Maklumat Permohonan' => false,
-        ];
-
-        $data = PermohonanBawaBarang::find($id);
-
-        return view($this->baseView.'edit', compact('title', 'breadcrumbs', 'data', 'page_title', 'action'));
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $data = PermohonanBawaBarang::find($id);
-        $data->status = $request->status;
-        $data->update_by = Auth::user()->id;
-        $data->save();
-
-        return redirect()->route('pengurusan.hep.permohonan.bawa_barang.index');
+        //
     }
 
     /**
