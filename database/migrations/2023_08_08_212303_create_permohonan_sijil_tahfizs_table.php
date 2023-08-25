@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('permohonan_sijil_tahfizs', function (Blueprint $table) {
             $table->id();
-            $table->integer('pelajar_id');
+            $table->integer('pelajar_id')->nullable();
             $table->integer('masalah_penglihatan')->nullable();
             $table->integer('siri_id')->nullable(); //refer table tetapan peperiksaan sijil tahfiz
             $table->integer('pusat_peperiksaan_id')->default(0);
