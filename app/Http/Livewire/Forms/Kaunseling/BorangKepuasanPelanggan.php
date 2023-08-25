@@ -55,14 +55,13 @@ class BorangKepuasanPelanggan extends Component
         $kaunseling = Kaunseling::whereId($this->state['id'])->firstOrFail();
         $kaunseling->update($this->state);
 
-        $subject = 'Borang Kepuasan Pelanggan ' . $kaunseling->no_permohonan;
+        $subject = 'Borang Kepuasan Pelanggan '.$kaunseling->no_permohonan;
         $message = 'Kami ingin mengucapkan ribuan terima kasih kerana telah meluangkan masa anda untuk mengisi borang kepuasan pelanggan selepas sesi kaunseling. Penglibatan anda dalam memberikan maklum balas sangat berharga bagi kami dalam usaha kami untuk terus meningkatkan perkhidmatan kaunseling kami.';
 
         notify($kaunseling->user, $subject, $message);
 
         $this->emit('saved');
     }
-
 
     public function render()
     {

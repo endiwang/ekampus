@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\LookupController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\BorangKepuasanPelangganController;
-use App\Http\Controllers\Pengurusan\HEP\Kaunseling\DashboardController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\KaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\LaporanKaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\RekodKaunselingController;
@@ -21,7 +20,6 @@ use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\PermohonanBawaKenderaanC
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\RekodKeluarMasukPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\TatatertibRayuanPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\TetapanKeluarMasukController;
-
 use Illuminate\Support\Facades\Route;
 
 Route::resource('/', MainHEPController::class)->only(['index']);
@@ -38,13 +36,13 @@ Route::group(['prefix' => 'tetapan', 'as' => 'tetapan.'], function () {
 });
 
 Route::group(['prefix' => 'pengurusan', 'as' => 'pengurusan.'], function () {
-    Route::get('salahlaku_pelajar/{id}/siasatan', [PengurusanSalahlakuPelajarController::class,'siasatan'])->name('salahlaku_pelajar.siasatan');
-    Route::put('salahlaku_pelajar/{id}/siasatan', [PengurusanSalahlakuPelajarController::class,'update_siasatan'])->name('salahlaku_pelajar.update_siasatan');
+    Route::get('salahlaku_pelajar/{id}/siasatan', [PengurusanSalahlakuPelajarController::class, 'siasatan'])->name('salahlaku_pelajar.siasatan');
+    Route::put('salahlaku_pelajar/{id}/siasatan', [PengurusanSalahlakuPelajarController::class, 'update_siasatan'])->name('salahlaku_pelajar.update_siasatan');
     Route::resource('salahlaku_pelajar', PengurusanSalahlakuPelajarController::class);
     Route::resource('keluar_masuk', RekodKeluarMasukPelajarController::class);
     Route::resource('disiplin_pelajar', DisiplinPelajarController::class);
-    Route::get('tatatertib_pelajar/{id}/rayuan', [TatatertibRayuanPelajarController::class,'rayuan'])->name('tatatertib_pelajar.rayuan');
-    Route::post('tatatertib_pelajar/{id}/rayuan_store', [TatatertibRayuanPelajarController::class,'rayuan_store'])->name('tatatertib_pelajar.rayuan_store');
+    Route::get('tatatertib_pelajar/{id}/rayuan', [TatatertibRayuanPelajarController::class, 'rayuan'])->name('tatatertib_pelajar.rayuan');
+    Route::post('tatatertib_pelajar/{id}/rayuan_store', [TatatertibRayuanPelajarController::class, 'rayuan_store'])->name('tatatertib_pelajar.rayuan_store');
     Route::resource('tatatertib_pelajar', TatatertibRayuanPelajarController::class);
 });
 

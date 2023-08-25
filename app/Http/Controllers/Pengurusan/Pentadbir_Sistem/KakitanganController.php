@@ -8,13 +8,13 @@ use App\Models\PusatPengajian;
 use App\Models\Staff;
 use App\Models\User;
 use Exception;
-use Image;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Image;
 use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use Illuminate\Http\Request;
 
 class KakitanganController extends Controller
 {
@@ -158,7 +158,6 @@ class KakitanganController extends Controller
                 'Pinda' => false,
             ];
 
-
             $staff = Staff::find($id);
             $action = route('pengurusan.pentadbir_sistem.kakitangan.update', $staff->id);
             $user_staff = User::find($staff->user_id);
@@ -167,7 +166,7 @@ class KakitanganController extends Controller
             $role_kakitangan = Role::where('name', 'kakitangan')->first();
             $role_child_kakitangan = Role::where('parent_category_id', $role_kakitangan->id)->get();
 
-            return view('pages.pengurusan.pentadbir_sistem.kakitangan.edit', compact('title','action', 'breadcrumbs', 'staff', 'pusat_pengajian', 'jabatan', 'role_child_kakitangan', 'user_staff'));
+            return view('pages.pengurusan.pentadbir_sistem.kakitangan.edit', compact('title', 'action', 'breadcrumbs', 'staff', 'pusat_pengajian', 'jabatan', 'role_child_kakitangan', 'user_staff'));
 
         } catch (Exception $e) {
             report($e);
@@ -202,17 +201,14 @@ class KakitanganController extends Controller
 
         $staff = Staff::find($id);
 
-
         $file_image_path = $staff->img_staff;
-        if($request->has('avatar'))
-        {
+        if ($request->has('avatar')) {
             $image_name = uniqid().'.'.$request->avatar->getClientOriginalExtension();
             $image_path = 'uploads/kakitangan/gambar_kakitangan';
             $file_image_path = $request->file('avatar')->storeAs($image_path, $image_name, 'public');
         }
 
-        if($request->has('jawatan'))
-        {
+        if ($request->has('jawatan')) {
             $user = User::find($staff->user_id);
             $user->removeRole('pensyarah');
             $user->removeRole('pensyarah_jemputan');
@@ -230,8 +226,7 @@ class KakitanganController extends Controller
 
             foreach ($request->jawatan as $jwtn) {
                 $role = Role::find($jwtn);
-                if($role)
-                {
+                if ($role) {
                     switch ($role->name) {
                         case 'pensyarah':
                             $pensyarah = 'Y';
@@ -248,17 +243,17 @@ class KakitanganController extends Controller
                             $user->assignRole('pensyarah_tasmik');
 
                             break;
-                        case 'pensyarah_tasmik_jemputan';
+                        case 'pensyarah_tasmik_jemputan':
                             $guru_tasmik_jemputan = 'Y';
                             $user->assignRole('pensyarah_tasmik_jemputan');
 
                             break;
-                        case 'warden';
+                        case 'warden':
                             $warden = 'Y';
                             $user->assignRole('warden');
 
                             break;
-                        case 'tutor';
+                        case 'tutor':
                             $tutor = 'Y';
                             $user->assignRole('tutor');
                             break;
@@ -266,7 +261,7 @@ class KakitanganController extends Controller
                 }
 
             }
-        }else{
+        } else {
             $pensyarah = $staff->is_pensyarah;
             $pensyarah_jemputan = $staff->is_pensyarah_jemputan;
             $guru_tasmik = $staff->is_guru_tasmik;
@@ -274,7 +269,6 @@ class KakitanganController extends Controller
             $tutor = $staff->is_tutor;
             $warden = $staff->is_warden;
         }
-
 
         $staff->nama = $request->nama;
         $staff->no_ic = $request->no_ic;
@@ -304,24 +298,24 @@ class KakitanganController extends Controller
     public function create()
     {
 
-            $title = 'Cipta Profil Kakitangan';
-            $breadcrumbs = [
-                'Pentadbir Sistem' => false,
-                'Kakitangan' => false,
-                'Profil' => false,
-                'Cipta' => false,
-            ];
+        $title = 'Cipta Profil Kakitangan';
+        $breadcrumbs = [
+            'Pentadbir Sistem' => false,
+            'Kakitangan' => false,
+            'Profil' => false,
+            'Cipta' => false,
+        ];
 
-            $action = route('pengurusan.pentadbir_sistem.kakitangan.store');
+        $action = route('pengurusan.pentadbir_sistem.kakitangan.store');
 
-            $staff = new Staff;
-            $user_staff = User::find($staff->user_id);
-            $pusat_pengajian = PusatPengajian::where('is_deleted', 0)->pluck('nama', 'id');
-            $jabatan = Jabatan::where('is_deleted', 0)->pluck('nama', 'id');
-            $role_kakitangan = Role::where('name', 'kakitangan')->first();
-            $role_child_kakitangan = Role::where('parent_category_id', $role_kakitangan->id)->get();
+        $staff = new Staff;
+        $user_staff = User::find($staff->user_id);
+        $pusat_pengajian = PusatPengajian::where('is_deleted', 0)->pluck('nama', 'id');
+        $jabatan = Jabatan::where('is_deleted', 0)->pluck('nama', 'id');
+        $role_kakitangan = Role::where('name', 'kakitangan')->first();
+        $role_child_kakitangan = Role::where('parent_category_id', $role_kakitangan->id)->get();
 
-            return view('pages.pengurusan.pentadbir_sistem.kakitangan.edit', compact('title', 'breadcrumbs', 'staff', 'pusat_pengajian', 'jabatan', 'role_child_kakitangan', 'user_staff','action'));
+        return view('pages.pengurusan.pentadbir_sistem.kakitangan.edit', compact('title', 'breadcrumbs', 'staff', 'pusat_pengajian', 'jabatan', 'role_child_kakitangan', 'user_staff', 'action'));
     }
 
     public function store(Request $request)
@@ -332,8 +326,6 @@ class KakitanganController extends Controller
         $guru_tasmik_jemputan = 'N';
         $tutor = 'N';
         $warden = 'N';
-
-
 
         $request->validate([
             'nama' => 'required',
@@ -362,8 +354,7 @@ class KakitanganController extends Controller
 
         foreach ($request->jawatan as $jwtn) {
             $role = Role::find($jwtn);
-            if($role)
-            {
+            if ($role) {
                 switch ($role->name) {
                     case 'pensyarah':
                         $pensyarah = 'Y';
@@ -380,22 +371,22 @@ class KakitanganController extends Controller
                         $user->assignRole('pensyarah_tasmik');
 
                         break;
-                    case 'pensyarah_tasmik_jemputan';
+                    case 'pensyarah_tasmik_jemputan':
                         $guru_tasmik_jemputan = 'Y';
                         $user->assignRole('pensyarah_tasmik_jemputan');
 
                         break;
-                    case 'warden';
+                    case 'warden':
                         $warden = 'Y';
                         $user->assignRole('warden');
 
                         break;
-                    case 'tutor';
+                    case 'tutor':
                         $tutor = 'Y';
                         $user->assignRole('tutor');
 
                         break;
-                  }
+                }
             }
         }
 
@@ -406,8 +397,7 @@ class KakitanganController extends Controller
         // $image = Image::make($request->avatar)->resize(320, 240)->save($image_path);
 
         $file_image_path = '';
-        if($request->has('avatar'))
-        {
+        if ($request->has('avatar')) {
             $image_name = uniqid().'.'.$request->avatar->getClientOriginalExtension();
             $image_path = 'uploads/kakitangan/gambar_kakitangan';
             $file_image_path = $request->file('avatar')->storeAs($image_path, $image_name, 'public');
@@ -438,8 +428,5 @@ class KakitanganController extends Controller
 
         return redirect()->route('pengurusan.pentadbir_sistem.kakitangan.index');
 
-
     }
-
-
 }

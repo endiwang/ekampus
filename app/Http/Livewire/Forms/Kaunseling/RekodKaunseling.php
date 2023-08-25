@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Forms\Kaunseling;
 
 use App\Jobs\Kaunseling\SelesaiKaunselingJob;
 use App\Models\Kaunseling;
-use App\Notifications\Kaunseling\BorangKepuasanPelanggan;
 use Illuminate\Support\Carbon;
 use Livewire\Component;
 
@@ -35,11 +34,11 @@ class RekodKaunseling extends Component
         $this->state['id'] = $kaunseling->id;
         $this->state['is_completed'] = $this->state['status'] == Kaunseling::STATUS_SELESAI ? true : false;
 
-        if($this->state['started_at']) {
+        if ($this->state['started_at']) {
             $this->state['started_at'] = Carbon::parse($this->state['started_at'])->format('Y-m-d');
         }
 
-        if($this->state['ended_at']) {
+        if ($this->state['ended_at']) {
             $this->state['ended_at'] = Carbon::parse($this->state['ended_at'])->format('Y-m-d');
         }
 
@@ -53,7 +52,7 @@ class RekodKaunseling extends Component
     {
         $this->validate();
         $send_notification = false;
-        if(data_get($this->state, 'is_completed') && $this->state['status'] != Kaunseling::STATUS_SELESAI) {
+        if (data_get($this->state, 'is_completed') && $this->state['status'] != Kaunseling::STATUS_SELESAI) {
             $this->state['status'] = Kaunseling::STATUS_SELESAI;
             $send_notification = true;
         }
@@ -63,7 +62,7 @@ class RekodKaunseling extends Component
         $kaunseling = Kaunseling::whereId($this->state['id'])->with('user')->firstOrFail();
         $kaunseling->update($this->state);
 
-        if($send_notification) {
+        if ($send_notification) {
             SelesaiKaunselingJob::dispatch($kaunseling);
         }
 

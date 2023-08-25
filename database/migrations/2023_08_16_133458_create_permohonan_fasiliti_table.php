@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('document_name')->nullable();
             $table->string('upload_document')->nullable();
             $table->date('tarikh_penggunaan')->nullable();
-            $table->integer('makan_minum')->nullable()->comment('1-sarapan 2-tghari 3-ptg 4-malam');            
+            $table->integer('makan_minum')->nullable()->comment('1-sarapan 2-tghari 3-ptg 4-malam');
             $table->integer('peserta')->nullable()->comment('1-VIP 2-xVIP');
             $table->integer('jumlah_peserta')->nullbale();
             $table->integer('fasiliti_id')->nullable()->comment('fk_fasiliti fasiliti');
