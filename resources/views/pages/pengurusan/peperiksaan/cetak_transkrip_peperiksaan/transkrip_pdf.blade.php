@@ -25,7 +25,7 @@
         padding: 5px;
         border: 1px solid black;
     }
-    
+
     .semester-detail table tr th{
         padding: 5px;
         border: 1px solid black;
@@ -142,9 +142,37 @@
                         </table> 
                     </div>
                 </div>
-                
             @endforeach
+
+            <div class="row">
+                <table class="table" width="100%" style="font-size: 9px;">
+                    <tr>
+                        <td colspan="2" align="center" class="data"><br /><br /><br />
+                            KEPUTUSAN : <u><b>{{ $export_data['program'] ?? null }}</b></u> &nbsp;&nbsp;PNGK : <u><b>{{ $export_data['pngk'] ?? null }}</b></u><br />
+                            @if( $export_data['pangkat_code'] == 'R')
+                                 TIDAK LAYAK DIANUGERAHKAN {{ $export_data['program'] ?? null }}</b></u>
+                            @else
+                                LAYAK DIANUGERAHKAN {{ $export_data['program'] ?? null }} DENGAN KEPUTUSAN : <u><b>{{ strtoupper($export_data['pangkat']) ?? null }}</b></u>
+                            @endif
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="row">
+                <table class="table" width="100%" style="margin-top: 20px;"> 
+                    <tr height="120">
+                        <td width="50%" valign="bottom" class="data">
+                        .............................................<br />
+                        Pengarah Darul Quran<br />
+                        Jabatan Kemajuan Islam Malaysia
+                        </td>
+                        <td width="50%" valign="bottom" class="data">
+                            Dikeluarkan Pada : 
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </body>
-    
 </html>
