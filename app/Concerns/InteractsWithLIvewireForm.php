@@ -2,6 +2,8 @@
 
 namespace App\Concerns;
 
+use Illuminate\Support\Facades\DB;
+
 trait InteractsWithLivewireForm
 {
     public $state = [];
@@ -10,11 +12,19 @@ trait InteractsWithLivewireForm
 
     public function mount($data = null)
     {
+        $this->callMethodIfExists('beforerMount', $data);
+
         if (empty($data)) {
             $class = $this->getModel();
             $data = new $class;
         }
         $this->state = $data->toArray();
+
+        if (data_get($data, 'id')) {
+            $this->state['id'] = data_get($data, 'id');
+        }
+
+        $this->callMethodIfExists('afterMount');
     }
 
     public function rules()
@@ -49,11 +59,11 @@ trait InteractsWithLivewireForm
 
         $this->callMethodIfExists('beforeSave');
 
-        $this->record = $this->getModel()::query()
-            ->when(
-                isset($this->state['id']),
-                fn ($query) => $query->whereId($this->state['id'])
-            )->updateOrCreate($this->state);
+        $this->record = DB::transaction(function () {
+            return isset($this->state['id'])
+                ? $this->getModel()::updateOrCreate(['id' => $this->state['id']], $this->state)
+                : $this->getModel()::create($this->state);
+        });
 
         $this->callMethodIfExists('afterSave');
 

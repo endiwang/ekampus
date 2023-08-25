@@ -1,12 +1,12 @@
 <div class="d-flex justify-content-end">
     @can('view', $data)
-        <a class="cursor-pointer mx-2 btn btn-primary btn-sm" href="#">
+        <a class="cursor-pointer mx-2 btn btn-primary btn-sm" href="{{ $viewUrl }}">
             @lang('View')
         </a>
     @endcan
 
     @can('update', $data)
-        <a class="cursor-pointer mx-2 btn btn-secondary btn-sm" href="#">
+        <a class="cursor-pointer mx-2 btn btn-secondary btn-sm" href="{{ $updateUrl }}">
             @lang('Update')
         </a>
     @endcan
@@ -19,7 +19,7 @@
                     document.getElementById('delete-{{ $data->id }}').submit();
                 }">
             @lang('Delete')
-            <form action="#" method="POST" id="delete-{{ $data->id }}">
+            <form action="{{ $deleteUrl }}" method="POST" id="delete-{{ $data->id }}">
                 @csrf
                 @method('DELETE')
             </form>

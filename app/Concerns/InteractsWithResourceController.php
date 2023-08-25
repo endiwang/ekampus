@@ -4,22 +4,6 @@ namespace App\Concerns;
 
 trait InteractsWithResourceController
 {
-    public function getResourceUrl(string $type = 'index')
-    {
-        return $type === 'index'
-            ? route($this->getUrlRouteBaseName().'.index')
-            : route($this->getUrlRouteBaseName().'.'.$type, $this);
-    }
-
-    public function getUrlRouteBaseName()
-    {
-        if (property_exists($this, 'routeBaseName')) {
-            return $this->routeBaseName;
-        }
-
-        return str(get_called_class())->classBasename()->kebab()->plural()->toString();
-    }
-
     protected function getModuleView(): string
     {
         return $this->moduleView;
@@ -37,7 +21,7 @@ trait InteractsWithResourceController
 
     protected function getModel()
     {
-        return $this->getModelClassname()::query();
+        return app($this->getModelClassname());
     }
 
     public function create()
@@ -49,7 +33,7 @@ trait InteractsWithResourceController
 
     public function show($id)
     {
-        $data = $this->getModel()::whereId($id)->firstOrFail();
+        $data = $this->getModel()::where('id', $id)->firstOrFail();
 
         $this->authorize('view', $data);
 
@@ -60,12 +44,25 @@ trait InteractsWithResourceController
 
     public function edit($id)
     {
-        $data = $this->getModel()::whereId($id)->firstOrFail();
+        $data = $this->getModel()::where('id', $id)->firstOrFail();
 
         $this->authorize('update', $data);
 
         return view($this->getModuleView().'.form', [
             $this->getCompactname() => $data,
         ]);
+    }
+
+    public function destroy($id)
+    {
+        $data = $this->getModel()::where('id', $id)->firstOrFail();
+
+        $indexUrl = $data->getResourceUrl();
+
+        $this->authorize('delete', $data);
+
+        $data->delete();
+
+        return redirect()->to($indexUrl);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Concerns\InteractsWithResourcePattern;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable as AuditableTrait;
@@ -15,6 +16,7 @@ class Base extends Model implements AuditableContract, HasMedia
     use AuditableTrait;
     use InteractsWithMedia;
     use HasFactory;
+    use InteractsWithResourcePattern;
 
     protected $guarded = [
         'id',

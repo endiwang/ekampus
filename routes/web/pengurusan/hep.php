@@ -70,6 +70,8 @@ Route::middleware(['web', 'auth'])
             ->name('pusat-islam.aktiviti.edit');
         Route::get('pusat-islam/aktiviti/{id}/show', [AktivitiController::class, 'show'])
             ->name('pusat-islam.aktiviti.show');
+        Route::delete('pusat-islam/aktiviti/{id}', [AktivitiController::class, 'destroy'])
+            ->name('pusat-islam.aktiviti.destroy');
 
         Route::get('pusat-islam/jadual-tugasan', [JadualTugasanController::class, 'index'])
             ->name('pusat-islam.jadual-tugasan.index');
@@ -79,6 +81,8 @@ Route::middleware(['web', 'auth'])
             ->name('pusat-islam.jadual-tugasan.edit');
         Route::get('pusat-islam/jadual-tugasan/{id}/show', [JadualTugasanController::class, 'show'])
             ->name('pusat-islam.jadual-tugasan.show');
+        Route::delete('pusat-islam/jadual-tugasan/{id}', [JadualTugasanController::class, 'destroy'])
+            ->name('pusat-islam.jadual-tugasan.destroy');
 
         Route::get('pusat-islam/orang-awam', [OrangAwamController::class, 'index'])
             ->name('pusat-islam.orang-awam.index');
@@ -88,6 +92,8 @@ Route::middleware(['web', 'auth'])
             ->name('pusat-islam.orang-awam.edit');
         Route::get('pusat-islam/orang-awam/{id}/show', [OrangAwamController::class, 'show'])
             ->name('pusat-islam.orang-awam.show');
+        Route::delete('pusat-islam/orang-awam/{id}', [OrangAwamController::class, 'destroy'])
+            ->name('pusat-islam.orang-awam.destroy');
 
         Route::get('pusat-islam/rekod-kehadiran', [RekodKehadiranController::class, 'index'])
             ->name('pusat-islam.rekod-kehadiran.index');
@@ -97,6 +103,8 @@ Route::middleware(['web', 'auth'])
             ->name('pusat-islam.rekod-kehadiran.edit');
         Route::get('pusat-islam/rekod-kehadiran/{id}/show', [RekodKehadiranController::class, 'show'])
             ->name('pusat-islam.rekod-kehadiran.show');
+        Route::delete('pusat-islam/rekod-kehadiran/{id}', [RekodKehadiranController::class, 'destroy'])
+            ->name('pusat-islam.rekod-kehadiran.destroy');
 
         Route::get('pusat-islam/surat-rasmi', [SuratRasmiController::class, 'index'])
             ->name('pusat-islam.surat-rasmi.index');
@@ -106,4 +114,6 @@ Route::middleware(['web', 'auth'])
             ->name('pusat-islam.surat-rasmi.edit');
         Route::get('pusat-islam/surat-rasmi/{id}/show', [SuratRasmiController::class, 'show'])
             ->name('pusat-islam.surat-rasmi.show');
+        Route::delete('pusat-islam/surat-rasmi/{id}', [SuratRasmiController::class, 'destroy'])
+            ->name('pusat-islam.surat-rasmi.destroy');
     });

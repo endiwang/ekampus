@@ -14,7 +14,7 @@ class AktivitiDataTable extends DataTable
 {
     use InteractsWithDatatable;
 
-    protected string $actionView = 'pages.pengurusan.hep.kaunseling.partials.datatable-action-aktiviti';
+    protected string $actionView = 'partials.datatable-action';
 
     /**
      * Build DataTable class.
@@ -24,7 +24,28 @@ class AktivitiDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'aktiviti.action')
+            ->addColumn(
+                'tarikh',
+                fn ($data) => view('partials.date', ['date' => data_get($data, 'tarikh')])
+            )
+            ->addColumn(
+                'hari_kebesaran_islam',
+                fn ($data) => view('partials.status', [
+                    'status' => data_get($data, 'hari_kebesaran_islam'),
+                    'yesLabel' => 'Ya',
+                    'noLabel' => 'Tidak',
+                    'yesClass' => 'text-bg-success',
+                    'noClass' => 'text-bg-light',
+                ])
+            )
+            ->addColumn('action', function ($data) {
+                return view($this->getActionView(), [
+                    'data' => $data,
+                    'viewUrl' => $data->getResourceUrl('show'),
+                    'updateUrl' => $data->getResourceUrl('edit'),
+                    'deleteUrl' => $data->getResourceUrl('destroy'),
+                ])->render();
+            })
             ->setRowId('id');
     }
 
