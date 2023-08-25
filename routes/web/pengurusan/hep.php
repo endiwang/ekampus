@@ -62,8 +62,12 @@ Route::middleware(['web', 'auth'])
         Route::get('pusat-islam/', PusatIslamController::class)
             ->name('pusat-islam.index');
 
-        Route::get('pusat-islam/aktiviti', AktivitiController::class)
+        Route::get('pusat-islam/aktiviti', [AktivitiController::class, 'index'])
             ->name('pusat-islam.aktiviti.index');
+        Route::get('pusat-islam/aktiviti/{id}/edit', [AktivitiController::class, 'edit'])
+            ->name('pusat-islam.aktiviti.edit');
+        Route::get('pusat-islam/aktiviti/{id}', [AktivitiController::class, 'show'])
+            ->name('pusat-islam.aktiviti.show');
 
         Route::get('pusat-islam/jadual-tugasan', JadualTugasanController::class)
             ->name('pusat-islam.jadual-tugasan.index');

@@ -15,6 +15,6 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request, KaunselingDataTable $dataTable)
     {
-        return $dataTable->render('pages.pengurusan.hep.kaunseling.dashboard.index');
+        return $dataTable->render('pages.pengurusan.hep.kaunseling.index');
     }
 }

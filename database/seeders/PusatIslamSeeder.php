@@ -45,6 +45,11 @@ class PusatIslamSeeder extends Seeder
             'update-pi-kelas-orang-awam',
             'delete-pi-kelas-orang-awam',
 
+            'view-pi-peserta-kelas-orang-awam',
+            'create-pi-peserta-kelas-orang-awam',
+            'update-pi-peserta-kelas-orang-awam',
+            'delete-pi-peserta-kelas-orang-awam',
+
             'view-pi-rekod-kehadiran',
             'create-pi-rekod-kehadiran',
             'update-pi-rekod-kehadiran',
