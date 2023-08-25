@@ -13,8 +13,8 @@ class Activity extends Component
     protected string $model = Model::class;
 
     protected array $rules = [
-        'nama' => 'required|min:10|max:255',
-        'tarikh' => 'required',
+        'state.nama' => 'required|min:10|max:255',
+        'state.tarikh' => 'required',
     ];
 
     protected string $view = 'livewire.forms.pusat-islam.activity';

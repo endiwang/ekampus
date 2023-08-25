@@ -6,6 +6,8 @@ trait InteractsWithLivewireForm
 {
     public $state = [];
 
+    protected $record;
+
     public function mount($data = null)
     {
         if (empty($data)) {
@@ -47,12 +49,20 @@ trait InteractsWithLivewireForm
 
         $this->callMethodIfExists('beforeSave');
 
-        $record = $this->getModel()::whereId($this->state['id'])->firstOrFail();
-        $record->update($this->state);
+        $this->record = $this->getModel()::query()
+            ->when(
+                isset($this->state['id']),
+                fn($query) => $query->whereId($this->state['id'])
+            )->updateOrCreate($this->state);
 
         $this->callMethodIfExists('afterSave');
 
         $this->emit('saved');
+    }
+
+    public function getRecord()
+    {
+        return $this->record;
     }
 
     public function render()
