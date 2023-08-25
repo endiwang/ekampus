@@ -6,6 +6,12 @@ use App\Http\Controllers\Pengurusan\HEP\Kaunseling\KaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\LaporanKaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\RekodKaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\MainHEPController;
+use App\Http\Controllers\Pengurusan\HEP\PusatIslam\AktivitiController;
+use App\Http\Controllers\Pengurusan\HEP\PusatIslam\DashboardController as PusatIslamDashboardController;
+use App\Http\Controllers\Pengurusan\HEP\PusatIslam\JadualTugasanController;
+use App\Http\Controllers\Pengurusan\HEP\PusatIslam\OrangAwamController;
+use App\Http\Controllers\Pengurusan\HEP\PusatIslam\RekodKehadiranController;
+use App\Http\Controllers\Pengurusan\HEP\PusatIslam\SuratRasmiController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\DisiplinPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\KeluarMasukPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\PengurusanSalahlakuPelajarController;
@@ -14,6 +20,7 @@ use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\PermohonanBawaKenderaanC
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\RekodKeluarMasukPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\TatatertibRayuanPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\TetapanKeluarMasukController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::resource('/', MainHEPController::class)->only(['index']);
@@ -42,25 +49,14 @@ Route::group(['prefix' => 'pengurusan', 'as' => 'pengurusan.'], function () {
 
 /** Kaunseling */
 Route::middleware(['web', 'auth'])
-    ->as('kaunseling.')
-    ->prefix('kaunseling')
     ->group(function () {
-        Route::get('/dashboard', DashboardController::class)
-            ->name('dashboard.index');
+        Route::resource('/kaunseling', KaunselingController::class);
 
-        Route::resource('/', KaunselingController::class);
         Route::resource('/rekod-kaunseling', RekodKaunselingController::class)->only('index', 'edit', 'update', 'show');
         Route::resource('/laporan-kaunseling', LaporanKaunselingController::class)->only('index', 'edit', 'update', 'show');
     });
 
 /** Pusat Islam */
-use App\Http\Controllers\Pengurusan\HEP\PusatIslam\AktivitiController;
-use App\Http\Controllers\Pengurusan\HEP\PusatIslam\DashboardController as PusatIslamDashboardController;
-use App\Http\Controllers\Pengurusan\HEP\PusatIslam\JadualTugasanController;
-use App\Http\Controllers\Pengurusan\HEP\PusatIslam\OrangAwamController;
-use App\Http\Controllers\Pengurusan\HEP\PusatIslam\RekodKehadiranController;
-use App\Http\Controllers\Pengurusan\HEP\PusatIslam\SuratRasmiController;
-
 Route::middleware(['web', 'auth'])
     ->group(function () {
         Route::get('pusat-islam/dashboard', PusatIslamDashboardController::class)

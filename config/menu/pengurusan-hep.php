@@ -57,7 +57,7 @@ return [
         ],
         [
             'title' => 'Kaunseling',
-            'route' => 'pengurusan.hep.kaunseling.dashboard.*',
+            'route' => 'kaunseling*',
             'children' => [
                 [
                     'title' => 'Senarai',
@@ -66,12 +66,12 @@ return [
                 ],
                 [
                     'title' => 'Rekod Kaunseling',
-                    'route' => 'pengurusan.hep.kaunseling.rekod-kaunseling.index',
+                    'route' => 'pengurusan.hep.rekod-kaunseling.index',
                     'parameters' => [],
                 ],
                 [
                     'title' => 'Laporan',
-                    'route' => 'pengurusan.hep.kaunseling.laporan-kaunseling.index',
+                    'route' => 'pengurusan.hep.laporan-kaunseling.index',
                     'parameters' => [],
                 ],
             ],

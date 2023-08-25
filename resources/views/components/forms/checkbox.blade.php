@@ -1,4 +1,4 @@
-@props(['label' => 'Label', 'key' => 'key', 'description' => '', 'info' => '', 'value' => ''])
+@props(['label' => 'Label', 'key' => 'key', 'description' => '', 'info' => '', 'value' => null, 'checked' => false])
 
 <div class="row mb-6">
     <div class="col-lg-4">
@@ -8,7 +8,7 @@
         @endif
     </div>
     <div class="col-lg-8 fv-row">
-        {{ Form::text($key, $value, $attributes->merge(['class' => 'form-control'])->getAttributes()) }}
+        {{ Form::checkbox($key, $value, $checked, $attributes->merge(['class' => 'form-check-input'])->getAttributes()); }}
         @if ($info)
             <div class="form-text">{{ $info }}</div>
         @endif

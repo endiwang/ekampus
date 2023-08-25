@@ -7,7 +7,7 @@
 
     $title = __('Senarai Kaunseling');
     $breadcrumbs = [
-        'Kaunseling' => route('pengurusan.hep.kaunseling.dashboard.index'),
+        'Kaunseling' => route('pengurusan.hep.kaunseling.index'),
         'Senarai Kaunseling' => route('pengurusan.hep.kaunseling.index'),
     ];
 
