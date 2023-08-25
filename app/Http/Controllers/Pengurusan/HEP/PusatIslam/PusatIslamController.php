@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Pengurusan\HEP\PusatIslam;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class PusatIslamController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -14,6 +14,6 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('pages.pengurusan.hep.pusat-islam.dashboard.index');
+        return view('pages.pengurusan.hep.pusat-islam.index');
     }
 }

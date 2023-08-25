@@ -46,11 +46,36 @@ return [
         ],
         [
             'title' => 'Pusat Islam',
-            'route' => 'pengurusan.hep.pusat-islam.dashboard.*',
+            'route' => 'pengurusan.hep.pusat-islam.*',
             'children' => [
                 [
                     'title' => 'Senarai',
-                    'route' => 'pengurusan.hep.pusat-islam.dashboard.index',
+                    'route' => 'pengurusan.hep.pusat-islam.index',
+                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Aktiviti',
+                    'route' => 'pengurusan.hep.pusat-islam.aktiviti.index',
+                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Jadual Tugasan',
+                    'route' => 'pengurusan.hep.pusat-islam.jadual-tugasan.index',
+                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Orang Awam',
+                    'route' => 'pengurusan.hep.pusat-islam.orang-awam.index',
+                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Rekod Kehadiran',
+                    'route' => 'pengurusan.hep.pusat-islam.rekod-kehadiran.index',
+                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Surat Rasmi',
+                    'route' => 'pengurusan.hep.pusat-islam.surat-rasmi.index',
                     'parameters' => [],
                 ],
             ],

@@ -7,7 +7,7 @@ use App\Http\Controllers\Pengurusan\HEP\Kaunseling\LaporanKaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\RekodKaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\MainHEPController;
 use App\Http\Controllers\Pengurusan\HEP\PusatIslam\AktivitiController;
-use App\Http\Controllers\Pengurusan\HEP\PusatIslam\DashboardController as PusatIslamDashboardController;
+use App\Http\Controllers\Pengurusan\HEP\PusatIslam\PusatIslamController;
 use App\Http\Controllers\Pengurusan\HEP\PusatIslam\JadualTugasanController;
 use App\Http\Controllers\Pengurusan\HEP\PusatIslam\OrangAwamController;
 use App\Http\Controllers\Pengurusan\HEP\PusatIslam\RekodKehadiranController;
@@ -59,8 +59,8 @@ Route::middleware(['web', 'auth'])
 /** Pusat Islam */
 Route::middleware(['web', 'auth'])
     ->group(function () {
-        Route::get('pusat-islam/dashboard', PusatIslamDashboardController::class)
-            ->name('pusat-islam.dashboard.index');
+        Route::get('pusat-islam/', PusatIslamController::class)
+            ->name('pusat-islam.index');
 
         Route::get('pusat-islam/aktiviti', AktivitiController::class)
             ->name('pusat-islam.aktiviti.index');
