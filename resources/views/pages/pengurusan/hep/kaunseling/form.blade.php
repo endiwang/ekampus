@@ -77,22 +77,24 @@
                 </div>
             @endrole
 
-            <div class="row mt-5">
-                <div class="col-md-9 offset-md-3">
-                    <div class="d-flex">
-                        <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
-                            <i class="fa fa-save" style="vertical-align: initial"></i>
-                            @if (!$kaunseling->id)
-                                Simpan
-                            @else
-                                Kemaskini
-                            @endif
-                        </button>
+            @if($kaunseling->status != \App\Models\Kaunseling::STATUS_SELESAI)
+                <div class="row mt-5">
+                    <div class="col-md-9 offset-md-3">
+                        <div class="d-flex">
+                            <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
+                                <i class="fa fa-save" style="vertical-align: initial"></i>
+                                @if (!$kaunseling->id)
+                                    Simpan
+                                @else
+                                    Kemaskini
+                                @endif
+                            </button>
 
-                        <a href="{{ route('pengurusan.hep.kaunseling.index') }}" class="btn btn-sm btn-light">Batal</a>
+                            <a href="{{ route('pengurusan.hep.kaunseling.index') }}" class="btn btn-sm btn-light">Batal</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </form>
     </x-container>
 @endsection

@@ -2,7 +2,7 @@
 
 <div class="row mb-6">
     <div class="col-lg-4">
-        {{ Form::label($key, $label, ['class' => 'col-form-label required fw-semibold fs-6 pb-0 pt-0']) }}
+        {{ Form::label($key, $label, ['class' => 'col-form-label fw-semibold fs-6 pb-0 pt-0']) }}
         @if ($description)
             <div class="form-text mt-0">{{ $description }}</div>
         @endif

@@ -7,7 +7,7 @@ Kami berharap anda dalam keadaan sihat sejahtera. Terima kasih kerana telah meng
 
 Kami ingin mendengar pandangan anda mengenai sesi kaunseling yang baru-baru ini anda alami. Maklum balas anda adalah penting untuk memastikan kami terus meningkatkan perkhidmatan kami. Kami berharap anda dapat meluangkan sedikit masa untuk mengisi borang kepuasan pelanggan.
 
-<x-mail::button :url="route('pengurusan.hep.kaunseling.show', $kaunseling->id)">
+<x-mail::button :url="route('pengurusan.hep.borang-kepuasan-pelanggan-kaunseling.update', $kaunseling->id)">
 Borang Kepuasan Pelanggan
 </x-mail::button>
 

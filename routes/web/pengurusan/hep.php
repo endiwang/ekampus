@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LookupController;
+use App\Http\Controllers\Pengurusan\HEP\Kaunseling\BorangKepuasanPelangganController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\DashboardController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\KaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\LaporanKaunselingController;
@@ -54,6 +55,7 @@ Route::middleware(['web', 'auth'])
 
         Route::resource('/rekod-kaunseling', RekodKaunselingController::class)->only('index', 'edit', 'update', 'show');
         Route::resource('/laporan-kaunseling', LaporanKaunselingController::class)->only('index', 'edit', 'update', 'show');
+        Route::resource('/brg-kpsn-plngn-knslng', BorangKepuasanPelangganController::class)->only('edit', 'show');
     });
 
 /** Pusat Islam */
