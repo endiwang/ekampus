@@ -46,11 +46,31 @@ return [
         ],
         [
             'title' => 'Pusat Islam',
-            'route' => 'pengurusan.hep.pusat-islam.dashboard.*',
+            'route' => 'pengurusan.hep.pusat-islam.*',
             'children' => [
                 [
-                    'title' => 'Senarai',
-                    'route' => 'pengurusan.hep.pusat-islam.dashboard.index',
+                    'title' => 'Aktiviti',
+                    'route' => 'pengurusan.hep.pusat-islam.aktiviti.index',
+                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Jadual Tugasan',
+                    'route' => 'pengurusan.hep.pusat-islam.jadual-tugasan.index',
+                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Orang Awam',
+                    'route' => 'pengurusan.hep.pusat-islam.orang-awam.index',
+                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Rekod Kehadiran',
+                    'route' => 'pengurusan.hep.pusat-islam.rekod-kehadiran.index',
+                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Surat Rasmi',
+                    'route' => 'pengurusan.hep.pusat-islam.surat-rasmi.index',
                     'parameters' => [],
                 ],
             ],
@@ -84,6 +104,13 @@ return [
                     'title' => 'Keluar Masuk',
                     'route' => 'pengurusan.hep.tetapan.keluar_masuk.index',
                     'parameters' => [],
+                ],
+                [
+                    'title' => 'Pusat Islam',
+                    'route' => 'pengurusan.hep.tetapan.lookup.index',
+                    'parameters' => [
+                        'category' => Lookup::CATEGORY_PUSAT_ISLAM,
+                    ],
                 ],
                 [
                     'title' => 'Kaunseling',

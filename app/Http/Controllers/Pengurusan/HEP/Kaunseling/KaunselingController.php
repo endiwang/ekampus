@@ -19,7 +19,7 @@ class KaunselingController extends Controller
      */
     public function index(Request $request, KaunselingDataTable $dataTable)
     {
-        return $dataTable->render('pages.pengurusan.hep.kaunseling.dashboard.index');
+        return $dataTable->render('pages.pengurusan.hep.kaunseling.index');
     }
 
     /**
@@ -134,6 +134,6 @@ class KaunselingController extends Controller
             'message' => 'Berjaya! Permohonan kaunseling anda telah berjaya dipadam.',
         ]);
 
-        return redirect()->route('pengurusan.hep.kaunseling.dashboard.index');
+        return redirect()->route('pengurusan.hep.kaunseling.index');
     }
 }

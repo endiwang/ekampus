@@ -36,7 +36,8 @@ class LookupDataTable extends DataTable
      */
     public function query(Lookup $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()
+            ->where('category', request()->category);
     }
 
     /**
