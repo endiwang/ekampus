@@ -111,6 +111,13 @@ return [
                     'parameters' => [],
                 ],
                 [
+                    'title' => 'Pusat Islam',
+                    'route' => 'pengurusan.hep.tetapan.lookup.index',
+                    'parameters' => [
+                        'category' => Lookup::CATEGORY_PUSAT_ISLAM,
+                    ],
+                ],
+                [
                     'title' => 'Kaunseling',
                     'route' => 'pengurusan.hep.tetapan.lookup.index',
                     'parameters' => [

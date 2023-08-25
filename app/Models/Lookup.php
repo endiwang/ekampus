@@ -13,10 +13,13 @@ class Lookup extends Model
 
     public const CATEGORY_KAUNSELING = 'Kaunseling';
 
+    public const CATEGORY_PUSAT_ISLAM = 'Pusat Islam';
+
     public static function categories(): array
     {
         return [
             self::CATEGORY_KAUNSELING,
+            self::CATEGORY_PUSAT_ISLAM,
         ];
     }
 }
