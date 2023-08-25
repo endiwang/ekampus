@@ -49,11 +49,6 @@ return [
             'route' => 'pengurusan.hep.pusat-islam.*',
             'children' => [
                 [
-                    'title' => 'Senarai',
-                    'route' => 'pengurusan.hep.pusat-islam.index',
-                    'parameters' => [],
-                ],
-                [
                     'title' => 'Aktiviti',
                     'route' => 'pengurusan.hep.pusat-islam.aktiviti.index',
                     'parameters' => [],
