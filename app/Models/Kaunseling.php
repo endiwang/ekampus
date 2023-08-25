@@ -26,6 +26,7 @@ class Kaunseling extends Model
         'tarikh_permohonan' => 'date',
         'started_at' => 'datetime',
         'ended_at' => 'datetime',
+        'matlamat_tercapai' => 'bool',
     ];
 
     public function user()

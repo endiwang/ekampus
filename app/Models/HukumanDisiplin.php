@@ -10,7 +10,6 @@ class HukumanDisiplin extends Model
     use HasFactory;
 
     protected $table = 'hukuman_disiplin';
+
     protected $guarded = ['id'];
-
-
 }

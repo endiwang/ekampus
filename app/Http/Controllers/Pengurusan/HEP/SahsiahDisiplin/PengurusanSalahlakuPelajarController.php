@@ -5,17 +5,16 @@ namespace App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin;
 use App\Http\Controllers\Controller;
 use App\Models\AduanSalahlakuPelajar;
 use App\Models\DisiplinPelajar;
-use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
-use Yajra\DataTables\Html\Builder;
 use App\Models\KesalahanKolejKediaman;
 use App\Models\Pelajar;
-use App\Models\RayuanTatatertibPelajar;
 use App\Models\SiasatanAduanSalahlakuPelajar;
 use App\Models\TatatertibPelajar;
-use RealRashid\SweetAlert\Facades\Alert;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Html\Builder;
 
 class PengurusanSalahlakuPelajarController extends Controller
 {
@@ -91,11 +90,10 @@ class PengurusanSalahlakuPelajarController extends Controller
                         <input type="hidden" name="_method" value="DELETE">
                     </form>';
 
-                    if($data->status != 0)
-                    {
+                    if ($data->status != 0) {
                         $button = $button_maklumat.$button_siasatan.$button_delete;
-                    }else{
-                        $button= $button_maklumat.$button_delete;
+                    } else {
+                        $button = $button_maklumat.$button_delete;
                     }
 
                     return $button;
@@ -104,7 +102,7 @@ class PengurusanSalahlakuPelajarController extends Controller
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['nama_pengadu', 'action','status'])
+                ->rawColumns(['nama_pengadu', 'action', 'status'])
                 ->toJson();
         }
 
@@ -199,8 +197,7 @@ class PengurusanSalahlakuPelajarController extends Controller
         $aduan->save();
 
         $siasatan = SiasatanAduanSalahlakuPelajar::where('aduan_salahlaku_pelajar_id', $id)->first();
-        if(empty($siasatan) && $request->status == 1)
-        {
+        if (empty($siasatan) && $request->status == 1) {
             SiasatanAduanSalahlakuPelajar::create([
                 'aduan_salahlaku_pelajar_id' => $id,
             ]);
@@ -213,7 +210,6 @@ class PengurusanSalahlakuPelajarController extends Controller
         return redirect()->route('pengurusan.hep.pengurusan.salahlaku_pelajar.index');
 
     }
-
 
     public function siasatan($id)
     {
@@ -234,11 +230,9 @@ class PengurusanSalahlakuPelajarController extends Controller
             'KK' => 'Kesalahan Hal-ehwal Kolej Kediaman',
         ];
 
-        if($model->keputusan_siasatan == 'S')
-        {
+        if ($model->keputusan_siasatan == 'S') {
             $keputusan_siasatan = $model->kategori_kesalahan;
-        }else
-        {
+        } else {
             $keputusan_siasatan = $model->keputusan_siasatan;
         }
 
@@ -246,7 +240,7 @@ class PengurusanSalahlakuPelajarController extends Controller
 
         // $pelajar = Pelajar::where('is_berhenti', 0)->get()->pluck('name_ic_no_matrik', 'id');
 
-        return view($this->baseView.'siasatan', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 'jenis_kesalahan','keputusan_siasatan'));
+        return view($this->baseView.'siasatan', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 'jenis_kesalahan', 'keputusan_siasatan'));
 
     }
 
@@ -256,24 +250,21 @@ class PengurusanSalahlakuPelajarController extends Controller
 
         $siasatan = SiasatanAduanSalahlakuPelajar::where('aduan_salahlaku_pelajar_id', $id)->first();
 
-        if($request->has('dokumen_siasatan_1'))
-        {
+        if ($request->has('dokumen_siasatan_1')) {
             $dokumen_siasatan_1 = uniqid().'.'.$request->dokumen_siasatan_1->getClientOriginalExtension();
             $dokumen_siasatan_1_path = 'uploads/aduan_salahlaku/dokumen_siasatan';
             $file_dokumen_siasatan_1 = $request->file('dokumen_siasatan_1')->storeAs($dokumen_siasatan_1_path, $dokumen_siasatan_1, 'public');
             $siasatan->dokument_siasatan = $file_dokumen_siasatan_1;
         }
 
-        if($request->has('dokumen_siasatan_2'))
-        {
+        if ($request->has('dokumen_siasatan_2')) {
             $dokumen_siasatan_2 = uniqid().'.'.$request->dokumen_siasatan_2->getClientOriginalExtension();
             $dokumen_siasatan_2_path = 'uploads/aduan_salahlaku/dokumen_siasatan';
             $file_dokumen_siasatan_2 = $request->file('dokumen_siasatan_2')->storeAs($dokumen_siasatan_2_path, $dokumen_siasatan_2, 'public');
             $siasatan->dokument_siasatan_2 = $file_dokumen_siasatan_2;
         }
 
-        if($request->has('dokumen_siasatan_3'))
-        {
+        if ($request->has('dokumen_siasatan_3')) {
             $dokumen_siasatan_3 = uniqid().'.'.$request->dokumen_siasatan_3->getClientOriginalExtension();
             $dokumen_siasatan_3_path = 'uploads/aduan_salahlaku/dokumen_siasatan';
             $file_dokumen_siasatan_3 = $request->file('dokumen_siasatan_3')->storeAs($dokumen_siasatan_3_path, $dokumen_siasatan_3, 'public');
@@ -287,52 +278,43 @@ class PengurusanSalahlakuPelajarController extends Controller
         $siasatan->tempat_siasatan = $request->tempat_siasatan;
         $siasatan->jenis_kesalahan = $request->jenis_kesalahan;
         $siasatan->keterangan_tertuduh = $request->keterangan_tertuduh;
-        if($request->keputusan_siasatan != 'TS')
-        {
+        if ($request->keputusan_siasatan != 'TS') {
             $siasatan->keputusan_siasatan = 'S';
             $siasatan->kategori_kesalahan = $request->keputusan_siasatan;
-        }else{
+        } else {
             $siasatan->keputusan_siasatan = $request->keputusan_siasatan;
-            $siasatan->kategori_kesalahan = NULL;
-
+            $siasatan->kategori_kesalahan = null;
 
         }
         $aduan->update_by = Auth::user()->id;
         $siasatan->save();
 
-        if($aduan->status != $request->status_aduan)
-        {
+        if ($aduan->status != $request->status_aduan) {
             $aduan->status = $request->status_aduan;
             $aduan->update_by = Auth::user()->id;
             $aduan->save();
         }
 
-        if($request->status_aduan == 2)
-        {
-            if($request->keputusan_siasatan =='R')
-            {
+        if ($request->status_aduan == 2) {
+            if ($request->keputusan_siasatan == 'R') {
                 DisiplinPelajar::updateOrCreate([
                     'pelajar_id' => $aduan->pelaku_pelajar_id,
                     'aduan_salahlaku_pelajar_id' => $id,
                     'siasatan_aduan_salahlaku_pelajar_id' => $siasatan->id,
-                ],[]);
+                ], []);
 
-            }elseif($request->keputusan_siasatan =='B')
-            {
+            } elseif ($request->keputusan_siasatan == 'B') {
                 $tatatertib = TatatertibPelajar::updateOrCreate([
                     'pelajar_id' => $aduan->pelaku_pelajar_id,
                     'aduan_salahlaku_pelajar_id' => $id,
                     'siasatan_aduan_salahlaku_pelajar_id' => $siasatan->id,
-                ],[]);
+                ], []);
 
                 //Kesalahan berat tindakan tatatertib
 
             }
 
         }
-
-
-
 
         Alert::toast('Maklumat Siasatan Aduan Salahlaku Pelajar Berjaya Dikemaskini', 'success');
 

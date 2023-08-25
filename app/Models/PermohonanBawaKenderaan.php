@@ -6,7 +6,6 @@ use App\Models\Base as Model;
 
 class PermohonanBawaKenderaan extends Model
 {
-
     protected $table = 'permohonan_bawa_kenderaan';
 
     protected $guarded = ['id'];

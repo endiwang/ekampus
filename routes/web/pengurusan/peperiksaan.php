@@ -9,7 +9,6 @@ use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSubjekArabController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\MainPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\PersiapanPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\SenaraiPelajarTamatController;
-use App\Models\PersiapanPeperiksaan;
 use Illuminate\Support\Facades\Route;
 
 Route::resource('/', MainPeperiksaanController::class)->only(['index']);

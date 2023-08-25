@@ -1,4 +1,4 @@
-@props(['label' => 'Label', 'key' => 'key', 'description' => '', 'info' => '', 'value' => '', 'inputAttributes' => ['class' => 'form-control']])
+@props(['label' => 'Label', 'key' => 'key', 'description' => '', 'info' => '', 'value' => ''])
 
 <div class="row mb-6">
     <div class="col-lg-4">
