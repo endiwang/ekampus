@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('negeri_id')->nullable();
             $table->integer('phone_no')->nullable();
             $table->string('email')->nullable();
+            $table->string('gender')->nullable();
             $table->integer('status_terima_sijil')->nullable()->default(0);
             $table->timestamp('tarikh_jana_sijil')->nullable();
         });
@@ -47,6 +48,7 @@ return new class extends Migration
             $table->dropColumn('negeri_id');
             $table->dropColumn('phone_no');
             $table->dropColumn('email');
+            $table->dropColumn('gender');
             $table->dropColumn('status_terima_sijil');
             $table->dropColumn('tarikh_jana_sijil');
         });
