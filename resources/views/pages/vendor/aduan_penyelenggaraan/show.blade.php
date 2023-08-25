@@ -47,4 +47,11 @@
             
         </td>
     </tr>
+    @if(!empty($is_vendor))
+    <tr>
+        <th style="width:20%">Nota</th>
+        <th>&nbsp;:&nbsp;</th>
+        <td>{!! nl2br($aduan_penyelenggaraan->butiran_vendor) !!}</td>
+    </tr>
+    @endif
 </table>

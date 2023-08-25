@@ -112,6 +112,8 @@
                         @include('layouts.master.sidebar.pembangunan')
                     @elseif(Request::routeIs('pengurusan.kewangan.*'))
                         @include('layouts.master.sidebar.kewangan')
+                    @elseif(Request::routeIs('vendor.*'))
+                        @include('layouts.master.sidebar.vendor')
                     {{-- sidebar menu --}}
                     @else
                         @include('layouts.master.sidebar.utama')

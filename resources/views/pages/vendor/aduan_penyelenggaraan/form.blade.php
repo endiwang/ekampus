@@ -90,7 +90,7 @@
                                 <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
                             </button>
                             @endif
-                            <a href="{{ route('aduan_penyelenggaraan.index') }}" class="btn btn-sm btn-light">Batal</a>
+                            <a href="{{ route('vendor.aduan_penyelenggaraan.index') }}" class="btn btn-sm btn-light">Batal</a>
                         </div>
                         <input type="hidden" name="is_submit" value="0">
                     </form>
