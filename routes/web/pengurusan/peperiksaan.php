@@ -7,7 +7,9 @@ use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniNamaPelajarController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSesiPengajianController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSubjekArabController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\MainPeperiksaanController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\MaklumatKehadiranController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\PersiapanPeperiksaanController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\SenaraiCalonPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\SenaraiPelajarTamatController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,3 +37,9 @@ Route::resource('cetakan_keputusan_peperiksaan', CetakanKeputusanController::cla
 
 Route::get('cetakan_transkrip_peperiksaan/muatturun_transkrip/{id}', [CetakanTranskripController::class, 'downloadTranskrip'])->name('cetakan_transkrip_peperiksaan.download_transkrip');
 Route::resource('cetakan_transkrip_peperiksaan', CetakanTranskripController::class);
+
+Route::post('calon_peperiksaan/maklumat_subjek_pelajar', [SenaraiCalonPeperiksaanController::class, 'getMaklumatSubjekPelajar'])->name('calon_peperiksaan.getMaklumatSubjekPelajar');
+Route::resource('calon_peperiksaan', SenaraiCalonPeperiksaanController::class);
+
+Route::post('maklumat_kehadiran/maklumat_subjek_pelajar', [MaklumatKehadiranController::class, 'getMaklumatSubjekPelajar'])->name('maklumat_kehadiran.getMaklumatSubjekPelajar');
+Route::resource('maklumat_kehadiran', MaklumatKehadiranController::class);
