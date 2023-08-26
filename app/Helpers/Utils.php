@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Notifikasi;
+use App\Models\SemesterTerkini;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 
@@ -98,8 +99,13 @@ class Utils
         $notify->save();
     }
 
-    public function sentEmail($data)
+    public static function getCurrenSemester($kursus_id)
     {
+        $sem_now = SemesterTerkini::select('id', 'kursus_id', 'semester_no', 'sesi_pengajian', 'sesi')
+                    ->where('status_semester', 0)
+                    ->where('kursus_id', $kursus_id)
+                    ->first();
 
+        return $sem_now;
     }
 }
