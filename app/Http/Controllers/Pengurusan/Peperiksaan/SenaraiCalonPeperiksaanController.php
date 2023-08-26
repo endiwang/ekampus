@@ -370,4 +370,30 @@ class SenaraiCalonPeperiksaanController extends Controller
 
         return $response;
     }
+
+    public function downloadSlip($pelajar_id)
+    {
+        try {
+    
+            $model = Pelajar::with('kursus', 'sesi', 'syukbah')->where('user_id', $pelajar_id)->first();
+            $current_sem = Utils::getCurrenSemester($model->kursus_id);
+            $pelajar_semester = PelajarSemester::where('pelajar_id', $model->pelajar_id_old)->where('semester', $current_sem->semester_no)->first();
+
+            $slip_data = PelajarSemesterDetail::with('subjek')->where('pelajar_semester_id', $pelajar_semester->id)->where('status', 'Layak')->get();
+
+            $generated_at = Utils::formatDate(now());
+
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadView($this->baseView.'slip_pdf', compact('slip_data', 'generated_at', 'model', 'current_sem'))->setPaper('a4', 'landscape');
+
+            return $pdf->stream();
+
+        } catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Something went Wrong', 'error');
+
+            return redirect()->back();
+        }
+    }
 }
