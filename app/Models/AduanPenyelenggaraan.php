@@ -102,6 +102,18 @@ class AduanPenyelenggaraan extends Model
         return $status;
     }
 
+    public static function getPrestasiVendorSelection()
+    {
+        $status = [
+            1 => 'Cemerlang',
+            2 => 'Memuaskan',
+            3 => 'Tidak Memuaskan',
+            3 => 'Perlu pembaikan semula',
+        ];
+
+        return $status;
+    }
+
     public function getKategoriNameAttribute()
     {
         $kategori_aduan = $this->getKategoriSelection();
@@ -120,6 +132,29 @@ class AduanPenyelenggaraan extends Model
         }
     }
 
+    public function getLokasiFullNameAttribute()
+    {
+        $html = '';
+
+        if (! empty($this->type)) {
+            $html .= $this->lokasi_name.' / ';
+        }
+
+        if (! empty($this->blok)) {
+            $html .= $this->blok->nama.' / ';
+        }
+
+        if (! empty($this->tingkat)) {
+            $html .= $this->tingkat->nama.' / ';
+        }
+
+        if (! empty($this->bilik)) {
+            $html .= $this->bilik->nama_bilik;
+        }
+
+        return $html;
+    }
+
     public function getStatusNameAttribute()
     {
         $status = $this->getStatusSelection();
@@ -135,6 +170,15 @@ class AduanPenyelenggaraan extends Model
 
         if (! empty($this->attributes['status_vendor'])) {
             return @$status_vendor[$this->attributes['status_vendor']];
+        }
+    }
+
+    public function getPrestasiVendorNameAttribute()
+    {
+        $prestasi_vendor = $this->getPrestasiVendorSelection();
+
+        if (! empty($this->attributes['prestasi_vendor'])) {
+            return @$prestasi_vendor[$this->attributes['prestasi_vendor']];
         }
     }
 
