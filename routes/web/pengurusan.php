@@ -42,3 +42,7 @@ Route::middleware('web')
     ->prefix('pengurusan/pembangunan')
     ->as('pengurusan.pembangunan.')
     ->group(base_path('routes/web/pengurusan/pembangunan.php'));
+Route::middleware('web')
+    ->prefix('pengurusan/kewangan')
+    ->as('pengurusan.kewangan.')
+    ->group(base_path('routes/web/pengurusan/kewangan.php'));
