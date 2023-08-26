@@ -21,14 +21,14 @@ return new class extends Migration
             $table->integer('syukbah_id')->nullable();
             $table->integer('semester_now_id')->nullable();
             $table->integer('jam_kredit')->nullable();
-            $table->double('jumlah_markah', 8,2)->nullable();
+            $table->double('jumlah_markah', 8, 2)->nullable();
             $table->double('png')->nullable();
             $table->integer('jam_kredit_keseluruhan')->nullable();
-            $table->double('jumlah_markah_keseluruhan', 8,1)->nullable();
-            $table->double('pngk', 8,2)->nullable();
+            $table->double('jumlah_markah_keseluruhan', 8, 1)->nullable();
+            $table->double('pngk', 8, 2)->nullable();
             $table->string('keputusan')->nullable();
             $table->string('pangkat')->nullable();
-            $table->double('jumlah_markah_semester', 8,2)->nullable();
+            $table->double('jumlah_markah_semester', 8, 2)->nullable();
             $table->integer('jam_kredit_semester')->nullable();
             $table->integer('semester_seterusnya')->default(0);
             $table->integer('is_deleted')->default(0);

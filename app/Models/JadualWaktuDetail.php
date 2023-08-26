@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Base as Model;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 class JadualWaktuDetail extends Model
 {
-    use HasFactory;
-
     protected $guarded = ['id'];
 
     public function subjek()

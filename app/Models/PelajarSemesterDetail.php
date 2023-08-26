@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Base as Model;
 
 class PelajarSemesterDetail extends Model
 {
-    use HasFactory;
     protected $guarded = ['id'];
+
+    public function subjek()
+    {
+        return $this->belongsTo(Subjek::class, 'subjek_id', 'id');
+    }
 }

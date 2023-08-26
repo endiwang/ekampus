@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Base as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Pelajar extends Model
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'pelajar';
 
@@ -49,8 +48,18 @@ class Pelajar extends Model
         return $this->belongsTo(Semester::class, 'semester', 'id');
     }
 
+    public function pelajarSemesters()
+    {
+        return $this->hasMany(PelajarSemester::class, 'pelajar_id', 'pelajar_old_id');
+    }
+
     public function getNameIcAttribute()
     {
         return ucfirst($this->nama).' - '.ucfirst($this->no_ic);
+    }
+
+    public function getNameIcNoMatrikAttribute()
+    {
+        return ucfirst($this->nama).' - '.ucfirst($this->no_matrik).' - '.ucfirst($this->no_ic);
     }
 }
