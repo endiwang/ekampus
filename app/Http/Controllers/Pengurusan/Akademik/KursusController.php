@@ -21,7 +21,7 @@ class KursusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -43,6 +43,9 @@ class KursusController extends Controller
 
             if (request()->ajax()) {
                 $data = Kursus::query();
+                if ($request->has('kursus') && $request->kursus != null) {
+                    $data->where('id', $request->kursus);
+                }
 
                 return DataTables::of($data)
                     ->addColumn('status', function ($data) {

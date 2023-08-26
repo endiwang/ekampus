@@ -20,7 +20,7 @@ class PeraturanAkademikController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -41,6 +41,9 @@ class PeraturanAkademikController extends Controller
 
             if (request()->ajax()) {
                 $data = PeraturanAkademik::query();
+                if ($request->has('nama') && $request->nama != null) {
+                    $data->where('name', 'LIKE', '%'.$request->nama.'%');
+                }
 
                 return DataTables::of($data)
                     ->addColumn('document_name', function ($data) {
