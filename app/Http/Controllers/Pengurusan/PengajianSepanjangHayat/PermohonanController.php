@@ -81,7 +81,7 @@ class PermohonanController extends Controller
         ])
         ->columns([
             [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false, 'orderable'=> false],
-            ['data' => 'permohonan', 'name' => 'permohonan', 'title' => 'Permohonan', 'orderable'=> false],
+            ['data' => 'name', 'name' => 'name', 'title' => 'Nama Pemohon', 'orderable'=> false],
             ['data' => 'tarikh_permohonan', 'name' => 'tarikh_permohonan', 'title' => 'Tarikh Permohonan', 'orderable'=> true],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable'=> false],
             ['data' => 'action', 'name' => 'action','title' => 'Tindakan', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],

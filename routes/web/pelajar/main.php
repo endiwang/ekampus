@@ -28,7 +28,6 @@ Route::group(['prefix' => 'permohonan', 'as' => 'permohonan.'], function () {
         Route::get('setujuTerimaTawaran/{id}', [SijilTahfizController::class, 'setujuTerimaTawaran'])->name('setujuTerima.tawaran');
         Route::patch('setujuTerimaTawaran/update/{id}', [SijilTahfizController::class, 'setujuTerimaTawaranJawapan'])->name('setujuTerima.tawaran.jawapan');
     });
-    Route::resource('sijil_tahfiz', SijilTahfizController::class);
 });
 
 Route::resource('penilaian_pensyarah', PenilaianPensyarahController::class);
@@ -36,9 +35,4 @@ Route::resource('penilaian_pensyarah', PenilaianPensyarahController::class);
 Route::group(['prefix' => 'pengurusan_ijazah', 'as' => 'pengurusan_ijazah.'], function () {
     Route::get('rekod_tesis/download/{id}', [RekodTesisController::class, 'download'])->name('rekod_tesis.download');
     Route::resource('rekod_tesis', RekodTesisController::class);
-});
-
-Route::group(['prefix' => 'sijil_tahfiz', 'as' => 'sijil_tahfiz.'], function () {
-    Route::resource('semakan_permohonan_sijil_tahfiz', SemakanKelayakanSijilTahfizController::class);
-    Route::resource('semakan_keputusan_sijil_tahfiz', SemakanKeputusanPeperiksaanSijilTahfizController::class);
 });

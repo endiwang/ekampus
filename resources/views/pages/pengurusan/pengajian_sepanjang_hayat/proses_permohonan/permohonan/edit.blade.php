@@ -19,7 +19,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('',$pelajar->nama,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
+                                            {{ Form::text('',$permohonan->name,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
                                         </div>
                                     </div>
                                 </div>
@@ -29,7 +29,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('',$pelajar->ni_ic,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
+                                            {{ Form::text('',$permohonan->pemohon->username,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
                                         </div>
                                     </div>
                                 </div><div class="row fv-row mb-2" >
@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('',date('d/m/Y',strtotime($pelajar->tarikh_lahir)),['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
+                                            {{ Form::text('',date('d/m/Y',strtotime($permohonan->dob)),['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
                                         </div>
                                     </div>
                                 </div><div class="row fv-row mb-2" >
@@ -49,7 +49,7 @@
                                         <div class="w-100">
                                             @php
                                                 $today = date('d/m/Y');
-                                                $age = \Carbon\Carbon::parse($pelajar->tarikh_lahir)->age;
+                                                $age = \Carbon\Carbon::parse($permohonan->dob)->age;
                                             @endphp
                                             {{ Form::text('',$age,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
                                         </div>
@@ -60,7 +60,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            <textarea class="form-control" id="kt_docs_maxlength_textarea" placeholder="" rows="3" disabled>{{ $pelajar->alamat }}</textarea>
+                                            <textarea class="form-control" id="kt_docs_maxlength_textarea" placeholder="" rows="3" disabled>{{ $permohonan->address }}</textarea>
                                         </div>
                                     </div>
                                 </div><div class="row fv-row mb-2" >
@@ -69,16 +69,16 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('',$pelajar->poskod,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
+                                            {{ Form::text('',$permohonan->postcode,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
                                         </div>
                                     </div>
                                 </div><div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('name', 'Negeri', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                        {{ Form::label('negeri_id', 'Negeri', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('',$pelajar->negeri->nama ?? '',['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
+                                            {{ Form::select('negeri_id', $negeriSelection, $permohonan->negeri_id, ['placeholder' => 'Sila Pilih', 'data-control'=>'select2', 'class' =>'form-contorl form-select form-select-sm '.($errors->has('negeri_id') ? 'is-invalid':''),'id'=>'negeri_id', 'disabled'=>true]) }}
                                         </div>
                                     </div>
                                 </div>
@@ -89,7 +89,7 @@
                                     <div class="col-md-9">
                                         <div class="w-100">
                                             @php
-                                                if($pelajar->jantina == "L"){
+                                                if($permohonan->gender == "L"){
                                                     $jantina = 'Lelaki';
                                                 } else {
                                                     $jantina = 'Perempuan';
@@ -105,7 +105,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('',$pelajar->no_tel,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
+                                            {{ Form::text('',$permohonan->phone_no,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
                                         </div>
                                     </div>
                                 </div>
@@ -115,7 +115,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('',$pelajar->email,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
+                                            {{ Form::text('',$permohonan->pemohon->email,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
                                         </div>
                                     </div>
                                 </div>

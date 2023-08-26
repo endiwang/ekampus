@@ -1,38 +1,35 @@
-@extends('layouts.master.main')
+@extends('layouts.public.main_inner_pemohon')
 @section('css')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
 @endsection
 @section('content')
 <div id="kt_app_content" class="app-content flex-column-fluid">
     <div id="kt_app_content_container" class="app-container container-xxl">
         <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
             <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                <form class="form" action="{{ route('pelajar.sijil_tahfiz.semakan_keputusan_sijil_tahfiz.index')}}" method="get">
-                    <div class="card" id="advanceSearch">
-                        <div class="card-body py-5">
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('maklumat_carian', 'No Kad Pengenalan', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        {{ Form::text('maklumat_carian', Request::get('maklumat_carian') ,['class' => 'form-control form-control-sm', 'id' =>'maklumat_carian','onkeydown' =>'return true','autocomplete' => 'off']) }}
-                                        <span class="fs-8 text-muted">Sila masukkan no kad pengenalan dan tekan cari untuk semakan</span>
-                                    </div>
-                                </div>
+                <a href="{{ route('pemohon.permohonan_sijil_tahfiz.create') }}" class="btn btn-success hover-rotate-start">Tambah Permohonan</a>
+                <a href="#" class="btn btn-warning hover-rotate-start">Rotate to start</a>
+            </div>
+        </div>
+        <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
+            <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                <div class="card" id="advanceSearch">
+                    <div class="card-body py-5">
+                        <div class="row fv-row mb-2" >
+                            <div class="col-md-3 text-md-end">
+                                {{ Form::label('maklumat_carian', 'Maklumat Carian', ['class' => 'fs-6 fw-semibold form-label mt-2']) }}
                             </div>
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-12">
-                                    <div class="d-flex align-items-center justify-content-end">
-                                        <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0 me-3">
-                                            <i class="fa fa-search" style="vertical-align: initial"></i>Cari
-                                        </button>
-                                        <a href="{{ route('pelajar.sijil_tahfiz.semakan_keputusan_sijil_tahfiz.index') }}" class="btn btn-sm btn-light">Set Semula</a>
-                                    </div>
+                            <div class="col-md-9">
+                                <div class="d-flex">
+                                    <input type="text" v-model="keyword.search" v-on:keyup.enter="search()" class="form-control me-3 form-control-sm">
+                                    <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0" @click="search()">
+                                        <i class="fa fa-search" style="vertical-align: initial"></i>Cari
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
 
@@ -51,11 +48,11 @@
 
     </div>
 </div>
-
-
 @endsection
 
-@push('scripts')
+@section('script')
+
+<!-- Include other required scripts for additional features if needed -->
     <script>
         function remove(id){
             Swal.fire({
@@ -111,5 +108,6 @@
         }).mount('#advanceSearch')
     </script>
     {!! $html->scripts() !!}
+    
 
-@endpush
+@endsection
