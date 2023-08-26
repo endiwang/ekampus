@@ -12,7 +12,7 @@ class TetapanPeperiksaan extends Model
 
     public function sesi()
     {
-        return $this->belongsTo(Sesi::class, 'sesi_id', 'id');
+        return $this->belongsTo(SesiPeperiksaan::class, 'sesi_id', 'id');
     }
 
     public function pusat_pengajian()

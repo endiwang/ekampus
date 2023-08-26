@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Pengurusan\Peperiksaan\CetakanKeputusanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\CetakanTranskripController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\JadualPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniKursusController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniNamaPelajarController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSesiPengajianController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSubjekArabController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\MainPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\PersiapanPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\SenaraiPelajarTamatController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\TetapanSesiPeperiksaanController;
 use Illuminate\Support\Facades\Route;
 
 Route::resource('/', MainPeperiksaanController::class)->only(['index']);
@@ -22,6 +24,14 @@ Route::group(['prefix' => 'kemaskini', 'as' => 'kemaskini.'], function () {
 
     Route::resource('subjek_arab', KemaskiniSubjekArabController::class);
 });
+
+Route::group(['prefix' => 'tetapan', 'as' => 'tetapan.'], function () {
+    Route::resource('sesi_peperiksaan', TetapanSesiPeperiksaanController::class);
+});
+
+Route::get('jadual_peperiksaan/muatturun_jadual/{id}', [JadualPeperiksaanController::class, 'downloadJadualPeperiksaan'])->name('jadual_peperiksaan.muatturun_jadual');
+Route::post('jadual_peperiksaan/tambah_subjek/{id}', [JadualPeperiksaanController::class, 'addSubject'])->name('jadual_peperiksaan.add_subjek');
+Route::resource('jadual_peperiksaan', JadualPeperiksaanController::class);
 
 Route::resource('pelajar_tamat_berhenti', SenaraiPelajarTamatController::class);
 
