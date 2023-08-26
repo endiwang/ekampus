@@ -53,25 +53,7 @@ class AduanPenyelenggaraanController extends Controller
                 ->addColumn('pengadu', function ($data) {
                 })
                 ->addColumn('lokasi', function ($data) {
-                    $html = '';
-
-                    if (! empty($data->type)) {
-                        $html .= $data->lokasi_name.' / ';
-                    }
-
-                    if (! empty($data->blok)) {
-                        $html .= $data->blok->nama.' / ';
-                    }
-
-                    if (! empty($data->tingkat)) {
-                        $html .= $data->tingkat->nama.' / ';
-                    }
-
-                    if (! empty($data->bilik)) {
-                        $html .= $data->bilik->nama_bilik;
-                    }
-
-                    return $html;
+                    return $data->lokasi_full_name;
                 })
                 ->addColumn('kategori', function ($data) {
                     return $data->kategori_name;
@@ -203,6 +185,7 @@ class AduanPenyelenggaraanController extends Controller
             $aduan_penyelenggaraan = AduanPenyelenggaraan::find($id);
             $aduan_penyelenggaraan->status = 4;
             $aduan_penyelenggaraan->status_vendor = 3;
+            $aduan_penyelenggaraan->prestasi_vendor = $request->prestasi_vendor;
             $aduan_penyelenggaraan->save();
 
             $vendor = $aduan_penyelenggaraan->vendor;
