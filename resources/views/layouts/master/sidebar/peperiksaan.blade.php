@@ -3,7 +3,7 @@
         <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="false">
             <div class="menu-item pt-5">
                 <div class="menu-content">
-                    <span class="menu-heading fw-bold fs-7" style="color: white !Important">Pelajar</span>
+                    <span class="menu-heading fw-bold fs-7" style="color: white !Important">Peperiksaan</span>
                 </div>
             </div>
             <div class="menu-item">
@@ -25,7 +25,7 @@
             </div>
             <div class="menu-item">
                 <!--begin:Menu link-->
-                <a class="menu-link {{ Request::routeIs('pengurusan.peperiksaan.pelajar_tamat_berhenti.index') ? 'active' : '' }}" href="{{ route('pengurusan.peperiksaan.pelajar_tamat_berhenti.index') }}">
+                <a class="menu-link {{ Request::routeIs('pengurusan.peperiksaan.calon_peperiksaan.index') ? 'active' : '' }}" href="{{ route('pengurusan.peperiksaan.calon_peperiksaan.index') }}">
                     <span class="menu-icon">
                         <span class="svg-icon svg-icon-2">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,7 +36,41 @@
                             </svg>
                         </span>
                     </span>
-                    <span class="menu-title">Senarai Pelajar Tamat/Berhenti</span>
+                    <span class="menu-title">Senarai Calon Peperiksaan</span>
+                </a>
+                <!--end:Menu link-->
+            </div>
+            <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link {{ Request::routeIs('pengurusan.peperiksaan.maklumat_kehadiran.index') ? 'active' : '' }}" href="{{ route('pengurusan.peperiksaan.maklumat_kehadiran.index') }}">
+                    <span class="menu-icon">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </span>
+                    <span class="menu-title">Maklumat Kehadiran dan Markah Awal Peperiksaan</span>
+                </a>
+                <!--end:Menu link-->
+            </div>
+            <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link {{ Request::routeIs('pengurusan.peperiksaan.jadual_peperiksaan.index') ? 'active' : '' }}" href="{{ route('pengurusan.peperiksaan.jadual_peperiksaan.index') }}">
+                    <span class="menu-icon">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </span>
+                    <span class="menu-title">Penetapan Jadual Peperiksaan</span>
                 </a>
                 <!--end:Menu link-->
             </div>
@@ -91,7 +125,24 @@
                 </a>
                 <!--end:Menu link-->
             </div>
-            <div data-kt-menu-trigger="click" class="menu-item {{ Request::routeIs('pengurusan.peperiksaan.*') ? 'here show' : '' }} menu-accordion">
+            <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link {{ Request::routeIs('pengurusan.peperiksaan.pelajar_tamat_berhenti.index') ? 'active' : '' }}" href="{{ route('pengurusan.peperiksaan.pelajar_tamat_berhenti.index') }}">
+                    <span class="menu-icon">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </span>
+                    <span class="menu-title">Senarai Pelajar Tamat/Berhenti</span>
+                </a>
+                <!--end:Menu link-->
+            </div>
+            <div data-kt-menu-trigger="click" class="menu-item {{ Request::routeIs('pengurusan.peperiksaan.kemaskini') ? 'here show' : '' }} menu-accordion">
                 <span class="menu-link">
                     <span class="menu-icon">
                         <span class="svg-icon svg-icon-2">
@@ -147,7 +198,32 @@
                     </div>
                 </div>
             </div>
-            
+            <div data-kt-menu-trigger="click" class="menu-item {{ Request::routeIs('pengurusan.peperiksaan.tetapan') ? 'here show' : '' }} menu-accordion">
+                <span class="menu-link">
+                    <span class="menu-icon">
+                        <span class="svg-icon svg-icon-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </span>
+                    <span class="menu-title">Tetapan</span>
+                    <span class="menu-arrow"></span>
+                </span>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.peperiksaan.tetapan.sesi_peperiksaan.index') ? 'active' : '' }}" href="{{ route('pengurusan.peperiksaan.tetapan.sesi_peperiksaan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Sesi Peperiksaan</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
             
         </div>
     </div>
