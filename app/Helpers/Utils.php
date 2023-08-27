@@ -108,4 +108,23 @@ class Utils
 
         return $sem_now;
     }
+
+    public static function getJenisCaj($type)
+    {
+        $jenis = '';
+        switch($type)
+        {
+            case 'peperiksaan' :
+                $jenis = 'Peperiksaan';
+            break;
+            case 'hilang_transkrip' :
+                $jenis = 'Hilang Transkrip/Slip Keputusan Periksa';
+            break;
+            case 'semak_keputusan' :
+                $jenis = 'Semak Semula Keputusan Peperiksaan';
+            break;
+        }
+
+        return $jenis;
+    }
 }

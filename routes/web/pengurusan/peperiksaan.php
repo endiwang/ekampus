@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Pengurusan\Peperiksaan\CajPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\CetakanKeputusanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\CetakanTranskripController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\JadualPeperiksaanController;
@@ -29,6 +30,8 @@ Route::group(['prefix' => 'kemaskini', 'as' => 'kemaskini.'], function () {
 
 Route::group(['prefix' => 'tetapan', 'as' => 'tetapan.'], function () {
     Route::resource('sesi_peperiksaan', TetapanSesiPeperiksaanController::class);
+
+    Route::resource('caj_peperiksaan', CajPeperiksaanController::class);
 });
 
 Route::get('jadual_peperiksaan/muatturun_jadual/{id}', [JadualPeperiksaanController::class, 'downloadJadualPeperiksaan'])->name('jadual_peperiksaan.muatturun_jadual');
@@ -54,3 +57,4 @@ Route::resource('calon_peperiksaan', SenaraiCalonPeperiksaanController::class);
 
 Route::post('maklumat_kehadiran/maklumat_subjek_pelajar', [MaklumatKehadiranController::class, 'getMaklumatSubjekPelajar'])->name('maklumat_kehadiran.getMaklumatSubjekPelajar');
 Route::resource('maklumat_kehadiran', MaklumatKehadiranController::class);
+
