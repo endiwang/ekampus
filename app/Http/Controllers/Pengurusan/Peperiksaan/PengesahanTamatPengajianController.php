@@ -133,9 +133,12 @@ class PengesahanTamatPengajianController extends Controller
     {
         try {
 
+          $pointer = Utils::getPointer($request->markah);
+
           $store = PelajarSemesterDetail::find($request->id);
           $store->markah_40   = $request->markah_40 ?? null;
           $store->markah_60   = $request->markah_60 ?? null;
+          $store->pointer     = $pointer ?? '0.00';
           $store->markah      = $request->markah ?? null;
           $store->gred        = $request->gred ?? null;
           $store->save();
@@ -177,7 +180,7 @@ class PengesahanTamatPengajianController extends Controller
                                 ->where('semester', '!=', $model->semester)->get();
 
             if (request()->ajax()) {
-              $data = PelajarSemesterDetail::with('subjek', 'sesi')->where('pelajar_semester_id', 2);
+              $data = PelajarSemesterDetail::with('subjek', 'sesi')->where('pelajar_semester_id', $current_sem_detail->id);
 
               return DataTables::of($data)
                   ->addColumn('subjek', function ($data) {
