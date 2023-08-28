@@ -11,7 +11,7 @@ use App\Models\KenderaanSitaan;
 use App\Helpers\Utils;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Carbon;
-
+use App\Models\Pelajar;
 
 class KenderaanSitaanController extends Controller
 {
@@ -77,6 +77,9 @@ class KenderaanSitaanController extends Controller
                 })
                 ->addColumn('action', function ($data) {
                     return '
+                         <a href="'.route('pengurusan.hep.pengurusan.kenderaan_sitaan.tuntutan', $data->id).'" class="edit btn btn-icon btn-success btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Tuntutan">
+                             <i class="fa fa-check"></i>
+                         </a>
                          <a href="'.route('pengurusan.hep.pengurusan.kenderaan_sitaan.edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                              <i class="fa fa-pencil"></i>
                          </a>
@@ -293,6 +296,52 @@ class KenderaanSitaanController extends Controller
 
         Alert::toast('Maklumat kenderaan sitaan berjaya dihapus!', 'success');
 
-        return redirect()->back();
+        return redirect()->route('pengurusan.hep.pengurusan.kenderaan_sitaan.index');
+    }
+
+    public function tuntutan_kenderaan($id)
+    {
+        $action = route('pengurusan.hep.pengurusan.kenderaan_sitaan.tuntutan', $id);
+        $page_title = 'Tuntutan Kenderaan Sitaan';
+
+        $title = 'Tuntutan Kenderaan Sitaan';
+        $breadcrumbs = [
+            'Hal Ehwal Pelajar' => false,
+            'Pengurusan' => false,
+            'Kenderaan Sitaan' => false,
+            'Tuntutan' => false,
+        ];
+
+        $pelajar = Pelajar::where('is_berhenti', 0)->get()->pluck('name_ic_no_matrik', 'id');
+
+
+        $model = KenderaanSitaan::find($id);
+
+        return view($this->baseView.'tuntutan', compact('model', 'title', 'breadcrumbs', 'page_title', 'action','pelajar'));
+    }
+
+    public function tuntutan_kenderaan_store(Request $request, $id)
+    {
+
+        $request->validate([
+            'pelajar_id' => 'required',
+            'status' => 'required',
+        ], [
+            'pelajar_id.required' => 'Sila pilih jenis barang',
+            'status.required' => 'Sila masukkan jenama',
+        ]);
+
+        $model = KenderaanSitaan::find($id);
+        $model->pelajar_id = $request->pelajar_id;
+        $model->status = $request->status;
+        $model->update_by = Auth::user()->id;
+
+        $model->save();
+
+        Alert::toast('Kenderaan sitaan telah dituntut!', 'success');
+
+        return redirect()->route('pengurusan.hep.pengurusan.kenderaan_sitaan.index');
+
+
     }
 }
