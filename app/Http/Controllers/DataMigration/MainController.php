@@ -1132,28 +1132,27 @@ class MainController extends Controller
     {
         $data = sis_tblpelajar_semester::all();
 
-        foreach($data as $datum)
-        {
+        foreach ($data as $datum) {
             PelajarSemester::create([
-                'pelajar_id'                => $datum->pelajar_id,
-                'sesi_id'                   => $datum->sesi_id,
-                'semester'                  => $datum->semester_num,
-                'syukbah'                   => $datum->ref_sukbah_id,
-                'semester_now_id'           => $datum->semester_now_id,
-                'jam_kredit'                => $datum->jk,
-                'jumlah_markah'             => $datum->jmk,
-                'png'                       => $datum->png,
-                'jam_kredit_keseluruhan'    => $datum->jkk,
+                'pelajar_id' => $datum->pelajar_id,
+                'sesi_id' => $datum->sesi_id,
+                'semester' => $datum->semester_num,
+                'syukbah' => $datum->ref_sukbah_id,
+                'semester_now_id' => $datum->semester_now_id,
+                'jam_kredit' => $datum->jk,
+                'jumlah_markah' => $datum->jmk,
+                'png' => $datum->png,
+                'jam_kredit_keseluruhan' => $datum->jkk,
                 'jumlah_markah_keseluruhan' => $datum->jmkk,
-                'pngk'                      => $datum->pngk,
-                'keputusan'                 => $datum->kep,
-                'pangkat'                   => $datum->pgkt,
-                'jumlah_markah_semester'    => $datum->jms,
-                'jam_kredit_semester'       => $datum->jks,
-                'semester_seterusnya'       => $datum->next_sem,
-                'is_deleted'                => $datum->is_deleted,
-                'is_gantung'                => $datum->is_gantung,
-                'is_cetak_slip'             => $datum->is_cetak_slip,
+                'pngk' => $datum->pngk,
+                'keputusan' => $datum->kep,
+                'pangkat' => $datum->pgkt,
+                'jumlah_markah_semester' => $datum->jms,
+                'jam_kredit_semester' => $datum->jks,
+                'semester_seterusnya' => $datum->next_sem,
+                'is_deleted' => $datum->is_deleted,
+                'is_gantung' => $datum->is_gantung,
+                'is_cetak_slip' => $datum->is_cetak_slip,
             ]);
         }
 
@@ -1164,38 +1163,34 @@ class MainController extends Controller
     {
         $data = sis_tblpelajar_semester_det::all();
 
-        foreach($data as $datum)
-        {
+        foreach ($data as $datum) {
             PelajarSemesterDetail::create([
-                'pelajar_semester_id'   => $datum->ps_id,
-                'subjek_id'             => $datum->subjek_id,
-                'staff_if'              => $datum->staff_id,
-                'kehadiran'             => $datum->kehadiran,
-                'markah_30'             => $datum->markah_30,
-                'markah_40'             => $datum->markah_40,
-                'markah_60'             => $datum->markah_60,
-                'markah'                => $datum->markah,
-                'gred'                  => $datum->gred,
-                'pointer'               => $datum->pointer,
-                'total_pointer'         => $datum->jpointer,
-                'status'                => $datum->status,
-                'status_c'              => $datum->status_c,
-                'status_subjek'         => $datum->status_subj,
-                'dur_subjek'            => $datum->dur_subjek,
-                'bilangan_dur_subjek'   => $datum->bil_dur_subjek,
-                'kenyataan'             => $datum->kenyataan,
-                'psd_id_old'            => $datum->psd_id_old,
-                'is_drop'               => $datum->is_drop,
-                'drop_dt'               => $datum->drop_dt,
-                'drop_by'               => $datum->drop_by,
-                'is_calc_new'           => $datum->is_calc_new,
-                'komen_staff'           => $datum->komen_staff,
+                'pelajar_semester_id' => $datum->ps_id,
+                'subjek_id' => $datum->subjek_id,
+                'staff_if' => $datum->staff_id,
+                'kehadiran' => $datum->kehadiran,
+                'markah_30' => $datum->markah_30,
+                'markah_40' => $datum->markah_40,
+                'markah_60' => $datum->markah_60,
+                'markah' => $datum->markah,
+                'gred' => $datum->gred,
+                'pointer' => $datum->pointer,
+                'total_pointer' => $datum->jpointer,
+                'status' => $datum->status,
+                'status_c' => $datum->status_c,
+                'status_subjek' => $datum->status_subj,
+                'dur_subjek' => $datum->dur_subjek,
+                'bilangan_dur_subjek' => $datum->bil_dur_subjek,
+                'kenyataan' => $datum->kenyataan,
+                'psd_id_old' => $datum->psd_id_old,
+                'is_drop' => $datum->is_drop,
+                'drop_dt' => $datum->drop_dt,
+                'drop_by' => $datum->drop_by,
+                'is_calc_new' => $datum->is_calc_new,
+                'komen_staff' => $datum->komen_staff,
             ]);
         }
 
         dd('done');
     }
-
-
-
 }

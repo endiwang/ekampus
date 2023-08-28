@@ -173,12 +173,21 @@
                         </tr>
                         @endforeach
                         </table>
+
+                        <div class="row mb-2">                                
+                            {{ Form::label('prestasi_vendor', 'Prestasi Kerja Vendor', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}                                
+                            <div class="col-lg-8">        
+                                {{ Form::label('prestasi_vendor', @$model->prestasi_vendor_name, ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}
+                            </div>
+                        </div>
                     </div>
+                    
                     <div class="card-footer d-flex justify-content-end py-6 px-9">
                         @if($model->status == 3)
                         <form id="formApprove" action="{{ $action }}" method="post">
                             @method('PUT')
                             @csrf
+                            <input type="hidden" name="prestasi_vendor" value="">
                             <input type="hidden" name="is_approve" value="1">
                         </form>
                         <button id="btnApprove" type="button" class="btn btn-success btn-sm me-3">
@@ -212,6 +221,9 @@
 
 $(document).ready(function(){
     $('[name="type"]').change();
+    @if($model->id && $model->status != 1)
+    $("#formAduan :input").prop("disabled", true);
+    @endif
 });
 
 $('[name="type"]').on('change', function(){
@@ -306,10 +318,23 @@ $('#btnSubmit2').on('click', function(){
 $('#btnApprove').on('click', function(){
     Swal.fire({
         icon: 'info',
-        title: 'Pasti kerja vendor selesai?',
+        title: 'Pasti kerja vendor selesai? Pilih prestasi kerja Vendor di bawah: ',
+        input: 'select',
+        inputOptions: {
+            1: 'Cemerlang',
+            2: 'Memuaskan',
+            3: 'Tidak Memuaskan',
+            4: 'Perlu pembaikan semula'
+        },
         showCancelButton: true,
         confirmButtonText: 'Pasti',
         cancelButtonText: 'Batal',
+        inputValidator: (value) => {
+            return new Promise((resolve) => {
+                $('[name="prestasi_vendor"]').val(value);
+                resolve();
+            })
+        },
     }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {

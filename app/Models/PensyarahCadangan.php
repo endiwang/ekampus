@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Base as Model;
 
 class PensyarahCadangan extends Model
 {
-    use HasFactory;
     protected $table = 'pensyarah_cadangan';
+
     protected $guarded = ['id'];
 
     public function kelas()

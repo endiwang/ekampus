@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Base as Model;
 
 class AduanSalahlakuPelajar extends Model
 {
-    use HasFactory;
-
     protected $table = 'aduan_salahlaku_pelajar';
 
     protected $guarded = ['id'];
@@ -16,5 +13,10 @@ class AduanSalahlakuPelajar extends Model
     public function pengadu()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function pelaku()
+    {
+        return $this->belongsTo(Pelajar::class, 'pelaku_pelajar_id', 'id');
     }
 }

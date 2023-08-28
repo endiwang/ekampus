@@ -1,6 +1,8 @@
 <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1" id="kt_app_header_wrapper">
     <div class="app-header-menu app-header-mobile-drawer align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="app-header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="250px" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_app_header_menu_toggle" data-kt-swapper="true" data-kt-swapper-mode="{default: 'append', lg: 'prepend'}" data-kt-swapper-parent="{default: '#kt_app_body', lg: '#kt_app_header_wrapper'}">
-        @include('layouts.master.header_menu')
+        @if(empty(Auth::user()->is_vendor))        
+            @include('layouts.master.header_menu')
+        @endif
     </div>
     <div class="app-navbar flex-shrink-0">
         <div class="app-navbar-item ms-1 ms-lg-3" id="kt_header_user_menu_toggle">

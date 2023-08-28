@@ -163,15 +163,15 @@ class JadualKelasController extends Controller
 
         //save into pensyarah table
         $pensyarah = JadualPensyarah::updateOrCreate([
-            'jadual_waktu_id'   => $jadual_waktu->id,
-            'staff_id'          => $request->pensyarah,
-            'semester_id'       => $kelas->semasa_semester_id,
-            'sesi_id'           => $kelas->sesi 
+            'jadual_waktu_id' => $jadual_waktu->id,
+            'staff_id' => $request->pensyarah,
+            'semester_id' => $kelas->semasa_semester_id,
+            'sesi_id' => $kelas->sesi,
         ]);
 
         $jadual_pensyarah_detail = new JadualPensyarahDetail();
         $jadual_pensyarah_detail->jadual_pensyarah_id = $pensyarah->id;
-        $jadual_pensyarah_detail->jadual_waktu_detail_id  = $jadual_detail->id;
+        $jadual_pensyarah_detail->jadual_waktu_detail_id = $jadual_detail->id;
         $jadual_pensyarah_detail->staff_id = $request->pensyarah;
         $jadual_pensyarah_detail->subjek_id = $request->subjek;
         $jadual_pensyarah_detail->kelas_id = $request->kelas_id;

@@ -7,10 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Models\KehadiranPensyarah;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use Illuminate\Support\Carbon;
 
 class RekodKehadiranController extends Controller
 {
@@ -34,10 +34,10 @@ class RekodKehadiranController extends Controller
 
             $modals = [
                 [
-                    'title'         => "Muat Turun Kehadiran Pensyarah",
-                    'id'            => "#exportPensyarah",
-                    'button_class'  => "btn btn-sm btn-primary fw-bold",
-                    'icon_class'    => "fa-solid fa-circle-down"
+                    'title' => 'Muat Turun Kehadiran Pensyarah',
+                    'id' => '#exportPensyarah',
+                    'button_class' => 'btn btn-sm btn-primary fw-bold',
+                    'icon_class' => 'fa-solid fa-circle-down',
                 ],
             ];
 
@@ -167,8 +167,8 @@ class RekodKehadiranController extends Controller
         try {
 
             $datas = KehadiranPensyarah::with('staff')
-                    ->whereBetween('tarikh_masuk', [Carbon::createFromFormat('d/m/Y', $request->tarikh_mula)->format('Y-m-d'), Carbon::createFromFormat('d/m/Y', $request->tarikh_akhir)->format('Y-m-d')])
-                    ->get();
+                ->whereBetween('tarikh_masuk', [Carbon::createFromFormat('d/m/Y', $request->tarikh_mula)->format('Y-m-d'), Carbon::createFromFormat('d/m/Y', $request->tarikh_akhir)->format('Y-m-d')])
+                ->get();
 
             $tarikh_mula = $request->tarikh_mula;
             $tarikh_akhir = $request->tarikh_akhir;

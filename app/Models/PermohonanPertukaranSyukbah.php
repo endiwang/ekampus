@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Base as Model;
 
 class PermohonanPertukaranSyukbah extends Model
 {
-    use HasFactory;
-
     protected $table = 'permohonan_pertukaran_syukbah';
 
     protected $guarded = ['id'];

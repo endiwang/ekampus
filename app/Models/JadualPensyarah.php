@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Base as Model;
 
 class JadualPensyarah extends Model
 {
-    use HasFactory;
-
     protected $table = 'jadual_pensyarah';
+
     protected $guarded = ['id'];
 
     public function semester()
@@ -21,5 +19,4 @@ class JadualPensyarah extends Model
     {
         return $this->belongsTo(Sesi::class, 'sesi_id', 'id');
     }
-
 }
