@@ -113,6 +113,8 @@
                         @include('layouts.master.sidebar.peperiksaan')
                     @elseif(Request::routeIs('pengurusan.pembangunan.*'))
                         @include('layouts.master.sidebar.pembangunan')
+                    @elseif(Request::routeIs('pengurusan.pengajian_sepanjang_hayat.*'))
+                        @include('layouts.master.sidebar.jabatan_pengajian_sepanjang_hayat')
                     @elseif(Request::routeIs('pengurusan.kewangan.*'))
                         @include('layouts.master.sidebar.kewangan')
                     @elseif(Request::routeIs('vendor.*'))
