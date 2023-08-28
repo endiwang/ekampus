@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pelajar;
 
 use App\Http\Controllers\Controller;
+use App\Models\Pelajar;
 use Illuminate\Http\Request;
 
 class MainPelajarController extends Controller
@@ -79,5 +80,14 @@ class MainPelajarController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function find(Request $request)
+    {
+        if(!empty($request->search))
+        {
+            return Pelajar::where('nama', 'LIKE', '%' . $request->search . '%')->limit(10)->pluck('nama', 'id')->toArray();
+            return $data;
+        }
     }
 }
