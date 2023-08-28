@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Pengurusan\KBG;
 
+use App\Constants\Generic;
 use App\Http\Controllers\Controller;
+use App\Libraries\BilLibrary;
 use App\Models\Pelajar;
 use App\Models\SebabBerhenti;
+use App\Models\Yuran;
 use Collective\Html\FormFacade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -126,6 +129,16 @@ class ProsesBerhentiController extends Controller
         $pelajar->sebab_berhenti = $request->sebab_berhenti;
         $pelajar->kod_berhenti = $request->kod_berhenti;
         $pelajar->save();
+
+        $yuran = Yuran::find(Generic::YURAN_KUTIPAN_BAYARAN_BALIK);
+        if(!empty($yuran))
+        {
+            BilLibrary::createBil([
+                'yuran' => $yuran,
+                'pelajar_id' => $pelajar->id,
+            ]);
+        }
+        
         Alert::toast('Proses berhenti bejaya', 'success');
 
         return redirect()->route('pengurusan.kbg.pengurusan.proses_berhenti.index');

@@ -5,11 +5,13 @@ use App\Http\Controllers\Pengurusan\Peperiksaan\CetakanKeputusanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\CetakanTranskripController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\JadualPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniKursusController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniMarkahController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniNamaPelajarController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSesiPengajianController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSubjekArabController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\MainPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\MaklumatKehadiranController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\PengesahanTamatPengajianController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\PersiapanPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\SenaraiCalonPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\SenaraiPelajarTamatController;
@@ -58,3 +60,9 @@ Route::resource('calon_peperiksaan', SenaraiCalonPeperiksaanController::class);
 Route::post('maklumat_kehadiran/maklumat_subjek_pelajar', [MaklumatKehadiranController::class, 'getMaklumatSubjekPelajar'])->name('maklumat_kehadiran.getMaklumatSubjekPelajar');
 Route::resource('maklumat_kehadiran', MaklumatKehadiranController::class);
 
+Route::post('pengesahan_tamat_pengajian/validate/{id}', [PengesahanTamatPengajianController::class, 'validateStudent'])->name('pengesahan_tamat_pengajian.validate_student');
+Route::post('pengesahan_tamat_pengajian/maklumat_subjek_pelajar', [PengesahanTamatPengajianController::class, 'getMaklumatSubjekPelajar'])->name('pengesahan_tamat_pengajian.getMaklumatSubjekPelajar');
+Route::resource('pengesahan_tamat_pengajian', PengesahanTamatPengajianController::class);
+
+Route::post('kemaskini_markah/maklumat_pelajar', [KemaskiniMarkahController::class, 'getMaklumatPelajar'])->name('kemaskini_markah.getMaklumatPelajar');
+Route::resource('kemaskini_markah', KemaskiniMarkahController::class);
