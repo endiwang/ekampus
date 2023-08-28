@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pengurusan\Akademik;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kursus;
+use App\Models\Semester;
 use App\Models\SemesterTerkini;
 use Carbon\Carbon;
 use Exception;
@@ -21,7 +22,7 @@ class SemesterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -42,6 +43,24 @@ class SemesterController extends Controller
 
             if (request()->ajax()) {
                 $data = SemesterTerkini::with('kursus');
+                if ($request->has('tahun_pengajian') && $request->tahun_pengajian != null) {
+                    $data->where('sesi_pengajian', 'LIKE', '%'.$request->tahun_pengajian.'%');
+                }
+                if ($request->has('program_pengajian') && $request->program_pengajian != null) {
+                    $data->where('kursus_id', $request->program_pengajian);
+                }
+                if ($request->has('semester') && $request->semester != null) {
+                    $data->where('semester_no', $request->semester);
+                }
+                if ($request->has('status') && $request->status != null) {
+                    $data->where('status', $request->status);
+                }
+                if ($request->has('status_keputusan') && $request->status_keputusan != null) {
+                    $data->where('status_keputusan', $request->program_pengajian);
+                }
+                if ($request->has('status_ulangan') && $request->status_ulangan != null) {
+                    $data->where('status_keputusan_ulangan', $request->status_ulangan);
+                }
 
                 return DataTables::of($data)
                     ->addColumn('kursus_id', function ($data) {
@@ -114,7 +133,14 @@ class SemesterController extends Controller
                 ])
                 ->minifiedAjax();
 
-            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
+            $courses = Kursus::where('deleted_at', NULL)->pluck('nama', 'id');
+            $semesters = Semester::where('deleted_at', NULL)->pluck('nama', 'id');
+            $statuses = [
+                '1' => 'Tidak Aktif',
+                '0' => 'Aktif'
+            ];
+
+            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable', 'courses', 'semesters', 'statuses'));
 
         } catch (Exception $e) {
             report($e);
