@@ -12,4 +12,9 @@ class PelajarSemesterDetail extends Model
     {
         return $this->belongsTo(Subjek::class, 'subjek_id', 'id');
     }
+
+    public function sesi()
+    {
+        return $this->belongsTo(Sesi::class, 'sesi_id', 'id');
+    }
 }

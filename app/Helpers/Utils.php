@@ -108,4 +108,27 @@ class Utils
 
         return $sem_now;
     }
+
+    public static function getPointer($mark)
+    {
+        if($mark>=80){
+            $pointer=4.0;
+        } else if($mark>=70 && $mark<=79){
+            $pointer=3.5;
+        } else if($mark>=60 && $mark<=69){
+            $pointer=3.0;
+        } else if($mark>=55 && $mark<=59){
+            $pointer=2.5;
+        } else if($mark>=50 && $mark<=54){
+            $pointer=2.0;
+        } else if($mark>=45 && $mark<=49){
+            $pointer=1.5;
+        } else if($mark>=40 && $mark<=44){
+            $pointer=1.0;
+        } else if($mark<=39){
+            $pointer=0;
+        }
+
+        return $pointer;
+    }
 }
