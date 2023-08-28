@@ -37,4 +37,9 @@ class CloPlo extends Model
     {
         return $this->belongsTo(Kelas::class, 'kelas_id', 'id');
     }
+
+    public function cloPloMark()
+    {
+        return $this->belongsTo(CloPloMark::class, 'id', 'clo_plo_id');
+    }
 }
