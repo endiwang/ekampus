@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Pengurusan\PengajianSepanjangHayat;
 
 use App\Http\Controllers\Controller;
+use App\Mail\StatusPermohonanBaruSijilTahfiz;
 use App\Models\Negeri;
+use App\Models\Pemohon;
 use App\Models\PermohonanSijilTahfiz;
 use App\Models\PusatPeperiksaan;
 use App\Models\PusatPeperiksaanNegeri;
@@ -11,6 +13,7 @@ use App\Models\TetapanPeperiksaanSijilTahfiz;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Builder;
@@ -164,6 +167,8 @@ class PermohonanController extends Controller
 
             $permohonan->update($request->except('_token'));
             
+            $pemohon = Pemohon::where('id', $permohonan->pemohon_id)->first();
+            Mail::to($pemohon->email)->send(new StatusPermohonanBaruSijilTahfiz());
             DB::commit();
             Alert::toast('Status kelayakan berjaya dipinda!', 'success');
         } catch (\Exception $e) {

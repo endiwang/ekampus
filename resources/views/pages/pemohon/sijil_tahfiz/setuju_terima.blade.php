@@ -1,4 +1,4 @@
-@extends('layouts.master.main')
+@extends('layouts.public.main_inner_pemohon')
 @section('css')
 @endsection
 @section('content')
@@ -7,7 +7,7 @@
             <!--begin::Row-->
             <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <form class="form" action="{{ route('pelajar.permohonan.sijil_tahfiz.setujuTerima.tawaran.jawapan', $permohonan->id)}}" method="post" enctype="multipart/form-data">
+                    <form class="form" action="{{ route('pemohon.permohonan_sijil_tahfiz.setujuTerima.tawaran.jawapan', $permohonan->id)}}" method="post" enctype="multipart/form-data">
                         @method('PATCH')
                         @csrf
                         <div class="card mt-2">
@@ -68,7 +68,7 @@
                                             <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
                                                 <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
                                             </button>
-                                            <a href="{{ route('pengurusan.pengajian_sepanjang_hayat.tetapan.sesi_peperiksaan_sijil_tahfiz.index') }}" class="btn btn-light btn-sm">Batal</a>
+                                            <a href="{{ route('pemohon.permohonan_sijil_tahfiz.index') }}" class="btn btn-light btn-sm">Batal</a>
                                         </div>
                                     </div>
                                 </div>
@@ -86,58 +86,7 @@
 
 @push('scripts')
 <script>
-$(document).ready(function () {
-    $('#ppnegeridiv').show();
 
-    $("#siri_id").on('change', function(){
-        var siri_id = this.value;
-
-        $("#pusat_peperiksaan_id").val('');
-        $("#pusat_peperiksaan_negeri_id").val('');
-        $('#ppnegeridiv').hide();
-        $("#pusat_peperiksaan_id").select2({
-            ajax: {
-                url: "{{route('pelajar.permohonan.sijil_tahfiz.fetchPusatPeperiksaan')}}",
-                type: "GET",
-                data: {
-                            siri_id: siri_id,
-                            _token: '{{csrf_token()}}'
-                        },
-                dataType: 'json',
-                processResults: function (data) {
-                // Transforms the top-level key of the response object from 'items' to 'results'
-                return {
-                    results: data
-                };
-                }
-            }
-        })
-    })
-
-    $("#pusat_peperiksaan_id").on('change', function(){
-        $('#ppnegeridiv').show();
-        var pp_id = this.value;
-
-        $("#pusat_peperiksaan_negeri_id").val('');
-        $("#pusat_peperiksaan_negeri_id").select2({
-            ajax: {
-                url: "{{route('pelajar.permohonan.sijil_tahfiz.fetchPusatPeperiksaan.negeri')}}",
-                type: "GET",
-                data: {
-                            pusat_peperiksaan_id: pp_id,
-                            _token: '{{csrf_token()}}'
-                        },
-                dataType: 'json',
-                processResults: function (data) {
-                // Transforms the top-level key of the response object from 'items' to 'results'
-                return {
-                    results: data
-                };
-                }
-            }
-        })
-    })
-});
 </script>
 
 @endpush

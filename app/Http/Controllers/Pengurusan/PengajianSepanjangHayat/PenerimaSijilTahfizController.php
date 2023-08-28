@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PemarkahanCalonSijilTahfiz;
 use App\Models\PermohonanSijilTahfiz;
 use App\Models\TemplateSijilTahfiz;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,32 +29,26 @@ class PenerimaSijilTahfizController extends Controller
         if (request()->ajax()) {
             $query = PemarkahanCalonSijilTahfiz::query();
             if ($request->has('carian')) {
-                $query->join('pelajar as p', 'p.id', '=', 'pemarkahan_calon_sijil_tahfizs.pelajar_id')
+                $query->join('permohonan_sijil_tahfizs as pst', 'pst.id', '=', 'pemarkahan_calon_sijil_tahfizs.permohonan_id')
+                    ->join('pemohon as p', 'p.id', '=', 'pemarkahan_calon_sijil_tahfizs.pemohon_id')
                     ->where(function($q) use ($request){
-                        $q->where('p.nama', 'LIKE', '%'.$request->carian.'%');
-                        $q->orWhere('p.no_ic', 'LIKE', '%'.$request->carian.'%');
+                        $q->where('pst.name', 'LIKE', '%'.$request->carian.'%');
+                        $q->orWhere('p.username', 'LIKE', '%'.$request->carian.'%');
                     });
             }
             $data = $query->where('pemarkahan_calon_sijil_tahfizs.approval', 1)
                 ->where('pemarkahan_calon_sijil_tahfizs.status_kelulusan', 1);
+                // ->select(['pst.name as name', 'pemarkahan_calon_sijil_tahfizs.status_terima_sijil as status_terima_sijil']);
 
             return DataTables::of($data)
                 ->addColumn('nama', function ($data) {
-                    return $data->pelajar->nama ?? null;
+                    return $data->permohonanSijilTahfiz->name ?? null;
                 })
                 ->addColumn('status', function ($data) {
-                    switch ($data->status_terima_sijil) {
-                        case 0:
-                            return '<span class="badge py-3 px-4 fs-7 badge-light-success">Belum Dijana</span>';
-                            break;
-                        case 1:
-                            return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Sudah Dijana</span>';
-                            break;
-                        case 2:
-                            return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Dijana Semula</span>';
-                            break;
-                        default:
-                            return '';
+                    if(!empty($data->permohonanSijilTahfiz->template_sijil_tahfiz_id)){
+                        return '<span class="badge py-3 px-4 fs-7 badge-light-success">Sudah Dijana</span>';
+                    } else {
+                        return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Belum Dijana</span>';
                     }
                 })
                 ->addColumn('action', function ($data) {
@@ -77,7 +72,7 @@ class PenerimaSijilTahfizController extends Controller
         $dataTable = $builder
             ->columns([
                 ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
-                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Subjek', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Calon', 'orderable' => false, 'class' => 'text-bold'],
                 ['data' => 'status', 'name' => 'kelas', 'title' => 'Status', 'orderable' => false, 'class' => 'text-bold'],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
 
@@ -92,15 +87,15 @@ class PenerimaSijilTahfizController extends Controller
         $template_sijil_tahfiz_id = PermohonanSijilTahfiz::where('id', $pemarkahan->permohonan_id)->first(['template_sijil_tahfiz_id']);
         $template_sijil = TemplateSijilTahfiz::find($template_sijil_tahfiz_id)->first();
 
-        $nama = $pemarkahan->pelajar->nama;
-        $kadpengenalan = $pemarkahan->pelajar->no_ic;
+        $nama = $pemarkahan->permohonanSijilTahfiz->name;
+        $kadpengenalan = $pemarkahan->pemohon->username;
 
         preg_match_all('/{([^}]*)}/', $template_sijil->template, $matches);
 
         $message_body = '';
         $message_body .= $template_sijil->template;
         foreach ($matches[0] as $pholder) {
-            if ($pholder == '{name}') {
+            if ($pholder == '{nama}') {
                 $message_body = str_replace($pholder, $nama, $message_body);
             }
 
@@ -122,11 +117,16 @@ class PenerimaSijilTahfizController extends Controller
         try {
 
             $template_sijil = TemplateSijilTahfiz::where('status', 1)->latest()->first();
-            $pemarkahan = PemarkahanCalonSijilTahfiz::find($id);
-            PermohonanSijilTahfiz::where('id', $pemarkahan->permohonan_id)->update(['template_sijil_tahfiz_id'=>$template_sijil->id]);
+            if(!empty($template_sijil)){
+                $pemarkahan = PemarkahanCalonSijilTahfiz::find($id);
+                PermohonanSijilTahfiz::where('id', $pemarkahan->permohonan_id)->update(['template_sijil_tahfiz_id'=>$template_sijil->id, 'tarikh_jana_sijil' => Carbon::now('Asia/Kuala_Lumpur')->format('Y-m-d')]);
 
-            Alert::toast('Sijil Tahfiz Telah Berjaya Dijana', 'success');
-            DB::commit();
+                Alert::toast('Sijil Tahfiz Telah Berjaya Dijana', 'success');
+                DB::commit();
+            } else {
+                Alert::toast('Tiada Template Sijil Tahfiz Yang Aktif Untuk DIgunakan', 'error');
+            }
+            
 
         } catch (Exception $e) {
             DB::rollBack();
@@ -142,15 +142,15 @@ class PenerimaSijilTahfizController extends Controller
         $template_sijil_tahfiz_id = PermohonanSijilTahfiz::where('id', $pemarkahan->permohonan_id)->first(['template_sijil_tahfiz_id']);
         $template_sijil = TemplateSijilTahfiz::find($template_sijil_tahfiz_id)->first();
 
-        $nama = $pemarkahan->pelajar->nama;
-        $kadpengenalan = $pemarkahan->pelajar->no_ic;
+        $nama = $pemarkahan->permohonanSijilTahfiz->name;
+        $kadpengenalan = $pemarkahan->pemohon->username;
 
         preg_match_all('/{([^}]*)}/', $template_sijil->template, $matches);
 
         $message_body = '';
         $message_body .= $template_sijil->template;
         foreach ($matches[0] as $pholder) {
-            if ($pholder == '{name}') {
+            if ($pholder == '{nama}') {
                 $message_body = str_replace($pholder, $nama, $message_body);
             }
 

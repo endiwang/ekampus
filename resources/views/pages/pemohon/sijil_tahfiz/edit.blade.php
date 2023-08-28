@@ -361,7 +361,7 @@ $(document).ready(function () {
         $('#ppnegeridiv').hide();
         $("#pusat_peperiksaan_id").select2({
             ajax: {
-                url: "{{route('pelajar.permohonan.sijil_tahfiz.fetchPusatPeperiksaan')}}",
+                url: "{{route('pemohon.permohonan_sijil_tahfiz.fetchPusatPeperiksaan')}}",
                 type: "GET",
                 data: {
                             siri_id: siri_id,
@@ -385,7 +385,7 @@ $(document).ready(function () {
         $("#pusat_peperiksaan_negeri_id").val('');
         $("#pusat_peperiksaan_negeri_id").select2({
             ajax: {
-                url: "{{route('pelajar.permohonan.sijil_tahfiz.fetchPusatPeperiksaan.negeri')}}",
+                url: "{{route('pemohon.permohonan_sijil_tahfiz.fetchPusatPeperiksaan.negeri')}}",
                 type: "GET",
                 data: {
                             pusat_peperiksaan_id: pp_id,

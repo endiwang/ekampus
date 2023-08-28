@@ -14,13 +14,12 @@
                             <div class="card-body py-5">
                                 <h3>Maklumat Pemohon</h3>
                                 <div class="row fv-row mb-2" >
-                                    <input type="hidden" name="pelajar_id" value="{{ $pelajar->id }}">
                                     <div class="col-md-3 text-md-end">
                                         {{ Form::label('name', 'Nama Pemohon', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('',$pelajar->nama,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
+                                            {{ Form::text('',$permohonan->name,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
                                         </div>
                                     </div>
                                 </div>
@@ -30,7 +29,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('',$pelajar->no_ic,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
+                                            {{ Form::text('',$pemohon->username,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
                                         </div>
                                     </div>
                                 </div>
@@ -40,17 +39,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('',$pelajar->no_tel,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row fv-row mb-2" >
-                                    <div class="col-md-3 text-md-end">
-                                        {{ Form::label('nama_pusat_tahfiz', 'Pusat Tahfiz', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="w-100">
-                                            {{ Form::text('',$permohonan->nama_tahfiz,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
+                                            {{ Form::text('',$permohonan->phone_no,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
                                         </div>
                                     </div>
                                 </div>
@@ -135,6 +124,7 @@
                                 <div class="row">
                                     <div class="col-md-9 offset-md-3">
                                         <div class="d-flex">
+                                            {{ Form::hidden('pemohon_id',$permohonan->pemohon_id,['class' => 'form-control form-control-sm ','onkeydown' =>'return false']) }}
                                             <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
                                                 <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
                                             </button>

@@ -20,4 +20,8 @@ class PemarkahanCalonSijilTahfiz extends Model
     public function pelajar(){
         return $this->belongsTo(Pelajar::class);
     }
+
+    public function pemohon(){
+        return $this->belongsTo(Pemohon::class);
+    }
 }
