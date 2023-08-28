@@ -2,20 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Base as Model;
 
 class TetapanPeperiksaan extends Model
 {
-    use HasFactory;
-
     protected $table = 'tetapan_peperiksaan';
 
     protected $guarded = ['id'];
 
     public function sesi()
     {
-        return $this->belongsTo(Sesi::class, 'sesi_id', 'id');
+        return $this->belongsTo(SesiPeperiksaan::class, 'sesi_id', 'id');
     }
 
     public function pusat_pengajian()

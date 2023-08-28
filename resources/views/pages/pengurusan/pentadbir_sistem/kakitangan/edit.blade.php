@@ -18,7 +18,11 @@
             <!--begin::Content-->
             <div id="kt_account_settings_profile_details" class="collapse show">
                 <!--begin::Form-->
-                <form id="kt_account_profile_details_form" class="form">
+                <form id="kt_account_profile_details_form" action="{{ $action }}" class="form" method="post" enctype="multipart/form-data">
+                    @if ($staff->id)
+                        @method('PUT')
+                    @endif
+                    @csrf
                     <!--begin::Card body-->
                     <div class="card-body border-top p-9">
                         <!--begin::Input group-->
@@ -32,7 +36,7 @@
                                 <!--begin::Image input-->
                                 <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('{{URL::asset('assets/media/svg/avatars/blank.svg')}}')">
                                     <!--begin::Preview existing avatar-->
-                                    <div class="image-input-wrapper w-125px h-125px" style="background-image: url({{URL::asset('assets/media/avatars/300-1.jpg')}})"></div>
+                                    <div class="image-input-wrapper w-125px h-125px" @if($staff->img_staff) style="background-image: url('{{url('storage/'.$staff->img_staff)}}')" @else style="background-image: url({{URL::asset('assets/media/avatars/300-1.jpg')}})" @endif></div>
                                     <!--end::Preview existing avatar-->
                                     <!--begin::Label-->
                                     <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Tukar gambar">
@@ -85,6 +89,16 @@
                         </div>
                         <div class="row mb-2">
                             <!--begin::Label-->
+                            {{ Form::label('jantina', 'Jantina', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}
+                            <!--end::Label-->
+                            <!--begin::Col-->
+                            <div class="col-lg-8">
+                                {{ Form::select('jantina', ['L' => 'Lelaki','P' => 'Perempuan'], $staff->jantina, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('jantina') ? 'is-invalid':''), 'data-control'=>'select2' ]) }}
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <div class="row mb-2">
+                            <!--begin::Label-->
                             {{ Form::label('alamat', 'Alamat', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}
                             <!--end::Label-->
                             <!--begin::Col-->
@@ -105,11 +119,11 @@
                         </div>
                         <div class="row mb-2">
                             <!--begin::Label-->
-                            {{ Form::label('emeil', 'Emel', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}
+                            {{ Form::label('email', 'Emel', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}
                             <!--end::Label-->
                             <!--begin::Col-->
                             <div class="col-lg-8">
-                                {{ Form::email('emeil',$staff->email,['class' => 'form-control form-control-sm']) }}
+                                {{ Form::email('email',$staff->email,['class' => 'form-control form-control-sm']) }}
                             </div>
                             <!--end::Col-->
                         </div>
@@ -161,7 +175,7 @@
                                 <!--begin::Col-->
                                 <div class="offset-lg-4 col-lg-8">
                                     <label class="form-check form-check-custom form-check-inline">
-                                        <input class="form-check-input" name="jawatan[]" type="checkbox" value="{{ $role->id }}" @if($user_staff->hasRole([$role->id])) checked @endif/>
+                                        <input class="form-check-input" name="jawatan[]" type="checkbox" value="{{ $role->id }}" @if($staff->id) @if( $user_staff->hasRole([$role->id])) checked @endif @endif/>
                                         <span class="fw-semibold ps-2 fs-7 text-capitalize">{{ $role->display_name }}</span>
                                     </label>
                                 </div>

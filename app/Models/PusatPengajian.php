@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Base as Model;
 
 class PusatPengajian extends Model
 {
-    use HasFactory;
-
     protected $table = 'pusat_pengajian';
 
     protected $fillable = ['id', 'nama', 'kod', 'no', 'status', 'deleted_by', 'is_deleted'];

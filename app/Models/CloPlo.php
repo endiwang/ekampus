@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Base as Model;
 
 class CloPlo extends Model
 {
-    use HasFactory;
-
     protected $guarded = ['id'];
 
     public function clo()
@@ -39,5 +36,10 @@ class CloPlo extends Model
     public function kelas()
     {
         return $this->belongsTo(Kelas::class, 'kelas_id', 'id');
+    }
+
+    public function cloPloMark()
+    {
+        return $this->belongsTo(CloPloMark::class, 'id', 'clo_plo_id');
     }
 }

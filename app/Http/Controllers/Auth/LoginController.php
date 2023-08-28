@@ -34,6 +34,11 @@ class LoginController extends Controller
 
         Auth::login($user);
 
+        if(!empty($user->is_vendor))
+        {
+            return redirect(route('vendor.aduan_penyelenggaraan.index'));
+        }
+
         return $this->authenticated($request, $user);
 
     }
