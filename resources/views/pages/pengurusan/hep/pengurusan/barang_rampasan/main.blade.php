@@ -46,11 +46,12 @@
     <script>
         function remove(id){
             Swal.fire({
-                title: 'Are you sure you want to delete this data?',
-                text: 'This action cannot be undone.',
+                title: 'Adakah anda pasti?',
+                text: '',
+                icon: 'question',
                 showCancelButton: true,
-                cancelButtonText: 'Cancel',
-                confirmButtonText: 'Delete',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya Padam',
                 reverseButtons: true,
                 customClass: {
                     title: 'swal-modal-delete-title',

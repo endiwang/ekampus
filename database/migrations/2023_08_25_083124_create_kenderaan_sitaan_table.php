@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('model')->nullable();
             $table->string('warna')->nullable();
             $table->string('no_pendaftaran')->nullable();
-            $table->date('tarikh_rampasan')->nullable();
+            $table->date('tarikh_sita')->nullable();
             $table->time('masa_sita')->nullable();
             $table->string('tempat_sita')->nullable();
             $table->text('sebab_sita')->nullable();
