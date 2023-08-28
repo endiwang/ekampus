@@ -5,6 +5,8 @@ use App\Http\Controllers\Pemohon\PermohonanController;
 use App\Http\Controllers\Pemohon\RayuanController;
 use App\Http\Controllers\Pemohon\SemakanController;
 use App\Http\Controllers\Pemohon\Sijil_Tahfiz\PermohonanSijilTahfizController;
+use App\Http\Controllers\Pemohon\Sijil_Tahfiz\SemakanKelayakanSijilTahfizController;
+use App\Http\Controllers\Pemohon\Sijil_Tahfiz\SemakanKeputusanPeperiksaanSijilTahfizController;
 use App\Http\Controllers\Pemohon\TawaranController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +31,11 @@ Route::group(['middleware' => ['auth_pemohon']], function () {
         Route::get('fetchPusatPeperiksaanNegeri', [PermohonanSijilTahfizController::class, 'fetchPusatPeperiksaanNegeri'])->name('fetchPusatPeperiksaan.negeri');
         Route::get('setujuTerimaTawaran/{id}', [PermohonanSijilTahfizController::class, 'setujuTerimaTawaran'])->name('setujuTerima.tawaran');
         Route::patch('setujuTerimaTawaran/update/{id}', [PermohonanSijilTahfizController::class, 'setujuTerimaTawaranJawapan'])->name('setujuTerima.tawaran.jawapan');
+        Route::resource('semakan_permohonan_sijil_tahfiz', SemakanKelayakanSijilTahfizController::class);
+        Route::group(['prefix'=>'semakan_keputusan_sijil_tahfiz','as'=>'semakan_keputusan_sijil_tahfiz.'], function(){
+            Route::get('/download/keputusan_sementara/{id}', [SemakanKeputusanPeperiksaanSijilTahfizController::class, 'downloadPdf'])->name('keputusan_sementara.downloadPdf');
+        });
+        Route::resource('semakan_keputusan_sijil_tahfiz', SemakanKeputusanPeperiksaanSijilTahfizController::class);
     });
 
     Route::resource('/permohonan_sijil_tahfiz',PermohonanSijilTahfizController::class);
