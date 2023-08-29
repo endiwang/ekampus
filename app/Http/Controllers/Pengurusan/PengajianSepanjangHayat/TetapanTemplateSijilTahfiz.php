@@ -13,7 +13,7 @@ use Yajra\DataTables\Html\Builder;
 
 class TetapanTemplateSijilTahfiz extends Controller
 {
-    public function index(Builder $builder){
+    public function index(Builder $builder, Request $request){
         $title = "Tetapan Template Sijil Tahfiz";
         $breadcrumbs = [
             "Jabatan Pengajian Sepanjang Hayat" =>  '#',
@@ -30,12 +30,11 @@ class TetapanTemplateSijilTahfiz extends Controller
         ];
 
         if (request()->ajax()) {
-            $data = TemplateSijilTahfiz::all();
+            $data = TemplateSijilTahfiz::query();
+            if($request->has('carian')){
+                $data->where('name', 'LIKE', '%'.$request->carian.'%');
+            }
             return DataTables::of($data)
-            // ->addColumn('tempoh_permohonan', function($data) {
-            //     return Carbon::parse($data->tarikh_permohonan_dibuka)->format('d/m/Y'). ' - ' .Carbon::parse($data->tarikh_permohonan_ditutup)->format('d/m/Y');
-
-            // })
             ->addColumn('status_edit', function($data) {
                 switch ($data->status) {
                     case 1:
