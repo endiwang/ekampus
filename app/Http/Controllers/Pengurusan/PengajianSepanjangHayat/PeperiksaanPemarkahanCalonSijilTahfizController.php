@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pengurusan\PengajianSepanjangHayat;
 use App\Http\Controllers\Controller;
 use App\Models\PemarkahanCalonSijilTahfiz;
 use App\Models\PermohonanSijilTahfiz;
+use App\Models\TetapanPenemudugaSijilTahfiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -23,14 +24,17 @@ class PeperiksaanPemarkahanCalonSijilTahfizController extends Controller
         ];
 
         if (request()->ajax()) {
-            $data = PermohonanSijilTahfiz::where('status_tawaran',1)->where('status_hadir_peperiksaan',0)->get();
+            $penemuduga = TetapanPenemudugaSijilTahfiz::where('staff_id', Auth::user()->staff->id)
+                ->get()->pluck('tetapan_peperiksaan_sijil_tahfiz_id')->toArray();
+            $data = PermohonanSijilTahfiz::where('status_tawaran',1)->where('status_hadir_peperiksaan',0)
+                ->whereIn('siri_id', $penemuduga)->get();
             return DataTables::of($data)
             ->addColumn('nama_pemohon', function($data) {
-                return $data->pelajar->nama;
+                return $data->name;
 
             })
             ->addColumn('no_id', function($data) {
-                return $data->pelajar->no_ic;
+                return $data->pemohon->username;
 
             })
             ->addColumn('action', function($data){
@@ -85,7 +89,7 @@ class PeperiksaanPemarkahanCalonSijilTahfizController extends Controller
         ];
 
         $permohonan = PermohonanSijilTahfiz::find($id);
-        $pelajar = $permohonan->pelajar->first();
+        $pelajar = $permohonan->pemohon->first();
 
         $data = [
             'title' => $title,
@@ -158,7 +162,12 @@ class PeperiksaanPemarkahanCalonSijilTahfizController extends Controller
             if(empty($pemarkahan)){
                 PemarkahanCalonSijilTahfiz::create($request->except('_method', '_token'));
             } else {
-                $pemarkahan->update($request->except('_method', '_token', 'syafawi'));
+                if($request->has('syafawi')){
+                    $pemarkahan->update($request->except('_method', '_token', 'al_quran_tahriri', 'tajwid', 'fiqh_ibadah', 'akidah'));
+                } else {
+                    $pemarkahan->update($request->except('_method', '_token', 'al_quran_syafawi'));
+                }
+                
             }
             
             $final_markah = PemarkahanCalonSijilTahfiz::where('permohonan_id', $id)
@@ -214,7 +223,7 @@ class PeperiksaanPemarkahanCalonSijilTahfizController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            report($e);
+            dd($e);
             Alert::toast('Tetapan Baru Tidak Berjaya Ditambah', 'error');
         }
         
@@ -230,13 +239,13 @@ class PeperiksaanPemarkahanCalonSijilTahfizController extends Controller
         ];
 
         $permohonan = PermohonanSijilTahfiz::find($id);
-        $pelajar = $permohonan->pelajar;
+        $pemohon = $permohonan->pemohon;
 
         $data = [
             'title' => $title,
             'breadcrumbs' => $breadcrumbs,
             'permohonan' => $permohonan,
-            'pelajar' => $pelajar,
+            'pemohon' => $pemohon,
             'id' => $id,
             'syafawi' => 1,
         ];
@@ -253,13 +262,13 @@ class PeperiksaanPemarkahanCalonSijilTahfizController extends Controller
         ];
 
         $permohonan = PermohonanSijilTahfiz::find($id);
-        $pelajar = $permohonan->pelajar;
+        $pemohon = $permohonan->pemohon;
 
         $data = [
             'title' => $title,
             'breadcrumbs' => $breadcrumbs,
             'permohonan' => $permohonan,
-            'pelajar' => $pelajar,
+            'pemohon' => $pemohon,
             'id' => $id,
             'syafawi' => 0,
         ];

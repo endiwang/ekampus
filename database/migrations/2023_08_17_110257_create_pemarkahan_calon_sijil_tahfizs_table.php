@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('pemarkahan_calon_sijil_tahfizs', function (Blueprint $table) {
             $table->id();
             $table->integer('permohonan_id');
-            $table->integer('pelajar_id');
+            $table->integer('pelajar_id')->nullable();
+            $table->integer('pemohon_id')->nullable();
             $table->decimal('al_quran_syafawi', 10, 2)->nullable()->default(0.00);
             $table->decimal('al_quran_tahriri', 10, 2)->nullable()->default(0.0);
             $table->decimal('tajwid', 10, 2)->nullable()->default(0.0);

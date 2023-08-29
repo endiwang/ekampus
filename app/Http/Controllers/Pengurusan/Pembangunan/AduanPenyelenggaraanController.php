@@ -34,7 +34,7 @@ class AduanPenyelenggaraanController extends Controller
     {
         if (request()->ajax()) {
 
-            $data = AduanPenyelenggaraan::query();
+            $data = AduanPenyelenggaraan::orderBy('id', 'desc');
 
             if(!empty($request->carian))
             {
@@ -53,31 +53,16 @@ class AduanPenyelenggaraanController extends Controller
                 ->addColumn('pengadu', function ($data) {
                 })
                 ->addColumn('lokasi', function ($data) {
-                    $html = '';
-
-                    if (! empty($data->type)) {
-                        $html .= $data->lokasi_name.' / ';
-                    }
-
-                    if (! empty($data->blok)) {
-                        $html .= $data->blok->nama.' / ';
-                    }
-
-                    if (! empty($data->tingkat)) {
-                        $html .= $data->tingkat->nama.' / ';
-                    }
-
-                    if (! empty($data->bilik)) {
-                        $html .= $data->bilik->nama_bilik;
-                    }
-
-                    return $html;
+                    return $data->lokasi_full_name;
                 })
                 ->addColumn('kategori', function ($data) {
                     return $data->kategori_name;
                 })
                 ->addColumn('status', function ($data) {
-                    return $data->status_name;
+                    return $data->status_badge;
+                })
+                ->addColumn('tarikh_aduan', function ($data) {
+                    return $data->created_at;
                 })
                 ->addColumn('action', function ($data) {
                     $html = '<button type="button" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1 btn-show-aduan" data-url="'.route($this->baseRoute.'show', $data->id).'"><i class="fa fa-eye"></i></button>'.' ';
@@ -86,7 +71,7 @@ class AduanPenyelenggaraanController extends Controller
                     return $html;
                 })
                 ->addIndexColumn()
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'status'])
                 ->toJson();
         }
 
@@ -99,6 +84,7 @@ class AduanPenyelenggaraanController extends Controller
                 ['data' => 'kategori', 'name' => 'kategori', 'title' => 'Kategori', 'orderable' => false],
                 ['data' => 'jenis_kerosakan', 'name' => 'jenis_kerosakan', 'title' => 'Jenis Kerosakan', 'orderable' => false],
                 ['data' => 'status', 'name' => 'status', 'title' => 'Status Aduan', 'orderable' => false],
+                ['data' => 'tarikh_aduan', 'name' => 'tarikh_aduan', 'title' => 'Tarikh Aduan', 'orderable' => false, 'searchable' => false],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'searchable' => false],
 
             ])
@@ -199,6 +185,7 @@ class AduanPenyelenggaraanController extends Controller
             $aduan_penyelenggaraan = AduanPenyelenggaraan::find($id);
             $aduan_penyelenggaraan->status = 4;
             $aduan_penyelenggaraan->status_vendor = 3;
+            $aduan_penyelenggaraan->prestasi_vendor = $request->prestasi_vendor;
             $aduan_penyelenggaraan->save();
 
             $vendor = $aduan_penyelenggaraan->vendor;

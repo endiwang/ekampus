@@ -14,6 +14,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}" />
 
         @include('layouts.public.css')
+		@yield('css')
 	</head>
 	<body id="kt_body" data-bs-spy="scroll" data-bs-target="#kt_landing_menu" class="position-relative app-default">
 		<div class="d-flex flex-column flex-root" id="kt_app_root">

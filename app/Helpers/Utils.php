@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Notifikasi;
+use App\Models\SemesterTerkini;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 
@@ -98,8 +99,55 @@ class Utils
         $notify->save();
     }
 
-    public function sentEmail($data)
+    public static function getCurrenSemester($kursus_id)
     {
+        $sem_now = SemesterTerkini::select('id', 'kursus_id', 'semester_no', 'sesi_pengajian', 'sesi')
+                    ->where('status_semester', 0)
+                    ->where('kursus_id', $kursus_id)
+                    ->first();
 
+        return $sem_now;
+    }
+
+    public static function getJenisCaj($type)
+    {
+        $jenis = '';
+        switch($type)
+        {
+            case 'peperiksaan' :
+                $jenis = 'Peperiksaan';
+            break;
+            case 'hilang_transkrip' :
+                $jenis = 'Hilang Transkrip/Slip Keputusan Periksa';
+            break;
+            case 'semak_keputusan' :
+                $jenis = 'Semak Semula Keputusan Peperiksaan';
+            break;
+        }
+
+        return $jenis;
+    }
+    
+    public static function getPointer($mark)
+    {
+        if($mark>=80){
+            $pointer=4.0;
+        } else if($mark>=70 && $mark<=79){
+            $pointer=3.5;
+        } else if($mark>=60 && $mark<=69){
+            $pointer=3.0;
+        } else if($mark>=55 && $mark<=59){
+            $pointer=2.5;
+        } else if($mark>=50 && $mark<=54){
+            $pointer=2.0;
+        } else if($mark>=45 && $mark<=49){
+            $pointer=1.5;
+        } else if($mark>=40 && $mark<=44){
+            $pointer=1.0;
+        } else if($mark<=39){
+            $pointer=0;
+        }
+
+        return $pointer;
     }
 }

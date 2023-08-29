@@ -29,10 +29,10 @@ class PengesahanMarkahSijilTafiz extends Controller
 
             return DataTables::of($data)
             ->addColumn('nama_pemohon', function($data) {
-                return $data->pelajar->nama;
+                return $data->permohonanSijilTahfiz->name;
             })
             ->addColumn('no_id', function($data) {
-                return $data->pelajar->no_ic;
+                return $data->pemohon->username;
             })
             ->addColumn('action', function($data){
                 $btn = '<a href="'.route('pengurusan.pengajian_sepanjang_hayat.pemarkahan.pengesahan_markah_sijil_tahfiz.show',$data->id).'" class="btn btn-icon btn-info btn-sm" data-bs-toggle="tooltip" title="Lihat"><i class="fa fa-eye"></i></a>';
@@ -78,13 +78,13 @@ class PengesahanMarkahSijilTafiz extends Controller
         ];
 
         $pemarkahan = PemarkahanCalonSijilTahfiz::find($id);
-        $pelajar = $pemarkahan->pelajar;
+        $pemohon = $pemarkahan->pemohon;
 
         $data = [
             'title' => $title,
             'breadcrumbs' => $breadcrumbs,
             'pemarkahan' => $pemarkahan,
-            'pelajar' => $pelajar,
+            'pemohon' => $pemohon,
             'id' => $id,
         ];
 
@@ -100,13 +100,13 @@ class PengesahanMarkahSijilTafiz extends Controller
         ];
 
         $pemarkahan = PemarkahanCalonSijilTahfiz::find($id);
-        $pelajar = $pemarkahan->pelajar;
+        $pemohon = $pemarkahan->pemohon;
 
         $data = [
             'title' => $title,
             'breadcrumbs' => $breadcrumbs,
             'pemarkahan' => $pemarkahan,
-            'pelajar' => $pelajar,
+            'pemohon' => $pemohon,
             'id' => $id,
         ];
 
@@ -114,6 +114,7 @@ class PengesahanMarkahSijilTafiz extends Controller
     }
 
     public function update(Request $request, $id){
+        
         DB::beginTransaction();
 
         try {

@@ -31,11 +31,18 @@ class YuranController extends Controller
                 ->addColumn('action', function ($data) {
                     $html = '';
                     $html .= '<a href="javascript:void(0)" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1 btn-edit-yuran" data-bs-toggle="tooltip" title="Pinda" data-url="' . route($this->baseRoute.'edit', $data->id) . '" data-action="' . route($this->baseRoute.'update', $data->id) . '"><i class="fa fa-pencil-alt"></i></a> ';
-                    $html .= '<a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Hapus" onclick="remove('.$data->id.')"><i class="fa fa-trash"></i></a>'.
-                    '<form id="delete-'.$data->id.'" action="'.route($this->baseRoute.'destroy', $data->id).'" method="POST">
-                    <input type="hidden" name="_token" value="'.csrf_token().'">
-                    <input type="hidden" name="_method" value="DELETE">
-                </form>';
+
+                    if(!empty($data->is_fixed))
+                    {
+                        //
+                    }
+                    else {
+                        $html .= '<a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Hapus" onclick="remove('.$data->id.')"><i class="fa fa-trash"></i></a>'.
+                        '<form id="delete-'.$data->id.'" action="'.route($this->baseRoute.'destroy', $data->id).'" method="POST">
+                        <input type="hidden" name="_token" value="'.csrf_token().'">
+                        <input type="hidden" name="_method" value="DELETE">
+                        </form>';
+                    }
 
                     return $html;
                 })

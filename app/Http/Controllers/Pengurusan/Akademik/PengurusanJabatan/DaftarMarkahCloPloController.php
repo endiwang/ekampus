@@ -9,6 +9,7 @@ use App\Models\Kelas;
 use App\Models\Kursus;
 use App\Models\Pelajar;
 use App\Models\Subjek;
+use App\Models\Syukbah;
 use Exception;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -36,14 +37,11 @@ class DaftarMarkahCloPloController extends Controller
 
             if (request()->ajax()) {
                 $data = Kelas::with('currentSyukbah', 'currentSemester');
-                if ($request->has('program_pengajian') && $request->program_pengajian != null) {
-                    $data->where('program_pengajian_id', $request->program_pengajian);
+                if ($request->has('nama_kelas') && $request->nama_kelas != null) {
+                    $data->where('nama', 'LIKE', '%' . $request->nama_kelas . '%');
                 }
-                if ($request->has('kursus') && $request->kursus != null) {
-                    $data->where('kursus_id', $request->kursus);
-                }
-                if ($request->has('kelas') && $request->kelas != null) {
-                    $data->where('kelas_id', $request->kelas);
+                if ($request->has('syukbah') && $request->syukbah != null) {
+                    $data->where('semasa_syukbah_id', $request->syukbah);
                 }
 
                 return DataTables::of($data)
@@ -78,11 +76,9 @@ class DaftarMarkahCloPloController extends Controller
                 ])
                 ->minifiedAjax();
 
-            $courses = Kursus::where('is_deleted', 0)->get()->pluck('nama', 'id');
-            $subjects = Subjek::where('is_deleted', 0)->get()->pluck('nama', 'id');
-            $classes = Kelas::where('is_deleted', 0)->get()->pluck('nama', 'id');
+            $syukbah = Syukbah::where('is_deleted', 0)->get()->pluck('nama', 'id');
 
-            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable', 'courses', 'subjects', 'classes'));
+            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable', 'syukbah'));
 
         } catch (Exception $e) {
             report($e);

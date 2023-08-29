@@ -67,5 +67,9 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'auth.unit_kewangan' => \App\Http\Middleware\CheckUserIsUnitKewangan::class,
         'auth.unit_pembangunan' => \App\Http\Middleware\CheckUserIsUnitPembangunan::class,
+        'auth.vendor' => \App\Http\Middleware\CheckUserIsVendor::class,
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
     ];
 }

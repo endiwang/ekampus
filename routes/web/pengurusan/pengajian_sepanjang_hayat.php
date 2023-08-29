@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\LaporanStatistikController;
+// use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\LaporanStatistikController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PenerimaSijilTahfizController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PengesahanMarkahSijilTafiz;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PeperiksaanPemarkahanCalonSijilTahfizController;
@@ -64,4 +64,4 @@ Route::group(['prefix'=>'jemputan','as'=>'jemputan.'], function(){
     Route::resource('jemputan_majlis', JemputanMajlisPenyerahanSijilController::class);
 });
 
-Route::resource('laporan_statistik', LaporanStatistikController::class);
+// Route::resource('laporan_statistik', LaporanStatistikController::class);

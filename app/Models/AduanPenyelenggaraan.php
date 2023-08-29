@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Base as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AduanPenyelenggaraan extends Model
 {
-    use HasFactory;
     use SoftDeletes;
 
     protected $table = 'aduan_penyelenggaraan';
@@ -102,6 +100,18 @@ class AduanPenyelenggaraan extends Model
         return $status;
     }
 
+    public static function getPrestasiVendorSelection()
+    {
+        $status = [
+            1 => 'Cemerlang',
+            2 => 'Memuaskan',
+            3 => 'Tidak Memuaskan',
+            3 => 'Perlu pembaikan semula',
+        ];
+
+        return $status;
+    }
+
     public function getKategoriNameAttribute()
     {
         $kategori_aduan = $this->getKategoriSelection();
@@ -120,6 +130,29 @@ class AduanPenyelenggaraan extends Model
         }
     }
 
+    public function getLokasiFullNameAttribute()
+    {
+        $html = '';
+
+        if (! empty($this->type)) {
+            $html .= $this->lokasi_name.' / ';
+        }
+
+        if (! empty($this->blok)) {
+            $html .= $this->blok->nama.' / ';
+        }
+
+        if (! empty($this->tingkat)) {
+            $html .= $this->tingkat->nama.' / ';
+        }
+
+        if (! empty($this->bilik)) {
+            $html .= $this->bilik->nama_bilik;
+        }
+
+        return $html;
+    }
+
     public function getStatusNameAttribute()
     {
         $status = $this->getStatusSelection();
@@ -135,6 +168,67 @@ class AduanPenyelenggaraan extends Model
 
         if (! empty($this->attributes['status_vendor'])) {
             return @$status_vendor[$this->attributes['status_vendor']];
+        }
+    }
+
+    public function getPrestasiVendorNameAttribute()
+    {
+        $prestasi_vendor = $this->getPrestasiVendorSelection();
+
+        if (! empty($this->attributes['prestasi_vendor'])) {
+            return @$prestasi_vendor[$this->attributes['prestasi_vendor']];
+        }
+    }
+
+    public function getStatusBadgeAttribute()
+    {
+        $badge = '';
+        $name = '';
+        $status = $this->getStatusSelection();
+        
+        if (! empty($this->attributes['status'])) {
+            $name = @$status[$this->attributes['status']];
+        }
+
+        if($this->attributes['status'] == 1)
+        {
+            return '<span class="badge py-3 px-4 fs-7 badge-danger">' . $name . '</span>';
+        }
+        elseif($this->attributes['status'] == 2)
+        {
+            return '<span class="badge py-3 px-4 fs-7 badge-warning">' . $name . '</span>';
+        }
+        elseif($this->attributes['status'] == 3)
+        {
+            return '<span class="badge py-3 px-4 fs-7 badge-warning">' . $name . '</span>';
+        }
+        elseif($this->attributes['status'] == 4)
+        {
+            return '<span class="badge py-3 px-4 fs-7 badge-success">' . $name . '</span>';
+        }
+    }
+
+    public function getStatusVendorBadgeAttribute()
+    {
+        $badge = '';
+        $name = '';
+        $status = $this->getStatusVendorSelection();
+        
+        if (! empty($this->attributes['status_vendor'])) {
+            $name = @$status[$this->attributes['status_vendor']];
+        }
+
+        if($this->attributes['status_vendor'] == 1)
+        {
+            return '<span class="badge py-3 px-4 fs-7 badge-danger">' . $name . '</span>';
+        }
+        elseif($this->attributes['status_vendor'] == 2)
+        {
+            return '<span class="badge py-3 px-4 fs-7 badge-warning">' . $name . '</span>';
+        }
+        elseif($this->attributes['status_vendor'] == 3)
+        {
+            return '<span class="badge py-3 px-4 fs-7 badge-success">' . $name . '</span>';
         }
     }
 }
