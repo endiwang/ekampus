@@ -41,7 +41,7 @@ class SemakanKeputusanPeperiksaanSijilTahfizController extends Controller
                 }
             })
             ->addColumn('action', function($data){
-                $btn = '<a href="'.route('pemohon.permohonan_sijil_tahfiz.semakan_keputusan_sijil_tahfiz.show',$data->id).'" class="btn btn-icon btn-info btn-sm" data-bs-toggle="tooltip" title="Lihat"><i class="fa fa-eye"></i></a>';
+                $btn = '<a href="'.route('pemohon.permohonan_sijil_tahfiz.semakan_keputusan_sijil_tahfiz.show',$data->id).'" class="btn btn-icon btn-info btn-sm" data-bs-toggle="tooltip" title="Lihat" target="_blank"><i class="fa fa-eye"></i></a>';
                 $btn .= ' <a href="'.route('pemohon.permohonan_sijil_tahfiz.semakan_keputusan_sijil_tahfiz.keputusan_sementara.downloadPdf',$data->id).'" class="btn btn-icon btn-success btn-sm" data-bs-toggle="tooltip" title="Lihat"><i class="fa fa-download"></i></a>';
 
                 return $btn;

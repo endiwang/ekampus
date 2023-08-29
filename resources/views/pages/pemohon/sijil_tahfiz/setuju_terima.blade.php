@@ -30,6 +30,15 @@
                                             {{ Form::label('', strtoupper($permohonan->pusatPeperiksaan->name), ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                         </div>
                                     </div>
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('', 'Venue Perperiksaan', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            
+                                            {{ Form::label('', strtoupper($venue->address  ?? ''), ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        </div>
+                                    </div>
                                 </div>
                                 <h3>Terima Tawaran</h3>
                                 <div class="row fv-row mb-2" >
