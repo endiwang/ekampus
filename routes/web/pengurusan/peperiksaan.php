@@ -16,6 +16,7 @@ use App\Http\Controllers\Pengurusan\Peperiksaan\PersiapanPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\SenaraiCalonPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\SenaraiPelajarTamatController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\TetapanSesiPeperiksaanController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\TuntutanBayaranPeperiksaanController;
 use Illuminate\Support\Facades\Route;
 
 Route::resource('/', MainPeperiksaanController::class)->only(['index']);
@@ -66,3 +67,5 @@ Route::resource('pengesahan_tamat_pengajian', PengesahanTamatPengajianController
 
 Route::post('kemaskini_markah/maklumat_pelajar', [KemaskiniMarkahController::class, 'getMaklumatPelajar'])->name('kemaskini_markah.getMaklumatPelajar');
 Route::resource('kemaskini_markah', KemaskiniMarkahController::class);
+
+Route::resource('tuntutan_bayaran', TuntutanBayaranPeperiksaanController::class);
