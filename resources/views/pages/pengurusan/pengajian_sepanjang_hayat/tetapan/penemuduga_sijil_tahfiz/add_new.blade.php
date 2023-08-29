@@ -16,13 +16,13 @@
                                         {{ Form::label('staff_id', 'Penemuduga', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
-                                        <div class="w-100">
-                                            <select name="staff_id" class="form-select" data-control="select2" data-placeholder="Sila Pilih" data-allow-clear="true" data-hide-search="false">
+                                        <div class="w-100"> 
+                                            <select multiple name="staff_id[]" class="{{ 'form-contorl form-select form-select-sm '.($errors->has('staff_id') ? 'is-invalid':'') }}" data-control="select2" data-placeholder="Sila Pilih" data-allow-clear="true" data-hide-search="false">
                                                 @foreach ($staffSelection as $staff)
                                                     <option value="{{ $staff->id }}">{{ $staff->nama }}</option>
                                                 @endforeach
                                             </select>
-                                            @error('staff') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            @error('staff_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -32,7 +32,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            <select name="tetapan_peperiksaan_sijil_tahfiz_id" class="form-select" data-control="select2" data-placeholder="Sila Pilih" data-allow-clear="true" data-hide-search="false" id="tetapan_peperiksaan_sijil_tahfiz_id">
+                                            <select name="tetapan_peperiksaan_sijil_tahfiz_id" class="form-contorl form-select form-select-sm" data-control="select2" data-placeholder="Sila Pilih" data-allow-clear="true" data-hide-search="false" id="tetapan_peperiksaan_sijil_tahfiz_id">
                                                 @foreach ($tetapanpeperiksaansijiltahfizs as $tetapanpeperiksaansijiltahfiz)
                                                     <option value="{{ $tetapanpeperiksaansijiltahfiz->id }}">{{ $tetapanpeperiksaansijiltahfiz->siri }}</option>
                                                 @endforeach

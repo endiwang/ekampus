@@ -42,6 +42,10 @@ class TetapanPenemudugaSijilTahfizController extends Controller
                 return $staff;
 
             })
+            ->addColumn('siri', function($data) {
+                return $data->tetapanSiriPeperiksaan->siri;
+
+            })
             ->addColumn('status_edit', function($data) {
                 switch ($data->status) {
                     case 1:
@@ -83,6 +87,7 @@ class TetapanPenemudugaSijilTahfizController extends Controller
         ->columns([
             [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false, 'orderable'=> false],
             ['data' => 'name', 'name' => 'name', 'title' => 'Nama Penemuduga', 'orderable'=> true],
+            ['data' => 'siri', 'name' => 'siri', 'title' => 'Siri Peperiksaan', 'orderable'=> false],
             ['data' => 'status_edit', 'name' => 'status_edit', 'title' => 'Status', 'orderable'=> false],
             ['data' => 'action', 'name' => 'action','title' => 'Tindakan', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
 
@@ -116,7 +121,7 @@ class TetapanPenemudugaSijilTahfizController extends Controller
 
     public function store(Request $request){
         $validated = $request->validate([
-            'staff_id'  => 'required',
+            'staff_id'  => 'required|array',
             'tetapan_peperiksaan_sijil_tahfiz_id' => 'required',
             'pusat_peperiksaan_id' => 'required',
             'pusat_peperiksaan_negeri_id' => 'required',
@@ -127,11 +132,15 @@ class TetapanPenemudugaSijilTahfizController extends Controller
             'pusat_peperiksaan_negeri_id.required' => 'Sila pilih negeri pusat peperiksaan.',
         ]);
 
+        
         $request['created_by'] = Auth::id();
         DB::beginTransaction();
 
         try {
-            TetapanPenemudugaSijilTahfiz::create($request->except('_token'));
+            foreach ($request->staff_id as $staff_id) {
+                $request['staff_id'] = $staff_id;
+                TetapanPenemudugaSijilTahfiz::create($request->except('_token'));
+            }
     
             Alert::toast('Tetapan Baru Berjaya Ditambah', 'success');
             DB::commit();
