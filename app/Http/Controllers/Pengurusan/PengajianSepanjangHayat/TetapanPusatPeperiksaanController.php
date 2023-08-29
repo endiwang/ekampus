@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Negeri;
 use App\Models\PusatPeperiksaan;
 use App\Models\PusatPeperiksaanNegeri;
+use App\Models\VenuePeperiksaanSijilTahfiz;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -100,8 +101,15 @@ class TetapanPusatPeperiksaanController extends Controller
             "Tambah Pusat Peperiksaan" =>  '#',
         ];
 
-        $negeriSelection = Negeri::all();
+        $negeriSelection = VenuePeperiksaanSijilTahfiz::join('negeri as n', 'n.id', '=', 'venue_peperiksaan_sijil_tahfizs.negeri_id')
+            ->where('venue_peperiksaan_sijil_tahfizs.status',1)
+            ->get(['n.*']);
 
+        if(!empty($negeriSelection) && count($negeriSelection) < 1){
+            Alert::toast('Sila aktifkan venue peperiksaan sijil tahfiz', 'error');
+            return redirect()->route('pengurusan.pengajian_sepanjang_hayat.tetapan.venue_peperiksaan_sijil_tahfiz.index');
+        }
+        
         $data = [
             'title' => $title,
             'breadcrumbs' => $breadcrumbs,

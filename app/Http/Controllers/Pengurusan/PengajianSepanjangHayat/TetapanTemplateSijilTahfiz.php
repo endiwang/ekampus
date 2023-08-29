@@ -161,6 +161,10 @@ class TetapanTemplateSijilTahfiz extends Controller
             'template.required' => 'Ruangan ini perlu diisi.',
         ]);
 
+        if(!$request->has('status')){
+            $request['status'] = 0;
+        }
+
         DB::beginTransaction();
         try {
             TemplateSijilTahfiz::where('id', $id)->update($request->except('_token','_method'));
