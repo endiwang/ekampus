@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\LaporanStatistikController;
+// use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\LaporanStatistikController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PenerimaSijilTahfizController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PengesahanMarkahSijilTafiz;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PeperiksaanPemarkahanCalonSijilTahfizController;
@@ -53,4 +53,4 @@ Route::group(['prefix'=>'pengurusan_sijil_tahfiz','as'=>'pengurusan_sijil_tahfiz
     Route::resource('penerima_sijil_tahfiz', PenerimaSijilTahfizController::class);
 });
 
-Route::resource('laporan_statistik', LaporanStatistikController::class);
+// Route::resource('laporan_statistik', LaporanStatistikController::class);
