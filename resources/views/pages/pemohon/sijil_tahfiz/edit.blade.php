@@ -369,11 +369,18 @@ $(document).ready(function () {
                         },
                 dataType: 'json',
                 processResults: function (data) {
-                // Transforms the top-level key of the response object from 'items' to 'results'
-                return {
-                    results: data
-                };
-                }
+
+                    data.forEach(function(item) {
+                        if(item.text.includes("Penuh"))
+                        {
+                            item.disabled = true;
+                        }
+                    });
+                    // Transforms the top-level key of the response object from 'items' to 'results'
+                    return {
+                        results: data
+                    };
+                },
             }
         })
     })
