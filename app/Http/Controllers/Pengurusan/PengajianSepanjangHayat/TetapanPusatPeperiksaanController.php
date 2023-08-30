@@ -127,9 +127,11 @@ class TetapanPusatPeperiksaanController extends Controller
         $validated = $request->validate([
             'name'  => 'required',
             'negeri'  => 'required|array',
+            'had_jumlah_calon' => 'required',
         ],[
             'name.required' => 'Sila masukkan nama pusat peperiksaan.',
             'negeri.required' => 'Sila pilih negeri untuk pusat peperiksaan.',
+            'had_jumlah_calon.required' => 'Sila masukkan had jumlah calon lokasi peperiksaan.',
         ]);
 
         if($request->has('status')){
@@ -144,6 +146,7 @@ class TetapanPusatPeperiksaanController extends Controller
             $pusatPeperiksaan = PusatPeperiksaan::create([
                 'name' => $request->name,
                 'status' => $status,
+                'had_jumlah_calon' => $request->had_jumlah_calon,
                 'created_by'    => Auth::id(),
             ]);
 
@@ -224,9 +227,11 @@ class TetapanPusatPeperiksaanController extends Controller
         $validated = $request->validate([
             'name'  => 'required',
             'negeri'  => 'required',
+            'had_jumlah_calon' => 'required',
         ],[
             'name.required' => 'Sila masukkan nama pusat peperiksaan.',
             'negeri.required' => 'Sila pilih negeri untuk pusat peperiksaan.',
+            'had_jumlah_calon.required' => 'Sila masukkan had jumlah calon lokasi peperiksaan.',
         ]);
 
         if($request->has('status')){
@@ -241,6 +246,7 @@ class TetapanPusatPeperiksaanController extends Controller
             PusatPeperiksaan::where('id', $id)->update([
                 'name' => $request->name,
                 'status' => $status,
+                'had_jumlah_calon' => $request->had_jumlah_calon,
                 'created_by' => Auth::id(),
             ]);
 
