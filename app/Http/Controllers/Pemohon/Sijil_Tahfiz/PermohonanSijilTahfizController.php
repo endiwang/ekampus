@@ -13,6 +13,7 @@ use App\Models\PusatPeperiksaan;
 use App\Models\PusatPeperiksaanNegeri;
 use App\Models\Staff;
 use App\Models\TetapanPeperiksaanSijilTahfiz;
+use App\Models\VenuePeperiksaanSijilTahfiz;
 use App\Models\Zon;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -29,13 +30,6 @@ class PermohonanSijilTahfizController extends Controller
     public function index(Builder $builder){
         
         $user = Auth::guard('pemohon')->user();
-
-        // $pelajar = Pelajar::where('user_id', Auth::guard('pemohon')->user()->id)->first();
-        // if(empty($pelajar->tarikh_lahir)){
-        //     $age = 0;
-        // } else {
-        //     $age = Carbon::parse($pelajar->tarikh_lahir)->age;
-        // }
         
         $now = Carbon::now('Asia/Kuala_Lumpur')->format('Y-m-d');
 
@@ -62,7 +56,6 @@ class PermohonanSijilTahfizController extends Controller
         // }
 
         if (request()->ajax()) {
-        //     dd(13);
             $data = PermohonanSijilTahfiz::where('pemohon_id', $user->id)->get();
 
             return DataTables::of($data)
@@ -111,6 +104,8 @@ class PermohonanSijilTahfizController extends Controller
                 } elseif ($data->status == 1){
                     if(!$data->status_tawaran){
                         $btn .=' <a href="'.route('pemohon.permohonan_sijil_tahfiz.setujuTerima.tawaran',$data->id).'" class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip" title="Setuju terima tawaran"><i class="fa fa-check-double"></i></a>';
+                    } else {
+                        $btn .=' <a href="'.route('pemohon.permohonan_sijil_tahfiz.setujuTerima.tawaran.download.slip',$data->id).'" class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip" title="Muat Turun Slip"><i class="fa fa-download"></i></a>';
                     }
                 }
 
@@ -163,6 +158,7 @@ class PermohonanSijilTahfizController extends Controller
     }
 
     public function store(Request $request){
+        
         $validated = $request->validate([
             'name' => 'required',
             'dob' => 'required',
@@ -225,6 +221,17 @@ class PermohonanSijilTahfizController extends Controller
             Alert::toast('Umur minimum untuk memohon 17 tahun', 'error');
             return redirect()->back();
         }
+
+        $temp_pusat_total = PermohonanSijilTahfiz::where('siri_id', $request->siri_id)->where('pusat_peperiksaan_id', $request->pusat_peperiksaan_id)->count();     
+        
+        $ppeperiksaan = PusatPeperiksaan::where('id', $request->pusat_peperiksaan_id)->first();
+
+        if($temp_pusat_total >= $ppeperiksaan->had_jumlah_calon)
+        {
+            Alert::toast('Pusat Peperiksaan Penuh', 'error');
+            return redirect()->back();
+        }
+
         DB::beginTransaction();
 
         try {
@@ -284,11 +291,10 @@ class PermohonanSijilTahfizController extends Controller
     }
 
     public function show($id){
-        
         $pemohon = Auth::guard('pemohon')->user();
         $siri_peperiksaan = TetapanPeperiksaanSijilTahfiz::where('status', 1)->pluck('siri', 'id');
         $negeri = Negeri::pluck('nama', 'id');
-        $permohonan = PermohonanSijilTahfiz::with('permohonanSijilTahfizFile')->where('pemohon_id',$id)->latest()->first();
+        $permohonan = PermohonanSijilTahfiz::with('permohonanSijilTahfizFile')->where('id',$id)->latest()->first();
         $pusatPeperiksaans = PusatPeperiksaan::whereIn('id', json_decode($permohonan->tetapanSiriPeperiksaan->lokasi_peperiksaan))
             ->pluck('name', 'id');
         $pusatPeperiksaanNegeris = PusatPeperiksaanNegeri::join('negeri', 'negeri.id', '=', 'pusat_peperiksaan_negeris.state_id')
@@ -382,6 +388,16 @@ class PermohonanSijilTahfizController extends Controller
             'dokumen_sokongan.required' => 'Sila lampirkan dokumen sokongan yang telah disahkan.',
             // 'resit_bayaran.required'    => 'Sila lampirkan resit/bukti pembayaran.',
         ]);
+        
+        $temp_pusat_total = PermohonanSijilTahfiz::where('siri_id', $request->siri_id)->where('pusat_peperiksaan_id', $request->pusat_peperiksaan_id)->count();     
+        
+        $ppeperiksaan = PusatPeperiksaan::where('id', $request->pusat_peperiksaan_id)->first();
+
+        if($temp_pusat_total >= $ppeperiksaan->had_jumlah_calon)
+        {
+            Alert::toast('Pusat Peperiksaan Penuh', 'error');
+            return redirect()->back();
+        }
 
         $permohonan = PermohonanSijilTahfiz::where('id',$id)->first();
 
@@ -442,16 +458,38 @@ class PermohonanSijilTahfizController extends Controller
     }
 
     public function fetchPusatPeperiksaan(Request $request){
-        $tetapan = TetapanPeperiksaanSijilTahfiz::where('id', $request->siri_id)->first();
+        $tetapan = TetapanPeperiksaanSijilTahfiz::where('id', $request->siri_id)->first();        
+        $temp_ppeperiksaan = PusatPeperiksaan::whereIn('id', json_decode($tetapan->lokasi_peperiksaan))
+        ->get();
+
+        $temp_pusat_total = [];
+        foreach($temp_ppeperiksaan as $pusat)
+        {
+            $temp_pusat_total[$pusat->id] = PermohonanSijilTahfiz::where('siri_id', $request->siri_id)->where('pusat_peperiksaan_id', $pusat->id)->count();            
+        }        
+
         $ppeperiksaan = PusatPeperiksaan::whereIn('id', json_decode($tetapan->lokasi_peperiksaan))
             ->get(['id','name as text']);
+
+        foreach($ppeperiksaan as $pusat)
+        {
+            $temp_pusat = $temp_ppeperiksaan->where('id', $pusat->id)->first();
+            if($temp_pusat_total[$pusat->id] < $temp_pusat->had_jumlah_calon)
+            {
+                //
+            }
+            else {
+                $pusat['text'] = $pusat['text'] . ' (Penuh)';
+            }
+        }
+
         return $ppeperiksaan;
     }
 
     public function fetchPusatPeperiksaanNegeri(Request $request){
         $ppnegeri = PusatPeperiksaanNegeri::join('negeri', 'negeri.id', '=', 'pusat_peperiksaan_negeris.state_id')
             ->where('pusat_peperiksaan_negeris.pusat_peperiksaan_id', $request->pusat_peperiksaan_id)
-            ->get(['pusat_peperiksaan_negeris.id','negeri.nama as text']);
+            ->get(['pusat_peperiksaan_negeris.id','negeri.nama as text']);        
         return $ppnegeri;
     }
 
@@ -466,12 +504,15 @@ class PermohonanSijilTahfizController extends Controller
 
         $permohonan = PermohonanSijilTahfiz::with('permohonanSijilTahfizFile')->where('id',$id)->first();
         $siri_peperiksaan = TetapanPeperiksaanSijilTahfiz::where('id', $permohonan->siri_id)->first();
+        $venue = VenuePeperiksaanSijilTahfiz::where('negeri_id',$permohonan->pusatPeperiksaanNegeri->state_id)
+            ->where('status', 1)->first();
 
         $data = [
             'title' => $title,
             'breadcrumbs' => $breadcrumbs,
             'permohonan'    => $permohonan,
             'siri_peperiksaan' => $siri_peperiksaan,
+            'venue' => $venue,
         ];
 
         return view('pages.pemohon.sijil_tahfiz.setuju_terima', $data);
@@ -519,5 +560,19 @@ class PermohonanSijilTahfizController extends Controller
         }
 
         return redirect()->route('pemohon.permohonan_sijil_tahfiz.index');
+    }
+
+    public function exportPdf($id){
+        $permohonan = PermohonanSijilTahfiz::with('permohonanSijilTahfizFile')->where('id',$id)->first();
+        $siri_peperiksaan = TetapanPeperiksaanSijilTahfiz::where('id', $permohonan->siri_id)->first();
+        $venue = VenuePeperiksaanSijilTahfiz::where('negeri_id',$permohonan->pusatPeperiksaanNegeri->state_id)
+            ->where('status', 1)->first();
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView('pages.pemohon.sijil_tahfiz.export_pdf', compact('permohonan','siri_peperiksaan','venue'))
+            ->setPaper('a4', 'potrait');
+
+        // return $pdf->stream();
+        return $pdf->download('slip_temuduga_stm.pdf');
     }
 }

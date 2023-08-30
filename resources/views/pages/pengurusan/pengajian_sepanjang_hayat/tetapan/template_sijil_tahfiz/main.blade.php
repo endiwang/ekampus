@@ -6,23 +6,32 @@
     <div id="kt_app_content_container" class="app-container container-xxl">
         <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
             <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                <div class="card" id="advanceSearch">
-                    <div class="card-body py-5">
-                        <div class="row fv-row mb-2" >
-                            <div class="col-md-3 text-md-end">
-                                {{ Form::label('maklumat_carian', 'Maklumat Carian', ['class' => 'fs-6 fw-semibold form-label mt-2']) }}
+                <form class="form" action="{{ route('pengurusan.pengajian_sepanjang_hayat.tetapan.template_sijil_tahfiz.index')}}" method="get">
+                    <div class="card">
+                        <div class="card-body py-5">
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
+                                    {{ Form::label('carian', 'Maklumat Carian', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="w-100">
+                                        {{ Form::text('carian', Request::get('carian') ,['class' => 'form-control form-control-sm', 'id' =>'program_pengajian','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-9">
-                                <div class="d-flex">
-                                    <input type="text" v-model="keyword.search" v-on:keyup.enter="search()" class="form-control me-3 form-control-sm">
-                                    <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0" @click="search()">
-                                        <i class="fa fa-search" style="vertical-align: initial"></i>Cari
-                                    </button>
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-12">
+                                    <div class="d-flex align-items-center justify-content-end">
+                                        <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0 me-3">
+                                            <i class="fa fa-search" style="vertical-align: initial"></i>Cari
+                                        </button>
+                                        <a href="{{ route('pengurusan.pengajian_sepanjang_hayat.tetapan.template_sijil_tahfiz.index') }}" class="btn btn-sm btn-light">Set Semula</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
 

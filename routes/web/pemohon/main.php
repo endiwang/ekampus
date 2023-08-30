@@ -32,6 +32,8 @@ Route::group(['middleware' => ['auth_pemohon']], function () {
         Route::get('fetchPusatPeperiksaanNegeri', [PermohonanSijilTahfizController::class, 'fetchPusatPeperiksaanNegeri'])->name('fetchPusatPeperiksaan.negeri');
         Route::get('setujuTerimaTawaran/{id}', [PermohonanSijilTahfizController::class, 'setujuTerimaTawaran'])->name('setujuTerima.tawaran');
         Route::patch('setujuTerimaTawaran/update/{id}', [PermohonanSijilTahfizController::class, 'setujuTerimaTawaranJawapan'])->name('setujuTerima.tawaran.jawapan');
+        Route::get('setujuTerimaTawaran/export_pdf/{id}', [PermohonanSijilTahfizController::class, 'exportPdf'])->name('setujuTerima.tawaran.download.slip');
+        
         Route::resource('semakan_permohonan_sijil_tahfiz', SemakanKelayakanSijilTahfizController::class);
         Route::group(['prefix'=>'semakan_keputusan_sijil_tahfiz','as'=>'semakan_keputusan_sijil_tahfiz.'], function(){
             Route::get('/download/keputusan_sementara/{id}', [SemakanKeputusanPeperiksaanSijilTahfizController::class, 'downloadPdf'])->name('keputusan_sementara.downloadPdf');

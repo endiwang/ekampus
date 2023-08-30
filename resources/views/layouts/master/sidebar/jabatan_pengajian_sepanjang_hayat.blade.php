@@ -42,11 +42,11 @@
                 </span>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.pengajian_sepanjang_hayat.tetapan.sesi_peperiksaan_sijil_tahfiz.index') ? 'active' : '' }}" href="{{ route('pengurusan.pengajian_sepanjang_hayat.tetapan.sesi_peperiksaan_sijil_tahfiz.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.pengajian_sepanjang_hayat.tetapan.venue_peperiksaan_sijil_tahfiz.index') ? 'active' : '' }}" href="{{ route('pengurusan.pengajian_sepanjang_hayat.tetapan.venue_peperiksaan_sijil_tahfiz.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
-                            <span class="menu-title">Sesi Peperiksaan Sijil Tahfiz</span>
+                            <span class="menu-title">Venue Peperiksaan Sijil Tahfiz</span>
                         </a>
                     </div>
                     <div class="menu-item">
@@ -55,6 +55,14 @@
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Pusat Peperiksaan Sijil Tahfiz</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.pengajian_sepanjang_hayat.tetapan.sesi_peperiksaan_sijil_tahfiz.index') ? 'active' : '' }}" href="{{ route('pengurusan.pengajian_sepanjang_hayat.tetapan.sesi_peperiksaan_sijil_tahfiz.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Sesi Peperiksaan Sijil Tahfiz</span>
                         </a>
                     </div>
                     <div class="menu-item">

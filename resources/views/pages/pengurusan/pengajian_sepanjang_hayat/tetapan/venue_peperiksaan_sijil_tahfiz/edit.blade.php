@@ -7,60 +7,40 @@
             <!--begin::Row-->
             <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <form class="form" action="{{ route('pengurusan.pengajian_sepanjang_hayat.tetapan.pusat_peperiksaan_sijil_tahfiz.update', $id)}}" method="post">
+                    <form class="form" action="{{ route('pengurusan.pengajian_sepanjang_hayat.tetapan.venue_peperiksaan_sijil_tahfiz.update', $id)}}" method="post">
                         @method('PATCH')
                         @csrf
                         <div class="card">
                             <div class="card-body py-5">
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('name', 'Nama', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                        {{ Form::label('address', 'Alamat Penuh', ['class' => 'fs-7 fw-semibold form-label mt-2 required']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('name',$pusatPeperiksaan->name,['class' => 'form-control form-control-sm '.($errors->has('siri') ? 'is-invalid':''), 'id' =>'siri','autocomplete' => 'off']) }}
-                                            @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            {{ Form::textarea('address', $venue->address ?? old('address') ,['class' => 'form-control form-control-sm '.($errors->has('address') ? 'is-invalid':''), 'id' =>'address','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                            @error('address') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('negeri', 'Negeri Pusat Peperiksaan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                        {{ Form::label('negeri', 'Negeri', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            <select name="negeri[]" class="form-select" data-control="select2" data-placeholder="Sila Pilih" data-allow-clear="true" multiple="multiple" data-hide-search="false">
-                                                @foreach ($negeriSelection as $negeri)
-                                                @if (in_array($negeri->id, $pusatPeperiksaanNegeri))
-                                                    <option value="{{ $negeri->id }}" selected>{{ $negeri->nama }}</option>
-                                                @else
-                                                    <option value="{{ $negeri->id }}">{{ $negeri->nama }}</option>
-                                                @endif
-                                                    
-                                                @endforeach
-                                            </select>
-                                            @error('negeri') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            {{ Form::text('',$negeri->nama,['class' => 'form-control form-control-sm ', 'autocomplete' => 'off', 'disabled' => true]) }}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('had_jumlah_calon', 'Had Jumlah Calon', ['class' => 'fs-7 fw-semibold form-label mt-2 required']) }}
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="w-100">                                            
-                                            {{ Form::number('had_jumlah_calon', @$pusatPeperiksaan->had_jumlah_calon,['class' => 'form-control form-control-sm ', 'autocomplete' => 'off', 'required']) }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row fv-row mb-2" >
-                                    <div class="col-md-3 text-md-end">
-                                        {{ Form::label('status', 'Status Permohonan Ujian', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('status', 'Status', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
                                             <label class="form-check form-switch form-check-custom form-check-solid">
-                                                {{ Form::checkbox('status', 1, ($pusatPeperiksaan->status == 0 ? 0:1), ['class' => 'form-check-input h-25px w-60px mt-1']); }}
+                                                {{ Form::checkbox('status', 1, ($venue->status ?? 0), ['class' => 'form-check-input h-25px w-60px mt-1']); }}
                                                 <span class="form-check-label fs-7 fw-semibold mt-2">
                                                     Aktif
                                                 </span>
@@ -82,7 +62,7 @@
                                             <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
                                                 <i class="fa fa-save" style="vertical-align: initial"></i>Pinda
                                             </button>
-                                            <a href="{{ route('pengurusan.pengajian_sepanjang_hayat.tetapan.pusat_peperiksaan_sijil_tahfiz.index') }}" class="btn btn-light btn-sm">Batal</a>
+                                            <a href="{{ route('pengurusan.pengajian_sepanjang_hayat.tetapan.venue_peperiksaan_sijil_tahfiz.index') }}" class="btn btn-light btn-sm">Batal</a>
                                         </div>
                                     </div>
                                 </div>

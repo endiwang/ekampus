@@ -12,7 +12,7 @@ use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanMajlisPenyera
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanTemplateJemputanSijilController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\JemputanMajlisPenyerahanSijilController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanTemplateSijilTahfiz;
-
+use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\VenuePeperiksaanSijilTahfizController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix'=>'tetapan','as'=>'tetapan.'], function(){
@@ -29,6 +29,8 @@ Route::group(['prefix'=>'tetapan','as'=>'tetapan.'], function(){
     Route::resource('template_jemputan_sijil', TetapanTemplateJemputanSijilController::class);
 
     Route::resource('template_sijil_tahfiz', TetapanTemplateSijilTahfiz::class);
+
+    Route::resource('venue_peperiksaan_sijil_tahfiz', VenuePeperiksaanSijilTahfizController::class);
 });
 
 Route::group(['prefix'=>'proses_permohonan','as'=>'proses_permohonan.'], function(){
