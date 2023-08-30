@@ -92,12 +92,8 @@
                 <td style="text-align: center;">{{ $pemarkahan->akidah }}%</td>
             </tr>
             <tr>
-                @php
-                    $jumlah = $pemarkahan->tajwid+$pemarkahan->fiqh_ibadah+$pemarkahan->akidah+$pemarkahan->al_quran_tahriri+$pemarkahan->al_quran_syafawi;
-                    $jumlah_akhir = ($jumlah)*100/300;
-                @endphp
                 <td style="text-align: right">Markah</td>
-                <td style="text-align: center;">{{ $jumlah_akhir }}%</td>
+                <td style="text-align: center;">{{ $pemarkahan->total_mark }}%</td>
             </tr>
         </tbody>
     </table>

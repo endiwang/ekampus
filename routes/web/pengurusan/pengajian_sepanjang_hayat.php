@@ -9,6 +9,7 @@ use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanPenemudugaSij
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanPeperiksaanSijilTahfizController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanPusatPeperiksaanController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanTemplateSijilTahfiz;
+use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\VenuePeperiksaanSijilTahfizController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix'=>'tetapan','as'=>'tetapan.'], function(){
@@ -23,6 +24,8 @@ Route::group(['prefix'=>'tetapan','as'=>'tetapan.'], function(){
     Route::resource('penemuduga_sijil_tahfiz', TetapanPenemudugaSijilTahfizController::class);
 
     Route::resource('template_sijil_tahfiz', TetapanTemplateSijilTahfiz::class);
+
+    Route::resource('venue_peperiksaan_sijil_tahfiz', VenuePeperiksaanSijilTahfizController::class);
 });
 
 Route::group(['prefix'=>'proses_permohonan','as'=>'proses_permohonan.'], function(){

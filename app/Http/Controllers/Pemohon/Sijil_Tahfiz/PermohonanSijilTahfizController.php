@@ -13,6 +13,7 @@ use App\Models\PusatPeperiksaan;
 use App\Models\PusatPeperiksaanNegeri;
 use App\Models\Staff;
 use App\Models\TetapanPeperiksaanSijilTahfiz;
+use App\Models\VenuePeperiksaanSijilTahfiz;
 use App\Models\Zon;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -29,13 +30,6 @@ class PermohonanSijilTahfizController extends Controller
     public function index(Builder $builder){
         
         $user = Auth::guard('pemohon')->user();
-
-        // $pelajar = Pelajar::where('user_id', Auth::guard('pemohon')->user()->id)->first();
-        // if(empty($pelajar->tarikh_lahir)){
-        //     $age = 0;
-        // } else {
-        //     $age = Carbon::parse($pelajar->tarikh_lahir)->age;
-        // }
         
         $now = Carbon::now('Asia/Kuala_Lumpur')->format('Y-m-d');
 
@@ -62,7 +56,6 @@ class PermohonanSijilTahfizController extends Controller
         // }
 
         if (request()->ajax()) {
-        //     dd(13);
             $data = PermohonanSijilTahfiz::where('pemohon_id', $user->id)->get();
 
             return DataTables::of($data)
@@ -111,6 +104,8 @@ class PermohonanSijilTahfizController extends Controller
                 } elseif ($data->status == 1){
                     if(!$data->status_tawaran){
                         $btn .=' <a href="'.route('pemohon.permohonan_sijil_tahfiz.setujuTerima.tawaran',$data->id).'" class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip" title="Setuju terima tawaran"><i class="fa fa-check-double"></i></a>';
+                    } else {
+                        $btn .=' <a href="'.route('pemohon.permohonan_sijil_tahfiz.setujuTerima.tawaran.download.slip',$data->id).'" class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip" title="Muat Turun Slip"><i class="fa fa-download"></i></a>';
                     }
                 }
 
@@ -284,11 +279,10 @@ class PermohonanSijilTahfizController extends Controller
     }
 
     public function show($id){
-        
         $pemohon = Auth::guard('pemohon')->user();
         $siri_peperiksaan = TetapanPeperiksaanSijilTahfiz::where('status', 1)->pluck('siri', 'id');
         $negeri = Negeri::pluck('nama', 'id');
-        $permohonan = PermohonanSijilTahfiz::with('permohonanSijilTahfizFile')->where('pemohon_id',$id)->latest()->first();
+        $permohonan = PermohonanSijilTahfiz::with('permohonanSijilTahfizFile')->where('id',$id)->latest()->first();
         $pusatPeperiksaans = PusatPeperiksaan::whereIn('id', json_decode($permohonan->tetapanSiriPeperiksaan->lokasi_peperiksaan))
             ->pluck('name', 'id');
         $pusatPeperiksaanNegeris = PusatPeperiksaanNegeri::join('negeri', 'negeri.id', '=', 'pusat_peperiksaan_negeris.state_id')
@@ -466,12 +460,15 @@ class PermohonanSijilTahfizController extends Controller
 
         $permohonan = PermohonanSijilTahfiz::with('permohonanSijilTahfizFile')->where('id',$id)->first();
         $siri_peperiksaan = TetapanPeperiksaanSijilTahfiz::where('id', $permohonan->siri_id)->first();
+        $venue = VenuePeperiksaanSijilTahfiz::where('negeri_id',$permohonan->pusatPeperiksaanNegeri->state_id)
+            ->where('status', 1)->first();
 
         $data = [
             'title' => $title,
             'breadcrumbs' => $breadcrumbs,
             'permohonan'    => $permohonan,
             'siri_peperiksaan' => $siri_peperiksaan,
+            'venue' => $venue,
         ];
 
         return view('pages.pemohon.sijil_tahfiz.setuju_terima', $data);
@@ -519,5 +516,19 @@ class PermohonanSijilTahfizController extends Controller
         }
 
         return redirect()->route('pemohon.permohonan_sijil_tahfiz.index');
+    }
+
+    public function exportPdf($id){
+        $permohonan = PermohonanSijilTahfiz::with('permohonanSijilTahfizFile')->where('id',$id)->first();
+        $siri_peperiksaan = TetapanPeperiksaanSijilTahfiz::where('id', $permohonan->siri_id)->first();
+        $venue = VenuePeperiksaanSijilTahfiz::where('negeri_id',$permohonan->pusatPeperiksaanNegeri->state_id)
+            ->where('status', 1)->first();
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView('pages.pemohon.sijil_tahfiz.export_pdf', compact('permohonan','siri_peperiksaan','venue'))
+            ->setPaper('a4', 'potrait');
+
+        // return $pdf->stream();
+        return $pdf->download('slip_temuduga_stm.pdf');
     }
 }

@@ -29,6 +29,10 @@ class PermohonanSijilTahfiz extends Model
         return $this->belongsTo(PusatPeperiksaan::class);
     }
 
+    public function pusatPeperiksaanNegeri(){
+        return $this->belongsTo(PusatPeperiksaanNegeri::class);
+    }
+
     public function markahPermohonan(){
         return $this->belongsTo(PemarkahanCalonSijilTahfiz::class, 'id', 'permohonan_id');
     }

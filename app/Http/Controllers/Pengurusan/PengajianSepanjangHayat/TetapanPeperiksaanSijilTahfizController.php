@@ -17,7 +17,7 @@ use Yajra\DataTables\Html\Builder;
 
 class TetapanPeperiksaanSijilTahfizController extends Controller
 {
-    public function index(Builder $builder){
+    public function index(Builder $builder, Request $request){
         $title = "Tetapan Sesi Peperiksaan Sijil Tahfiz";
         $breadcrumbs = [
             "Jabatan Pengajian Sepanjang Hayat" =>  '#',
@@ -34,7 +34,10 @@ class TetapanPeperiksaanSijilTahfizController extends Controller
         ];
 
         if (request()->ajax()) {
-            $data = TetapanPeperiksaanSijilTahfiz::all();
+            $data = TetapanPeperiksaanSijilTahfiz::query();
+            if($request->has('carian')){
+                $data->where('siri', 'LIKE', '%'.$request->carian.'%');
+            }
             return DataTables::of($data)
             ->addColumn('tempoh_permohonan', function($data) {
                 return Carbon::parse($data->tarikh_permohonan_dibuka)->format('d/m/Y'). ' - ' .Carbon::parse($data->tarikh_permohonan_ditutup)->format('d/m/Y');
