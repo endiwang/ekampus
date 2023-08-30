@@ -1,11 +1,11 @@
 @php
-    $action = route('pengurusan.hep.kaunseling.rekod-kaunseling.update', ['rekod_kaunseling' => $kaunseling->id]);
+    $action = route('pengurusan.hep.rekod-kaunseling.update', ['rekod_kaunseling' => $kaunseling->id]);
 
     $title = __('Rekod Kaunseling');
     $breadcrumbs = [
-        'Kaunseling' => route('pengurusan.hep.kaunseling.dashboard.index'),
+        'Kaunseling' => route('pengurusan.hep.kaunseling.index'),
         'Senarai Kaunseling' => route('pengurusan.hep.kaunseling.index'),
-        'Rekod Kaunseling' => route('pengurusan.hep.kaunseling.rekod-kaunseling.index')
+        'Rekod Kaunseling' => route('pengurusan.hep.rekod-kaunseling.index')
     ];
 @endphp
 

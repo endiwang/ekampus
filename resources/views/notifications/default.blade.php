@@ -7,7 +7,7 @@
 <x-mail::button :url="$url">
 {{ (isset($url_text) && !empty($url_text)) ? $url_text : __('Klik Di Sini') }}
 </x-mail::button>
-@emdif
+@endif
 
 @lang('Terima Kasih'),<br>
 {{ config('app.name') }}

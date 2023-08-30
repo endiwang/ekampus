@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah;
 
+use App\Constants\Generic;
 use App\Http\Controllers\Controller;
+use App\Libraries\BilLibrary;
 use App\Models\Kursus;
 use App\Models\Negeri;
 use App\Models\Pelajar;
 use App\Models\Sesi;
 use App\Models\User;
+use App\Models\Yuran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
+use DB;
 
 class KemasukanPelajarIjazahController extends Controller
 {
@@ -141,57 +145,80 @@ class KemasukanPelajarIjazahController extends Controller
      */
     public function store(Request $request)
     {
+        $result = true;
+        try {
+            DB::transaction(function () use ($request) {
 
-        if ($request->file('avatar')) {
-            $fileName = $request->file('avatar')->getClientOriginalName();
-            $filePath = $request->file('avatar')->storeAs('uploads/pelajar/gambar_pelajar', $fileName, 'public');
-            $file_path = '/storage/'.$filePath;
+                if ($request->file('avatar')) {
+                    $fileName = $request->file('avatar')->getClientOriginalName();
+                    $filePath = $request->file('avatar')->storeAs('uploads/pelajar/gambar_pelajar', $fileName, 'public');
+                    $file_path = '/storage/'.$filePath;
+                }
+
+                //password = 123
+
+                $password_hash = '$2y$10$DYl/XAwUYLdFk4BDUD0lkO12yxz0ZO.YpwySx0ZV9.OBVF2o/vi2y';
+
+                $user = User::where('username', $request->no_kp)->first();
+
+                if (! $user) {
+                    $user = User::create([
+                        'username' => $request->no_kp,
+                        'password' => $password_hash,
+                        'is_student' => 1,
+                    ]);
+                }
+
+                $pelajar = Pelajar::create([
+                    'user_id' => $user->id,
+                    'kursus_id' => $request->kursus_id,
+                    'img_pelajar' => @$file_path,
+                    'no_ic' => $request->no_kp,
+                    'email' => $request->email,
+                    'nama' => $request->nama_pemohon,
+                    'tarikh_lahir' => Carbon::createFromFormat('d/m/Y', $request->tarikh_lahir)->format('Y-m-d'),
+                    'alamat' => $request->alamat_tetap,
+                    'bandar' => $request->bandar_tetap,
+                    'poskod' => $request->poskod_tetap,
+                    'negeri_id' => $request->negeri_tetap,
+                    'alamat_surat' => $request->alamat_surat,
+                    'bandar_surat' => $request->bandar_surat,
+                    'poskod_surat' => $request->poskod_surat,
+                    'negeri_id_surat' => $request->negeri_surat,
+                    'no_tel' => $request->no_telefon,
+                    'jantina' => $request->jantina,
+                    'negeri_kelahiran_id' => $request->negeri_kelahiran,
+                    'keturunan_id' => $request->keturunan,
+                    'bumiputra' => $request->bumiputra,
+                    'mualaf' => $request->mualaf,
+                    'warganegara' => $request->kewarganegaraan,
+                    'syukbah_id' => 1,
+                    'sesi_id' => $request->sesi,
+                ]);
+
+                $yuran = Yuran::find(Generic::YURAN_PENDAFTARAN);
+                if(!empty($yuran))
+                {
+                    BilLibrary::createBil([
+                        'yuran' => $yuran,
+                        'pelajar_id' => $pelajar->id,
+                    ]);
+                }
+            });
+
+        } catch (\Exception $e) {
+            $result = false;
+            dd($e);
         }
 
-        //password = 123
-
-        $password_hash = '$2y$10$DYl/XAwUYLdFk4BDUD0lkO12yxz0ZO.YpwySx0ZV9.OBVF2o/vi2y';
-
-        $user = User::where('username', $request->no_kp)->first();
-
-        if (! $user) {
-            $user = User::create([
-                'username' => $request->no_kp,
-                'password' => $password_hash,
-                'is_student' => 1,
-            ]);
+        if ($result) {
+            Alert::toast('Maklumat pelajar ijazah berjaya ditambah!', 'success');
+            return redirect()->route('pengurusan.akademik.pengurusan_ijazah.pelajar.index');
         }
-
-        Pelajar::create([
-            'user_id' => $user->id,
-            'kursus_id' => $request->kursus_id,
-            'img_pelajar' => $file_path,
-            'no_ic' => $request->no_kp,
-            'email' => $request->email,
-            'nama' => $request->nama_pemohon,
-            'tarikh_lahir' => Carbon::createFromFormat('d/m/Y', $request->tarikh_lahir)->format('Y-m-d'),
-            'alamat' => $request->alamat_tetap,
-            'bandar' => $request->bandar_tetap,
-            'poskod' => $request->poskod_tetap,
-            'negeri_id' => $request->negeri_tetap,
-            'alamat_surat' => $request->alamat_surat,
-            'bandar_surat' => $request->bandar_surat,
-            'poskod_surat' => $request->poskod_surat,
-            'negeri_id_surat' => $request->negeri_surat,
-            'no_tel' => $request->no_telefon,
-            'jantina' => $request->jantina,
-            'negeri_kelahiran_id' => $request->negeri_kelahiran,
-            'keturunan_id' => $request->keturunan,
-            'bumiputra' => $request->bumiputra,
-            'mualaf' => $request->mualaf,
-            'warganegara' => $request->kewarganegaraan,
-            'syukbah_id' => 1,
-            'sesi_id' => $request->sesi,
-        ]);
-
-        Alert::toast('Maklumat pelajar ijazah berjaya ditambah!', 'success');
-
-        return redirect()->route('pengurusan.akademik.pengurusan_ijazah.pelajar.index');
+        else {
+            Alert::toast('Uh oh! Sesuatu yang tidak diingini berlaku', 'error');
+            return redirect()->back();
+        }
     }
 
     /**

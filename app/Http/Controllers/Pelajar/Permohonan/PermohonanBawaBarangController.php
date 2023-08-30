@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Pelajar\Permohonan;
 
+use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
 use App\Models\PermohonanBawaBarang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use App\Helpers\Utils;
-use Illuminate\Support\Facades\Auth;
 
 class PermohonanBawaBarangController extends Controller
 {
@@ -17,7 +17,6 @@ class PermohonanBawaBarangController extends Controller
 
     public function index(Builder $builder)
     {
-
 
         $title = 'Permohonan Bawa Barang';
         $breadcrumbs = [
@@ -27,15 +26,15 @@ class PermohonanBawaBarangController extends Controller
         ];
         $buttons = [
             [
-                'title' => "Permohonan Baru",
+                'title' => 'Permohonan Baru',
                 'route' => route('pelajar.permohonan.bawa_barang.create'),
-                'button_class' => "btn btn-sm btn-primary fw-bold",
-                'icon_class' => "fa fa-plus-circle"
+                'button_class' => 'btn btn-sm btn-primary fw-bold',
+                'icon_class' => 'fa fa-plus-circle',
             ],
         ];
 
         if (request()->ajax()) {
-            $data = PermohonanBawaBarang::query();
+            $data = PermohonanBawaBarang::where('pelajar_id', Auth::user()->pelajar->last()->id);
 
             return DataTables::of($data)
                 ->addColumn('status', function ($data) {
@@ -90,7 +89,7 @@ class PermohonanBawaBarangController extends Controller
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['status', 'action','jenis','tarikh_permohonan'])
+                ->rawColumns(['status', 'action', 'jenis', 'tarikh_permohonan'])
                 ->toJson();
         }
 
@@ -132,7 +131,6 @@ class PermohonanBawaBarangController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -151,9 +149,7 @@ class PermohonanBawaBarangController extends Controller
             'gambar_barang_upload.required' => 'Sila muatnaik gambar',
         ]);
 
-
-        if($request->has('gambar_barang_upload'))
-        {
+        if ($request->has('gambar_barang_upload')) {
             $gambar_barang = uniqid().'.'.$request->gambar_barang_upload->getClientOriginalExtension();
             $gambar_barang_path = 'uploads/pelajar/permohonan/bawa_barang';
             $file_gambar_barang = $request->file('gambar_barang_upload')->storeAs($gambar_barang_path, $gambar_barang, 'public');
@@ -190,6 +186,7 @@ class PermohonanBawaBarangController extends Controller
         ];
 
         $data = PermohonanBawaBarang::find($id);
+
         return view($this->baseView.'show', compact('title', 'breadcrumbs', 'data', 'page_title'));
 
     }
@@ -208,7 +205,6 @@ class PermohonanBawaBarangController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

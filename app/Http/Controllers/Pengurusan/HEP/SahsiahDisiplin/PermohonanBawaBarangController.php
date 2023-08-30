@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin;
 
+use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
+use App\Models\PermohonanBawaBarang;
 use Illuminate\Http\Request;
-use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use App\Models\PermohonanBawaBarang;
-use App\Helpers\Utils;
-
 
 class PermohonanBawaBarangController extends Controller
 {
@@ -37,21 +36,19 @@ class PermohonanBawaBarangController extends Controller
             $data = PermohonanBawaBarang::query();
 
             return DataTables::of($data)
-                ->addColumn('nama_pelajar', function($data) {
-                    if(!empty($data->pelajar)){
+                ->addColumn('nama_pelajar', function ($data) {
+                    if (! empty($data->pelajar)) {
                         $data = $data->pelajar->nama;
-                    }
-                    else {
+                    } else {
                         $data = '';
                     }
 
                     return $data;
                 })
-                ->addColumn('no_ic', function($data) {
-                    if(!empty($data->pelajar)){
-                        $data = '<p style="text-align:center">' . $data->pelajar->no_ic . '<br/> <span style="font-weight:bold"> [' . $data->pelajar->no_matrik . '] </span></p>';
-                    }
-                    else {
+                ->addColumn('no_ic', function ($data) {
+                    if (! empty($data->pelajar)) {
+                        $data = '<p style="text-align:center">'.$data->pelajar->no_ic.'<br/> <span style="font-weight:bold"> ['.$data->pelajar->no_matrik.'] </span></p>';
+                    } else {
                         $data = '';
                     }
 
@@ -87,7 +84,7 @@ class PermohonanBawaBarangController extends Controller
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['status', 'action','tarikh_permohonan','nama_pelajar','no_ic'])
+                ->rawColumns(['status', 'action', 'tarikh_permohonan', 'nama_pelajar', 'no_ic'])
                 ->toJson();
         }
 
@@ -95,7 +92,7 @@ class PermohonanBawaBarangController extends Controller
             ->columns([
                 ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
                 ['data' => 'nama_pelajar', 'name' => 'nama_pelajar', 'title' => 'Nama Pelajar', 'orderable' => false],
-                ['data' => 'no_ic', 'name' => 'no_ic', 'title' => 'No MyKad/Passport<br>[No Matrik]', 'orderable'=> false],
+                ['data' => 'no_ic', 'name' => 'no_ic', 'title' => 'No MyKad/Passport<br>[No Matrik]', 'orderable' => false],
                 ['data' => 'no_rujukan', 'name' => 'no_rujukan', 'title' => 'No Rujukan', 'orderable' => false],
                 ['data' => 'tarikh_permohonan', 'name' => 'tarikh_permohonan', 'title' => 'Tarikh Permohonan', 'orderable' => false],
                 ['data' => 'status', 'name' => 'status', 'title' => 'Status Permohonan', 'orderable' => false],
@@ -120,7 +117,6 @@ class PermohonanBawaBarangController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -158,13 +154,13 @@ class PermohonanBawaBarangController extends Controller
         ];
 
         $data = PermohonanBawaBarang::find($id);
-        return view($this->baseView.'edit', compact('title', 'breadcrumbs', 'data', 'page_title','action'));
+
+        return view($this->baseView.'edit', compact('title', 'breadcrumbs', 'data', 'page_title', 'action'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -172,8 +168,10 @@ class PermohonanBawaBarangController extends Controller
     {
         $data = PermohonanBawaBarang::find($id);
         $data->status = $request->status;
+        $data->update_by = Auth::user()->id;
         $data->save();
-         return redirect()->route('pengurusan.hep.permohonan.bawa_barang.index');
+
+        return redirect()->route('pengurusan.hep.permohonan.bawa_barang.index');
     }
 
     /**

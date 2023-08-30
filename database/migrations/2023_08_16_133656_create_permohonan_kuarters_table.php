@@ -35,9 +35,9 @@ return new class extends Migration
             $table->integer('loan_pasangan')->nullable()->comment('1-ada 0-tiada');
             $table->text('alamat_rumah2')->nullable()->comment('alamat rumah pasangan jika ada');
             $table->text('alasan_mohon')->nullable();
-            $table->integer('status')->nullable()->comment('1-diterima 2-proses 3-lulus 4-gagal');    
+            $table->integer('status')->nullable()->comment('1-diterima 2-proses 3-lulus 4-gagal');
             $table->integer('approved_by')->nullable();
-            $table->date('tarikh_approved')->nullable();        
+            $table->date('tarikh_approved')->nullable();
             $table->timestamps();
         });
     }

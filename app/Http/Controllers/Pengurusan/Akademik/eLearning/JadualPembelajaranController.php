@@ -19,7 +19,9 @@ use Yajra\DataTables\Html\Builder;
 class JadualPembelajaranController extends Controller
 {
     protected $baseView = 'pages.pengurusan.akademik.e_learning.jadual_pembelajaran.';
+
     protected $baseRoute = 'pengurusan.akademik.e_learning.jadual_pembelajaran.';
+
     /**
      * Display a listing of the resource.
      *
@@ -39,14 +41,14 @@ class JadualPembelajaranController extends Controller
             $buttons = [
                 [
                     'title' => 'Tambah',
-                    'route' => route($this->baseRoute . 'create'),
+                    'route' => route($this->baseRoute.'create'),
                     'button_class' => 'btn btn-sm btn-primary fw-bold',
                     'icon_class' => 'fa fa-plus-circle',
                 ],
             ];
 
-            $semesters = Semester::where('deleted_at', NULL)->pluck('nama', 'id');
-            $lecturers = Staff::where('deleted_at', NULL)->pluck('nama', 'id');
+            $semesters = Semester::where('deleted_at', null)->pluck('nama', 'id');
+            $lecturers = Staff::where('deleted_at', null)->pluck('nama', 'id');
 
             if (request()->ajax()) {
                 $data = ELearningTimetable::with('kursus', 'kandungan', 'semester', 'staff')->where('status', 1);
@@ -95,13 +97,13 @@ class JadualPembelajaranController extends Controller
                     })
                     ->addColumn('action', function ($data) {
                         return '
-                            <a href="'.route($this->baseRoute . 'edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                            <a href="'.route($this->baseRoute.'edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
                             <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
                                 <i class="fa fa-trash"></i>
                             </a>
-                            <form id="delete-'.$data->id.'" action="'.route($this->baseRoute . 'destroy', $data->id).'" method="POST">
+                            <form id="delete-'.$data->id.'" action="'.route($this->baseRoute.'destroy', $data->id).'" method="POST">
                                 <input type="hidden" name="_token" value="'.csrf_token().'">
                                 <input type="hidden" name="_method" value="DELETE">
                             </form>
@@ -149,21 +151,21 @@ class JadualPembelajaranController extends Controller
         try {
 
             $title = 'Jadual Pembelajaran';
-            $action = route($this->baseRoute . 'store');
+            $action = route($this->baseRoute.'store');
             $page_title = 'Tambah Jadual Pembelajaran';
             $breadcrumbs = [
                 'Akademik' => false,
-                'E-Learning' => route($this->baseRoute . 'index'),
+                'E-Learning' => route($this->baseRoute.'index'),
                 'Tambah Jadual Pembelajaran' => false,
             ];
 
             $model = new ELearningTimetable();
 
-            $courses = Kursus::where('deleted_at', NULL)->pluck('nama', 'id');
-            $semesters = Semester::where('deleted_at', NULL)->pluck('nama', 'id');
-            $lecturers = Staff::where('deleted_at', NULL)->pluck('nama', 'id');
-            $classes = Kelas::where('deleted_at', NULL)->pluck('nama', 'id');
-            $kandungan = ELearningSyllabus::where('deleted_at', NULL)->pluck('nama', 'id');
+            $courses = Kursus::where('deleted_at', null)->pluck('nama', 'id');
+            $semesters = Semester::where('deleted_at', null)->pluck('nama', 'id');
+            $lecturers = Staff::where('deleted_at', null)->pluck('nama', 'id');
+            $classes = Kelas::where('deleted_at', null)->pluck('nama', 'id');
+            $kandungan = ELearningSyllabus::where('deleted_at', null)->pluck('nama', 'id');
 
             return view($this->baseView.'add_edit', compact('title', 'action', 'page_title', 'breadcrumbs', 'model', 'courses', 'semesters', 'lecturers', 'classes', 'kandungan'));
 
@@ -179,7 +181,6 @@ class JadualPembelajaranController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -199,7 +200,7 @@ class JadualPembelajaranController extends Controller
 
             Alert::toast('Jadual Pembelajaran berjaya ditambah!', 'success');
 
-            return redirect()->route($this->baseRoute .'index');
+            return redirect()->route($this->baseRoute.'index');
 
         } catch (Exception $e) {
             report($e);
@@ -232,21 +233,21 @@ class JadualPembelajaranController extends Controller
         try {
 
             $title = 'Jadual Pembelajaran';
-            $action = route($this->baseRoute . 'update', $id);
+            $action = route($this->baseRoute.'update', $id);
             $page_title = 'Kemaskini Jadual Pembelajaran';
             $breadcrumbs = [
                 'Akademik' => false,
-                'E-Learning' => route($this->baseRoute . 'index'),
+                'E-Learning' => route($this->baseRoute.'index'),
                 'Kemaskini Jadual Pembelajaran' => false,
             ];
 
             $model = ELearningTimetable::findOrFail($id);
 
-            $courses = Kursus::where('deleted_at', NULL)->pluck('nama', 'id');
-            $semesters = Semester::where('deleted_at', NULL)->pluck('nama', 'id');
-            $lecturers = Staff::where('deleted_at', NULL)->pluck('nama', 'id');
-            $classes = Kelas::where('deleted_at', NULL)->pluck('nama', 'id');
-            $kandungan = ELearningSyllabus::where('deleted_at', NULL)->pluck('nama', 'id');
+            $courses = Kursus::where('deleted_at', null)->pluck('nama', 'id');
+            $semesters = Semester::where('deleted_at', null)->pluck('nama', 'id');
+            $lecturers = Staff::where('deleted_at', null)->pluck('nama', 'id');
+            $classes = Kelas::where('deleted_at', null)->pluck('nama', 'id');
+            $kandungan = ELearningSyllabus::where('deleted_at', null)->pluck('nama', 'id');
 
             return view($this->baseView.'add_edit', compact('title', 'action', 'page_title', 'breadcrumbs', 'model', 'courses', 'semesters', 'lecturers', 'classes', 'kandungan'));
 
@@ -262,7 +263,6 @@ class JadualPembelajaranController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -323,5 +323,5 @@ class JadualPembelajaranController extends Controller
         $kandungan = ELearningSyllabus::select('id', 'nama as text')->where('kursus_id', $request->kursus_id)->where('is_deleted', 0)->get();
 
         return $kandungan;
-    } 
+    }
 }

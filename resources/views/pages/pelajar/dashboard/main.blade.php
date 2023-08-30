@@ -97,6 +97,15 @@
                 </div>
             </div>
             <!--end::Row-->
+            <div class="slip-peperiksaan">
+                <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+                    <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+                        <a href="{{ route('pengurusan.peperiksaan.calon_peperiksaan.cetak_slip', auth()->user()->id) }}" class="btn btn-primary hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Muat Turun Slip Peperiksaan">
+                            <i class="fa-solid fa-circle-down">Cetak Slip Peperiksaan</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

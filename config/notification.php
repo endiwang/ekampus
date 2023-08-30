@@ -12,5 +12,5 @@ return [
      * Possible setup in .env:
      * DEFAULT_NOTIFICATION_DRIVERS=database,mail,nexmo,sms
      */
-    'default' => explode(',', env('NOTIFICATION_DEFAULT_DRIVERS', 'database')),
+    'default' => explode(',', env('NOTIFICATION_DEFAULT_DRIVERS', 'database,mail')),
 ];

@@ -7,66 +7,32 @@
             <!--begin::Row-->
             <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <div class="card" id="advanceSearch">
-                        <div class="card-body py-5">
-                            <form id="kt_ecommerce_settings_general_form" class="form" action="#">
-                                <div class="row fv-row mb-2" v-show="show_section_1">
+                    <form class="form" action="{{ route('pengurusan.akademik.kursus.index')}}" method="get">
+                        <div class="card">
+                            <div class="card-body py-5">
+                                <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('maklumat_carian', 'Maklumat Carian', ['class' => 'fs-6 fw-semibold form-label mt-2']) }}
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="d-flex">
-                                            {{ Form::text('maklumat_carian','',['class' => 'form-control me-3 form-control-sm']) }}
-
-                                            <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0"
-                                            data-clipboard-target="#kt_share_earn_link_input"><i class="fa fa-search" style="vertical-align: initial"></i>Cari</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-2" v-show="show_section_1">
-                                    <div class="col-md-9 offset-md-3">
-                                        <div class="d-flex">
-                                            <!--begin::Button-->
-                                            <button type="button" class="btn btn-light me-3 btn-sm" @click='viewMore'>Lebih Banyak Pilihan Tapisan</button>
-                                            <!--end::Button-->
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row fv-row mb-2" v-show="show_section_2">
-                                    <div class="col-md-3 text-md-end">
-                                        {{ Form::label('maklumat_carian', 'Maklumat Carian', ['class' => 'fs-6 fw-semibold form-label mt-2']) }}
-                                    </div>
-                                    <div class="col-md-9">
-                                        {{ Form::text('maklumat_carian','',['class' => 'form-control form-control-sm']) }}
-                                    </div>
-                                </div>
-                                <div class="row fv-row mb-2" v-show="show_section_2">
-                                    <div class="col-md-3 text-md-end">
-                                        {{ Form::label('kursus', 'Kursus', ['class' => 'fs-6 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('kursus', 'Kursus', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::select('kursus', $courses, null, ['placeholder' => 'Sila Pilih','class' =>'form-select form-select-sm', 'data-control'=>'select2' ]) }}
+                                            {{ Form::select('kursus', $courses, Request::get('kursus'), ['placeholder' => 'Sila Pilih','class' =>'form-select form-select-sm', 'data-control'=>'select2' ]) }}
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" v-show="show_section_2">
-                                    <div class="col-md-9 offset-md-3">
-                                        <div class="d-flex">
-                                            <!--begin::Button-->
-                                            <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success me-3 btn-sm">
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-12">
+                                        <div class="d-flex align-items-center justify-content-end">
+                                            <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0 me-3">
                                                 <i class="fa fa-search" style="vertical-align: initial"></i>Cari
                                             </button>
-                                            <button type="button" @click='hideMore' class="btn btn-light btn-sm">Kurangkan Pilihan Tapisan</button>
-                                            <!--end::Button-->
-                                            <!--begin::Button-->
-                                            <!--end::Button-->
+                                            <a href="{{ route('pengurusan.akademik.kursus.index') }}" class="btn btn-sm btn-light">Set Semula</a>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <!--end::Row-->

@@ -16,7 +16,7 @@ Kami ingin memberitahu bahawa permohonan anda {{ $kaunseling->status_label }}. S
 
 Sila klik butang di bawah untuk melihat maklumat permohonan anda.
 
-<x-mail::button :url="route('kaunseling.show', $kaunseling->id)">
+<x-mail::button :url="route('pengurusan.hep.kaunseling.show', $kaunseling->id)">
 Lihat Permohonan
 </x-mail::button>
 
