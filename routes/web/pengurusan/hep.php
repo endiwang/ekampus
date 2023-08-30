@@ -22,6 +22,7 @@ use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\TatatertibRayuanPelajarC
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\TetapanKeluarMasukController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\BarangRampasanController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\KenderaanSitaanController;
+use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\PengurusanProgramPelajarController;
 use Illuminate\Support\Facades\Route;
 
 Route::resource('/', MainHEPController::class)->only(['index']);
@@ -52,6 +53,9 @@ Route::group(['prefix' => 'pengurusan', 'as' => 'pengurusan.'], function () {
     Route::get('kenderaan_sitaan/{id}/tuntutan', [KenderaanSitaanController::class, 'tuntutan_kenderaan'])->name('kenderaan_sitaan.tuntutan');
     Route::put('kenderaan_sitaan/{id}/tuntutan', [KenderaanSitaanController::class, 'tuntutan_kenderaan_store'])->name('kenderaan_sitaan.tuntutan');
     Route::resource('kenderaan_sitaan',KenderaanSitaanController::class);
+    Route::get('program_pelajar/{id}/pilih_pelajar', [PengurusanProgramPelajarController::class, 'pilih_pelajar'])->name('program_pelajar.pilih_pelajar');
+    Route::post('program_pelajar/{id}/pilih_pelajar_store', [PengurusanProgramPelajarController::class, 'pilih_pelajar_store'])->name('program_pelajar.pilih_pelajar_store');
+    Route::resource('program_pelajar',PengurusanProgramPelajarController::class);
 });
 
 /** Kaunseling */

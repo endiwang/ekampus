@@ -32,6 +32,10 @@ return [
                     'title' => 'Kenderaan Sitaan',
                     'route' => 'pengurusan.hep.pengurusan.kenderaan_sitaan.index',
                 ],
+                [
+                    'title' => 'Program Pelajar',
+                    'route' => 'pengurusan.hep.pengurusan.program_pelajar.index',
+                ],
             ],
         ],
         [
