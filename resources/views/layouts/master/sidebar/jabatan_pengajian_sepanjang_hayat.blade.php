@@ -81,6 +81,14 @@
                             <span class="menu-title">Template Sijil Tahfiz</span>
                         </a>
                     </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.pengajian_sepanjang_hayat.tetapan.majlis_penyerahan_sijil_tahfiz.index') ? 'active' : '' }}" href="{{ route('pengurusan.pengajian_sepanjang_hayat.tetapan.majlis_penyerahan_sijil_tahfiz.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Majlis Penyerahan Sijil</span>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ Request::routeIs('pengurusan.pengajian_sepanjang_hayat.proses_permohonan.*') ? 'here show' : '' }} menu-accordion">
