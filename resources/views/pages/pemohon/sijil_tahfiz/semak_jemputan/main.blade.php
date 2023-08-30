@@ -15,7 +15,7 @@
         </div>
         <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
             <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                <div class="card" id="advanceSearch">
+                {{-- <div class="card" id="advanceSearch">
                     <div class="card-body py-5">
                         <div class="row fv-row mb-2" >
                             <div class="col-md-3 text-md-end">
@@ -31,7 +31,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
+                <h2>Semakan Jemputan Pensijilan</h2>
             </div>
         </div>
 
@@ -56,27 +57,25 @@
 
 <!-- Include other required scripts for additional features if needed -->
     <script>
-        function remove(id){
-            Swal.fire({
-                title: 'Anda pasti untuk menghapuskan data ini?',
-                text: 'Tindakan ini tidak boleh dibatalkan',
-                showCancelButton: true,
-                cancelButtonText: 'Batal',
-                confirmButtonText: 'Hapus',
-                reverseButtons: true,
-                customClass: {
-                    title: 'swal-modal-delete-title',
-                    htmlContainer: 'swal-modal-delete-container',
-                    cancelButton: 'btn btn-light btn-sm mr-1',
-                    confirmButton: 'btn btn-primary btn-sm ml-1'
+        function checkKehadiran(status_kehadiran, permohonan_id)
+        {
+            var url = "{{ route('pemohon.permohonan_sijil_tahfiz.semakan_jemputan_majlis.update','idPermohonan')}}";
+            url = url.replace('idPermohonan', permohonan_id);
+
+            $.ajax({
+                type: "PUT",
+                url: url,
+                data: {status_kehadiran: status_kehadiran},
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
                 },
-                buttonsStyling: false
-            })
-                .then((result) => {
-                    if(result.isConfirmed){
-                        document.getElementById(`delete-${id}`).submit();
-                    }
-                })
+                success: function (data) {
+                   Swal.fire('Kehadiran telah disahkan.');
+                },
+                error: function ($data) {
+
+                }
+            });
         }
 
         const { createApp } = Vue
