@@ -73,6 +73,27 @@ return [
             ],
         ],
         [
+            'title' => 'Alumni',
+            'route' => 'pengurusan.hep.alumni.dashboard.*',
+            'children' => [
+                [
+                    'title' => 'Senarai',
+                    'route' => 'pengurusan.hep.alumni.index',
+                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Rekod Kaunseling',
+                    'route' => 'pengurusan.hep.kaunseling.rekod-kaunseling.index',
+                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Laporan',
+                    'route' => 'pengurusan.hep.kaunseling.laporan-kaunseling.index',
+                    'parameters' => [],
+                ],
+            ],
+        ],
+        [
             'title' => 'Tetapan',
             'route' => 'pengurusan.hep.tetapan.*',
             'children' => [
