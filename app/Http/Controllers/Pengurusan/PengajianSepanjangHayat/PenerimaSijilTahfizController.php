@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pengurusan\PengajianSepanjangHayat;
 
 use App\Http\Controllers\Controller;
 use App\Models\PemarkahanCalonSijilTahfiz;
+use App\Models\PengambilanSijilTahfiz;
 use App\Models\PermohonanSijilTahfiz;
 use App\Models\TemplateSijilTahfiz;
 use Carbon\Carbon;
@@ -53,8 +54,9 @@ class PenerimaSijilTahfizController extends Controller
                 })
                 ->addColumn('action', function ($data) {
                     if(!empty($data->permohonanSijilTahfiz->template_sijil_tahfiz_id)){
-                        $btn = '<a href="'.route('pengurusan.pengajian_sepanjang_hayat.pengurusan_sijil_tahfiz.penerima_sijil_tahfiz.show',$data->id).'" class="btn btn-icon btn-info btn-sm" data-bs-toggle="tooltip" title="Lihat" target="blank"><i class="fa fa-eye"></i></a>';
-                        $btn .=' <a href="'.route('pengurusan.pengajian_sepanjang_hayat.pengurusan_sijil_tahfiz.penerima_sijil_tahfiz.download_sijil',$data->id).'" class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip" title="Pengesahan Keputusan"><i class="fa fa-download"></a>';
+                        $btn ='<a href="'.route('pengurusan.pengajian_sepanjang_hayat.pengurusan_sijil_tahfiz.penerima_sijil_tahfiz.show',$data->id).'" class="btn btn-icon btn-info btn-sm" data-bs-toggle="tooltip" title="Lihat" target="blank"><i class="fa fa-eye"></i></a>';
+                        $btn .=' <a href="'.route('pengurusan.pengajian_sepanjang_hayat.pengurusan_sijil_tahfiz.penerima_sijil_tahfiz.download_sijil',$data->id).'" class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip" title="Download Sijil"><i class="fa fa-download"></i></a>';
+                        $btn .=' <a href="'.route('pengurusan.pengajian_sepanjang_hayat.pengurusan_sijil_tahfiz.penerima_sijil_tahfiz.pengambilan_sijil',$data->id).'" class="btn btn-icon btn-success btn-sm" data-bs-toggle="tooltip" title="Pengambilan Sijil"><i class="fa-solid fa-envelope-open-text"></i></a>';
                     } else {
                         $btn =' <a href="'.route('pengurusan.pengajian_sepanjang_hayat.pengurusan_sijil_tahfiz.penerima_sijil_tahfiz.jana_sijil',$data->id).'" class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip" title="Pengesahan Keputusan"><i class="fa fa-certificate"></a>';
                     }
@@ -164,6 +166,54 @@ class PenerimaSijilTahfizController extends Controller
             ->setPaper('a4', 'landscape');
 
         return $pdf->download('sijil_tahfiz.pdf');
+    }
+
+    public function pengambilan_sijil($id){
+        $title = 'Pengambilan Sijil';
+        $breadcrumbs = [
+            'Jabatan Pengajian Sepanjang Hayat' => false,
+            'Pengurusan Sijil Tahfiz' => false,
+            'Pengambilan Sijil' => false,
+        ];
+
+        $pemarkahan = PemarkahanCalonSijilTahfiz::find($id);
+        
+        $data = [
+            'title' => $title,
+            'breadcrumbs' => $breadcrumbs,
+            'pemarkahan' => $pemarkahan,
+            'id' => $id, 
+        ];
+
+        return view('pages.pengurusan.pengajian_sepanjang_hayat.pengurusan_sijil.penerima_sijil_tahfiz.pengambilan_sijil', $data);
+    }
+
+    public function pengambilan_sijil_store(Request $request, $id){
+        $validated = $request->validate([
+            'no_sijil'  => 'required',
+            'tarikh_ambil_sijil' => 'required',
+            'nama_pengambil_sijil' => 'required',
+        ],[
+            'no_siri.required' => 'Ruangan ini perlu diisi.',
+            'tarikh_ambil_sijil.regex' => 'Pilih tarikh pengambilan sijil.',
+            'nama_pengambil_sijil.numeric' => 'Ruangan ini perlu diisi.',
+        ]);
+
+        $pemarkahan = PemarkahanCalonSijilTahfiz::find($id);
+        DB::beginTransaction();
+
+        try {
+            $request['permohonan_id'] = $pemarkahan->permohonan_id;
+            PengambilanSijilTahfiz::create($request->except('_token'));
+            Alert::toast('Pengambilan Sijil Telah Berjaya Didaftarkan', 'success');
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            report($e);
+            Alert::toast('Pengambilan Sijil Tidak Berjaya Didaftarkan', 'error');
+        }
+
+        return redirect()->route('pengurusan.pengajian_sepanjang_hayat.pengurusan_sijil_tahfiz.penerima_sijil_tahfiz.index');
     }
     
 }
