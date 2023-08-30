@@ -1,6 +1,5 @@
 <?php
 
-// use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\LaporanStatistikController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PenerimaSijilTahfizController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PengesahanMarkahSijilTafiz;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\PeperiksaanPemarkahanCalonSijilTahfizController;
@@ -9,6 +8,9 @@ use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanPenemudugaSij
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanPeperiksaanSijilTahfizController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanPusatPeperiksaanController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanTemplateSijilTahfiz;
+use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanMajlisPenyerahanSijilTahfizController;
+use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanTemplateJemputanSijilController;
+use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\JemputanMajlisPenyerahanSijilController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\VenuePeperiksaanSijilTahfizController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +24,8 @@ Route::group(['prefix'=>'tetapan','as'=>'tetapan.'], function(){
         Route::get('fetchPusatPeperiksaanNegeri', [TetapanPenemudugaSijilTahfizController::class, 'fetchPusatPeperiksaanNegeri'])->name('fetchPusatPeperiksaan.negeri');
     });
     Route::resource('penemuduga_sijil_tahfiz', TetapanPenemudugaSijilTahfizController::class);
+    Route::resource('majlis_penyerahan_sijil_tahfiz', TetapanMajlisPenyerahanSijilTahfizController::class);
+    Route::resource('template_jemputan_sijil', TetapanTemplateJemputanSijilController::class);
 
     Route::resource('template_sijil_tahfiz', TetapanTemplateSijilTahfiz::class);
 
@@ -52,8 +56,14 @@ Route::group(['prefix'=>'pengurusan_sijil_tahfiz','as'=>'pengurusan_sijil_tahfiz
     Route::group(['prefix'=>'penerima_sijil_tahfiz','as'=>'penerima_sijil_tahfiz.'], function(){
         Route::get('jana_sijil/{id}', [PenerimaSijilTahfizController::class, 'jana_sijil'])->name('jana_sijil');
         Route::get('download_sijil/{id}', [PenerimaSijilTahfizController::class, 'download_sijil'])->name('download_sijil');
+        Route::get('pengambilan_sijil/{id}', [PenerimaSijilTahfizController::class, 'pengambilan_sijil'])->name('pengambilan_sijil');
+        Route::post('pengambilan_sijil/{id}/store', [PenerimaSijilTahfizController::class, 'pengambilan_sijil_store'])->name('pengambilan_sijil.store');
     });
     Route::resource('penerima_sijil_tahfiz', PenerimaSijilTahfizController::class);
+
 });
 
-// Route::resource('laporan_statistik', LaporanStatistikController::class);
+Route::group(['prefix'=>'jemputan','as'=>'jemputan.'], function(){
+    Route::resource('jemputan_majlis', JemputanMajlisPenyerahanSijilController::class);
+});
+

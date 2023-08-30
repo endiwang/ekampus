@@ -40,4 +40,8 @@ class PermohonanSijilTahfiz extends Model
     public function pemohon(){
         return $this->belongsTo(Pemohon::class);
     }
+
+    public function templateJemputan(){
+        return $this->belongsTo(TemplateJemputanMajlisPensijilan::class,'template_id', 'id');
+    }
 }

@@ -1,19 +1,10 @@
-@extends('layouts.public.main_inner_pemohon')
+@extends('layouts.master.main')
 @section('css')
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
 @endsection
 @section('content')
 <div id="kt_app_content" class="app-content flex-column-fluid">
     <div id="kt_app_content_container" class="app-container container-xxl">
-        <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
-            <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                <a href="{{ route('pemohon.permohonan_sijil_tahfiz.create') }}" class="btn btn-info hover-rotate-start">Tambah Permohonan</a>
-                <a href="{{ route('pemohon.permohonan_sijil_tahfiz.semakan_permohonan_sijil_tahfiz.index') }}" class="btn btn-info hover-rotate-start">Semakan Kelayakan Permohonan</a>
-                <a href="{{ route('pemohon.permohonan_sijil_tahfiz.semakan_keputusan_sijil_tahfiz.index') }}" class="btn btn-info hover-rotate-start">Semakan keputusan Temuduga</a>
-                <a href="{{ route('pemohon.permohonan_sijil_tahfiz.semakan_jemputan_majlis.index') }}" class="btn btn-info hover-rotate-start">Semakan Jemputan Pensijilan</a>
-            </div>
-        </div>
-        <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
+        <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
             <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                 <div class="card" id="advanceSearch">
                     <div class="card-body py-5">
@@ -50,11 +41,11 @@
 
     </div>
 </div>
+
+
 @endsection
 
-@section('script')
-
-<!-- Include other required scripts for additional features if needed -->
+@push('scripts')
     <script>
         function remove(id){
             Swal.fire({
@@ -110,6 +101,5 @@
         }).mount('#advanceSearch')
     </script>
     {!! $html->scripts() !!}
-    
 
-@endsection
+@endpush
