@@ -12,4 +12,8 @@ class TemplateJemputanMajlisPensijilan extends Model
 
     protected $table = 'template_jemputan_majlis_pensijilans';
     protected $guarded = ['id'];
+
+    public function majlis(){
+        return $this->belongsTo(TetapanMajlisPenyerahanSijilTahfiz::class,'majlis_id', 'id');
+    }
 }

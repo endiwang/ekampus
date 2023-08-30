@@ -111,7 +111,7 @@ class TetapanMajlisPenyerahanSijilTahfizController extends Controller
         ];
 
         $lokasi_pusat_pengajian = PusatPengajian::where('status', 1)->get();
-        $staffs = Staff::where('is_deleted', 0)->get()->pluck('nama', 'id');
+        $staffs = Staff::where('is_deleted', 0)->where('jabatan_id', 32)->get()->pluck('nama', 'id');
 
         $data = [
             'title'                     => $title,
@@ -131,10 +131,7 @@ class TetapanMajlisPenyerahanSijilTahfizController extends Controller
      */
     public function store(Request $request)
     {
-       
-        if(!$request->has('pusat_pengajian_id')){
-            $request['pusat_pengajian_id'] = null;
-        }
+
         if(!$request->has('staff_id')){
             $request['staff_id'] = null;
         }
@@ -144,7 +141,7 @@ class TetapanMajlisPenyerahanSijilTahfizController extends Controller
             'siri'                      => 'required',
             'tahun'                     => 'required',
             'no_fail_surat'             => 'required',
-            'pusat_pengajian_id'        => 'required',
+            'lokasi_majlis'             => 'required',
             'tarikh_surat_mula'         => 'required',
             'tarikh_surat_akhir'        => 'required',
             'tarikh_majlis_mula'        => 'required',
@@ -157,7 +154,7 @@ class TetapanMajlisPenyerahanSijilTahfizController extends Controller
             'siri.required'                         => 'Sila masukkan siri majlis.',
             'tahun.required'                        => 'Sila masukkan tahun majlis.',
             'no_fail_surat.required'                => 'Sila masukkan no fail surat.',
-            'pusat_pengajian_id.required'           => 'Sila pilh lokasi majlis.',
+            'lokasi_majlis.required'                => 'Sila masukkan lokasi majlis.',
             'tarikh_surat_mula.required'            => 'Sila pilih tarikh mula surat.',
             'tarikh_surat_akhir.required'           => 'Sila pilih tarikh tutup surat.',
             'tarikh_majlis_mula.required'           => 'Sila pilih tarikh mula majlis.',
@@ -182,7 +179,7 @@ class TetapanMajlisPenyerahanSijilTahfizController extends Controller
                 'tahun' => $request->tahun,
                 'no_fail_surat' => $request->no_fail_surat,
                 'status' => $status,
-                'pusat_pengajian_id' => $request->pusat_pengajian_id,
+                'lokasi_majlis' => $request->lokasi_majlis,
                 'tarikh_surat_mula'  => Carbon::createFromFormat('d/m/Y',$request->tarikh_surat_mula)->format('Y-m-d'),
                 'tarikh_surat_akhir' => Carbon::createFromFormat('d/m/Y',$request->tarikh_surat_akhir)->format('Y-m-d'),
                 'tarikh_majlis_mula'  => Carbon::createFromFormat('d/m/Y',$request->tarikh_majlis_mula)->format('Y-m-d'),
@@ -234,7 +231,7 @@ class TetapanMajlisPenyerahanSijilTahfizController extends Controller
 
         $tetapan_majlis         = TetapanMajlisPenyerahanSijilTahfiz::find($id);
         $lokasi_pusat_pengajian = PusatPengajian::where('status', 1)->get();
-        $staffs = Staff::where('is_deleted', 0)->get()->pluck('nama', 'id');
+        $staffs = Staff::where('is_deleted', 0)->where('jabatan_id', 32)->get()->pluck('nama', 'id');
 
         $data = [
             'title'                     => $title,
@@ -269,7 +266,7 @@ class TetapanMajlisPenyerahanSijilTahfizController extends Controller
             'siri'                      => 'required',
             'tahun'                     => 'required',
             'no_fail_surat'             => 'required',
-            'pusat_pengajian_id'        => 'required',
+            'lokasi_majlis'             => 'required',
             'tarikh_surat_mula'         => 'required',
             'tarikh_surat_akhir'        => 'required',
             'tarikh_majlis_mula'        => 'required',
@@ -282,7 +279,7 @@ class TetapanMajlisPenyerahanSijilTahfizController extends Controller
             'siri.required'                         => 'Sila masukkan siri majlis.',
             'tahun.required'                        => 'Sila masukkan tahun majlis.',
             'no_fail_surat.required'                => 'Sila masukkan no fail surat.',
-            'pusat_pengajian_id.required'           => 'Sila pilh lokasi majlis.',
+            'lokasi_majlis.required'                => 'Sila masukkan lokasi majlis.',
             'tarikh_surat_mula.required'            => 'Sila pilih tarikh mula surat.',
             'tarikh_surat_akhir.required'           => 'Sila pilih tarikh tutup surat.',
             'tarikh_majlis_mula.required'           => 'Sila pilih tarikh mula majlis.',
@@ -307,7 +304,7 @@ class TetapanMajlisPenyerahanSijilTahfizController extends Controller
                 'tahun'                  => $request->tahun,
                 'no_fail_surat'          => $request->no_fail_surat,
                 'status'                 => $status,
-                'pusat_pengajian_id'     => $request->pusat_pengajian_id,
+                'lokasi_majlis'          => $request->lokasi_majlis,
                 'tarikh_surat_mula'      => Carbon::createFromFormat('d/m/Y',$request->tarikh_surat_mula)->format('Y-m-d'),
                 'tarikh_surat_akhir'     => Carbon::createFromFormat('d/m/Y',$request->tarikh_surat_akhir)->format('Y-m-d'),
                 'tarikh_majlis_mula'     => Carbon::createFromFormat('d/m/Y',$request->tarikh_majlis_mula)->format('Y-m-d'),

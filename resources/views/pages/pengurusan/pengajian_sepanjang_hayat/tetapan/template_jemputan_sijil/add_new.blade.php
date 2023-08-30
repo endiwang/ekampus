@@ -38,6 +38,26 @@
                                         {{ Form::label('template', 'Kandungan Template', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
+                                        <!--begin::Alert-->
+                                        <div class="alert alert-dismissible bg-light-primary border border-primary d-flex flex-column flex-sm-row p-5 mb-10">
+                                            <!--begin::Icon-->
+                                            <i class="fa fa-exclamation fs-2hx text-danger me-4 mb-5 mb-sm-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                            <!--end::Icon-->
+
+                                            <!--begin::Wrapper-->
+                                            <div class="d-flex flex-column pe-0 pe-sm-10">
+                                                <!--begin::Title-->
+                                                <h5 class="mb-1">Notis Penggunaan</h5>
+                                                <!--end::Title-->
+
+                                                <!--begin::Content-->
+                                                <span>Gunakan tag <b class="info">{NamaMajlis}</b> atau <b class="info">{LokasiMajlis}</b> atau <b class="info">{TarikhMajlis}</b>atau <b class="info">{MasaMajlis}</b>atau <b class="info">{PegawaiUntukDihubungi}</b>
+                                                     bagi menggantikan Nama Majlis, Lokasi Majlis, Tarikh Majlis, Masa Majlis dan Pegawai untuk Dihubungi pada template jemputan.</span>
+                                                <!--end::Content-->
+                                            </div>
+                                            <!--end::Wrapper-->
+                                        </div>
+                                        <!--end::Alert-->
                                         <div class="w-100">
                                             <textarea class="{{ ($errors->has('template') ? 'is-invalid':'') }}" id="kt_docs_tinymce_basic" name="template"></textarea>
                                             @error('template') <div class="invalid-feedback">{{ $message }}</div> @enderror

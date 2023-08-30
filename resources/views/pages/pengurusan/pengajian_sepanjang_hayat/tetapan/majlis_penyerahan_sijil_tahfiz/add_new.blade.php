@@ -57,16 +57,12 @@
                                 </div>
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('pusat_pengajian_id', 'Lokasi Majlis', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                        {{ Form::label('lokasi_majlis', 'Lokasi Majlis', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            <select name="pusat_pengajian_id" class="form-select" data-control="select2" data-placeholder="Sila Pilih" data-allow-clear="true" data-hide-search="false" id="pusat_pengajian_id">
-                                                @foreach ($lokasi_pusat_pengajian as $pusat_pengajian)
-                                                    <option value="{{ $pusat_pengajian->id }}">{{ $pusat_pengajian->nama }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('pusat_pengajian_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            {{ Form::text('lokasi_majlis',old('lokasi_majlis'),['class' => 'form-control form-control-sm '.($errors->has('lokasi_majlis') ? 'is-invalid':''), 'id' =>'lokasi_majlis','autocomplete' => 'off']) }}
+                                            @error('lokasi_majlis') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
                                 </div>

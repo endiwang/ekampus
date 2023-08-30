@@ -21,6 +21,26 @@
                                     </div>
                                 </div>
                                 <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('status_kehadiran', 'Status Kehadiran', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::select('status_kehadiran', $status_kehadiran, Request::get('status_kehadiran'), ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm ','id'=>'staff_id' ]) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('status_janaan', 'Status Janaan', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::select('status_janaan', $status_janaan, Request::get('status_janaan'), ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm ','id'=>'staff_id' ]) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
                                     <div class="col-md-12">
                                         <div class="d-flex align-items-center justify-content-end">
                                             <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0 me-3">
@@ -43,17 +63,7 @@
                         <div class="card-body py-5">
                             
                             <form class="form" action="{{ route('pengurusan.pengajian_sepanjang_hayat.jemputan.jemputan_majlis.store')}}" method="post">
-                                <div class="row fv-row mb-2" >
-                                    <div class="col-md-2 text-md-end">
-                                        {{ Form::label('tetapan_majlis_id', 'Majlis', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div class="w-100">
-                                            {{ Form::select('tetapan_majlis_id', $majlis, old('tetapan_majlis_id'), ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm '.($errors->has('tetapan_majlis_id') ? 'is-invalid':''),'id'=>'tetapan_majlis_id' ]) }}
-                                            @error('tetapan_majlis_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                        </div>
-                                    </div>
-                                </div>
+                                @csrf
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-2 text-md-end">
                                         {{ Form::label('template_id', 'Template Jemputan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}

@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('pemarkahan_calon_sijil_tahfizs', function (Blueprint $table) {
+        Schema::table('permohonan_sijil_tahfizs', function (Blueprint $table) {
             $table->integer('status_kehadiran')->nullable();
+            $table->integer('status_janaan_jemputan')->nullable();
            
         });
     }
@@ -26,8 +27,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('pemarkahan_calon_sijil_tahfizs', function (Blueprint $table) {
+        Schema::table('permohonan_sijil_tahfizs', function (Blueprint $table) {
             $table->dropColumn('status_kehadiran');
+            $table->dropColumn('status_janaan_jemputan');
         });
     }
 };
