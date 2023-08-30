@@ -52,6 +52,8 @@ Route::group(['prefix'=>'pengurusan_sijil_tahfiz','as'=>'pengurusan_sijil_tahfiz
     Route::group(['prefix'=>'penerima_sijil_tahfiz','as'=>'penerima_sijil_tahfiz.'], function(){
         Route::get('jana_sijil/{id}', [PenerimaSijilTahfizController::class, 'jana_sijil'])->name('jana_sijil');
         Route::get('download_sijil/{id}', [PenerimaSijilTahfizController::class, 'download_sijil'])->name('download_sijil');
+        Route::get('pengambilan_sijil/{id}', [PenerimaSijilTahfizController::class, 'pengambilan_sijil'])->name('pengambilan_sijil');
+        Route::post('pengambilan_sijil/{id}/store', [PenerimaSijilTahfizController::class, 'pengambilan_sijil_store'])->name('pengambilan_sijil.store');
     });
     Route::resource('penerima_sijil_tahfiz', PenerimaSijilTahfizController::class);
 });
