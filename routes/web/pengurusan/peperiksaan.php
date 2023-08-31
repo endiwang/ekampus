@@ -9,6 +9,7 @@ use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniMarkahController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniNamaPelajarController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSesiPengajianController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSubjekArabController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\KeputusanPeperiksaanStmController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\MainPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\MaklumatKehadiranController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\PengesahanTamatPengajianController;
@@ -69,3 +70,7 @@ Route::post('kemaskini_markah/maklumat_pelajar', [KemaskiniMarkahController::cla
 Route::resource('kemaskini_markah', KemaskiniMarkahController::class);
 
 Route::resource('tuntutan_bayaran', TuntutanBayaranPeperiksaanController::class);
+
+Route::get('keputusan_peperiksaan_stm/export_senarai/{id}', [KeputusanPeperiksaanStmController::class, 'export_senarai'])->name('keputusan_peperiksaan_stm.export_senarai');
+Route::get('keputusan_peperiksaan_stm/temuduga_terdahulu', [KeputusanPeperiksaanStmController::class, 'index2'])->name('keputusan_peperiksaan_stm.temuduga_terdahulu');
+Route::resource('keputusan_peperiksaan_stm', KeputusanPeperiksaanStmController::class);
