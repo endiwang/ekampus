@@ -62,7 +62,7 @@ class BayaranYuranMail extends Mailable
             $resit = (array) json_decode($this->bayaran->resit);
             
             return [
-                Attachment::fromPath(asset('storage/' . $resit['resit_path'])),
+                Attachment::fromPath(public_path('storage/' . $resit['resit_path'])),
             ];
         }
         else {

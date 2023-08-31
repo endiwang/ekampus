@@ -30,6 +30,7 @@ class GenerateBayaranYuranResitListener
     {
         $bayaran = $event->bayaran;
         $data['bayaran'] = $bayaran;
+        $data['is_download'] = 1;
         $resit = [];
         $datetime_now = strtotime(now());
 
