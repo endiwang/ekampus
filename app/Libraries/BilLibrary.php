@@ -2,6 +2,7 @@
 
 namespace App\Libraries;
 
+use App\Events\BilYuranEvent;
 use App\Models\Bil;
 
 class BilLibrary {
@@ -28,6 +29,8 @@ class BilLibrary {
             $bil->amaun = (!empty($data['amaun'])) ? $data['amaun'] :  $data['yuran']->amaun;
             $bil->status = 1;
             $bil->save();
+
+            event(new BilYuranEvent($bil));
         }
         
     }

@@ -10,5 +10,6 @@ Route::resource('/', FrontPageController::class)->only(['index']);
 
 Route::get('/kaji_selidik/{id}', [KomunikasiKorporatController::class, 'index'])->name('kaji_selidik.index');
 
+Route::get('/invois/{id}', [YuranController::class, 'show'])->name('yuran.invois');
 Route::get('/resit/{id}', [YuranController::class, 'show'])->name('yuran.resit');
 Route::get('/pelajar/find', [MainPelajarController::class, 'find'])->name('pelajar.find');

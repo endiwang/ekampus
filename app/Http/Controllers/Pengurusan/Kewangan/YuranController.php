@@ -78,6 +78,9 @@ class YuranController extends Controller
 
                     return $html;
                 })
+                ->addColumn('bil', function ($data) use($id){
+                    return '<a href="' . route('public.yuran.invois', Crypt::encryptString($data->id)) . '" target="_blank">' . $data->doc_no . '</a>';
+                })
                 ->addColumn('bayaran', function ($data) use($id){
                     $bayaran = Bayaran::where('bil_id', $data->id)->first();
                     if(!empty($bayaran))
@@ -89,7 +92,7 @@ class YuranController extends Controller
                     return $data->status_name;
                 })
                 ->addIndexColumn()
-                ->rawColumns(['action', 'bayaran', 'pelajar'])
+                ->rawColumns(['action', 'bayaran', 'bil', 'pelajar'])
                 ->toJson();
         }
 
@@ -97,7 +100,7 @@ class YuranController extends Controller
             ->parameters([])
             ->columns([
                 ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
-                ['data' => 'doc_no', 'name' => 'doc_no', 'title' => 'No Bil', 'orderable' => false],
+                ['data' => 'bil', 'name' => 'bil', 'title' => 'No Bil', 'orderable' => false],
                 ['data' => 'bayaran', 'name' => 'bayaran', 'title' => 'Bayaran', 'orderable' => false],
                 ['data' => 'pelajar', 'name' => 'pelajar', 'title' => 'Nama Pelajar', 'orderable' => false],
                 ['data' => 'amaun', 'name' => 'amaun', 'title' => 'Amaun Yuran', 'orderable' => false],
@@ -210,7 +213,23 @@ class YuranController extends Controller
             
             $data['bayaran'] = $bayaran;
             return view($this->baseView . 'resit')->with($data);
-        }            
+        }    
+
+        if($request->segment(1) == 'invois')
+        {
+            $id = Crypt::decryptString($data_id);
+            $bil = Bil::where('id', $id)->first();
+
+            if(empty($bil))
+            {
+                abort(404);
+            }
+            
+            $data['bil'] = $bil;
+            return view($this->baseView . 'invois')->with($data);
+        } 
+
+        abort(404);
     }
 
     /**
