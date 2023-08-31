@@ -11,9 +11,13 @@ use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanTemplateSijil
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanMajlisPenyerahanSijilTahfizController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanTemplateJemputanSijilController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\JemputanMajlisPenyerahanSijilController;
+use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\MainPengajianSepanjangHayatController;
+use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\RekodAnalisaSijilTahfizController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\VenuePeperiksaanSijilTahfizController;
 use Illuminate\Support\Facades\Route;
 
+
+Route::resource('/', MainPengajianSepanjangHayatController::class)->only(['index']);
 Route::group(['prefix'=>'tetapan','as'=>'tetapan.'], function(){
     Route::resource('sesi_peperiksaan_sijil_tahfiz', TetapanPeperiksaanSijilTahfizController::class);
 
@@ -33,12 +37,6 @@ Route::group(['prefix'=>'tetapan','as'=>'tetapan.'], function(){
 });
 
 Route::group(['prefix'=>'proses_permohonan','as'=>'proses_permohonan.'], function(){
-
-    // Route::group(['prefix'=>'permohonan','as'=>'permohonan.'], function(){
-    //     Route::get('lantikPenemuduga/{id}', [PermohonanController::class,'lantikPenemuduga'])->name('lantik.penemuduga');
-    //     Route::patch('lantikPenemuduga/update/{id}', [PermohonanController::class,'lantikPenemuduga'])->name('lantik.penemuduga.update');
-    // });
-    
     Route::resource('permohonan', PermohonanController::class);
 });
 
@@ -65,5 +63,14 @@ Route::group(['prefix'=>'pengurusan_sijil_tahfiz','as'=>'pengurusan_sijil_tahfiz
 
 Route::group(['prefix'=>'jemputan','as'=>'jemputan.'], function(){
     Route::resource('jemputan_majlis', JemputanMajlisPenyerahanSijilController::class);
+});
+
+Route::group(['prefix'=>'laporan','as'=>'laporan.'], function(){
+    Route::group(['prefix'=>'rekod_analisa','as'=>'rekod_analisa.'], function(){
+        Route::post('analisa_negeri', [RekodAnalisaSijilTahfizController::class, 'analisa_negeri'])->name('analisa_negeri');
+        Route::post('analisa_siri_peperiksaan', [RekodAnalisaSijilTahfizController::class, 'analisa_siri_peperiksaan'])->name('analisa_siri_peperiksaan');
+        Route::get('analisa_peringkat_kelulusan', [RekodAnalisaSijilTahfizController::class, 'analisa_peringkat_kelulusan'])->name('analisa_peringkat_kelulusan');
+    });
+    Route::resource('rekod_analisa', RekodAnalisaSijilTahfizController::class);
 });
 

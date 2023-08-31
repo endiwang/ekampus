@@ -7,11 +7,14 @@ use App\Http\Controllers\Pengurusan\Peperiksaan\JadualPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniKursusController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniMarkahController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniNamaPelajarController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniPaparanKeputusanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSesiPengajianController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSubjekArabController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\KeputusanPeperiksaanStmController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\MainPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\MaklumatKehadiranController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\PengesahanTamatPengajianController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\PenilaianLainController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\PersiapanPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\SenaraiCalonPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\SenaraiPelajarTamatController;
@@ -68,4 +71,14 @@ Route::resource('pengesahan_tamat_pengajian', PengesahanTamatPengajianController
 Route::post('kemaskini_markah/maklumat_pelajar', [KemaskiniMarkahController::class, 'getMaklumatPelajar'])->name('kemaskini_markah.getMaklumatPelajar');
 Route::resource('kemaskini_markah', KemaskiniMarkahController::class);
 
+Route::get('penilaian_lain/temudugga_syafawi/{id}', [PenilaianLainController::class, 'temuduga_syafawi'])->name('penilaian_lain.temuduga_syafawi');
+Route::get('penilaian_lain/temuduga_tahriri/{id}', [PenilaianLainController::class, 'tahriri_pengetahuan_islam'])->name('penilaian_lain.temuduga_tahriri');
+Route::resource('penilaian_lain', PenilaianLainController::class);
+
 Route::resource('tuntutan_bayaran', TuntutanBayaranPeperiksaanController::class);
+
+Route::get('keputusan_peperiksaan_stm/export_senarai/{id}', [KeputusanPeperiksaanStmController::class, 'export_senarai'])->name('keputusan_peperiksaan_stm.export_senarai');
+Route::get('keputusan_peperiksaan_stm/temuduga_terdahulu', [KeputusanPeperiksaanStmController::class, 'index2'])->name('keputusan_peperiksaan_stm.temuduga_terdahulu');
+Route::resource('keputusan_peperiksaan_stm', KeputusanPeperiksaanStmController::class);
+
+Route::resource('kemaskini_paparan_keputusan', KemaskiniPaparanKeputusanController::class);

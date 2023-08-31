@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Notifikasi;
 use App\Models\SemesterTerkini;
+use App\Models\TarikhKeputusan;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 
@@ -149,5 +150,13 @@ class Utils
         }
 
         return $pointer;
+    }
+
+    public static function getTarikhPeperiksaan($semester,$semester_terkini_id)
+    {
+        $tarikh = TarikhKeputusan::select('tarikh_keputusan')->where('semester_no', $semester)->where('semester_terkini_id', $semester_terkini_id)->first();
+
+        return !empty($tarikh->tarikh_keputusan) ? Carbon::parse($tarikh->tarikh_keputusan)->format('d/m/Y') : null;
+
     }
 }

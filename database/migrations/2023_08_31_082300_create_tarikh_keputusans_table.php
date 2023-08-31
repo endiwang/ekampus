@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('venue_peperiksaan_sijil_tahfizs', function (Blueprint $table) {
+        Schema::create('tarikh_keputusan', function (Blueprint $table) {
             $table->id();
-            $table->integer('negeri_id');
-            $table->text('address')->nullable();
-            $table->integer('status')->nullable()->default(0);
-            $table->softDeletes();
+            $table->integer('semester_no')->nullable();
+            $table->integer('semester_terkini_id')->nullable();
+            $table->date('tarikh_keputusan')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('venue_peperiksaan_sijil_tahfizs');
+        Schema::dropIfExists('tarikh_keputusan');
     }
 };
