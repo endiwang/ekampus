@@ -7,6 +7,7 @@ use App\Http\Controllers\Pengurusan\Peperiksaan\JadualPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniKursusController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniMarkahController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniNamaPelajarController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniPaparanKeputusanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSesiPengajianController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSubjekArabController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\MainPeperiksaanController;
@@ -69,3 +70,5 @@ Route::post('kemaskini_markah/maklumat_pelajar', [KemaskiniMarkahController::cla
 Route::resource('kemaskini_markah', KemaskiniMarkahController::class);
 
 Route::resource('tuntutan_bayaran', TuntutanBayaranPeperiksaanController::class);
+
+Route::resource('kemaskini_paparan_keputusan', KemaskiniPaparanKeputusanController::class);
