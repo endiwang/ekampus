@@ -7,113 +7,147 @@
             <!--begin::Row-->
             <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <div class="card" id="advanceSearch">
-                        <div class="card-body py-5">
-                            <table class="table table-bordered table-condensed table-striped">
-                                <tbody>
-                                    <tr>
-                                        <td>Tajuk Borang Temuduga</td>
-                                        <td></td>
-                                        <td>Program Pengajian</td>
-                                        <td>Pensijilan Tahfiz al-Quran JAKIM-IIUM</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pusat Temuduga</td>
-                                        <td></td>
-                                        <td>Tarikh & Masa</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nama Tempat Temuduga</td>
-                                        <td></td>
-                                        <td>Alamat Tempat Temuduga</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ketua Penemuduga</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nama Pelajar</td>
-                                        <td>{{ $model->nama ?? null }}</td>
-                                        <td>No. Kad Pengenalan</td>
-                                        <td>{{ $model->ic_no ?? null }}</td>
-                                    </tr>
-                                </tbody>    
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
-                <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <form class="form" action="{{ route('pengurusan.peperiksaan.penilaian_lain.update', $id)}}" method="get">
+                    <form class="form" action="{{ route('pengurusan.peperiksaan.penilaian_lain.update', $id)}}" method="post">
+                        @method('PATCH')
+                        @csrf
                         <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Kemaskini Markah</h3>
-                            </div>
                             <div class="card-body py-5">
+                                <h3>Maklumat Pemohon</h3>
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('syafawi', 'Al-Quran Syafawi 100/100', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('name', 'Nama Pemohon', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('syafawi', $model->markahPermohonan->al_quran_syafawi ??  '0.00',['class' => 'form-control form-control-sm', 'id' =>'syafawi','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                            {{ Form::text('',$permohonan->name,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('tahriri', 'Al-Quran Tahriri 80/80', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('mykad', 'MyKad', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('tahriri', $model->markahPermohonan->al_quran_tahriri ??  '0.00' ,['class' => 'form-control form-control-sm', 'id' =>'no_ic','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                            {{ Form::text('',$pemohon->username,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('tajwid', 'Tajwid 20/20', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('no_tel', 'No Telefon', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('tajwid', $model->markahPermohonan->tajwid ??  '0.00' ,['class' => 'form-control form-control-sm', 'id' =>'no_matrik','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                            {{ Form::text('',$permohonan->phone_no,['class' => 'form-control form-control-sm ', 'id' =>'nama_tahfiz','autocomplete' => 'off', 'disabled'=>true]) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-2">
+                            <div class="card-body py-5">
+                                <h3>Ruangan Pemarkahan</h3>
+                                <h5>Al-Quran</h5>
+                                @if ($syafawi)
+                                <input type="hidden" name="syafawi" value='{{ $syafawi }}'>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('al_quran_syafawi', 'Al-Quran Syafawi (100%)', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="input-group w-100">
+                                            {{ Form::text('al_quran_syafawi', '',['class' => 'form-control form-control-sm '.($errors->has('al_quran_syafawi') ? 'is-invalid':''), 'id' =>'al_quran_syafawi','autocomplete' => 'off', 'aria-describedby'=>'basic-addon2']) }}
+                                            <span class="input-group-text" id="basic-addon2">%</span>
+                                            @error('al_quran_syafawi') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                @else
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('al_quran_tahriri', 'Al-Quran Tahriri (100%)', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="input-group w-100">
+                                            {{ Form::text('al_quran_tahriri', '',['class' => 'form-control form-control-sm '.($errors->has('al_quran_tahriri') ? 'is-invalid':''), 'id' =>'al_quran_tahriri','autocomplete' => 'off', 'aria-describedby'=>'basic-addon3']) }}
+                                            <span class="input-group-text" id="basic-addon3">%</span>
+                                            @error('al_quran_tahriri') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5>Pengetahuan Islam</h5>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('tajwid', 'Tajwid (20%)', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="input-group w-100">
+                                            {{ Form::text('tajwid', '',['class' => 'form-control form-control-sm '.($errors->has('tajwid') ? 'is-invalid':''), 'id' =>'tajwid','autocomplete' => 'off', 'aria-describedby'=>'basic-addon4']) }}
+                                            <span class="input-group-text" id="basic-addon4">%</span>
+                                            @error('tajwid') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('fiqh', 'Fiqh 40/40', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('fiqh_ibadah', 'Fiqh Ibadah (40%)', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
-                                        <div class="w-100">
-                                            {{ Form::text('fiqh', $model->markahPermohonan->fiqh ??  '0.00' ,['class' => 'form-control form-control-sm', 'id' =>'fiqh','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                        <div class="input-group w-100">
+                                            {{ Form::text('fiqh_ibadah', '',['class' => 'form-control form-control-sm '.($errors->has('fiqh_ibadah') ? 'is-invalid':''), 'id' =>'fiqh_ibadah','autocomplete' => 'off', 'aria-describedby'=>'basic-addon5']) }}
+                                            <span class="input-group-text" id="basic-addon5">%</span>
+                                            @error('fiqh_ibadah') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row fv-row mb-2" >
-                                    <div class="col-md-12">
-                                        <div class="d-flex align-items-center justify-content-end">
-                                            <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0 me-3">
-                                                <i class="fa fa-search" style="vertical-align: initial"></i>Cari
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('akidah', 'Akidah (40%)', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="input-group w-100">
+                                            {{ Form::text('akidah', '',['class' => 'form-control form-control-sm '.($errors->has('akidah') ? 'is-invalid':''), 'id' =>'akidah','autocomplete' => 'off', 'aria-describedby'=>'basic-addon6']) }}
+                                            <span class="input-group-text" id="basic-addon6">%</span>
+                                            @error('akidah') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                        
+                        <div class="card mt-2">
+                            <div class="card-body py-5">
+                                
+                                <div class="row">
+                                    <div class="col-md-9 offset-md-3">
+                                        <div class="d-flex">
+                                            {{ Form::hidden('pemohon_id',$permohonan->pemohon_id,['class' => 'form-control form-control-sm ','onkeydown' =>'return false']) }}
+                                            {{ Form::hidden('pelajar_id',$permohonan->pemohon_id,['class' => 'form-control form-control-sm ','onkeydown' =>'return false']) }}
+                                            <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
+                                                <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
                                             </button>
-                                            <a href="{{ route('pengurusan.peperiksaan.kemaskini_markah.show', $id) }}" class="btn btn-sm btn-light">Set Semula</a>
+                                            <a href="{{ route('pengurusan.peperiksaan.penilaian_lain.index') }}" class="btn btn-light btn-sm">Batal</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </form>
+
                 </div>
             </div>
             <!--end::Row-->
-
         </div>
     </div>
+
 @endsection
+
+@push('scripts')
+<script>
+
+</script>
+
+@endpush

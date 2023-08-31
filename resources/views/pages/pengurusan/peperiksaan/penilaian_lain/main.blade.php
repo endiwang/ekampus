@@ -7,7 +7,7 @@
              <!--begin::Row-->
              <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <form class="form" action="{{ route('pengurusan.peperiksaan.persiapan_peperiksaan.index')}}" method="get">
+                    <form class="form" action="{{ route('pengurusan.peperiksaan.penilaian_lain.index')}}" method="get">
                         <div class="card">
                             <div class="card-body py-5">
                                 <div class="row fv-row mb-2" >
@@ -31,22 +31,12 @@
                                     </div>
                                 </div>
                                 <div class="row fv-row mb-2" >
-                                    <div class="col-md-3 text-md-end">
-                                        {{ Form::label('pusat_peperiksaan', 'Pusat Peperiksaan', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="w-100">
-                                            {{ Form::select('pusat_peperiksaan', $pusat_peperiksaan, Request::get('pusat_peperiksaan'), ['data-control'=>'select2', 'placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm','id'=>'pusat_peperiksaan' ]) }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row fv-row mb-2" >
                                     <div class="col-md-12">
                                         <div class="d-flex align-items-center justify-content-end">
                                             <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0 me-3">
                                                 <i class="fa fa-search" style="vertical-align: initial"></i>Cari
                                             </button>
-                                            <a href="{{ route('pengurusan.peperiksaan.persiapan_peperiksaan.index') }}" class="btn btn-sm btn-light">Set Semula</a>
+                                            <a href="{{ route('pengurusan.peperiksaan.penilaian_lain.index') }}" class="btn btn-sm btn-light">Set Semula</a>
                                         </div>
                                     </div>
                                 </div>
