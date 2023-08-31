@@ -11,10 +11,13 @@ use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanTemplateSijil
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanMajlisPenyerahanSijilTahfizController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\TetapanTemplateJemputanSijilController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\JemputanMajlisPenyerahanSijilController;
+use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\MainPengajianSepanjangHayatController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\RekodAnalisaSijilTahfizController;
 use App\Http\Controllers\Pengurusan\PengajianSepanjangHayat\VenuePeperiksaanSijilTahfizController;
 use Illuminate\Support\Facades\Route;
 
+
+Route::resource('/', MainPengajianSepanjangHayatController::class)->only(['index']);
 Route::group(['prefix'=>'tetapan','as'=>'tetapan.'], function(){
     Route::resource('sesi_peperiksaan_sijil_tahfiz', TetapanPeperiksaanSijilTahfizController::class);
 

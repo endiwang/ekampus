@@ -9,7 +9,7 @@
             
             <div class="menu-item">
                 <!--begin:Menu link-->
-                <a class="menu-link {{ Request::routeIs('pengurusan.kbg.index') ? 'active' : '' }}" href="{{ route('pengurusan.kbg.index') }}" target="blank">
+                <a class="menu-link {{ Request::routeIs('pengurusan.pengajian_sepanjang_hayat.index') ? 'active' : '' }}" href="{{ route('pengurusan.pengajian_sepanjang_hayat.index') }}">
                     <span class="menu-icon">
                         <!--begin::Svg Icon | path: icons/duotune/abstract/abs027.svg-->
                         <span class="svg-icon svg-icon-2">
