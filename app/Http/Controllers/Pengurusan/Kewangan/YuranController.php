@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pengurusan\Kewangan;
 
+use App\Constants\Generic;
 use App\Events\BayaranYuranEvent;
 use App\Http\Controllers\Controller;
 use App\Libraries\BilLibrary;
@@ -14,6 +15,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
 use DB;
+use Dompdf\Dompdf;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Pdf;
@@ -38,12 +40,25 @@ class YuranController extends Controller
 
             if(!empty($request->carian))
             {
-                $data->join('pelajar', 'pelajar.id', 'bil.pelajar_id')
-                ->where(function($where) use($request) {
-                    $where->where('bil.doc_no', 'LIKE', '%' . $request->carian . '%');
-                    $where->orWhere('pelajar.nama', 'LIKE', '%' . $request->carian . '%');
-                    $where->orWhere('pelajar.no_ic', 'LIKE', '%' . $request->carian . '%');
-                });
+                if($id == Generic::YURAN_SIJIL_TAHFIZ)
+                {
+                    $data->join('pemohon', 'pemohon.id', 'bil.pemohon_id')
+                    ->join('permohonan_sijil_tahfizs', 'permohonan_sijil_tahfizs.id', 'bil.permohonan_sijil_tahfiz_id')
+                    ->where(function($where) use($request) {
+                        $where->where('bil.doc_no', 'LIKE', '%' . $request->carian . '%');
+                        $where->orWhere('permohonan_sijil_tahfizs.name', 'LIKE', '%' . $request->carian . '%');
+                        $where->orWhere('pemohon.username', 'LIKE', '%' . $request->carian . '%');
+                    });
+
+                }
+                else {
+                    $data->join('pelajar', 'pelajar.id', 'bil.pelajar_id')
+                    ->where(function($where) use($request) {
+                        $where->where('bil.doc_no', 'LIKE', '%' . $request->carian . '%');
+                        $where->orWhere('pelajar.nama', 'LIKE', '%' . $request->carian . '%');
+                        $where->orWhere('pelajar.no_ic', 'LIKE', '%' . $request->carian . '%');
+                    });
+                }
             }
 
             if(!empty($request->status))
@@ -55,7 +70,7 @@ class YuranController extends Controller
 
             return DataTables::of($data)
                 ->addColumn('pelajar', function ($data) use($id){
-                    return @$data->pelajar->nama . '<br>' . @$data->pelajar->no_ic;
+                    return @$data->pelajar_nama . '<br>' . @$data->pelajar_ic;
                 })
                 ->addColumn('action', function ($data) use($id){
                     $html = '';
@@ -271,6 +286,8 @@ class YuranController extends Controller
                     $bayaran->doc_no = 'RCPT' . $no_bayaran;
                     $bayaran->bil_id = $bil->id;
                     $bayaran->pelajar_id = $bil->pelajar_id;
+                    $bayaran->pemohon_id = $bil->pemohon_id;
+                    $bayaran->permohonan_sijil_tahfiz_id = $bil->permohonan_sijil_tahfiz_id;
                     $bayaran->yuran_id = $bil->yuran_id;
                     $bayaran->date = $request->bayaran_date;
                     $bayaran->description = $request->bayaran_description;
