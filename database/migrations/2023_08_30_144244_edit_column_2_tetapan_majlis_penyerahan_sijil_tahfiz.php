@@ -26,6 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('tetapan_majlis_penyerahan_sijil_tahfizs', function (Blueprint $table) {
+            $table->renameColumn('lokasi_majlis','pusat_pengajian_id');
+        });
     }
 };
