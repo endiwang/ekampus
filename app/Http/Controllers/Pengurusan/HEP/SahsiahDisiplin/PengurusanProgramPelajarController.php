@@ -11,6 +11,7 @@ use Yajra\DataTables\Html\Builder;
 use App\Helpers\Utils;
 use Illuminate\Support\Carbon;
 use App\Models\Kursus;
+use App\Models\Pelajar;
 
 class PengurusanProgramPelajarController extends Controller
 {
@@ -222,24 +223,84 @@ class PengurusanProgramPelajarController extends Controller
         //
     }
 
-    public function pilih_pelajar($id)
+    public function pilih_pelajar(Builder $builder, Request $request, $id)
     {
         $action = route('pengurusan.hep.pengurusan.program_pelajar.pilih_pelajar_store',$id);
-        $page_title = 'Tambah Program Pelajar';
+        $page_title = 'Pilih Pelajar';
 
-        $title = 'Tambah Program Pelajar';
+        $title = 'Pilih Pelajar';
         $breadcrumbs = [
             'Hal Ehwal Pelajar' => false,
             'Pengurusan' => false,
             'Program Pelajar' => false,
-            'Tambah Program' => false,
+            'Pilih Pelajar' => false,
         ];
 
+        $sesi_id = $request->sesi;
+        $kursus_id = $request->kursus;
+
+        $pelajar = Pelajar::where('is_berhenti', 0)->with('kursus')->with('sesi');
+        if($request->has('kursus'))
+        {
+            $pelajar->where('kursus_id', $kursus_id);
+        }
+        if($request->has('sesi'))
+        {
+            $pelajar->where('sesi_id', $sesi_id);
+        }
+
+        $pelajar->get();
+
         $model = ProgramPelajar::find($id);
+
         $kursus = Kursus::where('is_deleted', 0)->pluck('nama', 'id');
 
 
-        return view($this->baseView.'pilih_pelajar', compact('model', 'title', 'breadcrumbs', 'page_title', 'action','kursus'));
+        if (request()->ajax() && $pelajar) {
+            $data = $pelajar;
+
+            return DataTables::of($data)
+                ->addColumn('nama', function ($data) {
+                    return $data->nama ?? null;
+                })
+                ->addColumn('kursus', function ($data) {
+                    if (! empty($data->kursus_id)) {
+                        return $data->kursus->nama ?? 'N/A';
+                    } else {
+                        return 'N/A';
+                    }
+                })
+                ->addColumn('sesi', function ($data) {
+                    if (! empty($data->sesi_id)) {
+                        return $data->sesi->nama ?? 'N/A';
+                    } else {
+                        return 'N/A';
+                    }
+                })
+                ->addColumn('checkbox', function ($data) {
+                    return '<input type="checkbox" name="users_checkbox[]" class="users_checkbox pemohon_checkbox" value='.$data->id.' />';
+                })
+                ->addIndexColumn()
+                ->rawColumns(['nama', 'kursus','sesi', 'checkbox'])
+                ->toJson();
+        }
+
+        $dataTable = $builder
+        ->columns([
+            ['data' => 'checkbox',    'name' => 'checkbox',         'title' => '', 'orderable' => false, 'searchable' => false, 'class' => 'max-w-10px'],
+            ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+            ['data' => 'nama',      'name' => 'nama',           'title' => 'Nama Pelajar', 'orderable' => false, 'class' => 'text-bold'],
+            ['data' => 'no_ic',     'name' => 'no_ic',          'title' => 'No. Kad Pengenalan', 'orderable' => false],
+            ['data' => 'kursus',      'name' => 'kursus',         'title' => 'Program', 'orderable' => false],
+            ['data' => 'sesi',      'name' => 'sesi',         'title' => 'Sesi', 'orderable' => false],
+
+            // ['data' => 'action',    'name' => 'action',         'title' => 'Tindakan','orderable' => false, 'searchable' => false, 'class'=>'min-w-100px'],
+
+        ])
+        ->minifiedAjax();
+
+
+        return view($this->baseView.'pilih_pelajar', compact('model', 'title', 'breadcrumbs', 'page_title', 'action','kursus','dataTable'));
     }
 
     public function pilih_pelajar_store($id)
