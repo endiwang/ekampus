@@ -6,6 +6,7 @@ use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
 use App\Models\Kelas;
 use App\Models\Pelajar;
+use App\Models\Semester;
 use Exception;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -21,7 +22,7 @@ class KelasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -42,6 +43,12 @@ class KelasController extends Controller
 
             if (request()->ajax()) {
                 $data = Kelas::with('currentSemester', 'currentSyukbah');
+                if ($request->has('nama') && $request->nama != null) {
+                    $data->where('nama', 'LIKE', '%'.$request->nama.'%');
+                }
+                if ($request->has('semester') && $request->semester != null) {
+                    $data->where('semasa_semester_id', $request->semester);
+                }
 
                 return DataTables::of($data)
                     ->addColumn('nama', function ($data) {
@@ -130,7 +137,9 @@ class KelasController extends Controller
                 ])
                 ->minifiedAjax();
 
-            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
+            $semesters = Semester::where('deleted_at', NULL)->pluck('nama', 'id');
+
+            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable', 'semesters'));
 
         } catch (Exception $e) {
             report($e);
