@@ -17,4 +17,9 @@ class SemesterTerkini extends Model
     {
         return $this->belongsTo(Kursus::class, 'kursus_id', 'id');
     }
+
+    public function tarikhKeputusan()
+    {
+        return $this->hasMany(TarikhKeputusan::class);
+    }
 }
