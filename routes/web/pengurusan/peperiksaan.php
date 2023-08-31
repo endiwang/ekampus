@@ -13,6 +13,7 @@ use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSubjekArabController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\MainPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\MaklumatKehadiranController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\PengesahanTamatPengajianController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\PenilaianLainController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\PersiapanPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\SenaraiCalonPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\SenaraiPelajarTamatController;
@@ -68,6 +69,10 @@ Route::resource('pengesahan_tamat_pengajian', PengesahanTamatPengajianController
 
 Route::post('kemaskini_markah/maklumat_pelajar', [KemaskiniMarkahController::class, 'getMaklumatPelajar'])->name('kemaskini_markah.getMaklumatPelajar');
 Route::resource('kemaskini_markah', KemaskiniMarkahController::class);
+
+Route::get('penilaian_lain/temudugga_syafawi/{id}', [PenilaianLainController::class, 'temuduga_syafawi'])->name('penilaian_lain.temuduga_syafawi');
+Route::get('penilaian_lain/temuduga_tahriri/{id}', [PenilaianLainController::class, 'tahriri_pengetahuan_islam'])->name('penilaian_lain.temuduga_tahriri');
+Route::resource('penilaian_lain', PenilaianLainController::class);
 
 Route::resource('tuntutan_bayaran', TuntutanBayaranPeperiksaanController::class);
 
