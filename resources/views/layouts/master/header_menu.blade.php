@@ -72,7 +72,7 @@
         </a>
     </div>
     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
-        <a href="{{ route('pengurusan.pengajian_sepanjang_hayat.tetapan.sesi_peperiksaan_sijil_tahfiz.index') }}" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold p-0 m-1">
+        <a href="{{ route('pengurusan.pengajian_sepanjang_hayat.index') }}" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold p-0 m-1">
             <span class="menu-link">
                 <span class="menu-title">Pengajian Sepanjang Hayat</span>
                 <span class="menu-arrow d-lg-none"></span>
