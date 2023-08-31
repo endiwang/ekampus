@@ -389,7 +389,7 @@ class PermohonanSijilTahfizController extends Controller
             // 'resit_bayaran.required'    => 'Sila lampirkan resit/bukti pembayaran.',
         ]);
         
-        $temp_pusat_total = PermohonanSijilTahfiz::where('siri_id', $request->siri_id)->where('pusat_peperiksaan_id', $request->pusat_peperiksaan_id)->count();     
+        $temp_pusat_total = PermohonanSijilTahfiz::where('id', '!=', $id)->where('siri_id', $request->siri_id)->where('pusat_peperiksaan_id', $request->pusat_peperiksaan_id)->count();     
         
         $ppeperiksaan = PusatPeperiksaan::where('id', $request->pusat_peperiksaan_id)->first();
 
