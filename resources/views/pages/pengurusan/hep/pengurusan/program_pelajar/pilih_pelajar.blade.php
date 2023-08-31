@@ -79,6 +79,55 @@
 @push('scripts')
 
 <script>
+
+    function submit () {
+            console.log('ok')
+            // Toggle selected action toolbar
+            // Select all checkboxes
+            const container = document.querySelector('#dataTableBuilder');
+            const checkboxes = container.querySelectorAll('[type="checkbox"]');
+            const processSelected = document.querySelector('[data-kt-docs-table-select="simpan-selected"]');
+
+
+            // Toggle delete selected toolbar
+            checkboxes.forEach(c => {
+                // Checkbox on click event
+                c.addEventListener('click', function () {
+                    setTimeout(function () {
+                        toggleToolbars();
+                    }, 50);
+                });
+            });
+
+
+            processSelected.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                var id = [];
+                $('.pemohon_checkbox:checked').each(function(){
+                    id.push($(this).val());
+                });
+
+                $.ajax({
+                    url: "{!! route('pengurusan.hep.pengurusan.program_pelajar.pilih_pelajar_store',$model->id)!!}",
+                    type: "POST",
+                    data: {
+                                ids: id,
+                                _token: '{{csrf_token()}}'
+                            },
+                    dataType: 'json',
+                    success: function(data){
+                        location.reload();
+                    }
+                });
+
+            });
+
+
+        }
+    </script>
+
+<script>
     $(document).ready(function () {
         if($("#kursus").val() != null || $("#kursus").val() != '')
         {

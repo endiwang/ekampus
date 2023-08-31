@@ -303,8 +303,8 @@ class PengurusanProgramPelajarController extends Controller
         return view($this->baseView.'pilih_pelajar', compact('model', 'title', 'breadcrumbs', 'page_title', 'action','kursus','dataTable'));
     }
 
-    public function pilih_pelajar_store($id)
+    public function pilih_pelajar_store(Request $request,$id)
     {
-        dd($id);
+        dd($request);
     }
 }
