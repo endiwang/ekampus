@@ -44,4 +44,8 @@ class PermohonanSijilTahfiz extends Model
     public function templateJemputan(){
         return $this->belongsTo(TemplateJemputanMajlisPensijilan::class,'template_id', 'id');
     }
+
+    public function pemarkahans(){
+        return $this->hasMany(PemarkahanCalonSijilTahfiz::class, 'id', 'permohonan_id');
+    }
 }

@@ -12,4 +12,8 @@ class TetapanPeperiksaanSijilTahfiz extends Model
 
     protected $table = 'tetapan_peperiksaan_sijil_tahfizs';
     protected $guarded = ['id'];
+
+    public function permohonan(){
+        return $this->hasMany(PermohonanSijilTahfiz::class, 'siri_id', 'id');
+    }
 }

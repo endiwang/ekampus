@@ -28,4 +28,8 @@ class PemarkahanCalonSijilTahfiz extends Model
     public function permohonan(){
         return $this->belongsTo(Permohonan::class);
     }
+
+    public function permohonanSijilTahfizs(){
+        return $this->hasMany(PermohonanSijilTahfiz::class, 'permohonan_id', 'id');
+    }
 }
