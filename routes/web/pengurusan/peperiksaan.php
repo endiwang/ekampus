@@ -10,6 +10,7 @@ use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniNamaPelajarController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniPaparanKeputusanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSesiPengajianController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniSubjekArabController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\KeputusanPeperiksaanStmController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\MainPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\MaklumatKehadiranController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\PengesahanTamatPengajianController;
@@ -75,5 +76,9 @@ Route::get('penilaian_lain/temuduga_tahriri/{id}', [PenilaianLainController::cla
 Route::resource('penilaian_lain', PenilaianLainController::class);
 
 Route::resource('tuntutan_bayaran', TuntutanBayaranPeperiksaanController::class);
+
+Route::get('keputusan_peperiksaan_stm/export_senarai/{id}', [KeputusanPeperiksaanStmController::class, 'export_senarai'])->name('keputusan_peperiksaan_stm.export_senarai');
+Route::get('keputusan_peperiksaan_stm/temuduga_terdahulu', [KeputusanPeperiksaanStmController::class, 'index2'])->name('keputusan_peperiksaan_stm.temuduga_terdahulu');
+Route::resource('keputusan_peperiksaan_stm', KeputusanPeperiksaanStmController::class);
 
 Route::resource('kemaskini_paparan_keputusan', KemaskiniPaparanKeputusanController::class);
