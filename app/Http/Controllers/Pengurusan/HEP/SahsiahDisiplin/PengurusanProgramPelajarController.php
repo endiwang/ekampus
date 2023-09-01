@@ -12,6 +12,11 @@ use App\Helpers\Utils;
 use Illuminate\Support\Carbon;
 use App\Models\Kursus;
 use App\Models\Pelajar;
+use App\Models\ProgramPelajarKehadiran;
+use Hashids\Hashids;
+use Illuminate\Support\Facades\Auth;
+
+
 
 class PengurusanProgramPelajarController extends Controller
 {
@@ -67,15 +72,38 @@ class PengurusanProgramPelajarController extends Controller
                     }
                 })
                 ->addColumn('action', function ($data) {
+                    if($data->jenis_kehadiran == 1)
+                    {
                     return '
                         <a href="'.route('pengurusan.hep.pengurusan.program_pelajar.show', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                             <i class="fa fa-eye"></i>
                         </a>
+                        <a href="'.route('pengurusan.hep.pengurusan.program_pelajar.qr_code_kehadiran', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                            <i class="fa fa-qrcode"></i>
+                        </a>
                         <a href="'.route('pengurusan.hep.pengurusan.program_pelajar.pilih_pelajar', $data->id).'" class="edit btn btn-icon btn-dark btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip">
                         <i class="fa fa-user-plus"></i></a>
+                        <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
+                            <i class="fa fa-trash"></i>
+                        </a>
                         <form id="delete-'.$data->id.'" action="'.route('pengurusan.hep.pengurusan.program_pelajar.destroy', $data->id).'" method="POST">
                             <input type="hidden" name="_token" value="'.csrf_token().'">
                             <input type="hidden" name="_method" value="DELETE">';
+                    }else{
+                        return '
+                        <a href="'.route('pengurusan.hep.pengurusan.program_pelajar.show', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <a href="'.route('pengurusan.hep.pengurusan.program_pelajar.qr_code_kehadiran', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                            <i class="fa fa-qrcode"></i>
+                        </a>
+                        <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                        <form id="delete-'.$data->id.'" action="'.route('pengurusan.hep.pengurusan.program_pelajar.destroy', $data->id).'" method="POST">
+                            <input type="hidden" name="_token" value="'.csrf_token().'">
+                            <input type="hidden" name="_method" value="DELETE">';
+                    }
                 })
                 ->addIndexColumn()
                 ->order(function ($data) {
@@ -171,7 +199,7 @@ class PengurusanProgramPelajarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Builder $builder, $id)
     {
         // $action = route('pengurusan.hep.pengurusan.program_pelajar.store');
         $page_title = 'Maklumat Program Pelajar';
@@ -186,7 +214,64 @@ class PengurusanProgramPelajarController extends Controller
 
         $model = ProgramPelajar::find($id);
 
-        return view($this->baseView.'show', compact('model', 'title', 'breadcrumbs', 'page_title'));
+        if (request()->ajax()) {
+            $data = ProgramPelajarKehadiran::where('program_id', $id)->with('pelajar')->get();
+
+            return DataTables::of($data)
+                ->addColumn('nama', function ($data) {
+                    if (! empty($data->pelajar)) {
+                        return $data->pelajar->nama ?? 'N/A';
+                    } else {
+                        return 'N/A';
+                    }
+                    return $data->pelajar ?? null;
+                })
+                ->addColumn('no_matrik', function ($data) {
+                    if (! empty($data->pelajar)) {
+                        return $data->pelajar->no_matrik ?? 'N/A';
+                    } else {
+                        return 'N/A';
+                    }
+                    return $data->pelajar ?? null;
+                })
+                ->addColumn('action', function ($data) use($id) {
+                    return '
+                        <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                        <form id="delete-'.$data->id.'" action="'.route('pengurusan.hep.pengurusan.program_pelajar.pilih_pelajar_destroy', [$id,$data->id]).'" method="POST">
+                            <input type="hidden" name="_token" value="'.csrf_token().'">
+                            <input type="hidden" name="_method" value="DELETE">
+                        </form>
+                        ';
+                })
+                ->addIndexColumn()
+                ->rawColumns(['nama', 'kursus','sesi', 'action'])
+                ->toJson();
+        }
+
+
+        for ($i=1; $i <= $model->jumlah_sesi; $i++) {
+
+            $column_sesi[] = ['data' => 'sesi_'.$i,'name' => 'sesi_'.$i,'title' => 'Sesi '.$i, 'orderable' => false];
+        }
+        $other_column =
+        [
+            ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+            ['data' => 'nama',      'name' => 'nama',           'title' => 'Nama Pelajar', 'orderable' => false, 'class' => 'min-w-200px'],
+            ['data' => 'no_matrik',      'name' => 'no_matrik',         'title' => 'No Matrik', 'orderable' => false],
+        ];
+        $action_column =
+        [
+            ['data' => 'action',    'name' => 'action',         'title' => 'Tindakan','orderable' => false, 'searchable' => false, 'class'=>'min-w-100px']
+        ];
+        $all_column = array_merge($other_column, $column_sesi,$action_column);
+        $dataTable = $builder
+        ->columns($all_column)
+        ->minifiedAjax();
+
+
+        return view($this->baseView.'show', compact('model', 'title', 'breadcrumbs', 'page_title','dataTable'));
     }
 
     /**
@@ -220,8 +305,13 @@ class PengurusanProgramPelajarController extends Controller
      */
     public function destroy($id)
     {
-        //
+        ProgramPelajar::find($id)->delete();
+
+        Alert::toast('Rekod program pelajar berjaya dihapuskan!', 'success');
+
+        return redirect()->route('pengurusan.hep.pengurusan.program_pelajar.index');
     }
+
 
     public function pilih_pelajar(Builder $builder, Request $request, $id)
     {
@@ -239,7 +329,9 @@ class PengurusanProgramPelajarController extends Controller
         $sesi_id = $request->sesi;
         $kursus_id = $request->kursus;
 
-        $pelajar = Pelajar::where('is_berhenti', 0)->with('kursus')->with('sesi');
+        $selected_pelajar = ProgramPelajarKehadiran::where('program_id',$id)->pluck('pelajar_id');
+
+        $pelajar = Pelajar::where('is_berhenti', 0)->whereNotIn('id', $selected_pelajar)->with('kursus')->with('sesi');
         if($request->has('kursus'))
         {
             $pelajar->where('kursus_id', $kursus_id);
@@ -254,7 +346,6 @@ class PengurusanProgramPelajarController extends Controller
         $model = ProgramPelajar::find($id);
 
         $kursus = Kursus::where('is_deleted', 0)->pluck('nama', 'id');
-
 
         if (request()->ajax() && $pelajar) {
             $data = $pelajar;
@@ -305,6 +396,99 @@ class PengurusanProgramPelajarController extends Controller
 
     public function pilih_pelajar_store(Request $request,$id)
     {
-        dd($request);
+
+        $model = ProgramPelajar::find($id);
+
+
+        $sesi[] =  NULL;
+        for ($i=1; $i <= $model->jumlah_sesi; $i++) {
+
+            if($i == 1)
+            {
+                $sesi = ['sesi_'.$i => 0];
+            }else{
+                $sesi = array_merge($sesi,['sesi_'.$i => 0]);
+            }
+        }
+
+        foreach ($request->ids as $pelajar_id) {
+            ProgramPelajarKehadiran::updateOrCreate([
+                'program_id' => $id,
+                'pelajar_id' => $pelajar_id,
+            ],$sesi
+        );
+        }
+        Alert::success('Pelajar berjaya dipilih');
+
+        return ['success' => true];
+    }
+
+    public function pilih_pelajar_destroy($id, $kehadiran_id)
+    {
+        ProgramPelajarKehadiran::find($kehadiran_id)->delete();
+
+        Alert::toast('Pelajar berjaya dihapuskan!', 'success');
+
+        return redirect()->back();
+    }
+
+    public function qr_code_kehadiran($id)
+    {
+        $page_title = 'QR Code Program Pelajar';
+
+        $title = 'QR Code Program Pelajar';
+        $breadcrumbs = [
+            'Hal Ehwal Pelajar' => false,
+            'Pengurusan' => false,
+            'Program Pelajar' => false,
+            'QR Code Program' => false,
+        ];
+
+        $model = ProgramPelajar::find($id);
+        return view($this->baseView.'qr_code_kehadiran', compact('model', 'title', 'breadcrumbs', 'page_title'));
+
+    }
+
+    public function muat_turun_qr_sesi($id,$sesi)
+    {
+        $hashids = new Hashids('', 20);
+
+        $route = route('pengurusan.hep.pengurusan.program_pelajar.submit_kehadiran_program',[$hashids->encodeHex($id),$hashids->encodeHex($sesi)]);
+        $program = ProgramPelajar::find($id);
+        $generated_at = Utils::formatDateTime(now());
+
+        //generate PDF
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView($this->baseView.'.generated_qr_pdf', compact('route', 'program', 'generated_at','sesi'));
+
+        return $pdf->stream();
+    }
+
+    public function submit_kehadiran_program($id, $sesi)
+    {
+
+        $hashids = new Hashids('', 20);
+        $id_decode = $hashids->decodeHex($id);
+        $sesi_decode = $hashids->decodeHex($sesi);
+
+        $user = Auth::user();
+        if($user->is_student == 1)
+        {
+            ProgramPelajarKehadiran::updateOrCreate([
+                'program_id' => $id_decode,
+                'pelajar_id' => $user->pelajar->last()->id,
+            ],[
+                'sesi_'.$sesi_decode => 1,
+            ]);
+
+            Alert::success('Berjaya', 'Kehadiran program berjaya diambil');
+            return redirect()->route('home');
+
+        }else{
+            Alert::error('Maaf', 'Kehadiran program hanya untuk pelajar');
+            return redirect()->route('home');
+        }
+
+
     }
 }

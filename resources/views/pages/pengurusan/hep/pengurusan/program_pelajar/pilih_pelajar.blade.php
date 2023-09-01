@@ -57,12 +57,12 @@
                 <div class="card">
                     <div class="card-body py-5">
                         {{ $dataTable->table(['class'=>'table table-striped table-row-bordered gy-5 gs-7 border rounded']) }}
-                        <button type="button" class="btn btn-sm btn-success me-5" data-kt-docs-table-select="simpan-selected" onclick="submit()" data-bs-toggle="tooltip" title="Simpan">
+                        <a type="button" class="btn btn-sm btn-success me-5" data-kt-docs-table-select="simpan-selected" onclick="submit()" data-bs-toggle="tooltip" title="Simpan">
                             <i class="fa fa-save"></i>
                             Simpan
-                        </button>
+                        </a>
 
-                        <a href="{{ route('pengurusan.kbg.pengurusan.proses_temuduga.index') }}" class="btn btn-sm btn-secondary" data-bs-toggle="tooltip">
+                        <a href="{{ route('pengurusan.hep.pengurusan.program_pelajar.index') }}" class="btn btn-sm btn-secondary" data-bs-toggle="tooltip">
                             Kembali
                         </a>
 
