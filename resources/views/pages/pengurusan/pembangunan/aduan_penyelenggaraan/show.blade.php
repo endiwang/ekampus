@@ -49,7 +49,7 @@
                 $images = (array) json_decode($aduan_penyelenggaraan->gambar);
             @endphp
             @foreach($images as $key => $image)
-            <a href="{{ asset('storage/' . $image) }}" target="_blank">Image {{ $key }}</a><br>
+            <a href="{{ asset('storage/' . $image) }}" target="_blank">Gambar {{ $key }}</a><br>
             @endforeach
             
         </td>

@@ -40,7 +40,7 @@ class Kelas extends Model
 
     public function pusatPengajian()
     {
-        return $this->belongsTo(Subjek::class, 'pusat_pengajian_id', 'id');
+        return $this->belongsTo(PusatPengajian::class, 'pusat_pengajian_id', 'id');
     }
 
     public function getCountPelajarAttribute()

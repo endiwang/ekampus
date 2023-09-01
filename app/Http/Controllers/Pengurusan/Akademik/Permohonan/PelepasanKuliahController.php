@@ -21,7 +21,7 @@ class PelepasanKuliahController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -34,6 +34,11 @@ class PelepasanKuliahController extends Controller
 
             if (request()->ajax()) {
                 $data = PelepasanKuliah::with('pelajar');
+                if ($request->has('nama') && $request->nama != null) {
+                    $data = $data->whereHas('pelajar', function ($data) use ($request) {
+                        $data->where('nama', 'LIKE', '%'.$request->nama.'%');
+                    });
+                }
 
                 return DataTables::of($data)
                     ->addColumn('nama_pelajar', function ($data) {
