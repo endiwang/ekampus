@@ -3,13 +3,13 @@
 namespace App\Listeners;
 
 use App\Constants\Generic;
-use App\Events\BayaranYuranEvent;
-use App\Mail\BayaranYuranMail;
+use App\Events\BilYuranEvent;
+use App\Mail\BilYuranMail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
-class SendBayaranYuranNotificationListener
+class SendBilYuranNotificationListener
 {
     /**
      * Create the event listener.
@@ -24,10 +24,10 @@ class SendBayaranYuranNotificationListener
     /**
      * Handle the event.
      *
-     * @param  \App\Events\BayaranYuranEvent  $event
+     * @param  object  $event
      * @return void
      */
-    public function handle(BayaranYuranEvent $event)
+    public function handle(BilYuranEvent $event)
     {
         if($event->bil->yuran_id == Generic::YURAN_SIJIL_TAHFIZ)
         {
@@ -39,7 +39,7 @@ class SendBayaranYuranNotificationListener
         
         if(!empty($pelajar) && !empty($pelajar->email))
         {
-            Mail::to($pelajar->email)->send(new BayaranYuranMail($event->bil, $event->bayaran));
+            Mail::to($pelajar->email)->send(new BilYuranMail($event->bil));
         }
     }
 }

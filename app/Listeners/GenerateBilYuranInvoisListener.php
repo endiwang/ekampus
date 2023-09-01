@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\BayaranYuranEvent;
+use App\Events\BilYuranEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Storage;
 use Pdf;
 
-class GenerateBayaranYuranResitListener
+class GenerateBilYuranInvoisListener
 {
     /**
      * Create the event listener.
@@ -23,27 +23,27 @@ class GenerateBayaranYuranResitListener
     /**
      * Handle the event.
      *
-     * @param  \App\Events\BayaranYuranEvent  $event
+     * @param  object  $event
      * @return void
      */
-    public function handle(BayaranYuranEvent $event)
+    public function handle(BilYuranEvent $event)
     {
-        $bayaran = $event->bayaran;
-        $data['bayaran'] = $bayaran;
+        $bil = $event->bil;
+        $data['bil'] = $bil;
         $data['is_download'] = 1;
-        $resit = [];
+        $invois = [];
         $datetime_now = strtotime(now());
 
-        $pdf = Pdf::loadView('pages.pengurusan.kewangan.yuran.resit', $data);
-        $pdf_name = $bayaran->doc_no . '_' . $datetime_now . '.pdf';
-        $pdf_path = 'bayaran/resit/' . $pdf_name;
+        $pdf = Pdf::loadView('pages.pengurusan.kewangan.yuran.invois', $data);
+        $pdf_name = $bil->doc_no . '_' . $datetime_now . '.pdf';
+        $pdf_path = 'bil/invois/' . $pdf_name;
         $content  = $pdf->download($pdf_name)->getOriginalContent();
         Storage::disk('local')->put('public/' . $pdf_path, $content, 'public');
             
-        $resit['resit_name'] = $pdf_name;
-        $resit['resit_path'] = $pdf_path;
+        $invois['invois_name'] = $pdf_name;
+        $invois['invois_path'] = $pdf_path;
             
-        $bayaran->resit = json_encode($resit);
-        $bayaran->save();
+        $bil->invois = json_encode($invois);
+        $bil->save();
     }
 }
