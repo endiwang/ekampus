@@ -190,7 +190,7 @@
                                 <div class="row fv-row mb-2">
                                     <div class="col-md-12">
                                         <div class="d-flex align-items-center justify-content-end">
-                                            <button id="kt_share_earn_link_copy_button"
+                                            <button id="pengajian_tambah_buton"
                                                 class="btn btn-primary btn-sm fw-bold flex-shrink-0">
                                                 <i class="fa fa-plus-circle" style="vertical-align: initial"></i>Tambah
                                             </button>
@@ -198,6 +198,7 @@
                                     </div>
                                 </div>
                             </form>
+
                             {{ $dataTable->table(['class' => 'table table-striped table-row-bordered gy-5 gs-7 border rounded']) }}
 
                             {{-- <form class="form" action="{{ $action }}" method="post">
@@ -268,7 +269,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::date('pelaku_pelajar_id', $pelajar->id ?? old('pelaku_pelajar_id'), ['placeholder' => 'Sila Pilih', 'class' => 'form-control form-control-sm ']) }}
+                                            {{ Form::date('pelaku_pelajar_id', $pelajar->id ?? old('pelaku_pelajar_id'), ['placeholder' => 'Sila Pilih', 'class' => 'form-control form-control-sm']) }}
                                             @error('pelaku_pelajar_id')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -312,20 +313,20 @@
     {!! $dataTable->scripts() !!}
 
     <script>
-        $("#tarikh_kes").daterangepicker({
-            autoApply: true,
-            singleDatePicker: true,
-            showDropdowns: true,
-            autoUpdateInput: false,
-            minYear: parseInt(moment().subtract(1, 'y').format("YYYY")),
-            maxYear: parseInt(moment().add(4, 'y').format("YYYY")),
-            locale: {
-                format: 'DD/MM/YYYY'
-            }
-        }, function(start, end, label) {
-            var datePicked = moment(start).format('DD/MM/YYYY');
-            $("#tarikh_kes").val(datePicked);
-        });
+        // $("#tarikh_kes").daterangepicker({
+        //     autoApply: true,
+        //     singleDatePicker: true,
+        //     showDropdowns: true,
+        //     autoUpdateInput: false,
+        //     minYear: parseInt(moment().subtract(1, 'y').format("YYYY")),
+        //     maxYear: parseInt(moment().add(4, 'y').format("YYYY")),
+        //     locale: {
+        //         format: 'DD/MM/YYYY'
+        //     }
+        // }, function(start, end, label) {
+        //     var datePicked = moment(start).format('DD/MM/YYYY');
+        //     $("#tarikh_kes").val(datePicked);
+        // });
 
         function remove(id) {
             Swal.fire({

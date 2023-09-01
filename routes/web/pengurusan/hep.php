@@ -139,6 +139,8 @@ Route::middleware(['web', 'auth'])
             ->name('pengajian.store');
         Route::get('/{id}/pengajian/{pengajian_id}/edit', [AlumniController::class, 'pengajian_edit'])
             ->name('pengajian.edit');
+        Route::put('/{id}/pengajian/{pengajian_id}', [AlumniController::class, 'pengajian_update'])
+            ->name('pengajian.update');
         Route::delete('/{id}/pengajian', [AlumniController::class, 'pengajian_destroy'])
             ->name('pengajian.destroy');
         // Route::resource('/', AlumniController::class);

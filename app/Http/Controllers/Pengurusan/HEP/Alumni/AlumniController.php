@@ -137,7 +137,7 @@ class AlumniController extends Controller
             return DataTables::of($data)
                 ->addColumn('action', function ($data) {
                     return '
-                        <a href="' . route('pengurusan.hep.alumni.edit', $data->id) . '" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                        <a href="' . route('pengurusan.hep.alumni.pengajian.edit', [$data->pelajar_id, $data->id]) . '" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                             <i class="fa fa-pencil"></i>
                         </a>
                         <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove(' . $data->id . ')" data-bs-toggle="tooltip" title="Hapus">
@@ -168,7 +168,7 @@ class AlumniController extends Controller
             ])
             ->minifiedAjax();
 
-        return view($this->baseView . 'add_edit', compact('title', 'breadcrumbs', 'page_title', 'action', 'pelajar', 'dataTable'));
+        return view($this->baseView . 'add_edit', compact('title', 'breadcrumbs', 'page_title', 'action', 'pelajar', 'dataTable', 'data'));
     }
 
     /**
@@ -226,10 +226,50 @@ class AlumniController extends Controller
 
     }
 
-    public function pengajian_edit($pelajarId, $pengajianId)
+    public function pengajian_edit(Builder $builder, $pelajarId, $pengajianId)
     {
-        dd($pelajarId, $pengajianId);
+        $pelajar = Pelajar::find($pelajarId);
 
+        $title = $pelajar->nama;
+        $page_title = 'Maklumat Pengajian Selepas Darul Quran';
+        $action = route('pengurusan.hep.alumni.pengajian.update', [$pelajarId, $pengajianId]);
+
+        $breadcrumbs = [
+            'Hal Ehwal Pelajar' => false,
+            'Alumni' => false,
+            'Maklumat Pengajian Selepas Darul Quran' => false,
+        ];
+
+        $data = PengajianSelepasDq::find($pengajianId);
+
+        return view($this->baseView . 'pengajian_form', compact('title', 'breadcrumbs', 'page_title', 'action', 'data'));
+    }
+
+    public function pengajian_update($pelajarId, $pengajianId, Request $request)
+    {
+        // dd($pelajarId, $pengajianId, $request->all());
+        $request->validate(
+            [
+                'nama_institusi' => 'required|string',
+                'tarikh_mula' => 'required',
+                'tarikh_tamat' => 'required',
+            ],
+            [
+                'nama_institusi.required' => 'Sila masukkan nama institusi',
+                'tarikh_mula.required' => 'Sila masukkan tarikh mula',
+                'tarikh_tamat.required' => 'Sila masukkan tarikh tamat',
+            ]
+        );
+
+        $pengajian = PengajianSelepasDq::find($pengajianId);
+        $pengajian->nama_institusi = $request->nama_institusi;
+        $pengajian->tarikh_mula = $request->tarikh_mula;
+        $pengajian->tarikh_tamat = $request->tarikh_tamat;
+        $pengajian->save();
+
+        Alert::toast('Maklumat pengajian dikemaskini!', 'success');
+
+        return redirect()->route('pengurusan.hep.alumni.edit', $pelajarId);
     }
 
     public function pengajian_destroy($id)
