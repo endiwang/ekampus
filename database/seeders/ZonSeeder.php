@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Zon;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ZonSeeder extends Seeder
@@ -15,7 +14,7 @@ class ZonSeeder extends Seeder
      */
     public function run()
     {
-        $zons=[
+        $zons = [
             [
                 'name' => 'Zon Tengah',
                 'status' => '1',
@@ -31,13 +30,12 @@ class ZonSeeder extends Seeder
             [
                 'name' => 'Zon Selatan',
                 'status' => '1',
-            ]
+            ],
         ];
 
         foreach ($zons as $zon) {
             Zon::create($zon);
         }
-
 
     }
 }

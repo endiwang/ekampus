@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin;
 
+use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
+use App\Models\BarangRampasan;
+use App\Models\Pelajar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use App\Models\BarangRampasan;
-use App\Helpers\Utils;
-use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Carbon;
-use App\Models\Pelajar;
 
 class BarangRampasanController extends Controller
 {
@@ -46,6 +46,7 @@ class BarangRampasanController extends Controller
             return DataTables::of($data)
                 ->addColumn('no_ic', function ($data) {
                     $data = '<p style="text-align:center">'.$data->no_ic_pemilik.'<br/> <span style="font-weight:bold"> ['.$data->no_matrik_pemilik.'] </span></p>';
+
                     return $data;
                 })
                 ->addColumn('status', function ($data) {
@@ -145,7 +146,6 @@ class BarangRampasanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -226,7 +226,6 @@ class BarangRampasanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -275,7 +274,6 @@ class BarangRampasanController extends Controller
 
         $data->save();
 
-
         Alert::toast('Maklumat barang rampasan berjaya dipinda!', 'success');
 
         return redirect()->route('pengurusan.hep.pengurusan.barang_rampasan.store');
@@ -313,10 +311,9 @@ class BarangRampasanController extends Controller
 
         $pelajar = Pelajar::where('is_berhenti', 0)->get()->pluck('name_ic_no_matrik', 'id');
 
-
         $model = BarangRampasan::find($id);
 
-        return view($this->baseView.'tuntutan', compact('model', 'title', 'breadcrumbs', 'page_title', 'action','pelajar'));
+        return view($this->baseView.'tuntutan', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 'pelajar'));
     }
 
     public function tuntutan_barang_store(Request $request, $id)
@@ -340,7 +337,6 @@ class BarangRampasanController extends Controller
         Alert::toast('Barang rampasan telah dituntut!', 'success');
 
         return redirect()->route('pengurusan.hep.pengurusan.barang_rampasan.index');
-
 
     }
 }

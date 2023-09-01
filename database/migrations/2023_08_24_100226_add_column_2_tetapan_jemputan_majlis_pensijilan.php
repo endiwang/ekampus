@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('template_jemputan_majlis_pensijilans', function (Blueprint $table) {
             $table->integer('majlis_id')->nullable()->after('name');
-           
+
         });
     }
 

@@ -3,24 +3,22 @@
 namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
-use App\Mail\AduanPenyelenggaraanMail;
 use App\Mail\AduanPenyelenggaraanProsesVendorMail;
 use App\Models\AduanPenyelenggaraan;
 use App\Models\AduanPenyelenggaraanDetail;
 use App\Models\Bilik;
 use App\Models\Blok;
-use App\Models\Pelajar;
 use App\Models\Staff;
 use App\Models\Tingkat;
 use App\Models\Vendor;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use Illuminate\Support\Facades\Mail;
 
 class AduanPenyelenggaraanController extends Controller
 {
@@ -38,16 +36,14 @@ class AduanPenyelenggaraanController extends Controller
         if (request()->ajax()) {
 
             info($request->all());
-            
+
             $vendor = Vendor::where('user_id', Auth::id())->first();
             $data = AduanPenyelenggaraan::where('vendor_id', $vendor->id)->orderBy('id', 'desc');
 
-            if(!empty($request->carian))
-            {
+            if (! empty($request->carian)) {
                 $data->where('no_siri', $request->carian);
             }
-            if(!empty($request->status_vendor))
-            {
+            if (! empty($request->status_vendor)) {
                 $data->where('status_vendor', $request->status_vendor);
             }
 
@@ -88,8 +84,9 @@ class AduanPenyelenggaraanController extends Controller
                     return $data->created_at;
                 })
                 ->addColumn('action', function ($data) {
-                    $html = '<button type="button" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1 btn-show-aduan" data-url="'.route($this->baseRoute.'show', $data->id).'"><i class="fa fa-eye"></i></button> ';                    
+                    $html = '<button type="button" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1 btn-show-aduan" data-url="'.route($this->baseRoute.'show', $data->id).'"><i class="fa fa-eye"></i></button> ';
                     $html .= '<a href="'.route($this->baseRoute.'edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Kemaskini Kerja"><i class="fa fa-pencil-alt"></i></a>';
+
                     return $html;
                 })
                 ->addIndexColumn()
@@ -105,7 +102,7 @@ class AduanPenyelenggaraanController extends Controller
             ['data' => 'jenis_kerosakan', 'name' => 'jenis_kerosakan', 'title' => 'Jenis Kerosakan', 'orderable' => false],
             ['data' => 'status_vendor', 'name' => 'status_vendor', 'title' => 'Status Kerja', 'orderable' => false, 'searchable' => false],
             ['data' => 'tarikh_aduan', 'name' => 'tarikh_aduan', 'title' => 'Tarikh Aduan', 'orderable' => false, 'searchable' => false],
-            ['data' => 'action', 'name' => 'action', 'orderable' => false, 'searchable' => false]
+            ['data' => 'action', 'name' => 'action', 'orderable' => false, 'searchable' => false],
         ];
 
         $dataTable = $builder
@@ -266,12 +263,12 @@ class AduanPenyelenggaraanController extends Controller
                             $images = [];
                             $image_counter = 1;
                             foreach ($request->gambar as $key => $file) {
-                                $original_name = $file->getClientOriginalName();                            
+                                $original_name = $file->getClientOriginalName();
                                 $file_name = pathinfo($original_name, PATHINFO_FILENAME);
                                 $extension = pathinfo($original_name, PATHINFO_EXTENSION);
-                                $file_name = $aduan_penyelenggaraan_detail->id . '_' . $file_name . '_' . $datetime_now . '.' . $extension;
-                                $file_path = 'aduan_penyelenggaaraan/vendor/' . $file_name;
-                                Storage::disk('local')->put('public/' . $file_path, fopen($file, 'r+'), 'public');
+                                $file_name = $aduan_penyelenggaraan_detail->id.'_'.$file_name.'_'.$datetime_now.'.'.$extension;
+                                $file_path = 'aduan_penyelenggaaraan/vendor/'.$file_name;
+                                Storage::disk('local')->put('public/'.$file_path, fopen($file, 'r+'), 'public');
                                 $images[$image_counter] = $file_path;
                                 $image_counter++;
                             }
@@ -290,10 +287,9 @@ class AduanPenyelenggaraanController extends Controller
 
                         if ($aduan_penyelenggaraan_detail->is_submit == 1) {
                             $staff_pembangunan = Staff::whereNotNull('email')->where('jabatan_id', 21)->get();
-                            foreach($staff_pembangunan as $staff)
-                            {
+                            foreach ($staff_pembangunan as $staff) {
                                 Mail::to($staff->email)->send(new AduanPenyelenggaraanProsesVendorMail($aduan_penyelenggaraan));
-                            } 
+                            }
                         }
                     }
 

@@ -24,7 +24,7 @@ class EventServiceProvider extends ServiceProvider
         BayaranYuranEvent::class => [
             GenerateBayaranYuranResitListener::class,
             SendBayaranYuranNotificationListener::class,
-        ]
+        ],
     ];
 
     /**

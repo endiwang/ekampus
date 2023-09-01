@@ -4,16 +4,17 @@ namespace App\Http\Controllers\Pengurusan\Kewangan\Kemaskini;
 
 use App\Http\Controllers\Controller;
 use App\Models\Yuran;
+use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use DB;
-use Illuminate\Support\Facades\Cache;
 
 class YuranController extends Controller
 {
     protected $baseView = 'pages.pengurusan.kewangan.kemaskini.yuran.';
+
     protected $baseRoute = 'pengurusan.kewangan.kemaskini.yuran.';
 
     /**
@@ -30,13 +31,11 @@ class YuranController extends Controller
             return DataTables::of($data)
                 ->addColumn('action', function ($data) {
                     $html = '';
-                    $html .= '<a href="javascript:void(0)" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1 btn-edit-yuran" data-bs-toggle="tooltip" title="Pinda" data-url="' . route($this->baseRoute.'edit', $data->id) . '" data-action="' . route($this->baseRoute.'update', $data->id) . '"><i class="fa fa-pencil-alt"></i></a> ';
+                    $html .= '<a href="javascript:void(0)" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1 btn-edit-yuran" data-bs-toggle="tooltip" title="Pinda" data-url="'.route($this->baseRoute.'edit', $data->id).'" data-action="'.route($this->baseRoute.'update', $data->id).'"><i class="fa fa-pencil-alt"></i></a> ';
 
-                    if(!empty($data->is_fixed))
-                    {
+                    if (! empty($data->is_fixed)) {
                         //
-                    }
-                    else {
+                    } else {
                         $html .= '<a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Hapus" onclick="remove('.$data->id.')"><i class="fa fa-trash"></i></a>'.
                         '<form id="delete-'.$data->id.'" action="'.route($this->baseRoute.'destroy', $data->id).'" method="POST">
                         <input type="hidden" name="_token" value="'.csrf_token().'">
@@ -78,8 +77,8 @@ class YuranController extends Controller
                 'icon_class' => 'fa fa-plus-circle',
             ],
         ];
-        $data['btn_create_url'] = route($this->baseRoute . 'create');
-        $data['btn_create_action'] = route($this->baseRoute . 'store');
+        $data['btn_create_url'] = route($this->baseRoute.'create');
+        $data['btn_create_action'] = route($this->baseRoute.'store');
 
         return view($this->baseView.'list')->with($data);
     }
@@ -92,15 +91,15 @@ class YuranController extends Controller
     public function create()
     {
         $data = [
-            'model' => new Yuran
+            'model' => new Yuran,
         ];
+
         return view($this->baseView.'form')->with($data);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -121,8 +120,7 @@ class YuranController extends Controller
                 $yuran->nama = $request->nama;
                 $yuran->amaun = $request->amaun;
                 $yuran->status = $request->status;
-                if($yuran->save())
-                {                                        
+                if ($yuran->save()) {
                     Cache::forget('yuran_cached');
                     Cache::rememberForever('yuran_cached', function () {
                         return Yuran::get();
@@ -165,15 +163,15 @@ class YuranController extends Controller
     public function edit($id)
     {
         $data = [
-            'model' => Yuran::find($id)
+            'model' => Yuran::find($id),
         ];
+
         return view($this->baseView.'form')->with($data);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -195,8 +193,7 @@ class YuranController extends Controller
                 $yuran->nama = $request->nama;
                 $yuran->amaun = $request->amaun;
                 $yuran->status = $request->status;
-                if($yuran->save())
-                {                    
+                if ($yuran->save()) {
                     Cache::forget('yuran_cached');
                     Cache::rememberForever('yuran_cached', function () {
                         return Yuran::get();
@@ -231,7 +228,7 @@ class YuranController extends Controller
 
         if (! empty($yuran)) {
             $yuran->delete();
-                                
+
             Cache::forget('yuran_cached');
             Cache::rememberForever('yuran_cached', function () {
                 return Yuran::get();

@@ -12,6 +12,7 @@ class Bayaran extends Model
     use SoftDeletes;
 
     protected $table = 'bayaran';
+
     protected $guarded = ['id'];
 
     public function bil()

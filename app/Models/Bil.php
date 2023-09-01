@@ -12,6 +12,7 @@ class Bil extends Model
     use SoftDeletes;
 
     protected $table = 'bil';
+
     protected $guarded = ['id'];
 
     public function pelajar()
@@ -31,7 +32,7 @@ class Bil extends Model
     }
 
     public function getStatusNameAttribute()
-    {           
+    {
         $status = $this->getStatusSelection();
 
         if (! empty($this->attributes['status'])) {

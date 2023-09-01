@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('pemarkahan_calon_sijil_tahfizs', function (Blueprint $table) {
             $table->integer('status_kehadiran')->nullable();
-           
+
         });
     }
 

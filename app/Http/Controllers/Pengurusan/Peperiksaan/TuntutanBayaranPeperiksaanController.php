@@ -17,7 +17,9 @@ use Yajra\DataTables\Html\Builder;
 class TuntutanBayaranPeperiksaanController extends Controller
 {
     protected $baseView = 'pages.pengurusan.peperiksaan.tuntutan_bayaran.';
+
     protected $baseRoute = 'pengurusan.peperiksaan.tuntutan_bayaran.';
+
     /**
      * Display a listing of the resource.
      *
@@ -100,13 +102,12 @@ class TuntutanBayaranPeperiksaanController extends Controller
      */
     public function create()
     {
-    
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -151,35 +152,35 @@ class TuntutanBayaranPeperiksaanController extends Controller
     public function show($id, Builder $builder)
     {
         // try {
-            $title = 'Tuntutan Bayaran Peperiksaan (LTDQ/IPT Lain)';
-            $page_title = 'Senarai Tuntutan Bayaran';
-            $breadcrumbs = [
-                'Peperiksaan' => false,
-                'Tuntutan Bayaran Peperiksaan (LTDQ/IPT Lain)' => route($this->baseRoute.'index'),
-                'Senarai Tuntutan Bayaran' => false,
-            ];
+        $title = 'Tuntutan Bayaran Peperiksaan (LTDQ/IPT Lain)';
+        $page_title = 'Senarai Tuntutan Bayaran';
+        $breadcrumbs = [
+            'Peperiksaan' => false,
+            'Tuntutan Bayaran Peperiksaan (LTDQ/IPT Lain)' => route($this->baseRoute.'index'),
+            'Senarai Tuntutan Bayaran' => false,
+        ];
 
-            $modals = [
-                [
-                    'title' => 'Tambah',
-                    'id' => '#addTuntutanBayaran',
-                    'button_class' => 'btn btn-sm btn-primary fw-bold',
-                    'icon_class' => 'fa fa-plus-circle',
-                ],
-            ];
+        $modals = [
+            [
+                'title' => 'Tambah',
+                'id' => '#addTuntutanBayaran',
+                'button_class' => 'btn btn-sm btn-primary fw-bold',
+                'icon_class' => 'fa fa-plus-circle',
+            ],
+        ];
 
-            if (request()->ajax()) {
-                $data = TuntutanBayaran::with('sesi')->where('pusat_pengajian_id', $id);
-                
-                return DataTables::of($data)
-                    ->addColumn('sesi', function ($data) {
-                        return $data->sesi->nama ?? null;
-                    })
-                    ->addColumn('jumlah', function ($data) {
-                        return !empty($data->jumlah) ? number_format($data->jumlah,2) : '0.00';
-                    })
-                    ->addColumn('action', function ($data) use ($id) {
-                        return '
+        if (request()->ajax()) {
+            $data = TuntutanBayaran::with('sesi')->where('pusat_pengajian_id', $id);
+
+            return DataTables::of($data)
+                ->addColumn('sesi', function ($data) {
+                    return $data->sesi->nama ?? null;
+                })
+                ->addColumn('jumlah', function ($data) {
+                    return ! empty($data->jumlah) ? number_format($data->jumlah, 2) : '0.00';
+                })
+                ->addColumn('action', function ($data) {
+                    return '
                                 <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
                                 <i class="fa fa-trash"></i>
                                 </a>
@@ -188,30 +189,30 @@ class TuntutanBayaranPeperiksaanController extends Controller
                                     <input type="hidden" name="_method" value="DELETE">
                                 </form>
                                 ';
-                    })
-                    ->addIndexColumn()
-                    ->order(function ($data) {
-                        $data->orderBy('id', 'asc');
-                    })
-                    ->rawColumns(['no_ic', 'penilaian', 'action'])
-                    ->toJson();
-            }
+                })
+                ->addIndexColumn()
+                ->order(function ($data) {
+                    $data->orderBy('id', 'asc');
+                })
+                ->rawColumns(['no_ic', 'penilaian', 'action'])
+                ->toJson();
+        }
 
-            $dataTable = $builder
-                ->columns([
-                    ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
-                    ['data' => 'sesi', 'name' => 'sesi', 'title' => 'Sesi Peperiksaan', 'orderable' => false, 'class' => 'text-bold'],
-                    ['data' => 'description', 'name' => 'description', 'title' => 'Keterangan', 'orderable' => false],
-                    ['data' => 'jumlah_pelajar', 'name' => 'jumlah_pelajar', 'title' => 'Jumlah Pelajar', 'orderable' => false, 'class' => 'text-bold'],
-                    ['data' => 'jumlah', 'name' => 'jumlah', 'title' => 'Jumlah', 'orderable' => false, 'class' => 'text-bold'],
-                    ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
+        $dataTable = $builder
+            ->columns([
+                ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+                ['data' => 'sesi', 'name' => 'sesi', 'title' => 'Sesi Peperiksaan', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'description', 'name' => 'description', 'title' => 'Keterangan', 'orderable' => false],
+                ['data' => 'jumlah_pelajar', 'name' => 'jumlah_pelajar', 'title' => 'Jumlah Pelajar', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'jumlah', 'name' => 'jumlah', 'title' => 'Jumlah', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
 
-                ])
-                ->minifiedAjax();
+            ])
+            ->minifiedAjax();
 
-            $exam_sessions = SesiPeperiksaan::pluck('nama', 'id');
+        $exam_sessions = SesiPeperiksaan::pluck('nama', 'id');
 
-            return view($this->baseView.'show', compact('title', 'breadcrumbs', 'dataTable', 'page_title', 'modals', 'exam_sessions', 'id'));
+        return view($this->baseView.'show', compact('title', 'breadcrumbs', 'dataTable', 'page_title', 'modals', 'exam_sessions', 'id'));
 
         // } catch (Exception $e) {
         //     report($e);
@@ -236,7 +237,6 @@ class TuntutanBayaranPeperiksaanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

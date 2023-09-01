@@ -6,9 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CloPlo;
 use App\Models\CloPloMark;
 use App\Models\Kelas;
-use App\Models\Kursus;
 use App\Models\Pelajar;
-use App\Models\Subjek;
 use App\Models\Syukbah;
 use Exception;
 use Illuminate\Http\Request;
@@ -38,7 +36,7 @@ class DaftarMarkahCloPloController extends Controller
             if (request()->ajax()) {
                 $data = Kelas::with('currentSyukbah', 'currentSemester');
                 if ($request->has('nama_kelas') && $request->nama_kelas != null) {
-                    $data->where('nama', 'LIKE', '%' . $request->nama_kelas . '%');
+                    $data->where('nama', 'LIKE', '%'.$request->nama_kelas.'%');
                 }
                 if ($request->has('syukbah') && $request->syukbah != null) {
                     $data->where('semasa_syukbah_id', $request->syukbah);

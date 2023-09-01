@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -12,8 +11,11 @@ use Illuminate\Queue\SerializesModels;
 class AduanPenyelenggaraanProsesVendorMail extends Mailable
 {
     use Queueable, SerializesModels;
+
     public $aduan_penyelenggaraan;
+
     public $to_vendor;
+
     public $subject;
 
     /**
@@ -25,13 +27,10 @@ class AduanPenyelenggaraanProsesVendorMail extends Mailable
     {
         $this->aduan_penyelenggaraan = $aduan_penyelenggaraan;
         $this->to_vendor = $to_vendor;
-        
-        if($aduan_penyelenggaraan->status == 2)
-        {
+
+        if ($aduan_penyelenggaraan->status == 2) {
             $this->subject = 'Aduan Penyelenggaraan Tidak Selesai #';
-        }
-        elseif($aduan_penyelenggaraan->status == 3 || 4)
-        {
+        } elseif ($aduan_penyelenggaraan->status == 3 || 4) {
             $this->subject = 'Aduan Penyelenggaraan Selesai #';
         }
     }
@@ -44,7 +43,7 @@ class AduanPenyelenggaraanProsesVendorMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: $this->subject . $this->aduan_penyelenggaraan->no_siri,
+            subject: $this->subject.$this->aduan_penyelenggaraan->no_siri,
         );
     }
 

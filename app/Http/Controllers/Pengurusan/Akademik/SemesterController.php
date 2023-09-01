@@ -133,11 +133,11 @@ class SemesterController extends Controller
                 ])
                 ->minifiedAjax();
 
-            $courses = Kursus::where('deleted_at', NULL)->pluck('nama', 'id');
-            $semesters = Semester::where('deleted_at', NULL)->pluck('nama', 'id');
+            $courses = Kursus::where('deleted_at', null)->pluck('nama', 'id');
+            $semesters = Semester::where('deleted_at', null)->pluck('nama', 'id');
             $statuses = [
                 '1' => 'Tidak Aktif',
-                '0' => 'Aktif'
+                '0' => 'Aktif',
             ];
 
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable', 'courses', 'semesters', 'statuses'));

@@ -89,7 +89,7 @@ class KalendarAkademikController extends Controller
                 ])
                 ->minifiedAjax();
 
-            $courses = Kursus::where('deleted_at', NULL)->pluck('nama', 'id');
+            $courses = Kursus::where('deleted_at', null)->pluck('nama', 'id');
 
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable', 'courses'));
 

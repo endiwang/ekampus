@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -12,7 +11,9 @@ use Illuminate\Queue\SerializesModels;
 class AduanPenyelenggaraanMail extends Mailable
 {
     use Queueable, SerializesModels;
+
     public $aduan_penyelenggaraan;
+
     public $to_unit_pembangunan;
 
     /**
@@ -34,7 +35,7 @@ class AduanPenyelenggaraanMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Aduan Penyelenggaraan Baru #' . $this->aduan_penyelenggaraan->no_siri,
+            subject: 'Aduan Penyelenggaraan Baru #'.$this->aduan_penyelenggaraan->no_siri,
         );
     }
 
