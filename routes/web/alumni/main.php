@@ -9,7 +9,7 @@ use App\Http\Controllers\Pelajar\Permohonan\PenangguhanPengajianController;
 use App\Http\Controllers\Pelajar\Permohonan\PermohonanBawaBarangController;
 use Illuminate\Support\Facades\Route;
 
-Route::resource('/', MainAlumniController::class)->only(['index']);
+Route::resource('/', MainAlumniController::class);
 
 Route::group(['prefix' => 'permohonan', 'as' => 'permohonan.'], function () {
     Route::get('pelepasan_kuliah/muat_turun_surat/{id}', [PelepasanKuliahController::class, 'downloadLetter'])->name('pelepasan_kuliah.download_surat_pelepasan');

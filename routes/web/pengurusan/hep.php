@@ -135,7 +135,20 @@ Route::middleware(['web', 'auth'])
         // Route::get('/dashboard', DashboardController::class)
         //     ->name('dashboard.index');
     
-        Route::resource('/', AlumniController::class);
+        Route::post('/{id}/pengajian/create', [AlumniController::class, 'pengajian_store'])
+            ->name('pengajian.store');
+        Route::get('/{id}/pengajian/{pengajian_id}/edit', [AlumniController::class, 'pengajian_edit'])
+            ->name('pengajian.edit');
+        Route::delete('/{id}/pengajian', [AlumniController::class, 'pengajian_destroy'])
+            ->name('pengajian.destroy');
+        // Route::resource('/', AlumniController::class);
+        Route::get('/', [AlumniController::class, 'index'])
+            ->name('index');
+        Route::get('/{id}/edit', [AlumniController::class, 'edit'])
+            ->name('edit');
+        Route::get('/{id}/update', [AlumniController::class, 'update'])
+            ->name('update');
+
         // Route::resource('/rekod-kaunseling', RekodKaunselingController::class)->only('index', 'edit', 'update', 'show');
         // Route::resource('/laporan-kaunseling', LaporanKaunselingController::class)->only('index', 'edit', 'update', 'show');
     });
