@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Pengurusan\Pembangunan;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AduanPenyelenggaraanProsesMail;
+use App\Mail\AduanPenyelenggaraanProsesVendorMail;
 use App\Models\AduanPenyelenggaraan;
 use App\Models\AduanPenyelenggaraanDetail;
 use App\Models\Bilik;
 use App\Models\Blok;
+use App\Models\Pelajar;
+use App\Models\Staff;
 use App\Models\Tingkat;
 use App\Models\Vendor;
 use DB;
@@ -14,11 +18,11 @@ use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
+use Illuminate\Support\Facades\Mail;
 
 class AduanPenyelenggaraanController extends Controller
 {
     protected $baseView = 'pages.pengurusan.pembangunan.aduan_penyelenggaraan.';
-
     protected $baseRoute = 'pengurusan.pembangunan.aduan_penyelenggaraan.';
 
     /**
@@ -26,11 +30,21 @@ class AduanPenyelenggaraanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Request $request, Builder $builder)
     {
         if (request()->ajax()) {
 
-            $data = AduanPenyelenggaraan::query();
+            $data = AduanPenyelenggaraan::orderBy('id', 'desc');
+
+            if(!empty($request->carian))
+            {
+                $data->where('aduan_penyelenggaraan.no_siri', $request->carian);                
+            }
+
+            if(!empty($request->status))
+            {
+                $data->where('aduan_penyelenggaraan.status', $request->status);                
+            }
 
             return DataTables::of($data)
                 ->addColumn('no_siri', function ($data) {
@@ -39,31 +53,16 @@ class AduanPenyelenggaraanController extends Controller
                 ->addColumn('pengadu', function ($data) {
                 })
                 ->addColumn('lokasi', function ($data) {
-                    $html = '';
-
-                    if (! empty($data->type)) {
-                        $html .= $data->lokasi_name.' / ';
-                    }
-
-                    if (! empty($data->blok)) {
-                        $html .= $data->blok->nama.' / ';
-                    }
-
-                    if (! empty($data->tingkat)) {
-                        $html .= $data->tingkat->nama.' / ';
-                    }
-
-                    if (! empty($data->bilik)) {
-                        $html .= $data->bilik->nama_bilik;
-                    }
-
-                    return $html;
+                    return $data->lokasi_full_name;
                 })
                 ->addColumn('kategori', function ($data) {
                     return $data->kategori_name;
                 })
                 ->addColumn('status', function ($data) {
-                    return $data->status_name;
+                    return $data->status_badge;
+                })
+                ->addColumn('tarikh_aduan', function ($data) {
+                    return $data->created_at;
                 })
                 ->addColumn('action', function ($data) {
                     $html = '<button type="button" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1 btn-show-aduan" data-url="'.route($this->baseRoute.'show', $data->id).'"><i class="fa fa-eye"></i></button>'.' ';
@@ -72,7 +71,7 @@ class AduanPenyelenggaraanController extends Controller
                     return $html;
                 })
                 ->addIndexColumn()
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'status'])
                 ->toJson();
         }
 
@@ -85,10 +84,14 @@ class AduanPenyelenggaraanController extends Controller
                 ['data' => 'kategori', 'name' => 'kategori', 'title' => 'Kategori', 'orderable' => false],
                 ['data' => 'jenis_kerosakan', 'name' => 'jenis_kerosakan', 'title' => 'Jenis Kerosakan', 'orderable' => false],
                 ['data' => 'status', 'name' => 'status', 'title' => 'Status Aduan', 'orderable' => false],
+                ['data' => 'tarikh_aduan', 'name' => 'tarikh_aduan', 'title' => 'Tarikh Aduan', 'orderable' => false, 'searchable' => false],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'searchable' => false],
 
             ])
-            ->minifiedAjax();
+            ->minifiedAjax('', null, [
+                'carian' => '$("#maklumat_carian").val()',
+                'status' => '$("#status").val()',
+            ]);
 
         $data['dataTable'] = $dataTable;
 
@@ -177,17 +180,25 @@ class AduanPenyelenggaraanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
+        //APPROVE KERJA VENDOR
         if (! empty($request->is_approve)) {
             $aduan_penyelenggaraan = AduanPenyelenggaraan::find($id);
             $aduan_penyelenggaraan->status = 4;
             $aduan_penyelenggaraan->status_vendor = 3;
+            $aduan_penyelenggaraan->prestasi_vendor = $request->prestasi_vendor;
             $aduan_penyelenggaraan->save();
 
-            Alert::toast('Maklumat aduan berjaya dikemaskini', 'success');
+            $vendor = $aduan_penyelenggaraan->vendor;
+            if(!empty($vendor) && !empty($vendor->emel_pengurus))
+            {
+                Mail::to($vendor->emel_pengurus)->send(new AduanPenyelenggaraanProsesVendorMail($aduan_penyelenggaraan, true));
+            }
 
+            Alert::toast('Maklumat aduan berjaya dikemaskini', 'success');
             return redirect(route($this->baseRoute.'index'));
-        } elseif (! empty($request->is_reject)) {
+        } 
+        //REJECT KERJA VENDOR
+        elseif (! empty($request->is_reject)) {
             $aduan_penyelenggaraan = AduanPenyelenggaraan::find($id);
             $aduan_penyelenggaraan->status = 2;
             $aduan_penyelenggaraan->status_vendor = 1;
@@ -200,8 +211,13 @@ class AduanPenyelenggaraanController extends Controller
                 $aduan_penyelenggaraan_detail->save();
             }
 
-            Alert::toast('Maklumat aduan berjaya dikemaskini', 'success');
+            $vendor = $aduan_penyelenggaraan->vendor;
+            if(!empty($vendor) && !empty($vendor->emel_pengurus))
+            {
+                Mail::to($vendor->emel_pengurus)->send(new AduanPenyelenggaraanProsesVendorMail($aduan_penyelenggaraan, true));
+            }
 
+            Alert::toast('Maklumat aduan berjaya dikemaskini', 'success');
             return redirect(route($this->baseRoute.'index'));
         }
 
@@ -240,11 +256,37 @@ class AduanPenyelenggaraanController extends Controller
                 $aduan_penyelenggaraan->butiran = $request->butiran;
                 $aduan_penyelenggaraan->butiran_vendor = $request->butiran_vendor;
                 $aduan_penyelenggaraan->vendor_id = $request->vendor_id;
-                if (! empty($request->is_submit)) {
+                if (!empty($request->is_submit)) {
                     $aduan_penyelenggaraan->status = 2;
                     $aduan_penyelenggaraan->status_vendor = 1;
                 }
                 $aduan_penyelenggaraan->save();
+
+                if (!empty($request->is_submit)) {
+                    $user = $aduan_penyelenggaraan->user;
+                    if($user->is_student == 1)
+                    {
+                        $pelajar = Pelajar::where('user_id', $user->id)->first();
+                        if(!empty($pelajar) && !empty($pelajar->email))
+                        {
+                            Mail::to($pelajar->email)->send(new AduanPenyelenggaraanProsesMail($aduan_penyelenggaraan, false));
+                        }
+                    }
+                    elseif($user->is_staff == 2)
+                    {
+                        $staff = Staff::where('user_id', $user->id)->first();
+                        if(!empty($staff) && !empty($staff->email))
+                        {
+                            Mail::to($staff->email)->send(new AduanPenyelenggaraanProsesMail($aduan_penyelenggaraan, false));
+                        }
+                    }
+
+                    $vendor = $aduan_penyelenggaraan->vendor;
+                    if(!empty($vendor) && !empty($vendor->emel_pengurus))
+                    {
+                        Mail::to($vendor->emel_pengurus)->send(new AduanPenyelenggaraanProsesMail($aduan_penyelenggaraan, true));
+                    }
+                }
 
             });
 

@@ -25,7 +25,7 @@ class SenaraiPensyarahController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -47,6 +47,15 @@ class SenaraiPensyarahController extends Controller
 
             if (request()->ajax()) {
                 $data = Staff::with('pusatPengajian', 'jabatan')->where('is_pensyarah', 'Y');
+                if ($request->has('nama_kakitangan') && $request->nama_kakitangan != null) {                    
+                    $data->where('nama', 'LIKE', '%'.$request->nama_kakitangan.'%');
+                }
+                if ($request->has('mykad') && $request->mykad != null) {                    
+                    $data->where('no_ic', 'LIKE', '%'.$request->mykad.'%');
+                }
+                if ($request->has('pusat_pengajian') && $request->pusat_pengajian != null) {
+                    $data->where('pusat_pengajian_id', $request->pusat_pengajian);
+                }
 
                 return DataTables::of($data)
                     ->addColumn('nama', function ($data) {
@@ -101,7 +110,9 @@ class SenaraiPensyarahController extends Controller
                 ])
                 ->minifiedAjax();
 
-            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
+            $pusat_pengajian = PusatPengajian::where('deleted_at', null)->pluck('nama', 'id');
+
+            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable', 'pusat_pengajian'));
 
         } catch (Exception $e) {
             report($e);

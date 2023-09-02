@@ -34,7 +34,7 @@ class PermohonanBawaBarangController extends Controller
         ];
 
         if (request()->ajax()) {
-            $data = PermohonanBawaBarang::query();
+            $data = PermohonanBawaBarang::where('pelajar_id', Auth::user()->pelajar->last()->id);
 
             return DataTables::of($data)
                 ->addColumn('status', function ($data) {

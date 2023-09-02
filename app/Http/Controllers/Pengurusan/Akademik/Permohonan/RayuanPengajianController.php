@@ -21,7 +21,7 @@ class RayuanPengajianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -34,6 +34,21 @@ class RayuanPengajianController extends Controller
 
             if (request()->ajax()) {
                 $data = PelajarBerhenti::with('pelajarOld')->where('kod_berhenti', 4)->where('kod_berhenti', '!=', null);
+                if ($request->has('nama') && $request->nama != null) {
+                    $data = $data->whereHas('pelajarOld', function ($data) use ($request) {
+                        $data->where('nama', 'LIKE', '%'.$request->nama.'%');
+                    });
+                }
+                if ($request->has('no_ic') && $request->no_ic != null) {
+                    $data = $data->whereHas('pelajarOld', function ($data) use ($request) {
+                        $data->where('no_ic', 'LIKE', '%'.$request->no_ic.'%');
+                    });
+                }
+                if ($request->has('no_matrik') && $request->no_matrik != null) {
+                    $data = $data->whereHas('pelajarOld', function ($data) use ($request) {
+                        $data->where('no_matrik', 'LIKE', '%'.$request->no_matrik.'%');
+                    });
+                }
 
                 return DataTables::of($data)
                     ->addColumn('nama_pelajar', function ($data) {

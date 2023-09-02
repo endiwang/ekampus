@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Main_Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AduanPenyelenggaraanMail;
+use App\Mail\AduanPenyelenggaraanProsesVendorMail;
 use App\Models\AduanPenyelenggaraan;
 use App\Models\AduanPenyelenggaraanDetail;
 use App\Models\Bilik;
 use App\Models\Blok;
+use App\Models\Pelajar;
+use App\Models\Staff;
 use App\Models\Tingkat;
 use App\Models\Vendor;
 use DB;
@@ -16,6 +20,7 @@ use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
+use Illuminate\Support\Facades\Mail;
 
 class AduanPenyelenggaraanController extends Controller
 {
@@ -30,19 +35,9 @@ class AduanPenyelenggaraanController extends Controller
      */
     public function index(Builder $builder)
     {
-        $is_vendor = false;
-        if (Auth::user()->is_vendor) {
-            $is_vendor = true;
-        }
-
         if (request()->ajax()) {
 
-            if (Auth::user()->is_vendor) {
-                $vendor = Vendor::where('user_id', Auth::id())->first();
-                $data = AduanPenyelenggaraan::where('vendor_id', $vendor->id);
-            } else {
-                $data = AduanPenyelenggaraan::where('user_id', Auth::id());
-            }
+            $data = AduanPenyelenggaraan::where('user_id', Auth::id())->orderBy('id', 'desc');          
 
             return DataTables::of($data)
                 ->addColumn('no_siri', function ($data) {
@@ -74,17 +69,19 @@ class AduanPenyelenggaraanController extends Controller
                 ->addColumn('kategori', function ($data) {
                     return $data->kategori_name;
                 })
-                ->addColumn('status_vendor', function ($data) {
-                    return $data->status_vendor_name;
+                ->addColumn('status', function ($data) {
+                    return $data->status_badge;
+                })
+                ->addColumn('tarikh_aduan', function ($data) {
+                    return $data->created_at;
                 })
                 ->addColumn('action', function ($data) {
                     $html = '<button type="button" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1 btn-show-aduan" data-url="'.route($this->baseRoute.'show', $data->id).'"><i class="fa fa-eye"></i></button> ';
-                    $html .= '<a href="'.route($this->baseRoute.'edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Kemaskini Kerja"><i class="fa fa-pencil-alt"></i></a>';
 
                     return $html;
                 })
                 ->addIndexColumn()
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'status'])
                 ->toJson();
         }
 
@@ -94,15 +91,10 @@ class AduanPenyelenggaraanController extends Controller
             ['data' => 'lokasi', 'name' => 'lokasi', 'title' => 'Lokasi', 'orderable' => false, 'width' => '25%'],
             ['data' => 'kategori', 'name' => 'kategori', 'title' => 'Kategori', 'orderable' => false],
             ['data' => 'jenis_kerosakan', 'name' => 'jenis_kerosakan', 'title' => 'Jenis Kerosakan', 'orderable' => false],
-        ];
-
-        $temp_action_key = 5;
-        if ($is_vendor) {
-            $temp_action_key = 6;
-            $columns[5] = ['data' => 'status_vendor', 'name' => 'status_vendor', 'title' => 'Status', 'orderable' => false, 'searchable' => false];
-        }
-
-        $columns[$temp_action_key] = ['data' => 'action', 'name' => 'action', 'orderable' => false, 'searchable' => false];
+            ['data' => 'status', 'name' => 'status', 'title' => 'Status Aduan', 'orderable' => false, 'searchable' => false],
+            ['data' => 'tarikh_aduan', 'name' => 'tarikh_aduan', 'title' => 'Tarikh Aduan', 'orderable' => false, 'searchable' => false],
+            ['data' => 'action', 'name' => 'action', 'orderable' => false, 'searchable' => false],
+        ];        
 
         $dataTable = $builder
             ->parameters([])
@@ -191,19 +183,47 @@ class AduanPenyelenggaraanController extends Controller
 
                 if (! empty($aduan)) {
 
+                    $datetime_now = strtotime(now());
+
                     if (! empty($request->gambar)) {
                         $images = [];
                         $image_counter = 1;
                         foreach ($request->gambar as $key => $file) {
-                            $file_name = $file->getClientOriginalName();
-                            $file_name = $aduan->id.'-'.$file_name;
-                            $file_path = 'aduan_penyelenggaaraan/'.$file_name;
-                            Storage::disk('local')->put('public/'.$file_path, fopen($file, 'r+'), 'public');
+                            $original_name = $file->getClientOriginalName();                            
+                            $file_name = pathinfo($original_name, PATHINFO_FILENAME);
+                            $extension = pathinfo($original_name, PATHINFO_EXTENSION);
+                            $file_name = $aduan->id . '_' . $file_name . '_' . $datetime_now . '.' . $extension;
+                            $file_path = 'aduan_penyelenggaaraan/' . $file_name;
+                            Storage::disk('local')->put('public/' . $file_path, fopen($file, 'r+'), 'public');
                             $images[$image_counter] = $file_path;
                             $image_counter++;
                         }
                         $aduan->gambar = json_encode($images);
                         $aduan->save();
+
+                        $user = $aduan->user;
+                        if($user->is_student == 1)
+                        {
+                            $pelajar = Pelajar::where('user_id', $user->id)->first();
+                            if(!empty($pelajar) && !empty($pelajar->email))
+                            {
+                                Mail::to($pelajar->email)->send(new AduanPenyelenggaraanMail($aduan, false));
+                            }
+                        }
+                        elseif($user->is_staff == 2)
+                        {
+                            $staff = Staff::where('user_id', $user->id)->first();
+                            if(!empty($staff) && !empty($staff->email))
+                            {
+                                Mail::to($staff->email)->send(new AduanPenyelenggaraanMail($aduan, false));
+                            }
+                        }
+
+                        $staff_pembangunan = Staff::whereNotNull('email')->where('jabatan_id', 21)->get();
+                        foreach($staff_pembangunan as $staff)
+                        {
+                            Mail::to($staff->email)->send(new AduanPenyelenggaraanMail($aduan, true));
+                        }        
                     }
                 }
             });
@@ -245,48 +265,7 @@ class AduanPenyelenggaraanController extends Controller
      */
     public function edit($id)
     {
-        $user = Auth::user();
-        if (! empty($user->is_vendor)) {
-            $vendor = Vendor::where('user_id', $user->id)->first();
-            $aduan_penyelenggaraan = AduanPenyelenggaraan::where('id', $id)->where('vendor_id', $vendor->id)->first();
-
-            if (empty($aduan_penyelenggaraan)) {
-                abort(404);
-            }
-
-            $data['title'] = 'Aduan Penyelenggaraan';
-            $data['page_title'] = 'Kemaskini Kerja';
-            $data['breadcrumbs'] = [
-                'Aduan Penyelenggaraan' => false,
-            ];
-            $data['action'] = route($this->baseRoute.'update', $id);
-            $data += [
-                'kategori_aduan' => AduanPenyelenggaraan::getKategoriSelection(),
-                'lokasi' => AduanPenyelenggaraan::getLokasiSelection(),
-                'blok' => Blok::pluck('nama', 'id')->toArray(),
-                'tingkat' => Tingkat::pluck('nama', 'id')->toArray(),
-                'bilik' => Bilik::pluck('nama_bilik', 'id')->toArray(),
-                'status' => AduanPenyelenggaraan::getStatusSelection(),
-                'vendor' => Vendor::where('status', 1)->pluck('nama_syarikat', 'id')->toArray(),
-            ];
-
-            $aduan_penyelenggaraan_detail = AduanPenyelenggaraanDetail::where('aduan_penyelenggaraan_id', $id)
-                ->where(function ($where) {
-                    $where->whereNull('is_submit');
-                    $where->orWhere('is_submit', '0');
-                })
-                ->first();
-
-            $data['model'] = (! empty($aduan_penyelenggaraan_detail)) ? $aduan_penyelenggaraan_detail : new AduanPenyelenggaraanDetail;
-
-            $data['aduan_penyelenggaraan'] = $aduan_penyelenggaraan;
-            $data['aduan_penyelenggaraan_details'] = AduanPenyelenggaraanDetail::where('aduan_penyelenggaraan_id', $id)
-                ->where('vendor_id', $vendor->id)
-                ->where('is_submit', 1)
-                ->get();
-
-            return view($this->baseView.'form_vendor')->with($data);
-        }
+        //
     }
 
     /**
@@ -297,88 +276,7 @@ class AduanPenyelenggaraanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
-
-        $user = Auth::user();
-        if (! empty($user->is_vendor)) {
-            $vendor = Vendor::where('user_id', $user->id)->first();
-            $validation = $request->validate([
-                'tarikh_kerja' => 'required',
-                'butiran' => 'required',
-            ], [
-                'tarikh_kerja.required' => 'Sila pilih tarikh kerja',
-                'butiran.required' => 'Sila tulis butiran kerja',
-            ]);
-
-            $result = true;
-            try {
-                DB::transaction(function () use ($request, $id, $vendor) {
-                    $aduan_penyelenggaraan_detail = AduanPenyelenggaraanDetail::where('aduan_penyelenggaraan_id', $id)
-                        ->where(function ($where) {
-                            $where->whereNull('is_submit');
-                            $where->orWhere('is_submit', '0');
-                        })
-                        ->first();
-
-                    if (empty($aduan_penyelenggaraan_detail)) {
-                        $aduan_penyelenggaraan_detail = new AduanPenyelenggaraanDetail;
-                        $aduan_penyelenggaraan_detail->aduan_penyelenggaraan_id = $id;
-                    }
-
-                    $aduan_penyelenggaraan_detail->vendor_id = $vendor->id;
-                    $aduan_penyelenggaraan_detail->tarikh_kerja = $request->tarikh_kerja;
-                    $aduan_penyelenggaraan_detail->butiran = $request->butiran;
-                    if (! empty($request->is_submit)) {
-                        $aduan_penyelenggaraan_detail->is_submit = 1;
-                    }
-                    if ($aduan_penyelenggaraan_detail->save()) {
-
-                        if (! empty($request->gambar)) {
-                            $images = [];
-                            $image_counter = 1;
-                            foreach ($request->gambar as $key => $file) {
-                                $file_name = $file->getClientOriginalName();
-                                $file_name = $aduan_penyelenggaraan_detail->id.'-'.$file_name;
-                                $file_path = 'aduan_penyelenggaaraan/vendor/'.$file_name;
-                                Storage::disk('local')->put('public/'.$file_path, fopen($file, 'r+'), 'public');
-                                $images[$image_counter] = $file_path;
-                                $image_counter++;
-                            }
-                            $aduan_penyelenggaraan_detail->gambar = json_encode($images);
-                            $aduan_penyelenggaraan_detail->save();
-                        }
-
-                        $aduan_penyelenggaraan = AduanPenyelenggaraan::find($id);
-                        if ($aduan_penyelenggaraan_detail->is_submit == 1) {
-                            $aduan_penyelenggaraan->status = 3;
-                            $aduan_penyelenggaraan->status_vendor = 3;
-                        } else {
-                            $aduan_penyelenggaraan->status_vendor = 2;
-                        }
-                        $aduan_penyelenggaraan->save();
-                    }
-
-                });
-
-            } catch (\Exception $e) {
-                dd($e);
-                $result = false;
-            }
-
-            if ($result) {
-                if (! empty($request->is_submit)) {
-                    Alert::toast('Kemaskini kerja berjaya dihantar', 'success');
-                } else {
-                    Alert::toast('Kemaskini kerja berjaya disimpan', 'success');
-                }
-
-                return redirect(route($this->baseRoute.'index'));
-            } else {
-                Alert::toast('Uh oh! Sesuatu yang tidak diingini berlaku', 'error');
-
-                return redirect()->back();
-            }
-        }
+        //
     }
 
     /**

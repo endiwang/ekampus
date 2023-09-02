@@ -5,11 +5,6 @@ table, th, td {
   vertical-align: top;
   text-align: left;
 }
-@media print {
-          @page {
-            margin:1cm !important;
-          }
-}
 </style>
 @endsection
 @section('content')

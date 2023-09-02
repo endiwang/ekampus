@@ -16,9 +16,9 @@
                         @csrf
                         <div class="card-body py-5">
                             <div class="row mb-2">                                
-                                {{ Form::label('no_siri', 'No Siri Aduan', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}                                
-                                <div class="col-lg-8">                                    
-                                    {{ Form::text('no_siri', @$model->no_siri, ['class' => 'form-control form-control-sm', 'id' => 'no_siri', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required' => 'required', 'disabled' => 'disabled']) }}
+                                {{ Form::label('no_siri', 'No Siri Aduan', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}                                
+                                <div class="col-lg-8">        
+                                    {{ Form::label('no_siri', @$model->no_siri, ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}
                                 </div>
                             </div>
 
@@ -26,51 +26,51 @@
 
                             <div class="row mb-2">                                
                                 {{ Form::label('pengadu', 'Nama Pengadu', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}                                
-                                <div class="col-lg-8">                                    
-                                    {{ Form::text('pengadu', @$model->user_name, ['class' => 'form-control form-control-sm ', 'id' =>'pengadu', 'onkeydown' =>'return true', 'autocomplete' => 'off', 'required' => 'required', 'disabled' => 'disabled']) }}
+                                <div class="col-lg-8">                
+                                    {{ Form::label('pengadu', @$model->user_name, ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}      
                                 </div>
                             </div>
 
                             <div class="row mb-2">                                
-                                {{ Form::label('jenis_pengadu', 'Staff / Pelajar', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}                                
+                                {{ Form::label('jenis_pengadu', 'Jenis Pengadu', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}                                
                                 <div class="col-lg-8">                                    
                                     {{ Form::radio('jenis_pengadu', 'value', ((@$model->user->is_staff) ? true : false), ['disabled' => 'disabled']) }} Staff
-                                    <br>{{ Form::radio('jenis_pengadu', 'value', ((@$model->user->is_student) ? true : false), ['disabled' => 'disabled']) }} Pelajar
+                                    &nbsp;&nbsp;&nbsp;&nbsp;{{ Form::radio('jenis_pengadu', 'value', ((@$model->user->is_student) ? true : false), ['disabled' => 'disabled']) }} Pelajar
                                 </div>
                             </div>
 
                             <div class="row mb-2">                                
                                 {{ Form::label('kategori', 'Kategori', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}                                
                                 <div class="col-lg-8">                                    
-                                    {{ Form::select('kategori', $kategori_aduan, @$model->kategori, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('kategori') ? 'is-invalid' : ''), 'required' => 'required' ]) }}
+                                    {{ Form::select('kategori', $kategori_aduan, @$model->kategori, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('kategori') ? 'is-invalid' : ''), 'required' => 'required', 'data-control'=>'select2' ]) }}
                                     @error('kategori') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
                             <div class="row mb-2">                                
                                 {{ Form::label('type', 'Lokasi', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}                                
                                 <div class="col-lg-8">                                    
-                                    {{ Form::select('type', $lokasi, @$model->type, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('type') ? 'is-invalid' : ''), 'required' => 'required' ]) }}
+                                    {{ Form::select('type', $lokasi, @$model->type, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('type') ? 'is-invalid' : ''), 'required' => 'required', 'data-control'=>'select2' ]) }}
                                     @error('type') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
                             <div class="row mb-2">                                
                                 {{ Form::label('blok_id', 'Bangunan', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}                                
                                 <div class="col-lg-8">                                    
-                                    {{ Form::select('blok_id', [], @$model->blok_id, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('blok_id') ? 'is-invalid' : ''), 'required' => 'required' ]) }}
+                                    {{ Form::select('blok_id', [], @$model->blok_id, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('blok_id') ? 'is-invalid' : ''), 'required' => 'required', 'data-control'=>'select2' ]) }}
                                     @error('blok_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
                             <div class="row mb-2">                                
                                 {{ Form::label('tingkat_id', 'Tingkat', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}                                
                                 <div class="col-lg-8">                                    
-                                    {{ Form::select('tingkat_id', $tingkat, @$model->tingkat_id, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('tingkat_id') ? 'is-invalid' : ''), 'required' => 'required' ]) }}
+                                    {{ Form::select('tingkat_id', $tingkat, @$model->tingkat_id, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('tingkat_id') ? 'is-invalid' : ''), 'required' => 'required', 'data-control'=>'select2' ]) }}
                                     @error('tingkat_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
                             <div class="row mb-2">                                
                                 {{ Form::label('bilik_id', 'Bilik', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}                                
                                 <div class="col-lg-8">                                    
-                                    {{ Form::select('bilik_id', [], @$model->bilik_id, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('bilik_id') ? 'is-invalid' : ''), 'required' => 'required' ]) }}
+                                    {{ Form::select('bilik_id', [], @$model->bilik_id, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('bilik_id') ? 'is-invalid' : ''), 'required' => 'required', 'data-control'=>'select2' ]) }}
                                     @error('bilik_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
@@ -87,6 +87,18 @@
                                 <div class="col-lg-8">                                    
                                     {{ Form::textarea('butiran', @$model->butiran, ['class' => 'form-control form-control-sm ' . ($errors->has('jenis_kerosakan') ? 'is-invalid' : ''), 'rows'=>'10', 'required' => 'required', 'id' =>'butiran']) }}
                                     @error('butiran') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+
+                            <div class="row fv-row mb-2">
+                                {{ Form::label('gambar', '', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 required']) }}
+                                <div class="col-lg-8">
+                                    @php
+                                        $images = (array) json_decode($model->gambar);
+                                    @endphp
+                                    @foreach($images as $key => $image)
+                                    <a href="{{ asset('storage/' . $image) }}" target="_blank">Gambar {{ $key }}</a><br>
+                                    @endforeach
                                 </div>
                             </div>
 
@@ -152,7 +164,7 @@
                                     $images = (array) json_decode($aduan_penyelenggaraan_detail->gambar);
                                 @endphp
                                 @foreach($images as $key => $image)
-                                <a href="{{ asset('storage/' . $image) }}" target="_blank">Image {{ $key }}</a><br>
+                                <a href="{{ asset('storage/' . $image) }}" target="_blank">Gambar {{ $key }}</a><br>
                                 @endforeach   
                                 @if(!empty($aduan_penyelenggaraan_detail->reject_reason))
                                 <br><br><span class="text-danger fw-bold">{!! nl2br($aduan_penyelenggaraan_detail->reject_reason) !!}</span>
@@ -161,12 +173,21 @@
                         </tr>
                         @endforeach
                         </table>
+
+                        <div class="row mb-2">                                
+                            {{ Form::label('prestasi_vendor', 'Prestasi Kerja Vendor', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}                                
+                            <div class="col-lg-8">        
+                                {{ Form::label('prestasi_vendor', @$model->prestasi_vendor_name, ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}
+                            </div>
+                        </div>
                     </div>
+                    
                     <div class="card-footer d-flex justify-content-end py-6 px-9">
                         @if($model->status == 3)
                         <form id="formApprove" action="{{ $action }}" method="post">
                             @method('PUT')
                             @csrf
+                            <input type="hidden" name="prestasi_vendor" value="">
                             <input type="hidden" name="is_approve" value="1">
                         </form>
                         <button id="btnApprove" type="button" class="btn btn-success btn-sm me-3">
@@ -200,6 +221,9 @@
 
 $(document).ready(function(){
     $('[name="type"]').change();
+    @if($model->id && $model->status != 1)
+    $("#formAduan :input").prop("disabled", true);
+    @endif
 });
 
 $('[name="type"]').on('change', function(){
@@ -294,10 +318,23 @@ $('#btnSubmit2').on('click', function(){
 $('#btnApprove').on('click', function(){
     Swal.fire({
         icon: 'info',
-        title: 'Pasti kerja vendor selesai?',
+        title: 'Pasti kerja vendor selesai? Pilih prestasi kerja Vendor di bawah: ',
+        input: 'select',
+        inputOptions: {
+            1: 'Cemerlang',
+            2: 'Memuaskan',
+            3: 'Tidak Memuaskan',
+            4: 'Perlu pembaikan semula'
+        },
         showCancelButton: true,
         confirmButtonText: 'Pasti',
         cancelButtonText: 'Batal',
+        inputValidator: (value) => {
+            return new Promise((resolve) => {
+                $('[name="prestasi_vendor"]').val(value);
+                resolve();
+            })
+        },
     }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
@@ -308,6 +345,7 @@ $('#btnApprove').on('click', function(){
 
 $('#btnReject').on('click', function(){
     Swal.fire({
+        icon: 'warning',
         input: 'textarea',
         inputPlaceholder: 'Type your message here...',
         inputAttributes: {
@@ -315,6 +353,7 @@ $('#btnReject').on('click', function(){
         },
         title: 'Kembali aduan kerja semula ke vendor?',
         showCancelButton: true,
+        confirmButtonColor: 'red',
         confirmButtonText: 'Pasti',
         cancelButtonText: 'Batal',
     }).then((result) => {

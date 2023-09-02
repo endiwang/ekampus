@@ -1,0 +1,153 @@
+@extends('layouts.master.main')
+@section('css')
+@endsection
+@section('content')
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+        <div id="kt_app_content_container" class="app-container container-xxl">
+             <!--begin::Row-->
+             <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
+                <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <form class="form" action="{{ route('pengurusan.peperiksaan.cetakan_transkrip_peperiksaan.index')}}" method="get">
+                        @csrf
+                        <div class="card">
+                            <div class="card-body py-5">
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('program_pengajian', 'Program Pengajian', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::select('program_pengajian', $courses, Request::get('program_pengajian'), ['data-control'=>'select2', 'placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm','id'=>'program_pengajian' ]) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('pusat_pengajian', 'Pusat Pengajian', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::select('pusat_pengajian', $campuses, Request::get('pusat_pengajian'), ['data-control'=>'select2', 'placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm','id'=>'pusat_pengajian' ]) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('sesi', 'Sesi', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::select('sesi', $sessions, Request::get('sesi'), ['data-control'=>'select2', 'placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm','id'=>'sesi' ]) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('syukbah', 'Syukbah', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::select('syukbah', $syukbah, Request::get('syukbah'), ['data-control'=>'select2', 'placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm','id'=>'syukbah' ]) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('kelas', 'Kelas', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::select('kelas', $classes, Request::get('kelas'), ['data-control'=>'select2', 'placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm','id'=>'kelas' ]) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2">
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('tarikh_keputusan', 'Tarikh Keputusan', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::text('tarikh_keputusan', old('tarikh_keputusan'),['class' => 'form-control form-control-sm '.($errors->has('tarikh') ? 'is-invalid':''), 'id' =>'tarikh_keputusan','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                            <p style="font-size: 11px; font-style: italic;">Jika tiada maklumat tarikh, sistem akan mengambil tarikh keputusan penuh. Manakala jika tarikh dimasukkan, sistem akan mencetak berdasarkan tarikh yang dimasukkan pada skrin ini.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-12">
+                                        <div class="d-flex align-items-center justify-content-end">
+                                            <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0 me-3">
+                                                <i class="fa-solid fa-paper-plane" style="vertical-align: initial"></i>Hantar
+                                            </button>
+                                            <a href="{{ route('pengurusan.peperiksaan.cetakan_transkrip_peperiksaan.index') }}" class="btn btn-sm btn-light">Set Semula</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--end::Row-->
+            <!--begin::Row-->
+            <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+                <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <div class="card">
+                        <div class="card-body py-5">
+                            {{ $dataTable->table(['class'=>'table table-striped table-row-bordered gy-5 gs-7 border rounded']) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Row-->
+        </div>
+    </div>
+@endsection
+
+@push('scripts')
+<script>
+const { createApp } = Vue
+
+createApp({
+data() {
+    return {
+            courses: [],
+            states: [],
+            cities: [],
+            selectedCourse: '',
+            selectedState: '',
+            selectedCity: '',
+        }
+},
+methods: {
+        getCourses: function(){
+            axios.get('/pengurusan/peperiksaan/cetakan_keputusan_peperiksaan/getCourses')
+            .then(function (response) {
+                this.courses = response.data;
+                console.log(response);
+            }.bind(this));
+              
+        },
+    },
+mounted() {
+    this.getCourses();
+    }
+}).mount('#advanceSearch')
+
+$("#tarikh_keputusan").daterangepicker({
+        autoApply : true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+        },function(start, end, label) {
+            var datePicked = moment(start).format('DD/MM/YYYY');
+            $("#tarikh_keputusan").val(datePicked);
+        });
+</script>
+
+{!! $dataTable->scripts() !!}
+@endpush

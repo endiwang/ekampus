@@ -23,7 +23,7 @@ class KalendarAkademikController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -44,6 +44,12 @@ class KalendarAkademikController extends Controller
 
             if (request()->ajax()) {
                 $data = KalendarAkademik::with('kursus');
+                if ($request->has('nama') && $request->nama != null) {
+                    $data->where('name', 'LIKE', '%'.$request->nama.'%');
+                }
+                if ($request->has('program_pengajian') && $request->program_pengajian != null) {
+                    $data->where('program_id', $request->program_pengajian);
+                }
 
                 return DataTables::of($data)
                     ->addColumn('program_id', function ($data) {
@@ -83,7 +89,9 @@ class KalendarAkademikController extends Controller
                 ])
                 ->minifiedAjax();
 
-            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
+            $courses = Kursus::where('deleted_at', NULL)->pluck('nama', 'id');
+
+            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable', 'courses'));
 
         } catch (Exception $e) {
             report($e);
