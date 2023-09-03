@@ -3,7 +3,7 @@
         <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="false">
             <div class="menu-item pt-5">
                 <div class="menu-content">
-                    <span class="menu-heading fw-bold fs-7" style="color: white !Important">Pelajar</span>
+                    <span class="menu-heading fw-bold fs-7" style="color: white !Important">Peperiksaan</span>
                 </div>
             </div>
             <div class="menu-item">
@@ -227,7 +227,7 @@
                 </a>
                 <!--end:Menu link-->
             </div>
-            <div data-kt-menu-trigger="click" class="menu-item {{ Request::routeIs('pengurusan.peperiksaan.*') ? 'here show' : '' }} menu-accordion">
+            <div data-kt-menu-trigger="click" class="menu-item {{ Request::routeIs('pengurusan.peperiksaan.kemaskini') ? 'here show' : '' }} menu-accordion">
                 <span class="menu-link">
                     <span class="menu-icon">
                         <span class="svg-icon svg-icon-2">

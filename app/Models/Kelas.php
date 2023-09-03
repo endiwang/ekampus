@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Base as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Kelas extends Model
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'kelas';
 
@@ -41,7 +40,7 @@ class Kelas extends Model
 
     public function pusatPengajian()
     {
-        return $this->belongsTo(Subjek::class, 'pusat_pengajian_id', 'id');
+        return $this->belongsTo(PusatPengajian::class, 'pusat_pengajian_id', 'id');
     }
 
     public function getCountPelajarAttribute()

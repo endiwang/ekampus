@@ -20,7 +20,7 @@ class PenangguhanPengajianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -44,6 +44,21 @@ class PenangguhanPengajianController extends Controller
 
             if (request()->ajax()) {
                 $data = PenangguhanPengajian::with('pelajar', 'semester');
+                if ($request->has('nama') && $request->nama != null) {
+                    $data = $data->whereHas('pelajar', function ($data) use ($request) {
+                        $data->where('nama', 'LIKE', '%'.$request->nama.'%');
+                    });
+                }
+                if ($request->has('no_ic') && $request->no_ic != null) {
+                    $data = $data->whereHas('pelajar', function ($data) use ($request) {
+                        $data->where('no_ic', 'LIKE', '%'.$request->no_ic.'%');
+                    });
+                }
+                if ($request->has('no_matrik') && $request->no_matrik != null) {
+                    $data = $data->whereHas('pelajar', function ($data) use ($request) {
+                        $data->where('no_matrik', 'LIKE', '%'.$request->no_matrik.'%');
+                    });
+                }
 
                 return DataTables::of($data)
                     ->addColumn('nama_pelajar', function ($data) {
@@ -55,7 +70,7 @@ class PenangguhanPengajianController extends Controller
                         return $student;
                     })
                     ->addColumn('semester_now', function ($data) {
-                        return $data->semester->nama;
+                        return $data->semester->nama ?? null;
                     })
                     ->addColumn('is_gantung', function ($data) {
                         switch ($data->is_gantung) {

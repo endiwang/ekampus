@@ -20,7 +20,7 @@ class MpkIsoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -41,6 +41,12 @@ class MpkIsoController extends Controller
 
             if (request()->ajax()) {
                 $data = MpkIso::query();
+                if ($request->has('nama') && $request->nama != null) {                    
+                    $data->where('document_name', 'LIKE', '%'.$request->nama.'%');
+                }
+                if ($request->has('jenis') && $request->jenis != null) {                    
+                    $data->where('type', 'LIKE', '%'.$request->jenis.'%');
+                }
 
                 return DataTables::of($data)
                     ->addColumn('action', function ($data) {

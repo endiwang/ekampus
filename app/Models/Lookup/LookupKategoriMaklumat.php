@@ -2,13 +2,10 @@
 
 namespace App\Models\Lookup;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Base as Model;
 
 class LookupKategoriMaklumat extends Model
 {
-    use HasFactory;
-
     protected $table = 'lookup_kategori_maklumat';
 
     protected $guarded = ['id'];

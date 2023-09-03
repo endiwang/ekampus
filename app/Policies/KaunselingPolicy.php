@@ -47,6 +47,10 @@ class KaunselingPolicy
      */
     public function update(User $user, Kaunseling $kaunseling)
     {
+        if ($kaunseling->status === Kaunseling::STATUS_SELESAI) {
+            return false;
+        }
+
         return $user->can('update-kaunseling');
     }
 
@@ -57,6 +61,10 @@ class KaunselingPolicy
      */
     public function delete(User $user, Kaunseling $kaunseling)
     {
+        if (Kaunseling::STATUS_DITERIMA === $kaunseling->status) {
+            return false;
+        }
+
         return $user->can('delete-kaunseling');
     }
 

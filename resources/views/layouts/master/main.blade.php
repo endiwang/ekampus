@@ -17,6 +17,7 @@
     <meta property="og:url" content="https://keenthemes.com/metronic" />
     <meta property="og:site_name" content="Keenthemes | Metronic" />
     @include('layouts.master.css')
+    @livewireStyles
     @yield('css')
 </head>
 
@@ -112,21 +113,29 @@
                         @include('layouts.master.sidebar.peperiksaan')
                     @elseif(Request::routeIs('pengurusan.pembangunan.*'))
                         @include('layouts.master.sidebar.pembangunan')
-                    @elseif(Request::routeIs('kaunseling.dashboard.*'))
-                            @include('layouts.master.sidebar.kaunseling')
-					@elseif(Request::routeIs('pusat-islam.dashboard.*'))
-                            @include('layouts.master.sidebar.pusat-islam')
-					@elseif(Request::routeIs('pusat-islam.aktiviti.*'))
-                            @include('layouts.master.sidebar.pusat-islam')
-					@elseif(Request::routeIs('pusat-islam.jadual-tugasan.*'))
-                            @include('layouts.master.sidebar.pusat-islam')
-					@elseif(Request::routeIs('pusat-islam.orang-awam.*'))
-                            @include('layouts.master.sidebar.pusat-islam')
-					@elseif(Request::routeIs('pusat-islam.rekod-kehadiran.*'))
-                            @include('layouts.master.sidebar.pusat-islam')
-                    @elseif(Request::routeIs('pusat-islam.surat-rasmi.*'))
-                            @include('layouts.master.sidebar.pusat-islam')
-					{{-- sidebar menu --}}
+                    @elseif(Request::routeIs('pengurusan.pengajian_sepanjang_hayat.*'))
+                        @include('layouts.master.sidebar.jabatan_pengajian_sepanjang_hayat')
+                    @elseif(Request::routeIs('pengurusan.kewangan.*'))
+                        @include('layouts.master.sidebar.kewangan')
+                    @elseif(Request::routeIs('vendor.*'))
+                        @include('layouts.master.sidebar.vendor')
+                    @elseif(Request::routeIs('pengurusan.hep.kaunseling.dashboard.*'))
+                        @include('layouts.master.sidebar.kaunseling')
+                    @elseif(Request::routeIs('pengurusan.hep.pusat-islam.dashboard.*'))
+                        @include('layouts.master.sidebar.pusat-islam')
+                    @elseif(Request::routeIs('pengurusan.hep.pusat-islam.aktiviti.*'))
+                        @include('layouts.master.sidebar.pusat-islam')
+                    @elseif(Request::routeIs('pengurusan.hep.pusat-islam.jadual-tugasan.*'))
+                        @include('layouts.master.sidebar.pusat-islam')
+                    @elseif(Request::routeIs('pengurusan.hep.pusat-islam.orang-awam.*'))
+                        @include('layouts.master.sidebar.pusat-islam')
+                    @elseif(Request::routeIs('pengurusan.hep.pusat-islam.rekod-kehadiran.*'))
+                        @include('layouts.master.sidebar.pusat-islam')
+                    @elseif(Request::routeIs('pengurusan.hep.pusat-islam.surat-rasmi.*'))
+                        @include('layouts.master.sidebar.pusat-islam')
+                    @elseif(Request::routeIs('pengurusan.pentadbiran.*'))
+                        @include('layouts.master.sidebar.pentadbiran')
+                    {{-- sidebar menu --}}
                     @else
                         @include('layouts.master.sidebar.utama')
                     @endif
@@ -147,7 +156,18 @@
     @yield('script')
     @stack('scripts')
 
+    @livewireScripts
 
+    <script>
+        Livewire.on('saved', postId => {
+            Swal.fire({
+                icon: 'info',
+                title: 'Maklumat telah disimpan',
+                showCancelButton: false,
+                confirmButtonText: 'OK',
+            });
+        })
+    </script>
 </body>
 
 </html>

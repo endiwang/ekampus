@@ -23,7 +23,7 @@ class AktivitiPdpController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -44,6 +44,15 @@ class AktivitiPdpController extends Controller
 
             if (request()->ajax()) {
                 $data = AktivitiPdp::with('kelas', 'subjek');
+                if ($request->has('tajuk') && $request->tajuk != null) {                    
+                    $data->where('title', 'LIKE', '%'.$request->tajuk.'%');
+                }
+                if ($request->has('subjek') && $request->subjek != null) {
+                    $data->where('subjek_id', $request->subjek);
+                }
+                if ($request->has('kelas') && $request->kelas != null) {
+                    $data->where('kelas_id', $request->kelas);
+                }
 
                 return DataTables::of($data)
                     ->addColumn('subjek_id', function ($data) {
@@ -88,7 +97,10 @@ class AktivitiPdpController extends Controller
                 ])
                 ->minifiedAjax();
 
-            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
+            $subjects = Subjek::where('deleted_at', NULL)->pluck('nama', 'id');
+            $classes = Kelas::where('deleted_at', NULL)->pluck('nama', 'id');
+
+            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable', 'subjects', 'classes'));
 
         } catch (Exception $e) {
             report($e);

@@ -105,4 +105,10 @@ class User extends Authenticatable
             default => null,
         };
     }
+
+    public function vendor()
+    {
+        return $this->hasOne(Vendor::class);
+
+    }
 }

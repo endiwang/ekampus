@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Base as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SemesterTerkini extends Model
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'semester_terkini';
 
@@ -17,5 +16,10 @@ class SemesterTerkini extends Model
     public function kursus()
     {
         return $this->belongsTo(Kursus::class, 'kursus_id', 'id');
+    }
+
+    public function tarikhKeputusan()
+    {
+        return $this->hasMany(TarikhKeputusan::class);
     }
 }

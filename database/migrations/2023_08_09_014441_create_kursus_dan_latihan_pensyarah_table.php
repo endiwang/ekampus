@@ -37,16 +37,3 @@ return new class extends Migration
         Schema::dropIfExists('kursus_dan_latihan_pensyarah');
     }
 };
-
-$table->id();
-$table->char('kod', 2)->nullable();
-$table->string('nama');
-$table->string('nama_arab')->nullable();
-$table->tinyInteger('status')->default(0);
-$table->smallInteger('bil_sem_keseluruhan')->nullable();
-$table->smallInteger('bil_sem_setahun')->nullable();
-$table->string('pusat_pengajian_id')->nullable();
-$table->tinyInteger('is_deleted')->nullable();
-$table->string('deleted_by')->nullable();
-$table->softDeletes();
-$table->timestamps();

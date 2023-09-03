@@ -11,6 +11,9 @@ use App\Models\JadualWaktu;
 use App\Models\JadualWaktuDetail;
 use App\Models\Kelas;
 use App\Models\PensyarahKelas;
+use App\Models\PusatPengajian;
+use App\Models\Semester;
+use App\Models\Sesi;
 use App\Models\Staff;
 use App\Models\Subjek;
 use App\Services\CalendarService;
@@ -29,7 +32,7 @@ class JadualKelasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -41,6 +44,18 @@ class JadualKelasController extends Controller
 
             if (request()->ajax()) {
                 $data = Kelas::with('jadualKelas', 'pusatPengajian', 'currentSemester')->where('deleted_at', null)->where('status', 0);
+                if ($request->has('kelas') && $request->kelas != null) {
+                    $data->where('id', $request->kelas);
+                }
+                if ($request->has('pusat_pengajian') && $request->pusat_pengajian != null) {
+                    $data->where('pusat_pengajian_id', $request->pusat_pengajian);
+                }
+                if ($request->has('semester') && $request->semester != null) {
+                    $data->where('semasa_semester_id', $request->semester);
+                }
+                if ($request->has('sesi') && $request->sesi != null) {
+                    $data->where('sesi', $request->sesi);
+                }
 
                 return DataTables::of($data)
                     ->addColumn('pusat_pengajian_id', function ($data) {
@@ -91,7 +106,12 @@ class JadualKelasController extends Controller
                 ])
                 ->minifiedAjax();
 
-            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable'));
+            $pusat_pengajian = PusatPengajian::where('deleted_at', null)->pluck('nama', 'id');
+            $kelas = Kelas::where('deleted_at', null)->pluck('nama', 'id');
+            $semester = Semester::where('deleted_at', null)->pluck('nama', 'id');
+            $sesi = Sesi::where('deleted_at', null)->pluck('nama', 'id');
+
+            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable', 'pusat_pengajian', 'kelas', 'semester', 'sesi'));
 
         } catch (Exception $e) {
             report($e);
