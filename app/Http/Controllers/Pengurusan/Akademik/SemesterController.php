@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pengurusan\Akademik;
 use App\Http\Controllers\Controller;
 use App\Models\Kursus;
 use App\Models\Semester;
+use App\Models\SemesterKursus;
 use App\Models\SemesterTerkini;
 use Carbon\Carbon;
 use Exception;
@@ -65,6 +66,9 @@ class SemesterController extends Controller
                 return DataTables::of($data)
                     ->addColumn('kursus_id', function ($data) {
                         return $data->kursus->nama ?? null;
+                    })
+                    ->addColumn('semester_name', function ($data) {
+                        return $data->semester_name ?? null;
                     })
                     ->addColumn('status_semester', function ($data) {
                         switch ($data->status) {
@@ -179,6 +183,11 @@ class SemesterController extends Controller
                 1 => 'Semester Satu',
                 2 => 'Semester Dua',
                 3 => 'Semester Tiga',
+                4 => 'Semester Empat',
+                5 => 'Semester Lima',
+                6 => 'Semester Enam',
+                7 => 'Semester Tujuh',
+                8 => 'Semester Lapan',
             ];
 
             $kursus = Kursus::where('is_deleted', 0)->pluck('nama', 'id');
@@ -238,18 +247,38 @@ class SemesterController extends Controller
             switch ($request->nama_semester) {
                 case '1':
                     $semester_name = 'Semester Satu';
-                    break;
+                break;
 
                 case '2':
                     $semester_name = 'Semester Dua';
-                    break;
+                break;
 
                 case '3':
                     $semester_name = 'Semester Tiga';
-                    break;
+                break;
+
+                case '4':
+                    $semester_name = 'Semester Empat';
+                break;
+
+                case '5':
+                    $semester_name = 'Semester Lima';
+                break;
+
+                case '6':
+                    $semester_name = 'Semester Enam';
+                break;
+
+                case '7':
+                    $semester_name = 'Semester Tujuh';
+                break;
+
+                case '8':
+                    $semester_name = 'Semester Lapan';
+                break;
             }
 
-            SemesterTerkini::create([
+            $semester = SemesterTerkini::create([
                 'kursus_id' => $request->program_pengajian,
                 'sesi_pengajian' => $request->tahun_pengajian,
                 'sesi' => $request->nama_sesi_semasa,
@@ -275,6 +304,14 @@ class SemesterController extends Controller
                 'status_keputusan_ulangan' => $request->status_keputusan_peperiksaan_ulangan,
                 'status_semester' => $request->status,
             ]);
+
+            //save into semester kursus table
+            SemesterKursus::create([
+                'kursus_id' => $request->program_pengajian,
+                'semster_id' => $request->nama_semester,
+                'status' => $request->status,
+            ]);
+
 
             Alert::toast('Maklumat Semester Berjaya Ditambah!', 'success');
 
@@ -329,6 +366,11 @@ class SemesterController extends Controller
                 1 => 'Semester Satu',
                 2 => 'Semester Dua',
                 3 => 'Semester Tiga',
+                4 => 'Semester Empat',
+                5 => 'Semester Lima',
+                6 => 'Semester Enam',
+                7 => 'Semester Tujuh',
+                8 => 'Semester Lapan',
             ];
 
             $kursus = Kursus::where('is_deleted', 0)->pluck('nama', 'id');
@@ -363,15 +405,35 @@ class SemesterController extends Controller
             switch ($request->nama_semester) {
                 case '1':
                     $semester_name = 'Semester Satu';
-                    break;
+                break;
 
                 case '2':
                     $semester_name = 'Semester Dua';
-                    break;
+                break;
 
                 case '3':
                     $semester_name = 'Semester Tiga';
-                    break;
+                break;
+
+                case '4':
+                    $semester_name = 'Semester Empat';
+                break;
+
+                case '5':
+                    $semester_name = 'Semester Lima';
+                break;
+
+                case '6':
+                    $semester_name = 'Semester Enam';
+                break;
+
+                case '7':
+                    $semester_name = 'Semester Tujuh';
+                break;
+
+                case '8':
+                    $semester_name = 'Semester Lapan';
+                break;
             }
 
             SemesterTerkini::find($id)->update([
@@ -399,6 +461,13 @@ class SemesterController extends Controller
                 'status_keputusan_8' => $request->status_semester_8,
                 'status_keputusan_ulangan' => $request->status_keputusan_peperiksaan_ulangan,
                 'status_semester' => $request->status,
+            ]);
+
+            SemesterKursus::updateOrCreate([
+                'kursus_id' => $request->program_pengajian, 
+                'semster_id' => $request->nama_semester,
+            ],[
+                'status' => $request->status,
             ]);
 
             Alert::toast('Maklumat Semester Berjaya Dipinda!', 'success');

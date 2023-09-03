@@ -61,6 +61,7 @@ Route::post('kelas/edit', [KelasController::class, 'edit'])->name('pengurusan_ke
 Route::post('kelas/store', [KelasController::class, 'store'])->name('pengurusan_kelas.store');
 Route::resource('kelas', KelasController::class);
 
+Route::get('subjek/{subjek_id}/add_to_semester', [SubjekController::class, 'addToSemester'])->name('pengurusan_subjek.add_to_semester');
 Route::get('subjek/{subjek_id}/daftar_item_penilaian', [SubjekController::class, 'registerMarkItems'])->name('pengurusan_subjek.register_mark_item');
 Route::post('subjek/store', [SubjekController::class, 'store'])->name('pengurusan_subjek.store');
 Route::get('subjek/edit/{id}/{course_id}', [SubjekController::class, 'edit'])->name('pengurusan_subjek.edit');
