@@ -35,7 +35,7 @@ class KehadiranPelajarController extends Controller
             ];
 
             if (request()->ajax()) {
-                $data = Subjek::where('deleted_at', null);
+                $data = Subjek::query();
                 if ($request->has('kod_subjek') && $request->kod_subjek != null) {
                     $data->where('kod_subjek', 'LIKE', '%'.$request->kod_subjek.'%');
                 }

@@ -228,8 +228,11 @@ Route::group(['prefix' => 'pengurusan_jabatan', 'as' => 'pengurusan_jabatan.'], 
     Route::get('pensyarah_cadangan/download', [PensyarahCadanganController::class, 'download'])->name('pensyarah_cadangan.download');
     Route::resource('pensyarah_cadangan', PensyarahCadanganController::class);
 
+    Route::post('pemantauan_kehadiran/export', [PemantauanKehadiranController::class, 'export'])->name('pemantauan_kehadiran.export');
+    Route::get('pemantauan_kehadiran/download/{id}', [PemantauanKehadiranController::class, 'download'])->name('pemantauan_kehadiran.download');
+    Route::get('pemantauan_kehadiran/maklumat/{id}/{kelas_id}', [PemantauanKehadiranController::class, 'viewPelajarDetail'])->name('pemantauan_kehadiran.detail');
     Route::resource('pemantauan_kehadiran', PemantauanKehadiranController::class);
-    
+
     Route::post('jadual_penggantian_pensyarah/update', [JadualPenggantianPensyarahController::class, 'update'])->name('jadual_penggantian_pensyarah.update');
     Route::get('jadual_penggantian_pensyarah/download/{staff_id}', [JadualPenggantianPensyarahController::class, 'downloadJadual'])->name('jadual_penggantian_pensyarah.download');
     Route::get('jadual_penggantian_pensyarah/create/{staff_id}', [JadualPenggantianPensyarahController::class, 'createJadual'])->name('jadual_penggantian_pensyarah.create_jadual');

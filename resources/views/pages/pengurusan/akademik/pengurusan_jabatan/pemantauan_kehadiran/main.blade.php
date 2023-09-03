@@ -12,21 +12,11 @@
                             <div class="card-body py-5">
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('nama_pelajar', 'Nama Pelajar', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('kelas', 'Kelas', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('nama_pelajar', Request::get('nama_pelajar') ,['class' => 'form-control form-control-sm', 'id' =>'nama_pelajar','onkeydown' =>'return true','autocomplete' => 'off']) }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row fv-row mb-2" >
-                                    <div class="col-md-3 text-md-end">
-                                        {{ Form::label('subjek', 'Subjek', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="w-100">
-                                            {{ Form::text('subjek', Request::get('subjek') ,['class' => 'form-control form-control-sm', 'id' =>'subjek','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                            {{ Form::select('kelas', $classes, Request::get('kelas'), ['placeholder' => 'Sila Pilih','class' =>'form-select form-select-sm', 'data-control'=>'select2' ]) }}
                                         </div>
                                     </div>
                                 </div>
