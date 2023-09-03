@@ -76,11 +76,11 @@
                     <td>
                         <p>
                             TUNTUTAN BAYARAN PEPERIKSAAN SEMESTER <br>
-                            @if(!empty($pusat_pengajian))
-                            PUSAT PEPERIKSAAN : {{ $pusat_pengajian }}<br>
+                            @if(!empty($pusat_peperiksaan))
+                            PUSAT PEPERIKSAAN : {{ $pusat_peperiksaan }}<br>
                             @endif
                             @if(!empty($semester))
-                            Bagi {{ $program_pengajian->nama }}
+                            {{ $semester }}
                             @endif
                         </p>
                     </td>
@@ -95,31 +95,52 @@
                     <th rowspan="3">Bil</th>
                     <th rowspan="3">Nama</th>
                     <th rowspan="3">Jantina</th>
-                    <th rowspan="3">No. K/P <br> No. Matrik</th>
+                    <th rowspan="3">No. K/P</th>
                     <th rowspan="3">No. Matrik</th>
-                    <th colspan="3"></th>
-                    <th rowspan="3">Pengurusan Peperiksaan</th>
+                    <th colspan="{{ $size_subject }}"></th>
+                    <th rowspan="2">Pengurusan Peperiksaan</th>
                     <th rowspan="2">Jumlah</th>
                 </tr>
                 <tr>
-                    <th colspan="3">Semester</th>
+                    @foreach ($subject_codes as $code)
+                        <th>{{ $code['kod'] }}</th>
+                    @endforeach
+                    
                 </tr>
                 <tr>
+                    @foreach ($subject_codes as $code)
+                    <th>RM</th>
+                    @endforeach
                     <th>RM</th>
                     <th>RM</th>
                 </tr>
             </thead>
                 @php $no = 1 @endphp
             <tbody>
-                {{-- @forelse ($datas as $data)
+                @forelse ($subject_datas as $student_data)
                     <tr>
                         <td>{{ $no++ }}</td>
-                        <td>{{ $data->nama ?? null }}</td>
-                        <td style="text-align: center;">{{ $data->jantina ?? null }}</td>
-                        <td style="text-align: center;">{{ $data->no_ic ?? null }} <br/>{{ $data->no_matrik ?? null }} </td>
-                        <td style="text-align: center;">Semester {{ $data->semester ?? null }}</td>
-                        <td style="text-align: center;">{{ $data->syukbah->nama ?? null }}</td>
-                        <td style="text-align: center;">0 Subjek</td>
+                        <td>{{ $student_data['nama'] ?? null }}</td>
+                        <td style="text-align: center;">
+                            @if($student_data['jantina'] == 'P')
+                            <span style="color:red">({{ $student_data['jantina'] ?? null }})</span>
+                            @else
+                            <span style="color:blue">({{ $student_data['jantina'] ?? null }})</span>
+                            @endif
+                        </td>
+                        <td style="text-align: center;">{{ $student_data['no_ic'] ?? null }}</td>
+                        <td style="text-align: center;">{{ $student_data['no_matrik'] ?? null }} </td>
+                        @foreach ($student_data['data'] as $rate)
+                            @foreach ($rate as $key => $value)
+                                @foreach ($subject_codes as $code)
+                                    @if($key == $code['kod']) 
+                                        <td style="text-align: center;">{{ $value ?? '0.00'}}</td>
+                                    @endif
+                                @endforeach
+                            @endforeach
+                        @endforeach
+                        <td style="text-align: center;">{{ $student_data['pengurusan_peperiksaan'] ?? null }}</td>
+                        <td style="text-align: center;">{{ $student_data['jumlah'] }}</td>
                     </tr>
                 @empty
                 <tr>
@@ -128,27 +149,31 @@
                     </td>
                 </tr>
                 @endforelse --}}
+                <tr>
+                    <td colspan="{{ $overall_col_size }}" style="text-align: right; font-weight: bold;">JUMLAH</td>
+                    <td><b>{{ $overall_total }}</b></td>
+                </tr>
             </tbody>
         </table>
     </div>
-    <div class="bottom">
-        <table class="table table-bordered report" width="100%">
+    <div class="bottom" style="margin-top: 10px;">
+        <table class="table table-bordered report" width="50%">
             <thead>
                 <tr>
-                    <th rowspan="2">Bil</th>
-                    <th rowspan="2">Nama Kursus</th>
-                    <th rowspan="2">Kod Kursus</th>
-                    <th rowspan="2">Jam</th>
+                    <th>Bil</th>
+                    <th>Nama Kursus</th>
+                    <th>Kod Kursus</th>
+                    <th>Jam</th>
                 </tr>
             </thead>
                 @php $no = 1 @endphp
             <tbody>
-                {{-- @forelse ($datas as $data)
+                @forelse ($subject_codes as $subject)
                     <tr>
                         <td>{{ $no++ }}</td>
-                        <td>{{ $data->nama ?? null }}</td>
-                        <td style="text-align: center;">{{ $data->jantina ?? null }}</td>
-                        <td style="text-align: center;">{{ $data->no_ic ?? null }} <br/>{{ $data->no_matrik ?? null }} </td>
+                        <td>{{ $subject['nama'] ?? null }}</td>
+                        <td style="text-align: center;">{{ $subject['kod'] ?? null }}</td>
+                        <td style="text-align: center;">{{ $subject['jam_kredit'] ?? null }}</td>
                     </tr>
                 @empty
                 <tr>
@@ -156,7 +181,7 @@
                         Tiada Data Dijumpai
                     </td>
                 </tr>
-                @endforelse --}}
+                @endforelse
             </tbody>
         </table>
     </div>
