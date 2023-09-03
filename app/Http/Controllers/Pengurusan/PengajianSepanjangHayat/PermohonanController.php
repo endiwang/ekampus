@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Pengurusan\PengajianSepanjangHayat;
 
+use App\Constants\Generic;
 use App\Http\Controllers\Controller;
+use App\Libraries\BilLibrary;
 use App\Mail\StatusPermohonanBaruSijilTahfiz;
 use App\Models\Negeri;
 use App\Models\Pemohon;
@@ -10,6 +12,7 @@ use App\Models\PermohonanSijilTahfiz;
 use App\Models\PusatPeperiksaan;
 use App\Models\PusatPeperiksaanNegeri;
 use App\Models\TetapanPeperiksaanSijilTahfiz;
+use App\Models\Yuran;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -172,6 +175,17 @@ class PermohonanController extends Controller
 
             $permohonan->update($request->except('_token'));
 
+            if($permohonan->status == 1)
+            {
+                $yuran = Yuran::find(Generic::YURAN_SIJIL_TAHFIZ);
+                if(!empty($yuran))
+                {
+                    BilLibrary::createBil([
+                        'yuran' => $yuran,
+                        'pemohon_id' => $permohonan->pemohon_id,
+                    ], false, true);
+                }
+            }
             $pemohon = Pemohon::where('id', $permohonan->pemohon_id)->first();
             Mail::to($pemohon->email)->send(new StatusPermohonanBaruSijilTahfiz());
             DB::commit();

@@ -28,7 +28,7 @@
                                 {{ Form::label('pelajar_id', 'Pelajar', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 ' . (($model->id) ? '' : 'required')]) }}
                                 <div class="col-lg-8">
                                     @if($model->id)
-                                    {{ Form::label('pelajar_id', $model->pelajar->nama, ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}
+                                    {{ Form::label('pelajar_id', $model->pelajar_nama, ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}
                                     @else
                                     {{ Form::select('pelajar_id', [], $model->pelajar_id, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('pelajar_id') ? 'is-invalid' : ''), 'id' => 'pelajar_id', 'required' => 'required']) }}
                                     @error('pelajar_id') <div class="invalid-feedback">{{ $message }}</div> @enderror

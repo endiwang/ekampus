@@ -109,16 +109,16 @@
                             </div>
 
 
-
                             <div class="row mt-5">
                                 <div class="col-md-9 offset-md-3">
                                     <div class="d-flex">
-                                        @if ($model->jenis_kehadiran == 1)
                                         <a href="{{ route('pengurusan.hep.pengurusan.program_pelajar.pilih_pelajar',$model->id) }}" class="btn btn-dark btn-sm me-3">
                                             <i class="fa fa-user-plus" style="vertical-align: initial"></i>Pilih Pelajar
                                         </a>
-                                        @endif
-                                        <a href="{{ route('pengurusan.hep.pengurusan.program_pelajar.index') }}" class="btn btn-sm btn-light">Kembali</a>
+                                        <a href="{{ route('pengurusan.hep.pengurusan.program_pelajar.show_kehadiran',$model->id) }}" class="btn btn-info btn-sm me-3">
+                                            <i class="fa fa-file" style="vertical-align: initial"></i>Kehadiran Pelajar
+                                        </a>
+                                        <a href="{{ route('pelajar.permohonan.bawa_kenderaan.index') }}" class="btn btn-sm btn-light">Kembali</a>
                                     </div>
                                 </div>
                             </div>
@@ -131,9 +131,6 @@
         <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
             <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Kehadiran Pelajar</h3>
-                    </div>
                     <div class="card-body py-5">
                         {{ $dataTable->table(['class'=>'table table-striped table-row-bordered gy-5 gs-7 border rounded']) }}
                     </div>
@@ -144,30 +141,5 @@
 </div>
 @endsection
 @push('scripts')
-<script>
-    function remove(id){
-        Swal.fire({
-            title: 'Adakah anda pasti?',
-            text: '',
-            icon: 'question',
-            showCancelButton: true,
-            cancelButtonText: 'Tidak',
-            confirmButtonText: 'Ya Padam',
-            reverseButtons: true,
-            customClass: {
-                title: 'swal-modal-delete-title',
-                htmlContainer: 'swal-modal-delete-container',
-                cancelButton: 'btn btn-light btn-sm mr-1',
-                confirmButton: 'btn btn-primary btn-sm ml-1'
-            },
-            buttonsStyling: false
-        })
-            .then((result) => {
-                if(result.isConfirmed){
-                    document.getElementById(`delete-${id}`).submit();
-                }
-            })
-    }
-</script>
 {!! $dataTable->scripts() !!}
 @endpush
