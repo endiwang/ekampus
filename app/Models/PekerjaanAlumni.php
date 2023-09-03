@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Models\Base as Model;
 
-class PekerjaanTerkini extends Model
+class PekerjaanAlumni extends Model
 {
     protected $table = 'pekerjaan_alumni';
 

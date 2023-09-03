@@ -135,6 +135,7 @@ Route::middleware(['web', 'auth'])
         // Route::get('/dashboard', DashboardController::class)
         //     ->name('dashboard.index');
     
+        // Pengajian Selepas DQ
         Route::post('/{id}/pengajian/create', [AlumniController::class, 'pengajian_store'])
             ->name('pengajian.store');
         Route::get('/{id}/pengajian/{pengajian_id}/edit', [AlumniController::class, 'pengajian_edit'])
@@ -143,6 +144,14 @@ Route::middleware(['web', 'auth'])
             ->name('pengajian.update');
         Route::delete('/{id}/pengajian', [AlumniController::class, 'pengajian_destroy'])
             ->name('pengajian.destroy');
+
+        // Pekerjaan terkini
+        Route::post('/{id}/pekerjaan/create_edit', [AlumniController::class, 'pekerjaan_store'])
+            ->name('pekerjaan.store');
+        Route::put('/{id}/pekerjaan/create_edit', [AlumniController::class, 'pekerjaan_update'])
+            ->name('pekerjaan.update');
+
+        // Alumni personal data
         // Route::resource('/', AlumniController::class);
         Route::get('/', [AlumniController::class, 'index'])
             ->name('index');

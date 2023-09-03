@@ -222,6 +222,32 @@
                 </div>
             </div>
             <!--end::Row-->
+            @php
+                $industri = [
+                    'tmk' => 'Teknologi Maklumat dan Komunikasi',
+                    'kewangan' => 'Kewangan dan Perbankan',
+                    'kesihatan' => 'Perubatan dan Kesihatan',
+                    'pengilangan' => 'Pengilangan dan Pembuatan',
+                    'peruncitan' => 'Peruncitan dan Jualan Runcit',
+                    'pengangkutan' => 'Pengangkutan dan Logistik',
+                    'perhotelan' => 'Perhotelan dan Pelancongan',
+                    'seni_hiburan' => 'Seni, Hiburan, dan Media',
+                    'pendidikan' => 'Pendidikan dan Latihan',
+                    'pertanian' => 'Pertanian dan Penternakan',
+                    'automotif' => 'Automotif',
+                    'reka_bentuk' => 'Reka Bentuk dan Kreatif',
+                    'pembinaan' => 'Pembinaan dan Pembangunan',
+                    'tenaga' => 'Tenaga dan Alam Sekitar',
+                    'sains' => 'Sains dan Penyelidikan',
+                    'perkhidmatan_kerajaan' => 'Perkhidmatan Masyarakat dan Kerajaan',
+                    'minyak_gas' => 'Pembahagian Minyak dan Gas',
+                    'sumber_manusia' => 'Sumber Manusia dan Pengurusan',
+                    'telekomunikasi' => 'Telekomunikasi',
+                    'e_dagang' => 'E-dagang dan Perdagangan Elektronik',
+                    'kejuruteraan' => 'Kejuruteraan dan Teknologi',
+                ];
+                
+            @endphp
             <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                     <div class="card" id="advanceSearch">
@@ -229,20 +255,21 @@
                             <h3 class="card-title">Maklumat pekerjaan terkini</h3>
                         </div>
                         <div class="card-body py-5">
-
-                            <form class="form" action="{{ $action }}" method="post">
-                                @if ($pelajar->id)
+                            <form class="form"
+                                action="{{ route('pengurusan.hep.alumni.pekerjaan.store', $pelajar->id) }}"
+                                method="post">
+                                @if ($pekerjaanData->id)
                                     @method('PUT')
                                 @endif
                                 @csrf
                                 <div class="row fv-row mb-2">
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('pelaku_pelajar_id', 'Nama Syarikat', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('nama_syarikat', 'Nama Syarikat', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('pelaku_pelajar_id', $pelajar->id ?? old('pelaku_pelajar_id'), ['class' => 'form-control form-control-sm ' . ($errors->has('no_tel') ? 'is-invalid' : ''), 'id' => 'no_tel', 'onkeydown' => 'return true', 'autocomplete' => 'off']) }}
-                                            @error('pelaku_pelajar_id')
+                                            {{ Form::text('nama_syarikat', $pekerjaanData->nama_syarikat ?? old('nama_syarikat'), ['class' => 'form-control form-control-sm ' . ($errors->has('nama_syarikat') ? 'is-invalid' : ''), 'id' => 'nama_syarikat', 'onkeydown' => 'return true', 'autocomplete' => 'off']) }}
+                                            @error('nama_syarikat')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -250,12 +277,12 @@
                                 </div>
                                 <div class="row fv-row mb-2">
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('pelaku_pelajar_id', 'Jawatan', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('jawatan', 'Jawatan', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('pelaku_pelajar_id', $pelajar->id ?? old('pelaku_pelajar_id'), ['class' => 'form-control form-control-sm ' . ($errors->has('no_tel') ? 'is-invalid' : ''), 'id' => 'no_tel', 'onkeydown' => 'return true', 'autocomplete' => 'off']) }}
-                                            @error('pelaku_pelajar_id')
+                                            {{ Form::text('jawatan', $pekerjaanData->jawatan ?? old('jawatan'), ['class' => 'form-control form-control-sm ' . ($errors->has('jawatan') ? 'is-invalid' : ''), 'id' => 'jawatan', 'onkeydown' => 'return true', 'autocomplete' => 'off']) }}
+                                            @error('jawatan')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -263,12 +290,12 @@
                                 </div>
                                 <div class="row fv-row mb-2">
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('pelaku_pelajar_id', 'Tarikh Mula Bekerja', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('tarikh_mula', 'Tarikh Mula Bekerja', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::date('pelaku_pelajar_id', $pelajar->id ?? old('pelaku_pelajar_id'), ['placeholder' => 'Sila Pilih', 'class' => 'form-control form-control-sm']) }}
-                                            @error('pelaku_pelajar_id')
+                                            {{ Form::date('tarikh_mula', $pekerjaanData->tarikh_mula ?? old('tarikh_mula'), ['placeholder' => 'Sila Pilih', 'class' => 'form-control form-control-sm' . ($errors->has('tarikh_mula') ? 'is-invalid' : ''), 'id' => 'tarikh_mula']) }}
+                                            @error('tarikh_mula')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -276,12 +303,18 @@
                                 </div>
                                 <div class="row fv-row mb-2">
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('status', 'Bidang Industri', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('bidang_industri', 'Bidang Industri', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::select('status', ['tmk' => 'Teknologi Maklumat dan Komunikasi', 'kewangan' => 'Kewangan dan Perbankan', 'kesihatan' => 'Perubatan dan Kesihatan'], $pelajar->nama ?? old('status'), ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ', 'data-control' => 'select2', 'required' => 'required']) }}
-                                            @error('status')
+                                            {{ Form::select('bidang_industri', $industri, $pekerjaanData->bidang_industri ?? old('bidang_industri'), [
+                                                'placeholder' => 'Sila Pilih',
+                                                'class' => 'form-contorl form-select form-select-sm ' . ($errors->has('bidang_industri') ? 'is-invalid' : ''),
+                                                'id' => 'bidang_industri',
+                                                'data-control' => 'select2',
+                                                'required' => 'required',
+                                            ]) }}
+                                            @error('bidang_industri')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>

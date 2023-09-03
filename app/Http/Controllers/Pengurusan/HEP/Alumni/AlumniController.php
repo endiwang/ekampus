@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pengurusan\HEP\Alumni;
 
 use App\Http\Controllers\Controller;
+use App\Models\PekerjaanAlumni;
 use App\Models\Pelajar;
 use App\Models\PengajianSelepasDq;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -131,10 +132,10 @@ class AlumniController extends Controller
         ];
         $pelajar = Pelajar::find($id);
 
-        $data = PengajianSelepasDq::where('pelajar_id', $pelajar->id);
+        $pengajianData = PengajianSelepasDq::where('pelajar_id', $pelajar->id);
 
         if (request()->ajax()) {
-            return DataTables::of($data)
+            return DataTables::of($pengajianData)
                 ->addColumn('action', function ($data) {
                     return '
                         <a href="' . route('pengurusan.hep.alumni.pengajian.edit', [$data->pelajar_id, $data->id]) . '" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
@@ -168,7 +169,13 @@ class AlumniController extends Controller
             ])
             ->minifiedAjax();
 
-        return view($this->baseView . 'add_edit', compact('title', 'breadcrumbs', 'page_title', 'action', 'pelajar', 'dataTable', 'data'));
+        $pekerjaanData = PekerjaanAlumni::where('pelajar_id', $pelajar->id)->first();
+        if ($pekerjaanData->count() == 0) {
+            $pekerjaanData = new PekerjaanAlumni();
+        }
+
+
+        return view($this->baseView . 'add_edit', compact('title', 'breadcrumbs', 'page_title', 'action', 'pelajar', 'dataTable', 'pekerjaanData'));
     }
 
     /**
@@ -201,6 +208,8 @@ class AlumniController extends Controller
         $pelajar->poskod = $request->poskod;
         $pelajar->bandar = $request->bandar;
         $pelajar->save();
+
+        dd('saved');
 
         Alert::toast('Maklumat pelajar dikemaskini!', 'success');
 
@@ -271,7 +280,6 @@ class AlumniController extends Controller
 
     public function pengajian_update($pelajarId, $pengajianId, Request $request)
     {
-        // dd($pelajarId, $pengajianId, $request->all());
         $request->validate(
             [
                 'nama_institusi' => 'required|string',
@@ -301,5 +309,57 @@ class AlumniController extends Controller
         PengajianSelepasDq::find($id)->delete();
 
         return redirect()->back();
+    }
+
+    public function pekerjaan_store(Request $request, $id)
+    {
+        $request->validate(
+            [
+                'nama_syarikat' => 'required',
+                'jawatan' => 'required',
+                'tarikh_mula' => 'required',
+                'bidang_industri' => 'required',
+            ],
+        );
+        $pelajar = Pelajar::find($id);
+
+        $pekerjaan = new PekerjaanAlumni();
+        $pekerjaan->pelajar_id = $pelajar->id;
+        $pekerjaan->user_id = $pelajar->user_id;
+        $pekerjaan->nama_syarikat = $request->nama_syarikat;
+        $pekerjaan->jawatan = $request->jawatan;
+        $pekerjaan->tarikh_mula = $request->tarikh_mula;
+        $pekerjaan->bidang_industri = $request->bidang_industri;
+
+        $pekerjaan->save();
+
+        Alert::toast('Maklumat pekerjaan disimpan!', 'success');
+
+        return redirect()->route('pengurusan.hep.alumni.edit', $pelajar->id);
+    }
+
+    public function pekerjaan_update(Request $request, $id)
+    {
+        $request->validate(
+            [
+                'nama_syarikat' => 'required',
+                'jawatan' => 'required',
+                'tarikh_mula' => 'required',
+                'bidang_industri' => 'required',
+            ],
+        );
+
+        $pekerjaan = PekerjaanAlumni::find($request->id);
+
+        $pekerjaan->nama_syarikat = $request->nama_syarikat;
+        $pekerjaan->jawatan = $request->jawatan;
+        $pekerjaan->tarikh_mula = $request->tarikh_mula;
+        $pekerjaan->bidang_industri = $request->bidang_industri;
+
+        $pekerjaan->save();
+
+        Alert::toast('Maklumat pekerjaan dikemasnkini!', 'success');
+
+        return redirect()->route('pengurusan.hep.alumni.edit', $id);
     }
 }
