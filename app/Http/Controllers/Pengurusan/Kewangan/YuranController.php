@@ -276,87 +276,117 @@ class YuranController extends Controller
      */
     public function update(Request $request, $id, $bil_id)
     {
-        $validation = $request->validate([
-            'status' => 'required',
-            'bayaran_date' => ($request->status == 2) ? 'required' : '',
-            'bayaran_description' => ($request->status == 2) ? 'required' : '',
-        ], [
-            'status.required' => 'Sila pilih status bayaran',
-            'bayaran_date.required' => 'Sila pilih tarikh bayaran',
-            'bayaran_description.required' => 'Sila tulis keterangan bayaran',
-        ]);
-
         $result = true;
-        try {
-            DB::transaction(function () use ($request, $id, $bil_id) {
 
-                $yuran = Yuran::find($id);
-                $bil = Bil::find($bil_id);
-                if(!empty($bil))
-                {
-                    $bil->status = $request->status;
-                    if($bil->status == 3)
+        if(!empty($request->bayaran_gambar_2))
+        {
+            $bayaran = Bayaran::find($request->bayaran_id);
+            $datetime_now = strtotime(now());
+
+            if(!empty($request->bayaran_gambar_2))
+            {
+                $image = [];
+
+                $file = $request->bayaran_gambar_2;
+                $original_name = $file->getClientOriginalName();                            
+                $file_name = pathinfo($original_name, PATHINFO_FILENAME);
+                $extension = pathinfo($original_name, PATHINFO_EXTENSION);
+                $file_name = $bayaran->id . '_' . $file_name . '_' . $datetime_now . '.' . $extension;
+                $file_path = 'bayaran/' . $file_name;
+                Storage::disk('local')->put('public/' . $file_path, fopen($file, 'r+'), 'public');
+                
+                $image['image_name'] = $file_name;
+                $image['image_path'] = $file_path;
+                
+                $bayaran->gambar = json_encode($image);
+                $bayaran->save();
+            }
+        }
+        else {
+            $validation = $request->validate([
+                'status' => 'required',
+                'bayaran_date' => ($request->status == 2) ? 'required' : '',
+                'bayaran_description' => ($request->status == 2) ? 'required' : '',
+            ], [
+                'status.required' => 'Sila pilih status bayaran',
+                'bayaran_date.required' => 'Sila pilih tarikh bayaran',
+                'bayaran_description.required' => 'Sila tulis keterangan bayaran',
+            ]);
+
+            try {
+                DB::transaction(function () use ($request, $id, $bil_id) {
+
+                    $yuran = Yuran::find($id);
+                    $bil = Bil::find($bil_id);
+                    if(!empty($bil))
                     {
-                        $bil->remarks = $request->reject_reason;
+                        $bil->status = $request->status;
+                        if($bil->status == 3)
+                        {
+                            $bil->remarks = $request->reject_reason;
+                        }
+                        $bil->save();
                     }
-                    $bil->save();
-                }
 
-                if($request->status == 2 && !empty($request->bayaran_date) && !empty($request->bayaran_description))
-                {
-                    $count_bayaran = Bayaran::count();
-                    $no_bayaran = sprintf('%04d', $count_bayaran + 1);
-
-                    $bayaran = Bayaran::where('bil_id', $bil->id)->first();
-                    if(empty($bayaran))
+                    if($request->status == 2 && !empty($request->bayaran_date) && !empty($request->bayaran_description))
                     {
-                        $bayaran = new Bayaran;
-                    }
-                    $bayaran->doc_no = 'RCPT' . $no_bayaran;
-                    $bayaran->bil_id = $bil->id;
-                    $bayaran->pelajar_id = $bil->pelajar_id;
-                    $bayaran->pemohon_id = $bil->pemohon_id;
-                    $bayaran->permohonan_sijil_tahfiz_id = $bil->permohonan_sijil_tahfiz_id;
-                    $bayaran->yuran_id = $bil->yuran_id;
-                    $bayaran->date = $request->bayaran_date;
-                    $bayaran->description = $request->bayaran_description;
-                    $bayaran->save();
+                        $count_bayaran = Bayaran::count();
+                        $no_bayaran = sprintf('%04d', $count_bayaran + 1);
 
-                    $datetime_now = strtotime(now());
-
-                    if(!empty($request->bayaran_gambar))
-                    {
-                        $image = [];
-
-                        $file = $request->bayaran_gambar;
-                        $original_name = $file->getClientOriginalName();                            
-                        $file_name = pathinfo($original_name, PATHINFO_FILENAME);
-                        $extension = pathinfo($original_name, PATHINFO_EXTENSION);
-                        $file_name = $aduan->id . '_' . $file_name . '_' . $datetime_now . '.' . $extension;
-                        $file_path = 'bayaran/' . $file_name;
-                        Storage::disk('local')->put('public/' . $file_path, fopen($file, 'r+'), 'public');
-                        
-                        $image['image_name'] = $file_name;
-                        $image['image_path'] = $file_path;
-                        
-                        $bayaran->gambar = json_encode($image);
+                        $bayaran = Bayaran::where('bil_id', $bil->id)->first();
+                        if(empty($bayaran))
+                        {
+                            $bayaran = new Bayaran;
+                        }
+                        $bayaran->doc_no = 'RCPT' . $no_bayaran;
+                        $bayaran->bil_id = $bil->id;
+                        $bayaran->pelajar_id = $bil->pelajar_id;
+                        $bayaran->pemohon_id = $bil->pemohon_id;
+                        $bayaran->permohonan_sijil_tahfiz_id = $bil->permohonan_sijil_tahfiz_id;
+                        $bayaran->yuran_id = $bil->yuran_id;
+                        $bayaran->date = $request->bayaran_date;
+                        $bayaran->description = $request->bayaran_description;
                         $bayaran->save();
-                    }
-                }
-            });
 
-        } catch (\Exception $e) {
-            $result = false;
+                        $datetime_now = strtotime(now());
+
+                        if(!empty($request->bayaran_gambar))
+                        {
+                            $image = [];
+
+                            $file = $request->bayaran_gambar;
+                            $original_name = $file->getClientOriginalName();                            
+                            $file_name = pathinfo($original_name, PATHINFO_FILENAME);
+                            $extension = pathinfo($original_name, PATHINFO_EXTENSION);
+                            $file_name = $bayaran->id . '_' . $file_name . '_' . $datetime_now . '.' . $extension;
+                            $file_path = 'bayaran/' . $file_name;
+                            Storage::disk('local')->put('public/' . $file_path, fopen($file, 'r+'), 'public');
+                            
+                            $image['image_name'] = $file_name;
+                            $image['image_path'] = $file_path;
+                            
+                            $bayaran->gambar = json_encode($image);
+                            $bayaran->save();
+                        }
+                    }
+                });
+
+            } catch (\Exception $e) {
+                $result = false;
+            }
+
+            if($result)
+            {
+                $bil = Bil::find($bil_id);
+                $bayaran = Bayaran::where('bil_id', $bil_id)->first();
+                if($bil->status == 2 && !empty($bayaran))
+                {
+                    event(new BayaranYuranEvent($bil, $bayaran));
+                }
+            }
         }
 
         if ($result) {
-
-            $bil = Bil::find($bil_id);
-            $bayaran = Bayaran::where('bil_id', $bil_id)->first();
-            if($bil->status == 2 && !empty($bayaran))
-            {
-                event(new BayaranYuranEvent($bil, $bayaran));
-            }
 
             Alert::toast('Maklumat bil & bayaran berjaya dikemaskini', 'success');
 

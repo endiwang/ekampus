@@ -12,7 +12,7 @@
                     <div class="card-header">
                         <h3 class="card-title">{{ $page_title }}</h3>
                     </div>
-                    <form class="form" action="{{ $action }}" method="post" enctype="multipart/form-data">
+                    <form id="formMain" class="form" action="{{ $action }}" method="post" enctype="multipart/form-data">
                         @if($model->id) @method('PUT') @endif
                         @csrf
                         <div class="card-body py-5">
@@ -141,10 +141,13 @@
                                     {{ Form::label('bayaran_description', 'Resit / Gambar Bayaran', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}
                                     <div class="col-lg-8">
                                         @if(!empty($bayaran->gambar))
-                                        @php
-                                            $gambar = (array) json_decode($bayaran->gambar);
-                                        @endphp
-                                        <a href="{{ asset('storage/' . $gambar['image_path']) }}" target="_blank">{{ $gambar['image_name'] }}</a><br>
+                                            @php
+                                                $gambar = (array) json_decode($bayaran->gambar);
+                                            @endphp
+                                            <a href="{{ asset('storage/' . $gambar['image_path']) }}" target="_blank">{{ $gambar['image_name'] }}</a><br>
+                                        @else
+                                        <input type="hidden" name="bayaran_id" value="{{ $bayaran->id }}">
+                                        {{ Form::file('bayaran_gambar_2', ['class' => 'form-control form-control-sm ' . ($errors->has('gambar') ? 'is-invalid' : ''), 'id' =>'gambar', 'multiple', 'accept' => 'image/*']) }}
                                         @endif
                                     </div>
                                 </div>
@@ -299,6 +302,23 @@ $('#btnAddMore').on('click', function(){
 $("#tableCaj").on('click', '.btn-remove-tr', function(elem){
     // $(this).closest('.top-parent').remove();
     $(this).parent().parent().remove();
+})
+
+$('[name="bayaran_gambar_2"]').on('change', function(){
+    Swal.fire({
+        icon: 'warning',
+        title: 'Pasti upload gambar resit?',
+        confirmButtonText: 'Pasti',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            $('#formMain').submit();
+        } else {
+            $('[name="bayaran_gambar_2"]').val('');
+        }
+    })
 })
 </script>
 @endpush
