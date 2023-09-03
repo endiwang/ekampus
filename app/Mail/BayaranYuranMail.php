@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
@@ -13,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class BayaranYuranMail extends Mailable
 {
     use Queueable, SerializesModels;
+
     public $bil;
 
     /**
@@ -34,7 +34,7 @@ class BayaranYuranMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Darul Quran Pembayaran Selesai #' . $this->bil->doc_no,
+            subject: 'Darul Quran Pembayaran Selesai #'.$this->bil->doc_no,
         );
     }
 
@@ -57,15 +57,13 @@ class BayaranYuranMail extends Mailable
      */
     public function attachments()
     {
-        if(!empty($this->bayaran) && !empty($this->bayaran->resit))
-        {
+        if (! empty($this->bayaran) && ! empty($this->bayaran->resit)) {
             $resit = (array) json_decode($this->bayaran->resit);
-            
+
             return [
                 Attachment::fromPath(public_path('storage/' . $resit['resit_path'])),
             ];
-        }
-        else {
+        } else {
             return [];
         }
     }

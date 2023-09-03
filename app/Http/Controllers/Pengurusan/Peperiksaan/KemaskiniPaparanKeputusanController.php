@@ -17,6 +17,7 @@ use Yajra\DataTables\Html\Builder;
 class KemaskiniPaparanKeputusanController extends Controller
 {
     protected $baseView = 'pages.pengurusan.peperiksaan.kemaskini_paparan_keputusan.';
+
     protected $baseRoute = 'pengurusan.peperiksaan.kemaskini_paparan_keputusan.';
 
     /**
@@ -50,7 +51,7 @@ class KemaskiniPaparanKeputusanController extends Controller
 
                 return DataTables::of($data)
                     ->addColumn('program_pengajian_id', function ($data) {
-                        return '<span>'. $data->kursus->nama .'<br>' . $data->sesi_pengajian . '</span>';
+                        return '<span>'.$data->kursus->nama.'<br>'.$data->sesi_pengajian.'</span>';
 
                         //return $data->kursus->nama ?? null;
                     })
@@ -66,103 +67,94 @@ class KemaskiniPaparanKeputusanController extends Controller
                         }
                     })
                     ->addColumn('sem_1', function ($data) {
-                        if($data->status_keputusan == 1)
-                        {
+                        if ($data->status_keputusan == 1) {
                             $date = Utils::getTarikhPeperiksaan('1', $data->id);
                             $icon = '<i class="fa-solid fa-square-check" style="color:green;"></i>';
-                            
-                            return '<span style="text-align:center">' . $icon . '<br>' . $date . '</span>';
+
+                            return '<span style="text-align:center">'.$icon.'<br>'.$date.'</span>';
                         } else {
                             return '<i class="fa-solid fa-square-xmark" style="color:red;"></i>';
                         }
                     })
                     ->addColumn('sem_2', function ($data) {
-                        if($data->status_keputusan_2 == 1)
-                        {
+                        if ($data->status_keputusan_2 == 1) {
                             $date = Utils::getTarikhPeperiksaan('2', $data->id);
                             $icon = '<i class="fa-solid fa-square-check" style="color:green;"></i>';
-                            
-                            return '<span style="text-align:center">' . $icon . '<br>' . $date . '</span>';
+
+                            return '<span style="text-align:center">'.$icon.'<br>'.$date.'</span>';
                         } else {
                             return '<i class="fa-solid fa-square-xmark" style="color:red;"></i>';
                         }
                     })
                     ->addColumn('sem_3', function ($data) {
-                        if($data->status_keputusan_3 == 1)
-                        {
+                        if ($data->status_keputusan_3 == 1) {
                             $date = Utils::getTarikhPeperiksaan('3', $data->id);
                             $icon = '<i class="fa-solid fa-square-check" style="color:green;"></i>';
-                            
-                            return '<span style="text-align:center">' . $icon . '<br>' . $date . '</span>';
+
+                            return '<span style="text-align:center">'.$icon.'<br>'.$date.'</span>';
                         } else {
                             return '<i class="fa-solid fa-square-xmark" style="color:red;"></i>';
                         }
                     })
                     ->addColumn('sem_4', function ($data) {
-                        if($data->status_keputusan_4 == 1)
-                        {
+                        if ($data->status_keputusan_4 == 1) {
                             $date = Utils::getTarikhPeperiksaan('4', $data->id);
                             $icon = '<i class="fa-solid fa-square-check" style="color:green;"></i>';
-                            
-                            return '<span style="text-align:center">' . $icon . '<br>' . $date . '</span>';
+
+                            return '<span style="text-align:center">'.$icon.'<br>'.$date.'</span>';
                         } else {
                             return '<i class="fa-solid fa-square-xmark" style="color:red;"></i>';
                         }
                     })
                     ->addColumn('sem_5', function ($data) {
-                        if($data->status_keputusan_5 == 1)
-                        {
+                        if ($data->status_keputusan_5 == 1) {
                             $date = Utils::getTarikhPeperiksaan('5', $data->id);
                             $icon = '<i class="fa-solid fa-square-check" style="color:green;"></i>';
-                            
-                            return '<span style="text-align:center">' . $icon . '<br>' . $date . '</span>';
+
+                            return '<span style="text-align:center">'.$icon.'<br>'.$date.'</span>';
                         } else {
                             return '<i class="fa-solid fa-square-xmark" style="color:red;"></i>';
                         }
                     })
                     ->addColumn('sem_6', function ($data) {
-                        if($data->status_keputusan_6 == 1)
-                        {
+                        if ($data->status_keputusan_6 == 1) {
                             $date = Utils::getTarikhPeperiksaan('6', $data->id);
                             $icon = '<i class="fa-solid fa-square-check" style="color:green;"></i>';
-                            
-                            return '<span style="text-align:center">' . $icon . '<br>' . $date . '</span>';
+
+                            return '<span style="text-align:center">'.$icon.'<br>'.$date.'</span>';
                         } else {
                             return '<i class="fa-solid fa-square-xmark" style="color:red;"></i>';
                         }
                     })
                     ->addColumn('sem_7', function ($data) {
-                        if($data->status_keputusan_7 == 1)
-                        {
+                        if ($data->status_keputusan_7 == 1) {
                             $date = Utils::getTarikhPeperiksaan('7', $data->id);
                             $icon = '<i class="fa-solid fa-square-check" style="color:green;"></i>';
-                            
-                            return '<span style="text-align:center">' . $icon . '<br>' . $date . '</span>';
+
+                            return '<span style="text-align:center">'.$icon.'<br>'.$date.'</span>';
                         } else {
                             return '<i class="fa-solid fa-square-xmark" style="color:red;"></i>';
                         }
                     })
                     ->addColumn('sem_8', function ($data) {
-                        if($data->status_keputusan_8 == 1)
-                        {
+                        if ($data->status_keputusan_8 == 1) {
                             $date = Utils::getTarikhPeperiksaan('8', $data->id);
                             $icon = '<i class="fa-solid fa-square-check" style="color:green;"></i>';
-                            
-                            return '<span style="text-align:center">' . $icon . '<br>' . $date . '</span>';
+
+                            return '<span style="text-align:center">'.$icon.'<br>'.$date.'</span>';
                         } else {
                             return '<i class="fa-solid fa-square-xmark" style="color:red;"></i>';
                         }
                     })
                     ->addColumn('status_keputusan_ulangan', function ($data) {
-                        if($data->status_keputusan_ulangan == 1)
-                        {
+                        if ($data->status_keputusan_ulangan == 1) {
                             return '<i class="fa-solid fa-square-check" style="color:green;"></i>';
                         } else {
                             return '<i class="fa-solid fa-square-xmark" style="color:red;"></i>';
                         }
                     })
                     ->addColumn('action', function ($data) {
-                        return '<a href="'.route($this->baseRoute . 'edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                        return '<a href="'.route($this->baseRoute.'edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                     <i class="fa fa-pencil-alt"></i>
                                 </a>
                             ';
@@ -195,7 +187,7 @@ class KemaskiniPaparanKeputusanController extends Controller
                 ])
                 ->minifiedAjax();
 
-            $courses    = Kursus::where('deleted_at', NULL)->pluck('nama', 'id');
+            $courses = Kursus::where('deleted_at', null)->pluck('nama', 'id');
 
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable', 'courses'));
 
@@ -221,7 +213,6 @@ class KemaskiniPaparanKeputusanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -251,11 +242,11 @@ class KemaskiniPaparanKeputusanController extends Controller
         try {
 
             $title = 'Kemaskini Paparan Peperiksaan';
-            $action = route($this->baseRoute . 'update', $id);
+            $action = route($this->baseRoute.'update', $id);
             $page_title = 'Kemaskini Paparan Peperiksaan';
             $breadcrumbs = [
                 'Peperiksaan' => false,
-                'Paparan Peperiksaan' => route($this->baseRoute . 'index'),
+                'Paparan Peperiksaan' => route($this->baseRoute.'index'),
                 'Kemaskini Paparan Peperiksaan' => false,
             ];
 
@@ -270,21 +261,21 @@ class KemaskiniPaparanKeputusanController extends Controller
             $tarikh_sem_7 = Utils::getTarikhPeperiksaan('7', $id);
             $tarikh_sem_8 = Utils::getTarikhPeperiksaan('8', $id);
 
-            return view($this->baseView.'edit', compact('model', 
-            'title', 
-            'breadcrumbs', 
-            'page_title', 
-            'action', 
-            'model',
-            'tarikh_sem_1',
-            'tarikh_sem_2',
-            'tarikh_sem_3',
-            'tarikh_sem_4',
-            'tarikh_sem_5',
-            'tarikh_sem_6',
-            'tarikh_sem_7',
-            'tarikh_sem_8',
-        ));
+            return view($this->baseView.'edit', compact('model',
+                'title',
+                'breadcrumbs',
+                'page_title',
+                'action',
+                'model',
+                'tarikh_sem_1',
+                'tarikh_sem_2',
+                'tarikh_sem_3',
+                'tarikh_sem_4',
+                'tarikh_sem_5',
+                'tarikh_sem_6',
+                'tarikh_sem_7',
+                'tarikh_sem_8',
+            ));
 
         } catch (Exception $e) {
             report($e);
@@ -298,7 +289,6 @@ class KemaskiniPaparanKeputusanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -314,18 +304,17 @@ class KemaskiniPaparanKeputusanController extends Controller
             $update->status_keputusan_6 = $request->status_sem_6 ?? 0;
             $update->status_keputusan_7 = $request->status_sem_7 ?? 0;
             $update->status_keputusan_8 = $request->status_sem_8 ?? 0;
-            $update->status_keputusan_ulangan = $request->status_kep_ulangan?? 0;
+            $update->status_keputusan_ulangan = $request->status_kep_ulangan ?? 0;
             $update->save();
 
             $dates = $request->tarikh_sem;
 
-            foreach($dates as $key => $value)
-            {
+            foreach ($dates as $key => $value) {
                 TarikhKeputusan::updateOrCreate([
                     'semester_no' => $key,
                     'semester_terkini_id' => $id,
-                ],[
-                    'tarikh_keputusan' => !empty($value) ? Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d') : null
+                ], [
+                    'tarikh_keputusan' => ! empty($value) ? Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d') : null,
                 ]);
             }
 

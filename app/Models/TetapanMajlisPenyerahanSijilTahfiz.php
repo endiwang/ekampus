@@ -11,5 +11,6 @@ class TetapanMajlisPenyerahanSijilTahfiz extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'tetapan_majlis_penyerahan_sijil_tahfizs';
+
     protected $guarded = ['id'];
 }

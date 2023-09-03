@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::table('permohonan_sijil_tahfizs', function (Blueprint $table) {
             $table->integer('status_kehadiran')->nullable();
             $table->integer('status_janaan_jemputan')->nullable();
-           
+
         });
     }
 

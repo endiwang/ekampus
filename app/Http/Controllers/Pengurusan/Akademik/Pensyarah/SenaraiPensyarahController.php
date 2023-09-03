@@ -47,10 +47,10 @@ class SenaraiPensyarahController extends Controller
 
             if (request()->ajax()) {
                 $data = Staff::with('pusatPengajian', 'jabatan')->where('is_pensyarah', 'Y');
-                if ($request->has('nama_kakitangan') && $request->nama_kakitangan != null) {                    
+                if ($request->has('nama_kakitangan') && $request->nama_kakitangan != null) {
                     $data->where('nama', 'LIKE', '%'.$request->nama_kakitangan.'%');
                 }
-                if ($request->has('mykad') && $request->mykad != null) {                    
+                if ($request->has('mykad') && $request->mykad != null) {
                     $data->where('no_ic', 'LIKE', '%'.$request->mykad.'%');
                 }
                 if ($request->has('pusat_pengajian') && $request->pusat_pengajian != null) {

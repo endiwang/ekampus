@@ -84,9 +84,9 @@ class MainPelajarController extends Controller
 
     public function find(Request $request)
     {
-        if(!empty($request->search))
-        {
-            return Pelajar::where('nama', 'LIKE', '%' . $request->search . '%')->limit(10)->pluck('nama', 'id')->toArray();
+        if (! empty($request->search)) {
+            return Pelajar::where('nama', 'LIKE', '%'.$request->search.'%')->limit(10)->pluck('nama', 'id')->toArray();
+
             return $data;
         }
     }

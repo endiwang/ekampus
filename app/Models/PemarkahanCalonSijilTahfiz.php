@@ -11,25 +11,31 @@ class PemarkahanCalonSijilTahfiz extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'pemarkahan_calon_sijil_tahfizs';
+
     protected $guarded = ['id'];
 
-    public function permohonanSijilTahfiz(){
+    public function permohonanSijilTahfiz()
+    {
         return $this->belongsTo(PermohonanSijilTahfiz::class, 'permohonan_id', 'id');
     }
 
-    public function pelajar(){
+    public function pelajar()
+    {
         return $this->belongsTo(Pelajar::class);
     }
 
-    public function pemohon(){
+    public function pemohon()
+    {
         return $this->belongsTo(Pemohon::class);
     }
 
-    public function permohonan(){
+    public function permohonan()
+    {
         return $this->belongsTo(Permohonan::class);
     }
 
-    public function permohonanSijilTahfizs(){
+    public function permohonanSijilTahfizs()
+    {
         return $this->hasMany(PermohonanSijilTahfiz::class, 'permohonan_id', 'id');
     }
 }

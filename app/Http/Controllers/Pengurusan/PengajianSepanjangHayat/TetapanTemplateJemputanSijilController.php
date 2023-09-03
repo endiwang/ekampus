@@ -21,65 +21,66 @@ class TetapanTemplateJemputanSijilController extends Controller
      */
     public function index(Builder $builder)
     {
-        $title = "Tetapan Template Jemputan Majlis Pensijilan";
+        $title = 'Tetapan Template Jemputan Majlis Pensijilan';
         $breadcrumbs = [
-            "Jabatan Pengajian Sepanjang Hayat" =>  '#',
-            "Majlis Pensijilan" =>  '#',
-            "Tetapan Template Jemputan Majlis Pensijilan " =>  '#',
+            'Jabatan Pengajian Sepanjang Hayat' => '#',
+            'Majlis Pensijilan' => '#',
+            'Tetapan Template Jemputan Majlis Pensijilan ' => '#',
         ];
         $buttons = [
             [
-                'title' => "Tambah",
+                'title' => 'Tambah',
                 'route' => route('pengurusan.pengajian_sepanjang_hayat.tetapan.template_jemputan_sijil.create'),
-                'button_class' => "btn btn-sm btn-primary fw-bold",
-                'icon_class' => "fa fa-plus-circle"
+                'button_class' => 'btn btn-sm btn-primary fw-bold',
+                'icon_class' => 'fa fa-plus-circle',
             ],
         ];
 
         if (request()->ajax()) {
             $data = TemplateJemputanMajlisPensijilan::all();
+
             return DataTables::of($data)
-            ->addColumn('status_edit', function($data) {
-                switch ($data->status) {
-                    case 1:
-                        return '<span class="badge py-3 px-4 fs-7 badge-light-success">Buka</span>';
-                      break;
-                    case 0:
-                        return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tutup</span>';
-                    default:
-                      return '';
-                  }
-            })
-            ->addColumn('action', function($data){
-                $btn =' <a href="'.route('pengurusan.pengajian_sepanjang_hayat.tetapan.template_jemputan_sijil.edit',$data->id).'" class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip" title="Pinda"><i class="fa fa-pencil"></i></a>';
-                $btn .=' <a class="btn btn-icon btn-danger btn-sm" onclick="remove('.$data->id .')" data-bs-toggle="tooltip" title="Hapus">
+                ->addColumn('status_edit', function ($data) {
+                    switch ($data->status) {
+                        case 1:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-success">Buka</span>';
+                            break;
+                        case 0:
+                            return '<span class="badge py-3 px-4 fs-7 badge-light-danger">Tutup</span>';
+                        default:
+                            return '';
+                    }
+                })
+                ->addColumn('action', function ($data) {
+                    $btn = ' <a href="'.route('pengurusan.pengajian_sepanjang_hayat.tetapan.template_jemputan_sijil.edit', $data->id).'" class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip" title="Pinda"><i class="fa fa-pencil"></i></a>';
+                    $btn .= ' <a class="btn btn-icon btn-danger btn-sm" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
                     <i class="fa fa-trash"></i>
                     </a>
-                    <form id="delete-'.$data->id.'" action="'.route('pengurusan.pengajian_sepanjang_hayat.tetapan.template_jemputan_sijil.destroy',$data->id).'" method="POST">
+                    <form id="delete-'.$data->id.'" action="'.route('pengurusan.pengajian_sepanjang_hayat.tetapan.template_jemputan_sijil.destroy', $data->id).'" method="POST">
                         <input type="hidden" name="_token" value="'.csrf_token().'">
                         <input type="hidden" name="_method" value="DELETE">
                     </form>';
 
-                 return $btn;
-            })
-            ->addIndexColumn()
-            ->rawColumns(['status_edit','action'])
-            ->toJson();
+                    return $btn;
+                })
+                ->addIndexColumn()
+                ->rawColumns(['status_edit', 'action'])
+                ->toJson();
         }
 
         $html = $builder
-        ->parameters([
+            ->parameters([
 
-        ])
-        ->columns([
-            [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false, 'orderable'=> false],
-            ['data' => 'name', 'name' => 'name', 'title' => 'Nama Template', 'orderable'=> true],
-            ['data' => 'status_edit', 'name' => 'status_edit', 'title' => 'Status', 'orderable'=> false],
-            ['data' => 'action', 'name' => 'action','title' => 'Tindakan', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
-        ])
-        ->minifiedAjax();
+            ])
+            ->columns([
+                ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false, 'orderable' => false],
+                ['data' => 'name', 'name' => 'name', 'title' => 'Nama Template', 'orderable' => true],
+                ['data' => 'status_edit', 'name' => 'status_edit', 'title' => 'Status', 'orderable' => false],
+                ['data' => 'action', 'name' => 'action', 'title' => 'Tindakan', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
+            ])
+            ->minifiedAjax();
 
-        return view('pages.pengurusan.pengajian_sepanjang_hayat.tetapan.template_jemputan_sijil.main', compact('title','breadcrumbs', 'html', 'buttons'));
+        return view('pages.pengurusan.pengajian_sepanjang_hayat.tetapan.template_jemputan_sijil.main', compact('title', 'breadcrumbs', 'html', 'buttons'));
     }
 
     /**
@@ -89,16 +90,16 @@ class TetapanTemplateJemputanSijilController extends Controller
      */
     public function create()
     {
-        $title = "Tambah Template Jemputan Majlis Pensijilan";
+        $title = 'Tambah Template Jemputan Majlis Pensijilan';
         $breadcrumbs = [
-            "Jabatan Pengajian Sepanjang Hayat" =>  false,
-            "Majlis Pensijilan" =>  false,
-            "Tetapan Template Jemputan Majlis Pensijilan" =>  false,
-            "Tambah Template Jemputan Majlis Pensijilan" =>  false,
+            'Jabatan Pengajian Sepanjang Hayat' => false,
+            'Majlis Pensijilan' => false,
+            'Tetapan Template Jemputan Majlis Pensijilan' => false,
+            'Tambah Template Jemputan Majlis Pensijilan' => false,
         ];
 
         $majlis = TetapanMajlisPenyerahanSijilTahfiz::where('status', 1)->whereNull('deleted_at')->get()->pluck('nama', 'id');
-        
+
         $data = [
             'title' => $title,
             'breadcrumbs' => $breadcrumbs,
@@ -111,16 +112,15 @@ class TetapanTemplateJemputanSijilController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'  => 'required',
+            'name' => 'required',
             'majlis_id' => 'required',
-            'template'  => 'required',
-        ],[
+            'template' => 'required',
+        ], [
             'name.required' => 'Sila masukkan nama sijil.',
             'majlis_id.required' => 'Sila pilih Majlis',
             'template.required' => 'Ruangan ini perlu diisi.',
@@ -162,12 +162,12 @@ class TetapanTemplateJemputanSijilController extends Controller
      */
     public function edit($id)
     {
-        $title = "Kemaskini Template Jemputan Majlis Pensijilan";
+        $title = 'Kemaskini Template Jemputan Majlis Pensijilan';
         $breadcrumbs = [
-            "Jabatan Pengajian Sepanjang Hayat" =>  false,
-            "Majlis Pensijilan" =>  false,
-            "Tetapan Template Jemputan Majlis Pensijilan" =>  false,
-            "Kemaskini Template Jemputan Majlis Pensijilan" =>  false,
+            'Jabatan Pengajian Sepanjang Hayat' => false,
+            'Majlis Pensijilan' => false,
+            'Tetapan Template Jemputan Majlis Pensijilan' => false,
+            'Kemaskini Template Jemputan Majlis Pensijilan' => false,
         ];
 
         $template = TemplateJemputanMajlisPensijilan::find($id);
@@ -185,17 +185,16 @@ class TetapanTemplateJemputanSijilController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'name'  => 'required',
+            'name' => 'required',
             'majlis_id' => 'required',
-            'template'  => 'required',
-        ],[
+            'template' => 'required',
+        ], [
             'name.required' => 'Sila masukkan nama sijil.',
             'majlis_id.required' => 'Sila pilih Majlis',
             'template.required' => 'Ruangan ini perlu diisi.',
@@ -203,7 +202,7 @@ class TetapanTemplateJemputanSijilController extends Controller
 
         DB::beginTransaction();
         try {
-            TemplateJemputanMajlisPensijilan::where('id', $id)->update($request->except('_token','_method'));
+            TemplateJemputanMajlisPensijilan::where('id', $id)->update($request->except('_token', '_method'));
 
             Alert::toast('Tetapan Berjaya Dikemaskini', 'success');
             DB::commit();
@@ -227,6 +226,7 @@ class TetapanTemplateJemputanSijilController extends Controller
     {
         TemplateJemputanMajlisPensijilan::where('id', $id)->delete();
         Alert::toast('Tetapan Dibuang', 'success');
+
         return redirect()->route('pengurusan.pengajian_sepanjang_hayat.tetapan.template_jemputan_sijil.index');
     }
 }

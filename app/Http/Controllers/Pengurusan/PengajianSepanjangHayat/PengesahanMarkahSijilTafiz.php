@@ -13,68 +13,70 @@ use Yajra\DataTables\Html\Builder;
 
 class PengesahanMarkahSijilTafiz extends Controller
 {
-    public function index(Builder $builder){
-        $title = "Peperiksaan & Pemarkahan";
+    public function index(Builder $builder)
+    {
+        $title = 'Peperiksaan & Pemarkahan';
         $breadcrumbs = [
-            "Jabatan Pengajian Sepanjang Hayat" =>  '#',
-            "Peperiksaan & Pemarkahan" =>  '#',
-            "Calon Sijil Tahfiz" => '#',
+            'Jabatan Pengajian Sepanjang Hayat' => '#',
+            'Peperiksaan & Pemarkahan' => '#',
+            'Calon Sijil Tahfiz' => '#',
         ];
 
         if (request()->ajax()) {
             $data = PemarkahanCalonSijilTahfiz::where('status_hadir_ujian_shafawi', 1)
-            ->where('status_hadir_ujian_tahriri', 1)
-            ->where('status_hadir_ujian_pengetahuan_islam', 1)
-            ->get();
+                ->where('status_hadir_ujian_tahriri', 1)
+                ->where('status_hadir_ujian_pengetahuan_islam', 1)
+                ->get();
 
             return DataTables::of($data)
-            ->addColumn('nama_pemohon', function($data) {
-                return $data->permohonanSijilTahfiz->name;
-            })
-            ->addColumn('no_id', function($data) {
-                return $data->pemohon->username;
-            })
-            ->addColumn('action', function($data){
-                $btn = '<a href="'.route('pengurusan.pengajian_sepanjang_hayat.pemarkahan.pengesahan_markah_sijil_tahfiz.show',$data->id).'" class="btn btn-icon btn-info btn-sm" data-bs-toggle="tooltip" title="Lihat"><i class="fa fa-eye"></i></a>';
-                if($data->approval){
-                    $btn .=' <a href="javascript:void(0)" class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip" title="Pengesahan Keputusan"><i class="fa fa-file-signature"></a>';
-                } else {
-                    $btn .=' <a href="'.route('pengurusan.pengajian_sepanjang_hayat.pemarkahan.pengesahan_markah_sijil_tahfiz.edit',$data->id).'" class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip" title="Pengesahan Keputusan"><i class="fa fa-signature"></a>';
-                }
+                ->addColumn('nama_pemohon', function ($data) {
+                    return $data->permohonanSijilTahfiz->name;
+                })
+                ->addColumn('no_id', function ($data) {
+                    return $data->pemohon->username;
+                })
+                ->addColumn('action', function ($data) {
+                    $btn = '<a href="'.route('pengurusan.pengajian_sepanjang_hayat.pemarkahan.pengesahan_markah_sijil_tahfiz.show', $data->id).'" class="btn btn-icon btn-info btn-sm" data-bs-toggle="tooltip" title="Lihat"><i class="fa fa-eye"></i></a>';
+                    if ($data->approval) {
+                        $btn .= ' <a href="javascript:void(0)" class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip" title="Pengesahan Keputusan"><i class="fa fa-file-signature"></a>';
+                    } else {
+                        $btn .= ' <a href="'.route('pengurusan.pengajian_sepanjang_hayat.pemarkahan.pengesahan_markah_sijil_tahfiz.edit', $data->id).'" class="btn btn-icon btn-primary btn-sm" data-bs-toggle="tooltip" title="Pengesahan Keputusan"><i class="fa fa-signature"></a>';
+                    }
 
-                return $btn;
-            })
-            ->addIndexColumn()
-            ->order(function ($data) {
-                // $data->orderBy('id', 'desc');
-            })
-            ->rawColumns(['action'])
-            ->toJson();
+                    return $btn;
+                })
+                ->addIndexColumn()
+                ->order(function ($data) {
+                    // $data->orderBy('id', 'desc');
+                })
+                ->rawColumns(['action'])
+                ->toJson();
         }
 
         $html = $builder
-        ->parameters([
-            // 'language' => '{ "lengthMenu": "Show _MENU_", }',
-            // 'dom' => $dom_setting,
-        ])
-        ->columns([
-            [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false, 'orderable'=> false],
-            ['data' => 'nama_pemohon', 'name' => 'name', 'title' => 'Nama Pemohon', 'orderable'=> false],
-            ['data' => 'no_id', 'name' => 'no_id', 'title' => 'No Kad Pengenalan', 'orderable'=> false],
-            ['data' => 'action', 'name' => 'action','title' => 'Tindakan', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+            ->parameters([
+                // 'language' => '{ "lengthMenu": "Show _MENU_", }',
+                // 'dom' => $dom_setting,
+            ])
+            ->columns([
+                ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false, 'orderable' => false],
+                ['data' => 'nama_pemohon', 'name' => 'name', 'title' => 'Nama Pemohon', 'orderable' => false],
+                ['data' => 'no_id', 'name' => 'no_id', 'title' => 'No Kad Pengenalan', 'orderable' => false],
+                ['data' => 'action', 'name' => 'action', 'title' => 'Tindakan', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
 
-        ])
-        ->minifiedAjax();
+            ])
+            ->minifiedAjax();
 
-        return view('pages.pengurusan.pengajian_sepanjang_hayat.peperiksaan_pemarkahan.pengesahan_markah_sijil_tahfiz.main', compact('title','breadcrumbs', 'html'));
+        return view('pages.pengurusan.pengajian_sepanjang_hayat.peperiksaan_pemarkahan.pengesahan_markah_sijil_tahfiz.main', compact('title', 'breadcrumbs', 'html'));
     }
 
-    public function show($id){
-        $title = "Lihat Keputusan";
+    public function show($id)
+    {
+        $title = 'Lihat Keputusan';
         $breadcrumbs = [
-            "Jabatan Pengajian Sepanjang Hayat" =>  false,
-            "Peperiksaan & Pemarkahan" =>  false,
-            "Lihat Keputusan" => false,
+            'Jabatan Pengajian Sepanjang Hayat' => false,
+            'Peperiksaan & Pemarkahan' => false,
+            'Lihat Keputusan' => false,
         ];
 
         $pemarkahan = PemarkahanCalonSijilTahfiz::find($id);
@@ -91,12 +93,13 @@ class PengesahanMarkahSijilTafiz extends Controller
         return view('pages.pengurusan.pengajian_sepanjang_hayat.peperiksaan_pemarkahan.pengesahan_markah_sijil_tahfiz.view', $data);
     }
 
-    public function edit($id){
-        $title = "Pengesahan Keputusan";
+    public function edit($id)
+    {
+        $title = 'Pengesahan Keputusan';
         $breadcrumbs = [
-            "Jabatan Pengajian Sepanjang Hayat" =>  false,
-            "Peperiksaan & Pemarkahan" =>  false,
-            "Pengesahan Keputusan" => false,
+            'Jabatan Pengajian Sepanjang Hayat' => false,
+            'Peperiksaan & Pemarkahan' => false,
+            'Pengesahan Keputusan' => false,
         ];
 
         $pemarkahan = PemarkahanCalonSijilTahfiz::find($id);
@@ -113,12 +116,13 @@ class PengesahanMarkahSijilTafiz extends Controller
         return view('pages.pengurusan.pengajian_sepanjang_hayat.peperiksaan_pemarkahan.pengesahan_markah_sijil_tahfiz.edit', $data);
     }
 
-    public function update(Request $request, $id){
-        
+    public function update(Request $request, $id)
+    {
+
         DB::beginTransaction();
 
         try {
-            if($request->has('approval')){
+            if ($request->has('approval')) {
                 $request['approval_staff_id'] = Auth::id();
                 PemarkahanCalonSijilTahfiz::where('id', $id)->update($request->except('_token', '_method'));
             }

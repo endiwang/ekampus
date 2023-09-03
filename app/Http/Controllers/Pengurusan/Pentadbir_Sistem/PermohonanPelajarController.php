@@ -330,17 +330,17 @@ class PermohonanPelajarController extends Controller
     public function fetchSesi(Request $request)
     {
 
-        $sesi = Sesi::select('id','nama')->where('kursus_id',$request->kursus_id)->where('is_deleted',0)->get();
+        $sesi = Sesi::select('id', 'nama')->where('kursus_id', $request->kursus_id)->where('is_deleted', 0)->get();
 
-        $response = array();
-            foreach($sesi as $datum){
-                $response[] = array(
-                        "id"=>$datum->id,
-                        "text"=>$datum->nama
-                );
-            }
+        $response = [];
+        foreach ($sesi as $datum) {
+            $response[] = [
+                'id' => $datum->id,
+                'text' => $datum->nama,
+            ];
+        }
+
         return response()->json($response);
-
 
         // return $sesi;
     }
