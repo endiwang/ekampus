@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Pengurusan\HEP\KemahiranInsaniah\PilihanRayaController;
 use App\Http\Controllers\LookupController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\BorangKepuasanPelangganController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\KaunselingController;
@@ -57,6 +58,21 @@ Route::group(['prefix' => 'pengurusan', 'as' => 'pengurusan.'], function () {
     Route::post('program_pelajar/{id}/pilih_pelajar_store', [PengurusanProgramPelajarController::class, 'pilih_pelajar_store'])->name('program_pelajar.pilih_pelajar_store');
     Route::resource('program_pelajar', PengurusanProgramPelajarController::class);
 });
+
+/** Kemahiran Insaniah */
+Route::middleware(['web', 'auth'])
+    ->group(function () {
+        Route::get('kemahiran-insaniah/pilihan-raya', [PilihanRayaController::class, 'index'])
+            ->name('kemahiran-insaniah.pilihan-raya.index');
+        Route::get('kemahiran-insaniah/pilihan-raya/create', [PilihanRayaController::class, 'create'])
+            ->name('kemahiran-insaniah.pilihan-raya.create');
+        Route::get('kemahiran-insaniah/pilihan-raya/{id}/edit', [PilihanRayaController::class, 'edit'])
+            ->name('kemahiran-insaniah.pilihan-raya.edit');
+        Route::get('kemahiran-insaniah/pilihan-raya/{id}/show', [PilihanRayaController::class, 'show'])
+            ->name('kemahiran-insaniah.pilihan-raya.show');
+        Route::delete('kemahiran-insaniah/pilihan-raya/{id}', [PilihanRayaController::class, 'destroy'])
+            ->name('kemahiran-insaniah.pilihan-raya.destroy');
+    });
 
 /** Kaunseling */
 Route::middleware(['web', 'auth'])

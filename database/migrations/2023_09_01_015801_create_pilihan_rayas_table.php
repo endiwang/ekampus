@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('semester')->comment('sesi pilihan raya untuk musim / semester');
             $table->json('fasal_2')->nullable();
             $table->json('fasal_3')->nullable();
-            $table->string('jenis')->nullable();
+            $table->string('jenis')->nullable()->comment('Ijazah,Diploma,Sijil');
             $table->date('tarikh_penamaan_calon')->nullable();
             $table->date('tarikh_mengundi')->nullable();
             $table->timestamps();
