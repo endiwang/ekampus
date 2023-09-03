@@ -3,8 +3,6 @@
 namespace App\Http\Livewire\Forms\KemahiranInsaniah;
 
 use App\Models\KemahiranInsaniah\PilihanRaya\Sesi;
-use App\Models\Semester;
-use App\Models\SemesterTerkini;
 use Livewire\Component;
 
 class PilihanRaya extends Component
@@ -45,7 +43,7 @@ class PilihanRaya extends Component
         $id = data_get($this->state, 'id');
         unset($this->state['id']);
 
-        if($id) {
+        if ($id) {
             Sesi::query()
                 ->where('id', $id)
                 ->update($this->state);

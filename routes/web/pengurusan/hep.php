@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\Pengurusan\HEP\KemahiranInsaniah\PilihanRayaController;
 use App\Http\Controllers\LookupController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\BorangKepuasanPelangganController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\KaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\LaporanKaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\RekodKaunselingController;
+use App\Http\Controllers\Pengurusan\HEP\KemahiranInsaniah\PilihanRayaController;
 use App\Http\Controllers\Pengurusan\HEP\MainHEPController;
 use App\Http\Controllers\Pengurusan\HEP\PusatIslam\AktivitiController;
 use App\Http\Controllers\Pengurusan\HEP\PusatIslam\JadualTugasanController;
