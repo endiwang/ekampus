@@ -137,7 +137,8 @@
                         @include('layouts.master.sidebar.pusat-islam')
                     @elseif(Request::routeIs('pengurusan.pentadbiran.*'))
                         @include('layouts.master.sidebar.pentadbiran')
-                    {{-- sidebar menu --}}
+					{{-- sidebar menu --}}
+
                     @else
                         @include('layouts.master.sidebar.utama')
                     @endif

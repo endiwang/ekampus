@@ -645,6 +645,7 @@ class KualitiController extends Controller
             if (request()->ajax()) {
 
                 $data = MaklumatKursusDanLatihan::where('fk_kursus_dan_latihan', $request->id)->get();
+
                 // dd($data);
                 return DataTables::of($data)
                 // ->addColumn('document_name', function($data) {
@@ -853,6 +854,7 @@ class KualitiController extends Controller
             if (request()->ajax()) {
 
                 $data = Akreditasi::get();
+
                 // dd($data);
                 return DataTables::of($data)
                     ->addColumn('document_name', function ($data) {
@@ -1483,6 +1485,7 @@ class KualitiController extends Controller
             if (request()->ajax()) {
 
                 $data = RekodKompetensiPensyarah::get();
+
                 // dd($data);
                 return DataTables::of($data)
                 // ->addColumn('document_name', function($data) {
@@ -1723,6 +1726,7 @@ class KualitiController extends Controller
             if (request()->ajax()) {
 
                 $data = Penyelidikan::get();
+
                 // dd($data);
                 return DataTables::of($data)
                     ->addColumn('document_name', function ($data) {
@@ -2072,6 +2076,7 @@ class KualitiController extends Controller
             if (request()->ajax()) {
 
                 $data = PenyumbangArtikel::get();
+
                 // dd($data);
                 return DataTables::of($data)
                 // ->addColumn('document_name', function($data) {
@@ -2292,6 +2297,7 @@ class KualitiController extends Controller
             if (request()->ajax()) {
 
                 $data = EditorArtikel::get();
+
                 // dd($data);
                 return DataTables::of($data)
                 // ->addColumn('document_name', function($data) {
@@ -2521,6 +2527,7 @@ class KualitiController extends Controller
             if (request()->ajax()) {
 
                 $data = Artikel::with('editor.staff', 'komen')->where('penyumbang', Auth::user()->id)->get();
+
                 // dd($data);
                 return DataTables::of($data)
                     ->addColumn('document_name', function ($data) {
@@ -2647,6 +2654,7 @@ class KualitiController extends Controller
             if (request()->ajax()) {
 
                 $data = Artikel::with('editor.staff', 'komen')->whereIn('status', [1])->get();
+
                 // dd($data);
                 return DataTables::of($data)
                     ->addColumn('document_name', function ($data) {
@@ -2823,6 +2831,7 @@ class KualitiController extends Controller
             if (request()->ajax()) {
 
                 $data = Artikel::whereIn('status', [4])->get();
+
                 // dd($data);
                 return DataTables::of($data)
                     ->addColumn('document_name', function ($data) {
