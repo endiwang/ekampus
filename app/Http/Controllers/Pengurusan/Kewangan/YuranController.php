@@ -257,7 +257,9 @@ class YuranController extends Controller
         $data['page_title'] = 'Kemaskini Bil & Bayaran';
         $data['action'] = route($this->baseRoute . 'update', [$id, $bil_id]);
         $data['yuran'] = $yuran;
+        $data['yuran_detail'] = YuranDetail::where('yuran_id', $id)->get();
         $data['model'] = Bil::find($bil_id);
+        $data['bil_detail'] = BilDetail::where('bil_id', $bil_id)->get();
         $data['pelajar'] = Pelajar::limit(10)->pluck('nama', 'id')->toArray();
         $data['status'] = Bil::getStatusSelection();
         $data['bayaran'] = Bayaran::where('bil_id', $bil_id)->first();

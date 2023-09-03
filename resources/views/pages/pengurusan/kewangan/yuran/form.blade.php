@@ -61,39 +61,54 @@
                                             <td style="width:20px"></td>
                                         </thead>
                                         <tbody id="tbodyCaj">
-                                            @php $i = 1; @endphp
-                                            @forelse($yuran_detail as $yuran)
-                                            <tr>
-                                                <td>
-                                                    {{ Form::text('nama_yuran[]', $yuran->nama, ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required' => 'required']) }}
-                                                </td>
-                                                <td>
-                                                    {{ Form::number('amaun[]', $yuran->amaun, ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required' => 'required']) }}
-                                                </td>
-                                                <td>
-                                                    @if($i != 1)
-                                                    <button type="button" class="btn btn-danger btn-sm float-end btn-remove-tr"><i class="fa fa-minus"></i></button>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @php $i++; @endphp
-                                            @empty
-                                            <tr>
-                                                <td>
-                                                    {{ Form::text('nama_yuran[]', '', ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required' => 'required']) }}
-                                                </td>
-                                                <td>
-                                                    {{ Form::number('amaun[]', '', ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required' => 'required']) }}
-                                                </td>
-                                                <td></td>
-                                            </tr>
-                                            @endforelse
+                                            @if($model->id)
+                                                @foreach($bil_detail as $bil_det)
+                                                <tr>
+                                                    <td>
+                                                        {{ Form::text('', $bil_det->description, ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'disabled']) }}
+                                                    </td>
+                                                    <td>
+                                                        {{ Form::number('', $bil_det->amaun, ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'disabled']) }}
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            @else
+                                                @php $i = 1; @endphp
+                                                @forelse($yuran_detail as $yuran)
+                                                <tr>
+                                                    <td>
+                                                        {{ Form::text('nama_yuran[]', $yuran->nama, ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required' => 'required']) }}
+                                                    </td>
+                                                    <td>
+                                                        {{ Form::number('amaun[]', $yuran->amaun, ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required' => 'required']) }}
+                                                    </td>
+                                                    <td>
+                                                        @if($i != 1)
+                                                        <button type="button" class="btn btn-danger btn-sm float-end btn-remove-tr"><i class="fa fa-minus"></i></button>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                                @php $i++; @endphp
+                                                @empty
+                                                <tr>
+                                                    <td>
+                                                        {{ Form::text('nama_yuran[]', '', ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required' => 'required']) }}
+                                                    </td>
+                                                    <td>
+                                                        {{ Form::number('amaun[]', '', ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required' => 'required']) }}
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                                @endforelse
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>
+                                @if(!$model->id)
                                 <div class="col-lg-12">
                                     <button type="button" id="btnAddMore" class="btn btn-success btn-sm float-end"><i class="fa fa-plus"></i></button>
                                 </div>
+                                @endif
                             </div>
                             @if($model->id)
                                 <hr>
