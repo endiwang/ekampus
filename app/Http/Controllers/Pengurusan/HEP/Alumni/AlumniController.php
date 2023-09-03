@@ -172,7 +172,7 @@ class AlumniController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update alumni personal information (affect table pelajar)
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -180,7 +180,31 @@ class AlumniController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nama' => 'required|string',
+            'no_ic' => 'required|numeric',
+            'no_matrik' => 'required',
+            'email' => 'nullable|email',
+            'no_tel' => 'required',
+            'alamat' => 'required',
+            'poskod' => 'required',
+            'bandar' => 'required',
+        ]);
+
+        $pelajar = Pelajar::find($id);
+        $pelajar->nama = $request->nama;
+        $pelajar->no_ic = $request->no_ic;
+        $pelajar->no_matrik = $request->no_matrik;
+        $pelajar->email = $request->email;
+        $pelajar->no_tel = $request->no_tel;
+        $pelajar->alamat = $request->alamat;
+        $pelajar->poskod = $request->poskod;
+        $pelajar->bandar = $request->bandar;
+        $pelajar->save();
+
+        Alert::toast('Maklumat pelajar dikemaskini!', 'success');
+
+        return redirect()->route('pengurusan.hep.alumni.edit', $id);
     }
 
     /**

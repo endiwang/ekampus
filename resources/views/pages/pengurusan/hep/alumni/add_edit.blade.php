@@ -13,9 +13,7 @@
                         </div>
                         <div class="card-body py-5">
                             <form class="form" action="{{ $action }}" method="post">
-                                @if ($pelajar->id)
-                                    @method('PUT')
-                                @endif
+                                @method('PUT')
                                 @csrf
                                 <div class="row fv-row mb-2">
                                     <div class="col-md-3 text-md-end">

@@ -148,7 +148,7 @@ Route::middleware(['web', 'auth'])
             ->name('index');
         Route::get('/{id}/edit', [AlumniController::class, 'edit'])
             ->name('edit');
-        Route::get('/{id}/update', [AlumniController::class, 'update'])
+        Route::put('/{id}/update', [AlumniController::class, 'update'])
             ->name('update');
 
         // Route::resource('/rekod-kaunseling', RekodKaunselingController::class)->only('index', 'edit', 'update', 'show');
