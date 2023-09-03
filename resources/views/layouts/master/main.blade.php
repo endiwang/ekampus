@@ -135,7 +135,10 @@
                         @include('layouts.master.sidebar.pusat-islam')
                     @elseif(Request::routeIs('pengurusan.pentadbiran.*'))
                         @include('layouts.master.sidebar.pentadbiran')
-                    {{-- sidebar menu --}}
+                    @elseif(Request::routeIs('kemahiraninsaniah.kemahiran-insaniah.pilihan-raya.*'))
+                            @include('layouts.master.sidebar.kemahiran-insaniah')
+					{{-- sidebar menu --}}
+
                     @else
                         @include('layouts.master.sidebar.utama')
                     @endif
