@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pengurusan\Kewangan;
 
+use App\Constants\Generic;
 use App\Events\BayaranYuranEvent;
 use App\Http\Controllers\Controller;
 use App\Libraries\BilLibrary;
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
+use Dompdf\Dompdf;
+use Pdf;
 
 class YuranController extends Controller
 {
@@ -36,13 +39,27 @@ class YuranController extends Controller
 
             $data = Bil::where('yuran_id', $id);
 
-            if (! empty($request->carian)) {
-                $data->join('pelajar', 'pelajar.id', 'bil.pelajar_id')
-                    ->where(function ($where) use ($request) {
-                        $where->where('bil.doc_no', 'LIKE', '%'.$request->carian.'%');
-                        $where->orWhere('pelajar.nama', 'LIKE', '%'.$request->carian.'%');
-                        $where->orWhere('pelajar.no_ic', 'LIKE', '%'.$request->carian.'%');
+            if(!empty($request->carian))
+            {
+                if($id == Generic::YURAN_SIJIL_TAHFIZ)
+                {
+                    $data->join('pemohon', 'pemohon.id', 'bil.pemohon_id')
+                    ->join('permohonan_sijil_tahfizs', 'permohonan_sijil_tahfizs.id', 'bil.permohonan_sijil_tahfiz_id')
+                    ->where(function($where) use($request) {
+                        $where->where('bil.doc_no', 'LIKE', '%' . $request->carian . '%');
+                        $where->orWhere('permohonan_sijil_tahfizs.name', 'LIKE', '%' . $request->carian . '%');
+                        $where->orWhere('pemohon.username', 'LIKE', '%' . $request->carian . '%');
                     });
+
+                }
+                else {
+                    $data->join('pelajar', 'pelajar.id', 'bil.pelajar_id')
+                    ->where(function($where) use($request) {
+                        $where->where('bil.doc_no', 'LIKE', '%' . $request->carian . '%');
+                        $where->orWhere('pelajar.nama', 'LIKE', '%' . $request->carian . '%');
+                        $where->orWhere('pelajar.no_ic', 'LIKE', '%' . $request->carian . '%');
+                    });
+                }
             }
 
             if (! empty($request->status)) {
@@ -52,8 +69,8 @@ class YuranController extends Controller
             $data = $data->select(['bil.*']);
 
             return DataTables::of($data)
-                ->addColumn('pelajar', function ($data) {
-                    return @$data->pelajar->nama.'<br>'.@$data->pelajar->no_ic;
+                ->addColumn('pelajar', function ($data) use($id){
+                    return @$data->pelajar_nama . '<br>' . @$data->pelajar_ic;
                 })
                 ->addColumn('action', function ($data) use ($id) {
                     $html = '';
@@ -61,7 +78,10 @@ class YuranController extends Controller
 
                     return $html;
                 })
-                ->addColumn('bayaran', function ($data) {
+                ->addColumn('bil', function ($data) use($id){
+                    return '<a href="' . route('public.yuran.invois', Crypt::encryptString($data->id)) . '" target="_blank">' . $data->doc_no . '</a>';
+                })
+                ->addColumn('bayaran', function ($data) use($id){
                     $bayaran = Bayaran::where('bil_id', $data->id)->first();
                     if (! empty($bayaran)) {
                         return '<a href="'.route('public.yuran.resit', Crypt::encryptString($bayaran->id)).'" target="_blank">'.$bayaran->doc_no.'</a>';
@@ -71,7 +91,7 @@ class YuranController extends Controller
                     return $data->status_name;
                 })
                 ->addIndexColumn()
-                ->rawColumns(['action', 'bayaran', 'pelajar'])
+                ->rawColumns(['action', 'bayaran', 'bil', 'pelajar'])
                 ->toJson();
         }
 
@@ -79,7 +99,7 @@ class YuranController extends Controller
             ->parameters([])
             ->columns([
                 ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
-                ['data' => 'doc_no', 'name' => 'doc_no', 'title' => 'No Bil', 'orderable' => false],
+                ['data' => 'bil', 'name' => 'bil', 'title' => 'No Bil', 'orderable' => false],
                 ['data' => 'bayaran', 'name' => 'bayaran', 'title' => 'Bayaran', 'orderable' => false],
                 ['data' => 'pelajar', 'name' => 'pelajar', 'title' => 'Nama Pelajar', 'orderable' => false],
                 ['data' => 'amaun', 'name' => 'amaun', 'title' => 'Amaun Yuran', 'orderable' => false],
@@ -188,9 +208,25 @@ class YuranController extends Controller
             }
 
             $data['bayaran'] = $bayaran;
+          
+            return view($this->baseView . 'resit')->with($data);
+        }    
 
-            return view($this->baseView.'resit')->with($data);
-        }
+        if($request->segment(1) == 'invois')
+        {
+            $id = Crypt::decryptString($data_id);
+            $bil = Bil::where('id', $id)->first();
+
+            if(empty($bil))
+            {
+                abort(404);
+            }
+            
+            $data['bil'] = $bil;
+            return view($this->baseView . 'invois')->with($data);
+        } 
+
+        abort(404);
     }
 
     /**
@@ -261,6 +297,8 @@ class YuranController extends Controller
                     $bayaran->doc_no = 'RCPT'.$no_bayaran;
                     $bayaran->bil_id = $bil->id;
                     $bayaran->pelajar_id = $bil->pelajar_id;
+                    $bayaran->pemohon_id = $bil->pemohon_id;
+                    $bayaran->permohonan_sijil_tahfiz_id = $bil->permohonan_sijil_tahfiz_id;
                     $bayaran->yuran_id = $bil->yuran_id;
                     $bayaran->date = $request->bayaran_date;
                     $bayaran->description = $request->bayaran_description;

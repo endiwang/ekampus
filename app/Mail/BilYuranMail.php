@@ -3,16 +3,16 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Attachment;
 
-class BayaranYuranMail extends Mailable
+class BilYuranMail extends Mailable
 {
     use Queueable, SerializesModels;
-
     public $bil;
 
     /**
@@ -20,10 +20,9 @@ class BayaranYuranMail extends Mailable
      *
      * @return void
      */
-    public function __construct($bil, $bayaran)
+    public function __construct($bil)
     {
         $this->bil = $bil;
-        $this->bayaran = $bayaran;
     }
 
     /**
@@ -34,7 +33,7 @@ class BayaranYuranMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Darul Quran Pembayaran Selesai #'.$this->bil->doc_no,
+            subject: 'Darul Quran Bil #' . $this->bil->doc_no,
         );
     }
 
@@ -46,7 +45,7 @@ class BayaranYuranMail extends Mailable
     public function content()
     {
         return new Content(
-            markdown: 'emails.pemohon.bayaran_yuran',
+            markdown: 'emails.pemohon.bil_yuran',
         );
     }
 
@@ -57,13 +56,15 @@ class BayaranYuranMail extends Mailable
      */
     public function attachments()
     {
-        if (! empty($this->bayaran) && ! empty($this->bayaran->resit)) {
-            $resit = (array) json_decode($this->bayaran->resit);
-
+        if(!empty($this->bil) && !empty($this->bil->invois))
+        {
+            $invois = (array) json_decode($this->bil->invois);
+            
             return [
-                Attachment::fromPath(public_path('storage/' . $resit['resit_path'])),
+                Attachment::fromPath(public_path('storage/' . $invois['invois_path'])),
             ];
-        } else {
+        }
+        else {
             return [];
         }
     }

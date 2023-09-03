@@ -44,31 +44,30 @@
                         @else 
                             <img alt="Logo" src="{{ asset('assets/media/logos/logo-dq.png') }}"class="app-sidebar-logo-default" />
                         @endif
-                        <p class="my-5 mr-5" style="font-size: 30px;">{{ $bayaran->doc_no }}</p>
+                        <p class="my-5 mr-5" style="font-size: 30px;">{{ $bil->doc_no }}</p>
                         <div class="row">
                             <ul class="list-unstyled">
-                            <li class="text-black">{{ $bayaran->pelajar_nama }}</li>
-                            <li class="text-muted mt-1"><span class="text-black">Bil</span> #{{ $bayaran->bil->doc_no }}</li>
-                            <li class="text-black mt-1">{{ date('F d Y', strtotime($bayaran->date)) }}</li>
+                            <li class="text-black">{{ $bil->pelajar_nama }}</li>
+                            <li class="text-black mt-1">{{ date('F d Y', strtotime($bil->created_at)) }}</li>
                             </ul>
                             <hr>
                             <div class="col-xl-12">
-                                <span>{{ $bayaran->description }}</span>
-                                <span class="float-end">{{ 'RM' . number_format($bayaran->bil->amaun, 2) }}</span>
+                                <span>{{ $bil->description }}</span>
+                                <span class="float-end">{{ 'RM' . number_format($bil->amaun, 2) }}</span>
                             </div>
                             <hr>
                         </div>
                         <div class="row text-black">
 
                             <div class="col-xl-12">
-                                <p class="float-end fw-bold">Total: {{ 'RM' . number_format($bayaran->bil->amaun, 2) }}</p>
+                                <p class="float-end fw-bold">Total: {{ 'RM' . number_format($bil->amaun, 2) }}</p>
                             </div>
                             <br>
                             <hr style="border: 2px solid black;">
                         </div>
                         <div class="text-center" style="margin-top: 90px;">
                             <!-- <a><u class="text-info">View in browser</u></a> -->
-                            <p>Terima kasih untuk bayaran. Darul Quran JAKIM.</p>
+                            <p>Darul Quran JAKIM.</p>
                         </div>
 
                     </div>
