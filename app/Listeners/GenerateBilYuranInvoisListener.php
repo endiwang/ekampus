@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\BilYuranEvent;
+use App\Models\BilDetail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Storage;
@@ -30,6 +31,7 @@ class GenerateBilYuranInvoisListener
     {
         $bil = $event->bil;
         $data['bil'] = $bil;
+        $data['bil_detail'] = BilDetail::where('bil_id', $bil->id)->get();
         $data['is_download'] = 1;
         $invois = [];
         $datetime_now = strtotime(now());

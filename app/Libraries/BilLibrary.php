@@ -4,6 +4,8 @@ namespace App\Libraries;
 
 use App\Events\BilYuranEvent;
 use App\Models\Bil;
+use App\Models\BilDetail;
+use App\Models\YuranDetail;
 
 class BilLibrary {
 
@@ -26,9 +28,34 @@ class BilLibrary {
             }
             $bil->yuran_id = $data['yuran']->id;
             $bil->description = $data['yuran']->nama;
-            $bil->amaun = (!empty($data['amaun'])) ? $data['amaun'] :  $data['yuran']->amaun;
             $bil->status = 1;
-            $bil->save();
+            if($bil->save())
+            {
+                $amaun_total = 0;
+                if(!empty($data['manual_bil']) && !empty($data['nama_yuran']) && !empty($data['amaun']))
+                {
+                    foreach($data['nama_yuran'] as $key => $nama_yuran)
+                    {
+                        $bil_detail = new BilDetail;
+                        $bil_detail->bil_id = $bil->id;
+                        $bil_detail->yuran_id = $bil->yuran_id;
+                        $bil_detail->description = $nama_yuran;
+                        $bil_detail->amaun = $data['amaun'][$key];
+                        $bil_detail->save();
+
+                        $amaun_total += $bil_detail->amaun;
+
+                    }
+                }
+                else {
+                    $yuran_detail = YuranDetail::where('yuran_id', $data['yuran']->id);
+                    exit;
+                }
+
+                $bil->amaun = $amaun_total;
+                $bil->save();
+
+            }
 
             event(new BilYuranEvent($bil));
         }

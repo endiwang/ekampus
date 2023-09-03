@@ -8,8 +8,10 @@ use App\Http\Controllers\Controller;
 use App\Libraries\BilLibrary;
 use App\Models\Bayaran;
 use App\Models\Bil;
+use App\Models\BilDetail;
 use App\Models\Pelajar;
 use App\Models\Yuran;
+use App\Models\YuranDetail;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
@@ -148,6 +150,7 @@ class YuranController extends Controller
         $data['page_title'] = 'Bil Baru';
         $data['action'] = route($this->baseRoute . 'store', $id);
         $data['yuran'] = $yuran;
+        $data['yuran_detail'] = YuranDetail::where('yuran_id', $id)->get();
         $data['model'] = new Bil;
         $data['pelajar'] = Pelajar::limit(10)->pluck('nama', 'id')->toArray();
 
@@ -164,9 +167,11 @@ class YuranController extends Controller
     {
         $validation = $request->validate([
             'pelajar_id' => 'required',
+            'nama_yuran' => 'required',
             'amaun' => 'required',
         ], [
             'pelajar_id.required' => 'Sila pilih pelajar',
+            'nama_yuran.required' => 'Sila tulis nama yuran',
             'amaun.required' => 'Sila tulis amaun yuran',
         ]);
 
@@ -175,6 +180,8 @@ class YuranController extends Controller
             DB::transaction(function () use ($request, $id) {
 
                 $request['yuran'] = Yuran::find($id);
+                $request['manual_bil'] = true;
+
                 BilLibrary::createBil($request->all());
             });
 
@@ -226,6 +233,7 @@ class YuranController extends Controller
             }
             
             $data['bil'] = $bil;
+            $data['bil_detail'] = BilDetail::where('bil_id', $bil->id)->get();
             return view($this->baseView . 'invois')->with($data);
         } 
 
