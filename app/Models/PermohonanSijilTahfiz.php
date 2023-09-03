@@ -11,41 +11,51 @@ class PermohonanSijilTahfiz extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'permohonan_sijil_tahfizs';
+
     protected $guarded = ['id'];
 
-    public function permohonanSijilTahfizFile(){
+    public function permohonanSijilTahfizFile()
+    {
         return $this->hasMany(PermohonanSijilTahfizFile::class);
     }
 
-    public function tetapanSiriPeperiksaan(){
+    public function tetapanSiriPeperiksaan()
+    {
         return $this->belongsTo(TetapanPeperiksaanSijilTahfiz::class, 'siri_id', 'id');
     }
 
-    public function pelajar(){
+    public function pelajar()
+    {
         return $this->belongsTo(Pelajar::class);
     }
 
-    public function pusatPeperiksaan(){
+    public function pusatPeperiksaan()
+    {
         return $this->belongsTo(PusatPeperiksaan::class);
     }
 
-    public function pusatPeperiksaanNegeri(){
+    public function pusatPeperiksaanNegeri()
+    {
         return $this->belongsTo(PusatPeperiksaanNegeri::class);
     }
 
-    public function markahPermohonan(){
+    public function markahPermohonan()
+    {
         return $this->belongsTo(PemarkahanCalonSijilTahfiz::class, 'id', 'permohonan_id');
     }
 
-    public function pemohon(){
+    public function pemohon()
+    {
         return $this->belongsTo(Pemohon::class);
     }
 
-    public function templateJemputan(){
-        return $this->belongsTo(TemplateJemputanMajlisPensijilan::class,'template_id', 'id');
+    public function templateJemputan()
+    {
+        return $this->belongsTo(TemplateJemputanMajlisPensijilan::class, 'template_id', 'id');
     }
 
-    public function pemarkahans(){
+    public function pemarkahans()
+    {
         return $this->hasMany(PemarkahanCalonSijilTahfiz::class, 'id', 'permohonan_id');
     }
 }

@@ -414,8 +414,7 @@ class SenaraiKonvokesyenController extends Controller
             ]);
 
             $yuran = Yuran::find(Generic::YURAN_KONVOKESYEN);
-            if(!empty($yuran))
-            {
+            if (! empty($yuran)) {
                 BilLibrary::createBil([
                     'yuran' => $yuran,
                     'pelajar_id' => $pelajar->id,

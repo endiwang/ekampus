@@ -41,10 +41,10 @@ class MpkIsoController extends Controller
 
             if (request()->ajax()) {
                 $data = MpkIso::query();
-                if ($request->has('nama') && $request->nama != null) {                    
+                if ($request->has('nama') && $request->nama != null) {
                     $data->where('document_name', 'LIKE', '%'.$request->nama.'%');
                 }
-                if ($request->has('jenis') && $request->jenis != null) {                    
+                if ($request->has('jenis') && $request->jenis != null) {
                     $data->where('type', 'LIKE', '%'.$request->jenis.'%');
                 }
 

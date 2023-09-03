@@ -20,7 +20,9 @@ use Yajra\DataTables\Html\Builder;
 class MaklumatKehadiranController extends Controller
 {
     protected $baseView = 'pages.pengurusan.peperiksaan.maklumat_kehadiran.';
+
     protected $baseRoute = 'pengurusan.peperiksaan.maklumat_kehadiran.';
+
     /**
      * Display a listing of the resource.
      *
@@ -132,7 +134,6 @@ class MaklumatKehadiranController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -140,10 +141,10 @@ class MaklumatKehadiranController extends Controller
         try {
 
             $store = PelajarSemesterDetail::find($request->id);
-            $store->kehadiran   = $request->kehadiran;
-            $store->markah_30   = $request->markah_30;
-            $store->markah_40   = $request->markah_40;
-            $store->status      = $request->status;
+            $store->kehadiran = $request->kehadiran;
+            $store->markah_30 = $request->markah_30;
+            $store->markah_40 = $request->markah_40;
+            $store->status = $request->status;
             $store->komen_staff = $request->catatan;
             $store->save();
 
@@ -183,7 +184,7 @@ class MaklumatKehadiranController extends Controller
 
             if (request()->ajax()) {
                 $data = PelajarSemesterDetail::with('subjek')->where('pelajar_semester_id', $pelajar_semester->id);
-                
+
                 return DataTables::of($data)
                     ->addColumn('subjek', function ($data) {
                         return $data->subjek->nama ?? null;
@@ -195,13 +196,13 @@ class MaklumatKehadiranController extends Controller
                         return $data->subjek->kredit ?? null;
                     })
                     ->addColumn('kehadiran', function ($data) {
-                        return $data->kehadiran ??  0 . '%';
+                        return $data->kehadiran ?? 0 .'%';
                     })
                     ->addColumn('markah', function ($data) {
-                        return $data->markah_30 ??  0 . '%';
+                        return $data->markah_30 ?? 0 .'%';
                     })
                     ->addColumn('jumlah_markah', function ($data) {
-                        return $data->markah_40 ??  0 . '%';
+                        return $data->markah_40 ?? 0 .'%';
                     })
                     ->addColumn('status', function ($data) {
                         return $data->status ?? null;
@@ -264,7 +265,6 @@ class MaklumatKehadiranController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -320,7 +320,7 @@ class MaklumatKehadiranController extends Controller
                             <span class='fw-bold fs-7 text-gray-800'>: ".$data->subjek->kredit."</span>
                         </div>
                     </div>
-                    <form id='no_matrik' action=".route($this->baseRoute . 'store')." method='POST'>
+                    <form id='no_matrik' action=".route($this->baseRoute.'store')." method='POST'>
                     <input type='hidden' name='_token' value=".csrf_token().">
                     <input type='hidden' name='id' value=".$data->id.">
                     <div class='row mb-2'>

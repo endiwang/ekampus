@@ -10,7 +10,6 @@ class CheckUserIsVendor
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
@@ -18,16 +17,13 @@ class CheckUserIsVendor
     {
         $authorize = false;
         $user = auth()->user();
-        if($user->is_vendor == 1)
-        {
+        if ($user->is_vendor == 1) {
             $authorize = true;
         }
 
-        if($authorize)
-        {
+        if ($authorize) {
             return $next($request);
-        }
-        else {
+        } else {
             abort(403);
         }
     }

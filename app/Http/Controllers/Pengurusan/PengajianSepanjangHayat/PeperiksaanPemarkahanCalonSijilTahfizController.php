@@ -15,77 +15,80 @@ use Yajra\DataTables\Html\Builder;
 
 class PeperiksaanPemarkahanCalonSijilTahfizController extends Controller
 {
-    public function index(Builder $builder){
-        $title = "Peperiksaan & Pemarkahan";
+    public function index(Builder $builder)
+    {
+        $title = 'Peperiksaan & Pemarkahan';
         $breadcrumbs = [
-            "Jabatan Pengajian Sepanjang Hayat" =>  '#',
-            "Peperiksaan & Pemarkahan" =>  '#',
-            "Calon Sijil Tahfiz" => '#',
+            'Jabatan Pengajian Sepanjang Hayat' => '#',
+            'Peperiksaan & Pemarkahan' => '#',
+            'Calon Sijil Tahfiz' => '#',
         ];
 
         if (request()->ajax()) {
             $penemuduga = TetapanPenemudugaSijilTahfiz::where('staff_id', Auth::user()->staff->id)
                 ->get()->pluck('tetapan_peperiksaan_sijil_tahfiz_id')->toArray();
-            $data = PermohonanSijilTahfiz::where('status_tawaran',1)->where('status_hadir_peperiksaan',0)
+            $data = PermohonanSijilTahfiz::where('status_tawaran', 1)->where('status_hadir_peperiksaan', 0)
                 ->whereIn('siri_id', $penemuduga)->get();
+
             return DataTables::of($data)
-            ->addColumn('nama_pemohon', function($data) {
-                return $data->name;
+                ->addColumn('nama_pemohon', function ($data) {
+                    return $data->name;
 
-            })
-            ->addColumn('no_id', function($data) {
-                return $data->pemohon->username;
+                })
+                ->addColumn('no_id', function ($data) {
+                    return $data->pemohon->username;
 
-            })
-            ->addColumn('action', function($data){
-                $btn = '<span class="badge py-3 px-4 fs-7 badge-light-success">Sudah Ditemuduga</span>';
-                if(!$data->status_hadir_peperiksaan){
-                    if(!empty($data->markahPermohonan) && $data->markahPermohonan->status_hadir_ujian_shafawi){
-                        $btn =' <a href="javascript:void(0)" class="btn btn-icon-primary btn-text-primary btn-sm" data-bs-toggle="tooltip" title="Kelayakan"><i class="fa fa-marker"></i>Temuduga Syafawi</a>';
-                    } else {
-                        $btn =' <a href="'.route('pengurusan.pengajian_sepanjang_hayat.pemarkahan.calon_peperiksaan_sijil_tahfiz.temuduga.syafawi',$data->id).'" class="btn btn-icon-primary btn-text-primary btn-sm" data-bs-toggle="tooltip" title="Kelayakan"><i class="fa fa-marker"></i>Temuduga Syafawi</a>';
+                })
+                ->addColumn('action', function ($data) {
+                    $btn = '<span class="badge py-3 px-4 fs-7 badge-light-success">Sudah Ditemuduga</span>';
+                    if (! $data->status_hadir_peperiksaan) {
+                        if (! empty($data->markahPermohonan) && $data->markahPermohonan->status_hadir_ujian_shafawi) {
+                            $btn = ' <a href="javascript:void(0)" class="btn btn-icon-primary btn-text-primary btn-sm" data-bs-toggle="tooltip" title="Kelayakan"><i class="fa fa-marker"></i>Temuduga Syafawi</a>';
+                        } else {
+                            $btn = ' <a href="'.route('pengurusan.pengajian_sepanjang_hayat.pemarkahan.calon_peperiksaan_sijil_tahfiz.temuduga.syafawi', $data->id).'" class="btn btn-icon-primary btn-text-primary btn-sm" data-bs-toggle="tooltip" title="Kelayakan"><i class="fa fa-marker"></i>Temuduga Syafawi</a>';
+                        }
+
+                        if (! empty($data->markahPermohonan) && $data->markahPermohonan->status_hadir_ujian_tahriri) {
+                            $btn .= ' <a href="javascript:void(0)" class="btn btn-icon-primary btn-text-primary btn-sm" data-bs-toggle="tooltip" title="Kelayakan"><i class="fa fa-marker"></i>Tahriri & Pengetahuan islam</a>';
+                        } else {
+                            $btn .= ' <a href="'.route('pengurusan.pengajian_sepanjang_hayat.pemarkahan.calon_peperiksaan_sijil_tahfiz.tahriri.pengetahuan_islam', $data->id).'" class="btn btn-icon-primary btn-text-primary btn-sm" data-bs-toggle="tooltip" title="Kelayakan"><i class="fa fa-marker"></i>Tahriri & Pengetahuan islam</a>';
+                        }
                     }
-                    
-                    if(!empty($data->markahPermohonan) && $data->markahPermohonan->status_hadir_ujian_tahriri){
-                        $btn .=' <a href="javascript:void(0)" class="btn btn-icon-primary btn-text-primary btn-sm" data-bs-toggle="tooltip" title="Kelayakan"><i class="fa fa-marker"></i>Tahriri & Pengetahuan islam</a>';
-                    } else {
-                        $btn .=' <a href="'.route('pengurusan.pengajian_sepanjang_hayat.pemarkahan.calon_peperiksaan_sijil_tahfiz.tahriri.pengetahuan_islam',$data->id).'" class="btn btn-icon-primary btn-text-primary btn-sm" data-bs-toggle="tooltip" title="Kelayakan"><i class="fa fa-marker"></i>Tahriri & Pengetahuan islam</a>';
-                    }
-                }
 
-                return $btn;
-            })
-            ->addIndexColumn()
-            ->order(function ($data) {
-                // $data->orderBy('id', 'desc');
-            })
-            ->rawColumns(['action'])
-            ->toJson();
+                    return $btn;
+                })
+                ->addIndexColumn()
+                ->order(function ($data) {
+                    // $data->orderBy('id', 'desc');
+                })
+                ->rawColumns(['action'])
+                ->toJson();
         }
 
         $html = $builder
-        ->parameters([
-            // 'language' => '{ "lengthMenu": "Show _MENU_", }',
-            // 'dom' => $dom_setting,
-        ])
-        ->columns([
-            [ 'defaultContent'=> '', 'data'=> 'DT_RowIndex', 'name'=> 'DT_RowIndex', 'title'=> 'Bil','orderable'=> false, 'searchable'=> false, 'orderable'=> false],
-            ['data' => 'nama_pemohon', 'name' => 'name', 'title' => 'Nama Pemohon', 'orderable'=> false],
-            ['data' => 'no_id', 'name' => 'no_id', 'title' => 'No Kad Pengenalan', 'orderable'=> false],
-            ['data' => 'action', 'name' => 'action','title' => 'Tindakan', 'orderable' => false, 'class'=>'text-bold', 'searchable' => false],
+            ->parameters([
+                // 'language' => '{ "lengthMenu": "Show _MENU_", }',
+                // 'dom' => $dom_setting,
+            ])
+            ->columns([
+                ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false, 'orderable' => false],
+                ['data' => 'nama_pemohon', 'name' => 'name', 'title' => 'Nama Pemohon', 'orderable' => false],
+                ['data' => 'no_id', 'name' => 'no_id', 'title' => 'No Kad Pengenalan', 'orderable' => false],
+                ['data' => 'action', 'name' => 'action', 'title' => 'Tindakan', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
 
-        ])
-        ->minifiedAjax();
+            ])
+            ->minifiedAjax();
 
-        return view('pages.pengurusan.pengajian_sepanjang_hayat.peperiksaan_pemarkahan.calon_sijil_tahfiz.main', compact('title','breadcrumbs', 'html'));
+        return view('pages.pengurusan.pengajian_sepanjang_hayat.peperiksaan_pemarkahan.calon_sijil_tahfiz.main', compact('title', 'breadcrumbs', 'html'));
     }
 
-    public function edit($id){
-        $title = "Borang Pemarkahan Sijil Tahfiz";
+    public function edit($id)
+    {
+        $title = 'Borang Pemarkahan Sijil Tahfiz';
         $breadcrumbs = [
-            "Jabatan Pengajian Sepanjang Hayat" =>  '#',
-            "Peperiksaan & Pemarkahan" =>  '#',
-            "Borang Pemarkahan Sijil Tahfiz" => '#',
+            'Jabatan Pengajian Sepanjang Hayat' => '#',
+            'Peperiksaan & Pemarkahan' => '#',
+            'Borang Pemarkahan Sijil Tahfiz' => '#',
         ];
 
         $permohonan = PermohonanSijilTahfiz::find($id);
@@ -102,11 +105,12 @@ class PeperiksaanPemarkahanCalonSijilTahfizController extends Controller
         return view('pages.pengurusan.pengajian_sepanjang_hayat.peperiksaan_pemarkahan.calon_sijil_tahfiz.edit', $data);
     }
 
-    public function update(Request $request, $id){
-        if($request->syafawi){
+    public function update(Request $request, $id)
+    {
+        if ($request->syafawi) {
             $validated = $request->validate([
-                'al_quran_syafawi'  => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/|max:100',
-            ],[
+                'al_quran_syafawi' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/|max:100',
+            ], [
                 'al_quran_syafawi.required' => 'Ruangan ini perlu diisi.',
                 'al_quran_syafawi.regex' => 'Format markah yang diisi salah. Contoh format: 20 atau 20.30',
                 'al_quran_syafawi.numeric' => 'Ruangan ini perlu diisi dengan nombor.',
@@ -118,7 +122,7 @@ class PeperiksaanPemarkahanCalonSijilTahfizController extends Controller
                 'tajwid' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/|max:20',
                 'fiqh_ibadah' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/|max:40',
                 'akidah' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/|max:40',
-            ],[
+            ], [
                 'al_quran_tahriri.required' => 'Ruangan ini perlu diisi.',
                 'tajwid.required' => 'Ruangan ini perlu diisi.',
                 'fiqh_ibadah.required' => 'Ruangan ini perlu diisi.',
@@ -138,15 +142,15 @@ class PeperiksaanPemarkahanCalonSijilTahfizController extends Controller
             ]);
         }
 
-        if($request->has('al_quran_syafawi')){
+        if ($request->has('al_quran_syafawi')) {
             $request['status_hadir_ujian_shafawi'] = 1;
         }
 
-        if($request->has('al_quran_tahriri')){
+        if ($request->has('al_quran_tahriri')) {
             $request['status_hadir_ujian_tahriri'] = 1;
         }
 
-        if($request->has('tajwid') || $request->has('fiqh_ibadah') || $request->has('akidah')){
+        if ($request->has('tajwid') || $request->has('fiqh_ibadah') || $request->has('akidah')) {
             $request['status_hadir_ujian_pengetahuan_islam'] = 1;
         }
 
@@ -159,55 +163,55 @@ class PeperiksaanPemarkahanCalonSijilTahfizController extends Controller
         try {
             //check if permohonan already evaluate
             $pemarkahan = PemarkahanCalonSijilTahfiz::where('permohonan_id', $id)->first();
-            if(empty($pemarkahan)){
+            if (empty($pemarkahan)) {
                 PemarkahanCalonSijilTahfiz::create($request->except('_method', '_token'));
             } else {
-                if($request->has('syafawi')){
+                if ($request->has('syafawi')) {
                     $pemarkahan->update($request->except('_method', '_token', 'al_quran_tahriri', 'tajwid', 'fiqh_ibadah', 'akidah'));
                 } else {
                     $pemarkahan->update($request->except('_method', '_token', 'al_quran_syafawi'));
                 }
-                
+
             }
-            
+
             $final_markah = PemarkahanCalonSijilTahfiz::where('permohonan_id', $id)
                 ->where('status_hadir_ujian_shafawi', 1)
                 ->where('status_hadir_ujian_tahriri', 1)
                 ->where('status_hadir_ujian_pengetahuan_islam', 1)
                 ->first();
 
-            if(!empty($final_markah)){
+            if (! empty($final_markah)) {
                 $pengetahuan_islam_mark = 0;
-                if($final_markah->tajwid) {
-                    $pengetahuan_islam_mark +=$final_markah->tajwid;
+                if ($final_markah->tajwid) {
+                    $pengetahuan_islam_mark += $final_markah->tajwid;
                 }
 
-                if($final_markah->fiqh_ibadah){
-                    $pengetahuan_islam_mark +=$final_markah->fiqh_ibadah;
+                if ($final_markah->fiqh_ibadah) {
+                    $pengetahuan_islam_mark += $final_markah->fiqh_ibadah;
                 }
 
-                if($final_markah->akidah){
-                    $pengetahuan_islam_mark +=$final_markah->akidah;
+                if ($final_markah->akidah) {
+                    $pengetahuan_islam_mark += $final_markah->akidah;
                 }
 
-                $total_examiner_mark = $final_markah->al_quran_syafawi+$final_markah->al_quran_tahriri+$pengetahuan_islam_mark;
-                $total_mark = ($total_examiner_mark*100)/300;
+                $total_examiner_mark = $final_markah->al_quran_syafawi + $final_markah->al_quran_tahriri + $pengetahuan_islam_mark;
+                $total_mark = ($total_examiner_mark * 100) / 300;
                 $final['total_mark'] = floor($total_mark * 100) / 100;
 
                 $final['status_kelulusan'] = 0;
-                if ($final_markah->al_quran_syafawi<=54 || $final_markah->al_quran_tahriri<=54 || $pengetahuan_islam_mark<=39) {
+                if ($final_markah->al_quran_syafawi <= 54 || $final_markah->al_quran_tahriri <= 54 || $pengetahuan_islam_mark <= 39) {
                     $final['keputusan_peperiksaan'] = 'Rasib';
                 } else {
-                    if($total_mark >=90){
+                    if ($total_mark >= 90) {
                         $final['keputusan_peperiksaan'] = 'Mumtaz';
                         $final['status_kelulusan'] = 1;
-                    } elseif($total_mark >= 80 && $total_mark <= 89){
+                    } elseif ($total_mark >= 80 && $total_mark <= 89) {
                         $final['keputusan_peperiksaan'] = 'Jayyid Jiddan';
                         $final['status_kelulusan'] = 1;
-                    } elseif($total_mark >= 70 && $total_mark <= 79){
+                    } elseif ($total_mark >= 70 && $total_mark <= 79) {
                         $final['keputusan_peperiksaan'] = 'Jayyid';
                         $final['status_kelulusan'] = 1;
-                    } elseif($total_mark >= 55 && $total_mark <= 69){
+                    } elseif ($total_mark >= 55 && $total_mark <= 69) {
                         $final['keputusan_peperiksaan'] = 'Maqbul';
                         $final['status_kelulusan'] = 1;
                     } else {
@@ -216,7 +220,7 @@ class PeperiksaanPemarkahanCalonSijilTahfizController extends Controller
                 }
 
                 $final_markah->update($final);
-                PermohonanSijilTahfiz::where('id', $id)->update(['status_hadir_peperiksaan'=>1]);
+                PermohonanSijilTahfiz::where('id', $id)->update(['status_hadir_peperiksaan' => 1]);
             }
 
             Alert::toast('Tetapan Baru Berjaya Ditambah', 'success');
@@ -226,16 +230,17 @@ class PeperiksaanPemarkahanCalonSijilTahfizController extends Controller
             dd($e);
             Alert::toast('Tetapan Baru Tidak Berjaya Ditambah', 'error');
         }
-        
+
         return redirect()->route('pengurusan.pengajian_sepanjang_hayat.pemarkahan.calon_peperiksaan_sijil_tahfiz.index');
     }
 
-    public function temuduga_syafawi($id){
-        $title = "Pemarkahan Al-Quran Syafawi";
+    public function temuduga_syafawi($id)
+    {
+        $title = 'Pemarkahan Al-Quran Syafawi';
         $breadcrumbs = [
-            "Jabatan Pengajian Sepanjang Hayat" =>  '#',
-            "Peperiksaan & Pemarkahan" =>  '#',
-            "Borang Pemarkahan Sijil Tahfiz" => '#',
+            'Jabatan Pengajian Sepanjang Hayat' => '#',
+            'Peperiksaan & Pemarkahan' => '#',
+            'Borang Pemarkahan Sijil Tahfiz' => '#',
         ];
 
         $permohonan = PermohonanSijilTahfiz::find($id);
@@ -253,12 +258,13 @@ class PeperiksaanPemarkahanCalonSijilTahfizController extends Controller
         return view('pages.pengurusan.pengajian_sepanjang_hayat.peperiksaan_pemarkahan.calon_sijil_tahfiz.edit', $data);
     }
 
-    public function tahriri_pengetahuan_islam($id){
-        $title = "Pemarkahan Al-Quran Tahriri & Pengetahuan Islam";
+    public function tahriri_pengetahuan_islam($id)
+    {
+        $title = 'Pemarkahan Al-Quran Tahriri & Pengetahuan Islam';
         $breadcrumbs = [
-            "Jabatan Pengajian Sepanjang Hayat" =>  '#',
-            "Peperiksaan & Pemarkahan" =>  '#',
-            "Borang Pemarkahan Sijil Tahfiz" => '#',
+            'Jabatan Pengajian Sepanjang Hayat' => '#',
+            'Peperiksaan & Pemarkahan' => '#',
+            'Borang Pemarkahan Sijil Tahfiz' => '#',
         ];
 
         $permohonan = PermohonanSijilTahfiz::find($id);

@@ -11,5 +11,6 @@ class VenuePeperiksaanSijilTahfiz extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'venue_peperiksaan_sijil_tahfizs';
+
     protected $guarded = ['id'];
 }

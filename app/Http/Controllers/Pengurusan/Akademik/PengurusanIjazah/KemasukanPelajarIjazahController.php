@@ -11,12 +11,12 @@ use App\Models\Pelajar;
 use App\Models\Sesi;
 use App\Models\User;
 use App\Models\Yuran;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use DB;
 
 class KemasukanPelajarIjazahController extends Controller
 {
@@ -197,8 +197,7 @@ class KemasukanPelajarIjazahController extends Controller
                 ]);
 
                 $yuran = Yuran::find(Generic::YURAN_PENDAFTARAN);
-                if(!empty($yuran))
-                {
+                if (! empty($yuran)) {
                     BilLibrary::createBil([
                         'yuran' => $yuran,
                         'pelajar_id' => $pelajar->id,
@@ -213,10 +212,11 @@ class KemasukanPelajarIjazahController extends Controller
 
         if ($result) {
             Alert::toast('Maklumat pelajar ijazah berjaya ditambah!', 'success');
+
             return redirect()->route('pengurusan.akademik.pengurusan_ijazah.pelajar.index');
-        }
-        else {
+        } else {
             Alert::toast('Uh oh! Sesuatu yang tidak diingini berlaku', 'error');
+
             return redirect()->back();
         }
     }

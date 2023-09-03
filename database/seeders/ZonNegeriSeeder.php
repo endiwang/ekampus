@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Zon;
 use App\Models\ZonNegeri;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ZonNegeriSeeder extends Seeder
@@ -16,7 +14,7 @@ class ZonNegeriSeeder extends Seeder
      */
     public function run()
     {
-        $zon_negeris=[
+        $zon_negeris = [
             [
                 'zon_id' => 1,
                 'name' => 'Putrajaya',
@@ -87,7 +85,6 @@ class ZonNegeriSeeder extends Seeder
         foreach ($zon_negeris as $negeri) {
             ZonNegeri::create($negeri);
         }
-
 
     }
 }

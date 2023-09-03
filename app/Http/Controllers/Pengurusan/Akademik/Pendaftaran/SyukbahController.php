@@ -37,13 +37,13 @@ class SyukbahController extends Controller
 
             if (request()->ajax()) {
                 $data = Pelajar::with('kursus', 'sesi')->where('syukbah_id', null)->orWhere('syukbah_id', 0)->where('is_register', 1)->where('is_berhenti', 0);
-                if ($request->has('nama') && $request->nama != null) {                    
+                if ($request->has('nama') && $request->nama != null) {
                     $data->where('nama', 'LIKE', '%'.$request->nama.'%');
                 }
-                if ($request->has('no_ic') && $request->no_ic != null) {                    
+                if ($request->has('no_ic') && $request->no_ic != null) {
                     $data->where('no_ic', 'LIKE', '%'.$request->no_ic.'%');
                 }
-                if ($request->has('no_matrik') && $request->no_matrik != null) {                    
+                if ($request->has('no_matrik') && $request->no_matrik != null) {
                     $data->where('no_matrik', 'LIKE', '%'.$request->no_matrik.'%');
                 }
                 if ($request->has('program_pengajian') && $request->program_pengajian != null) {
@@ -96,8 +96,8 @@ class SyukbahController extends Controller
                 ])
                 ->minifiedAjax();
 
-                $sesi = Sesi::where('is_deleted', 0)->get()->pluck('nama', 'id');
-                $program_pengajian = Kursus::where('is_deleted', 0)->get()->pluck('nama', 'id');
+            $sesi = Sesi::where('is_deleted', 0)->get()->pluck('nama', 'id');
+            $program_pengajian = Kursus::where('is_deleted', 0)->get()->pluck('nama', 'id');
 
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable', 'sesi', 'program_pengajian'));
 

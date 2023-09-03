@@ -137,7 +137,7 @@ class KelasController extends Controller
                 ])
                 ->minifiedAjax();
 
-            $semesters = Semester::where('deleted_at', NULL)->pluck('nama', 'id');
+            $semesters = Semester::where('deleted_at', null)->pluck('nama', 'id');
 
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable', 'semesters'));
 

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('tetapan_majlis_penyerahan_sijil_tahfizs', function (Blueprint $table) {
             $table->integer('status')->nullable()->after('tarikh_cetakan');
-           
+
         });
     }
 

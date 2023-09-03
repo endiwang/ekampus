@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('permohonan_sijil_tahfizs', function (Blueprint $table) {
             $table->integer('template_jemputan_id')->nullable();
-           
+
         });
     }
 

@@ -48,7 +48,7 @@ class PenilaianPensyarahController extends Controller
 
             if (request()->ajax()) {
                 $data = SoalanPenilaian::with('createdBy');
-                if ($request->has('soalan') && $request->soalan != null) {                    
+                if ($request->has('soalan') && $request->soalan != null) {
                     $data->where('description', 'LIKE', '%'.$request->soalan.'%');
                 }
 

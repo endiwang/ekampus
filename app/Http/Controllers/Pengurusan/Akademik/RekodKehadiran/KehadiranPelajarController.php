@@ -34,10 +34,10 @@ class KehadiranPelajarController extends Controller
 
             if (request()->ajax()) {
                 $data = Subjek::where('deleted_at', null);
-                if ($request->has('nama_subjek') && $request->nama_subjek != null) {                    
+                if ($request->has('nama_subjek') && $request->nama_subjek != null) {
                     $data->where('nama', 'LIKE', '%'.$request->nama_subjek.'%');
                 }
-                if ($request->has('kod_subjek') && $request->kod_subjek != null) {                    
+                if ($request->has('kod_subjek') && $request->kod_subjek != null) {
                     $data->where('kod_subjek', 'LIKE', '%'.$request->kod_subjek.'%');
                 }
 
