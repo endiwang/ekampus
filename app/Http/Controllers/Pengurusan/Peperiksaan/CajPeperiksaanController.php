@@ -15,7 +15,9 @@ use Yajra\DataTables\Html\Builder;
 class CajPeperiksaanController extends Controller
 {
     protected $baseView = 'pages.pengurusan.peperiksaan.tetapan.caj_peperiksaan.';
+
     protected $baseRoute = 'pengurusan.peperiksaan.tetapan.caj_peperiksaan.';
+
     /**
      * Display a listing of the resource.
      *
@@ -53,11 +55,9 @@ class CajPeperiksaanController extends Controller
                         return Utils::getJenisCaj($data->jenis);
                     })
                     ->addColumn('description', function ($data) {
-                        if($data->description == 'subjek')
-                        {
+                        if ($data->description == 'subjek') {
                             return 'Subjek';
-                        }
-                        else {
+                        } else {
                             return 'Subjek Ulangan';
                         }
                     })
@@ -65,7 +65,7 @@ class CajPeperiksaanController extends Controller
                         return $data->subjek->nama ?? null;
                     })
                     ->addColumn('jumlah', function ($data) {
-                        return number_format($data->jumlah,2) ?? null;
+                        return number_format($data->jumlah, 2) ?? null;
                     })
                     ->addColumn('status', function ($data) {
                         switch ($data->status) {
@@ -112,13 +112,13 @@ class CajPeperiksaanController extends Controller
                 ])
                 ->minifiedAjax();
 
-                $types  = [
-                    'peperiksaan'       => 'Peperiksaan',
-                    'hilang_transkrip'  => 'Hilang Transkrip/Slip Keputusan Periksa',
-                    'semak_keputusan'   => 'Semak Semula Keputusan Peperiksaan',
-                ];
+            $types = [
+                'peperiksaan' => 'Peperiksaan',
+                'hilang_transkrip' => 'Hilang Transkrip/Slip Keputusan Periksa',
+                'semak_keputusan' => 'Semak Semula Keputusan Peperiksaan',
+            ];
 
-                $subjects = Subjek::where('deleted_at', NULL)->pluck('nama', 'id');
+            $subjects = Subjek::where('deleted_at', null)->pluck('nama', 'id');
 
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable', 'buttons', 'types', 'subjects'));
 
@@ -141,27 +141,27 @@ class CajPeperiksaanController extends Controller
         try {
 
             $title = 'Caj Peperiksaan';
-            $action = route($this->baseRoute . 'store');
+            $action = route($this->baseRoute.'store');
             $page_title = 'Tambah Sesi Peperiksaan';
             $breadcrumbs = [
                 'Peperiksaan' => false,
                 'Tetapan' => false,
-                'Caj Peperiksaan' => route($this->baseRoute . 'index'),
+                'Caj Peperiksaan' => route($this->baseRoute.'index'),
                 'Tambah Caj Peperiksaan' => false,
             ];
 
             $model = new CajPeperiksaan();
 
-            $types  = [
-                'peperiksaan'       => 'Peperiksaan',
-                'hilang_transkrip'  => 'Hilang Transkrip/Slip Keputusan Periksa',
-                'semak_keputusan'   => 'Semak Semula Keputusan Peperiksaan'
+            $types = [
+                'peperiksaan' => 'Peperiksaan',
+                'hilang_transkrip' => 'Hilang Transkrip/Slip Keputusan Periksa',
+                'semak_keputusan' => 'Semak Semula Keputusan Peperiksaan',
             ];
 
             $descriptions = [
                 'subjek' => 'Subjek',
                 'subjek_ulangan' => 'Subjek Ulangan',
-                'pengurusan_peperiksaan' => 'Pengurusan Peperiksaan'
+                'pengurusan_peperiksaan' => 'Pengurusan Peperiksaan',
             ];
 
             $subjects = Subjek::where('deleted_at', null)->get()->pluck('nama', 'id');
@@ -180,7 +180,6 @@ class CajPeperiksaanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -209,7 +208,7 @@ class CajPeperiksaanController extends Controller
 
             Alert::toast('Maklumat caj peperiksaan berjaya ditambah!', 'success');
 
-            return redirect()->route($this->baseRoute . 'index');
+            return redirect()->route($this->baseRoute.'index');
 
         } catch (Exception $e) {
             report($e);
@@ -242,27 +241,27 @@ class CajPeperiksaanController extends Controller
         try {
 
             $title = 'Caj Peperiksaan';
-            $action = route($this->baseRoute . 'update', $id);
+            $action = route($this->baseRoute.'update', $id);
             $page_title = 'Kemaskini Sesi Peperiksaan';
             $breadcrumbs = [
                 'Peperiksaan' => false,
                 'Tetapan' => false,
-                'Caj Peperiksaan' => route($this->baseRoute . 'index'),
+                'Caj Peperiksaan' => route($this->baseRoute.'index'),
                 'Kemaskini Caj Peperiksaan' => false,
             ];
 
             $model = CajPeperiksaan::find($id);
 
-            $types  = [
-                'peperiksaan'       => 'Peperiksaan',
-                'hilang_transkrip'  => 'Hilang Transkrip/Slip Keputusan Periksa',
-                'semak_keputusan'   => 'Semak Semula Keputusan Peperiksaan'
+            $types = [
+                'peperiksaan' => 'Peperiksaan',
+                'hilang_transkrip' => 'Hilang Transkrip/Slip Keputusan Periksa',
+                'semak_keputusan' => 'Semak Semula Keputusan Peperiksaan',
             ];
 
             $descriptions = [
                 'subjek' => 'Subjek',
                 'subjek_ulangan' => 'Subjek Ulangan',
-                'pengurusan_peperiksaan' => 'Pengurusan Peperiksaan'
+                'pengurusan_peperiksaan' => 'Pengurusan Peperiksaan',
             ];
 
             $subjects = Subjek::where('deleted_at', null)->get()->pluck('nama', 'id');
@@ -281,7 +280,6 @@ class CajPeperiksaanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -311,7 +309,7 @@ class CajPeperiksaanController extends Controller
 
             Alert::toast('Maklumat caj peperiksaan berjaya dikemaskini!', 'success');
 
-            return redirect()->route($this->baseRoute . 'index');
+            return redirect()->route($this->baseRoute.'index');
 
         } catch (Exception $e) {
             report($e);

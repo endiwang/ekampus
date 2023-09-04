@@ -14,8 +14,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Base extends Model implements AuditableContract, HasMedia
 {
     use AuditableTrait;
-    use InteractsWithMedia;
     use HasFactory;
+    use InteractsWithMedia;
     use InteractsWithResourcePattern;
 
     protected $guarded = [

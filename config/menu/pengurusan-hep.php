@@ -57,6 +57,17 @@ return [
             ],
         ],
         [
+            'title' => 'Kemahiran Insaniah',
+            'route' => 'pengurusan.hep.kemahiran-insaniah.*',
+            'children' => [
+                [
+                    'title' => 'Pilihan Raya',
+                    'route' => 'pengurusan.hep.kemahiran-insaniah.pilihan-raya.index',
+                    'parameters' => [],
+                ],
+            ],
+        ],
+        [
             'title' => 'Pusat Islam',
             'route' => 'pengurusan.hep.pusat-islam.*',
             'children' => [

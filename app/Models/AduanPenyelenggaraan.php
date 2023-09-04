@@ -185,26 +185,19 @@ class AduanPenyelenggaraan extends Model
         $badge = '';
         $name = '';
         $status = $this->getStatusSelection();
-        
+
         if (! empty($this->attributes['status'])) {
             $name = @$status[$this->attributes['status']];
         }
 
-        if($this->attributes['status'] == 1)
-        {
-            return '<span class="badge py-3 px-4 fs-7 badge-danger">' . $name . '</span>';
-        }
-        elseif($this->attributes['status'] == 2)
-        {
-            return '<span class="badge py-3 px-4 fs-7 badge-warning">' . $name . '</span>';
-        }
-        elseif($this->attributes['status'] == 3)
-        {
-            return '<span class="badge py-3 px-4 fs-7 badge-warning">' . $name . '</span>';
-        }
-        elseif($this->attributes['status'] == 4)
-        {
-            return '<span class="badge py-3 px-4 fs-7 badge-success">' . $name . '</span>';
+        if ($this->attributes['status'] == 1) {
+            return '<span class="badge py-3 px-4 fs-7 badge-danger">'.$name.'</span>';
+        } elseif ($this->attributes['status'] == 2) {
+            return '<span class="badge py-3 px-4 fs-7 badge-warning">'.$name.'</span>';
+        } elseif ($this->attributes['status'] == 3) {
+            return '<span class="badge py-3 px-4 fs-7 badge-warning">'.$name.'</span>';
+        } elseif ($this->attributes['status'] == 4) {
+            return '<span class="badge py-3 px-4 fs-7 badge-success">'.$name.'</span>';
         }
     }
 
@@ -213,22 +206,17 @@ class AduanPenyelenggaraan extends Model
         $badge = '';
         $name = '';
         $status = $this->getStatusVendorSelection();
-        
+
         if (! empty($this->attributes['status_vendor'])) {
             $name = @$status[$this->attributes['status_vendor']];
         }
 
-        if($this->attributes['status_vendor'] == 1)
-        {
-            return '<span class="badge py-3 px-4 fs-7 badge-danger">' . $name . '</span>';
-        }
-        elseif($this->attributes['status_vendor'] == 2)
-        {
-            return '<span class="badge py-3 px-4 fs-7 badge-warning">' . $name . '</span>';
-        }
-        elseif($this->attributes['status_vendor'] == 3)
-        {
-            return '<span class="badge py-3 px-4 fs-7 badge-success">' . $name . '</span>';
+        if ($this->attributes['status_vendor'] == 1) {
+            return '<span class="badge py-3 px-4 fs-7 badge-danger">'.$name.'</span>';
+        } elseif ($this->attributes['status_vendor'] == 2) {
+            return '<span class="badge py-3 px-4 fs-7 badge-warning">'.$name.'</span>';
+        } elseif ($this->attributes['status_vendor'] == 3) {
+            return '<span class="badge py-3 px-4 fs-7 badge-success">'.$name.'</span>';
         }
     }
 }

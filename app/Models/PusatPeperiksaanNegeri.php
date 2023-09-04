@@ -16,7 +16,8 @@ class PusatPeperiksaanNegeri extends Model
         'deleted_by',
     ];
 
-    public function negeri(){
+    public function negeri()
+    {
         return $this->belongsTo(Negeri::class);
     }
 }

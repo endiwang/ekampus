@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin;
 
-use App\Http\Controllers\Controller;
-use App\Models\ProgramPelajar;
-use Illuminate\Http\Request;
-use RealRashid\SweetAlert\Facades\Alert;
-use Yajra\DataTables\DataTables;
-use Yajra\DataTables\Html\Builder;
 use App\Helpers\Utils;
-use Illuminate\Support\Carbon;
+use App\Http\Controllers\Controller;
 use App\Models\Kursus;
 use App\Models\Pelajar;
 use App\Models\ProgramPelajarKehadiran;
+use App\Models\ProgramPelajar;
 use Hashids\Hashids;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-
-
+use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\DataTables;
 
 class PengurusanProgramPelajarController extends Controller
 {
@@ -25,7 +22,6 @@ class PengurusanProgramPelajarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
     protected $baseView = 'pages.pengurusan.hep.pengurusan.program_pelajar.';
 
     public function index(Builder $builder)
@@ -109,7 +105,7 @@ class PengurusanProgramPelajarController extends Controller
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['tarikh_mula', 'tarikh_tamat', 'kehadiran','action'])
+                ->rawColumns(['tarikh_mula', 'tarikh_tamat', 'kehadiran', 'action'])
                 ->toJson();
         }
 
@@ -154,7 +150,6 @@ class PengurusanProgramPelajarController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -288,7 +283,6 @@ class PengurusanProgramPelajarController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

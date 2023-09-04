@@ -10,7 +10,8 @@ class Negeri extends Model
 
     protected $fillable = ['id', 'nama'];
 
-    public function venuePeperiksaanSijilTahfiz(){
+    public function venuePeperiksaanSijilTahfiz()
+    {
         return $this->belongsTo(VenuePeperiksaanSijilTahfiz::class, 'id', 'negeri_id');
     }
 }

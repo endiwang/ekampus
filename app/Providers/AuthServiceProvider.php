@@ -5,6 +5,8 @@ namespace App\Providers;
 // use Illuminate\Support\Facades\Gate;
 
 use App\Models\Kaunseling;
+use App\Models\KemahiranInsaniah\PilihanRaya\Calon;
+use App\Models\KemahiranInsaniah\PilihanRaya\Sesi;
 use App\Models\PusatIslam\Aktiviti;
 use App\Models\PusatIslam\JadualTugasan;
 use App\Models\PusatIslam\KelasOrangAwam;
@@ -12,6 +14,8 @@ use App\Models\PusatIslam\PesertaKelasOrangAwam;
 use App\Models\PusatIslam\RekodKehadiran;
 use App\Models\PusatIslam\SuratRasmi;
 use App\Policies\KaunselingPolicy;
+use App\Policies\KemahiranInsaniah\CalonPilihanRayaPolicy;
+use App\Policies\KemahiranInsaniah\SesiPilihanRayaPolicy;
 use App\Policies\PusatIslam\AktivitiPolicy;
 use App\Policies\PusatIslam\JadualTugasanPolicy;
 use App\Policies\PusatIslam\KelasOrangAwamPolicy;
@@ -36,6 +40,9 @@ class AuthServiceProvider extends ServiceProvider
         PesertaKelasOrangAwam::class => PesertaKelasOrangAwamPolicy::class,
         RekodKehadiran::class => RekodKehadiranPolicy::class,
         SuratRasmi::class => SuratRasmiPolicy::class,
+
+        Calon::class => CalonPilihanRayaPolicy::class,
+        Sesi::class => SesiPilihanRayaPolicy::class,
     ];
 
     /**

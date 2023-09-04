@@ -15,5 +15,6 @@ class Zon extends Model
         'status',
         'deleted_by',
     ];
+
     protected $guarded = ['id'];
 }

@@ -10,19 +10,20 @@ use App\Models\Bayaran;
 use App\Models\Bil;
 use App\Models\Pelajar;
 use App\Models\Yuran;
+use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use DB;
 use Dompdf\Dompdf;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Storage;
 use Pdf;
 
 class YuranController extends Controller
 {
     protected $baseView = 'pages.pengurusan.kewangan.yuran.';
+
     protected $baseRoute = 'pengurusan.kewangan.yuran.';
 
     /**
@@ -61,9 +62,8 @@ class YuranController extends Controller
                 }
             }
 
-            if(!empty($request->status))
-            {
-                $data->where('bil.status', $request->status);                
+            if (! empty($request->status)) {
+                $data->where('bil.status', $request->status);
             }
 
             $data = $data->select(['bil.*']);
@@ -72,9 +72,9 @@ class YuranController extends Controller
                 ->addColumn('pelajar', function ($data) use($id){
                     return @$data->pelajar_nama . '<br>' . @$data->pelajar_ic;
                 })
-                ->addColumn('action', function ($data) use($id){
+                ->addColumn('action', function ($data) use ($id) {
                     $html = '';
-                    $html .= '<a href="' . route($this->baseRoute.'edit', ['id' => $id, 'yuran' => $data->id]) . '" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda"><i class="fa fa-pencil-alt"></i></a> '; 
+                    $html .= '<a href="'.route($this->baseRoute.'edit', ['id' => $id, 'yuran' => $data->id]).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda"><i class="fa fa-pencil-alt"></i></a> ';
 
                     return $html;
                 })
@@ -83,12 +83,11 @@ class YuranController extends Controller
                 })
                 ->addColumn('bayaran', function ($data) use($id){
                     $bayaran = Bayaran::where('bil_id', $data->id)->first();
-                    if(!empty($bayaran))
-                    {
-                        return '<a href="' . route('public.yuran.resit', Crypt::encryptString($bayaran->id)) . '" target="_blank">' . $bayaran->doc_no . '</a>';
+                    if (! empty($bayaran)) {
+                        return '<a href="'.route('public.yuran.resit', Crypt::encryptString($bayaran->id)).'" target="_blank">'.$bayaran->doc_no.'</a>';
                     }
                 })
-                ->addColumn('status', function ($data) use($id){
+                ->addColumn('status', function ($data) {
                     return $data->status_name;
                 })
                 ->addIndexColumn()
@@ -123,7 +122,7 @@ class YuranController extends Controller
         $data['buttons'] = [
             [
                 'title' => 'Bil Baru',
-                'route' => route($this->baseRoute . 'create', $id),
+                'route' => route($this->baseRoute.'create', $id),
                 'button_class' => 'btn btn-sm btn-primary fw-bold',
                 'icon_class' => 'fa fa-plus-circle',
             ],
@@ -146,7 +145,7 @@ class YuranController extends Controller
             $yuran->nama => false,
         ];
         $data['page_title'] = 'Bil Baru';
-        $data['action'] = route($this->baseRoute . 'store', $id);
+        $data['action'] = route($this->baseRoute.'store', $id);
         $data['yuran'] = $yuran;
         $data['model'] = new Bil;
         $data['pelajar'] = Pelajar::limit(10)->pluck('nama', 'id')->toArray();
@@ -157,7 +156,6 @@ class YuranController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $id)
@@ -201,17 +199,16 @@ class YuranController extends Controller
      */
     public function show(Request $request, $data_id)
     {
-        if($request->segment(1) == 'resit')
-        {
+        if ($request->segment(1) == 'resit') {
             $id = Crypt::decryptString($data_id);
             $bayaran = Bayaran::where('id', $id)->first();
 
-            if(empty($bayaran))
-            {
+            if (empty($bayaran)) {
                 abort(404);
             }
-            
+
             $data['bayaran'] = $bayaran;
+          
             return view($this->baseView . 'resit')->with($data);
         }    
 
@@ -247,7 +244,7 @@ class YuranController extends Controller
             $yuran->nama => false,
         ];
         $data['page_title'] = 'Kemaskini Bil & Bayaran';
-        $data['action'] = route($this->baseRoute . 'update', [$id, $bil_id]);
+        $data['action'] = route($this->baseRoute.'update', [$id, $bil_id]);
         $data['yuran'] = $yuran;
         $data['model'] = Bil::find($bil_id);
         $data['pelajar'] = Pelajar::limit(10)->pluck('nama', 'id')->toArray();
@@ -260,7 +257,6 @@ class YuranController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -282,27 +278,23 @@ class YuranController extends Controller
 
                 $yuran = Yuran::find($id);
                 $bil = Bil::find($bil_id);
-                if(!empty($bil))
-                {
+                if (! empty($bil)) {
                     $bil->status = $request->status;
-                    if($bil->status == 3)
-                    {
+                    if ($bil->status == 3) {
                         $bil->remarks = $request->reject_reason;
                     }
                     $bil->save();
                 }
 
-                if($request->status == 2 && !empty($request->bayaran_date) && !empty($request->bayaran_description))
-                {
+                if ($request->status == 2 && ! empty($request->bayaran_date) && ! empty($request->bayaran_description)) {
                     $count_bayaran = Bayaran::count();
                     $no_bayaran = sprintf('%04d', $count_bayaran + 1);
 
                     $bayaran = Bayaran::where('bil_id', $bil->id)->first();
-                    if(empty($bayaran))
-                    {
+                    if (empty($bayaran)) {
                         $bayaran = new Bayaran;
                     }
-                    $bayaran->doc_no = 'RCPT' . $no_bayaran;
+                    $bayaran->doc_no = 'RCPT'.$no_bayaran;
                     $bayaran->bil_id = $bil->id;
                     $bayaran->pelajar_id = $bil->pelajar_id;
                     $bayaran->pemohon_id = $bil->pemohon_id;
@@ -314,21 +306,20 @@ class YuranController extends Controller
 
                     $datetime_now = strtotime(now());
 
-                    if(!empty($request->bayaran_gambar))
-                    {
+                    if (! empty($request->bayaran_gambar)) {
                         $image = [];
 
                         $file = $request->bayaran_gambar;
-                        $original_name = $file->getClientOriginalName();                            
+                        $original_name = $file->getClientOriginalName();
                         $file_name = pathinfo($original_name, PATHINFO_FILENAME);
                         $extension = pathinfo($original_name, PATHINFO_EXTENSION);
-                        $file_name = $aduan->id . '_' . $file_name . '_' . $datetime_now . '.' . $extension;
-                        $file_path = 'bayaran/' . $file_name;
-                        Storage::disk('local')->put('public/' . $file_path, fopen($file, 'r+'), 'public');
-                        
+                        $file_name = $aduan->id.'_'.$file_name.'_'.$datetime_now.'.'.$extension;
+                        $file_path = 'bayaran/'.$file_name;
+                        Storage::disk('local')->put('public/'.$file_path, fopen($file, 'r+'), 'public');
+
                         $image['image_name'] = $file_name;
                         $image['image_path'] = $file_path;
-                        
+
                         $bayaran->gambar = json_encode($image);
                         $bayaran->save();
                     }
@@ -343,8 +334,7 @@ class YuranController extends Controller
 
             $bil = Bil::find($bil_id);
             $bayaran = Bayaran::where('bil_id', $bil_id)->first();
-            if($bil->status == 2 && !empty($bayaran))
-            {
+            if ($bil->status == 2 && ! empty($bayaran)) {
                 event(new BayaranYuranEvent($bil, $bayaran));
             }
 

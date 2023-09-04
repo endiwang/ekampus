@@ -91,6 +91,7 @@ Route::prefix('migrate')->group(function () {
     Route::get('/ref_sebab_berhenti_to_sebab_berhenti', [MigrateMainController::class, 'ref_sebab_berhenti_to_sebab_berhenti']);
     Route::get('/ref_asrama_blok_to_blok', [MigrateMainController::class, 'ref_asrama_blok_to_blok']);
     Route::get('/ref_asrama_tingkat_to_tingkat', [MigrateMainController::class, 'ref_asrama_tingkat_to_tingkat']);
+    Route::get('/sis_a_tblbilik_to_bilik_asrama', [MigrateMainController::class, 'sis_a_tblbilik_to_bilik_asrama']);
 });
 
 Route::get('/duplicate_data', [MigrateMainController::class, 'find_duplicate']);

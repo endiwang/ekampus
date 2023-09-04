@@ -131,14 +131,13 @@ class ProsesBerhentiController extends Controller
         $pelajar->save();
 
         $yuran = Yuran::find(Generic::YURAN_KUTIPAN_BAYARAN_BALIK);
-        if(!empty($yuran))
-        {
+        if (! empty($yuran)) {
             BilLibrary::createBil([
                 'yuran' => $yuran,
                 'pelajar_id' => $pelajar->id,
             ]);
         }
-        
+
         Alert::toast('Proses berhenti bejaya', 'success');
 
         return redirect()->route('pengurusan.kbg.pengurusan.proses_berhenti.index');
