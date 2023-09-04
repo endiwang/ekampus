@@ -15,6 +15,8 @@ class Lookup extends Model
 
     public const CATEGORY_PUSAT_ISLAM = 'Pusat Islam';
 
+    public const CATEGORY_KEMAHIRAN_INSANIAH = 'Kemahiran Insaniah';
+
     public static function categories(): array
     {
         return [

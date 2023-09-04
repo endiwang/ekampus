@@ -17,4 +17,15 @@ class Subjek extends Model
     {
         return $this->belongsTo(Kursus::class, 'kursus_id', 'id');
     }
+
+    public function semesterSubjek()
+    {
+        return $this->belongsTo(SemesterSubjek::class, 'id', 'subjek_id');
+    }
+
+    public function cajPeperiksaan()
+    {
+        return $this->belongsTo(CajPeperiksaan::class, 'id', 'subjek_id');
+    }
+
 }

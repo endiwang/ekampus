@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Pengurusan\PengajianSepanjangHayat;
 use App\Http\Controllers\Controller;
 use App\Models\PemarkahanCalonSijilTahfiz;
 use App\Models\PermohonanSijilTahfiz;
-use Illuminate\Http\Request;
 
 class MainPengajianSepanjangHayatController extends Controller
 {
@@ -26,6 +25,7 @@ class MainPengajianSepanjangHayatController extends Controller
             ->where('status_hadir_ujian_tahriri', 1)
             ->where('status_hadir_ujian_pengetahuan_islam', 1)
             ->count();
+
         return view('pages.pengurusan.pengajian_sepanjang_hayat.dashboard.main')->with($data);
     }
 }

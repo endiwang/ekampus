@@ -9,7 +9,6 @@ Route::group(['middleware' => ['auth', 'auth.unit_kewangan']], function () {
 
     Route::resource('/', MainKewanganController::class)->only(['index']);
 
-
     Route::group(['prefix' => 'kemaskini', 'as' => 'kemaskini.'], function () {
         Route::resource('yuran', KemaskiniYuranController::class);
     });

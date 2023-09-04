@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PermohonanSijilTahfizFile extends Model
 {
     use HasFactory, SoftDeletes;
+
     protected $fillable = [
         'permohonan_sijil_tahfiz_id',
         'file_upload_name',
@@ -17,5 +18,6 @@ class PermohonanSijilTahfizFile extends Model
         'created_by',
         'deleted_by',
     ];
+
     protected $guarded = ['id'];
 }

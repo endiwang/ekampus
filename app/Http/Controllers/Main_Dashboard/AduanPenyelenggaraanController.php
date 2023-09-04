@@ -4,23 +4,20 @@ namespace App\Http\Controllers\Main_Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AduanPenyelenggaraanMail;
-use App\Mail\AduanPenyelenggaraanProsesVendorMail;
 use App\Models\AduanPenyelenggaraan;
-use App\Models\AduanPenyelenggaraanDetail;
 use App\Models\Bilik;
 use App\Models\Blok;
 use App\Models\Pelajar;
 use App\Models\Staff;
 use App\Models\Tingkat;
-use App\Models\Vendor;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use Illuminate\Support\Facades\Mail;
 
 class AduanPenyelenggaraanController extends Controller
 {
@@ -37,7 +34,7 @@ class AduanPenyelenggaraanController extends Controller
     {
         if (request()->ajax()) {
 
-            $data = AduanPenyelenggaraan::where('user_id', Auth::id())->orderBy('id', 'desc');          
+            $data = AduanPenyelenggaraan::where('user_id', Auth::id())->orderBy('id', 'desc');
 
             return DataTables::of($data)
                 ->addColumn('no_siri', function ($data) {
@@ -94,7 +91,7 @@ class AduanPenyelenggaraanController extends Controller
             ['data' => 'status', 'name' => 'status', 'title' => 'Status Aduan', 'orderable' => false, 'searchable' => false],
             ['data' => 'tarikh_aduan', 'name' => 'tarikh_aduan', 'title' => 'Tarikh Aduan', 'orderable' => false, 'searchable' => false],
             ['data' => 'action', 'name' => 'action', 'orderable' => false, 'searchable' => false],
-        ];        
+        ];
 
         $dataTable = $builder
             ->parameters([])
@@ -189,12 +186,12 @@ class AduanPenyelenggaraanController extends Controller
                         $images = [];
                         $image_counter = 1;
                         foreach ($request->gambar as $key => $file) {
-                            $original_name = $file->getClientOriginalName();                            
+                            $original_name = $file->getClientOriginalName();
                             $file_name = pathinfo($original_name, PATHINFO_FILENAME);
                             $extension = pathinfo($original_name, PATHINFO_EXTENSION);
-                            $file_name = $aduan->id . '_' . $file_name . '_' . $datetime_now . '.' . $extension;
-                            $file_path = 'aduan_penyelenggaaraan/' . $file_name;
-                            Storage::disk('local')->put('public/' . $file_path, fopen($file, 'r+'), 'public');
+                            $file_name = $aduan->id.'_'.$file_name.'_'.$datetime_now.'.'.$extension;
+                            $file_path = 'aduan_penyelenggaaraan/'.$file_name;
+                            Storage::disk('local')->put('public/'.$file_path, fopen($file, 'r+'), 'public');
                             $images[$image_counter] = $file_path;
                             $image_counter++;
                         }
@@ -202,28 +199,22 @@ class AduanPenyelenggaraanController extends Controller
                         $aduan->save();
 
                         $user = $aduan->user;
-                        if($user->is_student == 1)
-                        {
+                        if ($user->is_student == 1) {
                             $pelajar = Pelajar::where('user_id', $user->id)->first();
-                            if(!empty($pelajar) && !empty($pelajar->email))
-                            {
+                            if (! empty($pelajar) && ! empty($pelajar->email)) {
                                 Mail::to($pelajar->email)->send(new AduanPenyelenggaraanMail($aduan, false));
                             }
-                        }
-                        elseif($user->is_staff == 2)
-                        {
+                        } elseif ($user->is_staff == 2) {
                             $staff = Staff::where('user_id', $user->id)->first();
-                            if(!empty($staff) && !empty($staff->email))
-                            {
+                            if (! empty($staff) && ! empty($staff->email)) {
                                 Mail::to($staff->email)->send(new AduanPenyelenggaraanMail($aduan, false));
                             }
                         }
 
                         $staff_pembangunan = Staff::whereNotNull('email')->where('jabatan_id', 21)->get();
-                        foreach($staff_pembangunan as $staff)
-                        {
+                        foreach ($staff_pembangunan as $staff) {
                             Mail::to($staff->email)->send(new AduanPenyelenggaraanMail($aduan, true));
-                        }        
+                        }
                     }
                 }
             });

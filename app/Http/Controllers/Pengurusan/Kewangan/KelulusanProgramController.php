@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Pengurusan\Kewangan;
 
 use App\Http\Controllers\Controller;
-use App\Models\Yuran;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
@@ -12,7 +11,9 @@ use Yajra\DataTables\Html\Builder;
 class KelulusanProgramController extends Controller
 {
     protected $baseView = 'pages.pengurusan.kewangan.kelulusan_program.';
+
     protected $baseRoute = 'pengurusan.kewangan.kelulusan_program.';
+
     /**
      * Display a listing of the resource.
      *
@@ -59,7 +60,7 @@ class KelulusanProgramController extends Controller
                         'status_kewangan' => '<span class="badge py-3 px-4 fs-7 badge-success">Lulus</span>',
                         'status' => 1,
                         'tarikh_permohonan' => '2023-08-20',
-                    ]
+                    ],
                 ]
             );
 
@@ -67,9 +68,8 @@ class KelulusanProgramController extends Controller
                 ->addColumn('action', function ($data) {
                     $html = '';
 
-                    if(empty($data['status']))
-                    {
-                        $html .= '<a href="javascript:void(0)" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1 btn-edit-kelulusan" data-bs-toggle="tooltip" title="Pinda" data-url="' . route($this->baseRoute.'edit', $data['id']) . '" data-action="' . route($this->baseRoute.'update', $data['id']) . '"><i class="fa fa-pencil-alt"></i></a> ';
+                    if (empty($data['status'])) {
+                        $html .= '<a href="javascript:void(0)" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1 btn-edit-kelulusan" data-bs-toggle="tooltip" title="Pinda" data-url="'.route($this->baseRoute.'edit', $data['id']).'" data-action="'.route($this->baseRoute.'update', $data['id']).'"><i class="fa fa-pencil-alt"></i></a> ';
                     }
 
                     return $html;
@@ -117,7 +117,6 @@ class KelulusanProgramController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -145,13 +144,13 @@ class KelulusanProgramController extends Controller
     public function edit($id)
     {
         $data = [];
+
         return view($this->baseView.'form')->with($data);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

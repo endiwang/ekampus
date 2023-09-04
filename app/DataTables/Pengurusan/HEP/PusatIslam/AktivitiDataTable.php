@@ -31,11 +31,7 @@ class AktivitiDataTable extends DataTable
             ->addColumn(
                 'hari_kebesaran_islam',
                 fn ($data) => view('partials.status', [
-                    'status' => data_get($data, 'hari_kebesaran_islam'),
-                    'yesLabel' => 'Ya',
-                    'noLabel' => 'Tidak',
-                    'yesClass' => 'text-bg-success',
-                    'noClass' => 'text-bg-light',
+                    'status' => data_get($data, 'hari_kebesaran_islam') ? true : false,
                 ])
             )
             ->addColumn('action', function ($data) {

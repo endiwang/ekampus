@@ -15,6 +15,7 @@ use Yajra\DataTables\Html\Builder;
 class VendorController extends Controller
 {
     protected $baseView = 'pages.pengurusan.pembangunan.vendor.';
+
     protected $baseRoute = 'pengurusan.pembangunan.kemaskini.vendor.';
 
     /**

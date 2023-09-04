@@ -32,6 +32,10 @@ return [
                     'title' => 'Kenderaan Sitaan',
                     'route' => 'pengurusan.hep.pengurusan.kenderaan_sitaan.index',
                 ],
+                [
+                    'title' => 'Program Pelajar',
+                    'route' => 'pengurusan.hep.pengurusan.program_pelajar.index',
+                ],
             ],
         ],
         [
@@ -49,6 +53,17 @@ return [
                 [
                     'title' => 'Bawa Kenderaan',
                     'route' => 'pengurusan.hep.permohonan.bawa_kenderaan.index',
+                ],
+            ],
+        ],
+        [
+            'title' => 'Kemahiran Insaniah',
+            'route' => 'pengurusan.hep.kemahiran-insaniah.*',
+            'children' => [
+                [
+                    'title' => 'Pilihan Raya',
+                    'route' => 'pengurusan.hep.kemahiran-insaniah.pilihan-raya.index',
+                    'parameters' => [],
                 ],
             ],
         ],

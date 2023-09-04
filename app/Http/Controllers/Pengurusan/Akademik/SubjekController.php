@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Pengurusan\Akademik;
 use App\Constants\Generic;
 use App\Http\Controllers\Controller;
 use App\Models\Kursus;
+use App\Models\Semester;
+use App\Models\SemesterKursus;
+use App\Models\SemesterSubjek;
+use App\Models\Sesi;
 use App\Models\Subjek;
 use Exception;
 use Illuminate\Http\Request;
@@ -121,10 +125,12 @@ class SubjekController extends Controller
                 Generic::TIDAK_DICETAK_DALAM_SLIP => 'Tidak Dicetak',
             ];
 
+            $semesters = SemesterKursus::with('semester')->where('kursus_id', $id)->get();
+
             $model = new Subjek();
 
             return view($this->baseView.'add_edit', compact('title', 'action', 'page_title', 'breadcrumbs', 'buttons',
-                'course', 'model', 'al_quran', 'count_info', 'print_info', 'id'));
+                'course', 'model', 'al_quran', 'count_info', 'print_info', 'id', 'semesters'));
 
         } catch (Exception $e) {
             report($e);
@@ -163,7 +169,7 @@ class SubjekController extends Controller
 
         try {
 
-            Subjek::create([
+            $subjek = Subjek::create([
                 'nama' => $request->nama_subjek,
                 'kursus_id' => $request->kursus_id,
                 'kod_subjek' => $request->kod_subjek,
@@ -174,6 +180,14 @@ class SubjekController extends Controller
                 'is_calc' => $request->count_info,
                 'is_print' => $request->print_info,
                 'status' => $request->status,
+            ]);
+
+            $get_kursus = SemesterKursus::find($request->semester);
+            SemesterSubjek::updateOrCreate([
+                'semester_kursus_id' => $request->semester,
+                'subjek_id' => $subjek->id,
+                'semester_id' => $get_kursus->semster_id,
+                'kursus_id' => $get_kursus->kursus_id,
             ]);
 
             Alert::toast('Maklumat subjek berjaya ditambah!', 'success');
@@ -198,8 +212,9 @@ class SubjekController extends Controller
     public function show($id, Builder $builder)
     {
         try {
+            $kursus = Kursus::select('nama')->find($id);
 
-            $title = 'Subjek';
+            $title = 'Subjek bagi ' . $kursus->nama;
             $breadcrumbs = [
                 'Akademik' => false,
                 'Maklumat Kursus Bagi Maklumat Subjek' => route('pengurusan.akademik.kursus.index'),
@@ -217,9 +232,12 @@ class SubjekController extends Controller
             ];
 
             if (request()->ajax()) {
-                $data = Subjek::where('kursus_id', $id);
+                $data = Subjek::with('semesterSubjek', 'semesterSubjek.semesterKursus', 'semesterSubjek.semesterKursus.semester')->where('kursus_id', $id);
 
                 return DataTables::of($data)
+                    ->addColumn('semester', function ($data) {
+                        return $data->semesterSubjek->semesterKursus->semester->nama ?? null;
+                    })
                     ->addColumn('is_alquran', function ($data) {
                         switch ($data->is_alquran) {
                             case 1:
@@ -294,6 +312,7 @@ class SubjekController extends Controller
                     ['data' => 'kod_subjek', 'name' => 'kod_subjek', 'title' => 'Kod Subjek'],
                     ['data' => 'maklumat_tambahan', 'name' => 'maklumat_tambahan', 'title' => 'Maklumat'],
                     ['data' => 'kredit', 'name' => 'kredit', 'title' => 'Kredit'],
+                    ['data' => 'semester', 'name' => 'semester', 'title' => 'Semester'],
                     ['data' => 'is_alquran', 'name' => 'is_alquran', 'title' => 'Al-Quran'],
                     ['data' => 'is_calc', 'name' => 'is_calc', 'title' => 'Pengiraan'],
                     ['data' => 'is_print', 'name' => 'is_print', 'title' => 'Cetakan'],
@@ -354,10 +373,13 @@ class SubjekController extends Controller
                 Generic::TIDAK_DICETAK_DALAM_SLIP => 'Tidak Dicetak',
             ];
 
+            $semesters = SemesterKursus::with('semester')->where('kursus_id', $course_id)->get();
+
+            $semester_subjek = SemesterSubjek::where('kursus_id', $course_id)->where('subjek_id', $id)->first();
             $model = Subjek::find($id);
 
             return view($this->baseView.'add_edit', compact('title', 'action', 'page_title', 'breadcrumbs', 'buttons',
-                'course', 'model', 'al_quran', 'count_info', 'print_info', 'id'));
+                'course', 'model', 'al_quran', 'count_info', 'print_info', 'id', 'semesters', 'semester_subjek'));
 
         } catch (Exception $e) {
             report($e);
@@ -408,6 +430,14 @@ class SubjekController extends Controller
                 'is_calc' => $request->count_info,
                 'is_print' => $request->print_info,
                 'status' => $request->status,
+            ]);
+
+            $get_kursus = SemesterKursus::find($request->semester);
+            SemesterSubjek::updateOrCreate([
+                'semester_kursus_id' => $request->semester,
+                'subjek_id' => $id,
+                'semester_id' => $get_kursus->semster_id,
+                'kursus_id' => $get_kursus->kursus_id,
             ]);
 
             Alert::toast('Maklumat subjek berjaya dipinda!', 'success');
@@ -472,4 +502,5 @@ class SubjekController extends Controller
             return redirect()->back();
         }
     }
+
 }

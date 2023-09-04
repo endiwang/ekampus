@@ -12,6 +12,7 @@ use App\Jobs\MigratePermohonanPenjaga;
 use App\Jobs\MigratePermohonanTanggunganPenjaga;
 use App\Jobs\MigrateTawaranPermohonan;
 use App\Models\Bilik;
+use App\Models\BilikAsrama;
 use App\Models\Blok;
 use App\Models\Gred;
 use App\Models\Jabatan;
@@ -36,6 +37,7 @@ use App\Models\OldDatabase\ref_state;
 use App\Models\OldDatabase\ref_subjek;
 use App\Models\OldDatabase\ref_syukbah;
 use App\Models\OldDatabase\ref_warganegara;
+use App\Models\OldDatabase\sis_a_tblbilik;
 //Old DB
 use App\Models\OldDatabase\sis_jadbilik;
 use App\Models\OldDatabase\sis_semester_now;
@@ -1188,6 +1190,26 @@ class MainController extends Controller
                 'drop_by' => $datum->drop_by,
                 'is_calc_new' => $datum->is_calc_new,
                 'komen_staff' => $datum->komen_staff,
+            ]);
+        }
+
+        dd('done');
+    }
+
+    public function sis_a_tblbilik_to_bilik_asrama()
+    {
+        $data = sis_a_tblbilik::all();
+
+        foreach ($data as $datum) {
+            BilikAsrama::create([
+                'id' => $datum->bilik_id,
+                'tingkat_id' => $datum->tingkat_id,
+                'blok_id' => $datum->blok_id,
+                'no_bilik' => $datum->no_bilik,
+                'status_bilik' => $datum->status_bilik,
+                'keadaan_bilik' => $datum->keadaan_bilik,
+                'jenis_bilik' => $datum->jenis_bilik,
+                'is_deleted' => $datum->is_deleted,
             ]);
         }
 

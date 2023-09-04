@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pengurusan\Akademik\Permohonan;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kursus;
 use App\Models\Pelajar;
 use App\Models\PermohonanPertukaranSyukbah;
 use Exception;
@@ -20,7 +21,7 @@ class PertukaranSyukbahController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -35,6 +36,26 @@ class PertukaranSyukbahController extends Controller
 
             if (request()->ajax()) {
                 $data = PermohonanPertukaranSyukbah::with('pelajar', 'pelajar.kursus', 'newSyukbah')->where('status', 'NEW');
+                if ($request->has('nama') && $request->nama != null) {
+                    $data = $data->whereHas('pelajar', function ($data) use ($request) {
+                        $data->where('nama', 'LIKE', '%'.$request->nama.'%');
+                    });
+                }
+                if ($request->has('no_ic') && $request->no_ic != null) {
+                    $data = $data->whereHas('pelajar', function ($data) use ($request) {
+                        $data->where('no_ic', 'LIKE', '%'.$request->no_ic.'%');
+                    });
+                }
+                if ($request->has('no_matrik') && $request->no_matrik != null) {
+                    $data = $data->whereHas('pelajar', function ($data) use ($request) {
+                        $data->where('no_matrik', 'LIKE', '%'.$request->no_matrik.'%');
+                    });
+                }
+                if ($request->has('program_pengajian') && $request->program_pengajian != null) {
+                    $data = $data->whereHas('pelajar', function ($data) use ($request) {
+                        $data->where('kursus_id', $request->program_pengajian);
+                    });
+                }
 
                 return DataTables::of($data)
                     ->addColumn('nama', function ($data) {
@@ -82,7 +103,9 @@ class PertukaranSyukbahController extends Controller
                 ])
                 ->minifiedAjax();
 
-            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
+            $program_pengajian = Kursus::where('is_deleted', 0)->get()->pluck('nama', 'id');
+
+            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable', 'program_pengajian'));
 
         } catch (Exception $e) {
             report($e);

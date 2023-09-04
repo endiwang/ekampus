@@ -19,6 +19,7 @@ use Yajra\DataTables\Html\Builder;
 class PengesahanTamatPengajianController extends Controller
 {
     protected $baseView = 'pages.pengurusan.peperiksaan.pengesahan_tamat_pengajian.';
+
     protected $baseRoute = 'pengurusan.peperiksaan.pengesahan_tamat_pengajian.';
 
     /**
@@ -36,7 +37,7 @@ class PengesahanTamatPengajianController extends Controller
             ];
 
             if (request()->ajax()) {
-                $data = Pelajar::with( 'kursus', 'kelas')->where('is_deleted', 0)->where('is_register', 1);
+                $data = Pelajar::with('kursus', 'kelas')->where('is_deleted', 0)->where('is_register', 1);
                 if ($request->has('program_pengajian') && $request->program_pengajian != null) {
                     $data->where('kursus_id', $request->program_pengajian);
                 }
@@ -69,7 +70,7 @@ class PengesahanTamatPengajianController extends Controller
                     ->addColumn('kelas_id', function ($data) {
                         return $data->kelas->nama ?? null;
                     })
-                    ->addColumn('action', function ($data) use ($request) {
+                    ->addColumn('action', function ($data) {
                         return '<a href="'.route($this->baseRoute.'show', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Lihat Maklumat Pelajar">
                                 <i class="fa fa-eye"></i>
                             </a>
@@ -102,7 +103,7 @@ class PengesahanTamatPengajianController extends Controller
             $semesters = Semester::where('deleted_at', null)->pluck('nama', 'id');
             $classes = Kelas::where('deleted_at', null)->pluck('nama', 'id');
 
-            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable', 'courses', 'classes','semesters'));
+            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable', 'courses', 'classes', 'semesters'));
 
         } catch (Exception $e) {
             report($e);
@@ -126,34 +127,33 @@ class PengesahanTamatPengajianController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         try {
 
-          $pointer = Utils::getPointer($request->markah);
+            $pointer = Utils::getPointer($request->markah);
 
-          $store = PelajarSemesterDetail::find($request->id);
-          $store->markah_40   = $request->markah_40 ?? null;
-          $store->markah_60   = $request->markah_60 ?? null;
-          $store->pointer     = $pointer ?? '0.00';
-          $store->markah      = $request->markah ?? null;
-          $store->gred        = $request->gred ?? null;
-          $store->save();
+            $store = PelajarSemesterDetail::find($request->id);
+            $store->markah_40 = $request->markah_40 ?? null;
+            $store->markah_60 = $request->markah_60 ?? null;
+            $store->pointer = $pointer ?? '0.00';
+            $store->markah = $request->markah ?? null;
+            $store->gred = $request->gred ?? null;
+            $store->save();
 
-          Alert::toast('Maklumat subjek peperiksaan berjaya dikemaskini!', 'success');
+            Alert::toast('Maklumat subjek peperiksaan berjaya dikemaskini!', 'success');
 
-          return redirect()->back();
+            return redirect()->back();
 
-      } catch (Exception $e) {
-          report($e);
+        } catch (Exception $e) {
+            report($e);
 
-          Alert::toast('Uh oh! Something went Wrong', 'error');
+            Alert::toast('Uh oh! Something went Wrong', 'error');
 
-          return redirect()->back();
-      }
+            return redirect()->back();
+        }
     }
 
     /**
@@ -165,68 +165,68 @@ class PengesahanTamatPengajianController extends Controller
     public function show($id, Builder $builder)
     {
         // try {
-            $title = 'Pengesahan Tamat Pengajian';
-            $page_title = 'Maklumat Pelajar';
-            $breadcrumbs = [
-                'Peperiksaan' => false,
-                'Pengesahan Tamat Pengajian' => route($this->baseRoute.'index'),
-                'Maklumat Pelajar' => false,
-            ];
+        $title = 'Pengesahan Tamat Pengajian';
+        $page_title = 'Maklumat Pelajar';
+        $breadcrumbs = [
+            'Peperiksaan' => false,
+            'Pengesahan Tamat Pengajian' => route($this->baseRoute.'index'),
+            'Maklumat Pelajar' => false,
+        ];
 
-            $model = Pelajar::with('kursus', 'sesi', 'kelas')->find($id);
-            $current_sem_detail = PelajarSemester::with('pelajarSemesterDetails')->where('pelajar_id', $model->pelajar_id_old)
-                                ->where('semester',  $model->semester)->first();
-            $all_semesters = PelajarSemester::with('pelajarSemesterDetails', 'pelajarSemesterDetails.subjek')->where('pelajar_id', $model->pelajar_id_old)
-                                ->where('semester', '!=', $model->semester)->get();
+        $model = Pelajar::with('kursus', 'sesi', 'kelas')->find($id);
+        $current_sem_detail = PelajarSemester::with('pelajarSemesterDetails')->where('pelajar_id', $model->pelajar_id_old)
+            ->where('semester', $model->semester)->first();
+        $all_semesters = PelajarSemester::with('pelajarSemesterDetails', 'pelajarSemesterDetails.subjek')->where('pelajar_id', $model->pelajar_id_old)
+            ->where('semester', '!=', $model->semester)->get();
 
-            if (request()->ajax()) {
-              $data = PelajarSemesterDetail::with('subjek', 'sesi')->where('pelajar_semester_id', $current_sem_detail->id);
+        if (request()->ajax()) {
+            $data = PelajarSemesterDetail::with('subjek', 'sesi')->where('pelajar_semester_id', $current_sem_detail->id);
 
-              return DataTables::of($data)
-                  ->addColumn('subjek', function ($data) {
-                      return $data->subjek->nama ?? null;
-                  })
-                  ->addColumn('kod_subjek', function ($data) {
-                      return $data->subjek->kod_subjek ?? null;
-                  })
-                  ->addColumn('jam_kredit', function ($data) {
-                      return $data->subjek->kredit ?? null;
-                  })
-                  ->addColumn('mata', function ($data) {
-                    return !empty($data->pointer) ? number_format($data->pointer, 2) : null;
-                  })
-                  ->addColumn('markah', function ($data) {
-                    return !empty($data->markah) ? number_format($data->markah, 2) : null;
-                  })
-                  ->addColumn('action', function ($data) use ($model) {
-                      return '<button type="button" data-id='.$data->id.' pelajar-id='.$model->id.' id="buttonMaklumatSubjekPelajar" onclick="getMaklumatSubjekPelajar(this);" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip">
+            return DataTables::of($data)
+                ->addColumn('subjek', function ($data) {
+                    return $data->subjek->nama ?? null;
+                })
+                ->addColumn('kod_subjek', function ($data) {
+                    return $data->subjek->kod_subjek ?? null;
+                })
+                ->addColumn('jam_kredit', function ($data) {
+                    return $data->subjek->kredit ?? null;
+                })
+                ->addColumn('mata', function ($data) {
+                    return ! empty($data->pointer) ? number_format($data->pointer, 2) : null;
+                })
+                ->addColumn('markah', function ($data) {
+                    return ! empty($data->markah) ? number_format($data->markah, 2) : null;
+                })
+                ->addColumn('action', function ($data) use ($model) {
+                    return '<button type="button" data-id='.$data->id.' pelajar-id='.$model->id.' id="buttonMaklumatSubjekPelajar" onclick="getMaklumatSubjekPelajar(this);" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip">
                                 <i class="fa fa-pencil-alt"></i>
                             </button>
                               ';
-                  })
-                  ->addIndexColumn()
-                  ->order(function ($data) {
-                      $data->orderBy('id', 'desc');
-                  })
-                  ->rawColumns(['status', 'action'])
-                  ->toJson();
-            }
+                })
+                ->addIndexColumn()
+                ->order(function ($data) {
+                    $data->orderBy('id', 'desc');
+                })
+                ->rawColumns(['status', 'action'])
+                ->toJson();
+        }
 
-            $dataTable = $builder
-              ->columns([
-                  ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
-                  ['data' => 'subjek', 'name' => 'subjek', 'title' => 'Subjek', 'orderable' => false],
-                  ['data' => 'kod_subjek', 'name' => 'kod_subjek', 'title' => 'Kod Subjek', 'orderable' => false],
-                  ['data' => 'jam_kredit', 'name' => 'jam_kredit', 'title' => 'Jam Kredit', 'orderable' => false, 'class' => 'text-bold'],
-                  ['data' => 'mata', 'name' => 'mata', 'title' => 'Mata', 'orderable' => false],
-                  ['data' => 'gred', 'name' => 'gred', 'title' => 'Gred', 'orderable' => false],
-                  ['data' => 'markah', 'name' => 'markah', 'title' => 'Markah', 'orderable' => false],
-                  ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
+        $dataTable = $builder
+            ->columns([
+                ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+                ['data' => 'subjek', 'name' => 'subjek', 'title' => 'Subjek', 'orderable' => false],
+                ['data' => 'kod_subjek', 'name' => 'kod_subjek', 'title' => 'Kod Subjek', 'orderable' => false],
+                ['data' => 'jam_kredit', 'name' => 'jam_kredit', 'title' => 'Jam Kredit', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'mata', 'name' => 'mata', 'title' => 'Mata', 'orderable' => false],
+                ['data' => 'gred', 'name' => 'gred', 'title' => 'Gred', 'orderable' => false],
+                ['data' => 'markah', 'name' => 'markah', 'title' => 'Markah', 'orderable' => false],
+                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
 
-              ])
-              ->minifiedAjax();
+            ])
+            ->minifiedAjax();
 
-            return view($this->baseView.'show', compact('model', 'title', 'breadcrumbs', 'dataTable', 'all_semesters'));
+        return view($this->baseView.'show', compact('model', 'title', 'breadcrumbs', 'dataTable', 'all_semesters'));
 
         // } catch (Exception $e) {
         //     report($e);
@@ -251,7 +251,6 @@ class PengesahanTamatPengajianController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -307,7 +306,7 @@ class PengesahanTamatPengajianController extends Controller
                             <span class='fw-bold fs-7 text-gray-800'>: ".$data->subjek->kredit."</span>
                         </div>
                     </div>
-                    <form id='tamat_pengajian' action=".route($this->baseRoute . 'store')." method='POST'>
+                    <form id='tamat_pengajian' action=".route($this->baseRoute.'store')." method='POST'>
                     <input type='hidden' name='_token' value=".csrf_token().">
                     <input type='hidden' name='id' value=".$data->id.">
                     <div class='row mb-2'>
@@ -343,20 +342,20 @@ class PengesahanTamatPengajianController extends Controller
     {
         try {
 
-          $tamat_belajar = Pelajar::find($id);
-          $tamat_belajar->is_tamat = 1;
-          $tamat_belajar->save();
+            $tamat_belajar = Pelajar::find($id);
+            $tamat_belajar->is_tamat = 1;
+            $tamat_belajar->save();
 
-          Alert::toast('Bejaya sahkan status pelajar sebagai Tamat Belajar!', 'success');
+            Alert::toast('Bejaya sahkan status pelajar sebagai Tamat Belajar!', 'success');
 
-          return redirect()->back();
+            return redirect()->back();
 
-      } catch (Exception $e) {
-          report($e);
+        } catch (Exception $e) {
+            report($e);
 
-          Alert::toast('Uh oh! Something went Wrong', 'error');
+            Alert::toast('Uh oh! Something went Wrong', 'error');
 
-          return redirect()->back();
-      }
+            return redirect()->back();
+        }
     }
 }

@@ -11,5 +11,6 @@ class TemplateSijilTahfiz extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'template_sijil_tahfizs';
+
     protected $guarded = ['id'];
 }

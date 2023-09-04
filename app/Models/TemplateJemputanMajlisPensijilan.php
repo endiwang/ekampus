@@ -11,9 +11,11 @@ class TemplateJemputanMajlisPensijilan extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'template_jemputan_majlis_pensijilans';
+
     protected $guarded = ['id'];
 
-    public function majlis(){
-        return $this->belongsTo(TetapanMajlisPenyerahanSijilTahfiz::class,'majlis_id', 'id');
+    public function majlis()
+    {
+        return $this->belongsTo(TetapanMajlisPenyerahanSijilTahfiz::class, 'majlis_id', 'id');
     }
 }

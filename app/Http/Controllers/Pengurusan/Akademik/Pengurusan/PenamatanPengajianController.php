@@ -23,7 +23,7 @@ class PenamatanPengajianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -44,6 +44,24 @@ class PenamatanPengajianController extends Controller
 
             if (request()->ajax()) {
                 $data = PelajarBerhenti::with('pelajar', 'pelajarOld');
+                if ($request->has('nama') && $request->nama != null) {
+                    $data = $data->whereHas('pelajar', function ($data) use ($request) {
+                        $data->where('nama', 'LIKE', '%'.$request->nama.'%');
+                    });
+                }
+                if ($request->has('no_kp') && $request->no_kp != null) {
+                    $data = $data->whereHas('pelajar', function ($data) use ($request) {
+                        $data->where('no_ic', 'LIKE', '%'.$request->no_kp.'%');
+                    });
+                }
+                if ($request->has('no_matrik') && $request->no_matrik != null) {
+                    $data = $data->whereHas('pelajar', function ($data) use ($request) {
+                        $data->where('no_matrik', 'LIKE', '%'.$request->no_matrik.'%');
+                    });
+                }
+                if ($request->has('sebab_berhenti') && $request->sebab_berhenti != null) {
+                    $data->where('kod_berhenti', $request->sebab_berhenti);
+                }
 
                 return DataTables::of($data)
                     ->addColumn('nama_pelajar', function ($data) {
@@ -108,7 +126,9 @@ class PenamatanPengajianController extends Controller
                 ])
                 ->minifiedAjax();
 
-            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable', 'buttons'));
+            $sebab_berhenti = SebabBerhenti::pluck('berhenti', 'id');
+
+            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable', 'buttons', 'sebab_berhenti'));
 
         } catch (Exception $e) {
             report($e);
