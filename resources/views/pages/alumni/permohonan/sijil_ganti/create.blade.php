@@ -20,7 +20,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('nama', old('nama'), ['class' => 'form-control form-control-sm ' . ($errors->has('nama') ? 'is-invalid' : ''), 'id' => 'nama', 'onkeydown' => 'return true', 'autocomplete' => 'off']) }}
+                                            {{ Form::text('nama', $pelajar->nama ?? old('nama'), ['class' => 'form-control form-control-sm ' . ($errors->has('nama') ? 'is-invalid' : ''), 'id' => 'nama', 'onkeydown' => 'return true', 'autocomplete' => 'off']) }}
                                             @error('nama')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('no_ic', old('no_ic'), ['class' => 'form-control form-control-sm ' . ($errors->has('no_ic') ? 'is-invalid' : ''), 'id' => 'no_ic', 'onkeydown' => 'return true', 'autocomplete' => 'off']) }}
+                                            {{ Form::text('no_ic', $pelajar->no_ic ?? old('no_ic'), ['class' => 'form-control form-control-sm ' . ($errors->has('no_ic') ? 'is-invalid' : ''), 'id' => 'no_ic', 'onkeydown' => 'return true', 'autocomplete' => 'off']) }}
                                             @error('no_ic')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -48,7 +48,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('no_matrik', old('no_matrik'), ['class' => 'form-control form-control-sm ' . ($errors->has('no_matrik') ? 'is-invalid' : ''), 'id' => 'no_matrik', 'onkeydown' => 'return true', 'autocomplete' => 'off']) }}
+                                            {{ Form::text('no_matrik', $pelajar->no_matrik ?? old('no_matrik'), ['class' => 'form-control form-control-sm ' . ($errors->has('no_matrik') ? 'is-invalid' : ''), 'id' => 'no_matrik', 'onkeydown' => 'return true', 'autocomplete' => 'off']) }}
                                             @error('no_matrik')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror

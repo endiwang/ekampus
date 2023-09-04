@@ -42,21 +42,14 @@ class PermohonanSijilGantiController extends Controller
                 return DataTables::of($data)
                     ->addColumn('status', function ($data) {
                         switch ($data->status) {
+                            case 0:
+                                return '<span class="badge badge-primary">Dihantar untuk diproses</span>';
+
                             case 1:
-                                return 'Baru Diterima';
-                                break;
+                                return '<span class="badge badge-success">Selesai</span>';
 
                             case 2:
-                                return 'Dalam Proses';
-                                break;
-
-                            case 3:
-                                return 'Lulus';
-                                break;
-
-                            case 4:
-                                return 'Tolak';
-                                break;
+                                return '<span class="badge badge-danger">Ditolak</span>';
                         }
                     })
                     ->addColumn('created_at', function ($data) {
@@ -113,7 +106,6 @@ class PermohonanSijilGantiController extends Controller
     public function create()
     {
         try {
-
             $title = 'Sijil Ganti';
             $action = route('alumni.permohonan.sijil_ganti.store');
             $page_title = 'Permohonan Sijil Ganti';
@@ -124,7 +116,9 @@ class PermohonanSijilGantiController extends Controller
                 'Mohon Sijil Ganti' => false,
             ];
 
-            return view('pages.alumni.permohonan.sijil_ganti.create', compact('title', 'breadcrumbs', 'action', 'page_title'));
+            $pelajar = Pelajar::where('user_id', auth()->user()->id)->first();
+
+            return view('pages.alumni.permohonan.sijil_ganti.create', compact('title', 'breadcrumbs', 'action', 'page_title', 'pelajar'));
 
         } catch (Exception $e) {
             report($e);
@@ -159,9 +153,15 @@ class PermohonanSijilGantiController extends Controller
         // get pelajar data
         $pelajar = Pelajar::where('user_id', auth()->user()->id)->first();
 
-        $sijilFile = $this->uploadFile($request->file('salinan_sijil'));
+
         $polisFile = $this->uploadFile($request->file('laporan_polis'));
         $qrFile = $this->uploadFile($request->file('kod_qr'));
+
+        if (request()->has('salinan_sijil')) {
+            $sijilFile = $this->uploadFile($request->file('salinan_sijil'));
+        } else {
+            $sijilFile = null;
+        }
 
         // save data
         $data = new PermohonanSijilGanti();
@@ -170,7 +170,7 @@ class PermohonanSijilGantiController extends Controller
         $data->no_ic = $request->no_ic;
         $data->no_matrik = $request->no_matrik;
         $data->nama = $request->nama;
-        $data->status = 0; // defauletd to baru diterima
+        $data->status = 0; // defaulted to baru diterima
         $data->laporan_polis = $polisFile;
         $data->salinan_sijil = $sijilFile;
         $data->kod_qr = $qrFile;
