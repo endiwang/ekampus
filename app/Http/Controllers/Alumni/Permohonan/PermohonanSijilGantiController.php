@@ -170,7 +170,7 @@ class PermohonanSijilGantiController extends Controller
         $data->no_ic = $request->no_ic;
         $data->no_matrik = $request->no_matrik;
         $data->nama = $request->nama;
-        $data->status = 1;
+        $data->status = 0; // defauletd to baru diterima
         $data->laporan_polis = $polisFile;
         $data->salinan_sijil = $sijilFile;
         $data->kod_qr = $qrFile;

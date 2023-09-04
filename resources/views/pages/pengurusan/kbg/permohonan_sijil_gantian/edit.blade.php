@@ -41,7 +41,7 @@
                                 <div class="col-md-9">
                                     <div class="w-100">
                                         <a href="{{ route('alumni.permohonan.sijil_ganti.downloadFile', [$data->id, 'laporan_polis']) }}"
-                                            class="btn btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip"
+                                            class="btn btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip"
                                             target="_blank" title="Lihat Dokumen">
                                             Lihat Dokumen Sokongan
                                         </a>
@@ -57,8 +57,8 @@
                                     <div class="col-md-9">
                                         <div class="w-100">
                                             <a href="{{ route('alumni.permohonan.sijil_ganti.downloadFile', [$data->id, 'salinan_sijil']) }}"
-                                                class="btn btn-primary btn-sm hover-elevate-up mb-1"
-                                                data-bs-toggle="tooltip" target="_blank" title="Lihat Dokumen">
+                                                class="btn btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip"
+                                                target="_blank" title="Lihat Dokumen">
                                                 Lihat Dokumen Sokongan
                                             </a>
                                         </div>
@@ -79,7 +79,7 @@
                                 <div class="col-md-9">
                                     <div class="w-100">
                                         <a href="{{ route('alumni.permohonan.sijil_ganti.downloadFile', [$data->id, 'kod_qr']) }}"
-                                            class="btn btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip"
+                                            class="btn btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip"
                                             target="_blank" title="Lihat Dokumen">
                                             Lihat Dokumen Sokongan
                                         </a>
@@ -87,61 +87,34 @@
                                 </div>
                             </div>
 
-                            <div class="row fv-row mb-2">
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('status_permohonan', 'Status Permohonan', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
-                                </div>
-
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        @if ($data->status == 0)
-                                            <p class="mt-1">Baru Diterima</p>
-                                        @elseif($data->status == 1)
-                                            <p class="mt-1">Selesai</p>
-                                        @elseif ($data->status == 2)
-                                            <p class="mt-1">Gagal</p>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row fv-row mb-2">
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('komen', 'Komen (Jika Ada)', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
-                                </div>
-
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        <p class="mt-2">{!! $data->komen ?? null !!}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            @if ($data->status == 3)
-                                <div class="row fv-row mb-2">
+                            <form class="form" action="{{ $action }}" method="post">
+                                @method('PUT')
+                                @csrf
+                                <div class="row fv-row mt-2">
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('surat_pelepasan', 'Muat Turun Surat Pelepasan', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
+                                        {{ Form::label('status', 'Status Permohonan :', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                     </div>
+
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            <a href="{{ route('pelajar.permohonan.pelepasan_kuliah.download_surat_pelepasan', $data->id) }}"
-                                                class="btn btn-primary btn-sm hover-elevate-up mb-1"
-                                                data-bs-toggle="tooltip" target="_blank" title="Lihat Dokumen">
-                                                Cetak Surat Pelepasan Kuliah
-                                            </a>
+                                            {{ Form::select('status', ['1' => 'Terima', '2' => 'Tolak'], $data->status, ['placeholder' => 'Sila Pilih', 'class' => 'form-contorl form-select form-select-sm ', 'data-control' => 'select2', 'required' => 'required']) }}
                                         </div>
                                     </div>
                                 </div>
-                            @endif
 
-                            <div class="row mt-5">
-                                <div class="col-md-9 offset-md-3">
-                                    <div class="d-flex">
-                                        <a href="{{ route('alumni.permohonan.sijil_ganti.index') }}"
-                                            class="btn btn-sm btn-light">Kembali</a>
+                                <div class="row mt-5">
+                                    <div class="col-md-9 offset-md-3">
+                                        <div class="d-flex">
+                                            <button type="submit" data-kt-ecommerce-settings-type="submit"
+                                                class="btn btn-success btn-sm me-3">
+                                                <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
+                                            </button>
+                                            <a href="{{ route('alumni.permohonan.sijil_ganti.index') }}"
+                                                class="btn btn-sm btn-light">Kembali</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>

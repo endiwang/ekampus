@@ -11,6 +11,7 @@ use App\Http\Controllers\Pengurusan\KBG\ProsesBerhentiController;
 use App\Http\Controllers\Pengurusan\KBG\ProsesTemudugaController;
 use App\Http\Controllers\Pengurusan\KBG\SenaraiKonvokesyenController;
 use App\Http\Controllers\Pengurusan\KBG\SenaraiPermohonanController;
+use App\Http\Controllers\Pengurusan\KBG\SenaraiPermohonanSijilGantianController;
 use App\Http\Controllers\Pengurusan\KBG\SenaraiRayuanController;
 use App\Http\Controllers\Pengurusan\KBG\SenaraiTapisanPermohonanController;
 use App\Http\Controllers\Pengurusan\KBG\TawaranController;
@@ -67,3 +68,7 @@ Route::get('konvokesyen/export_senarai/{id}', [SenaraiKonvokesyenController::cla
 
 // Route::get('/permohonan', [TestController::class, 'index'])->name('permohonan');
 // Route::get('/notest', [TestController::class, 'base2'])->name('base2');
+
+Route::get('/permohonan_sijil_gantian', [SenaraiPermohonanSijilGantianController::class, 'index'])->name('pengurusan.permohonan_sijil_gantian.index');
+Route::get('/permohonan_sijil_gantian/{id}/edit', [SenaraiPermohonanSijilGantianController::class, 'edit'])->name('pengurusan.permohonan_sijil_gantian.edit');
+Route::put('/permohonan_sijil_gantian/{id}', [SenaraiPermohonanSijilGantianController::class, 'update'])->name('pengurusan.permohonan_sijil_gantian.update');
