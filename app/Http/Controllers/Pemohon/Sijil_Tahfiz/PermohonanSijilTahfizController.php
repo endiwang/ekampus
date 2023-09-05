@@ -37,23 +37,6 @@ class PermohonanSijilTahfizController extends Controller
             ->whereDate('tarikh_permohonan_ditutup', '<=', $now)
             ->first();
 
-        // $buttons = [
-        //     [
-        //         'title' => "Permohonan Baru",
-        //         'route' => route('pelajar.permohonan.sijil_tahfiz.create'),
-        //         'button_class' => "btn btn-sm btn-primary fw-bold",
-        //         'icon_class' => "fa fa-plus-circle"
-        //     ],
-        // ];
-
-        // $sql_with_bindings = Str::replaceArray('?', $availableSiri->getBindings(), $availableSiri->toSql());
-        // dd($sql_with_bindings);
-        // if(!empty($availableSiri)){
-
-        // } else {
-        //     $buttons = [];
-        // }
-
         if (request()->ajax()) {
             $data = PermohonanSijilTahfiz::where('pemohon_id', $user->id)->get();
 
@@ -144,7 +127,14 @@ class PermohonanSijilTahfizController extends Controller
     {
         $user = Auth::guard('pemohon')->user();
 
-        $siri_peperiksaan = TetapanPeperiksaanSijilTahfiz::where('status', 1)->pluck('siri', 'id');
+        $siri_peperiksaan = TetapanPeperiksaanSijilTahfiz::whereDate('tarikh_permohonan_dibuka', '<=', date('Y-m-d'))
+            ->whereDate('tarikh_permohonan_ditutup', '>=', date('Y-m-d'))
+            ->where('status', 1)->pluck('siri', 'id');
+
+        if(!empty($siri_peperiksaan) && count($siri_peperiksaan) == 0){
+            Alert::toast('Tiada Siri Peperiksaan Sijil Tahfiz Malaysia Yang Dibuka!', 'error');
+            return redirect()->route('pemohon.permohonan_sijil_tahfiz.index');
+        }
         $negeri = Negeri::pluck('nama', 'id');
 
         $data = [
@@ -182,7 +172,6 @@ class PermohonanSijilTahfizController extends Controller
             'tahap_pencapaian_hafazan' => 'required',
             'mykad' => 'required',
             'dokumen_sokongan' => 'required',
-            // 'resit_bayaran' => 'required',
         ], [
             'name.required' => 'Ruangan ini perlu diisi.',
             'dob.required' => 'Ruangan ini perlu diisi.',
@@ -208,7 +197,6 @@ class PermohonanSijilTahfizController extends Controller
             'tahap_pencapaian_hafazan.required' => 'Ruangan ini perlu diisi.',
             'mykad.required' => 'Sila lampirkan salinan MyKad anda.',
             'dokumen_sokongan.required' => 'Sila lampirkan dokumen sokongan yang telah disahkan.',
-            // 'resit_bayaran.required'    => 'Sila lampirkan resit/bukti pembayaran.',
         ]);
 
         $pemohon = Auth::guard('pemohon')->user();
@@ -283,7 +271,7 @@ class PermohonanSijilTahfizController extends Controller
             Alert::toast('Maklumat Permohonan Berjaya Dihantar!', 'success');
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e);
+            report($e);
             Alert::toast('Maklumat Permohonan Tidak Berjaya Dihantar!', 'error');
         }
 
@@ -363,7 +351,6 @@ class PermohonanSijilTahfizController extends Controller
             'tahap_pencapaian_hafazan' => 'required',
             'mykad' => 'required',
             'dokumen_sokongan' => 'required',
-            // 'resit_bayaran' => 'required',
         ], [
             'name.required' => 'Ruangan ini perlu diisi.',
             'dob.required' => 'Ruangan ini perlu diisi.',
@@ -389,7 +376,6 @@ class PermohonanSijilTahfizController extends Controller
             'tahap_pencapaian_hafazan.required' => 'Ruangan ini perlu diisi.',
             'mykad.required' => 'Sila lampirkan salinan MyKad anda.',
             'dokumen_sokongan.required' => 'Sila lampirkan dokumen sokongan yang telah disahkan.',
-            // 'resit_bayaran.required'    => 'Sila lampirkan resit/bukti pembayaran.',
         ]);
 
         $temp_pusat_total = PermohonanSijilTahfiz::where('id', '!=', $id)->where('siri_id', $request->siri_id)->where('pusat_peperiksaan_id', $request->pusat_peperiksaan_id)->count();     
