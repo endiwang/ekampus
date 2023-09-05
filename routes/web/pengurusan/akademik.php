@@ -33,6 +33,7 @@ use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodProfilPensyar
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodTesisController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\CloPloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\DaftarMarkahCloPloController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PemantauanKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\JadualPenggantianPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanCloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanPloController;
@@ -122,6 +123,7 @@ Route::group(['prefix' => 'pensyarah', 'as' => 'pensyarah.'], function () {
 });
 
 Route::group(['prefix' => 'rekod_kehadiran', 'as' => 'rekod_kehadiran.'], function () {
+    Route::get('/rekod_pelajar/download/{id}', [KehadiranPelajarController::class, 'download'])->name('rekod_pelajar.download');
     Route::post('rekod_pelajar/muat_turun', [KehadiranPelajarController::class, 'downloadAttendancePdf'])->name('rekod_pelajar.muat_turun');
     Route::resource('rekod_pelajar', KehadiranPelajarController::class);
 
@@ -227,6 +229,11 @@ Route::group(['prefix' => 'pengurusan_jabatan', 'as' => 'pengurusan_jabatan.'], 
 
     Route::get('pensyarah_cadangan/download', [PensyarahCadanganController::class, 'download'])->name('pensyarah_cadangan.download');
     Route::resource('pensyarah_cadangan', PensyarahCadanganController::class);
+
+    Route::post('pemantauan_kehadiran/export', [PemantauanKehadiranController::class, 'export'])->name('pemantauan_kehadiran.export');
+    Route::get('pemantauan_kehadiran/download/{id}', [PemantauanKehadiranController::class, 'download'])->name('pemantauan_kehadiran.download');
+    Route::get('pemantauan_kehadiran/maklumat/{id}/{kelas_id}', [PemantauanKehadiranController::class, 'viewPelajarDetail'])->name('pemantauan_kehadiran.detail');
+    Route::resource('pemantauan_kehadiran', PemantauanKehadiranController::class);
 
     Route::post('jadual_penggantian_pensyarah/update', [JadualPenggantianPensyarahController::class, 'update'])->name('jadual_penggantian_pensyarah.update');
     Route::get('jadual_penggantian_pensyarah/download/{staff_id}', [JadualPenggantianPensyarahController::class, 'downloadJadual'])->name('jadual_penggantian_pensyarah.download');
