@@ -45,6 +45,7 @@ use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahControlle
 use App\Http\Controllers\Pengurusan\Akademik\Peperiksaan\TetapanPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PelepasanKuliahController;
+use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PemindahanJamKreditController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PenangguhanPengajianController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PertukaranSyukbahController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\RayuanPengajianController;
@@ -113,6 +114,7 @@ Route::group(['prefix' => 'permohonan', 'as' => 'permohonan.'], function () {
 
     Route::get('rayuan_pengajian/update_status/{id}', [RayuanPengajianController::class, 'updateStatus'])->name('rayuan_pengajian.update_status');
     Route::resource('rayuan_pengajian', RayuanPengajianController::class);
+    Route::resource('pemindahan_jam_kredit', PemindahanJamKreditController::class);
 });
 
 Route::group(['prefix' => 'pensyarah', 'as' => 'pensyarah.'], function () {
