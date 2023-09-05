@@ -84,34 +84,12 @@
                 </div>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pelajar.permohonan.penangguhan_pengajian.index') ? 'active' : '' }}"
-                            href="{{ route('pelajar.permohonan.penangguhan_pengajian.index') }}">
+                        <a class="menu-link {{ Request::routeIs('alumni.permohonan.pindah_jam_kredit.index') ? 'active' : '' }}"
+                            href="{{ route('alumni.permohonan.pindah_jam_kredit.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
-                            <span class="menu-title">Penangguhan Pengajian</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="menu-sub menu-sub-accordion">
-                    <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pelajar.permohonan.keluar_masuk.index') ? 'active' : '' }}"
-                            href="{{ route('pelajar.permohonan.keluar_masuk.index') }}">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                            <span class="menu-title">Keluar Masuk Kampus</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="menu-sub menu-sub-accordion">
-                    <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pelajar.permohonan.bawa_barang.*') ? 'active' : '' }}"
-                            href="{{ route('pelajar.permohonan.bawa_barang.index') }}">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                            <span class="menu-title">Bawa Barang</span>
+                            <span class="menu-title">Pemindahan Jam Kredit</span>
                         </a>
                     </div>
                 </div>
