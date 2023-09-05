@@ -1,11 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\ELearning;
 
 use App\Models\Base as Model;
+use App\Models\Kursus;
+use App\Models\Semester;
+use App\Models\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ELearningTimetable extends Model
+class ELearningQuiz extends Model
 {
+    use SoftDeletes;
     protected $guarded = ['id'];
 
     public function kursus()
@@ -13,18 +18,13 @@ class ELearningTimetable extends Model
         return $this->belongsTo(Kursus::class, 'kursus_id', 'id');
     }
 
-    public function kandungan()
-    {
-        return $this->belongsTo(ELearningSyllabus::class, 'syllabus_id', 'id');
-    }
-
     public function semester()
     {
         return $this->belongsTo(Semester::class, 'semester_id', 'id');
     }
 
-    public function staff()
+    public function createdBy()
     {
-        return $this->belongsTo(Staff::class, 'staff_id', 'id');
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 }

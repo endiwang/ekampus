@@ -742,6 +742,14 @@
                             <span class="menu-title">Pengurusan Jadual Pembelajaran</span>
                         </a>
                     </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.e_learning.pengurusan_ujian_atas_talian.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.e_learning.pengurusan_ujian_atas_talian.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pengurusan Ujian Atas Talian</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Pengurusan\Akademik\eLearning\JadualPembelajaranController;
 use App\Http\Controllers\Pengurusan\Akademik\eLearning\PengurusanKandunganController;
+use App\Http\Controllers\Pengurusan\Akademik\eLearning\PengurusanUjianAtasTalianController;
 use App\Http\Controllers\Pengurusan\Akademik\GuruTasmikController;
 use App\Http\Controllers\Pengurusan\Akademik\JadualWaktu\JadualKelasController;
 use App\Http\Controllers\Pengurusan\Akademik\JadualWaktu\JadualPensyarahController;
@@ -242,4 +243,9 @@ Route::group(['prefix' => 'e_learning', 'as' => 'e_learning.'], function () {
 
     Route::post('jadual_pembelajaran/fetchContent', [JadualPembelajaranController::class, 'fetchContent'])->name('jadual_pembelajaran.fetchContent');
     Route::resource('jadual_pembelajaran', JadualPembelajaranController::class);
+
+    Route::delete('pengurusan_ujian_atas_talian/delete_question/{id}', [PengurusanUjianAtasTalianController::class, 'deleteQuestion'])->name('pengurusan_ujian_atas_talian.delete_question');
+    Route::post('pengurusan_ujian_atas_talian/store_question/{id}', [PengurusanUjianAtasTalianController::class, 'storeQuestion'])->name('pengurusan_ujian_atas_talian.store_question');
+    Route::get('pengurusan_ujian_atas_talian/add_question/{id}', [PengurusanUjianAtasTalianController::class, 'addQuestion'])->name('pengurusan_ujian_atas_talian.add_question');
+    Route::resource('pengurusan_ujian_atas_talian', PengurusanUjianAtasTalianController::class);
 });
