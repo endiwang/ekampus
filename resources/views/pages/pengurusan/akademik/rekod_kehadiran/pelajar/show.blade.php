@@ -9,19 +9,52 @@
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                     <div class="card" id="advanceSearch">
                         <div class="card-body py-5">
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('maklumat_carian', 'Maklumat Carian', ['class' => 'fs-6 fw-semibold form-label mt-2']) }}
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="d-flex">
-                                        <input type="text" v-model="keyword.search" v-on:keyup.enter="search()" class="form-control me-3 form-control-sm">
-                                        <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0" @click="search()">
-                                            <i class="fa fa-search" style="vertical-align: initial"></i>Cari
-                                        </button>
+                            <form class="form" action="{{ route('pengurusan.akademik.rekod_kehadiran.rekod_pelajar.show', $id)}}" method="get">
+                                <div class="card">
+                                    <div class="card-body py-5">
+                                        <div class="row fv-row mb-2" >
+                                            <div class="col-md-3 text-md-end">
+                                                {{ Form::label('nama', 'Nama', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="w-100">
+                                                    {{ Form::text('nama', Request::get('nama') ,['class' => 'form-control form-control-sm', 'id' =>'nama','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row fv-row mb-2" >
+                                            <div class="col-md-3 text-md-end">
+                                                {{ Form::label('no_matrik', 'No Matrik', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="w-100">
+                                                    {{ Form::text('no_matrik', Request::get('no_matrik') ,['class' => 'form-control form-control-sm', 'id' =>'no_matrik','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row fv-row mb-2" >
+                                            <div class="col-md-3 text-md-end">
+                                                {{ Form::label('tarikh', 'Tarikh', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="w-100">
+                                                    {{ Form::text('tarikh', old('tarikh'),['class' => 'form-control form-control-sm ', 'id' =>'tarikh','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row fv-row mb-2" >
+                                            <div class="col-md-12">
+                                                <div class="d-flex align-items-center justify-content-end">
+                                                    <button id="kt_share_earn_link_copy_button" class="btn btn-success btn-sm fw-bold flex-shrink-0 me-3">
+                                                        <i class="fa fa-search" style="vertical-align: initial"></i>Cari
+                                                    </button>
+                                                    <a href="{{ route('pengurusan.akademik.rekod_kehadiran.rekod_pelajar.show', $id) }}" class="btn btn-sm btn-light">Set Semula</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -84,12 +117,115 @@
                 </div>
             </div>
             <!--end::Row-->
+
+            <div class="modal fade" id="addKehadiran" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Tambah Kehadiran</h3>
+                            <button type="button" class="close btn btn-sm btn-default" data-bs-dismiss="modal">&times;</button>
+                        </div>
+                        <form class="form-horizontal" action="{{ route('pengurusan.akademik.rekod_kehadiran.rekod_pelajar.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                                <div class="modal-body">
+                                    <div class="row fv-row mb-2" >
+                                        <div class="col-md-3 text-md-end">
+                                            {{ Form::label('no_matrik', 'No Matrik Pelajar', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="w-100">
+                                                {{ Form::text('no_matrik', old('no_matrik') ,['class' => 'form-control form-control-sm', 'id' =>'no_matrik','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row fv-row mb-2" >
+                                        <div class="col-md-3 text-md-end">
+                                            {{ Form::label('tarikh_kehadiran2', 'Tarikh Kehadiran', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="w-100">
+                                                {{ Form::text('tarikh_kehadiran', old('tarikh_kehadiran'),['class' => 'form-control form-control-sm '.($errors->has('tarikh_kehadiran2') ? 'is-invalid':''), 'id' =>'tarikh_kehadiran2','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row fv-row mb-2" >
+                                        <div class="col-md-3 text-md-end">
+                                            {{ Form::label('status', 'Status', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="w-100">
+                                                {{ Form::select('status', $statuses, null, ['placeholder' => 'Sila Pilih','class' =>'form-contorl form-select form-select-sm ', 'data-control'=>'select2' ]) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row fv-row mb-2" >
+                                        <div class="col-md-3 text-md-end">
+                                            {{ Form::label('lampiran', 'Lampiran', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="w-100">
+                                                <input type="file" name="file" class="form-control form-control-sm">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" value="{{ $id }}" name="subjek_id">
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="d-flex">
+                                        <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
+                                            Simpan
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Batal</button>
+                                    </div>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
 
 @push('scripts')
     <script>
+        function remove(id){
+            Swal.fire({
+                title: 'Are you sure you want to delete this data?',
+                text: 'This action cannot be undone.',
+                showCancelButton: true,
+                cancelButtonText: 'Cancel',
+                confirmButtonText: 'Delete',
+                reverseButtons: true,
+                customClass: {
+                    title: 'swal-modal-delete-title',
+                    htmlContainer: 'swal-modal-delete-container',
+                    cancelButton: 'btn btn-light btn-sm mr-1',
+                    confirmButton: 'btn btn-primary btn-sm ml-1'
+                },
+                buttonsStyling: false
+            })
+                .then((result) => {
+                    if(result.isConfirmed){
+                        document.getElementById(`delete-${id}`).submit();
+                    }
+                })
+        }
+        
+        $("#tarikh").daterangepicker({
+        autoApply : true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+        },function(start, end, label) {
+            var datePicked = moment(start).format('DD/MM/YYYY');
+            $("#tarikh").val(datePicked);
+        });
+
         $("#tarikh_kehadiran").daterangepicker({
         autoApply : true,
         singleDatePicker: true,
@@ -103,6 +239,21 @@
         },function(start, end, label) {
             var datePicked = moment(start).format('DD/MM/YYYY');
             $("#tarikh_kehadiran").val(datePicked);
+        });
+
+        $("#tarikh_kehadiran2").daterangepicker({
+        autoApply : true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
+        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+        },function(start, end, label) {
+            var datePicked = moment(start).format('DD/MM/YYYY');
+            $("#tarikh_kehadiran2").val(datePicked);
         });
     </script>
 

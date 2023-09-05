@@ -82,6 +82,21 @@
                                 <div class="modal-body">
                                     <div class="row fv-row mb-2" >
                                         <div class="col-md-3 text-md-end">
+                                            {{ Form::label('Jenis', 'Kelas', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="w-100">
+                                                <select class="form-control form-select form-select-sm" data-control="select2" name="jenis" id="status">
+                                                    <option value="">Pilih Jenis Kelas</option>
+                                                    @foreach($types as $key => $value)
+                                                    <option value="{{ $value }}">{{ $value }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row fv-row mb-2" >
+                                        <div class="col-md-3 text-md-end">
                                             {{ Form::label('subjek', 'Subjek', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                         </div>
                                         <div class="col-md-9">
