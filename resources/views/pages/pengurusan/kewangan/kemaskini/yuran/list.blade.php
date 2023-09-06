@@ -21,66 +21,12 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="yuranModal" tabindex="-1" aria-labelledby="yuranModalLabel" aria-hidden="true">
-    <form id="formYuranModal" method="POST" action="">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="yuranModalLabel"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="yuranModalBody">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
-            </div>
-            </div>
-        </div>
-    </form>
-</div>
-
 @endsection
 @section('script')
 @endsection
 
 @push('scripts')
 <script>
-
-$('.btn-add-yuran').on('click', function(){
-    formModal('Tambah Yuran', '{{ $btn_create_url }}', '{{ $btn_create_action }}')
-});
-$('table').on('click', '.btn-edit-yuran', function(){
-    if($(this).data('url') && $(this).data('action'))
-    formModal('Kemaskini Yuran', $(this).data('url'), $(this).data('action'))
-});
-
-function formModal(label, url, action)
-{
-    var myModal = new bootstrap.Modal(document.getElementById('yuranModal'), {})
-
-    $('#yuranModalLabel').html('');
-    $('#formYuranModal').attr('action', '');
-    $('#yuranModalBody').html('');
-
-    $.ajax({
-        type: 'GET',
-        headers: {
-            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-        },
-        url: url,
-        success: function (data) {
-            $('#yuranModalLabel').html(label);
-            $('#formYuranModal').attr('action', action);
-            $('#yuranModalBody').html(data);
-            myModal.show()
-        },
-        error: function (data) {
-            //                
-        }
-    });
-}
 
 function remove(id){
     Swal.fire({

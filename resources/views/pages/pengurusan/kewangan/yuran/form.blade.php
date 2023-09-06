@@ -12,7 +12,7 @@
                     <div class="card-header">
                         <h3 class="card-title">{{ $page_title }}</h3>
                     </div>
-                    <form class="form" action="{{ $action }}" method="post" enctype="multipart/form-data">
+                    <form id="formMain" class="form" action="{{ $action }}" method="post" enctype="multipart/form-data">
                         @if($model->id) @method('PUT') @endif
                         @csrf
                         <div class="card-body py-5">
@@ -35,7 +35,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="row mb-2">
+                            <!-- <div class="row mb-2">
                                 {{ Form::label('amaun', 'Amaun Yuran', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7 ' . (($model->id) ? '' : 'required')]) }}
                                 <div class="col-lg-8">
                                     @if($model->id)
@@ -45,6 +45,70 @@
                                     @error('amaun') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     @endif
                                 </div>
+                            </div> -->
+
+                            <hr>
+                            <div class="row mb-2">
+                                <div class="col-lg-12">
+                                    <table id="tableCaj" class="table table-bordered table-striped">
+                                        <thead>
+                                            <th>
+                                                {{ Form::label('nama_yuran', 'Nama Caj', ['class' => 'col-form-label fw-semibold fs-7 required']) }}
+                                            </th>
+                                            <th>
+                                                {{ Form::label('amaun', 'Amaun', ['class' => 'col-form-label fw-semibold fs-7 required']) }}                                                
+                                            </th>
+                                            <td style="width:20px"></td>
+                                        </thead>
+                                        <tbody id="tbodyCaj">
+                                            @if($model->id)
+                                                @foreach($bil_detail as $bil_det)
+                                                <tr>
+                                                    <td>
+                                                        {{ Form::text('', $bil_det->description, ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'disabled']) }}
+                                                    </td>
+                                                    <td>
+                                                        {{ Form::number('', $bil_det->amaun, ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'disabled']) }}
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            @else
+                                                @php $i = 1; @endphp
+                                                @forelse($yuran_detail as $yuran)
+                                                <tr>
+                                                    <td>
+                                                        {{ Form::text('nama_yuran[]', $yuran->nama, ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required' => 'required']) }}
+                                                    </td>
+                                                    <td>
+                                                        {{ Form::number('amaun[]', $yuran->amaun, ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required' => 'required']) }}
+                                                    </td>
+                                                    <td>
+                                                        @if($i != 1)
+                                                        <button type="button" class="btn btn-danger btn-sm float-end btn-remove-tr"><i class="fa fa-minus"></i></button>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                                @php $i++; @endphp
+                                                @empty
+                                                <tr>
+                                                    <td>
+                                                        {{ Form::text('nama_yuran[]', '', ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required' => 'required']) }}
+                                                    </td>
+                                                    <td>
+                                                        {{ Form::number('amaun[]', '', ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required' => 'required']) }}
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                                @endforelse
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                                @if(!$model->id)
+                                <div class="col-lg-12">
+                                    <button type="button" id="btnAddMore" class="btn btn-success btn-sm float-end"><i class="fa fa-plus"></i></button>
+                                </div>
+                                @endif
                             </div>
                             @if($model->id)
                                 <hr>
@@ -58,7 +122,7 @@
                                 <div class="row mb-2">
                                     {{ Form::label('doc_no', 'Resit Bayaran', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}
                                     <div class="col-lg-8">
-                                        <a href="{{ route('public.yuran.resit', Crypt::encryptString($bayaran->id)) }}" target="_blank">{{ $bayaran->doc_no }}</a><br>
+                                        <a href="{{ route('public.yuran.resit', $bayaran->id_hash) }}" target="_blank">{{ $bayaran->doc_no }}</a><br>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -77,10 +141,13 @@
                                     {{ Form::label('bayaran_description', 'Resit / Gambar Bayaran', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}
                                     <div class="col-lg-8">
                                         @if(!empty($bayaran->gambar))
-                                        @php
-                                            $gambar = (array) json_decode($bayaran->gambar);
-                                        @endphp
-                                        <a href="{{ asset('storage/' . $gambar['image_path']) }}" target="_blank">{{ $gambar['image_name'] }}</a><br>
+                                            @php
+                                                $gambar = (array) json_decode($bayaran->gambar);
+                                            @endphp
+                                            <a href="{{ asset('storage/' . $gambar['image_path']) }}" target="_blank">{{ $gambar['image_name'] }}</a><br>
+                                        @else
+                                        <input type="hidden" name="bayaran_id" value="{{ $bayaran->id }}">
+                                        {{ Form::file('bayaran_gambar_2', ['class' => 'form-control form-control-sm ' . ($errors->has('gambar') ? 'is-invalid' : ''), 'id' =>'gambar', 'multiple', 'accept' => 'image/*']) }}
                                         @endif
                                     </div>
                                 </div>
@@ -98,7 +165,7 @@
                         @if(!$model->id)
                         <div class="card-footer d-flex justify-content-end py-6 px-9">
                             <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
-                                <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
+                                <i class="fa fa-save" style="vertical-align: initial"></i>Jana Bil
                             </button>
                             <a href="{{ route('pengurusan.kewangan.yuran.index', $yuran->id) }}" class="btn btn-sm btn-light">Batal</a>
                         </div>
@@ -220,5 +287,38 @@ $('#pelajar_id').select2({
         }
     }
 });
+
+
+$('#btnAddMore').on('click', function(){
+    // $html = $('.tr-caj-copy').clone().removeClass('tr-caj-copy hide').addClass('top-parent');
+    // $html.appendTo('#tbodyCaj');
+    $html = '<tr class="tr-caj-coy">';
+    $html += '<td><input class="form-control form-control-sm " onkeydown="return true" autocomplete="off" required="required" name="nama_yuran[]" type="text" value=""></td>';
+    $html += '<td><input class="form-control form-control-sm " onkeydown="return true" autocomplete="off" required="required" name="amaun[]" type="number" value=""></td>';
+    $html += '<td><button type="button" class="btn btn-danger btn-sm float-end btn-remove-tr"><i class="fa fa-minus"></i></button></td>';
+    '</tr>';
+    $('#tbodyCaj').append($html);
+})
+$("#tableCaj").on('click', '.btn-remove-tr', function(elem){
+    // $(this).closest('.top-parent').remove();
+    $(this).parent().parent().remove();
+})
+
+$('[name="bayaran_gambar_2"]').on('change', function(){
+    Swal.fire({
+        icon: 'warning',
+        title: 'Pasti Upload Gambar Resit?',
+        confirmButtonText: 'Pasti',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            $('#formMain').submit();
+        } else {
+            $('[name="bayaran_gambar_2"]').val('');
+        }
+    })
+})
 </script>
 @endpush
