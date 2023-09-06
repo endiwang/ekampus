@@ -126,7 +126,8 @@
                                                 class="btn btn-success btn-sm me-3">
                                                 <i class="fa fa-paper-plane" style="vertical-align: initial"></i>Kemaskini
                                             </button>
-                                            <a href="{{ route('home') }}" class="btn btn-sm btn-light">Kembali</a>
+                                            <a href="{{ route('pengurusan.hep.alumni.index') }}"
+                                                class="btn btn-sm btn-light">Kembali</a>
                                         </div>
                                     </div>
                                 </div>
@@ -198,25 +199,6 @@
                             </form>
 
                             {{ $dataTable->table(['class' => 'table table-striped table-row-bordered gy-5 gs-7 border rounded']) }}
-
-                            {{-- <form class="form" action="{{ $action }}" method="post">
-                                @if ($pelajar->id)
-                                    @method('PUT')
-                                @endif
-                                @csrf
-
-                                <div class="row">
-                                    <div class="col-md-9 offset-md-3">
-                                        <div class="d-flex">
-                                            <button type="submit" data-kt-ecommerce-settings-type="submit"
-                                                class="btn btn-success btn-sm me-3">
-                                                <i class="fa fa-paper-plane" style="vertical-align: initial"></i>Kemaskini
-                                            </button>
-                                            <a href="{{ route('home') }}" class="btn btn-sm btn-light">Kembali</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form> --}}
                         </div>
                     </div>
                 </div>
@@ -327,7 +309,8 @@
                                                 class="btn btn-success btn-sm me-3">
                                                 <i class="fa fa-paper-plane" style="vertical-align: initial"></i>Kemaskini
                                             </button>
-                                            <a href="{{ route('home') }}" class="btn btn-sm btn-light">Kembali</a>
+                                            <a href="{{ route('pengurusan.hep.alumni.index') }}"
+                                                class="btn btn-sm btn-light">Kembali</a>
                                         </div>
                                     </div>
                                 </div>
