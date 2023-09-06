@@ -81,13 +81,13 @@ class YuranController extends Controller
                     return $html;
                 })
                 ->addColumn('bil', function ($data) use($id){
-                    return '<a href="' . route('public.yuran.invois', Crypt::encryptString($data->id)) . '" target="_blank">' . $data->doc_no . '</a>';
+                    return '<a href="' . route('public.yuran.invois', $data->id_hash ?? 0) . '" target="_blank">' . $data->doc_no . '</a>';
                 })
                 ->addColumn('bayaran', function ($data) use($id){
                     $bayaran = Bayaran::where('bil_id', $data->id)->first();
                     if(!empty($bayaran))
                     {
-                        return '<a href="' . route('public.yuran.resit', Crypt::encryptString($bayaran->id)) . '" target="_blank">' . $bayaran->doc_no . '</a>';
+                        return '<a href="' . route('public.yuran.resit', $bayaran->id_hash ?? 0) . '" target="_blank">' . $bayaran->doc_no . '</a>';
                     }
                 })
                 ->addColumn('status', function ($data) use($id){
@@ -206,12 +206,11 @@ class YuranController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $data_id)
+    public function show(Request $request, $id)
     {
         if($request->segment(1) == 'resit')
         {
-            $id = Crypt::decryptString($data_id);
-            $bayaran = Bayaran::where('id', $id)->first();
+            $bayaran = Bayaran::where('id_hash', $id)->first();
 
             if(empty($bayaran))
             {
@@ -224,8 +223,7 @@ class YuranController extends Controller
 
         if($request->segment(1) == 'invois')
         {
-            $id = Crypt::decryptString($data_id);
-            $bil = Bil::where('id', $id)->first();
+            $bil = Bil::where('id_hash', $id)->first();
 
             if(empty($bil))
             {
@@ -346,6 +344,7 @@ class YuranController extends Controller
                         $bayaran->yuran_id = $bil->yuran_id;
                         $bayaran->date = $request->bayaran_date;
                         $bayaran->description = $request->bayaran_description;
+                        $bayaran->id_hash = md5($bayaran->id . now());
                         $bayaran->save();
 
                         $datetime_now = strtotime(now());
