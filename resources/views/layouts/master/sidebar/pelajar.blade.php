@@ -105,6 +105,47 @@
                         </a>
                     </div>
                 </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pelajar.permohonan.mendapatkan_rawatan.*') ? 'active' : '' }}" href="{{ route('pelajar.permohonan.mendapatkan_rawatan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Mendapatkan Rawatan</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pelajar.permohonan.bantuan_kebajikan.*') ? 'active' : '' }}" href="{{ route('pelajar.permohonan.bantuan_kebajikan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Bantuan Kebajikan</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pelajar.permohonan.penggunaan_kemudahan.*') ? 'active' : '' }}" href="{{ route('pelajar.permohonan.penggunaan_kemudahan.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Penggunaan Kemudahan</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pelajar.permohonan.penginapan_sementara.*') ? 'active' : '' }}" href="{{ route('pelajar.permohonan.penginapan_sementara.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Penginapan Sementara</span>
+                        </a>
+                    </div>
+                </div>
+
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ Request::routeIs('pelajar.*') ? 'here show' : '' }} menu-accordion">
                 <span class="menu-link">

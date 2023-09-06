@@ -30,7 +30,7 @@ class PengurusanBlokController extends Controller
         $buttons = [
             [
                 'title' => 'Tambah Blok',
-                'route' => route('pengurusan.kolej_kediaman.pengurusan_blok.create'),
+                'route' => route('pengurusan.kolej_kediaman.pengurusan_aset.pengurusan_blok.create'),
                 'button_class' => 'btn btn-sm btn-primary fw-bold',
                 'icon_class' => 'fa fa-plus-circle',
             ],
@@ -64,7 +64,7 @@ class PengurusanBlokController extends Controller
                 })
                 ->addColumn('action', function ($data) {
                     return '
-                        <a href="'.route('pengurusan.kolej_kediaman.pengurusan_blok.edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                        <a href="'.route('pengurusan.kolej_kediaman.pengurusan_aset.pengurusan_blok.edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                             <i class="fa fa-pencil-alt"></i>
                         </a>';
                 })
@@ -94,7 +94,7 @@ class PengurusanBlokController extends Controller
      */
     public function create()
     {
-        $action = route('pengurusan.kolej_kediaman.pengurusan_blok.store');
+        $action = route('pengurusan.kolej_kediaman.pengurusan_aset.pengurusan_blok.store');
         $page_title = 'Tambah Maklumat Blok';
 
         $title = 'Tambah Maklumat Blok';
@@ -134,7 +134,7 @@ class PengurusanBlokController extends Controller
 
         Alert::toast('Maklumat blok disimpan!', 'success');
 
-        return redirect()->route('pengurusan.kolej_kediaman.pengurusan_blok.index');
+        return redirect()->route('pengurusan.kolej_kediaman.pengurusan_aset.pengurusan_blok.index');
     }
 
     /**
@@ -156,7 +156,7 @@ class PengurusanBlokController extends Controller
      */
     public function edit($id)
     {
-        $action = route('pengurusan.kolej_kediaman.pengurusan_blok.update',$id);
+        $action = route('pengurusan.kolej_kediaman.pengurusan_aset.pengurusan_blok.update',$id);
         $page_title = 'Pinda Maklumat Blok';
 
         $title = 'Pinda Maklumat Blok';
@@ -203,7 +203,7 @@ class PengurusanBlokController extends Controller
 
         Alert::toast('Maklumat blok dipinda!', 'success');
 
-        return redirect()->route('pengurusan.kolej_kediaman.pengurusan_blok.index');
+        return redirect()->route('pengurusan.kolej_kediaman.pengurusan_aset.pengurusan_blok.index');
     }
 
     /**
