@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\PekerjaanAlumni;
 use App\Models\Pelajar;
 use App\Models\PengajianSelepasDq;
+use Exception;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
-use App\Models\User;
-use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Builder;
 
 class AlumniController extends Controller
@@ -170,7 +170,7 @@ class AlumniController extends Controller
             ->minifiedAjax();
 
         $pekerjaanData = PekerjaanAlumni::where('pelajar_id', $pelajar->id)->first();
-        if ($pekerjaanData->count() == 0) {
+        if ($pekerjaanData == null) {
             $pekerjaanData = new PekerjaanAlumni();
         }
 
