@@ -38,9 +38,9 @@ class AlumniController extends Controller
                     ->addColumn('gred_akhir', function ($data) {
                         return empty($data->gred_akhir) ? '-' : $data->gred_akhir;
                     })
-                    // ->addColumn('jam_kredit', function ($data) {
-                    //     return $data->subjek->kredit ?? null;
-                    // })
+                    ->addColumn('tarikh_berhenti', function ($data) {
+                        return empty($data->tarikh_berhenti) ? '-' : $data->tarikh_berhenti;
+                    })
                     ->addColumn('action', function ($data) {
                         return '
                              <a href="' . route('pengurusan.hep.alumni.edit', $data->id) . '" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
@@ -49,14 +49,13 @@ class AlumniController extends Controller
                         ';
                     })
                     ->addIndexColumn()
-                    // ->order(function ($data) {
-                    //     $data->orderBy('id', 'desc');
-                    // })
-                    ->rawColumns(['gred_akhir', 'action'])
+                    ->order(function ($data) {
+                        $data->orderBy('id', 'desc');
+                    })
+                    ->rawColumns(['gred_akhir', 'tarikh_berhenti', 'action'])
                     ->toJson();
             }
 
-            // dd($data);
             $dataTable = $builder
                 ->columns([
                     ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
@@ -208,8 +207,6 @@ class AlumniController extends Controller
         $pelajar->poskod = $request->poskod;
         $pelajar->bandar = $request->bandar;
         $pelajar->save();
-
-        dd('saved');
 
         Alert::toast('Maklumat pelajar dikemaskini!', 'success');
 
