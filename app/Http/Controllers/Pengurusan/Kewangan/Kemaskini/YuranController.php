@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pengurusan\Kewangan\Kemaskini;
 
+use App\Constants\Generic;
 use App\Http\Controllers\Controller;
 use App\Models\Yuran;
 use App\Models\YuranDetail;
@@ -214,8 +215,8 @@ class YuranController extends Controller
     {
         $validation = $request->validate([
             'nama' => 'required',
-            'nama_yuran' => 'required',
-            'amaun' => 'required',
+            'nama_yuran' => ($id != Generic::YURAN_PEPERIKSAAN) ? 'required' : '',
+            'amaun' => ($id != Generic::YURAN_PEPERIKSAAN) ? 'required' : '',
         ], [
             'nama.required' => 'Sila tulis nama yuran',
             'nama_yuran.required' => 'Sila tulis nama yuran',
@@ -233,19 +234,22 @@ class YuranController extends Controller
                 $yuran->invoice_remarks = @$request->invoice_remarks;
                 if($yuran->save())
                 {              
-                    YuranDetail::where('yuran_id', $yuran->id)->delete();
-                                    
-                    if(!empty($request->nama_yuran))
+                    if($yuran->id != Generic::YURAN_PEPERIKSAAN)
                     {
-                        foreach($request->nama_yuran as $key => $nama_yuran)
+                        YuranDetail::where('yuran_id', $yuran->id)->delete();
+                                        
+                        if(!empty($request->nama_yuran))
                         {
-                            $yuran_detail = new YuranDetail;
-                            $yuran_detail->yuran_id = $yuran->id;
-                            $yuran_detail->nama = $nama_yuran;
-                            $yuran_detail->amaun = $request->amaun[$key];
-                            $yuran_detail->save();
-                        }
+                            foreach($request->nama_yuran as $key => $nama_yuran)
+                            {
+                                $yuran_detail = new YuranDetail;
+                                $yuran_detail->yuran_id = $yuran->id;
+                                $yuran_detail->nama = $nama_yuran;
+                                $yuran_detail->amaun = $request->amaun[$key];
+                                $yuran_detail->save();
+                            }
 
+                        }
                     }
 
                     Cache::forget('yuran_cached');

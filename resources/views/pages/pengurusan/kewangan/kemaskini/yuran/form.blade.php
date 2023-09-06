@@ -55,6 +55,14 @@
                             <hr>
                             <div class="row mb-2">
                                 <div class="col-lg-12">
+                                    @php $temp_disabled = ''; @endphp
+                                    @if($model->id == \App\Constants\Generic::YURAN_PEPERIKSAAN)
+                                        <div class="alert alert-danger" role="alert">
+                                            Caj yuran bagi peperiksaan akan diambil dari tetapan pada Unit Peperiksaan.
+                                        </div>
+                                        @php $temp_disabled = 'disabled'; @endphp
+                                    @endif
+
                                     <table id="tableCaj" class="table table-bordered table-striped">
                                         <thead>
                                             <th>
@@ -85,10 +93,10 @@
                                             @empty
                                             <tr>
                                                 <td>
-                                                    {{ Form::text('nama_yuran[]', '', ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required' => 'required']) }}
+                                                    {{ Form::text('nama_yuran[]', '', ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required' => 'required', $temp_disabled]) }}
                                                 </td>
                                                 <td>
-                                                    {{ Form::number('amaun[]', '', ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required' => 'required']) }}
+                                                    {{ Form::number('amaun[]', '', ['class' => 'form-control form-control-sm ', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required' => 'required', $temp_disabled]) }}
                                                 </td>
                                                 <td></td>
                                             </tr>
@@ -97,7 +105,7 @@
                                     </table>
                                 </div>
                                 <div class="col-lg-12">
-                                    <button type="button" id="btnAddMore" class="btn btn-success btn-sm float-end"><i class="fa fa-plus"></i></button>
+                                    <button type="button" id="btnAddMore" class="btn btn-success btn-sm float-end" {{ $temp_disabled }}><i class="fa fa-plus"></i></button>
                                 </div>
                             </div>
 
