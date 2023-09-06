@@ -107,7 +107,6 @@ class KajianKeberkesananGraduanController extends Controller
                 ],
                 200
             );
-
         } else {
             return response()->json(
                 [
@@ -116,7 +115,6 @@ class KajianKeberkesananGraduanController extends Controller
                 ],
                 200
             );
-
         }
     }
 }

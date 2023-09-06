@@ -52,20 +52,8 @@ class KajianKeberkesananGraduanController extends Controller
                     $hashids = new Hashids('', 20);
 
                     return '
-                            <a href="' . route('pengurusan.akademik.permohonan.pelepasan_kuliah.show', $data->id) . '" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
-                                <i class="fa fa-pencil"></i>
-                            </a>
-                            <a href="' . route('pengurusan.hep.alumni.kajian_keberkesanan.design_form', $data->id) . '" class="edit btn btn-icon btn-success btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Cipta Borang">
-                                <i class="fa fa-copy"></i>
-                            </a>
                             <a href="' . route('public.kajian_graduan.index', $hashids->encodeHex($data->id)) . '" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" target="_blank" data-bs-toggle="tooltip" title="Lihat Borang">
                                 <i class="fa fa-eye"></i>
-                            </a>
-                            <!--a href="' . route('pengurusan.hep.alumni.kajian_keberkesanan.data_chart', $data->id) . '" class="edit btn btn-icon btn-success btn-sm hover-elevate-up mb-1" target="_blank" data-bs-toggle="tooltip" title="Data Borang">
-                                <i class="fa fa-eye"></i>
-                            <a-->
-                            <a href="' . route('pengurusan.hep.alumni.kajian_keberkesanan.analisa', $data->id) . '" class="edit btn btn-icon btn-warning btn-sm hover-elevate-up mb-1" target="_blank" data-bs-toggle="tooltip" title="Data Borang">
-                                <i class="fa fa-chart-pie"></i>
                             </a>
                             ';
                 })
@@ -120,7 +108,6 @@ class KajianKeberkesananGraduanController extends Controller
      */
     public function edit($id)
     {
-
     }
 
     /**
@@ -145,6 +132,4 @@ class KajianKeberkesananGraduanController extends Controller
     {
         //
     }
-
-
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pengurusan\HEP\Alumni;
 
 use App\Http\Controllers\Controller;
+use App\Models\JawapanKajianKeberkesananGraduan;
 use App\Models\KajianKeberkesananGraduan;
 use Hashids\Hashids;
 use Illuminate\Http\Request;
@@ -205,7 +206,6 @@ class KajianKeberkesananGraduanController extends Controller
         }
 
         return view('pages.pengurusan.hep.alumni.kajian_keberkesanan.design_form', compact('title', 'breadcrumbs', 'page_title', 'form', 'form_array'));
-
     }
 
     public function design_update(Request $request, $id)
@@ -218,7 +218,6 @@ class KajianKeberkesananGraduanController extends Controller
         Alert::toast('Borang berjaya ubahsuai!', 'success');
 
         return redirect()->route('pengurusan.hep.alumni.kajian_keberkesanan.index');
-
     }
 
     public function fill_store(Request $request, $id)
@@ -294,7 +293,7 @@ class KajianKeberkesananGraduanController extends Controller
             $data = [];
             $data['borang_kaji_selidik_id'] = $form->id;
             $data['json'] = json_encode($array);
-            $form_value = JawapanKajiSelidik::create($data);
+            $form_value = JawapanKajianKeberkesananGraduan::create($data);
 
             return response()->json(
                 [
@@ -304,7 +303,6 @@ class KajianKeberkesananGraduanController extends Controller
                 ],
                 200
             );
-
         } else {
             return response()->json(
                 [
@@ -313,16 +311,15 @@ class KajianKeberkesananGraduanController extends Controller
                 ],
                 200
             );
-
         }
     }
 
     public function data_chart($form_id)
     {
         $chartArray = [];
-        $form_values = JawapanKajiSelidik::select('borang_kaji_selidik.json as form_json', 'jawapan_kaji_selidik.*')
+        $form_values = JawapanKajianKeberkesananGraduan::select('kajian_keberkesanan_graduan.json as form_json', 'jawapan_kajian_keberkesanan_graduan.*')
             ->where('borang_kaji_selidik_id', $form_id)
-            ->join('borang_kaji_selidik', 'borang_kaji_selidik.id', '=', 'jawapan_kaji_selidik.borang_kaji_selidik_id');
+            ->join('kajian_keberkesanan_graduan', 'kajian_keberkesanan_graduan.id', '=', 'jawapan_kajian_keberkesanan_graduan.borang_kaji_selidik_id');
         $form_values = $form_values->get();
         foreach ($form_values as $form_value) {
             $array1 = json_decode($form_value->form_json);
@@ -422,7 +419,6 @@ class KajianKeberkesananGraduanController extends Controller
         $chartData = $this->data_chart($id);
         $forms_details = KajianKeberkesananGraduan::find($id);
 
-        return view($this->baseView . 'jawapan_kaji_selidik.analisa', compact('forms', 'chartData', 'forms_details'));
-
+        return view('pages.pengurusan.hep.alumni.kajian_keberkesanan.analisa', compact('forms', 'chartData', 'forms_details'));
     }
 }

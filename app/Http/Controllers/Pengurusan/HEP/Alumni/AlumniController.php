@@ -70,7 +70,6 @@ class AlumniController extends Controller
 
 
             return view($this->baseView . 'index', compact('title', 'breadcrumbs', 'dataTable'));
-
         } catch (Exception $e) {
             report($e);
 
@@ -109,7 +108,6 @@ class AlumniController extends Controller
      */
     public function show($id)
     {
-
     }
 
     /**
@@ -253,7 +251,6 @@ class AlumniController extends Controller
         Alert::toast('Maklumat pengajian disimpan!', 'success');
 
         return redirect()->route('pengurusan.hep.alumni.edit', $id);
-
     }
 
     public function pengajian_edit(Builder $builder, $pelajarId, $pengajianId)
@@ -304,6 +301,8 @@ class AlumniController extends Controller
     public function pengajian_destroy($id)
     {
         PengajianSelepasDq::find($id)->delete();
+
+        Alert::toast('Maklumat pengajian dipadam!', 'success');
 
         return redirect()->back();
     }
