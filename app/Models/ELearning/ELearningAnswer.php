@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\ELearning;
 
 use App\Models\Base as Model;
 
-class ELearningSyllabusContent extends Model
+class ELearningAnswer extends Model
 {
     protected $guarded = ['id'];
 }
