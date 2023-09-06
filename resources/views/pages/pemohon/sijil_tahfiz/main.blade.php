@@ -10,6 +10,7 @@
                 <a href="{{ route('pemohon.permohonan_sijil_tahfiz.create') }}" class="btn btn-info hover-rotate-start">Tambah Permohonan</a>
                 <a href="{{ route('pemohon.permohonan_sijil_tahfiz.semakan_permohonan_sijil_tahfiz.index') }}" class="btn btn-info hover-rotate-start">Semakan Kelayakan Permohonan</a>
                 <a href="{{ route('pemohon.permohonan_sijil_tahfiz.semakan_keputusan_sijil_tahfiz.index') }}" class="btn btn-info hover-rotate-start">Semakan keputusan Temuduga</a>
+                <a href="{{ route('pemohon.permohonan_sijil_tahfiz.semakan_jemputan_majlis.index') }}" class="btn btn-info hover-rotate-start">Semakan Jemputan Pensijilan</a>
             </div>
         </div>
         <div class="row g-5 g-xl-10 mb-3 mb-xl-4">

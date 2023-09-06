@@ -18,12 +18,12 @@ return new class extends Migration
             $table->id();
             $table->string('nama')->nullable();
             $table->double('amaun', 10, 2)->nullable();
-            $table->integer('status')->nullable();            
+            $table->integer('status')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
 
-        Artisan::call('db:seed', array('--class' => 'YuranSeeder'));
+        Artisan::call('db:seed', ['--class' => 'YuranSeeder']);
 
     }
 

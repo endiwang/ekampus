@@ -172,6 +172,7 @@ class JadualKelasController extends Controller
         $jadual_detail->masa_mula = $request->masa_mula;
         $jadual_detail->masa_akhir = $request->masa_tamat;
         $jadual_detail->lokasi = $request->lokasi;
+        $jadual_detail->jenis = $request->jenis;
         $jadual_detail->save();
 
         //save into pensyarah_kelas table
@@ -256,6 +257,11 @@ class JadualKelasController extends Controller
                 2 => 'Telah Diluluskan',
             ];
 
+            $types = [
+                'kuliah' => 'Kuliah',
+                'tutorial' => 'Tutorial',
+            ];
+
             if (request()->ajax()) {
                 if (! empty($timetable->id)) {
                     $data = JadualWaktuDetail::with('subjek', 'staff')->where('jadual_waktu_id', $timetable->id);
@@ -321,6 +327,7 @@ class JadualKelasController extends Controller
                     ['data' => 'hari', 'name' => 'created_at', 'title' => 'Hari', 'orderable' => false],
                     ['data' => 'masa', 'name' => 'created_at', 'title' => 'Masa', 'orderable' => false],
                     ['data' => 'lokasi', 'name' => 'created_at', 'title' => 'Lokasi', 'orderable' => false],
+                    ['data' => 'jenis', 'name' => 'jenis', 'title' => 'Jenis', 'orderable' => false],
                     ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
                 ])
                 ->minifiedAjax();
@@ -339,7 +346,8 @@ class JadualKelasController extends Controller
                 'id',
                 'class',
                 'times',
-                'lecturers'
+                'lecturers',
+                'types'
             ));
 
         } catch (Exception $e) {

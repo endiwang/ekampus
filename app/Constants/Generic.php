@@ -19,10 +19,13 @@ final class Generic
 
     const TIDAK_DICETAK_DALAM_SLIP = 1;
 
-
     const YURAN_PENDAFTARAN = 1;
+
     const YURAN_KONVOKESYEN = 2;
+
     const YURAN_PEPERIKSAAN = 3;
+
     const YURAN_SIJIL_TAHFIZ = 4;
+
     const YURAN_KUTIPAN_BAYARAN_BALIK = 5;
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('negeri_id');
             $table->text('address')->nullable();
-            $table->text('status')->nullable()->default(0);
+            $table->integer('status')->nullable()->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

@@ -18,7 +18,7 @@ class UtamaController extends Controller
     public function index()
     {
         $vendor = Vendor::where('user_id', Auth::id())->first();
-        
+
         $data['aduan_new'] = AduanPenyelenggaraan::where('vendor_id', $vendor->id)->where('status_vendor', 1)->count();
         $data['aduan_process'] = AduanPenyelenggaraan::where('vendor_id', $vendor->id)->where('status_vendor', 2)->count();
         $data['aduan_done'] = AduanPenyelenggaraan::where('vendor_id', $vendor->id)->where('status_vendor', 3)->count();
@@ -39,7 +39,6 @@ class UtamaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -72,7 +71,6 @@ class UtamaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

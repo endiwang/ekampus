@@ -44,7 +44,7 @@ class HebahanAktivitiController extends Controller
 
             if (request()->ajax()) {
                 $data = Aktiviti::query();
-                if ($request->has('nama') && $request->nama != null) {                    
+                if ($request->has('nama') && $request->nama != null) {
                     $data->where('nama_program', 'LIKE', '%'.$request->nama.'%');
                 }
 

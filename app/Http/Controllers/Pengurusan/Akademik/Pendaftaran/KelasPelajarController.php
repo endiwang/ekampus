@@ -36,13 +36,13 @@ class KelasPelajarController extends Controller
 
             if (request()->ajax()) {
                 $data = Pelajar::with('kursus', 'kelas')->where('kelas_id', null)->where('is_register', 1)->where('is_berhenti', 0);
-                if ($request->has('nama') && $request->nama != null) {                    
+                if ($request->has('nama') && $request->nama != null) {
                     $data->where('nama', 'LIKE', '%'.$request->nama.'%');
                 }
-                if ($request->has('no_ic') && $request->no_ic != null) {                    
+                if ($request->has('no_ic') && $request->no_ic != null) {
                     $data->where('no_ic', 'LIKE', '%'.$request->no_ic.'%');
                 }
-                if ($request->has('no_matrik') && $request->no_matrik != null) {                    
+                if ($request->has('no_matrik') && $request->no_matrik != null) {
                     $data->where('no_matrik', 'LIKE', '%'.$request->no_matrik.'%');
                 }
                 if ($request->has('program_pengajian') && $request->program_pengajian != null) {

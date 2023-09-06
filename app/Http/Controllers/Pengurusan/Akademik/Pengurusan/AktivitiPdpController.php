@@ -44,7 +44,7 @@ class AktivitiPdpController extends Controller
 
             if (request()->ajax()) {
                 $data = AktivitiPdp::with('kelas', 'subjek');
-                if ($request->has('tajuk') && $request->tajuk != null) {                    
+                if ($request->has('tajuk') && $request->tajuk != null) {
                     $data->where('title', 'LIKE', '%'.$request->tajuk.'%');
                 }
                 if ($request->has('subjek') && $request->subjek != null) {
@@ -97,8 +97,8 @@ class AktivitiPdpController extends Controller
                 ])
                 ->minifiedAjax();
 
-            $subjects = Subjek::where('deleted_at', NULL)->pluck('nama', 'id');
-            $classes = Kelas::where('deleted_at', NULL)->pluck('nama', 'id');
+            $subjects = Subjek::where('deleted_at', null)->pluck('nama', 'id');
+            $classes = Kelas::where('deleted_at', null)->pluck('nama', 'id');
 
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable', 'subjects', 'classes'));
 

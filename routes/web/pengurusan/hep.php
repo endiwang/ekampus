@@ -7,6 +7,7 @@ use App\Http\Controllers\Pengurusan\HEP\Kaunseling\BorangKepuasanPelangganContro
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\KaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\LaporanKaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\RekodKaunselingController;
+use App\Http\Controllers\Pengurusan\HEP\KemahiranInsaniah\PilihanRayaController;
 use App\Http\Controllers\Pengurusan\HEP\MainHEPController;
 use App\Http\Controllers\Pengurusan\HEP\PusatIslam\AktivitiController;
 use App\Http\Controllers\Pengurusan\HEP\PusatIslam\JadualTugasanController;
@@ -14,16 +15,17 @@ use App\Http\Controllers\Pengurusan\HEP\PusatIslam\OrangAwamController;
 use App\Http\Controllers\Pengurusan\HEP\PusatIslam\PusatIslamController;
 use App\Http\Controllers\Pengurusan\HEP\PusatIslam\RekodKehadiranController;
 use App\Http\Controllers\Pengurusan\HEP\PusatIslam\SuratRasmiController;
+use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\BarangRampasanController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\DisiplinPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\KeluarMasukPelajarController;
+use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\KenderaanSitaanController;
+use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\PengurusanProgramPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\PengurusanSalahlakuPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\PermohonanBawaBarangController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\PermohonanBawaKenderaanController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\RekodKeluarMasukPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\TatatertibRayuanPelajarController;
 use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\TetapanKeluarMasukController;
-use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\BarangRampasanController;
-use App\Http\Controllers\Pengurusan\HEP\SahsiahDisiplin\KenderaanSitaanController;
 use Illuminate\Support\Facades\Route;
 
 Route::resource('/', MainHEPController::class)->only(['index']);
@@ -53,8 +55,30 @@ Route::group(['prefix' => 'pengurusan', 'as' => 'pengurusan.'], function () {
     Route::resource('barang_rampasan', BarangRampasanController::class);
     Route::get('kenderaan_sitaan/{id}/tuntutan', [KenderaanSitaanController::class, 'tuntutan_kenderaan'])->name('kenderaan_sitaan.tuntutan');
     Route::put('kenderaan_sitaan/{id}/tuntutan', [KenderaanSitaanController::class, 'tuntutan_kenderaan_store'])->name('kenderaan_sitaan.tuntutan');
-    Route::resource('kenderaan_sitaan',KenderaanSitaanController::class);
+    Route::resource('kenderaan_sitaan', KenderaanSitaanController::class);
+    Route::get('program_pelajar/{id}/pilih_pelajar', [PengurusanProgramPelajarController::class, 'pilih_pelajar'])->name('program_pelajar.pilih_pelajar');
+    Route::post('program_pelajar/{id}/pilih_pelajar_store', [PengurusanProgramPelajarController::class, 'pilih_pelajar_store'])->name('program_pelajar.pilih_pelajar_store');
+    Route::delete('program_pelajar/{id}/pilih_pelajar_destroy/{kehadiran_id}', [PengurusanProgramPelajarController::class, 'pilih_pelajar_destroy'])->name('program_pelajar.pilih_pelajar_destroy');
+    Route::get('program_pelajar/{id}/qr_code_kehadiran/', [PengurusanProgramPelajarController::class, 'qr_code_kehadiran'])->name('program_pelajar.qr_code_kehadiran');
+    Route::get('program_pelajar/{id}/muat_turun_qr_sesi/{sesi}/', [PengurusanProgramPelajarController::class, 'muat_turun_qr_sesi'])->name('program_pelajar.muat_turun_qr_sesi');
+    Route::get('program_pelajar/{id}/submit_kehadiran_program/{sesi}/', [PengurusanProgramPelajarController::class, 'submit_kehadiran_program'])->name('program_pelajar.submit_kehadiran_program');
+    Route::resource('program_pelajar',PengurusanProgramPelajarController::class);
 });
+
+/** Kemahiran Insaniah */
+Route::middleware(['web', 'auth'])
+    ->group(function () {
+        Route::get('kemahiran-insaniah/pilihan-raya', [PilihanRayaController::class, 'index'])
+            ->name('kemahiran-insaniah.pilihan-raya.index');
+        Route::get('kemahiran-insaniah/pilihan-raya/create', [PilihanRayaController::class, 'create'])
+            ->name('kemahiran-insaniah.pilihan-raya.create');
+        Route::get('kemahiran-insaniah/pilihan-raya/{id}/edit', [PilihanRayaController::class, 'edit'])
+            ->name('kemahiran-insaniah.pilihan-raya.edit');
+        Route::get('kemahiran-insaniah/pilihan-raya/{id}/show', [PilihanRayaController::class, 'show'])
+            ->name('kemahiran-insaniah.pilihan-raya.show');
+        Route::delete('kemahiran-insaniah/pilihan-raya/{id}', [PilihanRayaController::class, 'destroy'])
+            ->name('kemahiran-insaniah.pilihan-raya.destroy');
+    });
 
 /** Kaunseling */
 Route::middleware(['web', 'auth'])

@@ -45,6 +45,16 @@
                                 </div>
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
+                                        {{ Form::label('had_jumlah_calon', 'Had Jumlah Calon', ['class' => 'fs-7 fw-semibold form-label mt-2 required']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">                                            
+                                            {{ Form::number('had_jumlah_calon', @$pusatPeperiksaan->had_jumlah_calon,['class' => 'form-control form-control-sm ', 'autocomplete' => 'off', 'required']) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2" >
+                                    <div class="col-md-3 text-md-end">
                                         {{ Form::label('status', 'Status Permohonan Ujian', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">

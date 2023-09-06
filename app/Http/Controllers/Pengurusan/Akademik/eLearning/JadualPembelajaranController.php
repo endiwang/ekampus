@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Pengurusan\Akademik\eLearning;
 
 use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
-use App\Models\ELearningSyllabus;
-use App\Models\ELearningTimetable;
+use App\Models\ELearning\ELearningSyllabus;
+use App\Models\ELearning\ELearningTimetable;
 use App\Models\Kelas;
 use App\Models\Kursus;
 use App\Models\Semester;

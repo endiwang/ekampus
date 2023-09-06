@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('sesi_id')->nullable();
             $table->string('description')->nullable();
             $table->integer('jumlah_pelajar')->nullable();
-            $table->double('jumlah', 8,2)->nullable();
+            $table->double('jumlah', 8, 2)->nullable();
             $table->timestamps();
         });
     }

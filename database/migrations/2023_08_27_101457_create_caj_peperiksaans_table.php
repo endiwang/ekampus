@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('jenis')->nullable();
             $table->integer('subjek_id')->nullable();
             $table->string('description')->nullable();
-            $table->double('jumlah', 8,2)->nullable();
+            $table->double('jumlah', 8, 2)->nullable();
             $table->integer('status')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\ELearning;
 
 use App\Models\Base as Model;
+use App\Models\Kursus;
+use App\Models\Subjek;
+use App\Models\User;
 
 class ELearningSyllabus extends Model
 {

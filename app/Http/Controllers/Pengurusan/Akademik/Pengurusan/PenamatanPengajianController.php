@@ -125,7 +125,7 @@ class PenamatanPengajianController extends Controller
 
                 ])
                 ->minifiedAjax();
-            
+
             $sebab_berhenti = SebabBerhenti::pluck('berhenti', 'id');
 
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable', 'buttons', 'sebab_berhenti'));

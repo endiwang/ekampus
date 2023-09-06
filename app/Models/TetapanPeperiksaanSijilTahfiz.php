@@ -11,5 +11,11 @@ class TetapanPeperiksaanSijilTahfiz extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'tetapan_peperiksaan_sijil_tahfizs';
+
     protected $guarded = ['id'];
+
+    public function permohonan()
+    {
+        return $this->hasMany(PermohonanSijilTahfiz::class, 'siri_id', 'id');
+    }
 }

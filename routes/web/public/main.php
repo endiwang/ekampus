@@ -13,5 +13,6 @@ Route::get('/kaji_selidik/{id}', [KomunikasiKorporatController::class, 'index'])
 Route::get('/kajian_keberkesanan_graduan/{id}', [KajianKeberkesananGraduanController::class, 'index'])->name('kajian_graduan.index');
 Route::post('/kajian_keberkesanan_graduan/{id}/submit', [KajianKeberkesananGraduanController::class, 'fill_store'])->name('kajian_graduan.fill_store');
 
+Route::get('/invois/{id}', [YuranController::class, 'show'])->name('yuran.invois');
 Route::get('/resit/{id}', [YuranController::class, 'show'])->name('yuran.resit');
 Route::get('/pelajar/find', [MainPelajarController::class, 'find'])->name('pelajar.find');

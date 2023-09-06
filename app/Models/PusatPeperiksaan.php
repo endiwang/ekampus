@@ -20,7 +20,13 @@ class PusatPeperiksaan extends Model
 
     protected $guarded = ['id'];
 
-    public function pusatPeperiksaanNegeri(){
+    public function pusatPeperiksaanNegeri()
+    {
         return $this->hasMany(PusatPeperiksaanNegeri::class);
+    }
+
+    public function permohonanSijilTahfizs()
+    {
+        return $this->hasMany(PermohonanSijilTahfiz::class, 'pusat_peperiksaan_id', 'id');
     }
 }

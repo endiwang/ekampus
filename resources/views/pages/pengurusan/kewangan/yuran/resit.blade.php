@@ -1,6 +1,11 @@
 <html>
     <head>
-        @include('layouts.master.css')
+        @if(!empty($is_download))
+        <link href="{{ public_path('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+        @else
+        <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+        @endif
+
         <style>
             .A4 {
                 background: white;
@@ -34,11 +39,15 @@
             <div class="card">
                 <div class="card-body mx-4">
                     <div class="container">
-                        <img alt="Logo" src="{{ URL::asset('assets/media/logos/logo-dq.png') }}"class="app-sidebar-logo-default" />
+                        @if(!empty($is_download))
+                            <img alt="Logo" src="{{ public_path('assets/media/logos/logo-dq.png') }}"class="app-sidebar-logo-default" />
+                        @else 
+                            <img alt="Logo" src="{{ asset('assets/media/logos/logo-dq.png') }}"class="app-sidebar-logo-default" />
+                        @endif
                         <p class="my-5 mr-5" style="font-size: 30px;">{{ $bayaran->doc_no }}</p>
                         <div class="row">
                             <ul class="list-unstyled">
-                            <li class="text-black">{{ $bayaran->pelajar->nama }}</li>
+                            <li class="text-black">{{ $bayaran->pelajar_nama }}</li>
                             <li class="text-muted mt-1"><span class="text-black">Bil</span> #{{ $bayaran->bil->doc_no }}</li>
                             <li class="text-black mt-1">{{ date('F d Y', strtotime($bayaran->date)) }}</li>
                             </ul>

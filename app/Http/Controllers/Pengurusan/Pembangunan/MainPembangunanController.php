@@ -24,6 +24,7 @@ class MainPembangunanController extends Controller
         $data['aduan_new'] = AduanPenyelenggaraan::where('status', 1)->count();
         $data['aduan_to_process'] = AduanPenyelenggaraan::where('status', 3)->count();
         $data['aduan_complete'] = AduanPenyelenggaraan::where('status', 4)->count();
+
         return view('pages.pengurusan.pembangunan.dashboard.main')->with($data);
     }
 
