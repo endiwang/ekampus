@@ -2,23 +2,31 @@
 
 namespace App\Http\Controllers\Pengurusan\Peperiksaan;
 
+use App\Constants\Generic;
 use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
+use App\Libraries\BilLibrary;
 use App\Models\Bilik;
+use App\Models\CajPeperiksaan;
 use App\Models\JadualPeperiksaan;
 use App\Models\Kursus;
+use App\Models\Pelajar;
+use App\Models\PelajarSemester;
+use App\Models\PelajarSemesterDetail;
 use App\Models\PusatPengajian;
 use App\Models\Semester;
 use App\Models\SesiPeperiksaan;
 use App\Models\Subjek;
 use App\Models\Syukbah;
 use App\Models\TetapanPeperiksaan;
+use App\Models\Yuran;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
+use DB;
 
 class JadualPeperiksaanController extends Controller
 {
@@ -480,5 +488,70 @@ class JadualPeperiksaanController extends Controller
 
         //     return redirect()->back();
         // }
+    }
+
+    public function janaBil(Request $request, $id)
+    {
+
+        $result = true;
+        try
+        { 
+            DB::transaction(function () use($request, $id) {
+
+                $tetapan_peperiksaan = TetapanPeperiksaan::find($id);
+                if(!empty($tetapan_peperiksaan->pusat_pengajian_id) && !empty($tetapan_peperiksaan->kursus_id) && !empty($tetapan_peperiksaan->semester_id) && !empty($tetapan_peperiksaan->syukbah_id))
+                {
+                    $pelajar_senarai = Pelajar::join('pelajar_semesters', function($join){
+                        $join->on('pelajar_semesters.pelajar_id', 'pelajar.pelajar_id_old');
+                        $join->on('pelajar_semesters.semester', 'pelajar.semester');
+                        $join->where(function($where){
+                            $where->whereNull('is_peperiksaan_bil_generated');
+                            $where->orWhere('is_peperiksaan_bil_generated', 0);
+                        });
+                    })
+                    ->where('pelajar.pusat_pengajian_id', $tetapan_peperiksaan->pusat_pengajian_id)
+                    ->where('pelajar.kursus_id', $tetapan_peperiksaan->kursus_id)
+                    ->where('pelajar.semester', $tetapan_peperiksaan->semester_id)
+                    ->where('pelajar.syukbah_id', $tetapan_peperiksaan->syukbah_id)
+                    ->get([
+                        'pelajar.id as pelajar_id',
+                        'pelajar_semesters.id as pelajar_semester_id',
+                    ]);
+                    
+                    $caj_peperiksaan_senarai = CajPeperiksaan::where('jenis', 'peperiksaan')->get();
+        
+                    foreach($pelajar_senarai as $pelajar)
+                    {
+                        $data['yuran'] = Yuran::find(Generic::YURAN_PEPERIKSAAN);
+                        $data['pelajar'] = $pelajar;
+                        $data['pelajar_semester_detail'] = PelajarSemesterDetail::where('pelajar_semester_id', $pelajar->pelajar_semester_id)->get();
+                        $data['caj_peperiksaan_pengurusan'] = $caj_peperiksaan_senarai->whereNull('subjek_id');
+                        $data['caj_peperiksaan_subjek'] = $caj_peperiksaan_senarai->whereIn('subjek_id', $data['pelajar_semester_detail']->pluck('subjek_id', 'subjek_id')->toArray());
+                        BilLibrary::createBilPeperiksaan($data);
+
+                        $pelajar_semester = PelajarSemester::where('id', $pelajar->pelajar_semester_id)->first();
+                        $pelajar_semester->is_peperiksaan_bil_generated = 1;
+                        $pelajar_semester->save();
+                    }
+                }
+
+
+            });
+
+        }
+        catch (\Exception $e)
+        {
+            $result = false;
+        }
+
+        if($result)
+        {
+            Alert::toast('Janaan bil berjaya dikemaskini', 'success');
+            return redirect(route($this->baseRoute . 'edit', $id));
+        }
+        else {
+            Alert::toast('Uh oh! Sesuatu yang tidak diingini berlaku', 'error');
+            return redirect()->back();
+        }
     }
 }

@@ -16,6 +16,11 @@ class Bil extends Model
 
     protected $guarded = ['id'];
 
+    public function yuran()
+    {
+        return $this->belongsTo(Yuran::class);
+    }
+
     public function pelajar()
     {
         return $this->belongsTo(Pelajar::class);

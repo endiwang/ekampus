@@ -8,8 +8,10 @@ use App\Http\Controllers\Controller;
 use App\Libraries\BilLibrary;
 use App\Models\Bayaran;
 use App\Models\Bil;
+use App\Models\BilDetail;
 use App\Models\Pelajar;
 use App\Models\Yuran;
+use App\Models\YuranDetail;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -79,15 +81,16 @@ class YuranController extends Controller
                     return $html;
                 })
                 ->addColumn('bil', function ($data) use($id){
-                    return '<a href="' . route('public.yuran.invois', Crypt::encryptString($data->id)) . '" target="_blank">' . $data->doc_no . '</a>';
+                    return '<a href="' . route('public.yuran.invois', $data->id_hash ?? 0) . '" target="_blank">' . $data->doc_no . '</a>';
                 })
                 ->addColumn('bayaran', function ($data) use($id){
                     $bayaran = Bayaran::where('bil_id', $data->id)->first();
-                    if (! empty($bayaran)) {
-                        return '<a href="'.route('public.yuran.resit', Crypt::encryptString($bayaran->id)).'" target="_blank">'.$bayaran->doc_no.'</a>';
+                    if(!empty($bayaran))
+                    {
+                        return '<a href="' . route('public.yuran.resit', $bayaran->id_hash ?? 0) . '" target="_blank">' . $bayaran->doc_no . '</a>';
                     }
                 })
-                ->addColumn('status', function ($data) {
+                ->addColumn('status', function ($data) use($id){
                     return $data->status_name;
                 })
                 ->addIndexColumn()
@@ -147,6 +150,7 @@ class YuranController extends Controller
         $data['page_title'] = 'Bil Baru';
         $data['action'] = route($this->baseRoute.'store', $id);
         $data['yuran'] = $yuran;
+        $data['yuran_detail'] = YuranDetail::where('yuran_id', $id)->get();
         $data['model'] = new Bil;
         $data['pelajar'] = Pelajar::limit(10)->pluck('nama', 'id')->toArray();
 
@@ -156,15 +160,18 @@ class YuranController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $id)
     {
         $validation = $request->validate([
             'pelajar_id' => 'required',
+            'nama_yuran' => 'required',
             'amaun' => 'required',
         ], [
             'pelajar_id.required' => 'Sila pilih pelajar',
+            'nama_yuran.required' => 'Sila tulis nama yuran',
             'amaun.required' => 'Sila tulis amaun yuran',
         ]);
 
@@ -173,6 +180,8 @@ class YuranController extends Controller
             DB::transaction(function () use ($request, $id) {
 
                 $request['yuran'] = Yuran::find($id);
+                $request['manual_bil'] = true;
+
                 BilLibrary::createBil($request->all());
             });
 
@@ -197,25 +206,24 @@ class YuranController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $data_id)
+    public function show(Request $request, $id)
     {
-        if ($request->segment(1) == 'resit') {
-            $id = Crypt::decryptString($data_id);
-            $bayaran = Bayaran::where('id', $id)->first();
+        if($request->segment(1) == 'resit')
+        {
+            $bayaran = Bayaran::where('id_hash', $id)->first();
 
-            if (empty($bayaran)) {
+            if(empty($bayaran))
+            {
                 abort(404);
             }
-
+            
             $data['bayaran'] = $bayaran;
-          
             return view($this->baseView . 'resit')->with($data);
         }    
 
         if($request->segment(1) == 'invois')
         {
-            $id = Crypt::decryptString($data_id);
-            $bil = Bil::where('id', $id)->first();
+            $bil = Bil::where('id_hash', $id)->first();
 
             if(empty($bil))
             {
@@ -223,6 +231,7 @@ class YuranController extends Controller
             }
             
             $data['bil'] = $bil;
+            $data['bil_detail'] = BilDetail::where('bil_id', $bil->id)->get();
             return view($this->baseView . 'invois')->with($data);
         } 
 
@@ -246,7 +255,9 @@ class YuranController extends Controller
         $data['page_title'] = 'Kemaskini Bil & Bayaran';
         $data['action'] = route($this->baseRoute.'update', [$id, $bil_id]);
         $data['yuran'] = $yuran;
+        $data['yuran_detail'] = YuranDetail::where('yuran_id', $id)->get();
         $data['model'] = Bil::find($bil_id);
+        $data['bil_detail'] = BilDetail::where('bil_id', $bil_id)->get();
         $data['pelajar'] = Pelajar::limit(10)->pluck('nama', 'id')->toArray();
         $data['status'] = Bil::getStatusSelection();
         $data['bayaran'] = Bayaran::where('bil_id', $bil_id)->first();
@@ -257,86 +268,124 @@ class YuranController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id, $bil_id)
     {
-        $validation = $request->validate([
-            'status' => 'required',
-            'bayaran_date' => ($request->status == 2) ? 'required' : '',
-            'bayaran_description' => ($request->status == 2) ? 'required' : '',
-        ], [
-            'status.required' => 'Sila pilih status bayaran',
-            'bayaran_date.required' => 'Sila pilih tarikh bayaran',
-            'bayaran_description.required' => 'Sila tulis keterangan bayaran',
-        ]);
-
         $result = true;
-        try {
-            DB::transaction(function () use ($request, $id, $bil_id) {
 
-                $yuran = Yuran::find($id);
-                $bil = Bil::find($bil_id);
-                if (! empty($bil)) {
-                    $bil->status = $request->status;
-                    if ($bil->status == 3) {
-                        $bil->remarks = $request->reject_reason;
+        if(!empty($request->bayaran_gambar_2))
+        {
+            $bayaran = Bayaran::find($request->bayaran_id);
+            $datetime_now = strtotime(now());
+
+            if(!empty($request->bayaran_gambar_2))
+            {
+                $image = [];
+
+                $file = $request->bayaran_gambar_2;
+                $original_name = $file->getClientOriginalName();                            
+                $file_name = pathinfo($original_name, PATHINFO_FILENAME);
+                $extension = pathinfo($original_name, PATHINFO_EXTENSION);
+                $file_name = $bayaran->id . '_' . $file_name . '_' . $datetime_now . '.' . $extension;
+                $file_path = 'bayaran/' . $file_name;
+                Storage::disk('local')->put('public/' . $file_path, fopen($file, 'r+'), 'public');
+                
+                $image['image_name'] = $file_name;
+                $image['image_path'] = $file_path;
+                
+                $bayaran->gambar = json_encode($image);
+                $bayaran->save();
+            }
+        }
+        else {
+            $validation = $request->validate([
+                'status' => 'required',
+                'bayaran_date' => ($request->status == 2) ? 'required' : '',
+                'bayaran_description' => ($request->status == 2) ? 'required' : '',
+            ], [
+                'status.required' => 'Sila pilih status bayaran',
+                'bayaran_date.required' => 'Sila pilih tarikh bayaran',
+                'bayaran_description.required' => 'Sila tulis keterangan bayaran',
+            ]);
+
+            try {
+                DB::transaction(function () use ($request, $id, $bil_id) {
+
+                    $yuran = Yuran::find($id);
+                    $bil = Bil::find($bil_id);
+                    if(!empty($bil))
+                    {
+                        $bil->status = $request->status;
+                        if($bil->status == 3)
+                        {
+                            $bil->remarks = $request->reject_reason;
+                        }
+                        $bil->save();
                     }
-                    $bil->save();
-                }
 
-                if ($request->status == 2 && ! empty($request->bayaran_date) && ! empty($request->bayaran_description)) {
-                    $count_bayaran = Bayaran::count();
-                    $no_bayaran = sprintf('%04d', $count_bayaran + 1);
+                    if($request->status == 2 && !empty($request->bayaran_date) && !empty($request->bayaran_description))
+                    {
+                        $count_bayaran = Bayaran::count();
+                        $no_bayaran = sprintf('%04d', $count_bayaran + 1);
 
-                    $bayaran = Bayaran::where('bil_id', $bil->id)->first();
-                    if (empty($bayaran)) {
-                        $bayaran = new Bayaran;
-                    }
-                    $bayaran->doc_no = 'RCPT'.$no_bayaran;
-                    $bayaran->bil_id = $bil->id;
-                    $bayaran->pelajar_id = $bil->pelajar_id;
-                    $bayaran->pemohon_id = $bil->pemohon_id;
-                    $bayaran->permohonan_sijil_tahfiz_id = $bil->permohonan_sijil_tahfiz_id;
-                    $bayaran->yuran_id = $bil->yuran_id;
-                    $bayaran->date = $request->bayaran_date;
-                    $bayaran->description = $request->bayaran_description;
-                    $bayaran->save();
-
-                    $datetime_now = strtotime(now());
-
-                    if (! empty($request->bayaran_gambar)) {
-                        $image = [];
-
-                        $file = $request->bayaran_gambar;
-                        $original_name = $file->getClientOriginalName();
-                        $file_name = pathinfo($original_name, PATHINFO_FILENAME);
-                        $extension = pathinfo($original_name, PATHINFO_EXTENSION);
-                        $file_name = $aduan->id.'_'.$file_name.'_'.$datetime_now.'.'.$extension;
-                        $file_path = 'bayaran/'.$file_name;
-                        Storage::disk('local')->put('public/'.$file_path, fopen($file, 'r+'), 'public');
-
-                        $image['image_name'] = $file_name;
-                        $image['image_path'] = $file_path;
-
-                        $bayaran->gambar = json_encode($image);
+                        $bayaran = Bayaran::where('bil_id', $bil->id)->first();
+                        if(empty($bayaran))
+                        {
+                            $bayaran = new Bayaran;
+                        }
+                        $bayaran->doc_no = 'RCPT' . $no_bayaran;
+                        $bayaran->bil_id = $bil->id;
+                        $bayaran->pelajar_id = $bil->pelajar_id;
+                        $bayaran->pemohon_id = $bil->pemohon_id;
+                        $bayaran->permohonan_sijil_tahfiz_id = $bil->permohonan_sijil_tahfiz_id;
+                        $bayaran->yuran_id = $bil->yuran_id;
+                        $bayaran->date = $request->bayaran_date;
+                        $bayaran->description = $request->bayaran_description;
+                        $bayaran->id_hash = md5($bayaran->id . now());
                         $bayaran->save();
-                    }
-                }
-            });
 
-        } catch (\Exception $e) {
-            $result = false;
+                        $datetime_now = strtotime(now());
+
+                        if(!empty($request->bayaran_gambar))
+                        {
+                            $image = [];
+
+                            $file = $request->bayaran_gambar;
+                            $original_name = $file->getClientOriginalName();                            
+                            $file_name = pathinfo($original_name, PATHINFO_FILENAME);
+                            $extension = pathinfo($original_name, PATHINFO_EXTENSION);
+                            $file_name = $bayaran->id . '_' . $file_name . '_' . $datetime_now . '.' . $extension;
+                            $file_path = 'bayaran/' . $file_name;
+                            Storage::disk('local')->put('public/' . $file_path, fopen($file, 'r+'), 'public');
+                            
+                            $image['image_name'] = $file_name;
+                            $image['image_path'] = $file_path;
+                            
+                            $bayaran->gambar = json_encode($image);
+                            $bayaran->save();
+                        }
+                    }
+                });
+
+            } catch (\Exception $e) {
+                $result = false;
+            }
+
+            if($result)
+            {
+                $bil = Bil::find($bil_id);
+                $bayaran = Bayaran::where('bil_id', $bil_id)->first();
+                if($bil->status == 2 && !empty($bayaran))
+                {
+                    event(new BayaranYuranEvent($bil, $bayaran));
+                }
+            }
         }
 
         if ($result) {
-
-            $bil = Bil::find($bil_id);
-            $bayaran = Bayaran::where('bil_id', $bil_id)->first();
-            if ($bil->status == 2 && ! empty($bayaran)) {
-                event(new BayaranYuranEvent($bil, $bayaran));
-            }
 
             Alert::toast('Maklumat bil & bayaran berjaya dikemaskini', 'success');
 
