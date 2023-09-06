@@ -6,16 +6,17 @@ use App\Constants\Generic;
 use App\Http\Controllers\Controller;
 use App\Models\Yuran;
 use App\Models\YuranDetail;
+use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use DB;
-use Illuminate\Support\Facades\Cache;
 
 class YuranController extends Controller
 {
     protected $baseView = 'pages.pengurusan.kewangan.kemaskini.yuran.';
+
     protected $baseRoute = 'pengurusan.kewangan.kemaskini.yuran.';
 
     /**
@@ -34,11 +35,9 @@ class YuranController extends Controller
                     $html = '';
                     $html .= '<a href="' . route($this->baseRoute.'edit', $data->id) . '" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda"><i class="fa fa-pencil-alt"></i></a> ';
 
-                    if(!empty($data->is_fixed))
-                    {
+                    if (! empty($data->is_fixed)) {
                         //
-                    }
-                    else {
+                    } else {
                         $html .= '<a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Hapus" onclick="remove('.$data->id.')"><i class="fa fa-trash"></i></a>'.
                         '<form id="delete-'.$data->id.'" action="'.route($this->baseRoute.'destroy', $data->id).'" method="POST">
                         <input type="hidden" name="_token" value="'.csrf_token().'">

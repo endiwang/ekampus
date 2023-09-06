@@ -11,7 +11,7 @@ Route::group(['middleware' => ['auth', 'auth.unit_pembangunan']], function () {
     Route::resource('aduan_penyelenggaraan', AduanPenyelenggaraanController::class);
 
     Route::group(['prefix' => 'laporan', 'as' => 'laporan.'], function () {
-        
+
         Route::post('export_aduan_penyelenggaraan', [LaporanAduanPenyelenggaraanController::class, 'exportAduanPenyelenggaraan'])->name('export_aduan_penyelenggaraan');
         Route::resource('aduan_penyelenggaraan', LaporanAduanPenyelenggaraanController::class);
     });

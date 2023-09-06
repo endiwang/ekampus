@@ -109,6 +109,8 @@
                         @include('layouts.master.sidebar.komunikasi_korporat')
                     @elseif(Request::routeIs('pengurusan.perpustakaan.*'))
                         @include('layouts.master.sidebar.perpustakaan')
+                    @elseif(Request::routeIs('pengurusan.kolej_kediaman.*'))
+                        @include('layouts.master.sidebar.kolej_kediaman')
                     @elseif(Request::routeIs('pengurusan.peperiksaan.*'))
                         @include('layouts.master.sidebar.peperiksaan')
                     @elseif(Request::routeIs('pengurusan.pembangunan.*'))
@@ -135,7 +137,8 @@
                         @include('layouts.master.sidebar.pusat-islam')
                     @elseif(Request::routeIs('pengurusan.pentadbiran.*'))
                         @include('layouts.master.sidebar.pentadbiran')
-                    {{-- sidebar menu --}}
+					{{-- sidebar menu --}}
+
                     @else
                         @include('layouts.master.sidebar.utama')
                     @endif

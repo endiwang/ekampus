@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Pengurusan\Peperiksaan\CajPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\CetakanKeputusanController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\CetakTuntutanBayaranController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\CetakanTranskripController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\JadualPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniKursusController;
@@ -54,6 +55,9 @@ Route::resource('persiapan_peperiksaan', PersiapanPeperiksaanController::class);
 Route::post('cetakan_keputusan_peperiksaan/download_keputusan', [CetakanKeputusanController::class, 'downloadKeputusan'])->name('cetakan_keputusan_peperiksaan.download_keputusan');
 Route::post('cetakan_keputusan_peperiksaan/getCourses', [CetakanKeputusanController::class, 'getCourses'])->name('cetakan_keputusan_peperiksaan.getCourses');
 Route::resource('cetakan_keputusan_peperiksaan', CetakanKeputusanController::class);
+
+Route::post('cetak_tuntutan_bayaran/muat_turun', [CetakTuntutanBayaranController::class, 'downloadDetail'])->name('cetak_tuntutan_bayaran.download');
+Route::resource('cetak_tuntutan_bayaran', CetakTuntutanBayaranController::class);
 
 Route::get('cetakan_transkrip_peperiksaan/muatturun_transkrip/{id}', [CetakanTranskripController::class, 'downloadTranskrip'])->name('cetakan_transkrip_peperiksaan.download_transkrip');
 Route::resource('cetakan_transkrip_peperiksaan', CetakanTranskripController::class);

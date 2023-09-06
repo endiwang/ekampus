@@ -12,19 +12,20 @@ use App\Models\BilDetail;
 use App\Models\Pelajar;
 use App\Models\Yuran;
 use App\Models\YuranDetail;
+use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use DB;
 use Dompdf\Dompdf;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Storage;
 use Pdf;
 
 class YuranController extends Controller
 {
     protected $baseView = 'pages.pengurusan.kewangan.yuran.';
+
     protected $baseRoute = 'pengurusan.kewangan.yuran.';
 
     /**
@@ -63,9 +64,8 @@ class YuranController extends Controller
                 }
             }
 
-            if(!empty($request->status))
-            {
-                $data->where('bil.status', $request->status);                
+            if (! empty($request->status)) {
+                $data->where('bil.status', $request->status);
             }
 
             $data = $data->select(['bil.*']);
@@ -74,9 +74,9 @@ class YuranController extends Controller
                 ->addColumn('pelajar', function ($data) use($id){
                     return @$data->pelajar_nama . '<br>' . @$data->pelajar_ic;
                 })
-                ->addColumn('action', function ($data) use($id){
+                ->addColumn('action', function ($data) use ($id) {
                     $html = '';
-                    $html .= '<a href="' . route($this->baseRoute.'edit', ['id' => $id, 'yuran' => $data->id]) . '" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda"><i class="fa fa-pencil-alt"></i></a> '; 
+                    $html .= '<a href="'.route($this->baseRoute.'edit', ['id' => $id, 'yuran' => $data->id]).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda"><i class="fa fa-pencil-alt"></i></a> ';
 
                     return $html;
                 })
@@ -125,7 +125,7 @@ class YuranController extends Controller
         $data['buttons'] = [
             [
                 'title' => 'Bil Baru',
-                'route' => route($this->baseRoute . 'create', $id),
+                'route' => route($this->baseRoute.'create', $id),
                 'button_class' => 'btn btn-sm btn-primary fw-bold',
                 'icon_class' => 'fa fa-plus-circle',
             ],
@@ -148,7 +148,7 @@ class YuranController extends Controller
             $yuran->nama => false,
         ];
         $data['page_title'] = 'Bil Baru';
-        $data['action'] = route($this->baseRoute . 'store', $id);
+        $data['action'] = route($this->baseRoute.'store', $id);
         $data['yuran'] = $yuran;
         $data['yuran_detail'] = YuranDetail::where('yuran_id', $id)->get();
         $data['model'] = new Bil;
@@ -253,7 +253,7 @@ class YuranController extends Controller
             $yuran->nama => false,
         ];
         $data['page_title'] = 'Kemaskini Bil & Bayaran';
-        $data['action'] = route($this->baseRoute . 'update', [$id, $bil_id]);
+        $data['action'] = route($this->baseRoute.'update', [$id, $bil_id]);
         $data['yuran'] = $yuran;
         $data['yuran_detail'] = YuranDetail::where('yuran_id', $id)->get();
         $data['model'] = Bil::find($bil_id);

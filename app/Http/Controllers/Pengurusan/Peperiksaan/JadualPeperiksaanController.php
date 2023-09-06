@@ -31,7 +31,9 @@ use DB;
 class JadualPeperiksaanController extends Controller
 {
     protected $baseView = 'pages.pengurusan.peperiksaan.jadual_peperiksaan.';
+
     protected $baseRoute = 'pengurusan.peperiksaan.jadual_peperiksaan.';
+
     /**
      * Display a listing of the resource.
      *
@@ -58,7 +60,7 @@ class JadualPeperiksaanController extends Controller
             if (request()->ajax()) {
                 $data = TetapanPeperiksaan::with('sesi', 'pusat_pengajian', 'kursus', 'syukbah', 'semester');
                 if ($request->has('nama') && $request->nama != null) {
-                    $data->where('nama', 'LIKE', '%'. $request->nama  . '%');
+                    $data->where('nama', 'LIKE', '%'.$request->nama.'%');
                 }
                 if ($request->has('program_pengajian') && $request->program_pengajian != null) {
                     $data->where('kursus_id', $request->program_pengajian);
@@ -114,17 +116,17 @@ class JadualPeperiksaanController extends Controller
                 ])
                 ->minifiedAjax();
 
-            $syukbah = Syukbah::where('deleted_at', NULL)->pluck('nama', 'id');
+            $syukbah = Syukbah::where('deleted_at', null)->pluck('nama', 'id');
             $sesi_peperiksaan = SesiPeperiksaan::pluck('nama', 'id');
-            $pusat_pengajian = PusatPengajian::where('deleted_at', NULL)->pluck('nama', 'id');
-            $program_pengajian = Kursus::where('deleted_at', NULL)->pluck('nama', 'id');
-            $semester = Semester::where('deleted_at', NULL)->pluck('nama', 'id');
+            $pusat_pengajian = PusatPengajian::where('deleted_at', null)->pluck('nama', 'id');
+            $program_pengajian = Kursus::where('deleted_at', null)->pluck('nama', 'id');
+            $semester = Semester::where('deleted_at', null)->pluck('nama', 'id');
 
             return view($this->baseView.'main', compact(
-                'title', 
-                'breadcrumbs', 
-                'dataTable', 
-                'buttons', 
+                'title',
+                'breadcrumbs',
+                'dataTable',
+                'buttons',
                 'program_pengajian',
                 'sesi_peperiksaan',
                 'pusat_pengajian',
@@ -151,27 +153,27 @@ class JadualPeperiksaanController extends Controller
         try {
 
             $title = 'Jadual Peperiksaan';
-            $action = route($this->baseRoute . 'store');
+            $action = route($this->baseRoute.'store');
             $page_title = 'Tambah Jadual Peperiksaan';
             $breadcrumbs = [
                 'Peperiksaan' => false,
-                'Jadual Peperiksaan' => route($this->baseRoute . 'index'),
+                'Jadual Peperiksaan' => route($this->baseRoute.'index'),
                 'Tambah Jadual Peperiksaan' => false,
             ];
 
             $model = new TetapanPeperiksaan();
 
-            $syukbah = Syukbah::where('deleted_at', NULL)->pluck('nama', 'id');
+            $syukbah = Syukbah::where('deleted_at', null)->pluck('nama', 'id');
             $sesi_peperiksaan = SesiPeperiksaan::pluck('nama', 'id');
-            $pusat_pengajian = PusatPengajian::where('deleted_at', NULL)->pluck('nama', 'id');
-            $program_pengajian = Kursus::where('deleted_at', NULL)->pluck('nama', 'id');
-            $semester = Semester::where('deleted_at', NULL)->pluck('nama', 'id');
+            $pusat_pengajian = PusatPengajian::where('deleted_at', null)->pluck('nama', 'id');
+            $program_pengajian = Kursus::where('deleted_at', null)->pluck('nama', 'id');
+            $semester = Semester::where('deleted_at', null)->pluck('nama', 'id');
 
-            return view($this->baseView.'create', compact('model', 
-                'title', 
-                'breadcrumbs', 
-                'page_title', 
-                'action', 
+            return view($this->baseView.'create', compact('model',
+                'title',
+                'breadcrumbs',
+                'page_title',
+                'action',
                 'program_pengajian',
                 'sesi_peperiksaan',
                 'pusat_pengajian',
@@ -191,7 +193,6 @@ class JadualPeperiksaanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -217,12 +218,12 @@ class JadualPeperiksaanController extends Controller
                 'kursus_id' => $request->program_pengajian,
                 'sesi_id' => $request->sesi,
                 'semester_id' => $request->semester,
-                'syukbah_id' => $request->syukbah
+                'syukbah_id' => $request->syukbah,
             ]);
 
             Alert::toast('Maklumat sesi peperiksaan berjaya ditambah!', 'success');
 
-            return redirect()->route($this->baseRoute . 'edit', $tetapan->id);
+            return redirect()->route($this->baseRoute.'edit', $tetapan->id);
 
         } catch (Exception $e) {
             report($e);
@@ -253,40 +254,40 @@ class JadualPeperiksaanController extends Controller
     public function edit($id, Builder $builder)
     {
         // try {
-            $tetapan_peperiksaan = TetapanPeperiksaan::find($id);
-            $timetable = JadualPeperiksaan::select('id')->where('tetapan_peperiksaan_id', $id)->first();
+        $tetapan_peperiksaan = TetapanPeperiksaan::find($id);
+        $timetable = JadualPeperiksaan::select('id')->where('tetapan_peperiksaan_id', $id)->first();
 
-            $title = 'Jadual Peperiksaan';
-            $action = route($this->baseRoute . 'update', $id);
-            $page_title = 'Tambah Subjek Jadual Peperiksaan';
-            $breadcrumbs = [
-                'Peperiksaan' => false,
-                'Jadual Peperiksaan' => route($this->baseRoute . 'index'),
-                'Tambah Subjek Jadual Peperiksaan' => false,
-            ];
+        $title = 'Jadual Peperiksaan';
+        $action = route($this->baseRoute.'update', $id);
+        $page_title = 'Tambah Subjek Jadual Peperiksaan';
+        $breadcrumbs = [
+            'Peperiksaan' => false,
+            'Jadual Peperiksaan' => route($this->baseRoute.'index'),
+            'Tambah Subjek Jadual Peperiksaan' => false,
+        ];
 
-            if (request()->ajax()) {
-                if (! empty($timetable->id)) {
-                    $data = JadualPeperiksaan::with('subjek', 'lokasi')->where('tetapan_peperiksaan_id', $id);
-                } else {
-                    $data = [];
-                }
+        if (request()->ajax()) {
+            if (! empty($timetable->id)) {
+                $data = JadualPeperiksaan::with('subjek', 'lokasi')->where('tetapan_peperiksaan_id', $id);
+            } else {
+                $data = [];
+            }
 
-                return DataTables::of($data)
-                    ->addColumn('subjek_id', function ($data) {
-                        return $data->subjek->nama ?? null;
-                    })
-                    ->addColumn('tarikh', function ($data) {
-                        return Utils::formatDate($data->tarikh) ?? null;
-                    })
-                    ->addColumn('masa', function ($data) {
-                        return Utils::formatTime2($data->masa).' - '.Utils::formatTime2($data->masa_akhir);
-                    })
-                    ->addColumn('lokasi', function ($data) {
-                        return $data->lokasi ?? null;
-                    })
-                    ->addColumn('action', function ($data) {
-                        return '
+            return DataTables::of($data)
+                ->addColumn('subjek_id', function ($data) {
+                    return $data->subjek->nama ?? null;
+                })
+                ->addColumn('tarikh', function ($data) {
+                    return Utils::formatDate($data->tarikh) ?? null;
+                })
+                ->addColumn('masa', function ($data) {
+                    return Utils::formatTime2($data->masa).' - '.Utils::formatTime2($data->masa_akhir);
+                })
+                ->addColumn('lokasi', function ($data) {
+                    return $data->lokasi ?? null;
+                })
+                ->addColumn('action', function ($data) {
+                    return '
                             <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
                                 <i class="fa fa-trash"></i>
                             </a>
@@ -294,52 +295,52 @@ class JadualPeperiksaanController extends Controller
                                 <input type="hidden" name="_token" value="'.csrf_token().'">
                                 <input type="hidden" name="_method" value="DELETE">
                             </form>';
-                    })
-                    ->addIndexColumn()
-                    ->order(function ($data) {
-                        $data->orderBy('tarikh', 'asc');
-                    })
-                    ->rawColumns(['action'])
-                    ->toJson();
-            }
+                })
+                ->addIndexColumn()
+                ->order(function ($data) {
+                    $data->orderBy('tarikh', 'asc');
+                })
+                ->rawColumns(['action'])
+                ->toJson();
+        }
 
-            $dataTable = $builder
-                ->columns([
-                    ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
-                    ['data' => 'subjek_id', 'name' => 'file_name', 'title' => 'Subjek', 'orderable' => false],
-                    ['data' => 'tarikh', 'name' => 'tarikh', 'title' => 'Tarikh Peperiksaan', 'orderable' => false],
-                    ['data' => 'masa', 'name' => 'masa', 'title' => 'Masa', 'orderable' => false],
-                    ['data' => 'bilangan_calon', 'name' => 'bilangan_calon', 'title' => 'Bilangan Calon', 'orderable' => false],
-                    ['data' => 'lokasi', 'name' => 'created_at', 'title' => 'Lokasi', 'orderable' => false],
-                    ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
-                ])
-                ->minifiedAjax();
+        $dataTable = $builder
+            ->columns([
+                ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+                ['data' => 'subjek_id', 'name' => 'file_name', 'title' => 'Subjek', 'orderable' => false],
+                ['data' => 'tarikh', 'name' => 'tarikh', 'title' => 'Tarikh Peperiksaan', 'orderable' => false],
+                ['data' => 'masa', 'name' => 'masa', 'title' => 'Masa', 'orderable' => false],
+                ['data' => 'bilangan_calon', 'name' => 'bilangan_calon', 'title' => 'Bilangan Calon', 'orderable' => false],
+                ['data' => 'lokasi', 'name' => 'created_at', 'title' => 'Lokasi', 'orderable' => false],
+                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
+            ])
+            ->minifiedAjax();
 
-            $syukbah = Syukbah::where('deleted_at', NULL)->pluck('nama', 'id');
-            $sesi_peperiksaan = SesiPeperiksaan::pluck('nama', 'id');
-            $pusat_pengajian = PusatPengajian::where('deleted_at', NULL)->pluck('nama', 'id');
-            $program_pengajian = Kursus::where('deleted_at', NULL)->pluck('nama', 'id');
-            $semester = Semester::where('deleted_at', NULL)->pluck('nama', 'id');
-            $subjects = Subjek::where('deleted_at', null)->get()->pluck('nama', 'id');
-            $locations = Bilik::where('is_deleted', 0)->get()->pluck('nama_bilik', 'id');
+        $syukbah = Syukbah::where('deleted_at', null)->pluck('nama', 'id');
+        $sesi_peperiksaan = SesiPeperiksaan::pluck('nama', 'id');
+        $pusat_pengajian = PusatPengajian::where('deleted_at', null)->pluck('nama', 'id');
+        $program_pengajian = Kursus::where('deleted_at', null)->pluck('nama', 'id');
+        $semester = Semester::where('deleted_at', null)->pluck('nama', 'id');
+        $subjects = Subjek::where('deleted_at', null)->get()->pluck('nama', 'id');
+        $locations = Bilik::where('is_deleted', 0)->get()->pluck('nama_bilik', 'id');
 
-            return view($this->baseView.'create_subject', compact(
-                'title',
-                'breadcrumbs',
-                'dataTable',
-                'page_title',
-                'action',
-                'tetapan_peperiksaan',
-                'subjects',
-                'locations',
-                'timetable',
-                'id',
-                'program_pengajian',
-                'sesi_peperiksaan',
-                'pusat_pengajian',
-                'semester',
-                'syukbah'
-            ));
+        return view($this->baseView.'create_subject', compact(
+            'title',
+            'breadcrumbs',
+            'dataTable',
+            'page_title',
+            'action',
+            'tetapan_peperiksaan',
+            'subjects',
+            'locations',
+            'timetable',
+            'id',
+            'program_pengajian',
+            'sesi_peperiksaan',
+            'pusat_pengajian',
+            'semester',
+            'syukbah'
+        ));
 
         // } catch (Exception $e) {
         //     report($e);
@@ -353,7 +354,6 @@ class JadualPeperiksaanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -368,7 +368,7 @@ class JadualPeperiksaanController extends Controller
             $update->semester_id = $request->semester;
             $update->syukbah_id = $request->syukbah;
             $update->save();
-            
+
             Alert::toast('Maklumat utama jadual peperiksaan berjaya dikemaskini!', 'success');
 
             return redirect()->back();
@@ -471,15 +471,15 @@ class JadualPeperiksaanController extends Controller
     public function downloadJadualPeperiksaan($id)
     {
         // try {
-            $detail = TetapanPeperiksaan::with('sesi', 'pusat_pengajian', 'kursus', 'syukbah', 'semester')->find($id);
-            $jadual_peperiksaan = JadualPeperiksaan::with('subjek', 'lokasi')->where('tetapan_peperiksaan_id', $id)->get();
+        $detail = TetapanPeperiksaan::with('sesi', 'pusat_pengajian', 'kursus', 'syukbah', 'semester')->find($id);
+        $jadual_peperiksaan = JadualPeperiksaan::with('subjek', 'lokasi')->where('tetapan_peperiksaan_id', $id)->get();
 
-            $generated_at = Carbon::now()->format('d/m/Y H:i A');
+        $generated_at = Carbon::now()->format('d/m/Y H:i A');
 
-            $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadView($this->baseView.'.jadual_pdf', compact('detail', 'jadual_peperiksaan', 'generated_at'))->setPaper('a4', 'landscape');
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView($this->baseView.'.jadual_pdf', compact('detail', 'jadual_peperiksaan', 'generated_at'))->setPaper('a4', 'landscape');
 
-            return $pdf->stream();
+        return $pdf->stream();
 
         // } catch (Exception $e) {
         //     report($e);

@@ -4,23 +4,21 @@ namespace App\Http\Controllers\Pengurusan\PengajianSepanjangHayat;
 
 use App\Http\Controllers\Controller;
 use App\Models\PemarkahanCalonSijilTahfiz;
-use App\Models\PermohonanSijilTahfiz;
 use App\Models\PusatPeperiksaan;
 use App\Models\TetapanPeperiksaanSijilTahfiz;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Builder;
 
 class RekodAnalisaSijilTahfizController extends Controller
 {
-    public function index(Builder $builder, Request $request){
-        $title = "Laporan";
+    public function index(Builder $builder, Request $request)
+    {
+        $title = 'Laporan';
         $breadcrumbs = [
-            "Jabatan Pengajian Sepanjang Hayat" =>  '#',
-            "Laporan" =>  '#',
-            "Senarai Laporan" =>  '#',
+            'Jabatan Pengajian Sepanjang Hayat' => '#',
+            'Laporan' => '#',
+            'Senarai Laporan' => '#',
         ];
 
         $reports = [
@@ -50,20 +48,20 @@ class RekodAnalisaSijilTahfizController extends Controller
         $data = [
             'title' => $title,
             'breadcrumbs' => $breadcrumbs,
-            'reports' => $reports
+            'reports' => $reports,
             // 'rekod_filter' => $rekod_filter,
             // 'age_filter' => $age_filter,
             // 'jenis_pengajian' => $jenis_pengajian,
         ];
-        
 
         return view('pages.pengurusan.pengajian_sepanjang_hayat.rekod_analisa.main', $data);
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $title = 'Rekod Analisa';
         $age_filter = [];
-        for($i = 17; $i<=50; $i++){
+        for ($i = 17; $i <= 50; $i++) {
             $age_filter[$i] = $i;
         }
 
@@ -72,18 +70,18 @@ class RekodAnalisaSijilTahfizController extends Controller
             2 => 'Swasta',
         ];
 
-        switch($id){
+        switch ($id) {
             case 'negeri':
                 $breadcrumbs = [
                     'Akademik' => false,
                     'Laporan' => false,
-                    'Rekod Permohonan Mengikut Zon Peperiksaan'
+                    'Rekod Permohonan Mengikut Zon Peperiksaan',
                 ];
 
                 $page_title = 'Rekod Permohonan Mengikut Zon Peperiksaan';
                 $action = route('pengurusan.pengajian_sepanjang_hayat.laporan.rekod_analisa.analisa_negeri');
 
-                $data =[
+                $data = [
                     'age_filter' => $age_filter,
                     'jenis_pengajian' => $jenis_pengajian,
                     'breadcrumbs' => $breadcrumbs,
@@ -99,13 +97,13 @@ class RekodAnalisaSijilTahfizController extends Controller
                 $breadcrumbs = [
                     'Akademik' => false,
                     'Laporan' => false,
-                    'Rekod Permohonan Mengikut Siri Peperiksaan'
+                    'Rekod Permohonan Mengikut Siri Peperiksaan',
                 ];
 
                 $page_title = 'Rekod Permohonan Mengikut Siri Peperiksaan';
                 $action = route('pengurusan.pengajian_sepanjang_hayat.laporan.rekod_analisa.analisa_siri_peperiksaan');
 
-                $data =[
+                $data = [
                     'age_filter' => $age_filter,
                     'jenis_pengajian' => $jenis_pengajian,
                     'breadcrumbs' => $breadcrumbs,
@@ -123,24 +121,25 @@ class RekodAnalisaSijilTahfizController extends Controller
         }
     }
 
-    public function analisa_negeri(Request $request){
+    public function analisa_negeri(Request $request)
+    {
         $currentYear = date('Y');
         $previousYear = $currentYear - 1;
         $generated_at = Carbon::now()->format('d/m/Y H:i A');
         $datas = PusatPeperiksaan::with('permohonanSijilTahfizs');
-        $datas->whereHas('permohonanSijilTahfizs', function($q) use ($request, $currentYear, $previousYear){
-            if(!empty($request->age)){
-                $q->where('age',$request->age);
+        $datas->whereHas('permohonanSijilTahfizs', function ($q) use ($request, $currentYear, $previousYear) {
+            if (! empty($request->age)) {
+                $q->where('age', $request->age);
             }
-            if(!empty($request->jenis_pengajian)){
-                $q->where('jenis_pengajian',$request->jenis_pengajian);
+            if (! empty($request->jenis_pengajian)) {
+                $q->where('jenis_pengajian', $request->jenis_pengajian);
             }
-            if(!empty($request->gender)){
-                $q->where('gender',$request->gender);
+            if (! empty($request->gender)) {
+                $q->where('gender', $request->gender);
             }
-            $q->where(function($query) use($currentYear, $previousYear){
+            $q->where(function ($query) use ($currentYear, $previousYear) {
                 $query->whereYear('created_at', $currentYear)
-                ->orWhereYear('created_at', $previousYear);
+                    ->orWhereYear('created_at', $previousYear);
             });
         });
 
@@ -157,27 +156,27 @@ class RekodAnalisaSijilTahfizController extends Controller
         return $pdf->stream();
     }
 
-    public function analisa_siri_peperiksaan(Request $request){
+    public function analisa_siri_peperiksaan(Request $request)
+    {
         $currentYear = date('Y');
         $previousYear = $currentYear - 1;
         $generated_at = Carbon::now()->format('d/m/Y H:i A');
         $datas = TetapanPeperiksaanSijilTahfiz::with('permohonanSijilTahfizs');
-        $datas->whereHas('permohonanSijilTahfizs', function($q) use ($request, $currentYear, $previousYear){
-            if(!empty($request->age)){
-                $q->where('age',$request->age);
+        $datas->whereHas('permohonanSijilTahfizs', function ($q) use ($request, $currentYear, $previousYear) {
+            if (! empty($request->age)) {
+                $q->where('age', $request->age);
             }
-            if(!empty($request->jenis_pengajian)){
-                $q->where('jenis_pengajian',$request->jenis_pengajian);
+            if (! empty($request->jenis_pengajian)) {
+                $q->where('jenis_pengajian', $request->jenis_pengajian);
             }
-            if(!empty($request->gender)){
-                $q->where('gender',$request->gender);
+            if (! empty($request->gender)) {
+                $q->where('gender', $request->gender);
             }
-            $q->where(function($query) use($currentYear, $previousYear){
+            $q->where(function ($query) use ($currentYear, $previousYear) {
                 $query->whereYear('created_at', $currentYear)
-                ->orWhereYear('created_at', $previousYear);
+                    ->orWhereYear('created_at', $previousYear);
             });
         });
-
 
         $datas = $datas->get();
 
@@ -192,42 +191,43 @@ class RekodAnalisaSijilTahfizController extends Controller
         return $pdf->stream();
     }
 
-    public function analisa_peringkat_kelulusan(Request $request){
+    public function analisa_peringkat_kelulusan(Request $request)
+    {
         $currentYear = date('Y');
         $previousYear = $currentYear - 1;
         $generated_at = Carbon::now()->format('d/m/Y H:i A');
 
-        $mumtaz = PemarkahanCalonSijilTahfiz::where('keputusan_peperiksaan','Mumtaz')
-        ->where(function($query) use($currentYear, $previousYear){
-            $query->whereYear('created_at', $currentYear)
-            ->orWhereYear('created_at', $previousYear);
-        })->get()->count();
-        $jayyid_jiddan = PemarkahanCalonSijilTahfiz::where('keputusan_peperiksaan','Jayyid Jiddan')
-        ->where(function($query) use($currentYear, $previousYear){
-            $query->whereYear('created_at', $currentYear)
-            ->orWhereYear('created_at', $previousYear);
-        })->get()->count();
-        $jayyid = PemarkahanCalonSijilTahfiz::where('keputusan_peperiksaan','Jayyid')
-        ->where(function($query) use($currentYear, $previousYear){
-            $query->whereYear('created_at', $currentYear)
-            ->orWhereYear('created_at', $previousYear);
-        })->get()->count();
-        $maqbul = PemarkahanCalonSijilTahfiz::where('keputusan_peperiksaan','Maqbul')
-        ->where(function($query) use($currentYear, $previousYear){
-            $query->whereYear('created_at', $currentYear)
-            ->orWhereYear('created_at', $previousYear);
-        })->get()->count();
-        $rasib = PemarkahanCalonSijilTahfiz::where('keputusan_peperiksaan','Rasib')
-        ->where(function($query) use($currentYear, $previousYear){
-            $query->whereYear('created_at', $currentYear)
-            ->orWhereYear('created_at', $previousYear);
-        })->get()->count();
+        $mumtaz = PemarkahanCalonSijilTahfiz::where('keputusan_peperiksaan', 'Mumtaz')
+            ->where(function ($query) use ($currentYear, $previousYear) {
+                $query->whereYear('created_at', $currentYear)
+                    ->orWhereYear('created_at', $previousYear);
+            })->get()->count();
+        $jayyid_jiddan = PemarkahanCalonSijilTahfiz::where('keputusan_peperiksaan', 'Jayyid Jiddan')
+            ->where(function ($query) use ($currentYear, $previousYear) {
+                $query->whereYear('created_at', $currentYear)
+                    ->orWhereYear('created_at', $previousYear);
+            })->get()->count();
+        $jayyid = PemarkahanCalonSijilTahfiz::where('keputusan_peperiksaan', 'Jayyid')
+            ->where(function ($query) use ($currentYear, $previousYear) {
+                $query->whereYear('created_at', $currentYear)
+                    ->orWhereYear('created_at', $previousYear);
+            })->get()->count();
+        $maqbul = PemarkahanCalonSijilTahfiz::where('keputusan_peperiksaan', 'Maqbul')
+            ->where(function ($query) use ($currentYear, $previousYear) {
+                $query->whereYear('created_at', $currentYear)
+                    ->orWhereYear('created_at', $previousYear);
+            })->get()->count();
+        $rasib = PemarkahanCalonSijilTahfiz::where('keputusan_peperiksaan', 'Rasib')
+            ->where(function ($query) use ($currentYear, $previousYear) {
+                $query->whereYear('created_at', $currentYear)
+                    ->orWhereYear('created_at', $previousYear);
+            })->get()->count();
 
         $datas = [
             'Mumtaz' => $mumtaz,
-            'Jayyid Jiddan' => $jayyid_jiddan, 
-            'Jayyid' => $jayyid, 
-            'Maqbul' => $maqbul, 
+            'Jayyid Jiddan' => $jayyid_jiddan,
+            'Jayyid' => $jayyid,
+            'Maqbul' => $maqbul,
             'Rasib' => $rasib,
         ];
 

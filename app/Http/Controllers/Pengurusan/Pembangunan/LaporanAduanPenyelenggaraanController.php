@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 class LaporanAduanPenyelenggaraanController extends Controller
 {
     protected $baseView = 'pages.pengurusan.pembangunan.laporan.aduan_penyelenggaraan.';
+
     protected $baseRoute = 'pengurusan.pembangunan.laporan.aduan_penyelenggaraan.';
 
     /**
@@ -28,18 +29,17 @@ class LaporanAduanPenyelenggaraanController extends Controller
         ];
         $data['action'] = route('pengurusan.pembangunan.laporan.export_aduan_penyelenggaraan');
 
-        return view($this->baseView . 'list')->with($data);
+        return view($this->baseView.'list')->with($data);
     }
-    
+
     public function exportAduanPenyelenggaraan(Request $request)
     {
         // dd($request->all());
         $data['date_start'] = $request->date_start;
         $data['date_end'] = $request->date_end;
         $results = AduanPenyelenggaraan::where(\DB::raw('DATE(created_at)'), '>=', $request->date_start)->where(\DB::raw('DATE(created_at)'), '<=', $request->date_end);
-        
-        if(!empty($request->status))
-        {
+
+        if (! empty($request->status)) {
             $results->where('status', $request->status);
         }
 

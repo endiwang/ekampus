@@ -56,7 +56,7 @@ class PertukaranSyukbahController extends Controller
                         $data->where('kursus_id', $request->program_pengajian);
                     });
                 }
-            
+
                 return DataTables::of($data)
                     ->addColumn('nama', function ($data) {
                         return $data->pelajar->nama;

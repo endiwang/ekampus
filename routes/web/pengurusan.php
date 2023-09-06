@@ -50,3 +50,7 @@ Route::middleware('web')
     ->prefix('pengurusan/kewangan')
     ->as('pengurusan.kewangan.')
     ->group(base_path('routes/web/pengurusan/kewangan.php'));
+Route::middleware(['web','auth'])
+    ->prefix('pengurusan/kolej_kediaman')
+    ->as('pengurusan.kolej_kediaman.')
+    ->group(base_path('routes/web/pengurusan/kolej_kediaman.php'));

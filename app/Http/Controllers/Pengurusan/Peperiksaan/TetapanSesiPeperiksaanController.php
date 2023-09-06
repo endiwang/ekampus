@@ -14,7 +14,9 @@ use Yajra\DataTables\Html\Builder;
 class TetapanSesiPeperiksaanController extends Controller
 {
     protected $baseView = 'pages.pengurusan.peperiksaan.tetapan.sesi_peperiksaan.';
+
     protected $baseRoute = 'pengurusan.peperiksaan.tetapan.sesi_peperiksaan.';
+
     /**
      * Display a listing of the resource.
      *
@@ -42,7 +44,7 @@ class TetapanSesiPeperiksaanController extends Controller
             if (request()->ajax()) {
                 $data = SesiPeperiksaan::with('kursus');
                 if ($request->has('nama') && $request->nama != null) {
-                    $data->where('nama', 'LIKE', '%'. $request->nama  . '%');
+                    $data->where('nama', 'LIKE', '%'.$request->nama.'%');
                 }
                 if ($request->has('program_pengajian') && $request->program_pengajian != null) {
                     $data->where('kursus_id', $request->program_pengajian);
@@ -52,7 +54,7 @@ class TetapanSesiPeperiksaanController extends Controller
                     ->addColumn('kursus_id', function ($data) {
                         return $data->kursus->nama ?? null;
                     })
-                    
+
                     ->addColumn('status', function ($data) {
                         switch ($data->status) {
                             case 0:
@@ -96,7 +98,7 @@ class TetapanSesiPeperiksaanController extends Controller
                 ])
                 ->minifiedAjax();
 
-            $program_pengajian = Kursus::where('deleted_at', NULL)->pluck('nama', 'id');
+            $program_pengajian = Kursus::where('deleted_at', null)->pluck('nama', 'id');
 
             return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable', 'buttons', 'program_pengajian'));
 
@@ -119,18 +121,18 @@ class TetapanSesiPeperiksaanController extends Controller
         try {
 
             $title = 'Sesi Peperiksaan';
-            $action = route($this->baseRoute . 'store');
+            $action = route($this->baseRoute.'store');
             $page_title = 'Tambah Sesi Peperiksaan';
             $breadcrumbs = [
                 'Peperiksaan' => false,
                 'Tetapan' => false,
-                'Sesi Peperiksaan' => route($this->baseRoute . 'index'),
+                'Sesi Peperiksaan' => route($this->baseRoute.'index'),
                 'Tambah Sesi Peperiksaan' => false,
             ];
 
             $model = new SesiPeperiksaan();
 
-            $program_pengajian = Kursus::where('deleted_at', NULL)->pluck('nama', 'id');
+            $program_pengajian = Kursus::where('deleted_at', null)->pluck('nama', 'id');
 
             return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 'program_pengajian'));
 
@@ -146,7 +148,6 @@ class TetapanSesiPeperiksaanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -168,7 +169,7 @@ class TetapanSesiPeperiksaanController extends Controller
 
             Alert::toast('Maklumat sesi peperiksaan berjaya ditambah!', 'success');
 
-            return redirect()->route($this->baseRoute . 'index');
+            return redirect()->route($this->baseRoute.'index');
 
         } catch (Exception $e) {
             report($e);
@@ -201,18 +202,18 @@ class TetapanSesiPeperiksaanController extends Controller
         try {
 
             $title = 'Sesi Peperiksaan';
-            $action = route($this->baseRoute . 'update', $id);
+            $action = route($this->baseRoute.'update', $id);
             $page_title = 'Kemaskini Sesi Peperiksaan';
             $breadcrumbs = [
                 'Peperiksaan' => false,
                 'Tetapan' => false,
-                'Sesi Peperiksaan' => route($this->baseRoute . 'index'),
+                'Sesi Peperiksaan' => route($this->baseRoute.'index'),
                 'Kemaskini Sesi Peperiksaan' => false,
             ];
 
             $model = SesiPeperiksaan::find($id);
 
-            $program_pengajian = Kursus::where('deleted_at', NULL)->pluck('nama', 'id');
+            $program_pengajian = Kursus::where('deleted_at', null)->pluck('nama', 'id');
 
             return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'action', 'program_pengajian'));
 
@@ -228,7 +229,6 @@ class TetapanSesiPeperiksaanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -251,7 +251,7 @@ class TetapanSesiPeperiksaanController extends Controller
 
             Alert::toast('Maklumat sesi peperiksaan berjaya dikemaskini!', 'success');
 
-            return redirect()->route($this->baseRoute . 'index');
+            return redirect()->route($this->baseRoute.'index');
 
         } catch (Exception $e) {
             report($e);

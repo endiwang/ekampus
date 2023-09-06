@@ -529,6 +529,16 @@
                 </div>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.pemantauan_kehadiran.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.pemantauan_kehadiran.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pemantauan Kehadiran</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
                         <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_jabatan.jadual_penggantian_pensyarah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_jabatan.jadual_penggantian_pensyarah.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
