@@ -33,7 +33,7 @@
                                                 <select class="form-control form-select form-select-sm" data-control="select2" name="kursus" id="kursus">
                                                     <option value="">Pilih Kursus</option>
                                                     @foreach($subjects as $subject)
-                                                    <option value="{{ $subject->id }}" @if(!empty($model->subjek_id) && $model->subjek_id == $subject->id) selected @endif>{{ $subject->kod_subjek }} - {{ $subject->nama }}</option>
+                                                    <option value="{{ $subject->id }}" @if(!empty($model->subjek_id) && $model->subjek_id == $subject->id) selected @endif>{{ $subject->nama }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

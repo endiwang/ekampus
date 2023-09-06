@@ -6,6 +6,7 @@ use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
 use App\Models\ELearning\ELearningSyllabus;
 use App\Models\ELearning\ELearningSyllabusContent;
+use App\Models\Kursus;
 use App\Models\Subjek;
 use Exception;
 use File;
@@ -89,7 +90,7 @@ class PengurusanKandunganController extends Controller
                 ->columns([
                     ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
                     ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Kandungan', 'orderable' => false],
-                    ['data' => 'subjek', 'name' => 'subjek', 'title' => 'Subjek', 'orderable' => false],
+                    // ['data' => 'subjek', 'name' => 'subjek', 'title' => 'Subjek', 'orderable' => false],
                     ['data' => 'kursus', 'name' => 'kursus', 'title' => 'Kursus', 'orderable' => false],
                     ['data' => 'created_by', 'name' => 'created_by', 'title' => 'Dicipta Oleh', 'orderable' => false],
                     ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable' => false],
@@ -134,7 +135,7 @@ class PengurusanKandunganController extends Controller
                 'tugasan' => 'Tugasan',
             ];
 
-            $subjects = Subjek::select('id', 'nama', 'kod_subjek')->where('deleted_at', null)->where('status', 1)->get();
+            $subjects = Kursus::select('id', 'nama')->where('deleted_at', null)->get();
 
             return view($this->baseView.'create', compact('title', 'action', 'page_title', 'breadcrumbs', 'model', 'types', 'subjects'));
 
@@ -238,7 +239,7 @@ class PengurusanKandunganController extends Controller
                 'bahan_sokongan' => 'Bahan Sokongan',
                 'tugasan' => 'Tugasan',
             ];
-            $subjects = Subjek::select('id', 'nama', 'kod_subjek')->where('deleted_at', null)->where('status', 1)->get();
+            $subjects = Kursus::select('id', 'nama')->where('deleted_at', null)->get();
 
             if (request()->ajax()) {
                 $data = ELearningSyllabusContent::where('e_learning_syllabus_id', $id);
@@ -311,7 +312,7 @@ class PengurusanKandunganController extends Controller
     {
         try {
 
-            $kursus = Subjek::find($request->kursus);
+            $kursus = Kursus::find($request->kursus);
 
             $data = ELearningSyllabus::findOrFail($id);
             $data->kursus_id = $kursus->id;

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Pelajar\eLearning\KandunganPembelajaranController;
+use App\Http\Controllers\Pelajar\eLearning\UjianAtasTalianController;
 use App\Http\Controllers\Pelajar\MainPelajarController;
 use App\Http\Controllers\Pelajar\PengurusanIjazah\RekodTesisController;
 use App\Http\Controllers\Pelajar\PenilaianPensyarahController;
@@ -29,4 +31,12 @@ Route::resource('penilaian_pensyarah', PenilaianPensyarahController::class);
 Route::group(['prefix' => 'pengurusan_ijazah', 'as' => 'pengurusan_ijazah.'], function () {
     Route::get('rekod_tesis/download/{id}', [RekodTesisController::class, 'download'])->name('rekod_tesis.download');
     Route::resource('rekod_tesis', RekodTesisController::class);
+});
+
+Route::group(['prefix' => 'e_learning', 'as' => 'e_learning.'], function () {
+    Route::get('ujian_atas_talian/keputusan/{$student_id}/{$quiz_id}', [UjianAtasTalianController::class, 'keputusan'])->name('ujian_atas_talian.keputusan');
+    Route::resource('ujian_atas_talian', UjianAtasTalianController::class);
+
+    Route::get('kandungan_pembelajaran/download/{id}', [KandunganPembelajaranController::class, 'download'])->name('kandungan_pembelajaran.download');
+    Route::resource('kandungan_pembelajaran', KandunganPembelajaranController::class);
 });

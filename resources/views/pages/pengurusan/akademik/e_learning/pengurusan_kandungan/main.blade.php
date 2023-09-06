@@ -21,7 +21,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row fv-row mb-2" >
+                                {{-- <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
                                         {{ Form::label('subjek', 'Subjek', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
@@ -31,7 +31,7 @@
                                             @error('subjek') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
                                         {{ Form::label('kursus', 'Kursus', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
