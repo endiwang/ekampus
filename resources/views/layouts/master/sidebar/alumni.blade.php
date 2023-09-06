@@ -112,17 +112,17 @@
                             </svg>
                         </span>
                     </span>
-                    <span class="menu-title">Pengurusan Ijazah</span>
+                    <span class="menu-title">Kajian Keberkesanan Graduan</span>
                     <span class="menu-arrow"></span>
                 </span>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pelajar.pengurusan_ijazah.rekod_tesis.index') ? 'active' : '' }}"
-                            href="{{ route('pelajar.pengurusan_ijazah.rekod_tesis.index') }}">
+                        <a class="menu-link {{ Request::routeIs('alumni.kajian_keberkesanan_graduan.index') ? 'active' : '' }}"
+                            href="{{ route('alumni.kajian_keberkesanan_graduan.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
-                            <span class="menu-title">Rekod Tesis/Projek Ilmiah</span>
+                            <span class="menu-title">Kaji Selidik</span>
                         </a>
                     </div>
                 </div>

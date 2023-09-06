@@ -113,6 +113,11 @@ return [
                     'route' => 'pengurusan.hep.alumni.index',
                     'parameters' => [],
                 ],
+                [
+                    'title' => 'Kajian Keberkesanan Graduan',
+                    'route' => 'pengurusan.hep.alumni.kajian_keberkesanan.index',
+                    'parameters' => [],
+                ],
             ],
         ],
         [
