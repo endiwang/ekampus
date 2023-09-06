@@ -6,41 +6,41 @@ return [
     'sidebar' => [
         [
             'title' => 'Pengurusan Aset',
-            'route' => 'pengurusan.hep.pengurusan_aset.*',
+            'route' => 'pengurusan.kolej_kediaman.pengurusan_aset.*',
             'children' => [
                 [
                     'title' => 'Maklumat Blok',
-                    'route' => 'pengurusan.kolej_kediaman.pengurusan_blok.index',
+                    'route' => 'pengurusan.kolej_kediaman.pengurusan_aset.pengurusan_blok.index',
                 ],
                 [
                     'title' => 'Maklumat Bilik',
-                    'route' => 'pengurusan.kolej_kediaman.pengurusan_bilik.index',
+                    'route' => 'pengurusan.kolej_kediaman.pengurusan_aset.pengurusan_bilik.index',
                 ]
             ],
         ],
         [
             'title' => 'Permohonan',
-            'route' => 'pengurusan.hep.permohonan.*',
+            'route' => 'pengurusan.kolej_kediaman.permohonan.*',
             'children' => [
                 [
                     'title' => 'Kemasukan',
-                    'route' => 'pengurusan.hep.permohonan.keluar_masuk.index',
+                    'route' => 'home',
                 ],
                 [
                     'title' => 'Mendapatkan Rawatan',
-                    'route' => 'pengurusan.hep.permohonan.bawa_barang.index',
+                    'route' => 'pengurusan.kolej_kediaman.permohonan.mendapatkan_rawatan.index',
                 ],
                 [
                     'title' => 'Bantuan Kebajikan',
-                    'route' => 'pengurusan.hep.permohonan.bawa_kenderaan.index',
+                    'route' => 'pengurusan.kolej_kediaman.permohonan.bantuan_kebajikan.index',
                 ],
                 [
                     'title' => 'Penggunaan Kemudahan',
-                    'route' => 'pengurusan.hep.permohonan.bawa_kenderaan.index',
+                    'route' => 'pengurusan.kolej_kediaman.permohonan.penggunaan_kemudahan.index',
                 ],
                 [
                     'title' => 'Penginapan Sementara',
-                    'route' => 'pengurusan.hep.permohonan.bawa_kenderaan.index',
+                    'route' => 'pengurusan.kolej_kediaman.permohonan.penginapan_sementara.index',
                 ],
             ],
         ],

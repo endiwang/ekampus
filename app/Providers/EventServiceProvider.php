@@ -32,7 +32,7 @@ class EventServiceProvider extends ServiceProvider
             SendBayaranYuranNotificationListener::class,
         ],
         BilYuranEvent::class => [
-            GenerateBilYuranInvoisListener::class,
+            // GenerateBilYuranInvoisListener::class,
             SendBilYuranNotificationListener::class,
         ],
         QuizMarkEvent::class => [

@@ -33,7 +33,7 @@ class PengurusanBilikController extends Controller
         $buttons = [
             [
                 'title' => 'Tambah Bilik',
-                'route' => route('pengurusan.kolej_kediaman.pengurusan_bilik.create'),
+                'route' => route('pengurusan.kolej_kediaman.pengurusan_aset.pengurusan_bilik.create'),
                 'button_class' => 'btn btn-sm btn-primary fw-bold',
                 'icon_class' => 'fa fa-plus-circle',
             ],
@@ -97,13 +97,13 @@ class PengurusanBilikController extends Controller
                 })
                 ->addColumn('action', function ($data) {
                     return '
-                        <a href="'.route('pengurusan.kolej_kediaman.pengurusan_bilik.edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                        <a href="'.route('pengurusan.kolej_kediaman.pengurusan_aset.pengurusan_bilik.edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                             <i class="fa fa-pencil-alt"></i>
                         </a>
                         <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
                             <i class="fa fa-trash"></i>
                         </a>
-                        <form id="delete-'.$data->id.'" action="'.route('pengurusan.kolej_kediaman.pengurusan_bilik.destroy', $data->id).'" method="POST">
+                        <form id="delete-'.$data->id.'" action="'.route('pengurusan.kolej_kediaman.pengurusan_aset.pengurusan_bilik.destroy', $data->id).'" method="POST">
                             <input type="hidden" name="_token" value="'.csrf_token().'">
                             <input type="hidden" name="_method" value="DELETE">
                         </form>';
@@ -137,7 +137,7 @@ class PengurusanBilikController extends Controller
      */
     public function create()
     {
-        $action = route('pengurusan.kolej_kediaman.pengurusan_bilik.store');
+        $action = route('pengurusan.kolej_kediaman.pengurusan_aset.pengurusan_bilik.store');
         $page_title = 'Tambah Maklumat Bilik';
 
         $title = 'Tambah Maklumat Bilik';
@@ -184,7 +184,7 @@ class PengurusanBilikController extends Controller
 
         Alert::toast('Maklumat bilik disimpan!', 'success');
 
-        return redirect()->route('pengurusan.kolej_kediaman.pengurusan_bilik.index');
+        return redirect()->route('pengurusan.kolej_kediaman.pengurusan_aset.pengurusan_bilik.index');
     }
 
     /**
@@ -206,7 +206,7 @@ class PengurusanBilikController extends Controller
      */
     public function edit($id)
     {
-        $action = route('pengurusan.kolej_kediaman.pengurusan_bilik.update',$id);
+        $action = route('pengurusan.kolej_kediaman.pengurusan_aset.pengurusan_bilik.update',$id);
         $page_title = 'Pinda Maklumat Bilik';
 
         $title = 'Pinda Maklumat Bilik';
@@ -261,7 +261,7 @@ class PengurusanBilikController extends Controller
 
         Alert::toast('Maklumat bilik disimpan!', 'success');
 
-        return redirect()->route('pengurusan.kolej_kediaman.pengurusan_bilik.index');
+        return redirect()->route('pengurusan.kolej_kediaman.pengurusan_aset.pengurusan_bilik.index');
     }
 
     /**

@@ -51,10 +51,14 @@
                             <li class="text-black mt-1">{{ date('F d Y', strtotime($bil->created_at)) }}</li>
                             </ul>
                             <hr>
-                            <div class="col-xl-12">
-                                <span>{{ $bil->description }}</span>
-                                <span class="float-end">{{ 'RM' . number_format($bil->amaun, 2) }}</span>
+                            @if(isset($bil_detail))
+                            @foreach($bil_detail as $bil_det)
+                            <div class="col-lg-12 mb-1">
+                                <span>{{ $bil_det->description }}</span>
+                                <span class="float-end" style="text-align:right !important">{{ 'RM' . number_format($bil_det->amaun, 2) }}</span>
                             </div>
+                            @endforeach
+                            @endif
                             <hr>
                         </div>
                         <div class="row text-black">
@@ -64,6 +68,9 @@
                             </div>
                             <br>
                             <hr style="border: 2px solid black;">
+                        </div>
+                        <div class="" style="margin-top: 20px;">
+                            <p>{{ nl2br($bil->yuran->invoice_remarks) }}</p>
                         </div>
                         <div class="text-center" style="margin-top: 90px;">
                             <!-- <a><u class="text-info">View in browser</u></a> -->

@@ -56,16 +56,18 @@ class BilYuranMail extends Mailable
      */
     public function attachments()
     {
-        if(!empty($this->bil) && !empty($this->bil->invois))
-        {
-            $invois = (array) json_decode($this->bil->invois);
+        return [];
+
+        // if(!empty($this->bil) && !empty($this->bil->invois))
+        // {
+        //     $invois = (array) json_decode($this->bil->invois);
             
-            return [
-                Attachment::fromPath(public_path('storage/' . $invois['invois_path'])),
-            ];
-        }
-        else {
-            return [];
-        }
+        //     return [
+        //         Attachment::fromPath(public_path('storage/' . $invois['invois_path'])),
+        //     ];
+        // }
+        // else {
+        //     return [];
+        // }
     }
 }
