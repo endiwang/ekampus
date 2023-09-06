@@ -122,7 +122,7 @@
                                 <div class="row mb-2">
                                     {{ Form::label('doc_no', 'Resit Bayaran', ['class' => 'col-lg-4 col-form-label fw-semibold fs-7']) }}
                                     <div class="col-lg-8">
-                                        <a href="{{ route('public.yuran.resit', Crypt::encryptString($bayaran->id)) }}" target="_blank">{{ $bayaran->doc_no }}</a><br>
+                                        <a href="{{ route('public.yuran.resit', $bayaran->id_hash) }}" target="_blank">{{ $bayaran->doc_no }}</a><br>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -307,7 +307,7 @@ $("#tableCaj").on('click', '.btn-remove-tr', function(elem){
 $('[name="bayaran_gambar_2"]').on('change', function(){
     Swal.fire({
         icon: 'warning',
-        title: 'Pasti upload gambar resit?',
+        title: 'Pasti Upload Gambar Resit?',
         confirmButtonText: 'Pasti',
         showCancelButton: true,
         cancelButtonText: 'Batal',
