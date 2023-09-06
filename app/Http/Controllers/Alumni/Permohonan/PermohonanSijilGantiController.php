@@ -7,7 +7,7 @@ use App\Models\Alumni\PermohonanSijilGanti;
 use App\Models\Pelajar;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
-use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Builder;
 
 class PermohonanSijilGantiController extends Controller
