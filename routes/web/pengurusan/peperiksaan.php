@@ -42,6 +42,7 @@ Route::group(['prefix' => 'tetapan', 'as' => 'tetapan.'], function () {
 
 Route::get('jadual_peperiksaan/muatturun_jadual/{id}', [JadualPeperiksaanController::class, 'downloadJadualPeperiksaan'])->name('jadual_peperiksaan.muatturun_jadual');
 Route::post('jadual_peperiksaan/tambah_subjek/{id}', [JadualPeperiksaanController::class, 'addSubject'])->name('jadual_peperiksaan.add_subjek');
+Route::post('jadual_peperiksaan/jana_bil/{id}', [JadualPeperiksaanController::class, 'janaBil'])->name('jadual_peperiksaan.jana_bil');
 Route::resource('jadual_peperiksaan', JadualPeperiksaanController::class);
 
 Route::resource('pelajar_tamat_berhenti', SenaraiPelajarTamatController::class);

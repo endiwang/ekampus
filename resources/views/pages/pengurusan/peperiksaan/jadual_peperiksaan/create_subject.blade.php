@@ -71,9 +71,16 @@
                                                     <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
                                                 </button>
                                                 <a href="{{ route('pengurusan.peperiksaan.jadual_peperiksaan.index') }}" class="btn btn-sm btn-light">Batal</a>
+                                                <button id="btnJanaBil" type="button" data-kt-ecommerce-settings-type="submit" class="btn btn-primary btn-sm me-3">
+                                                    Jana Bil Peperiksaan
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
+                                </form>
+
+                                <form id="formJanaBil" method="POST" action="{{ route('pengurusan.peperiksaan.jadual_peperiksaan.jana_bil', $id) }}">
+                                    @csrf
                                 </form>
                             </div>
                         </div>
@@ -247,6 +254,25 @@
             $("#tarikh").val(datePicked);
         });
 
+    </script>
+
+    <script>
+        $('#btnJanaBil').on('click', function(){
+            Swal.fire({
+                icon: 'warning',
+                title: 'Pasti Jana Bil Peperiksaan?',
+                confirmButtonText: 'Pasti',
+                showCancelButton: true,
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $('#formJanaBil').submit();
+                } else {
+                    //
+                }
+            })
+        })
     </script>
 
     {!! $dataTable->scripts() !!}
