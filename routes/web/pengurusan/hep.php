@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\LookupController;
+use App\Http\Controllers\Pengurusan\HEP\Alumni\AlumniController;
+use App\Http\Controllers\Pengurusan\HEP\Alumni\KajianKeberkesananGraduanController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\BorangKepuasanPelangganController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\KaunselingController;
 use App\Http\Controllers\Pengurusan\HEP\Kaunseling\LaporanKaunselingController;
@@ -148,4 +150,48 @@ Route::middleware(['web', 'auth'])
             ->name('pusat-islam.surat-rasmi.show');
         Route::delete('pusat-islam/surat-rasmi/{id}', [SuratRasmiController::class, 'destroy'])
             ->name('pusat-islam.surat-rasmi.destroy');
+    });
+
+/** Alumni */
+Route::middleware(['web', 'auth'])
+    ->as('alumni.')
+    ->prefix('alumni')
+    ->group(function () {
+        // Route::get('/dashboard', DashboardController::class)
+        //     ->name('dashboard.index');
+    
+        // Pengajian Selepas DQ
+        Route::post('/{id}/pengajian/create', [AlumniController::class, 'pengajian_store'])
+            ->name('pengajian.store');
+        Route::get('/{id}/pengajian/{pengajian_id}/edit', [AlumniController::class, 'pengajian_edit'])
+            ->name('pengajian.edit');
+        Route::put('/{id}/pengajian/{pengajian_id}', [AlumniController::class, 'pengajian_update'])
+            ->name('pengajian.update');
+        Route::delete('/{id}/pengajian', [AlumniController::class, 'pengajian_destroy'])
+            ->name('pengajian.destroy');
+
+        // Pekerjaan terkini
+        Route::post('/{id}/pekerjaan/create_edit', [AlumniController::class, 'pekerjaan_store'])
+            ->name('pekerjaan.store');
+        Route::put('/{id}/pekerjaan/create_edit', [AlumniController::class, 'pekerjaan_update'])
+            ->name('pekerjaan.update');
+
+        // Alumni personal data
+        // Route::resource('/', AlumniController::class);
+        Route::get('/', [AlumniController::class, 'index'])
+            ->name('index');
+        Route::get('/{id}/edit', [AlumniController::class, 'edit'])
+            ->name('edit');
+        Route::put('/{id}/update', [AlumniController::class, 'update'])
+            ->name('update');
+
+        Route::get('kajian_keberkesanan/{id}/design_form', [KajianKeberkesananGraduanController::class, 'design_form'])->name('kajian_keberkesanan.design_form');
+        Route::put('kajian_keberkesanan/{id}/design_update', [KajianKeberkesananGraduanController::class, 'design_update'])->name('kajian_keberkesanan.design_update');
+        Route::put('kajian_keberkesanan/jawapan/{id}', [KajianKeberkesananGraduanController::class, 'fill_store'])->name('kajian_keberkesanan.fill_store');
+        Route::get('kajian_keberkesanan/data_chart/{id}', [KajianKeberkesananGraduanController::class, 'data_chart'])->name('kajian_keberkesanan.data_chart');
+        Route::get('kajian_keberkesanan/analisa/{id}', [KajianKeberkesananGraduanController::class, 'result_survey'])->name('kajian_keberkesanan.analisa');
+        Route::resource('kajian_keberkesanan', KajianKeberkesananGraduanController::class);
+
+        // Route::resource('/rekod-kaunseling', RekodKaunselingController::class)->only('index', 'edit', 'update', 'show');
+        // Route::resource('/laporan-kaunseling', LaporanKaunselingController::class)->only('index', 'edit', 'update', 'show');
     });

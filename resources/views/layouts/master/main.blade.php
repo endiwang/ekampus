@@ -105,6 +105,8 @@
                         @include('layouts.master.sidebar.kualiti')
                     @elseif(Request::routeIs('pelajar.*'))
                         @include('layouts.master.sidebar.pelajar')
+                    @elseif(Request::routeIs('alumni.*'))
+                        @include('layouts.master.sidebar.alumni')
                     @elseif(Request::routeIs('pengurusan.komunikasi_korporat.*'))
                         @include('layouts.master.sidebar.komunikasi_korporat')
                     @elseif(Request::routeIs('pengurusan.perpustakaan.*'))

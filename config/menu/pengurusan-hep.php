@@ -120,6 +120,22 @@ return [
             ],
         ],
         [
+            'title' => 'Alumni',
+            'route' => 'pengurusan.hep.alumni.dashboard.*',
+            'children' => [
+                [
+                    'title' => 'Senarai',
+                    'route' => 'pengurusan.hep.alumni.index',
+                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Kajian Keberkesanan Graduan',
+                    'route' => 'pengurusan.hep.alumni.kajian_keberkesanan.index',
+                    'parameters' => [],
+                ],
+            ],
+        ],
+        [
             'title' => 'Tetapan',
             'route' => 'pengurusan.hep.tetapan.*',
             'children' => [

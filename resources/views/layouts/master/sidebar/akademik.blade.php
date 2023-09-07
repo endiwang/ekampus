@@ -232,6 +232,15 @@
                             <span class="menu-title">Rayuan Pengajian</span>
                         </a>
                     </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.permohonan.pemindahan_jam_kredit.index') ? 'active' : '' }}"
+                            href="{{ route('pengurusan.akademik.permohonan.pemindahan_jam_kredit.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Pemindahan Jam Kredit</span>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ (request()->is('utama')) ? 'here show' : '' }} menu-accordion">

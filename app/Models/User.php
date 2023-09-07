@@ -64,6 +64,11 @@ class User extends Authenticatable
         return $this->hasOne(Staff::class);
     }
 
+    public function alumni()
+    {
+        return $this->hasOne(Alumni::class);
+    }
+
     public function kaunselings()
     {
         return $this->hasMany(Kaunseling::class);
@@ -95,7 +100,7 @@ class User extends Authenticatable
      */
     public function routeNotificationFor($driver, $notification = null)
     {
-        if (method_exists($this, $method = 'routeNotificationFor'.Str::studly($driver))) {
+        if (method_exists($this, $method = 'routeNotificationFor' . Str::studly($driver))) {
             return $this->{$method}($notification);
         }
 
