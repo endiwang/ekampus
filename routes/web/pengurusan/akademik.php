@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Pengurusan\Akademik\eLearning\JadualPembelajaranController;
 use App\Http\Controllers\Pengurusan\Akademik\eLearning\PengurusanKandunganController;
+use App\Http\Controllers\Pengurusan\Akademik\eLearning\PengurusanUjianAtasTalianController;
 use App\Http\Controllers\Pengurusan\Akademik\GuruTasmikController;
 use App\Http\Controllers\Pengurusan\Akademik\JadualWaktu\JadualKelasController;
 use App\Http\Controllers\Pengurusan\Akademik\JadualWaktu\JadualPensyarahController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodProfilPensyar
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodTesisController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\CloPloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\DaftarMarkahCloPloController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PemantauanKehadiranController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\JadualPenggantianPensyarahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanCloController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanJabatan\PengurusanPloController;
@@ -45,6 +47,7 @@ use App\Http\Controllers\Pengurusan\Akademik\Pensyarah\SenaraiPensyarahControlle
 use App\Http\Controllers\Pengurusan\Akademik\Peperiksaan\TetapanPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Akademik\PeraturanAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PelepasanKuliahController;
+use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PemindahanJamKreditController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PenangguhanPengajianController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\PertukaranSyukbahController;
 use App\Http\Controllers\Pengurusan\Akademik\Permohonan\RayuanPengajianController;
@@ -61,6 +64,7 @@ Route::post('kelas/edit', [KelasController::class, 'edit'])->name('pengurusan_ke
 Route::post('kelas/store', [KelasController::class, 'store'])->name('pengurusan_kelas.store');
 Route::resource('kelas', KelasController::class);
 
+Route::get('subjek/{subjek_id}/add_to_semester', [SubjekController::class, 'addToSemester'])->name('pengurusan_subjek.add_to_semester');
 Route::get('subjek/{subjek_id}/daftar_item_penilaian', [SubjekController::class, 'registerMarkItems'])->name('pengurusan_subjek.register_mark_item');
 Route::post('subjek/store', [SubjekController::class, 'store'])->name('pengurusan_subjek.store');
 Route::get('subjek/edit/{id}/{course_id}', [SubjekController::class, 'edit'])->name('pengurusan_subjek.edit');
@@ -113,6 +117,7 @@ Route::group(['prefix' => 'permohonan', 'as' => 'permohonan.'], function () {
 
     Route::get('rayuan_pengajian/update_status/{id}', [RayuanPengajianController::class, 'updateStatus'])->name('rayuan_pengajian.update_status');
     Route::resource('rayuan_pengajian', RayuanPengajianController::class);
+    Route::resource('pemindahan_jam_kredit', PemindahanJamKreditController::class);
 });
 
 Route::group(['prefix' => 'pensyarah', 'as' => 'pensyarah.'], function () {
@@ -120,6 +125,7 @@ Route::group(['prefix' => 'pensyarah', 'as' => 'pensyarah.'], function () {
 });
 
 Route::group(['prefix' => 'rekod_kehadiran', 'as' => 'rekod_kehadiran.'], function () {
+    Route::get('/rekod_pelajar/download/{id}', [KehadiranPelajarController::class, 'download'])->name('rekod_pelajar.download');
     Route::post('rekod_pelajar/muat_turun', [KehadiranPelajarController::class, 'downloadAttendancePdf'])->name('rekod_pelajar.muat_turun');
     Route::resource('rekod_pelajar', KehadiranPelajarController::class);
 
@@ -226,6 +232,11 @@ Route::group(['prefix' => 'pengurusan_jabatan', 'as' => 'pengurusan_jabatan.'], 
     Route::get('pensyarah_cadangan/download', [PensyarahCadanganController::class, 'download'])->name('pensyarah_cadangan.download');
     Route::resource('pensyarah_cadangan', PensyarahCadanganController::class);
 
+    Route::post('pemantauan_kehadiran/export', [PemantauanKehadiranController::class, 'export'])->name('pemantauan_kehadiran.export');
+    Route::get('pemantauan_kehadiran/download/{id}', [PemantauanKehadiranController::class, 'download'])->name('pemantauan_kehadiran.download');
+    Route::get('pemantauan_kehadiran/maklumat/{id}/{kelas_id}', [PemantauanKehadiranController::class, 'viewPelajarDetail'])->name('pemantauan_kehadiran.detail');
+    Route::resource('pemantauan_kehadiran', PemantauanKehadiranController::class);
+
     Route::post('jadual_penggantian_pensyarah/update', [JadualPenggantianPensyarahController::class, 'update'])->name('jadual_penggantian_pensyarah.update');
     Route::get('jadual_penggantian_pensyarah/download/{staff_id}', [JadualPenggantianPensyarahController::class, 'downloadJadual'])->name('jadual_penggantian_pensyarah.download');
     Route::get('jadual_penggantian_pensyarah/create/{staff_id}', [JadualPenggantianPensyarahController::class, 'createJadual'])->name('jadual_penggantian_pensyarah.create_jadual');
@@ -241,4 +252,9 @@ Route::group(['prefix' => 'e_learning', 'as' => 'e_learning.'], function () {
 
     Route::post('jadual_pembelajaran/fetchContent', [JadualPembelajaranController::class, 'fetchContent'])->name('jadual_pembelajaran.fetchContent');
     Route::resource('jadual_pembelajaran', JadualPembelajaranController::class);
+
+    Route::delete('pengurusan_ujian_atas_talian/delete_question/{id}', [PengurusanUjianAtasTalianController::class, 'deleteQuestion'])->name('pengurusan_ujian_atas_talian.delete_question');
+    Route::post('pengurusan_ujian_atas_talian/store_question/{id}', [PengurusanUjianAtasTalianController::class, 'storeQuestion'])->name('pengurusan_ujian_atas_talian.store_question');
+    Route::get('pengurusan_ujian_atas_talian/add_question/{id}', [PengurusanUjianAtasTalianController::class, 'addQuestion'])->name('pengurusan_ujian_atas_talian.add_question');
+    Route::resource('pengurusan_ujian_atas_talian', PengurusanUjianAtasTalianController::class);
 });

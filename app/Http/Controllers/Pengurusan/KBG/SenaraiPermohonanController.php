@@ -47,7 +47,7 @@ class SenaraiPermohonanController extends Controller
             $sesi = Sesi::where('is_deleted', 0)->pluck('nama', 'id');
 
             if (request()->ajax()) {
-                $data = Permohonan::where('is_submitted', 1)->where('is_deleted', 0)->where('is_selected', 0)->where('is_tawaran', 0)->where('is_interview', 0);
+                $data = Permohonan::with('kursus')->where('is_submitted', 1)->where('is_deleted', 0)->where('is_selected', 0)->where('is_tawaran', 0)->where('is_interview', 0);
                 if ($request->has('kursus') && $request->kursus != null) {
                     $data = $data->where('kursus_id', $request->kursus);
                 }

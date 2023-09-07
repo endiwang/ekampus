@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Notifikasi;
 use App\Models\SemesterTerkini;
+use App\Models\TarikhKeputusan;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 
@@ -102,10 +103,59 @@ class Utils
     public static function getCurrenSemester($kursus_id)
     {
         $sem_now = SemesterTerkini::select('id', 'kursus_id', 'semester_no', 'sesi_pengajian', 'sesi')
-                    ->where('status_semester', 0)
-                    ->where('kursus_id', $kursus_id)
-                    ->first();
+            ->where('status_semester', 0)
+            ->where('kursus_id', $kursus_id)
+            ->first();
 
         return $sem_now;
+    }
+
+    public static function getJenisCaj($type)
+    {
+        $jenis = '';
+        switch ($type) {
+            case 'peperiksaan':
+                $jenis = 'Peperiksaan';
+                break;
+            case 'hilang_transkrip':
+                $jenis = 'Hilang Transkrip/Slip Keputusan Periksa';
+                break;
+            case 'semak_keputusan':
+                $jenis = 'Semak Semula Keputusan Peperiksaan';
+                break;
+        }
+
+        return $jenis;
+    }
+
+    public static function getPointer($mark)
+    {
+        if ($mark >= 80) {
+            $pointer = 4.0;
+        } elseif ($mark >= 70 && $mark <= 79) {
+            $pointer = 3.5;
+        } elseif ($mark >= 60 && $mark <= 69) {
+            $pointer = 3.0;
+        } elseif ($mark >= 55 && $mark <= 59) {
+            $pointer = 2.5;
+        } elseif ($mark >= 50 && $mark <= 54) {
+            $pointer = 2.0;
+        } elseif ($mark >= 45 && $mark <= 49) {
+            $pointer = 1.5;
+        } elseif ($mark >= 40 && $mark <= 44) {
+            $pointer = 1.0;
+        } elseif ($mark <= 39) {
+            $pointer = 0;
+        }
+
+        return $pointer;
+    }
+
+    public static function getTarikhPeperiksaan($semester, $semester_terkini_id)
+    {
+        $tarikh = TarikhKeputusan::select('tarikh_keputusan')->where('semester_no', $semester)->where('semester_terkini_id', $semester_terkini_id)->first();
+
+        return ! empty($tarikh->tarikh_keputusan) ? Carbon::parse($tarikh->tarikh_keputusan)->format('d/m/Y') : null;
+
     }
 }

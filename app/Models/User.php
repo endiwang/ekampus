@@ -12,7 +12,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -64,6 +64,11 @@ class User extends Authenticatable
         return $this->hasOne(Staff::class);
     }
 
+    public function alumni()
+    {
+        return $this->hasOne(Alumni::class);
+    }
+
     public function kaunselings()
     {
         return $this->hasMany(Kaunseling::class);
@@ -95,7 +100,7 @@ class User extends Authenticatable
      */
     public function routeNotificationFor($driver, $notification = null)
     {
-        if (method_exists($this, $method = 'routeNotificationFor'.Str::studly($driver))) {
+        if (method_exists($this, $method = 'routeNotificationFor' . Str::studly($driver))) {
             return $this->{$method}($notification);
         }
 

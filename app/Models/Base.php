@@ -14,17 +14,17 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Base extends Model implements AuditableContract, HasMedia
 {
     use AuditableTrait;
-    use InteractsWithMedia;
     use HasFactory;
+    use InteractsWithMedia;
     use InteractsWithResourcePattern;
 
     protected $guarded = [
         'id',
     ];
 
-    protected $hidden = [
-        'id',
-    ];
+    // protected $hidden = [
+    //     'id',
+    // ];
 
     public function registerMediaConversions(Media $media = null): void
     {

@@ -24,6 +24,18 @@ return [
                     'title' => 'Keluar Masuk',
                     'route' => 'pengurusan.hep.pengurusan.keluar_masuk.index',
                 ],
+                [
+                    'title' => 'Barang Rampasan',
+                    'route' => 'pengurusan.hep.pengurusan.barang_rampasan.index',
+                ],
+                [
+                    'title' => 'Kenderaan Sitaan',
+                    'route' => 'pengurusan.hep.pengurusan.kenderaan_sitaan.index',
+                ],
+                [
+                    'title' => 'Program Pelajar',
+                    'route' => 'pengurusan.hep.pengurusan.program_pelajar.index',
+                ],
             ],
         ],
         [
@@ -41,6 +53,17 @@ return [
                 [
                     'title' => 'Bawa Kenderaan',
                     'route' => 'pengurusan.hep.permohonan.bawa_kenderaan.index',
+                ],
+            ],
+        ],
+        [
+            'title' => 'Kemahiran Insaniah',
+            'route' => 'pengurusan.hep.kemahiran-insaniah.*',
+            'children' => [
+                [
+                    'title' => 'Pilihan Raya',
+                    'route' => 'pengurusan.hep.kemahiran-insaniah.pilihan-raya.index',
+                    'parameters' => [],
                 ],
             ],
         ],
@@ -92,6 +115,22 @@ return [
                 [
                     'title' => 'Laporan',
                     'route' => 'pengurusan.hep.laporan-kaunseling.index',
+                    'parameters' => [],
+                ],
+            ],
+        ],
+        [
+            'title' => 'Alumni',
+            'route' => 'pengurusan.hep.alumni.dashboard.*',
+            'children' => [
+                [
+                    'title' => 'Senarai',
+                    'route' => 'pengurusan.hep.alumni.index',
+                    'parameters' => [],
+                ],
+                [
+                    'title' => 'Kajian Keberkesanan Graduan',
+                    'route' => 'pengurusan.hep.alumni.kajian_keberkesanan.index',
                     'parameters' => [],
                 ],
             ],

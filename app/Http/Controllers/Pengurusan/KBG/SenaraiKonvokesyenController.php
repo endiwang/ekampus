@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Pengurusan\KBG;
 
+use App\Constants\Generic;
 use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
+use App\Libraries\BilLibrary;
 use App\Models\Konvo;
 use App\Models\KonvoPelajar;
 use App\Models\Kursus;
 use App\Models\Pelajar;
 use App\Models\Sesi;
+use App\Models\Yuran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -409,6 +412,14 @@ class SenaraiKonvokesyenController extends Controller
                 'pelajar_id' => $id,
                 'kursus_id' => $pelajar->kursus_id,
             ]);
+
+            $yuran = Yuran::find(Generic::YURAN_KONVOKESYEN);
+            if (! empty($yuran)) {
+                BilLibrary::createBil([
+                    'yuran' => $yuran,
+                    'pelajar_id' => $pelajar->id,
+                ]);
+            }
         }
         Alert::success('Pemohonan berjaya dipilih');
 

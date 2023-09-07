@@ -27,6 +27,20 @@
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
+                                    {{ Form::label('semester', 'Semester', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                </div>
+                                <div class="col-md-9">
+                                    <select class="form-control form-select form-select-sm" data-control="select2" name="semester" id="semester">
+                                        <option value="">Pilih Semester</option>
+                                        @foreach($semesters as $semester)
+                                        <option value="{{ $semester->id }}" @if(!empty($semester_subjek->semester_kursus_id) && $semester->id == $semester_subjek->semester_kursus_id) selected @endif>{{ $semester->semester->nama ?? null }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('semester') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+                            <div class="row fv-row mb-2" >
+                                <div class="col-md-3 text-md-end">
                                     {{ Form::label('kod_subjek', 'Kod Subjek', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">

@@ -15,14 +15,15 @@ use App\Models\Tingkat;
 use App\Models\Vendor;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use Illuminate\Support\Facades\Mail;
 
 class AduanPenyelenggaraanController extends Controller
 {
     protected $baseView = 'pages.pengurusan.pembangunan.aduan_penyelenggaraan.';
+
     protected $baseRoute = 'pengurusan.pembangunan.aduan_penyelenggaraan.';
 
     /**
@@ -36,14 +37,12 @@ class AduanPenyelenggaraanController extends Controller
 
             $data = AduanPenyelenggaraan::orderBy('id', 'desc');
 
-            if(!empty($request->carian))
-            {
-                $data->where('aduan_penyelenggaraan.no_siri', $request->carian);                
+            if (! empty($request->carian)) {
+                $data->where('aduan_penyelenggaraan.no_siri', $request->carian);
             }
 
-            if(!empty($request->status))
-            {
-                $data->where('aduan_penyelenggaraan.status', $request->status);                
+            if (! empty($request->status)) {
+                $data->where('aduan_penyelenggaraan.status', $request->status);
             }
 
             return DataTables::of($data)
@@ -189,14 +188,14 @@ class AduanPenyelenggaraanController extends Controller
             $aduan_penyelenggaraan->save();
 
             $vendor = $aduan_penyelenggaraan->vendor;
-            if(!empty($vendor) && !empty($vendor->emel_pengurus))
-            {
+            if (! empty($vendor) && ! empty($vendor->emel_pengurus)) {
                 Mail::to($vendor->emel_pengurus)->send(new AduanPenyelenggaraanProsesVendorMail($aduan_penyelenggaraan, true));
             }
 
             Alert::toast('Maklumat aduan berjaya dikemaskini', 'success');
+
             return redirect(route($this->baseRoute.'index'));
-        } 
+        }
         //REJECT KERJA VENDOR
         elseif (! empty($request->is_reject)) {
             $aduan_penyelenggaraan = AduanPenyelenggaraan::find($id);
@@ -212,12 +211,12 @@ class AduanPenyelenggaraanController extends Controller
             }
 
             $vendor = $aduan_penyelenggaraan->vendor;
-            if(!empty($vendor) && !empty($vendor->emel_pengurus))
-            {
+            if (! empty($vendor) && ! empty($vendor->emel_pengurus)) {
                 Mail::to($vendor->emel_pengurus)->send(new AduanPenyelenggaraanProsesVendorMail($aduan_penyelenggaraan, true));
             }
 
             Alert::toast('Maklumat aduan berjaya dikemaskini', 'success');
+
             return redirect(route($this->baseRoute.'index'));
         }
 
@@ -256,34 +255,28 @@ class AduanPenyelenggaraanController extends Controller
                 $aduan_penyelenggaraan->butiran = $request->butiran;
                 $aduan_penyelenggaraan->butiran_vendor = $request->butiran_vendor;
                 $aduan_penyelenggaraan->vendor_id = $request->vendor_id;
-                if (!empty($request->is_submit)) {
+                if (! empty($request->is_submit)) {
                     $aduan_penyelenggaraan->status = 2;
                     $aduan_penyelenggaraan->status_vendor = 1;
                 }
                 $aduan_penyelenggaraan->save();
 
-                if (!empty($request->is_submit)) {
+                if (! empty($request->is_submit)) {
                     $user = $aduan_penyelenggaraan->user;
-                    if($user->is_student == 1)
-                    {
+                    if ($user->is_student == 1) {
                         $pelajar = Pelajar::where('user_id', $user->id)->first();
-                        if(!empty($pelajar) && !empty($pelajar->email))
-                        {
+                        if (! empty($pelajar) && ! empty($pelajar->email)) {
                             Mail::to($pelajar->email)->send(new AduanPenyelenggaraanProsesMail($aduan_penyelenggaraan, false));
                         }
-                    }
-                    elseif($user->is_staff == 2)
-                    {
+                    } elseif ($user->is_staff == 2) {
                         $staff = Staff::where('user_id', $user->id)->first();
-                        if(!empty($staff) && !empty($staff->email))
-                        {
+                        if (! empty($staff) && ! empty($staff->email)) {
                             Mail::to($staff->email)->send(new AduanPenyelenggaraanProsesMail($aduan_penyelenggaraan, false));
                         }
                     }
 
                     $vendor = $aduan_penyelenggaraan->vendor;
-                    if(!empty($vendor) && !empty($vendor->emel_pengurus))
-                    {
+                    if (! empty($vendor) && ! empty($vendor->emel_pengurus)) {
                         Mail::to($vendor->emel_pengurus)->send(new AduanPenyelenggaraanProsesMail($aduan_penyelenggaraan, true));
                     }
                 }

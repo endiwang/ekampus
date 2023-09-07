@@ -218,6 +218,7 @@ class KehadiranPelajarController extends Controller
                 $attendance->subjek_id = $request->subjek_id;
                 $attendance->tarikh = now();
                 $attendance->waktu = now();
+                $attendance->status = 'hadir';
                 $attendance->save();
 
                 return redirect()->route('kehadiran.pelajar.successful');

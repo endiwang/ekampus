@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pengurusan\Akademik\Pendaftaran;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kelas;
+use App\Models\Kursus;
 use App\Models\Pelajar;
 use Exception;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class KelasPelajarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -35,6 +36,18 @@ class KelasPelajarController extends Controller
 
             if (request()->ajax()) {
                 $data = Pelajar::with('kursus', 'kelas')->where('kelas_id', null)->where('is_register', 1)->where('is_berhenti', 0);
+                if ($request->has('nama') && $request->nama != null) {
+                    $data->where('nama', 'LIKE', '%'.$request->nama.'%');
+                }
+                if ($request->has('no_ic') && $request->no_ic != null) {
+                    $data->where('no_ic', 'LIKE', '%'.$request->no_ic.'%');
+                }
+                if ($request->has('no_matrik') && $request->no_matrik != null) {
+                    $data->where('no_matrik', 'LIKE', '%'.$request->no_matrik.'%');
+                }
+                if ($request->has('program_pengajian') && $request->program_pengajian != null) {
+                    $data->where('kursus_id', $request->program_pengajian);
+                }
 
                 return DataTables::of($data)
                     ->addColumn('no_ic', function ($data) {
@@ -76,7 +89,9 @@ class KelasPelajarController extends Controller
                 ])
                 ->minifiedAjax();
 
-            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
+            $program_pengajian = Kursus::where('is_deleted', 0)->get()->pluck('nama', 'id');
+
+            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'buttons', 'dataTable', 'program_pengajian'));
 
         } catch (Exception $e) {
             report($e);

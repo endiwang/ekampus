@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers\Pengurusan\Kewangan\Kemaskini;
 
+use App\Constants\Generic;
 use App\Http\Controllers\Controller;
 use App\Models\Yuran;
+use App\Models\YuranDetail;
+use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use DB;
-use Illuminate\Support\Facades\Cache;
 
 class YuranController extends Controller
 {
     protected $baseView = 'pages.pengurusan.kewangan.kemaskini.yuran.';
+
     protected $baseRoute = 'pengurusan.kewangan.kemaskini.yuran.';
 
     /**
@@ -30,12 +33,17 @@ class YuranController extends Controller
             return DataTables::of($data)
                 ->addColumn('action', function ($data) {
                     $html = '';
-                    $html .= '<a href="javascript:void(0)" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1 btn-edit-yuran" data-bs-toggle="tooltip" title="Pinda" data-url="' . route($this->baseRoute.'edit', $data->id) . '" data-action="' . route($this->baseRoute.'update', $data->id) . '"><i class="fa fa-pencil-alt"></i></a> ';
-                    $html .= '<a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Hapus" onclick="remove('.$data->id.')"><i class="fa fa-trash"></i></a>'.
-                    '<form id="delete-'.$data->id.'" action="'.route($this->baseRoute.'destroy', $data->id).'" method="POST">
-                    <input type="hidden" name="_token" value="'.csrf_token().'">
-                    <input type="hidden" name="_method" value="DELETE">
-                </form>';
+                    $html .= '<a href="' . route($this->baseRoute.'edit', $data->id) . '" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda"><i class="fa fa-pencil-alt"></i></a> ';
+
+                    if (! empty($data->is_fixed)) {
+                        //
+                    } else {
+                        $html .= '<a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Hapus" onclick="remove('.$data->id.')"><i class="fa fa-trash"></i></a>'.
+                        '<form id="delete-'.$data->id.'" action="'.route($this->baseRoute.'destroy', $data->id).'" method="POST">
+                        <input type="hidden" name="_token" value="'.csrf_token().'">
+                        <input type="hidden" name="_method" value="DELETE">
+                        </form>';
+                    }
 
                     return $html;
                 })
@@ -49,7 +57,6 @@ class YuranController extends Controller
             ->columns([
                 ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
                 ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama Yuran', 'orderable' => false],
-                ['data' => 'amaun', 'name' => 'amaun', 'title' => 'Amaun Yuran', 'orderable' => false],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'searchable' => false],
 
             ])
@@ -66,13 +73,11 @@ class YuranController extends Controller
         $data['buttons'] = [
             [
                 'title' => 'Tambah Yuran',
-                'route' => 'javascript:void(0)',
-                'button_class' => 'btn btn-sm btn-primary fw-bold btn-add-yuran',
+                'route' => route($this->baseRoute . 'create'),
+                'button_class' => 'btn btn-sm btn-primary fw-bold',
                 'icon_class' => 'fa fa-plus-circle',
             ],
         ];
-        $data['btn_create_url'] = route($this->baseRoute . 'create');
-        $data['btn_create_action'] = route($this->baseRoute . 'store');
 
         return view($this->baseView.'list')->with($data);
     }
@@ -85,8 +90,18 @@ class YuranController extends Controller
     public function create()
     {
         $data = [
-            'model' => new Yuran
+            'model' => new Yuran,
+            'action' => route($this->baseRoute . 'store'),
+            'yuran_detail' => collect([]),
         ];
+
+        $data['title'] = 'Tambah Yuran';
+        $data['breadcrumbs'] = [
+            'Kewangan' => false,
+            'Kemaskini' => false,
+            'Tambah Yuran' => false,
+        ];
+
         return view($this->baseView.'form')->with($data);
     }
 
@@ -100,9 +115,11 @@ class YuranController extends Controller
     {
         $validation = $request->validate([
             'nama' => 'required',
+            'nama_yuran' => 'required',
             'amaun' => 'required',
         ], [
             'nama.required' => 'Sila tulis nama yuran',
+            'nama_yuran.required' => 'Sila tulis nama yuran',
             'amaun.required' => 'Sila tulis amaun yuran',
         ]);
 
@@ -112,10 +129,23 @@ class YuranController extends Controller
 
                 $yuran = new Yuran;
                 $yuran->nama = $request->nama;
-                $yuran->amaun = $request->amaun;
+                // $yuran->amaun = $request->amaun;
                 $yuran->status = $request->status;
+                $yuran->invoice_remarks = @$request->invoice_remarks;
                 if($yuran->save())
-                {                                        
+                {                
+                    if(!empty($request->nama_yuran))
+                    {
+                        foreach($request->nama_yuran as $key => $nama_yuran)
+                        {
+                            $yuran_detail = new YuranDetail;
+                            $yuran_detail->yuran_id = $yuran->id;
+                            $yuran_detail->nama = $nama_yuran;
+                            $yuran_detail->amaun = $request->amaun[$key];
+                            $yuran_detail->save();
+                        }
+
+                    }
                     Cache::forget('yuran_cached');
                     Cache::rememberForever('yuran_cached', function () {
                         return Yuran::get();
@@ -158,8 +188,18 @@ class YuranController extends Controller
     public function edit($id)
     {
         $data = [
-            'model' => Yuran::find($id)
+            'model' => Yuran::findOrFail($id),
+            'action' => route($this->baseRoute.'update', $id),
+            'yuran_detail' => YuranDetail::where('yuran_id', $id)->get(),
         ];
+
+        $data['title'] = 'Pinda Yuran';
+        $data['breadcrumbs'] = [
+            'Kewangan' => false,
+            'Kemaskini' => false,
+            'Pinda Yuran' => false,
+        ];
+
         return view($this->baseView.'form')->with($data);
     }
 
@@ -174,9 +214,11 @@ class YuranController extends Controller
     {
         $validation = $request->validate([
             'nama' => 'required',
-            'amaun' => 'required',
+            'nama_yuran' => ($id != Generic::YURAN_PEPERIKSAAN) ? 'required' : '',
+            'amaun' => ($id != Generic::YURAN_PEPERIKSAAN) ? 'required' : '',
         ], [
             'nama.required' => 'Sila tulis nama yuran',
+            'nama_yuran.required' => 'Sila tulis nama yuran',
             'amaun.required' => 'Sila tulis amaun yuran',
         ]);
 
@@ -186,10 +228,29 @@ class YuranController extends Controller
 
                 $yuran = Yuran::find($id);
                 $yuran->nama = $request->nama;
-                $yuran->amaun = $request->amaun;
+                // $yuran->amaun = $request->amaun;
                 $yuran->status = $request->status;
+                $yuran->invoice_remarks = @$request->invoice_remarks;
                 if($yuran->save())
-                {                    
+                {              
+                    if($yuran->id != Generic::YURAN_PEPERIKSAAN)
+                    {
+                        YuranDetail::where('yuran_id', $yuran->id)->delete();
+                                        
+                        if(!empty($request->nama_yuran))
+                        {
+                            foreach($request->nama_yuran as $key => $nama_yuran)
+                            {
+                                $yuran_detail = new YuranDetail;
+                                $yuran_detail->yuran_id = $yuran->id;
+                                $yuran_detail->nama = $nama_yuran;
+                                $yuran_detail->amaun = $request->amaun[$key];
+                                $yuran_detail->save();
+                            }
+
+                        }
+                    }
+
                     Cache::forget('yuran_cached');
                     Cache::rememberForever('yuran_cached', function () {
                         return Yuran::get();

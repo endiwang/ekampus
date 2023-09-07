@@ -105,14 +105,20 @@
                         @include('layouts.master.sidebar.kualiti')
                     @elseif(Request::routeIs('pelajar.*'))
                         @include('layouts.master.sidebar.pelajar')
+                    @elseif(Request::routeIs('alumni.*'))
+                        @include('layouts.master.sidebar.alumni')
                     @elseif(Request::routeIs('pengurusan.komunikasi_korporat.*'))
                         @include('layouts.master.sidebar.komunikasi_korporat')
                     @elseif(Request::routeIs('pengurusan.perpustakaan.*'))
                         @include('layouts.master.sidebar.perpustakaan')
+                    @elseif(Request::routeIs('pengurusan.kolej_kediaman.*'))
+                        @include('layouts.master.sidebar.kolej_kediaman')
                     @elseif(Request::routeIs('pengurusan.peperiksaan.*'))
                         @include('layouts.master.sidebar.peperiksaan')
                     @elseif(Request::routeIs('pengurusan.pembangunan.*'))
                         @include('layouts.master.sidebar.pembangunan')
+                    @elseif(Request::routeIs('pengurusan.pengajian_sepanjang_hayat.*'))
+                        @include('layouts.master.sidebar.jabatan_pengajian_sepanjang_hayat')
                     @elseif(Request::routeIs('pengurusan.kewangan.*'))
                         @include('layouts.master.sidebar.kewangan')
                     @elseif(Request::routeIs('vendor.*'))
@@ -133,7 +139,8 @@
                         @include('layouts.master.sidebar.pusat-islam')
                     @elseif(Request::routeIs('pengurusan.pentadbiran.*'))
                         @include('layouts.master.sidebar.pentadbiran')
-                    {{-- sidebar menu --}}
+					{{-- sidebar menu --}}
+
                     @else
                         @include('layouts.master.sidebar.utama')
                     @endif

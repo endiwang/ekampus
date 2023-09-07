@@ -37,7 +37,7 @@ class PendaftaranNoMatrikController extends Controller
         ];
 
         if (request()->ajax()) {
-            $data = Pelajar::with('kursus', 'kelas')->where('kelas_id', null)->where('is_register', 1)->where('is_berhenti', 0);
+            $data = Pelajar::with('kursus', 'kelas')->where('kelas_id', null)->where('is_register', 1)->where('is_berhenti', 0)->whereNull('no_matrik');
 
             return DataTables::of($data)
                 ->addColumn('no_ic', function ($data) {
@@ -233,7 +233,7 @@ class PendaftaranNoMatrikController extends Controller
                     <div class='row mb-2'>
                         <label class='col-lg-4 fw-semibold'>No. Matrik </label>
                         <div class='col-lg-8'>
-                            <input type='text' class='form-control form-control-sm' name='no_matrik'/>
+                            <input type='text' class='form-control form-control-sm' name='no_matrik' value='$data->no_matrik'/>
                         </div>
                     </div>
                     </form>";

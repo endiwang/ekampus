@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Yuran;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class YuranSeeder extends Seeder
@@ -35,11 +34,10 @@ class YuranSeeder extends Seeder
             [
                 'Kutipan Bayaran Balik',
                 100,
-            ]
+            ],
         ];
 
-        foreach($yuran_array as $data)
-        {
+        foreach ($yuran_array as $data) {
             $yuran = new Yuran;
             $yuran->nama = $data[0];
             $yuran->amaun = $data[1];

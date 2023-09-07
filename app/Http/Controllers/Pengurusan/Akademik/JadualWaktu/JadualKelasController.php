@@ -11,6 +11,9 @@ use App\Models\JadualWaktu;
 use App\Models\JadualWaktuDetail;
 use App\Models\Kelas;
 use App\Models\PensyarahKelas;
+use App\Models\PusatPengajian;
+use App\Models\Semester;
+use App\Models\Sesi;
 use App\Models\Staff;
 use App\Models\Subjek;
 use App\Services\CalendarService;
@@ -29,7 +32,7 @@ class JadualKelasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -41,6 +44,18 @@ class JadualKelasController extends Controller
 
             if (request()->ajax()) {
                 $data = Kelas::with('jadualKelas', 'pusatPengajian', 'currentSemester')->where('deleted_at', null)->where('status', 0);
+                if ($request->has('kelas') && $request->kelas != null) {
+                    $data->where('id', $request->kelas);
+                }
+                if ($request->has('pusat_pengajian') && $request->pusat_pengajian != null) {
+                    $data->where('pusat_pengajian_id', $request->pusat_pengajian);
+                }
+                if ($request->has('semester') && $request->semester != null) {
+                    $data->where('semasa_semester_id', $request->semester);
+                }
+                if ($request->has('sesi') && $request->sesi != null) {
+                    $data->where('sesi', $request->sesi);
+                }
 
                 return DataTables::of($data)
                     ->addColumn('pusat_pengajian_id', function ($data) {
@@ -91,7 +106,12 @@ class JadualKelasController extends Controller
                 ])
                 ->minifiedAjax();
 
-            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable'));
+            $pusat_pengajian = PusatPengajian::where('deleted_at', null)->pluck('nama', 'id');
+            $kelas = Kelas::where('deleted_at', null)->pluck('nama', 'id');
+            $semester = Semester::where('deleted_at', null)->pluck('nama', 'id');
+            $sesi = Sesi::where('deleted_at', null)->pluck('nama', 'id');
+
+            return view($this->baseView.'main', compact('title', 'breadcrumbs', 'dataTable', 'pusat_pengajian', 'kelas', 'semester', 'sesi'));
 
         } catch (Exception $e) {
             report($e);
@@ -152,6 +172,7 @@ class JadualKelasController extends Controller
         $jadual_detail->masa_mula = $request->masa_mula;
         $jadual_detail->masa_akhir = $request->masa_tamat;
         $jadual_detail->lokasi = $request->lokasi;
+        $jadual_detail->jenis = $request->jenis;
         $jadual_detail->save();
 
         //save into pensyarah_kelas table
@@ -236,6 +257,11 @@ class JadualKelasController extends Controller
                 2 => 'Telah Diluluskan',
             ];
 
+            $types = [
+                'kuliah' => 'Kuliah',
+                'tutorial' => 'Tutorial',
+            ];
+
             if (request()->ajax()) {
                 if (! empty($timetable->id)) {
                     $data = JadualWaktuDetail::with('subjek', 'staff')->where('jadual_waktu_id', $timetable->id);
@@ -301,6 +327,7 @@ class JadualKelasController extends Controller
                     ['data' => 'hari', 'name' => 'created_at', 'title' => 'Hari', 'orderable' => false],
                     ['data' => 'masa', 'name' => 'created_at', 'title' => 'Masa', 'orderable' => false],
                     ['data' => 'lokasi', 'name' => 'created_at', 'title' => 'Lokasi', 'orderable' => false],
+                    ['data' => 'jenis', 'name' => 'jenis', 'title' => 'Jenis', 'orderable' => false],
                     ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
                 ])
                 ->minifiedAjax();
@@ -319,7 +346,8 @@ class JadualKelasController extends Controller
                 'id',
                 'class',
                 'times',
-                'lecturers'
+                'lecturers',
+                'types'
             ));
 
         } catch (Exception $e) {

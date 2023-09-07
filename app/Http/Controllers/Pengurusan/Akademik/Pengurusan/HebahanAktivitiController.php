@@ -23,7 +23,7 @@ class HebahanAktivitiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -44,6 +44,9 @@ class HebahanAktivitiController extends Controller
 
             if (request()->ajax()) {
                 $data = Aktiviti::query();
+                if ($request->has('nama') && $request->nama != null) {
+                    $data->where('nama_program', 'LIKE', '%'.$request->nama.'%');
+                }
 
                 return DataTables::of($data)
                     ->addColumn('tarikh_program', function ($data) {

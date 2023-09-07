@@ -12,22 +12,22 @@
                             <div class="card-body py-5">
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('nama_pelajar', 'Nama Pelajar', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('kelas', 'Nama Kelas', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('nama_pelajar', Request::get('nama_pelajar') ,['class' => 'form-control form-control-sm', 'id' =>'nama_pelajar','onkeydown' =>'return true','autocomplete' => 'off']) }}
-                                            @error('nama_pelajar') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            {{ Form::text('nama_kelas', Request::get('nama_kelas') ,['class' => 'form-control form-control-sm', 'id' =>'nama_kelas','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                            @error('nama_kelas') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row fv-row mb-2" >
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('no_matrik', 'No Matrik', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                        {{ Form::label('syukbah', 'Syukbah', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('no_matrik', Request::get('no_matrik') ,['class' => 'form-control form-control-sm', 'id' =>'no_matrik','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                            {{ Form::select('syukbah', $syukbah, Request::get('syukbah'), ['placeholder' => 'Sila Pilih','class' =>'form-select form-select-sm', 'data-control'=>'select2' ]) }}
                                             @error('no_matrik') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                         </div>
                                     </div>

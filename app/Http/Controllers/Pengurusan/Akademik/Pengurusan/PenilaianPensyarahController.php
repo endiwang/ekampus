@@ -21,7 +21,7 @@ class PenilaianPensyarahController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $builder)
+    public function index(Builder $builder, Request $request)
     {
         try {
 
@@ -48,6 +48,9 @@ class PenilaianPensyarahController extends Controller
 
             if (request()->ajax()) {
                 $data = SoalanPenilaian::with('createdBy');
+                if ($request->has('soalan') && $request->soalan != null) {
+                    $data->where('description', 'LIKE', '%'.$request->soalan.'%');
+                }
 
                 return DataTables::of($data)
                     ->addColumn('created_at', function ($data) {
