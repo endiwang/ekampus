@@ -20,6 +20,7 @@ use Yajra\DataTables\Html\Builder;
 
 class KemasukanPelajarIjazahController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -88,10 +89,6 @@ class KemasukanPelajarIjazahController extends Controller
         <'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>>";
 
         $dataTable = $builder
-            ->parameters([
-                'language' => '{ "lengthMenu": "Show _MENU_", }',
-                'dom' => $dom_setting,
-            ])
             ->columns([
                 ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'render' => null, 'orderable' => false, 'searchable' => false, 'exportable' => false, 'printable' => true, 'footer' => ''],
                 ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama'],
