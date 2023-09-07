@@ -57,7 +57,7 @@
                                         <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
                                             <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
                                         </button>
-                                        <a href="{{ route('pengurusan.kolej_kediaman.pengurusan_blok.index') }}" class="btn btn-sm btn-light">Batal</a>
+                                        <a href="{{ route('pengurusan.kolej_kediaman.pengurusan_aset.pengurusan_blok.index') }}" class="btn btn-sm btn-light">Batal</a>
                                     </div>
                                 </div>
                             </div>
