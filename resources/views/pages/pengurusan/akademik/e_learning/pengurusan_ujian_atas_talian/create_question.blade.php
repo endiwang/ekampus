@@ -94,7 +94,7 @@
                             
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('markah', 'Markah', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    {{ Form::label('markah', 'Markah Bagi Setiap Jawapan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">

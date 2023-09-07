@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('e_learning_answers', function (Blueprint $table) {
             $table->id();
+            $table->integer('quiz_id');
             $table->integer('question_id');
             $table->integer('student_id');
             $table->longText('answer')->nullable();

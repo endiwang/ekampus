@@ -23,6 +23,11 @@ class ELearningQuiz extends Model
         return $this->belongsTo(Semester::class, 'semester_id', 'id');
     }
 
+    public function syllabus()
+    {
+        return $this->belongsTo(ELearningSyllabus::class, 'e_learning_syllabi_id', 'id');
+    }
+
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by', 'id');

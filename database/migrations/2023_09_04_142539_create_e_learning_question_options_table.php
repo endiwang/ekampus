@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('question_id');
             $table->string('name')->nullable();
             $table->string('is_correct')->default(0);
+            $table->double('mark', 8,2)->nullable();
             $table->timestamps();
         });
     }
