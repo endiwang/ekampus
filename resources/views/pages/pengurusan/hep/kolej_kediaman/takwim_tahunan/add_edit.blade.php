@@ -12,18 +12,18 @@
                         <h3 class="card-title">{{ $page_title }}</h3>
                     </div>
                     <div class="card-body py-5">
-                        <form class="form" action="{{ $action }}" method="post">
+                        <form class="form" action="{{ $action }}" method="post" enctype="multipart/form-data">
                             @if($model->id) @method('PUT') @endif
                             @csrf
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('no_bilik', 'No Bilik', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                    {{ Form::label('tahun_pengajian', 'Tahun Pengajian', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
                                         {{-- <input type="time" id="waktu_masuk" name="waktu_masuk" class="form-control form-control-sm"  value="@if ($model->waktu_masuk) {{$model->waktu_masuk}} @else {{old('waktu_masuk')}} @endif"> --}}
-                                        {{ Form::text('no_bilik', $model->no_bilik ?? old('no_bilik'),['class' => 'form-control form-control-sm '.($errors->has('no_bilik') ? 'is-invalid':''), 'id' =>'no_bilik','onkeydown' =>'return true','autocomplete' => 'off','required' => 'required']) }}
-                                        @error('no_bilik') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        {{ Form::text('tahun_pengajian', $model->tahun_pengajian ?? old('tahun_pengajian'),['class' => 'form-control form-control-sm '.($errors->has('tahun_pengajian') ? 'is-invalid':''), 'id' =>'tahun_pengajian','onkeydown' =>'return true','autocomplete' => 'off','required' => 'required']) }}
+                                        @error('tahun_pengajian') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
@@ -41,48 +41,34 @@
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('tingkat_id', 'Aras', ['class' => 'fs-7 fw-semibold form-label mt-2 required']) }}
+                                    {{ Form::label('dokument_upload', 'Dokumen Tawim Tahunan', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <label class="form-check form-switch form-check-custom form-check-solid">
-                                            {{ Form::select('tingkat_id', $aras, $model->tingkat_id ?? old('tingkat_id'), ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ','data-control'=>'select2', 'required' => 'required']) }}
-                                        </label>
+                                        <input type="file" class="form-control form-control-sm" name="dokument_upload" id="dokument_upload" required>
+                                        @error('dokument_upload') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('jenis_bilik', 'Jenis Bilik', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                 </div>
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        {{-- <input type="time" id="waktu_masuk" name="waktu_masuk" class="form-control form-control-sm"  value="@if ($model->waktu_masuk) {{$model->waktu_masuk}} @else {{old('waktu_masuk')}} @endif"> --}}
-                                        {{ Form::number('jenis_bilik', $model->jenis_bilik ?? old('jenis_bilik'),['class' => 'form-control form-control-sm '.($errors->has('jenis_bilik') ? 'is-invalid':''), 'id' =>'jenis_bilik','onkeydown' =>'return true','autocomplete' => 'off','required' => 'required']) }}
-                                        @error('jenis_bilik') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @if(!empty($model->dokument))
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            <a class="btn btn-info btn-sm me-3" href="{{ url('storage/'.$model->dokument) }}"  target='_blank'>Lihat Dokumen Takwim Tahunan</a>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('status_bilik', 'Status Bilik', ['class' => 'fs-7 fw-semibold form-label mt-2 required']) }}
+                                    {{ Form::label('status', 'Status', ['class' => 'fs-7 fw-semibold form-label mt-2 required']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
                                         <label class="form-check form-switch form-check-custom form-check-solid">
-                                            {{ Form::select('status_bilik', ['0' => 'Kosong', '1' => 'Berpenghuni'], $model->status_bilik ?? old('status_bilik'), ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ','data-control'=>'select2', 'required' => 'required']) }}
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('keadaan_bilik', 'Keadaan Bilik', ['class' => 'fs-7 fw-semibold form-label mt-2 required']) }}
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        <label class="form-check form-switch form-check-custom form-check-solid">
-                                            {{ Form::select('keadaan_bilik', ['0' => 'Tidak Baik', '1' => 'Baik'], $model->keadaan_bilik ?? old('keadaan_bilik'), ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ','data-control'=>'select2', 'required' => 'required']) }}
+                                            {{ Form::select('status', ['0' => 'Tidak Aktif', '1' => 'Aktif'], $model->keadaan_bilik ?? old('status'), ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ','data-control'=>'select2', 'required' => 'required']) }}
                                         </label>
                                     </div>
                                 </div>
@@ -93,7 +79,7 @@
                                         <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
                                             <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
                                         </button>
-                                        <a href="{{ route('pengurusan.kolej_kediaman.pengurusan_aset.pengurusan_bilik.index') }}" class="btn btn-sm btn-light">Batal</a>
+                                        <a href="{{ route('pengurusan.kolej_kediaman.takwim_tahunan.index') }}" class="btn btn-sm btn-light">Batal</a>
                                     </div>
                                 </div>
                             </div>

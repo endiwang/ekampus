@@ -6,6 +6,7 @@ use App\Http\Controllers\Pengurusan\Peperiksaan\CetakanKeputusanPenuhController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\CetakTuntutanBayaranController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\CetakanTranskripController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\JadualPeperiksaanController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniKeputusanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniKursusController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniMarkahController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniNamaPelajarController;
@@ -69,6 +70,10 @@ Route::resource('calon_peperiksaan', SenaraiCalonPeperiksaanController::class);
 
 Route::post('maklumat_kehadiran/maklumat_subjek_pelajar', [MaklumatKehadiranController::class, 'getMaklumatSubjekPelajar'])->name('maklumat_kehadiran.getMaklumatSubjekPelajar');
 Route::resource('maklumat_kehadiran', MaklumatKehadiranController::class);
+
+Route::get('kemaskini_keputusan/cetak_transkrip/{id}', [KemaskiniKeputusanController::class, 'cetakTranskrip'])->name('kemaskini_keputusan.cetak_transkrip');
+Route::post('kemaskini_keputusan/maklumat_subjek_pelajar', [KemaskiniKeputusanController::class, 'getMaklumatSubjekPelajar'])->name('kemaskini_keputusan.getMaklumatSubjekPelajar');
+Route::resource('kemaskini_keputusan', KemaskiniKeputusanController::class);
 
 Route::post('pengesahan_tamat_pengajian/validate/{id}', [PengesahanTamatPengajianController::class, 'validateStudent'])->name('pengesahan_tamat_pengajian.validate_student');
 Route::post('pengesahan_tamat_pengajian/maklumat_subjek_pelajar', [PengesahanTamatPengajianController::class, 'getMaklumatSubjekPelajar'])->name('pengesahan_tamat_pengajian.getMaklumatSubjekPelajar');
