@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Events\BayaranYuranEvent;
 use App\Events\BilYuranEvent;
+use App\Events\QuizMarkEvent;
+use App\Listeners\CalculateTotalQuizMarkListener;
 use App\Listeners\GenerateBayaranYuranResitListener;
 use App\Listeners\GenerateBilYuranInvoiceListener;
 use App\Listeners\GenerateBilYuranInvoisListener;
@@ -32,7 +34,10 @@ class EventServiceProvider extends ServiceProvider
         BilYuranEvent::class => [
             // GenerateBilYuranInvoisListener::class,
             SendBilYuranNotificationListener::class,
-        ]
+        ],
+        QuizMarkEvent::class => [
+            CalculateTotalQuizMarkListener::class,
+        ],
     ];
 
     /**

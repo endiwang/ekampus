@@ -45,7 +45,7 @@ class TawaranController extends Controller
         ];
 
         if (request()->ajax()) {
-            $data = Tawaran::orderBy('id', 'desc');
+            $data = Tawaran::with('kursus')->with('sesi')->orderBy('id', 'desc');
 
             return DataTables::of($data->get())
                 ->addColumn('kursus', function ($data) {

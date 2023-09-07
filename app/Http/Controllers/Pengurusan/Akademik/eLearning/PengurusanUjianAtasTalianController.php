@@ -399,13 +399,14 @@ class PengurusanUjianAtasTalianController extends Controller
 
     public function storeQuestion($id, Request $request)
     {
-        // try {
+        try {
 
             $data = new ELearningQuestion();
             $data->name         = $request->soalan;
             $data->quiz_id      = $id;
             $data->question_type_id = $request->jenis;
             $data->is_active    = $request->status;
+            $data->mark         = $request->markah;
             $data->created_by   = auth()->user()->id ?? 1;
             $data->save();
 
@@ -416,7 +417,7 @@ class PengurusanUjianAtasTalianController extends Controller
                     ELearningQuestionOption::create([
                         'question_id' => $data->id,
                         'name' => $value['name'],
-                        'is_correct' => $value['is_correct']
+                        'is_correct' => $value['is_correct'],
                     ]);
                 }
             }
@@ -424,7 +425,7 @@ class PengurusanUjianAtasTalianController extends Controller
                 ELearningQuestionOption::create([
                     'question_id' => $data->id,
                     'name' => $request->jawapan,
-                    'is_correct' => 1
+                    'is_correct' => 1,
                 ]);
             }
 
@@ -432,13 +433,13 @@ class PengurusanUjianAtasTalianController extends Controller
 
             return redirect()->back();
 
-        // } catch (Exception $e) {
-        //     report($e);
+        } catch (Exception $e) {
+            report($e);
 
-        //     Alert::toast('Uh oh! Something went Wrong', 'error');
+            Alert::toast('Uh oh! Something went Wrong', 'error');
 
-        //     return redirect()->back();
-        // }
+            return redirect()->back();
+        }
     }
 
     public function deleteQuestion($id)

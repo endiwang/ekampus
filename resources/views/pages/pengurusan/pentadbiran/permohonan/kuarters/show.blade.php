@@ -306,7 +306,7 @@
                             
                             
                             <div class="row">
-                                <div class="col-md-9 offset-md-3">
+                                <div class="col-md-3 offset-md-3">
                                     <div class="d-flex">
                                         <!-- <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
                                             <i class="fa fa-save" style="vertical-align: initial"></i>Simpan

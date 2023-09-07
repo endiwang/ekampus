@@ -23,7 +23,7 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        Artisan::call('db:seed', array('--class' => 'YuranDetailSeeder'));
+        // Artisan::call('db:seed', array('--class' => 'YuranDetailSeeder'));
 
     }
 

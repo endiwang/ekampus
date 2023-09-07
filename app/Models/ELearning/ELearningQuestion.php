@@ -15,6 +15,6 @@ class ELearningQuestion extends Model
 
     public function questionOptions()
     {
-        return $this->hasMany(ELearningQuestionOption::class, 'id', 'question_id');
+        return $this->hasMany(ELearningQuestionOption::class, 'question_id', 'id');
     }
 }

@@ -3,6 +3,9 @@
 namespace App\Models\ELearning;
 
 use App\Models\Base as Model;
+use App\Models\Kursus;
+use App\Models\Semester;
+use App\Models\Staff;
 
 class ELearningTimetable extends Model
 {
