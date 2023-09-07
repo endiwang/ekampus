@@ -159,7 +159,7 @@ Route::middleware(['web', 'auth'])
     ->group(function () {
         // Route::get('/dashboard', DashboardController::class)
         //     ->name('dashboard.index');
-    
+
         // Pengajian Selepas DQ
         Route::post('/{id}/pengajian/create', [AlumniController::class, 'pengajian_store'])
             ->name('pengajian.store');
@@ -177,7 +177,6 @@ Route::middleware(['web', 'auth'])
             ->name('pekerjaan.update');
 
         // Alumni personal data
-        // Route::resource('/', AlumniController::class);
         Route::get('/', [AlumniController::class, 'index'])
             ->name('index');
         Route::get('/{id}/edit', [AlumniController::class, 'edit'])

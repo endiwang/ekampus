@@ -354,7 +354,7 @@ class AlumniController extends Controller
 
         $pekerjaan->save();
 
-        Alert::toast('Maklumat pekerjaan dikemasnkini!', 'success');
+        Alert::toast('Maklumat pekerjaan dikemaskini!', 'success');
 
         return redirect()->route('pengurusan.hep.alumni.edit', $id);
     }
