@@ -20,6 +20,7 @@ use Yajra\DataTables\Html\Builder;
 
 class KemasukanPelajarIjazahController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
