@@ -574,7 +574,7 @@
                 </span>
                 <div class="menu-sub menu-sub-accordion">
                     <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.pelajar.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.pelajar.index') }}">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.akademik.pengurusan_ijazah.kemasukan_pelajar_ijazah.index') ? 'active' : '' }}" href="{{ route('pengurusan.akademik.pengurusan_ijazah.kemasukan_pelajar_ijazah.index') }}">
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>

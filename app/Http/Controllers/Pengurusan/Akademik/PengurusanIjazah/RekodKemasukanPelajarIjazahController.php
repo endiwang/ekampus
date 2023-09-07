@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah;
 
 use App\Http\Controllers\Controller;
-use App\Models\IjazahMaklumatGraduasi;
+use App\Models\IjazahKemasukanPelajar;
 use Exception;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
 
-class RekodMaklumatGraduasiController extends Controller
+class RekodKemasukanPelajarIjazahController extends Controller
 {
-    protected $baseView = 'pages.pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.';
-
+    protected $baseView = 'pages.pengurusan.akademik.pengurusan_ijazah.kemasukan_pelajar_ijazah.';
+    protected $baseRoute = 'pengurusan.akademik.pengurusan_ijazah.kemasukan_pelajar_ijazah.';
     /**
      * Display a listing of the resource.
      *
@@ -22,17 +22,17 @@ class RekodMaklumatGraduasiController extends Controller
     public function index(Builder $builder, Request $request)
     {
         try {
-            $title = 'Rekod Maklumat Graduasi';
+            $title = 'Rekod Kemasukan Pelajar Ijazah';
             $breadcrumbs = [
                 'Akademik' => false,
                 'Pengurusan Ijazah' => false,
-                'Rekod Maklumat Graduasi' => false,
+                'Rekod Kemasukan Pelajar Ijazah' => false,
             ];
 
             $buttons = [
                 [
-                    'title' => 'Tambah Rekod Maklumat Graduasi',
-                    'route' => route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.create'),
+                    'title' => 'Tambah Rekod Kemasukan Pelajar Ijazah',
+                    'route' => route($this->baseRoute . 'create'),
                     'button_class' => 'btn btn-sm btn-primary fw-bold',
                     'icon_class' => 'fa fa-plus-circle',
                 ],
@@ -45,7 +45,7 @@ class RekodMaklumatGraduasiController extends Controller
             ];
 
             if (request()->ajax()) {
-                $data = IjazahMaklumatGraduasi::where('deleted_at', null);
+                $data = IjazahKemasukanPelajar::where('deleted_at', null);
                 if ($request->has('nama_fail') && $request->nama_fail != null) {
                     $data = $data->where('file_name', 'LIKE', '%'.$request->nama_fail.'%');
                 }
@@ -71,16 +71,16 @@ class RekodMaklumatGraduasiController extends Controller
 
                     })
                     ->addColumn('uploaded_document', function ($data) {
-                        return '<a href="'.route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.download', $data->id).'" target="_blank">'.$data->file_name.'</a>';
+                        return '<a href="'.route($this->baseRoute . 'download', $data->id).'" target="_blank">'.$data->file_name.'</a>';
                     })
                     ->addColumn('action', function ($data) {
-                        return '<a href="'.route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                        return '<a href="'.route($this->baseRoute . 'edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
                             <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
                                 <i class="fa fa-trash"></i>
                             </a>
-                            <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.destroy', $data->id).'" method="POST">
+                            <form id="delete-'.$data->id.'" action="'.route($this->baseRoute . 'destroy', $data->id).'" method="POST">
                                 <input type="hidden" name="_token" value="'.csrf_token().'">
                                 <input type="hidden" name="_method" value="DELETE">
                             </form>';
@@ -99,7 +99,7 @@ class RekodMaklumatGraduasiController extends Controller
                     ['data' => 'file_name', 'name' => 'file_name', 'title' => 'Nama Fail', 'orderable' => false, 'class' => 'text-bold'],
                     ['data' => 'description', 'name' => 'description', 'title' => 'Keterangan', 'orderable' => false],
                     ['data' => 'document_type', 'name' => 'document_type', 'title' => 'Keadaan Dokumen', 'orderable' => false, 'class' => 'text-bold'],
-                    ['data' => 'uploaded_document', 'name' => 'uploaded_document', 'title' => 'Dokumen Graduasi', 'orderable' => false, 'class' => 'text-bold'],
+                    ['data' => 'uploaded_document', 'name' => 'uploaded_document', 'title' => 'Dokumen Kemasukan', 'orderable' => false, 'class' => 'text-bold'],
                     ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
 
                 ])
@@ -125,17 +125,17 @@ class RekodMaklumatGraduasiController extends Controller
     {
         try {
 
-            $title = 'Tambah Rekod Maklumat Graduasi';
-            $action = route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.store');
-            $page_title = 'Maklumat Rekod Maklumat Graduasi';
+            $title = 'Rekod Kemasukan Pelajar Ijazah';
+            $action = route($this->baseRoute . 'store');
+            $page_title = 'Tambah Rekod Kemasukan Pelajar Ijazah';
             $breadcrumbs = [
                 'Akademik' => false,
                 'Pengurusan Ijazah' => false,
-                'Rekod Maklumat Graduasi' => route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.index'),
-                'Tambah Rekod Maklumat Graduasi' => false,
+                'Rekod Kemasukan Pelajar Ijazah' => route($this->baseRoute . 'index'),
+                'Tambah Rekod Kemasukan Pelajar Ijazah' => false,
             ];
 
-            $model = new IjazahMaklumatGraduasi();
+            $model = new IjazahKemasukanPelajar();
 
             $types = [
                 1 => 'Dokumen Baru',
@@ -157,6 +157,7 @@ class RekodMaklumatGraduasiController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -181,7 +182,7 @@ class RekodMaklumatGraduasiController extends Controller
 
             $original_filename = $request->file->getClientOriginalName();
 
-            $data = new IjazahMaklumatGraduasi();
+            $data = new IjazahKemasukanPelajar();
             $data->file_name = $request->nama_dokumen;
             $data->description = $request->keterangan;
             $data->document_type = $request->jenis_dokumen;
@@ -189,9 +190,9 @@ class RekodMaklumatGraduasiController extends Controller
             $data->created_by = auth()->user()->id;
             $data->save();
 
-            Alert::toast('Rekod maklumat graduasi berjaya ditambah!', 'success');
+            Alert::toast('Rekod kemasukan pelajar ijazah berjaya ditambah!', 'success');
 
-            return redirect()->route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.index');
+            return redirect()->route($this->baseRoute . 'index');
 
         } catch (Exception $e) {
             report($e);
@@ -223,17 +224,17 @@ class RekodMaklumatGraduasiController extends Controller
     {
         try {
 
-            $title = 'Rekod Maklumat Graduasi';
-            $action = route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.update', $id);
-            $page_title = 'Kemaskini Rekod Maklumat Graduasi';
+            $title = 'Rekod Kemasukan Pelajar Ijazah';
+            $action = route($this->baseRoute . 'update', $id);
+            $page_title = 'Kemaskini Rekod Kemasukan Pelajar Ijazah';
             $breadcrumbs = [
                 'Akademik' => false,
                 'Pengurusan Ijazah' => false,
-                'Rekod Maklumat Graduasi' => route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.index'),
-                'Kemaskini Rekod Maklumat Graduasi' => false,
+                'Rekod Kemasukan Pelajar Ijazah' => route($this->baseRoute . 'index'),
+                'Kemaskini Rekod Kemasukan Pelajar Ijazah' => false,
             ];
 
-            $model = IjazahMaklumatGraduasi::find($id);
+            $model = IjazahKemasukanPelajar::find($id);
 
             $types = [
                 1 => 'Dokumen Baru',
@@ -255,13 +256,14 @@ class RekodMaklumatGraduasiController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         try {
-            $data = IjazahMaklumatGraduasi::find($id);
+            $data = IjazahKemasukanPelajar::find($id);
 
             $file = '';
             $original_filename = '';
@@ -286,9 +288,9 @@ class RekodMaklumatGraduasiController extends Controller
             $data->created_by = auth()->user()->id;
             $data->save();
 
-            Alert::toast('Rekod maklumat graduasi berjaya dikemaskini!', 'success');
+            Alert::toast('Rekod kemasukan pelajar berjaya dikemaskini!', 'success');
 
-            return redirect()->route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.index');
+            return redirect()->route($this->baseRoute . 'index');
 
         } catch (Exception $e) {
             report($e);
@@ -309,11 +311,11 @@ class RekodMaklumatGraduasiController extends Controller
     {
         try {
 
-            IjazahMaklumatGraduasi::find($id)->delete();
+            IjazahKemasukanPelajar::find($id)->delete();
 
-            Alert::toast('Rekod maklumat graduasi berjaya dihapuskan!', 'success');
+            Alert::toast('Rekod kemasukan pelajar ijazah berjaya dihapuskan!', 'success');
 
-            return redirect()->route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.index');
+            return redirect()->route($this->baseRoute . 'index');
 
         } catch (Exception $e) {
             report($e);
@@ -326,7 +328,7 @@ class RekodMaklumatGraduasiController extends Controller
 
     public function download($id)
     {
-        $download = IjazahMaklumatGraduasi::find($id);
+        $download = IjazahKemasukanPelajar::find($id);
 
         return response()->file(public_path($download->uploaded_document));
     }
