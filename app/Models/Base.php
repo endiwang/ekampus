@@ -22,9 +22,9 @@ class Base extends Model implements AuditableContract, HasMedia
         'id',
     ];
 
-    protected $hidden = [
-        'id',
-    ];
+    // protected $hidden = [
+    //     'id',
+    // ];
 
     public function registerMediaConversions(Media $media = null): void
     {
