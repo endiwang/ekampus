@@ -90,7 +90,6 @@ class PermohonanPindahJamKreditController extends Controller
                 ->minifiedAjax();
 
             return view('pages.alumni.permohonan.pindah_jam_kredit.main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
-
         } catch (Exception $e) {
             report($e);
 
@@ -125,17 +124,20 @@ class PermohonanPindahJamKreditController extends Controller
 
         // Loop through pelajar's kursuses and populate $kursuses, $syukbahs, and $sesis arrays
         foreach ($pelajars as $pelajar) {
-            $kursuses[] = $pelajar->kursus;
-            $syukbahs[] = $pelajar->syukbah;
+            if ($pelajar->kursus) {
+                $kursuses[] = $pelajar->kursus;
+            }
 
-            // sesi can be null
+            if ($pelajar->syukbah) {
+                $syukbahs[] = $pelajar->syukbah;
+            }
+
             if ($pelajar->sesi) {
                 $sesis[] = $pelajar->sesi;
             }
         }
 
         return view('pages.alumni.permohonan.pindah_jam_kredit.create', compact('title', 'action', 'page_title', 'breadcrumbs', 'pelajar', 'kursuses', 'syukbahs', 'sesis'));
-
     }
 
     public function store(Request $request)
@@ -167,7 +169,6 @@ class PermohonanPindahJamKreditController extends Controller
             $data = PermohonanPindahJamKredit::find($id);
 
             return view('pages.alumni.permohonan.pindah_jam_kredit.show', compact('title', 'breadcrumbs', 'page_title', 'data'));
-
         } catch (Exception $e) {
             report($e);
 
@@ -186,7 +187,6 @@ class PermohonanPindahJamKreditController extends Controller
             Alert::toast('Permohonan Pindah Jam Kredit Berjaya Dipadam', 'success');
 
             return redirect()->route('alumni.permohonan.pindah_jam_kredit.index');
-
         } catch (Exception $e) {
             report($e);
 
