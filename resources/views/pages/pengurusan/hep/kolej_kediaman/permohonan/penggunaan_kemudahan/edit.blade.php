@@ -17,7 +17,7 @@
                             @csrf
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('nama_institusi', 'Nama Pemohon :', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    {{ Form::label('nama_institusi', 'Nama Pelajar :', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
@@ -28,11 +28,11 @@
 
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('nama_institusi', 'Nama Institusi :', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    {{ Form::label('nama_institusi', 'Nama Persatuan :', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <p class="mt-2">{{ $data->nama_institusi}}</p>
+                                        <p class="mt-2">{{ $data->nama_persatuan}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -46,74 +46,33 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('nama_pelajar', 'Nama Pelajar :', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    {{ Form::label('no_tel', 'Tarikh Mula Penggunaan :', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <p class="mt-2">{{ $data->nama_pelajar}}</p>
+                                        <p class="mt-2">{{ \Carbon\Carbon::parse($data->tarikh_mula)->format('d/m/Y')}}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('mykad', 'MyKad :', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    {{ Form::label('no_tel', 'Tarikh Tamat Penggunaan :', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <p class="mt-2">{{ $data->mykad}}</p>
+                                        <p class="mt-2">{{ \Carbon\Carbon::parse($data->tarikh_tamat)->format('d/m/Y')}}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
-                                    {{ Form::label('no_tel', 'No Telefon :', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    {{ Form::label('program_id', 'Bilik :', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        <p class="mt-2">{{ $data->no_tel}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('program_id', 'Program :', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        <p class="mt-2">{{ $data->kursus->nama}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('semester_id', 'Semester :', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        <p class="mt-2">{{ $data->semester->nama}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('nama_ibu_bapa_penjaga', 'Nama Ibu / Bapa / Penjaga :', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        <p class="mt-2">{{ $data->nama_ibu_bapa_penjaga}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('no_tel_ibu_bapa_penjaga', 'No Telefon Ibu / Bapa / Penjaga :', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        <p class="mt-2">{{ $data->no_tel_ibu_bapa_penjaga}}</p>
+                                        <p class="mt-2">{{ $data->bilik->no_bilik}}</p>
                                     </div>
                                 </div>
                             </div>
