@@ -78,7 +78,7 @@ class PermohonanMendapatkanRawatanController extends Controller
                             <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
                                 <i class="fa fa-trash"></i>
                             </a>
-                            <form id="delete-'.$data->id.'" action="'.route('pelajar.permohonan.bawa_kenderaan.destroy', $data->id).'" method="POST">
+                            <form id="delete-'.$data->id.'" action="'.route('pelajar.permohonan.mendapatkan_rawatan.destroy', $data->id).'" method="POST">
                                 <input type="hidden" name="_token" value="'.csrf_token().'">
                                 <input type="hidden" name="_method" value="DELETE">
                             </form>';
@@ -128,7 +128,7 @@ class PermohonanMendapatkanRawatanController extends Controller
 
         $lain_lain = collect([ 0 => 'Lain-lain']);
         $penyakit_db = Penyakit::pluck('nama','id');
-        $penyakit = $lain_lain->merge($penyakit_db);
+        $penyakit = $lain_lain->merge($penyakit_db)->reverse();
 
         return view($this->baseView.'create', compact('title', 'breadcrumbs', 'action', 'page_title','penyakit'));
     }
@@ -157,7 +157,7 @@ class PermohonanMendapatkanRawatanController extends Controller
 
         $data = PermohonanMendapatkanRawatan::create($request->all());
 
-        Alert::toast('Maklumat permohonan mendapatkan rawatan dihantar!', 'success');
+        Alert::toast('Maklumat permohonan mendapatkan rawatan berjaya dihantar!', 'success');
 
         return redirect()->route('pelajar.permohonan.mendapatkan_rawatan.index');
     }
@@ -237,6 +237,12 @@ class PermohonanMendapatkanRawatanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $model = PermohonanMendapatkanRawatan::find($id);
+
+        $model = $model->delete();
+
+        Alert::toast('Maklumat permohonan berjaya dihapuskan!', 'success');
+
+        return redirect()->back();
     }
 }
