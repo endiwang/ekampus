@@ -23,10 +23,10 @@ class JadualWardenController extends Controller
      public function index(Builder $builder)
      {
 
-         $title = 'Jadual Waden';
+         $title = 'Jadual Warden';
          $breadcrumbs = [
              'Pelajar' => false,
-             'Jadual Waden' => false,
+             'Jadual Warden' => false,
          ];
          $buttons = [
          ];
