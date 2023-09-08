@@ -7,7 +7,7 @@
     $buttons = [
         [
             'title' => 'Jana Rekod Baru',
-            'route' => route('pengurusan.hep.pusat-islam.jadual-tugasan.create'),
+            'route' => route('pengurusan.hep.pusat-islam.jadual-tugasans.create'),
             'button_class' => 'btn btn-sm btn-primary fw-bold',
             'icon_class' => 'fa fa-plus-circle',
             'is_show' => auth()->user()->can('create-pi-jadual-tugasan')

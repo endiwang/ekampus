@@ -281,7 +281,7 @@
                                     <button type="submit" data-kt-ecommerce-settings-type="submit" class="btn btn-success btn-sm me-3">
                                         <i class="fa fa-save" style="vertical-align: initial"></i>Simpan
                                     </button>
-                                    <a href="{{ route('pengurusan.kbg.pengurusan.konvokesyen.index') }}" class="btn btn-sm btn-light">Kembali</a>
+                                    <a href="{{ route('pengurusan.akademik.pengurusan_ijazah.pelajar.index') }}" class="btn btn-sm btn-light">Kembali</a>
                                 </div>
                             </div>
                             </form>

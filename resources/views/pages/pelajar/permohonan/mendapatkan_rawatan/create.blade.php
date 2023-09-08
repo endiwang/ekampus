@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <div class="w-100">
-                                        {{ Form::text('lain_lain', old('lain_lain'),['class' => 'form-control form-control-sm '.($errors->has('lain_lain') ? 'is-invalid':''), 'id' =>'lain_lain','onkeydown' =>'return true','autocomplete' => 'off']) }}
+                                        {{ Form::text('lain_lain', old('lain_lain'),['class' => 'form-control form-control-sm '.($errors->has('lain_lain') ? 'is-invalid':''), 'id' =>'lain_lain','onkeydown' =>'return true','autocomplete' => 'off','disabled'=>'disabled']) }}
                                         @error('lain_lain') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
@@ -69,41 +69,17 @@
 @endsection
 
 @push('scripts')
+
 <script>
-    tinymce.init({
-        selector: 'textarea#tinymce',
-        height: 400
-    });
-
-
-    $("#tarikh_tamat_lesen_memandu").daterangepicker({
-        autoApply : true,
-        singleDatePicker: true,
-        showDropdowns: true,
-        autoUpdateInput: false,
-        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
-        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
-        locale: {
-            format: 'DD/MM/YYYY'
+    $("#penyakit_id").change(function(){
+        if($("#penyakit_id").val() == 0)
+        {
+            $("#lain_lain").removeAttr('disabled', 'disabled');
+            $("#lain_lain").val('');
+        }else{
+            $("#lain_lain").attr('disabled', 'disabled');
+            $("#lain_lain").val('');
         }
-    },function(start, end, label) {
-        var datePicked = moment(start).format('DD/MM/YYYY');
-        $("#tarikh_tamat_lesen_memandu").val(datePicked);
-    });
-
-    $("#tarikh_tamat_cukai_kenderaan").daterangepicker({
-        autoApply : true,
-        singleDatePicker: true,
-        showDropdowns: true,
-        autoUpdateInput: false,
-        minYear: parseInt(moment().subtract(1,'y').format("YYYY")),
-        maxYear: parseInt(moment().add(4,'y').format("YYYY")),
-        locale: {
-            format: 'DD/MM/YYYY'
-        }
-    },function(start, end, label) {
-        var datePicked = moment(start).format('DD/MM/YYYY');
-        $("#tarikh_tamat_cukai_kenderaan").val(datePicked);
     });
 </script>
 

@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Pengurusan\Peperiksaan\CajPeperiksaanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\CetakanKeputusanController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\CetakanKeputusanPenuhController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\CetakTuntutanBayaranController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\CetakanTranskripController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\JadualPeperiksaanController;
+use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniKeputusanController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniKursusController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniMarkahController;
 use App\Http\Controllers\Pengurusan\Peperiksaan\KemaskiniNamaPelajarController;
@@ -69,6 +71,10 @@ Route::resource('calon_peperiksaan', SenaraiCalonPeperiksaanController::class);
 Route::post('maklumat_kehadiran/maklumat_subjek_pelajar', [MaklumatKehadiranController::class, 'getMaklumatSubjekPelajar'])->name('maklumat_kehadiran.getMaklumatSubjekPelajar');
 Route::resource('maklumat_kehadiran', MaklumatKehadiranController::class);
 
+Route::get('kemaskini_keputusan/cetak_transkrip/{id}', [KemaskiniKeputusanController::class, 'cetakTranskrip'])->name('kemaskini_keputusan.cetak_transkrip');
+Route::post('kemaskini_keputusan/maklumat_subjek_pelajar', [KemaskiniKeputusanController::class, 'getMaklumatSubjekPelajar'])->name('kemaskini_keputusan.getMaklumatSubjekPelajar');
+Route::resource('kemaskini_keputusan', KemaskiniKeputusanController::class);
+
 Route::post('pengesahan_tamat_pengajian/validate/{id}', [PengesahanTamatPengajianController::class, 'validateStudent'])->name('pengesahan_tamat_pengajian.validate_student');
 Route::post('pengesahan_tamat_pengajian/maklumat_subjek_pelajar', [PengesahanTamatPengajianController::class, 'getMaklumatSubjekPelajar'])->name('pengesahan_tamat_pengajian.getMaklumatSubjekPelajar');
 Route::resource('pengesahan_tamat_pengajian', PengesahanTamatPengajianController::class);
@@ -87,3 +93,12 @@ Route::get('keputusan_peperiksaan_stm/temuduga_terdahulu', [KeputusanPeperiksaan
 Route::resource('keputusan_peperiksaan_stm', KeputusanPeperiksaanStmController::class);
 
 Route::resource('kemaskini_paparan_keputusan', KemaskiniPaparanKeputusanController::class);
+
+Route::post('cetak_keputusan_penuh/export/cetak_kedudukan_keseluruhan', [CetakanKeputusanPenuhController::class, 'exportCetakKedudukanKeseluruhan'])->name('cetak_keputusan_penuh.cetak_kedudukan_keseluruhan');
+Route::post('cetak_keputusan_penuh/export/cetak_kedudukan_png', [CetakanKeputusanPenuhController::class, 'exportCetakKedudukanPng'])->name('cetak_keputusan_penuh.cetak_kedudukan_png');
+Route::post('cetak_keputusan_penuh/export/cetak_kedudukan_pngk', [CetakanKeputusanPenuhController::class, 'exportCetakKedudukanPngk'])->name('cetak_keputusan_penuh.cetak_kedudukan_pngk');
+Route::post('cetak_keputusan_penuh/export/cetak_keputusan_gred', [CetakanKeputusanPenuhController::class, 'exportCetakKeputusanGred'])->name('cetak_keputusan_penuh.cetak_keputusan_gred');
+Route::post('cetak_keputusan_penuh/export/cetak_keputusan_pointer', [CetakanKeputusanPenuhController::class, 'exportCetakKeputusanPointer'])->name('cetak_keputusan_penuh.cetak_keputusan_pointer');
+Route::post('cetak_keputusan_penuh/export/cetak_keputusan_penuh_paparan_pelajar', [CetakanKeputusanPenuhController::class, 'exportCetakKeputusanPenuhPaparanPelajar'])->name('cetak_keputusan_penuh.cetak_keputusan_penuh_paparan_pelajar');
+Route::post('cetak_keputusan_penuh/export/export_keputusan_penuh', [CetakanKeputusanPenuhController::class, 'exportCetakKeputusanPenuh'])->name('cetak_keputusan_penuh.export_keputusan_penuh');
+Route::resource('cetak_keputusan_penuh', CetakanKeputusanPenuhController::class);

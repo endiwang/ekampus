@@ -223,14 +223,14 @@ class RekodMaklumatGraduasiController extends Controller
     {
         try {
 
-            $title = 'Tambah Rekod Maklumat Graduasi';
+            $title = 'Rekod Maklumat Graduasi';
             $action = route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.update', $id);
-            $page_title = 'Maklumat Rekod Maklumat Graduasi';
+            $page_title = 'Kemaskini Rekod Maklumat Graduasi';
             $breadcrumbs = [
                 'Akademik' => false,
                 'Pengurusan Ijazah' => false,
                 'Rekod Maklumat Graduasi' => route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.index'),
-                'Tambah Rekod Maklumat Graduasi' => false,
+                'Kemaskini Rekod Maklumat Graduasi' => false,
             ];
 
             $model = IjazahMaklumatGraduasi::find($id);
@@ -286,7 +286,7 @@ class RekodMaklumatGraduasiController extends Controller
             $data->created_by = auth()->user()->id;
             $data->save();
 
-            Alert::toast('Rekod maklumat graduasi berjaya ditambah!', 'success');
+            Alert::toast('Rekod maklumat graduasi berjaya dikemaskini!', 'success');
 
             return redirect()->route('pengurusan.akademik.pengurusan_ijazah.maklumat_graduasi.index');
 

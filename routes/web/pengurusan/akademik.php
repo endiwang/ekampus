@@ -24,6 +24,7 @@ use App\Http\Controllers\Pengurusan\Akademik\Pengurusan\PenilaianPensyarahContro
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\KemasukanPelajarIjazahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodAkademikController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodJadualPembelajaranController;
+use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodKemasukanPelajarIjazahController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodKompilasiSoalanController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodLatihanIndustriController;
 use App\Http\Controllers\Pengurusan\Akademik\PengurusanIjazah\RekodMaklumatGraduasiController;
@@ -59,6 +60,7 @@ use Illuminate\Support\Facades\Route;
 Route::resource('/', MainAkademikController::class)->only(['index']);
 Route::resource('kursus', KursusController::class);
 
+Route::delete('kelas/delete_student/{id}', [KelasController::class,'deleteStudent'])->name('pengurusan_kelas.delete_student');
 Route::post('kelas/export/by_class', [KelasController::class, 'exportStudentByClass'])->name('pengurusan_kelas.export_by_class');
 Route::post('kelas/edit', [KelasController::class, 'edit'])->name('pengurusan_kelas.store');
 Route::post('kelas/store', [KelasController::class, 'store'])->name('pengurusan_kelas.store');
@@ -198,6 +200,9 @@ Route::group(['prefix' => 'pengurusan_ijazah', 'as' => 'pengurusan_ijazah.'], fu
 
     Route::get('rekod_tesis/download/{id}', [RekodTesisController::class, 'download'])->name('rekod_tesis.download');
     Route::resource('rekod_tesis', RekodTesisController::class);
+
+    Route::get('kemasukan_pelajar_ijazah/download/{id}', [RekodKemasukanPelajarIjazahController::class, 'download'])->name('kemasukan_pelajar_ijazah.download');
+    Route::resource('kemasukan_pelajar_ijazah', RekodKemasukanPelajarIjazahController::class);
 });
 
 Route::group(['prefix' => 'peperiksaan', 'as' => 'peperiksaan.'], function () {
