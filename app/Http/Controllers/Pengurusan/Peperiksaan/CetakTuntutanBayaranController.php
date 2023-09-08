@@ -253,7 +253,7 @@ class CetakTuntutanBayaranController extends Controller
             if ($request->has('sesi') && $request->sesi != null) {
                 $data->where('sesi_id', $request->sesi);
             }
-        $datas = $data->get()->take(10);
+        $datas = $data->get();
 
         $studentSubject = [];
 
