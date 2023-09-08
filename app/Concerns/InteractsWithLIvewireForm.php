@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\DB;
 
 trait InteractsWithLivewireForm
 {
-    public $state = [];
-
     protected $record;
 
     public function mount($data = null)
@@ -68,6 +66,8 @@ trait InteractsWithLivewireForm
         $this->callMethodIfExists('afterSave');
 
         $this->emit('saved');
+
+        $this->callMethodIfExists('afterEmitSaved');
     }
 
     public function getRecord()

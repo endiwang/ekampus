@@ -9,6 +9,7 @@ class JadualTugasan extends Model
     protected $table = 'pi_jadual_tugasan';
 
     protected $casts = [
-        'imam', 'bilal',
+        'imam' => 'array',
+        'bilal' => 'array',
     ];
 }

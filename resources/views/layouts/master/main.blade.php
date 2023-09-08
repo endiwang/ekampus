@@ -171,6 +171,8 @@
                 showCancelButton: false,
                 confirmButtonText: 'OK',
             });
+
+            // should redirect after 2 seconds?
         })
     </script>
 </body>
