@@ -293,11 +293,21 @@ class KelasController extends Controller
                     ->addColumn('semester', function ($data) {
                         return '<p class="text-center">'.$data->semester.'</p>';
                     })
+                    ->addColumn('action', function ($data) {
+                        return '
+                            <a class="btn btn-icon btn-danger btn-sm hover-elevate-up mb-1" onclick="remove('.$data->id.')" data-bs-toggle="tooltip" title="Hapus">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                            <form id="delete-'.$data->id.'" action="'.route('pengurusan.akademik.pengurusan_kelas.delete_student', $data->id).'" method="POST">
+                                <input type="hidden" name="_token" value="'.csrf_token().'">
+                                <input type="hidden" name="_method" value="DELETE">
+                            </form>';
+                    })
                     ->addIndexColumn()
                     ->order(function ($data) {
                         $data->orderBy('id', 'desc');
                     })
-                    ->rawColumns(['nama', 'semester'])
+                    ->rawColumns(['nama', 'semester', 'action'])
                     ->toJson();
             }
 
@@ -309,6 +319,7 @@ class KelasController extends Controller
                     ['data' => 'kursus_id', 'name' => 'kursus_id', 'title' => 'Program Pengajian [Syukbah]', 'orderable' => false],
                     ['data' => 'sesi_id', 'name' => 'semasa_syukbah_id', 'title' => 'Sesi Pengajian', 'orderable' => false],
                     ['data' => 'semester', 'name' => 'semester', 'title' => 'Semester', 'orderable' => false],
+                    ['data' => 'action', 'name' => 'action', 'title' => 'Tindakan', 'orderable' => false],
                 ])
                 ->minifiedAjax();
 
@@ -388,6 +399,27 @@ class KelasController extends Controller
 
                 return redirect()->back();
             }
+
+        } catch (Exception $e) {
+            report($e);
+
+            Alert::toast('Uh oh! Sesuatu yang tidak diingini berlaku', 'error');
+
+            return redirect()->back();
+        }
+    }
+
+    public function deleteStudent($id)
+    {
+        try {
+
+            $pelajar = Pelajar::find($id);
+            $pelajar->kelas_id = NULL;
+            $pelajar->save();
+
+            Alert::toast('Berjaya hapus pelajar dari kelas!', 'success');
+
+            return redirect()->back();
 
         } catch (Exception $e) {
             report($e);

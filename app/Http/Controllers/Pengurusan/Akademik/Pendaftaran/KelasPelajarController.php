@@ -35,7 +35,7 @@ class KelasPelajarController extends Controller
             $buttons = [];
 
             if (request()->ajax()) {
-                $data = Pelajar::with('kursus', 'kelas')->where('kelas_id', null)->where('is_register', 1)->where('is_berhenti', 0);
+                $data = Pelajar::with('kursus', 'kelas')->where('is_register', 1)->where('is_berhenti', 0);
                 if ($request->has('nama') && $request->nama != null) {
                     $data->where('nama', 'LIKE', '%'.$request->nama.'%');
                 }

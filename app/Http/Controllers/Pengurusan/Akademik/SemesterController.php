@@ -176,7 +176,7 @@ class SemesterController extends Controller
             $model = new SemesterTerkini();
 
             for ($i = 2005; $i <= 2040; $i++) {
-                $sesi[] = strval($i).'/'.strval($i + 1);
+                $tahun_pengajian[] = strval($i).'/'.strval($i + 1);
             }
 
             $semesters = [
@@ -197,7 +197,7 @@ class SemesterController extends Controller
                 1 => 'Dipaparkan Untuk Semakan Pelajar',
             ];
 
-            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'sesi', 'kursus', 'semesters', 'statuses', 'action'));
+            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'tahun_pengajian', 'kursus', 'semesters', 'statuses', 'action'));
 
         } catch (Exception $e) {
             report($e);
@@ -359,7 +359,7 @@ class SemesterController extends Controller
             $model = SemesterTerkini::find($id);
 
             for ($i = 2005; $i <= 2040; $i++) {
-                $sesi[] = strval($i).'/'.strval($i + 1);
+                $tahun_pengajian[] = strval($i).'/'.strval($i + 1);
             }
 
             $semesters = [
@@ -380,7 +380,7 @@ class SemesterController extends Controller
                 1 => 'Dipaparkan Untuk Semakan Pelajar',
             ];
 
-            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'sesi', 'kursus', 'semesters', 'statuses', 'action'));
+            return view($this->baseView.'add_edit', compact('model', 'title', 'breadcrumbs', 'page_title', 'tahun_pengajian', 'kursus', 'semesters', 'statuses', 'action'));
 
         } catch (Exception $e) {
             report($e);
