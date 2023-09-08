@@ -5,7 +5,7 @@
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
             <!--begin::Row-->
-            <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
+            <!-- <div class="row g-5 g-xl-10 mb-3 mb-xl-4">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                     <div class="card" id="advanceSearch">
                         <div class="card-body py-5">
@@ -25,7 +25,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <!--end::Row-->
             <!--begin::Row-->
             <div class="row g-5 g-xl-10 mb-5 mb-xl-10">

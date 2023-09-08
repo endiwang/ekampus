@@ -25,18 +25,8 @@
                             
                             @if($model->id) @method('POST') <input type="hidden" name="id" value="{{data_get($model,'id')}}" /> @endif
                             
-                            @if($model->user->is_student == 1)
-                            <!-- <div class="row fv-row mb-2" >
-                                <div class="col-md-3 text-md-end">
-                                    {{ Form::label('dokumen', 'Muat Naik Surat Kelulusan HEP', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        <input type="file" class="form-control form-control-sm" name="file"  accept=".pdf">
-                                        @error('dokumen') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                    </div>
-                                </div>
-                            </div> -->
+                            <!-- if($model->user->is_student == 1) -->
+                            
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
                                 {{ Form::label('dokumen', 'Surat Kelulusan HEP', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
@@ -47,7 +37,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @endif
+                            <!-- endif -->
                             @if($model->user->is_student == 1)
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">

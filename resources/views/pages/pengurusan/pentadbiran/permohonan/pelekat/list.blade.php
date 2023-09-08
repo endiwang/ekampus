@@ -11,7 +11,7 @@
                         <div class="card-header">
                             <h3 class="card-title">{{ $page_title }}</h3>
                         </div>
-                        <div class="card-body py-5">
+                        <!-- <div class="card-body py-5">
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
                                     {{ Form::label('maklumat_carian', 'Maklumat Carian', ['class' => 'fs-6 fw-semibold form-label mt-2']) }}
@@ -25,7 +25,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
