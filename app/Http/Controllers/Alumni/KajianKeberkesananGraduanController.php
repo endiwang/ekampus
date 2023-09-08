@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\JawapanKajianKeberkesananGraduan;
 use App\Models\KajianKeberkesananGraduan;
 use Hashids\Hashids;
-use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Builder;
 
@@ -49,6 +48,7 @@ class KajianKeberkesananGraduanController extends Controller
                 ->addColumn('action', function ($data) {
                     // check dijawab or not
                     $dataJawapan = JawapanKajianKeberkesananGraduan::where('user_id', auth()->user()->id)->where('borang_kaji_selidik_id', $data->id)->first();
+                    // show disabled button
                     if ($dataJawapan) {
                         return '
                         <a class="edit btn btn-icon btn-secondary disabled btn-sm hover-elevate-up mb-1n" target="_blank" data-bs-toggle="tooltip" title="Jawab Borang">
@@ -57,7 +57,7 @@ class KajianKeberkesananGraduanController extends Controller
                         ';
                     }
 
-
+                    // if not answered yet, show the button enabled
                     $hashids = new Hashids('', 20);
 
                     return '
@@ -85,60 +85,5 @@ class KajianKeberkesananGraduanController extends Controller
             ->minifiedAjax();
 
         return view('pages.alumni.kajian_keberkesanan_graduan.main', compact('title', 'breadcrumbs', 'dataTable', 'buttons'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
