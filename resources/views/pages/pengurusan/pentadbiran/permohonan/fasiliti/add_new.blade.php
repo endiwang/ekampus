@@ -23,7 +23,7 @@
                             @csrf
                             @if($model->id) @method('POST') <input type="hidden" name="id" value="{{data_get($model,'id')}}" /> @endif
                             
-                            @if($user->is_student == 1)
+                            <!-- if($user->is_student == 1) -->
                             <div class="row fv-row mb-2" >
                                 <div class="col-md-3 text-md-end">
                                     {{ Form::label('dokumen', 'Muat Naik Surat Kelulusan HEP', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
@@ -35,7 +35,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @endif
+                            <!-- endif -->
 
 
                             <div class="row fv-row mb-2" >

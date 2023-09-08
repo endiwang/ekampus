@@ -330,18 +330,40 @@ class KualitiController extends Controller
 
             }
 
-            $dataTable = $builder
-                ->columns([
-                    ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
-                    ['data' => 'name', 'name' => 'name', 'title' => 'Nama', 'orderable' => false, 'class' => 'text-bold'],
-                    ['data' => 'document_name', 'name' => 'document_name', 'title' => 'Dokumen Kursus', 'orderable' => false],
-                    ['data' => 'item', 'name' => 'item', 'title' => 'Item', 'orderable' => false],
-                    ['data' => 'year', 'name' => 'year', 'title' => 'Tahun', 'orderable' => false],
-                    ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable' => false],
-                    ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
+            $dom_setting = "<'row' <'col-sm-6 d-flex align-items-center justify-conten-start'l> <'col-sm-6 d-flex align-items-center justify-content-end'f> >
+        <'table-responsive'tr> <'row' <'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>
+        <'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>>";
 
-                ])
-                ->minifiedAjax();
+            $dataTable = $builder->parameters([
+                'language' => '{ "lengthMenu": "Show _MENU_", }',
+                'dom' => $dom_setting,
+            ])
+            ->columns([
+                ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+                ['data' => 'name', 'name' => 'name', 'title' => 'Nama', 'orderable' => false, 'class' => 'text-bold'],
+                ['data' => 'document_name', 'name' => 'document_name', 'title' => 'Dokumen Kursus', 'orderable' => false],
+                ['data' => 'item', 'name' => 'item', 'title' => 'Item', 'orderable' => false],
+                ['data' => 'year', 'name' => 'year', 'title' => 'Tahun', 'orderable' => false],
+                ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable' => false],
+                ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
+
+            ])
+            ->minifiedAjax();
+            
+            // $dataTable = '';
+
+            // $dataTable = $builder
+            //     ->columns([
+            //         ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
+            //         ['data' => 'name', 'name' => 'name', 'title' => 'Nama', 'orderable' => false, 'class' => 'text-bold'],
+            //         ['data' => 'document_name', 'name' => 'document_name', 'title' => 'Dokumen Kursus', 'orderable' => false],
+            //         ['data' => 'item', 'name' => 'item', 'title' => 'Item', 'orderable' => false],
+            //         ['data' => 'year', 'name' => 'year', 'title' => 'Tahun', 'orderable' => false],
+            //         ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable' => false],
+            //         ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
+
+            //     ])
+            //     ->minifiedAjax();
 
             return view('pages.pengurusan.kualiti.kursus.index', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
 
@@ -919,7 +941,16 @@ class KualitiController extends Controller
 
             }
 
-            $dataTable = $builder
+            $dom_setting = "<'row' <'col-sm-6 d-flex align-items-center justify-conten-start'l> <'col-sm-6 d-flex align-items-center justify-content-end'f> >
+        <'table-responsive'tr> <'row' <'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>
+        <'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>>";
+
+        $dataTable = $builder->parameters([
+            'language' => '{ "lengthMenu": "Show _MENU_", }',
+            'dom' => $dom_setting,
+        ])
+
+            
                 ->columns([
                     ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
                     ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'orderable' => false, 'class' => 'text-bold'],
@@ -1104,13 +1135,20 @@ class KualitiController extends Controller
                 'keterangan' => $request->keterangan,
                 'document_name' => $original_filename,
                 'upload_document' => $file,
-                'pilihan_dokumen' => $request->jenisdoc,
+                'pilihan_dokumen' => $request->statusdoc,
                 'tarikh_upload' => date('Y-m-d H:i:s'),
                 'upload_by' => Auth::user()->id,
                 'status' => $status,
             ]);
 
-            Alert::toast('Maklumat akreditasi berjaya dikemaskini!', 'success');
+            if($request->statusdoc == 4){
+                $datadelete = Akreditasi::find($request->id)->delete();
+                Alert::toast('Maklumat akreditasi berjaya dihapus!', 'success');
+            }else{
+                Alert::toast('Maklumat akreditasi berjaya dikemaskini!', 'success');
+            }
+
+            
 
             return redirect()->route('pengurusan.kualiti.akreditasi.index');
 
@@ -1226,7 +1264,16 @@ class KualitiController extends Controller
 
             }
 
-            $dataTable = $builder
+            $dom_setting = "<'row' <'col-sm-6 d-flex align-items-center justify-conten-start'l> <'col-sm-6 d-flex align-items-center justify-content-end'f> >
+        <'table-responsive'tr> <'row' <'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>
+        <'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>>";
+
+        $dataTable = $builder->parameters([
+            'language' => '{ "lengthMenu": "Show _MENU_", }',
+            'dom' => $dom_setting,
+        ])
+
+            // $dataTable = $builder
                 ->columns([
                     ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
                     ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'orderable' => false, 'class' => 'text-bold'],
@@ -1450,7 +1497,14 @@ class KualitiController extends Controller
                 'status' => $status,
             ]);
 
-            Alert::toast('Maklumat muadalah dikemaskini!', 'success');
+            if($request->keadaandoc == 4){
+                $delete = Muadalah::find($request->id)->delete();
+                Alert::toast('Maklumat muadalah dihapus!', 'success');
+            }else{
+                Alert::toast('Maklumat muadalah dikemaskini!', 'success');
+            }
+
+            
 
             return redirect()->route('pengurusan.kualiti.muadalah.index');
 
@@ -1551,7 +1605,16 @@ class KualitiController extends Controller
 
             }
 
-            $dataTable = $builder
+                $dom_setting = "<'row' <'col-sm-6 d-flex align-items-center justify-conten-start'l> <'col-sm-6 d-flex align-items-center justify-content-end'f> >
+                    <'table-responsive'tr> <'row' <'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>
+                    <'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>>";
+
+                $dataTable = $builder->parameters([
+                    'language' => '{ "lengthMenu": "Show _MENU_", }',
+                    'dom' => $dom_setting,
+                ])
+
+            // $dataTable = $builder
                 ->columns([
                     ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
                     ['data' => 'nama_pensyarah', 'name' => 'nama_pensyarah', 'title' => 'Nama Pensyarah', 'orderable' => false, 'class' => 'text-bold'],
@@ -1791,7 +1854,16 @@ class KualitiController extends Controller
 
             }
 
-            $dataTable = $builder
+                $dom_setting = "<'row' <'col-sm-6 d-flex align-items-center justify-conten-start'l> <'col-sm-6 d-flex align-items-center justify-content-end'f> >
+                    <'table-responsive'tr> <'row' <'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>
+                    <'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>>";
+
+                $dataTable = $builder->parameters([
+                    'language' => '{ "lengthMenu": "Show _MENU_", }',
+                    'dom' => $dom_setting,
+                ])
+
+            // $dataTable = $builder
                 ->columns([
                     ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
                     ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'orderable' => false, 'class' => 'text-bold'],
@@ -2146,7 +2218,16 @@ class KualitiController extends Controller
 
             }
 
-            $dataTable = $builder
+                $dom_setting = "<'row' <'col-sm-6 d-flex align-items-center justify-conten-start'l> <'col-sm-6 d-flex align-items-center justify-content-end'f> >
+                    <'table-responsive'tr> <'row' <'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>
+                    <'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>>";
+
+                $dataTable = $builder->parameters([
+                    'language' => '{ "lengthMenu": "Show _MENU_", }',
+                    'dom' => $dom_setting,
+                ])
+
+            // $dataTable = $builder
                 ->columns([
                     ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
                     ['data' => 'nama_penuh', 'name' => 'nama_penuh', 'title' => 'Nama Penuh', 'orderable' => false, 'class' => 'text-bold'],
@@ -2367,7 +2448,16 @@ class KualitiController extends Controller
 
             }
 
-            $dataTable = $builder
+                $dom_setting = "<'row' <'col-sm-6 d-flex align-items-center justify-conten-start'l> <'col-sm-6 d-flex align-items-center justify-content-end'f> >
+                    <'table-responsive'tr> <'row' <'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>
+                    <'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>>";
+
+                $dataTable = $builder->parameters([
+                    'language' => '{ "lengthMenu": "Show _MENU_", }',
+                    'dom' => $dom_setting,
+                ])
+
+            // $dataTable = $builder
                 ->columns([
                     ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
                     ['data' => 'nama_penuh', 'name' => 'nama_penuh', 'title' => 'Nama Penuh', 'orderable' => false, 'class' => 'text-bold'],
@@ -2605,7 +2695,16 @@ class KualitiController extends Controller
 
             }
 
-            $dataTable = $builder
+                $dom_setting = "<'row' <'col-sm-6 d-flex align-items-center justify-conten-start'l> <'col-sm-6 d-flex align-items-center justify-content-end'f> >
+                    <'table-responsive'tr> <'row' <'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>
+                    <'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>>";
+
+                $dataTable = $builder->parameters([
+                    'language' => '{ "lengthMenu": "Show _MENU_", }',
+                    'dom' => $dom_setting,
+                ])
+
+            // $dataTable = $builder
                 ->columns([
                     ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
                     ['data' => 'nama_artikel', 'name' => 'nama_artikel', 'title' => 'Nama Artikel', 'orderable' => false, 'class' => 'text-bold'],
@@ -2657,7 +2756,7 @@ class KualitiController extends Controller
 
             if (request()->ajax()) {
 
-                $data = Artikel::with('editor.staff', 'komen')->whereIn('status', [1])->get();
+                $data = Artikel::with('editor.staff', 'komen')->whereIn('status', [1,2,3,4])->get();
 
                 // dd($data);
                 return DataTables::of($data)
@@ -2732,13 +2831,22 @@ class KualitiController extends Controller
 
             }
 
-            $dataTable = $builder
+            $dom_setting = "<'row' <'col-sm-6 d-flex align-items-center justify-conten-start'l> <'col-sm-6 d-flex align-items-center justify-content-end'f> >
+                    <'table-responsive'tr> <'row' <'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>
+                    <'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>>";
+
+                $dataTable = $builder->parameters([
+                    'language' => '{ "lengthMenu": "Show _MENU_", }',
+                    'dom' => $dom_setting,
+                ])
+
+            // $dataTable = $builder
                 ->columns([
                     ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
                     ['data' => 'nama_artikel', 'name' => 'nama_artikel', 'title' => 'Nama Artikel', 'orderable' => false, 'class' => 'text-bold'],
                     ['data' => 'document_name', 'name' => 'document_name', 'title' => 'Dokumen', 'orderable' => false, 'class' => 'text-bold'],
                     ['data' => 'tarikh_dihantar', 'name' => 'tarikh_dihantar', 'title' => 'Tarikh Dihantar', 'orderable' => false, 'class' => 'text-bold'],
-                    ['data' => 'editor', 'name' => 'editor', 'title' => 'Editor', 'orderable' => false],
+                    // ['data' => 'editor', 'name' => 'editor', 'title' => 'Editor', 'orderable' => false],
                     // ['data' => 'pilihan_dokumen', 'name' => 'pilihan_dokumen', 'title' => 'Dokumen', 'orderable'=> false],
                     ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'orderable' => false],
                     ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
@@ -2921,7 +3029,16 @@ class KualitiController extends Controller
 
             }
 
-            $dataTable = $builder
+            $dom_setting = "<'row' <'col-sm-6 d-flex align-items-center justify-conten-start'l> <'col-sm-6 d-flex align-items-center justify-content-end'f> >
+                    <'table-responsive'tr> <'row' <'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>
+                    <'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>>";
+
+                $dataTable = $builder->parameters([
+                    'language' => '{ "lengthMenu": "Show _MENU_", }',
+                    'dom' => $dom_setting,
+                ])
+
+            // $dataTable = $builder
                 ->columns([
                     ['defaultContent' => '', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'Bil', 'orderable' => false, 'searchable' => false],
                     ['data' => 'nama_artikel', 'name' => 'nama_artikel', 'title' => 'Nama Artikel', 'orderable' => false, 'class' => 'text-bold'],
