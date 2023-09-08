@@ -56,7 +56,7 @@
                                             <!--begin::Name-->
                                             <div class="d-flex align-items-center mb-2">
                                                 <a href="#"
-                                                    class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">@if ($user->staff){{ $user->staff->nama }}@endif
+                                                    class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">@if ($user->staff){{ $user->staff->nama }}@elseif ($user->pelajar->first()){{ $user->pelajar->first()->nama }}@endif
                                                 </a>
                                                 <a href="#">
                                                 </a>
@@ -107,7 +107,7 @@
                                                                 fill="currentColor" />
                                                         </svg>
                                                     </span>
-                                                    @if ($user->staff != NULL && $user->staff->pusatPengajian != NULL){{ $user->staff->pusatPengajian->nama }}@endif
+                                                    @if ($user->staff != NULL && $user->staff->pusatPengajian != NULL){{ $user->staff->pusatPengajian->nama }}@elseif($user->pelajar != NULL && $user->pelajar->first()->pusat_pengajian != NULL){{ $user->pelajar->first()->pusat_pengajian->nama }}@endif
 
                                                 </a>
                                                 <a href="#"
@@ -124,7 +124,7 @@
                                                                 fill="currentColor" />
                                                         </svg>
                                                     </span>
-                                                    @if ($user->staff){{ $user->staff->email }}@endif
+                                                    @if ($user->staff){{ $user->staff->email }}@elseif ($user->pelajar->first()){{ $user->pelajar->first()->email }}@endif
                                                 </a>
                                             </div>
                                             <!--end::Info-->
