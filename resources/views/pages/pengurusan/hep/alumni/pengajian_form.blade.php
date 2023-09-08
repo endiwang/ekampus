@@ -12,7 +12,9 @@
                         </div>
                         <div class="card-body py-5">
                             <form id="pengajian_form_edit" class="form" action="{{ $action }}" method="POST">
-                                @method('PUT')
+                                @if (isset($data))
+                                    @method('PUT')
+                                @endif
                                 @csrf
                                 <div class="row fv-row mb-2">
                                     <div class="col-md-3 text-md-end">
@@ -62,7 +64,12 @@
                                             </a>
                                             <button id="pengajian_tambah_buton"
                                                 class="btn btn-primary btn-sm fw-bold flex-shrink-0">
-                                                <i class="fa fa-floppy-disk" style="vertical-align: initial"></i>Simpan
+                                                <i class="fa fa-floppy-disk" style="vertical-align: initial"></i>
+                                                @if (isset($data))
+                                                    Kemaskini
+                                                @else
+                                                    Simpan
+                                                @endif
                                             </button>
                                         </div>
                                     </div>

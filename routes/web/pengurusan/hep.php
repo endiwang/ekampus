@@ -62,7 +62,7 @@ Route::group(['prefix' => 'pengurusan', 'as' => 'pengurusan.'], function () {
     Route::get('program_pelajar/{id}/qr_code_kehadiran/', [PengurusanProgramPelajarController::class, 'qr_code_kehadiran'])->name('program_pelajar.qr_code_kehadiran');
     Route::get('program_pelajar/{id}/muat_turun_qr_sesi/{sesi}/', [PengurusanProgramPelajarController::class, 'muat_turun_qr_sesi'])->name('program_pelajar.muat_turun_qr_sesi');
     Route::get('program_pelajar/{id}/submit_kehadiran_program/{sesi}/', [PengurusanProgramPelajarController::class, 'submit_kehadiran_program'])->name('program_pelajar.submit_kehadiran_program');
-    Route::resource('program_pelajar',PengurusanProgramPelajarController::class);
+    Route::resource('program_pelajar', PengurusanProgramPelajarController::class);
 });
 
 /** Kemahiran Insaniah */
@@ -157,11 +157,10 @@ Route::middleware(['web', 'auth'])
     ->as('alumni.')
     ->prefix('alumni')
     ->group(function () {
-        // Route::get('/dashboard', DashboardController::class)
-        //     ->name('dashboard.index');
-
         // Pengajian Selepas DQ
-        Route::post('/{id}/pengajian/create', [AlumniController::class, 'pengajian_store'])
+        Route::get('/{id}/pengajian/create', [AlumniController::class, 'pengajian_create'])
+            ->name('pengajian.create');
+        Route::post('/{id}/pengajian', [AlumniController::class, 'pengajian_store'])
             ->name('pengajian.store');
         Route::get('/{id}/pengajian/{pengajian_id}/edit', [AlumniController::class, 'pengajian_edit'])
             ->name('pengajian.edit');
@@ -190,7 +189,4 @@ Route::middleware(['web', 'auth'])
         Route::get('kajian_keberkesanan/data_chart/{id}', [KajianKeberkesananGraduanController::class, 'data_chart'])->name('kajian_keberkesanan.data_chart');
         Route::get('kajian_keberkesanan/analisa/{id}', [KajianKeberkesananGraduanController::class, 'result_survey'])->name('kajian_keberkesanan.analisa');
         Route::resource('kajian_keberkesanan', KajianKeberkesananGraduanController::class);
-
-        // Route::resource('/rekod-kaunseling', RekodKaunselingController::class)->only('index', 'edit', 'update', 'show');
-        // Route::resource('/laporan-kaunseling', LaporanKaunselingController::class)->only('index', 'edit', 'update', 'show');
     });

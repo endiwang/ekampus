@@ -144,59 +144,19 @@
                             <h3 class="card-title">Maklumat pengajian selepas Darul Quran</h3>
                         </div>
                         <div class="card-body py-5">
-                            <form class="form"
-                                action="{{ route('pengurusan.hep.alumni.pengajian.store', $pelajar->id) }}" method="POST">
-                                @csrf
-                                <div class="row fv-row mb-2">
-                                    <div class="col-md-3 text-md-end">
-                                        {{ Form::label('nama_institusi', 'Institusi', ['class' => 'fs-7 fw-semibold form-label mt-2 required']) }}
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="w-100">
-                                            {{ Form::text('nama_institusi', old('nama_institusi'), ['class' => 'form-control form-control-sm ' . ($errors->has('nama_institusi') ? 'is-invalid' : ''), 'id' => 'nama_institusi', 'onkeydown' => 'return true', 'autocomplete' => 'off', 'required']) }}
-                                            @error('nama_institusi')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+
+                            <div class="row fv-row mb-2">
+                                <div class="col-md-12">
+                                    <div class="d-flex align-items-center justify-content-end">
+                                        <a href="{{ route('pengurusan.hep.alumni.pengajian.create', $pelajar->id) }}"
+                                            id="pengajian_tambah_buton"
+                                            class="btn btn-primary btn-sm fw-bold flex-shrink-0">
+                                            <i class="fa fa-plus-circle" style="vertical-align: initial"></i>Tambah
+                                            Pengajian
+                                        </a>
                                     </div>
                                 </div>
-                                <div class="row fv-row mb-2">
-                                    <div class="col-md-3 text-md-end">
-                                        {{ Form::label('tarikh_mula', 'Tarikh mula', ['class' => 'fs-7 fw-semibold form-label mt-2 required']) }}
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="w-100">
-                                            {{ Form::date('tarikh_mula', old('tarikh_mula'), ['class' => 'form-control form-control-sm ' . ($errors->has('tarikh_mula') ? 'is-invalid' : ''), 'id' => 'tarikh_mula', 'onkeydown' => 'return true', 'autocomplete' => 'off']) }}
-                                            @error('tarikh_mula')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row fv-row mb-2">
-                                    <div class="col-md-3 text-md-end">
-                                        {{ Form::label('tarikh_tamat', 'Tarikh tamat', ['class' => 'fs-7 fw-semibold form-label mt-2 required']) }}
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="w-100">
-                                            {{ Form::date('tarikh_tamat', old('tarikh_tamat'), ['class' => 'form-control form-control-sm ' . ($errors->has('tarikh_tamat') ? 'is-invalid' : ''), 'id' => 'tarikh_tamat', 'onkeydown' => 'return true', 'autocomplete' => 'off']) }}
-                                            @error('tarikh_tamat')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row fv-row mb-2">
-                                    <div class="col-md-12">
-                                        <div class="d-flex align-items-center justify-content-end">
-                                            <button id="pengajian_tambah_buton"
-                                                class="btn btn-primary btn-sm fw-bold flex-shrink-0">
-                                                <i class="fa fa-plus-circle" style="vertical-align: initial"></i>Tambah
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
 
                             {{ $dataTable->table(['class' => 'table table-striped table-row-bordered gy-5 gs-7 border rounded']) }}
                         </div>
@@ -238,8 +198,7 @@
                         </div>
                         <div class="card-body py-5">
                             <form class="form"
-                                action="{{ route('pengurusan.hep.alumni.pekerjaan.store', $pelajar->id) }}"
-                                method="post">
+                                action="{{ route('pengurusan.hep.alumni.pekerjaan.store', $pelajar->id) }}" method="post">
                                 @if ($pekerjaanData->id)
                                     @method('PUT')
                                 @endif

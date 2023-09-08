@@ -8,6 +8,7 @@ use App\Models\Pelajar;
 use App\Models\PengajianSelepasDq;
 use Exception;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Builder;
@@ -195,16 +196,24 @@ class AlumniController extends Controller
             'bandar' => 'required',
         ]);
 
+        // Find user ID based on pelajar
         $pelajar = Pelajar::find($id);
-        $pelajar->nama = $request->nama;
-        $pelajar->no_ic = $request->no_ic;
-        $pelajar->no_matrik = $request->no_matrik;
-        $pelajar->email = $request->email;
-        $pelajar->no_tel = $request->no_tel;
-        $pelajar->alamat = $request->alamat;
-        $pelajar->poskod = $request->poskod;
-        $pelajar->bandar = $request->bandar;
-        $pelajar->save();
+        $user = User::find($pelajar->user_id);
+
+        // backtrack all the pelajars that under a user
+        $pelajars = Pelajar::where('user_id', $user->id)->get();
+
+        foreach ($pelajars as $student) {
+            $pelajar->nama = $request->nama;
+            $pelajar->no_ic = $request->no_ic;
+            $pelajar->no_matrik = $request->no_matrik;
+            $pelajar->email = $request->email;
+            $pelajar->no_tel = $request->no_tel;
+            $pelajar->alamat = $request->alamat;
+            $pelajar->poskod = $request->poskod;
+            $pelajar->bandar = $request->bandar;
+            $pelajar->save();
+        }
 
         Alert::toast('Maklumat pelajar dikemaskini!', 'success');
 
@@ -223,6 +232,23 @@ class AlumniController extends Controller
     }
 
     // Managing maklumat pengajian
+    public function pengajian_create(Builder $builder, $pelajarId)
+    {
+        $pelajar = Pelajar::find($pelajarId);
+
+        $title = $pelajar->nama;
+        $page_title = 'Maklumat Pengajian Selepas Darul Quran';
+        $action = route('pengurusan.hep.alumni.pengajian.store', $pelajarId);
+
+        $breadcrumbs = [
+            'Alumni' => false,
+            'Profil Peribadi' => false,
+            'Maklumat Pengajian Selepas Darul Quran' => false,
+        ];
+
+        return view('pages.pengurusan.hep.alumni.pengajian_form', compact('title', 'breadcrumbs', 'page_title', 'action'));
+    }
+
     public function pengajian_store(Request $request, $id)
     {
         $request->validate(
