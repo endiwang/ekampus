@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Pengurusan\HEP\KolejKediaman\JadualWardenController;
 use App\Http\Controllers\Pengurusan\HEP\KolejKediaman\MainKolejKediamanController;
 use App\Http\Controllers\Pengurusan\HEP\KolejKediaman\PengurusanBlokController;
 use App\Http\Controllers\Pengurusan\HEP\KolejKediaman\PengurusanBilikController;
@@ -27,5 +28,9 @@ Route::group(['prefix' => 'permohonan', 'as' => 'permohonan.'], function () {
 });
 
 Route::resource('/takwim_tahunan', TakwimTahunanAsramaController::class);
+Route::get('jadual_warden/{id}/pilih_warden', [JadualWardenController::class, 'pilih_warden'])->name('jadual_warden.pilih_warden');
+Route::post('jadual_warden/{id}/store_warden', [JadualWardenController::class, 'store_warden'])->name('jadual_warden.store_warden');
+Route::delete('jadual_warden/{id}/destroy_warden/{warden}', [JadualWardenController::class, 'destroy_warden'])->name('jadual_warden.destroy_warden');
+Route::resource('/jadual_warden', JadualWardenController::class);
 
 

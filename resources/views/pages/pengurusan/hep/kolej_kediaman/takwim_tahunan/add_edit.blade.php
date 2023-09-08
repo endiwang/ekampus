@@ -68,7 +68,7 @@
                                 <div class="col-md-9">
                                     <div class="w-100">
                                         <label class="form-check form-switch form-check-custom form-check-solid">
-                                            {{ Form::select('status', ['0' => 'Tidak Aktif', '1' => 'Aktif'], $model->keadaan_bilik ?? old('status'), ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ','data-control'=>'select2', 'required' => 'required']) }}
+                                            {{ Form::select('status', ['0' => 'Tidak Aktif', '1' => 'Aktif'], $model->status ?? old('status'), ['placeholder' => 'Sila Pilih','class' =>'form-control form-control-sm ','data-control'=>'select2', 'required' => 'required']) }}
                                         </label>
                                     </div>
                                 </div>

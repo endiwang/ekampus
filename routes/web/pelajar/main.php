@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Pelajar\eLearning\KandunganPembelajaranController;
 use App\Http\Controllers\Pelajar\eLearning\UjianAtasTalianController;
+use App\Http\Controllers\Pelajar\KolejKediaman\JadualWardenController;
 use App\Http\Controllers\Pelajar\MainPelajarController;
 use App\Http\Controllers\Pelajar\PengurusanIjazah\RekodTesisController;
 use App\Http\Controllers\Pelajar\PenilaianPensyarahController;
@@ -35,6 +36,7 @@ Route::group(['prefix' => 'permohonan', 'as' => 'permohonan.'], function () {
 });
 
 Route::resource('penilaian_pensyarah', PenilaianPensyarahController::class);
+Route::resource('jadual_warden', JadualWardenController::class);
 
 Route::group(['prefix' => 'pengurusan_ijazah', 'as' => 'pengurusan_ijazah.'], function () {
     Route::get('rekod_tesis/download/{id}', [RekodTesisController::class, 'download'])->name('rekod_tesis.download');
