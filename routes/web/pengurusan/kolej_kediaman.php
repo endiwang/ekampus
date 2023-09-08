@@ -10,6 +10,7 @@ use App\Http\Controllers\Pengurusan\HEP\KolejKediaman\PermohonanMendapatkanRawat
 use App\Http\Controllers\Pengurusan\HEP\KolejKediaman\PermohonanPenggunaanKemudahanController;
 use App\Http\Controllers\Pengurusan\HEP\KolejKediaman\PermohonanPenginapanSementaraController;
 use App\Http\Controllers\Pengurusan\HEP\KolejKediaman\TakwimTahunanAsramaController;
+use App\Http\Controllers\Pengurusan\HEP\KolejKediaman\PenyelengaraanController;
 use Illuminate\Support\Facades\Route;
 
 Route::resource('/', MainKolejKediamanController::class)->only(['index']);
@@ -34,5 +35,6 @@ Route::post('jadual_warden/{id}/store_warden', [JadualWardenController::class, '
 Route::delete('jadual_warden/{id}/destroy_warden/{warden}', [JadualWardenController::class, 'destroy_warden'])->name('jadual_warden.destroy_warden');
 Route::resource('/jadual_warden', JadualWardenController::class);
 Route::resource('/keluar_masuk', KeluarMasukPelajarController::class);
+Route::resource('/penyelenggaraan', PenyelengaraanController::class);
 
 
