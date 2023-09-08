@@ -26,14 +26,14 @@ class JadualWardenController extends Controller
     public function index(Builder $builder)
     {
 
-        $title = 'Jadual Waden';
+        $title = 'Jadual Warden';
         $breadcrumbs = [
             'Kolej Kediaman' => false,
-            'Jadual Waden' => false,
+            'Jadual Warden' => false,
         ];
         $buttons = [
             [
-                'title' => 'Tambah Jadual Waden',
+                'title' => 'Tambah Jadual Warden',
                 'route' => route('pengurusan.kolej_kediaman.jadual_warden.create'),
                 'button_class' => 'btn btn-sm btn-primary fw-bold',
                 'icon_class' => 'fa fa-plus-circle',
