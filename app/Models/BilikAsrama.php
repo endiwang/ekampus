@@ -8,7 +8,7 @@ class BilikAsrama extends Model
 {
     protected $table = 'bilik_asrama';
 
-    protected $fillable = ['id', 'tingkat_id','blok_id','no_bilik','status_bilik','keadaan_bilik','jenis_bilik', 'is_deleted'];
+    protected $fillable = ['id', 'tingkat_id','blok_id','no_bilik','status_bilik','keadaan_bilik','jenis_bilik','kekosongan', 'is_deleted'];
 
     public function blok()
     {

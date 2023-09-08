@@ -11,6 +11,7 @@ use App\Http\Controllers\Pengurusan\HEP\KolejKediaman\PermohonanPenggunaanKemuda
 use App\Http\Controllers\Pengurusan\HEP\KolejKediaman\PermohonanPenginapanSementaraController;
 use App\Http\Controllers\Pengurusan\HEP\KolejKediaman\TakwimTahunanAsramaController;
 use App\Http\Controllers\Pengurusan\HEP\KolejKediaman\PenyelengaraanController;
+use App\Http\Controllers\Pengurusan\HEP\KolejKediaman\PermohonanKemasukanAsramaController;
 use Illuminate\Support\Facades\Route;
 
 Route::resource('/', MainKolejKediamanController::class)->only(['index']);
@@ -26,6 +27,7 @@ Route::group(['prefix' => 'permohonan', 'as' => 'permohonan.'], function () {
     Route::resource('/bantuan_kebajikan', PermohonanBantuanKebajikanController::class);
     Route::resource('/penggunaan_kemudahan', PermohonanPenggunaanKemudahanController::class);
     Route::resource('/penginapan_sementara', PermohonanPenginapanSementaraController::class);
+    Route::resource('/kemasukan_asrama', PermohonanKemasukanAsramaController::class);
 
 });
 

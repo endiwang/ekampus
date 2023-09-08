@@ -145,6 +145,16 @@
                         </a>
                     </div>
                 </div>
+                <div class="menu-sub menu-sub-accordion">
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pelajar.permohonan.kemasukan_asrama.*') ? 'active' : '' }}" href="{{ route('pelajar.permohonan.kemasukan_asrama.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Kemasukan Ke Asrama</span>
+                        </a>
+                    </div>
+                </div>
 
             </div>
             <div data-kt-menu-trigger="click" class="menu-item {{ Request::routeIs('pelajar.pengurusan_ijazah.*') ? 'here show' : '' }} menu-accordion">
