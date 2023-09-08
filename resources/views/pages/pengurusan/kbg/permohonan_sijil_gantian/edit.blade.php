@@ -76,15 +76,23 @@
                                 <div class="col-md-3 text-md-end">
                                     {{ Form::label('kod_qr', 'Kod QR', ['class' => 'fs-7 fw-semibold  form-label mt-2']) }}
                                 </div>
-                                <div class="col-md-9">
-                                    <div class="w-100">
-                                        <a href="{{ route('alumni.permohonan.sijil_ganti.downloadFile', [$data->id, 'kod_qr']) }}"
-                                            class="btn btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip"
-                                            target="_blank" title="Lihat Dokumen">
-                                            Lihat Dokumen Sokongan
-                                        </a>
+                                @if ($data->kod_qr)
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            <a href="{{ route('alumni.permohonan.sijil_ganti.downloadFile', [$data->id, 'kod_qr']) }}"
+                                                class="btn btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip"
+                                                target="_blank" title="Lihat Dokumen">
+                                                Lihat Dokumen Sokongan
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
+                                @else
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            <p class="mt-2">Tidak disertakan</p>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
 
                             <form class="form" action="{{ $action }}" method="post">

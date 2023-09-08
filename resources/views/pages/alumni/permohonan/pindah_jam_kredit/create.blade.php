@@ -18,7 +18,7 @@
 
                                 <div class="row fv-row mb-2">
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('kursus_id', '', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                        {{ Form::label('kursus_id', 'Kursus', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
@@ -33,7 +33,7 @@
 
                                 <div class="row fv-row mb-2">
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('sesi_id', '', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                        {{ Form::label('sesi_id', 'Sesi', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
@@ -47,7 +47,7 @@
 
                                 <div class="row fv-row mb-2">
                                     <div class="col-md-3 text-md-end">
-                                        {{ Form::label('syukbah_id', '', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
+                                        {{ Form::label('syukbah_id', 'Syukbah', ['class' => 'fs-7 fw-semibold required form-label mt-2']) }}
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
