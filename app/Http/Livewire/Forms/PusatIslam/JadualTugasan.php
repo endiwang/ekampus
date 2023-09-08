@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Forms\PusatIslam;
 
 use App\Concerns\InteractsWithLivewireForm;
+use App\Models\Lookup;
 use App\Models\PusatIslam\JadualTugasan as Model;
 use App\Models\User;
 use Livewire\Component;
@@ -89,11 +90,33 @@ class JadualTugasan extends Component
 
     public function beforeSave()
     {
-        $this->state['waktu_solat'] = join(',', data_get($this->state, 'waktu_solat', []));
+        $waktu_solat = lookup(Lookup::CATEGORY_PUSAT_ISLAM, 'pusat-islam.senarai-solat-wajib')->first()->values;
 
-        // should store id, username, name, email, phone. for now store only user record.
+        foreach (data_get($this->state, 'waktu_solat', []) as $key) {
+            if (array_key_exists($key, $waktu_solat)) {
+                $result[] = $waktu_solat[$key];
+            }
+        }
+
+        $this->state['waktu_solat'] = join(',', $result);
+
         $field = $this->state['jenis_tugasan'] == 0 ? 'bilal' : 'imam';
-        $this->state[$field] =  User::where('id', $this->state['user'])->first()->toArray();
+        $user = User::query()
+            ->where('id', $this->state['user'])
+            ->first();
+
+        $user->load($user->is_staff ? 'staff' : 'pelajar');
+
+        $user_info = [
+            'id' => $user->id,
+            'username' => $user->username,
+            'name' => $user->is_staff ? $user->staff->nama : $user->pelajar->first()->nama,
+            'ic' => $user->is_staff ? $user->staff->no_ic : $user->pelajar->first()->no_ic,
+            'email' => $user->is_staff ? $user->staff->email : $user->pelajar->first()->email,
+            'phone_number' => $user->is_staff ? $user->staff->no_tel : $user->pelajar->first()->no_tel,
+        ];
+
+        $this->state[$field] =  $user_info;
 
         unset($this->state['jenis_tugasan']);
         unset($this->state['user']);
