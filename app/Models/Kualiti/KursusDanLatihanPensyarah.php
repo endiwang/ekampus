@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class KursusDanLatihanPensyarah extends Model
 {
-    use HasFactory,SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'kursus_dan_latihan_pensyarah';
 

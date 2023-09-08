@@ -73,7 +73,7 @@
                                             {{ Form::select(
                                                 'peringkat_pengajian',
                                                 $peringkat_pengajian,
-                                                $data->peringkat_pengajian ?? old('peringkat_pengajian'),
+                                                $pekerjaanData->peringkat_pengajian ?? old('peringkat_pengajian'),
                                                 [
                                                     'placeholder' => 'Sila Pilih',
                                                     'class' =>

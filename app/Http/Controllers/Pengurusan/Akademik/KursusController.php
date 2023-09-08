@@ -70,11 +70,11 @@ class KursusController extends Controller
                         return $format_date;
                     })
                     ->addColumn('action', function ($data) {
-                        return '<a href="'.route('pengurusan.akademik.semester.edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
+                        return '<a href="'.route('pengurusan.akademik.semester.edit', $data->id).'" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda Semester">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
-                            <a href="'.route('pengurusan.akademik.subjek.show', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Lihat Subjek">
-                                <i class="fa fa-eye"></i>
+                            <a href="'.route('pengurusan.akademik.subjek.show', $data->id).'" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pengurusan Subjek">
+                                <i class="fa fa-plus"></i>
                             </a>
                             ';
                     })

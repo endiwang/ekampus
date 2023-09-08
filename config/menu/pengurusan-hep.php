@@ -78,7 +78,7 @@ return [
                 ],
                 [
                     'title' => 'Jadual Tugasan',
-                    'route' => 'pengurusan.hep.pusat-islam.jadual-tugasan.index',
+                    'route' => 'pengurusan.hep.pusat-islam.jadual-tugasans.index',
                     'parameters' => [],
                 ],
                 [
@@ -121,7 +121,7 @@ return [
         ],
         [
             'title' => 'Alumni',
-            'route' => 'pengurusan.hep.alumni.dashboard.*',
+            'route' => 'pengurusan.hep.alumni.*',
             'children' => [
                 [
                     'title' => 'Senarai',

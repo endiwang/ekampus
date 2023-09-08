@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Alumni\PermohonanSijilGanti;
 use App\Models\Pelajar;
 use Illuminate\Http\Request;
+use Exception;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Builder;
@@ -88,7 +89,6 @@ class PermohonanSijilGantiController extends Controller
                 ->minifiedAjax();
 
             return view('pages.alumni.permohonan.sijil_ganti.main', compact('title', 'breadcrumbs', 'buttons', 'dataTable'));
-
         } catch (Exception $e) {
             report($e);
 
@@ -119,7 +119,6 @@ class PermohonanSijilGantiController extends Controller
             $pelajar = Pelajar::where('user_id', auth()->user()->id)->first();
 
             return view('pages.alumni.permohonan.sijil_ganti.create', compact('title', 'breadcrumbs', 'action', 'page_title', 'pelajar'));
-
         } catch (Exception $e) {
             report($e);
 
@@ -143,6 +142,7 @@ class PermohonanSijilGantiController extends Controller
             'no_matrik' => 'required',
             'laporan_polis' => 'required',
             'salinan_sijil' => 'nullable',
+            'kod_qr' => 'nullable',
         ], [
             'nama.required' => 'Sila masukkan maklumat nama pemohon',
             'no_ic.required' => 'Sila masukkan nombor kad pengenalan / passport',
@@ -155,7 +155,12 @@ class PermohonanSijilGantiController extends Controller
 
 
         $polisFile = $this->uploadFile($request->file('laporan_polis'));
-        $qrFile = $this->uploadFile($request->file('kod_qr'));
+
+        if (request()->has('kod_qr')) {
+            $qrFile = $this->uploadFile($request->file('kod_qr'));
+        } else {
+            $qrFile = null;
+        }
 
         if (request()->has('salinan_sijil')) {
             $sijilFile = $this->uploadFile($request->file('salinan_sijil'));
@@ -213,7 +218,6 @@ class PermohonanSijilGantiController extends Controller
             $data = PermohonanSijilGanti::find($id);
 
             return view('pages.alumni.permohonan.sijil_ganti.show', compact('title', 'breadcrumbs', 'page_title', 'data'));
-
         } catch (Exception $e) {
             report($e);
 
@@ -274,5 +278,4 @@ class PermohonanSijilGantiController extends Controller
 
         return response()->file(public_path($filePath));
     }
-
 }

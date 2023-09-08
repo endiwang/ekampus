@@ -21,10 +21,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('nama', $pelajar->nama ?? old('nama'), ['class' => 'form-control form-control-sm ' . ($errors->has('nama') ? 'is-invalid' : ''), 'id' => 'nama', 'onkeydown' => 'return true', 'autocomplete' => 'off']) }}
-                                            @error('nama')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
+                                            {{ Form::text('nama', $pelajar->nama, ['class' => 'form-control form-control-sm', 'id' => 'nama', 'onkeydown' => 'return true', 'readonly', 'disabled']) }}
                                         </div>
                                     </div>
                                 </div>
@@ -34,10 +31,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            {{ Form::text('no_ic', $pelajar->no_ic ?? old('no_ic'), ['class' => 'form-control form-control-sm ' . ($errors->has('no_ic') ? 'is-invalid' : ''), 'id' => 'no_ic', 'onkeydown' => 'return true', 'autocomplete' => 'off']) }}
-                                            @error('no_ic')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
+                                            {{ Form::text('no_ic', $pelajar->no_ic, ['class' => 'form-control form-control-sm', 'id' => 'no_ic', 'readonly', 'disabled']) }}
                                         </div>
                                     </div>
                                 </div>
@@ -126,7 +120,7 @@
                                                 class="btn btn-success btn-sm me-3">
                                                 <i class="fa fa-paper-plane" style="vertical-align: initial"></i>Kemaskini
                                             </button>
-                                            <a href="{{ route('pengurusan.hep.alumni.index') }}"
+                                            <a href="{{ route('alumni.profile.edit', $pelajar->id) }}"
                                                 class="btn btn-sm btn-light">Kembali</a>
                                         </div>
                                     </div>
@@ -144,11 +138,10 @@
                             <h3 class="card-title">Maklumat pengajian selepas Darul Quran</h3>
                         </div>
                         <div class="card-body py-5">
-
                             <div class="row fv-row mb-2">
                                 <div class="col-md-12">
                                     <div class="d-flex align-items-center justify-content-end">
-                                        <a href="{{ route('pengurusan.hep.alumni.pengajian.create', $pelajar->id) }}"
+                                        <a href="{{ route('alumni.profile.pengajian.create', $pelajar->id) }}"
                                             id="pengajian_tambah_buton"
                                             class="btn btn-primary btn-sm fw-bold flex-shrink-0">
                                             <i class="fa fa-plus-circle" style="vertical-align: initial"></i>Tambah
@@ -197,12 +190,13 @@
                             <h3 class="card-title">Maklumat pekerjaan terkini</h3>
                         </div>
                         <div class="card-body py-5">
-                            <form class="form"
-                                action="{{ route('pengurusan.hep.alumni.pekerjaan.store', $pelajar->id) }}" method="post">
+                            <form class="form" action="{{ route('alumni.profile.pekerjaan.store', $pelajar->id) }}"
+                                method="post">
                                 @if ($pekerjaanData->id)
                                     @method('PUT')
                                 @endif
                                 @csrf
+                                <input type="hidden" name="id" value="{{ $pekerjaanData->id }}">
                                 <div class="row fv-row mb-2">
                                     <div class="col-md-3 text-md-end">
                                         {{ Form::label('nama_syarikat', 'Nama Syarikat', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
@@ -268,7 +262,7 @@
                                                 class="btn btn-success btn-sm me-3">
                                                 <i class="fa fa-paper-plane" style="vertical-align: initial"></i>Kemaskini
                                             </button>
-                                            <a href="{{ route('pengurusan.hep.alumni.index') }}"
+                                            <a href="{{ route('alumni.profile.edit', $pelajar->id) }}"
                                                 class="btn btn-sm btn-light">Kembali</a>
                                         </div>
                                     </div>

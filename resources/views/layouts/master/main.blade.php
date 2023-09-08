@@ -129,7 +129,7 @@
                         @include('layouts.master.sidebar.pusat-islam')
                     @elseif(Request::routeIs('pengurusan.hep.pusat-islam.aktiviti.*'))
                         @include('layouts.master.sidebar.pusat-islam')
-                    @elseif(Request::routeIs('pengurusan.hep.pusat-islam.jadual-tugasan.*'))
+                    @elseif(Request::routeIs('pengurusan.hep.pusat-islam.jadual-tugasans.*'))
                         @include('layouts.master.sidebar.pusat-islam')
                     @elseif(Request::routeIs('pengurusan.hep.pusat-islam.orang-awam.*'))
                         @include('layouts.master.sidebar.pusat-islam')
@@ -171,6 +171,8 @@
                 showCancelButton: false,
                 confirmButtonText: 'OK',
             });
+
+            // should redirect after 2 seconds?
         })
     </script>
 </body>

@@ -5,7 +5,7 @@ use App\Http\Controllers\Pengurusan\Pembangunan\LaporanAduanPenyelenggaraanContr
 use App\Http\Controllers\Pengurusan\Pembangunan\MainPembangunanController;
 use App\Http\Controllers\Pengurusan\Pembangunan\VendorController;
 
-Route::group(['middleware' => ['auth', 'auth.unit_pembangunan']], function () {
+Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('/', MainPembangunanController::class)->only(['index']);
     Route::resource('aduan_penyelenggaraan', AduanPenyelenggaraanController::class);

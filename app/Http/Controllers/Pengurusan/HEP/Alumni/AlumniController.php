@@ -8,6 +8,7 @@ use App\Models\Pelajar;
 use App\Models\PengajianSelepasDq;
 use Exception;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Builder;
@@ -133,6 +134,12 @@ class AlumniController extends Controller
 
         if (request()->ajax()) {
             return DataTables::of($pengajianData)
+                ->addColumn('tajaan', function ($data) {
+                    return empty($data->tajaan) ? '-' : $data->tajaan;
+                })
+                ->addColumn('peringkat_pengajian', function ($data) {
+                    return ucfirst($data->peringkat_pengajian);
+                })
                 ->addColumn('action', function ($data) {
                     return '
                         <a href="' . route('pengurusan.hep.alumni.pengajian.edit', [$data->pelajar_id, $data->id]) . '" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
@@ -151,7 +158,7 @@ class AlumniController extends Controller
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['tajaan', 'action', 'peringkat_pengajian'])
                 ->toJson();
         }
 
@@ -161,6 +168,8 @@ class AlumniController extends Controller
                 ['data' => 'nama_institusi', 'name' => 'nama_institusi', 'title' => 'Nama Institusi', 'orderable' => false],
                 ['data' => 'tarikh_mula', 'name' => 'tarikh_mula', 'title' => 'Tarikh Mula', 'orderable' => false],
                 ['data' => 'tarikh_tamat', 'name' => 'tarikh_tamat', 'title' => 'Tarikh Tamat', 'orderable' => true],
+                ['data' => 'peringkat_pengajian', 'name' => 'peringkat_pengajian', 'title' => 'Peringkat Pengajian', 'orderable' => true],
+                ['data' => 'tajaan', 'name' => 'tajaan', 'title' => 'Tajaan', 'orderable' => true],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
 
             ])
@@ -195,16 +204,24 @@ class AlumniController extends Controller
             'bandar' => 'required',
         ]);
 
+        // Find user ID based on pelajar
         $pelajar = Pelajar::find($id);
-        $pelajar->nama = $request->nama;
-        $pelajar->no_ic = $request->no_ic;
-        $pelajar->no_matrik = $request->no_matrik;
-        $pelajar->email = $request->email;
-        $pelajar->no_tel = $request->no_tel;
-        $pelajar->alamat = $request->alamat;
-        $pelajar->poskod = $request->poskod;
-        $pelajar->bandar = $request->bandar;
-        $pelajar->save();
+        $user = User::find($pelajar->user_id);
+
+        // backtrack all the pelajars that under a user
+        $pelajars = Pelajar::where('user_id', $user->id)->get();
+
+        foreach ($pelajars as $student) {
+            $pelajar->nama = $request->nama;
+            $pelajar->no_ic = $request->no_ic;
+            $pelajar->no_matrik = $request->no_matrik;
+            $pelajar->email = $request->email;
+            $pelajar->no_tel = $request->no_tel;
+            $pelajar->alamat = $request->alamat;
+            $pelajar->poskod = $request->poskod;
+            $pelajar->bandar = $request->bandar;
+            $pelajar->save();
+        }
 
         Alert::toast('Maklumat pelajar dikemaskini!', 'success');
 
@@ -223,6 +240,23 @@ class AlumniController extends Controller
     }
 
     // Managing maklumat pengajian
+    public function pengajian_create(Builder $builder, $pelajarId)
+    {
+        $pelajar = Pelajar::find($pelajarId);
+
+        $title = $pelajar->nama;
+        $page_title = 'Maklumat Pengajian Selepas Darul Quran';
+        $action = route('pengurusan.hep.alumni.pengajian.store', $pelajarId);
+
+        $breadcrumbs = [
+            'Alumni' => false,
+            'Profil Peribadi' => false,
+            'Maklumat Pengajian Selepas Darul Quran' => false,
+        ];
+
+        return view('pages.pengurusan.hep.alumni.pengajian_form', compact('title', 'breadcrumbs', 'page_title', 'action'));
+    }
+
     public function pengajian_store(Request $request, $id)
     {
         $request->validate(
@@ -230,11 +264,14 @@ class AlumniController extends Controller
                 'nama_institusi' => 'required|string',
                 'tarikh_mula' => 'required',
                 'tarikh_tamat' => 'required',
+                'peringkat_pengajian' => 'required',
+                'tajaan' => 'nullable',
             ],
             [
                 'nama_institusi.required' => 'Sila masukkan nama institusi',
                 'tarikh_mula.required' => 'Sila masukkan tarikh mula',
                 'tarikh_tamat.required' => 'Sila masukkan tarikh tamat',
+                'peringkat_pengajian.required' => 'Sila pilih peringkat pengajian',
             ]
         );
 
@@ -246,6 +283,8 @@ class AlumniController extends Controller
         $pengajian->nama_institusi = $request->nama_institusi;
         $pengajian->tarikh_mula = $request->tarikh_mula;
         $pengajian->tarikh_tamat = $request->tarikh_tamat;
+        $pengajian->peringkat_pengajian = $request->peringkat_pengajian;
+        $pengajian->tajaan = $request->tajaan;
         $pengajian->save();
 
         Alert::toast('Maklumat pengajian disimpan!', 'success');
@@ -279,11 +318,14 @@ class AlumniController extends Controller
                 'nama_institusi' => 'required|string',
                 'tarikh_mula' => 'required',
                 'tarikh_tamat' => 'required',
+                'peringkat_pengajian' => 'required',
+                'tajaan' => 'nullable',
             ],
             [
                 'nama_institusi.required' => 'Sila masukkan nama institusi',
                 'tarikh_mula.required' => 'Sila masukkan tarikh mula',
                 'tarikh_tamat.required' => 'Sila masukkan tarikh tamat',
+                'peringkat_pengajian.required' => 'Sila pilih peringkat pengajian',
             ]
         );
 
@@ -291,6 +333,8 @@ class AlumniController extends Controller
         $pengajian->nama_institusi = $request->nama_institusi;
         $pengajian->tarikh_mula = $request->tarikh_mula;
         $pengajian->tarikh_tamat = $request->tarikh_tamat;
+        $pengajian->peringkat_pengajian = $request->peringkat_pengajian;
+        $pengajian->tajaan = $request->tajaan;
         $pengajian->save();
 
         Alert::toast('Maklumat pengajian dikemaskini!', 'success');
@@ -354,7 +398,7 @@ class AlumniController extends Controller
 
         $pekerjaan->save();
 
-        Alert::toast('Maklumat pekerjaan dikemasnkini!', 'success');
+        Alert::toast('Maklumat pekerjaan dikemaskini!', 'success');
 
         return redirect()->route('pengurusan.hep.alumni.edit', $id);
     }

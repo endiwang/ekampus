@@ -97,6 +97,11 @@ class KajianKeberkesananGraduanController extends Controller
             $data = [];
             $data['borang_kaji_selidik_id'] = $form->id;
             $data['json'] = json_encode($array);
+            if (auth()->user()) {
+                $data['user_id'] =  auth()->user()->id;
+            } else {
+                $data['user_id'] =  null;
+            }
             $form_value = JawapanKajianKeberkesananGraduan::create($data);
 
             return response()->json(

@@ -60,6 +60,7 @@ use Illuminate\Support\Facades\Route;
 Route::resource('/', MainAkademikController::class)->only(['index']);
 Route::resource('kursus', KursusController::class);
 
+Route::delete('kelas/delete_student/{id}', [KelasController::class,'deleteStudent'])->name('pengurusan_kelas.delete_student');
 Route::post('kelas/export/by_class', [KelasController::class, 'exportStudentByClass'])->name('pengurusan_kelas.export_by_class');
 Route::post('kelas/edit', [KelasController::class, 'edit'])->name('pengurusan_kelas.store');
 Route::post('kelas/store', [KelasController::class, 'store'])->name('pengurusan_kelas.store');

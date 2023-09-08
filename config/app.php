@@ -217,6 +217,7 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Utils' => App\Helpers\Utils::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'Lookup' => App\Models\Lookup::class,
     ])->toArray(),
 
     'calendar' => [

@@ -128,6 +128,17 @@
                             <span class="menu-title">Senarai Rayuan</span>
                         </a>
                     </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.permohonan_sijil_gantian.*') ? 'active' : '' }}"
+                            href="{{ route('pengurusan.kbg.pengurusan.permohonan_sijil_gantian.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Sijil Gantian</span>
+                        </a>
+                    </div>
+
                 </div>
             </div>
             <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
@@ -224,17 +235,6 @@
                                 <span class="bullet bullet-dot"></span>
                             </span>
                             <span class="menu-title">Konvokesyen</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="menu-sub menu-sub-accordion">
-                    <div class="menu-item">
-                        <a class="menu-link {{ Request::routeIs('pengurusan.kbg.pengurusan.permohonan_sijil_gantian.*') ? 'active' : '' }}"
-                            href="{{ route('pengurusan.kbg.pengurusan.permohonan_sijil_gantian.index') }}">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                            <span class="menu-title">Permohonan Sijil Gantian</span>
                         </a>
                     </div>
                 </div>

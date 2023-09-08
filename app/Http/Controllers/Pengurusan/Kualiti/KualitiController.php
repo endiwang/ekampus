@@ -36,9 +36,12 @@ class KualitiController extends Controller
     {
         // $data = JaminanKualiti::with('lkpKategoriMaklumat')->get();
         // dd($data);
+        // $data = JaminanKualiti::with('lkpKategoriMaklumat');
+        // dd($data);
         if (request()->ajax()) {
-            // $data = JaminanKualiti::query();
+            
             $data = JaminanKualiti::with('lkpKategoriMaklumat');
+            // dd($data);
 
             return DataTables::of($data)
                 ->addColumn('kategori', function ($data) {
@@ -269,7 +272,8 @@ class KualitiController extends Controller
             ];
             // dd('kursusindex');
 
-            if (request()->ajax()) {
+            if (request()->ajax()) 
+            {
 
                 $data = KursusDanLatihanPensyarah::query();
 

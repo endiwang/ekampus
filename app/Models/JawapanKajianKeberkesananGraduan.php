@@ -15,4 +15,9 @@ class JawapanKajianKeberkesananGraduan extends Model
     {
         return $this->hasOne('App\Models\KajianKeberkesananGraduan', 'id', 'borang_kaji_selidik_id');
     }
+
+    public function user()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'user_id');
+    }
 }
