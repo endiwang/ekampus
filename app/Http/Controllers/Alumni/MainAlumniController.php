@@ -79,6 +79,12 @@ class MainAlumniController extends Controller
 
         if (request()->ajax()) {
             return DataTables::of($pengajianData)
+                ->addColumn('tajaan', function ($data) {
+                    return empty($data->tajaan) ? '-' : $data->tajaan;
+                })
+                ->addColumn('peringkat_pengajian', function ($data) {
+                    return ucfirst($data->peringkat_pengajian);
+                })
                 ->addColumn('action', function ($data) {
                     return '
                         <a href="' . route('alumni.profile.pengajian.edit', [$data->pelajar_id, $data->id]) . '" class="edit btn btn-icon btn-primary btn-sm hover-elevate-up mb-1" data-bs-toggle="tooltip" title="Pinda">
@@ -97,7 +103,7 @@ class MainAlumniController extends Controller
                 ->order(function ($data) {
                     $data->orderBy('id', 'desc');
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['tajaan', 'action', 'peringkat_pengajian'])
                 ->toJson();
         }
 
@@ -107,6 +113,8 @@ class MainAlumniController extends Controller
                 ['data' => 'nama_institusi', 'name' => 'nama_institusi', 'title' => 'Nama Institusi', 'orderable' => false],
                 ['data' => 'tarikh_mula', 'name' => 'tarikh_mula', 'title' => 'Tarikh Mula', 'orderable' => false],
                 ['data' => 'tarikh_tamat', 'name' => 'tarikh_tamat', 'title' => 'Tarikh Tamat', 'orderable' => true],
+                ['data' => 'peringkat_pengajian', 'name' => 'peringkat_pengajian', 'title' => 'Peringkat Pengajian', 'orderable' => true],
+                ['data' => 'tajaan', 'name' => 'tajaan', 'title' => 'Tajaan', 'orderable' => true],
                 ['data' => 'action', 'name' => 'action', 'orderable' => false, 'class' => 'text-bold', 'searchable' => false],
 
             ])
@@ -199,11 +207,14 @@ class MainAlumniController extends Controller
                 'nama_institusi' => 'required|string',
                 'tarikh_mula' => 'required',
                 'tarikh_tamat' => 'required',
+                'peringkat_pengajian' => 'required',
+                'tajaan' => 'nullable',
             ],
             [
                 'nama_institusi.required' => 'Sila masukkan nama institusi',
                 'tarikh_mula.required' => 'Sila masukkan tarikh mula',
                 'tarikh_tamat.required' => 'Sila masukkan tarikh tamat',
+                'peringkat_pengajian.required' => 'Sila pilih peringkat pengajian',
             ]
         );
 
@@ -215,6 +226,8 @@ class MainAlumniController extends Controller
         $pengajian->nama_institusi = $request->nama_institusi;
         $pengajian->tarikh_mula = $request->tarikh_mula;
         $pengajian->tarikh_tamat = $request->tarikh_tamat;
+        $pengajian->peringkat_pengajian = $request->peringkat_pengajian;
+        $pengajian->tajaan = $request->tajaan;
         $pengajian->save();
 
         Alert::toast('Maklumat pengajian disimpan!', 'success');
@@ -248,11 +261,14 @@ class MainAlumniController extends Controller
                 'nama_institusi' => 'required|string',
                 'tarikh_mula' => 'required',
                 'tarikh_tamat' => 'required',
+                'peringkat_pengajian' => 'required',
+                'tajaan' => 'nullable',
             ],
             [
                 'nama_institusi.required' => 'Sila masukkan nama institusi',
                 'tarikh_mula.required' => 'Sila masukkan tarikh mula',
                 'tarikh_tamat.required' => 'Sila masukkan tarikh tamat',
+                'peringkat_pengajian.required' => 'Sila pilih peringkat pengajian',
             ]
         );
 
@@ -260,6 +276,8 @@ class MainAlumniController extends Controller
         $pengajian->nama_institusi = $request->nama_institusi;
         $pengajian->tarikh_mula = $request->tarikh_mula;
         $pengajian->tarikh_tamat = $request->tarikh_tamat;
+        $pengajian->peringkat_pengajian = $request->peringkat_pengajian;
+        $pengajian->tajaan = $request->tajaan;
         $pengajian->save();
 
         Alert::toast('Maklumat pengajian dikemaskini!', 'success');
