@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Alumni;
 
 use App\Http\Controllers\Controller;
+use App\Models\JawapanKajianKeberkesananGraduan;
 use App\Models\KajianKeberkesananGraduan;
 use Hashids\Hashids;
 use Illuminate\Http\Request;
@@ -20,39 +21,47 @@ class KajianKeberkesananGraduanController extends Controller
     {
         $title = 'Kajian Keberkesanan Graduan';
         $breadcrumbs = [
-            'Utama' => false,
-            'Hal Ehwal Pelajar' => false,
             'Alumni' => false,
             'Kajian Keberkesanan Graduan' => false,
         ];
 
-        $buttons = [
-            [
-                'title' => 'Tambah Kaji Selidik',
-                'route' => route('pengurusan.hep.alumni.kajian_keberkesanan.create'),
-                'button_class' => 'btn btn-sm btn-primary fw-bold',
-                'icon_class' => 'fa fa-plus-circle',
-            ],
-        ];
+        $buttons = [];
 
         if (request()->ajax()) {
             $data = KajianKeberkesananGraduan::query();
 
             return DataTables::of($data)
                 ->addColumn('status', function ($data) {
+                    // check dijawab or not
+                    $dataJawapan = JawapanKajianKeberkesananGraduan::where('user_id', auth()->user()->id)->where('borang_kaji_selidik_id', $data->id)->first();
+                    if ($dataJawapan) {
+                        return '<span class="badge badge-success">Sudah dijawab</span>';
+                    }
+                    // otherwise it will show the form status
                     switch ($data->is_active) {
                         case 0:
                             return '<span class="badge badge-danger">Tidak Aktif</span>';
 
                         case 1:
-                            return '<span class="badge badge-success">Aktif</span>';
+                            return '<span class="badge badge-warning">Belum dijawab</span>';
                     }
                 })
                 ->addColumn('action', function ($data) {
+                    // check dijawab or not
+                    $dataJawapan = JawapanKajianKeberkesananGraduan::where('user_id', auth()->user()->id)->where('borang_kaji_selidik_id', $data->id)->first();
+                    if ($dataJawapan) {
+                        return '
+                        <a class="edit btn btn-icon btn-secondary disabled btn-sm hover-elevate-up mb-1n" target="_blank" data-bs-toggle="tooltip" title="Jawab Borang">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        ';
+                    }
+
+
                     $hashids = new Hashids('', 20);
 
                     return '
-                            <a href="' . route('public.kajian_graduan.index', $hashids->encodeHex($data->id)) . '" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1" target="_blank" data-bs-toggle="tooltip" title="Lihat Borang">
+                            <a href="' . route('public.kajian_graduan.index', $hashids->encodeHex($data->id)) . '" class="edit btn btn-icon btn-info btn-sm hover-elevate-up mb-1n" target="_blank" data-bs-toggle="tooltip" title="Lihat Borang">
                                 <i class="fa fa-eye"></i>
                             </a>
                             ';
