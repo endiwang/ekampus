@@ -3,6 +3,7 @@
 use App\Http\Controllers\Pelajar\eLearning\KandunganPembelajaranController;
 use App\Http\Controllers\Pelajar\eLearning\UjianAtasTalianController;
 use App\Http\Controllers\Pelajar\KolejKediaman\JadualWardenController;
+use App\Http\Controllers\Pelajar\KolejKediaman\PermohonanKemasukkanController;
 use App\Http\Controllers\Pelajar\MainPelajarController;
 use App\Http\Controllers\Pelajar\PengurusanIjazah\RekodTesisController;
 use App\Http\Controllers\Pelajar\PenilaianPensyarahController;
@@ -32,7 +33,7 @@ Route::group(['prefix' => 'permohonan', 'as' => 'permohonan.'], function () {
     Route::resource('bantuan_kebajikan', PermohonanBantuanKebajikanController::class);
     Route::resource('penggunaan_kemudahan', PermohonanPenggunaanKemudahanController::class);
     Route::resource('penginapan_sementara', PermohonanPenginapanSementaraController::class);
-
+    Route::resource('kemasukan_asrama', PermohonanKemasukkanController::class);
 });
 
 Route::resource('penilaian_pensyarah', PenilaianPensyarahController::class);

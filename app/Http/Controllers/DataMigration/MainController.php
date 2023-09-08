@@ -1209,6 +1209,7 @@ class MainController extends Controller
                 'status_bilik' => $datum->status_bilik,
                 'keadaan_bilik' => $datum->keadaan_bilik,
                 'jenis_bilik' => $datum->jenis_bilik,
+                'kekosongan' => $datum->jenis_bilik,
                 'is_deleted' => $datum->is_deleted,
             ]);
         }

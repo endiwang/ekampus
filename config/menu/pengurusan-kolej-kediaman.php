@@ -42,6 +42,10 @@ return [
                     'title' => 'Penginapan Sementara',
                     'route' => 'pengurusan.kolej_kediaman.permohonan.penginapan_sementara.index',
                 ],
+                [
+                    'title' => 'Kemasukan Ke Asrama',
+                    'route' => 'pengurusan.kolej_kediaman.permohonan.kemasukan_asrama.index',
+                ],
             ],
         ],
 
