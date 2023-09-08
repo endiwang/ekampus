@@ -55,6 +55,53 @@
                                         </div>
                                     </div>
                                 </div>
+                                @php
+                                    $peringkat_pengajian = [
+                                        'asasi' => 'Asasi',
+                                        'diploma' => 'Diploma',
+                                        'ijazah' => 'Ijazah',
+                                        'master' => 'Master',
+                                        'phd' => 'PhD',
+                                    ];
+                                @endphp
+                                <div class="row fv-row mb-2">
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('peringkat_pengajian', 'Peringkat Pengajian', ['class' => 'fs-7 fw-semibold form-label mt-2 required']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::select(
+                                                'peringkat_pengajian',
+                                                $peringkat_pengajian,
+                                                $pekerjaanData->peringkat_pengajian ?? old('peringkat_pengajian'),
+                                                [
+                                                    'placeholder' => 'Sila Pilih',
+                                                    'class' =>
+                                                        'form-contorl form-select form-select-sm ' . ($errors->has('peringkat_pengajian') ? 'is-invalid' : ''),
+                                                    'id' => 'peringkat_pengajian',
+                                                    'data-control' => 'select2',
+                                                    'required' => 'required',
+                                                ],
+                                            ) }}
+                                            @error('peringkat_pengajian')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fv-row mb-2">
+                                    <div class="col-md-3 text-md-end">
+                                        {{ Form::label('tajaan', 'Tajaan', ['class' => 'fs-7 fw-semibold form-label mt-2']) }}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            {{ Form::text('tajaan', $data->tajaan ?? old('tajaan'), ['class' => 'form-control form-control-sm ' . ($errors->has('tajaan') ? 'is-invalid' : ''), 'id' => 'tajaan', 'onkeydown' => 'return true', 'autocomplete' => 'off']) }}
+                                            @error('tajaan')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row fv-row mb-2">
                                     <div class="col-md-12">
                                         <div class="d-flex align-items-center justify-content-end">
