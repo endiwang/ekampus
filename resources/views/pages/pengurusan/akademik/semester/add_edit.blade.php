@@ -32,8 +32,8 @@
                                 <div class="col-md-9">
                                     <div class="w-100">
                                         <select name="tahun_pengajian" class="form-select form-select-sm select2" placeholder="Sila Pilih">
-                                            @foreach ($sesi as $tahun_pengajian)
-                                                <option value="{{$tahun_pengajian}}" @if($model->sesi_pengajian == $tahun_pengajian) selected @endif>{{ $tahun_pengajian}}</option>
+                                            @foreach ($tahun_pengajian as $tahun)
+                                                <option value="{{$tahun}}" @if($model->sesi_pengajian == $tahun) selected @endif>{{ $tahun}}</option>
                                             @endforeach
                                         </select>
                                     </div>
