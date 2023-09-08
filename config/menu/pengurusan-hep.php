@@ -121,7 +121,7 @@ return [
         ],
         [
             'title' => 'Alumni',
-            'route' => 'pengurusan.hep.alumni.dashboard.*',
+            'route' => 'pengurusan.hep.alumni.*',
             'children' => [
                 [
                     'title' => 'Senarai',
