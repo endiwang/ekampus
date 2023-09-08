@@ -10,7 +10,7 @@ trait InteractsWithLivewireForm
 
     public function mount($data = null)
     {
-        $this->callMethodIfExists('beforerMount', $data);
+        $this->callMethodIfExists('beforeMount', $data);
 
         if (empty($data)) {
             $class = $this->getModel();

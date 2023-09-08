@@ -107,16 +107,16 @@ Route::middleware(['web', 'auth'])
         Route::delete('pusat-islam/aktiviti/{id}', [AktivitiController::class, 'destroy'])
             ->name('pusat-islam.aktiviti.destroy');
 
-        Route::get('pusat-islam/jadual-tugasan', [JadualTugasanController::class, 'index'])
-            ->name('pusat-islam.jadual-tugasan.index');
-        Route::get('pusat-islam/jadual-tugasan/create', [JadualTugasanController::class, 'create'])
-            ->name('pusat-islam.jadual-tugasan.create');
-        Route::get('pusat-islam/jadual-tugasan/{id}/edit', [JadualTugasanController::class, 'edit'])
-            ->name('pusat-islam.jadual-tugasan.edit');
-        Route::get('pusat-islam/jadual-tugasan/{id}/show', [JadualTugasanController::class, 'show'])
-            ->name('pusat-islam.jadual-tugasan.show');
-        Route::delete('pusat-islam/jadual-tugasan/{id}', [JadualTugasanController::class, 'destroy'])
-            ->name('pusat-islam.jadual-tugasan.destroy');
+        Route::get('pusat-islam/jadual-tugasans', [JadualTugasanController::class, 'index'])
+            ->name('pusat-islam.jadual-tugasans.index');
+        Route::get('pusat-islam/jadual-tugasans/create', [JadualTugasanController::class, 'create'])
+            ->name('pusat-islam.jadual-tugasans.create');
+        Route::get('pusat-islam/jadual-tugasans/{id}/edit', [JadualTugasanController::class, 'edit'])
+            ->name('pusat-islam.jadual-tugasans.edit');
+        Route::get('pusat-islam/jadual-tugasans/{id}/show', [JadualTugasanController::class, 'show'])
+            ->name('pusat-islam.jadual-tugasans.show');
+        Route::delete('pusat-islam/jadual-tugasans/{id}', [JadualTugasanController::class, 'destroy'])
+            ->name('pusat-islam.jadual-tugasans.destroy');
 
         Route::get('pusat-islam/orang-awam', [OrangAwamController::class, 'index'])
             ->name('pusat-islam.orang-awam.index');
@@ -159,7 +159,7 @@ Route::middleware(['web', 'auth'])
     ->group(function () {
         // Route::get('/dashboard', DashboardController::class)
         //     ->name('dashboard.index');
-    
+
         // Pengajian Selepas DQ
         Route::post('/{id}/pengajian/create', [AlumniController::class, 'pengajian_store'])
             ->name('pengajian.store');

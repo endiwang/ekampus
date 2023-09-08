@@ -2,7 +2,7 @@
     $title = __('Jadual Tugasan');
     $breadcrumbs = [
         'Pusat Islam' => false,
-        $title => route('pengurusan.hep.pusat-islam.jadual-tugasan.index'),
+        $title => route('pengurusan.hep.pusat-islam.jadual-tugasans.index'),
     ];
 
 @endphp

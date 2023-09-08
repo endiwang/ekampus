@@ -34,6 +34,27 @@ class JadualTugasan extends Component
 
     protected string $view = 'livewire.forms.pusat-islam.jadual-tugasan';
 
+    protected function afterMount()
+    {
+        if(data_get($this->state, 'user.username')) {
+            $this->search = data_get($this->state, 'user.username');
+            $this->updatedSearch();
+            $this->state['user'] = array_keys($this->users)[0];
+
+            $this->state['jenis_tugasan'] = $this->state['is_bilal'] ? 0 : 1;
+
+            $waktu_solat = lookup(Lookup::CATEGORY_PUSAT_ISLAM, 'pusat-islam.senarai-solat-wajib')->first()->values;
+
+            foreach($waktu_solat as $key => $value) {
+                $field = 'is_' . strtolower($value);
+
+                if($this->state[$field] == true) {
+                    $this->state['waktu_solat'][] = $key;
+                }
+            }
+        }
+    }
+
     public function updatedSearch()
     {
         if(strlen($this->search) > 2) {
@@ -91,14 +112,13 @@ class JadualTugasan extends Component
     public function beforeSave()
     {
         $waktu_solat = lookup(Lookup::CATEGORY_PUSAT_ISLAM, 'pusat-islam.senarai-solat-wajib')->first()->values;
-
-        foreach (data_get($this->state, 'waktu_solat', []) as $key) {
-            if (array_key_exists($key, $waktu_solat)) {
-                $result[] = $waktu_solat[$key];
-            }
+        foreach ($waktu_solat as $key => $value) {
+            $field = 'is_'. strtolower($value);
+            $this->state[$field] = array_key_exists($key, data_get($this->state, 'waktu_solat')) ? true : false;
         }
 
-        $this->state['waktu_solat'] = join(',', $result);
+        $this->state['is_bilal'] = $this->state['jenis_tugasan'] == 0;
+        $this->state['is_imam'] = $this->state['jenis_tugasan'] == 1;
 
         $field = $this->state['jenis_tugasan'] == 0 ? 'bilal' : 'imam';
         $user = User::query()
@@ -116,10 +136,10 @@ class JadualTugasan extends Component
             'phone_number' => $user->is_staff ? $user->staff->no_tel : $user->pelajar->first()->no_tel,
         ];
 
-        $this->state[$field] =  $user_info;
+        $this->state['user'] =  $user_info;
 
         unset($this->state['jenis_tugasan']);
-        unset($this->state['user']);
+        unset($this->state['waktu_solat']);
     }
 
     public function afterSave()
@@ -135,7 +155,7 @@ class JadualTugasan extends Component
     public function afterEmitSaved()
     {
         return $this->redirect(
-            route('pengurusan.hep.pusat-islam.jadual-tugasan.index')
+            route('pengurusan.hep.pusat-islam.jadual-tugasans.index')
         );
     }
 }

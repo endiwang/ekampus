@@ -14,7 +14,7 @@ class JadualTugasanController extends Controller
 
     protected $model = JadualTugasan::class;
 
-    protected $compactName = 'jadual-tugasan';
+    protected $compactName = 'jadualTugasan';
 
     protected string $moduleView = 'pages.pengurusan.hep.pusat-islam.jadual-tugasan';
 
