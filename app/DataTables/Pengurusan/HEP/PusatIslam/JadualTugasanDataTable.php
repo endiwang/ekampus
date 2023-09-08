@@ -2,6 +2,7 @@
 
 namespace App\DataTables\Pengurusan\HEP\PusatIslam;
 
+use App\Concerns\InteractsWithDatatable;
 use App\Models\PusatIslam\JadualTugasan;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -11,6 +12,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class JadualTugasanDataTable extends DataTable
 {
+    use InteractsWithDatatable;
     /**
      * Build DataTable class.
      *
@@ -19,7 +21,24 @@ class JadualTugasanDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'jadualtugasan.action')
+            ->addColumn('action', function ($data) {
+                return view($this->getActionView(), [
+                    'data' => $data,
+                    'viewUrl' => $data->getResourceUrl('show'),
+                    'updateUrl' => $data->getResourceUrl('edit'),
+                    'deleteUrl' => $data->getResourceUrl('destroy'),
+                ])->render();
+            })
+            ->addColumn('user', function(JadualTugasan $jadualTugasan) {
+                return view('pages.pengurusan.hep.pusat-islam.partials.user', compact('jadualTugasan'));
+            })
+            ->addColumn('jenis_tugasan', function(JadualTugasan $jadualTugasan) {
+                return view('pages.pengurusan.hep.pusat-islam.partials.jenis-tugasan', compact('jadualTugasan'));
+            })
+            ->addColumn('waktu_solat', function(JadualTugasan $jadualTugasan) {
+                return view('pages.pengurusan.hep.pusat-islam.partials.waktu-solat', compact('jadualTugasan'));
+            })
+            ->rawColumns(['user', 'action'])
             ->setRowId('id');
     }
 
@@ -54,12 +73,10 @@ class JadualTugasanDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('Tarikh')->searchable()->orderable(),
-            Column::make('Waktu Solat', 'waktu_solat')->searchable()->orderable(),
-            Column::make('Imam')
-                ->render('pages.pengurusan.hep.pusat-islam.partials.imam'),
-            Column::make('Bilal')
-                ->render('pages.pengurusan.hep.pusat-islam.partials.bilal'),
+            Column::make('tarikh')->searchable()->orderable(),
+            Column::make('jenis_tugasan')->searchable()->orderable(),
+            Column::make('waktu_solat')->searchable()->orderable(),
+            Column::make('user', 'Petugas'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

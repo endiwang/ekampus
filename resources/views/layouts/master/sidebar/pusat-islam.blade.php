@@ -10,7 +10,7 @@
         ],
         [
             'title' => 'Jadual Tugasan',
-            'route' => 'pengurusan.hep.pusat-islam.jadual-tugasan.index',
+            'route' => 'pengurusan.hep.pusat-islam.jadual-tugasans.index',
         ],
         [
             'title' => 'Orang Awam',

@@ -17,6 +17,15 @@ trait InteractsWithResourcePattern
             return $this->routeBaseName;
         }
 
-        return str(get_called_class())->classBasename()->kebab()->plural()->toString();
+        return $this->getUrlPrefix().str(get_called_class())->classBasename()->kebab()->plural()->toString();
+    }
+
+    public function getUrlPrefix()
+    {
+        if(property_exists($this, 'urlPrefix')) {
+            return rtrim($this->urlPrefix, '.') . '.';
+        }
+
+        return '';
     }
 }

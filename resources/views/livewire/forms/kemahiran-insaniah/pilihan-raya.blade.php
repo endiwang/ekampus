@@ -22,17 +22,17 @@
 
     <h4 class="my-8">Fasal 2</h4>
 
-    <x-forms.text key="state.fasal_2.jumlah_kerusi" label="Jumlah Kerusi Dipertandingkan"
+    <x-forms.number key="state.fasal_2.jumlah_kerusi" label="Jumlah Kerusi Dipertandingkan"
         wire:model.defer="state.fasal_2.jumlah_kerusi" />
 
-    <x-forms.text key="state.fasal_2.kerusi_banin" label="Kerusi BANIN" wire:model.defer="state.fasal_2.kerusi_banin" />
+    <x-forms.number key="state.fasal_2.kerusi_banin" label="Kerusi BANIN" wire:model.defer="state.fasal_2.kerusi_banin" />
 
     <h4 class="my-8">Fasal 3</h4>
 
-    <x-forms.text key="state.fasal_3.jumlah_kerusi" label="Jumlah Kerusi Dipertandingkan"
+    <x-forms.number key="state.fasal_3.jumlah_kerusi" label="Jumlah Kerusi Dipertandingkan"
         wire:model.defer="state.fasal_3.jumlah_kerusi" />
 
-    <x-forms.text key="state.fasal_3.kerusi_banat" label="Kerusi BANAT" wire:model.defer="state.fasal_3.kerusi_banat" />
+    <x-forms.number key="state.fasal_3.kerusi_banat" label="Kerusi BANAT" wire:model.defer="state.fasal_3.kerusi_banat" />
 
     <div class="d-flex justify-content-end">
         <div class="btn btn-sm btn-primary" wire:click="save">
