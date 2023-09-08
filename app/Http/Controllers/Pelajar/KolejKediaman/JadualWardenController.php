@@ -25,16 +25,10 @@ class JadualWardenController extends Controller
 
          $title = 'Jadual Waden';
          $breadcrumbs = [
-             'Kolej Kediaman' => false,
+             'Pelajar' => false,
              'Jadual Waden' => false,
          ];
          $buttons = [
-             [
-                 'title' => 'Tambah Jadual Waden',
-                 'route' => route('pengurusan.kolej_kediaman.jadual_warden.create'),
-                 'button_class' => 'btn btn-sm btn-primary fw-bold',
-                 'icon_class' => 'fa fa-plus-circle',
-             ],
          ];
 
          if (request()->ajax()) {
@@ -152,7 +146,7 @@ class JadualWardenController extends Controller
     {
         $title = 'Senarai Warden Bertugas';
         $breadcrumbs = [
-            'Kolej Kediaman' => false,
+            'Pelajar' => false,
             'Senarai Warden Bertugas' => false,
         ];
         $buttons = [
