@@ -107,7 +107,7 @@
                                                                 fill="currentColor" />
                                                         </svg>
                                                     </span>
-                                                    @if ($user->staff != NULL && $user->staff->pusatPengajian != NULL){{ $user->staff->pusatPengajian->nama }}@elseif($user->pelajar != NULL && $user->pelajar->get()->last()->pusat_pengajian != NULL){{ $user->pelajar->get()->last()->pusat_pengajian->nama }}@endif
+                                                    @if ($user->staff != NULL && $user->staff->pusatPengajian != NULL){{ $user->staff->pusatPengajian->nama }}@endif
 
                                                 </a>
                                                 <a href="#"
