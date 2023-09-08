@@ -7,6 +7,7 @@
             </span>
         </a>
     </div>
+    @unlessrole('pelajar')
     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion me-0 me-lg-2">
         <a href="{{ route('pengurusan.kbg.index') }}" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold p-0">
             <span class="menu-link">
@@ -35,14 +36,6 @@
         <a href="{{ route('pengurusan.kolej_kediaman.index') }}" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold p-0">
             <span class="menu-link">
                 <span class="menu-title">Kolej Kediaman</span>
-                <span class="menu-arrow d-lg-none"></span>
-            </span>
-        </a>
-    </div>
-    <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion me-0 me-lg-2">
-        <a href="{{ route('pelajar.index') }}" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold p-0">
-            <span class="menu-link">
-                <span class="menu-title">Pelajar</span>
                 <span class="menu-arrow d-lg-none"></span>
             </span>
         </a>
@@ -130,11 +123,22 @@
     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
         <a href="{{ url('pengurusan/pentadbiran/fasiliti/index') }}" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold p-0 m-1">
             <span class="menu-link">
-                <span class="menu-title">Modul Pentadbiran</span>
+                <span class="menu-title">Pentadbiran</span>
                 <span class="menu-arrow d-lg-none"></span>
             </span>
         </a>
     </div>
+    @endunlessrole
+    @hasrole('pelajar')
+    <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion me-0 me-lg-2">
+        <a href="{{ route('pelajar.index') }}" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold p-0">
+            <span class="menu-link">
+                <span class="menu-title">Pelajar</span>
+                <span class="menu-arrow d-lg-none"></span>
+            </span>
+        </a>
+    </div>
+    @endhasrole
     {{-- header menu --}}
 
 

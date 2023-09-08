@@ -25,7 +25,7 @@
             </div>--}}
             <div class="menu-item">
                 <!--begin:Menu link-->
-                <a class="menu-link {{ Request::routeIs('pelajar.index') ? 'active' : '' }}" href="{{ route('pelajar.index') }}" target="blank">
+                <a class="menu-link {{ Request::routeIs('pelajar.index') ? 'active' : '' }}" href="{{ route('pelajar.index') }}">
                     <span class="menu-icon">
                         <!--begin::Svg Icon | path: icons/duotune/abstract/abs027.svg-->
                         <span class="svg-icon svg-icon-2">
@@ -235,7 +235,7 @@
                     </div>
                 </div>
             </div>
-            <div data-kt-menu-trigger="click" class="menu-item {{ Request::routeIs('pelajar.*') ? 'here show' : '' }} menu-accordion">
+            {{-- <div data-kt-menu-trigger="click" class="menu-item {{ Request::routeIs('pelajar.*') ? 'here show' : '' }} menu-accordion">
                 <span class="menu-link">
                     <span class="menu-icon">
                         <span class="svg-icon svg-icon-2">
@@ -268,11 +268,11 @@
                         </a>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="menu-item">
                 <!--begin:Menu link-->
                 <a class="menu-link {{ Request::routeIs('pelajar.jadual_warden.index') ? 'active' : '' }}"
-                    href="{{ route('pelajar.jadual_warden.index') }}" target="blank">
+                    href="{{ route('pelajar.jadual_warden.index') }}">
                     <span class="menu-icon">
                         <span class="svg-icon svg-icon-2">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
